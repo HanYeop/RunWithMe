@@ -17,7 +17,6 @@ import com.ssafy.gumid101.dto.RecordParamsDto;
 @RequestMapping("/my-activity")
 public class MyActivityRestController {
 
-	@Autowired
 	private UserService userService;
 
 	@GetMapping("/profile")
@@ -25,10 +24,7 @@ public class MyActivityRestController {
 		return null;
 	}
 
-	@PostMapping("/profile")
-	public ResponseEntity<?> setMyProfile() {
-		return null;
-	}
+
 	
 	@PatchMapping("/profile")
 	public ResponseEntity<?> editMyProfile() {

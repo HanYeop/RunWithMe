@@ -21,6 +21,7 @@ import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.jwt.JwtProperties;
 import com.ssafy.gumid101.jwt.JwtUtilsService;
+import com.ssafy.gumid101.user.Role;
 import com.ssafy.gumid101.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -69,7 +70,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 			
 			userDto = new UserDto();
 			userDto.setEmail(email);
-
+			userDto.setRole(Role.TEMP);
+			
 			token = jwtUtils.createToken(userDto);
 			map.put("msg", "초기 프로필 설정이 필요합니다.");
 			map.put("email",userDto.getEmail());

@@ -17,7 +17,6 @@ import com.ssafy.gumid101.dto.RecordParamsDto;
 @RequestMapping("/crew-activity")
 public class CrewActivityRestController {
 	
-	@Autowired
 	private CrewActivityService crewActivityService;
 	
 	public RequestEntity<?> getCrewRecord(){
