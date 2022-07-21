@@ -94,7 +94,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_ranking"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="16dp"
@@ -108,7 +108,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:orientation="horizontal"
-                        android:padding="8dp">
+                        android:paddingBottom="4dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="wrap_content"
@@ -149,6 +149,20 @@
                                 app:layout_constraintStart_toStartOf="@+id/image_one_user"
                                 app:layout_constraintTop_toBottomOf="@+id/image_one_user" />
 
+                            <TextView
+                                android:id="@+id/tv_one_user_record"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/noto_sans_regular"
+                                android:includeFontPadding="false"
+                                android:textSize="12sp"
+                                android:textColor="@color/black_medium_emphasis"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/tv_one_user_name"
+                                app:layout_constraintStart_toStartOf="@+id/tv_one_user_name"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_one_user_name"
+                                tools:text="99.2km" />
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -160,7 +174,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/crown_two_32"
-                                android:layout_marginTop="4dp"
                                 app:layout_constraintBottom_toTopOf="@id/image_two_user"
                                 app:layout_constraintEnd_toEndOf="@id/image_two_user"
                                 app:layout_constraintStart_toStartOf="@+id/image_two_user"
@@ -191,6 +204,20 @@
                                 app:layout_constraintStart_toStartOf="@+id/image_two_user"
                                 app:layout_constraintTop_toBottomOf="@+id/image_two_user" />
 
+                            <TextView
+                                android:id="@+id/tv_two_user_record"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/noto_sans_regular"
+                                android:includeFontPadding="false"
+                                android:textSize="12sp"
+                                android:textColor="@color/black_medium_emphasis"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/tv_two_user_name"
+                                app:layout_constraintStart_toStartOf="@+id/tv_two_user_name"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_two_user_name"
+                                tools:text="89.2km" />
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -202,7 +229,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/crown_three_32"
-                                android:layout_marginTop="8dp"
                                 app:layout_constraintBottom_toTopOf="@id/image_three_user"
                                 app:layout_constraintEnd_toEndOf="@id/image_three_user"
                                 app:layout_constraintStart_toStartOf="@+id/image_three_user"
@@ -232,6 +258,20 @@
                                 app:layout_constraintEnd_toEndOf="@+id/image_three_user"
                                 app:layout_constraintStart_toStartOf="@+id/image_three_user"
                                 app:layout_constraintTop_toBottomOf="@+id/image_three_user" />
+
+                            <TextView
+                                android:id="@+id/tv_three_user_record"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/noto_sans_regular"
+                                android:includeFontPadding="false"
+                                android:textSize="12sp"
+                                android:textColor="@color/black_medium_emphasis"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/tv_three_user_name"
+                                app:layout_constraintStart_toStartOf="@+id/tv_three_user_name"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_three_user_name"
+                                tools:text="69.2km" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
