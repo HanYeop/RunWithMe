@@ -56,8 +56,8 @@ public class CrewEntity {
 	@Column(name="crew_time_end")
 	private LocalTime crewTimeEnd; //크루의 러닝 끝나는 시간
 	
-	@Column(name="crew_passwrod")
-	private String crewPasswrod;
+	@Column(name="crew_password")
+	private String crewPassword;
 	@Column(name="crew_cost")
 	private int crewCost; //크루 참가비
 	
