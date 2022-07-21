@@ -108,16 +108,18 @@
             app:layout_constraintStart_toEndOf="@+id/edit_join_weight"
             app:layout_constraintBottom_toBottomOf="@id/edit_join_weight" />
 
-
-
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_join"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:text="회원 가입"
-            android:background="@drawable/btn_round"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:includeFontPadding="false"
+            android:background="@drawable/btn_round_main_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
