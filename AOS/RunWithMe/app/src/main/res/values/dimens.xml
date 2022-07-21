@@ -2,7 +2,10 @@
 <resources>
     <dimen name="bottom_navi_size">60dp</dimen>
     <dimen name="toolbar_margin">8dp</dimen>
+    <dimen name="header_margin">12dp</dimen>
 
     <dimen name="toolbar_title">18sp</dimen>
+    <dimen name="header">18sp</dimen>
+    <dimen name="more">14sp</dimen>
 
 </resources>
