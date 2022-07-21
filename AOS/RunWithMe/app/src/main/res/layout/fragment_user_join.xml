@@ -62,12 +62,11 @@
             app:layout_constraintStart_toStartOf="@+id/tv_join_email"
             app:layout_constraintTop_toBottomOf="@id/edit_join_nickname" />
 
-        <EditText
-            android:id="@+id/edit_join_height"
+        <Spinner
+            android:id="@+id/spinner_height"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:inputType="number"
             app:layout_constraintStart_toStartOf="@+id/tv_join_height"
             app:layout_constraintTop_toBottomOf="@id/tv_join_height" />
 
@@ -78,8 +77,8 @@
             android:text="cm"
             android:fontFamily="@font/noto_sans_regular"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/edit_join_height"
-            app:layout_constraintBottom_toBottomOf="@id/edit_join_height" />
+            app:layout_constraintStart_toEndOf="@+id/spinner_height"
+            app:layout_constraintBottom_toBottomOf="@id/spinner_height" />
 
         <TextView
             android:id="@+id/tv_join_weight"
@@ -88,14 +87,13 @@
             android:text="몸무게"
             android:textSize="@dimen/join_title"
             app:layout_constraintStart_toStartOf="@+id/tv_join_email"
-            app:layout_constraintTop_toBottomOf="@id/edit_join_height" />
+            app:layout_constraintTop_toBottomOf="@id/spinner_height" />
 
-        <EditText
-            android:id="@+id/edit_join_weight"
+        <Spinner
+            android:id="@+id/spinner_weight"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:inputType="number"
             app:layout_constraintStart_toStartOf="@id/tv_join_weight"
             app:layout_constraintTop_toBottomOf="@id/tv_join_weight" />
         <TextView
@@ -105,8 +103,8 @@
             android:text="kg"
             android:fontFamily="@font/noto_sans_regular"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/edit_join_weight"
-            app:layout_constraintBottom_toBottomOf="@id/edit_join_weight" />
+            app:layout_constraintStart_toEndOf="@+id/spinner_weight"
+            app:layout_constraintBottom_toBottomOf="@id/spinner_weight" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_join"
