@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.RequestEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.gumid101.dto.CrewDto;
 import com.ssafy.gumid101.dto.RecruitmentParamsDto;
 
 @RestController
@@ -30,16 +32,13 @@ public class CrewManagerRestController {
 	}
 	
 	@GetMapping("/recruitment")
-	public RequestEntity<?> getCrewRecruitment(RecruitmentParamsDto paramsDto){
+	public RequestEntity<?> getCrewRecruitment(@ModelAttribute RecruitmentParamsDto paramsDto){
 		
 		return null;
 	}
 	
 	@PostMapping("/crew")
-	public RequestEntity<?> createCrew(){
-		/**
-		 * 입력정보 많은데, 이미지 입력때문에 안 적어둠.
-		 */
+	public RequestEntity<?> createCrew(@ModelAttribute CrewDto crewDto){
 		
 		return null;
 	}

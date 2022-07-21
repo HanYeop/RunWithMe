@@ -4,14 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.RequestEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.gumid101.dto.CrewBoardDto;
 import com.ssafy.gumid101.dto.RankingParamsDto;
 import com.ssafy.gumid101.dto.RecordParamsDto;
+import com.ssafy.gumid101.dto.RunRecordDto;
 
 @RestController
 @RequestMapping("/crew-activity")
@@ -25,17 +29,17 @@ public class CrewActivityRestController {
 	}
 	
 	@GetMapping("/{crewSeq}/records")
-	public RequestEntity<?> getCrewRecordList(RecordParamsDto recordParamsDto){
+	public RequestEntity<?> getCrewRecordList(@ModelAttribute RecordParamsDto recordParamsDto){
 		return null;
 	}
 	
 	@GetMapping("/{crewSeq}/ranking")
-	public RequestEntity<?> getCrewRankings(RankingParamsDto rankingParamsDto){
+	public RequestEntity<?> getCrewRankings(@ModelAttribute RankingParamsDto rankingParamsDto){
 		return null;
 	}
 
 	@GetMapping("/{crewSeq}/my")
-	public RequestEntity<?> getCrewMyRecords(RecordParamsDto recordParamsDto){
+	public RequestEntity<?> getCrewMyRecords(@ModelAttribute RecordParamsDto recordParamsDto){
 		return null;
 	}
 	
@@ -45,18 +49,13 @@ public class CrewActivityRestController {
 	}
 	
 	@PostMapping("/{crewSeq}/board")
-	public RequestEntity<?> writeCrewBoards(@PathVariable long crewSeq,
-			@RequestParam String content
-			){
-		/**
-		 * 여기서 이미지도 받아야 함.
-		 */
+	public RequestEntity<?> writeCrewBoards(@PathVariable long crewSeq, @RequestPart(name = "img", required = false) MultipartFile image, @RequestPart CrewBoardDto crewBoardDto){
 		
 		return null;
 	}
 	
 	@GetMapping("/{crewSeq}/boards")
-	public RequestEntity<?> getCrewBoards(){
+	public RequestEntity<?> getCrewBoards(@PathVariable long crewSeq){
 		return null;
 	}
 	
@@ -66,10 +65,7 @@ public class CrewActivityRestController {
 	}
 	
 	@PostMapping("/{crewSeq}/records")
-	public RequestEntity<?> writeRunRecord(@PathVariable long crewSeq){
-		/**
-		 * 러닝 기록 dto 만들어서 받아야 함
-		 */
+	public RequestEntity<?> writeRunRecord(@PathVariable long crewSeq, @RequestPart(name = "img") MultipartFile image, @RequestPart RunRecordDto runRecordDto){
 		
 		return null;
 	}
