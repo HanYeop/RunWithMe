@@ -21,7 +21,7 @@
             android:backgroundTint="#F7F7F7"
             android:layout_marginEnd="16dp"
             app:cardCornerRadius="16dp"
-            app:cardElevation="10dp">
+            app:cardElevation="4dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_card_crew"
@@ -35,9 +35,8 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center"
-                    android:adjustViewBounds="true"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/img"
+                    tools:src="@drawable/img"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +50,7 @@
                     android:textColor="@color/black_high_emphasis"
                     android:fontFamily="@font/noto_sans_bold"
                     android:includeFontPadding="false"
-                    android:text="TSLA"
+                    tools:text="TSLA"
                     app:layout_constraintEnd_toEndOf="@+id/image_crew"
                     app:layout_constraintStart_toStartOf="@+id/image_crew"
                     app:layout_constraintTop_toBottomOf="@+id/image_crew" />
@@ -64,7 +63,7 @@
                     android:textColor="@color/black_medium_emphasis"
                     android:fontFamily="@font/noto_sans_bold"
                     android:includeFontPadding="false"
-                    android:text="09 : 00 ~ 10 : 00"
+                    tools:text="09 : 00 ~ 10 : 00"
                     app:layout_constraintEnd_toEndOf="@+id/tv_crew_name"
                     app:layout_constraintStart_toStartOf="@+id/tv_crew_name"
                     app:layout_constraintTop_toBottomOf="@+id/tv_crew_name" />
@@ -73,7 +72,7 @@
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/btn_round"
-                    android:src="@drawable/run_24"
+                    android:src="@drawable/run_40"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"

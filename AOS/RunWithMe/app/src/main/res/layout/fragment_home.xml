@@ -50,7 +50,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tv_more"
+                        android:id="@+id/tv_crew_more"
                         style="@style/more_text"
                         android:text="더보기"
                         android:layout_marginEnd="@dimen/header_margin"
@@ -66,6 +66,195 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="horizontal"
                     tools:listitem="@layout/item_my_crew_horizon"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <TextView
+                        android:id="@+id/tv_user_total_ranking"
+                        style="@style/header_text"
+                        android:layout_marginStart="@dimen/header_margin"
+                        android:layout_marginTop="@dimen/header_margin"
+                        android:text="전체 랭킹"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_ranking_more"
+                        style="@style/more_text"
+                        android:layout_marginEnd="@dimen/header_margin"
+                        android:text="더보기"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_user_total_ranking"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_user_total_ranking" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_ranking"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_margin="16dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="#F7F7F7"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:id="@+id/layout_card_ranking"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/crown_one_32"
+                                app:layout_constraintBottom_toTopOf="@id/image_one_user"
+                                app:layout_constraintEnd_toEndOf="@id/image_one_user"
+                                app:layout_constraintStart_toStartOf="@+id/image_one_user"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/image_one_user"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_gravity="center"
+                                android:background="@android:color/transparent"
+                                android:src="@drawable/img"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_one_user_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/black_high_emphasis"
+                                tools:text="김싸피"
+                                app:layout_constraintEnd_toEndOf="@+id/image_one_user"
+                                app:layout_constraintStart_toStartOf="@+id/image_one_user"
+                                app:layout_constraintTop_toBottomOf="@+id/image_one_user" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/crown_two_32"
+                                android:layout_marginTop="4dp"
+                                app:layout_constraintBottom_toTopOf="@id/image_two_user"
+                                app:layout_constraintEnd_toEndOf="@id/image_two_user"
+                                app:layout_constraintStart_toStartOf="@+id/image_two_user"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/image_two_user"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_gravity="center"
+                                android:background="@android:color/transparent"
+                                android:src="@drawable/img"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_two_user_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/black_high_emphasis"
+                                tools:text="김싸피"
+                                app:layout_constraintEnd_toEndOf="@+id/image_two_user"
+                                app:layout_constraintStart_toStartOf="@+id/image_two_user"
+                                app:layout_constraintTop_toBottomOf="@+id/image_two_user" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/crown_three_32"
+                                android:layout_marginTop="8dp"
+                                app:layout_constraintBottom_toTopOf="@id/image_three_user"
+                                app:layout_constraintEnd_toEndOf="@id/image_three_user"
+                                app:layout_constraintStart_toStartOf="@+id/image_three_user"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/image_three_user"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_gravity="center"
+                                android:background="@android:color/transparent"
+                                android:src="@drawable/img"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_three_user_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/black_high_emphasis"
+                                tools:text="김싸피"
+                                app:layout_constraintEnd_toEndOf="@+id/image_three_user"
+                                app:layout_constraintStart_toStartOf="@+id/image_three_user"
+                                app:layout_constraintTop_toBottomOf="@+id/image_three_user" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tv_event"
+                    style="@style/header_text"
+                    android:layout_marginStart="@dimen/header_margin"
+                    android:layout_marginTop="16dp"
+                    android:text="이벤트"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_donation_box"
+                    style="@style/header_text"
+                    android:layout_marginStart="@dimen/header_margin"
+                    android:layout_marginTop="40dp"
+                    android:text="모금함"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
