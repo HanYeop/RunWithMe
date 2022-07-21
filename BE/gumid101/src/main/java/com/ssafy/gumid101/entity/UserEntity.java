@@ -1,6 +1,7 @@
 package com.ssafy.gumid101.entity;
 
 import java.time.LocalDateTime;
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -22,11 +23,15 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.ssafy.gumid101.user.Role;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+@AllArgsConstructor
+@Builder
 @Setter
 @Getter
 @Entity
@@ -93,11 +98,7 @@ public class UserEntity {
 	@OneToMany(mappedBy = "userEntity")
 	private List<CrewTotalRecordEntity> crewTotalRecordEntity;
 	
-	@Builder
-	public UserEntity(String email, Role role) {
-		this.email = email;
-		this.role = role;
-	}
+
 
 	public String getRoleKey() {
 		return this.role.getKey();

@@ -2,7 +2,6 @@ spring:
   profiles:
     include:
     - oauth
-    - db
   mail:
     host: smtp.gmail.com
     username: skj2393@gmail.com
@@ -31,7 +30,7 @@ logging:
   level:
     org:
       hibernate: info
-    root: info
+    root: debug
 server:
   servlet:
     context-path: /api
