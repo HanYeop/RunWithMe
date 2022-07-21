@@ -9,6 +9,10 @@ import com.ssafy.runwithme.databinding.FragmentUserJoinBinding
 
 class UserJoinFragment : BaseFragment<FragmentUserJoinBinding>(R.layout.fragment_user_join) {
     override fun init() {
+        initSpinner() // 키와 몸무게 스피너 값 넣기
+    }
+
+    private fun initSpinner(){
         val heightList = Array(130) { i -> i + 120 }
         val weightList = Array(230) { i -> i + 20 }
 
