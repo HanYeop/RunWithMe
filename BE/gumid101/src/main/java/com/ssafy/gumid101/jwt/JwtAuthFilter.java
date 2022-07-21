@@ -49,6 +49,7 @@ public class JwtAuthFilter extends GenericFilterBean {
 			throws IOException, ServletException {
 
 		String token = ((HttpServletRequest) request).getHeader(JwtProperties.JWT_ACESS_NAME);
+		
 		HttpServletResponse hRes = (HttpServletResponse) response;
 
 		hRes.setCharacterEncoding("UTF-8");

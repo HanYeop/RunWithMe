@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.user.Role;
 import com.ssafy.gumid101.util.Pair;
 
 @Service
@@ -56,9 +57,9 @@ public class JwtUtilsService {
     	Map<String, String> map = new HashMap<>();
     	
     	map.put("userEmail", user.getEmail());
-    	if(user.getRole() == null) {
+    	if(user.getRole() == Role.TEMP) {
     		map.put("userSeq", "");
-    		map.put("role", "ROLE_NOTFOUND");
+    		map.put("role", Role.TEMP.getKey());
     	}else {
     		map.put("userSeq", user.getId().toString());
     		map.put("role",user.getRole().getKey());	

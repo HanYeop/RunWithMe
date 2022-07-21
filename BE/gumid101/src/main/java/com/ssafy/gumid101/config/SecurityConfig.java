@@ -70,6 +70,7 @@ public class SecurityConfig {
 
 		http.authorizeHttpRequests((authz) -> {
 			authz.antMatchers("/user/profile").hasRole(Role.TEMP.toString());
+			
 		});
 
 		// test 과정이기에 전체 허용
