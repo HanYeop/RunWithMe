@@ -41,4 +41,9 @@
         <item name="android:fontFamily">@font/noto_sans_regular</item>
         <item name="android:includeFontPadding">false</item>
     </style>
+
+    <style name="tab_text" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/noto_sans_bold</item>
+    </style>
 </resources>

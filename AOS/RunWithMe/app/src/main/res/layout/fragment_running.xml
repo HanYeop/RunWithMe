@@ -1,21 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.running.RunningFragment">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:layout_height="wrap_content"
+            app:tabTextAppearance="@style/tab_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabBackground="@color/white"
+            app:tabIndicatorColor="@color/mainColor"
+            app:tabTextColor="@color/black">
 
-    </FrameLayout>
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="목표" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지도" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <FrameLayout
+            android:id="@+id/frame_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/tab_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
