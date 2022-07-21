@@ -28,7 +28,7 @@ public class JwtUtilsService {
      * @param token 토큰
      * @return username
      */
-    public  String getUsername(String token) {
+    public  String getUsername(String token,String claimKey) {
     	
         // jwtToken에서 username을 찾습니다.
         return (String) Jwts.parserBuilder()
@@ -36,10 +36,12 @@ public class JwtUtilsService {
                 .build()
                 .parseClaimsJws(token) //키를 통해 검증,만료확인 부적절시 익셉션 발생
                 .getBody()
-                .get("userSeq");
+                .get(claimKey);
                // .getSubject(); // username
     }
 
+    
+    
     /**
      * user로 토큰 생성
      * HEADER : alg, kid

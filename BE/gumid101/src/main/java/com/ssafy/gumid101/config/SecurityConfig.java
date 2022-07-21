@@ -18,6 +18,7 @@ import com.ssafy.gumid101.OAuth.CustomOAuth2UserService;
 import com.ssafy.gumid101.OAuth.OAuth2SuccessHandler;
 import com.ssafy.gumid101.jwt.JwtAuthFilter;
 import com.ssafy.gumid101.jwt.JwtUtilsService;
+import com.ssafy.gumid101.user.Role;
 import com.ssafy.gumid101.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -68,8 +69,7 @@ public class SecurityConfig {
                 UsernamePasswordAuthenticationFilter.class);
 
 		http.authorizeHttpRequests((authz) -> {
-			authz.antMatchers("/index/**").authenticated();
-			
+			authz.antMatchers("/user/profile").hasRole(Role.TEMP.toString());
 		});
 
 		// test 과정이기에 전체 허용

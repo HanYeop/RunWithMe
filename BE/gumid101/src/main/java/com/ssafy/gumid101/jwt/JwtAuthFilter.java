@@ -1,6 +1,7 @@
 package com.ssafy.gumid101.jwt;
 
 import java.io.IOException;
+
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,12 +26,16 @@ import org.springframework.web.filter.GenericFilterBean;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.user.Role;
 import com.ssafy.gumid101.user.UserRepository;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.lang.Strings;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthFilter extends GenericFilterBean {
 
@@ -46,27 +51,37 @@ public class JwtAuthFilter extends GenericFilterBean {
 		String token = ((HttpServletRequest) request).getHeader(JwtProperties.JWT_ACESS_NAME);
 		HttpServletResponse hRes = (HttpServletResponse) response;
 
-		if (!StringUtils.hasLength(token)) {
-			hRes.setCharacterEncoding("UTF-8");
-			hRes.setContentType("application/json;charset=utf-8");
+		hRes.setCharacterEncoding("UTF-8");
+		hRes.setContentType("application/json;charset=utf-8");
 
-			String userSeq = validateTokenOrOccurFailResponse(hRes, token);
+		String userSeq = validateTokenOrOccurFailResponse(hRes, token);
 
-			if (userSeq != null) {
+		if (userSeq != null) {
 
-				UserDto userDto = userRepo.findById(userSeq).map((user) -> {
+			try {
+				Long.parseLong(userSeq);
+
+				UserDto userDto = userRepo.findById(Long.parseLong(userSeq)).map((user) -> {
 					return UserDto.of(user);
 				}).orElse(null);
 
-				if (userDto != null) {
+				Authentication auth = getAuthentication(userDto);
+				SecurityContextHolder.getContext().setAuthentication(auth);
+			} catch (Exception e) {
+				log.debug("토큰은 있으나 등록되지 않은 사용자");
 
-					Authentication auth = getAuthentication(userDto);
-					SecurityContextHolder.getContext().setAuthentication(auth);
-				} else {
-					logger.info("토큰은 있으나 등록되지 않은 사용자");
-					return;
-				}
+				ArrayList<SimpleGrantedAuthority> athorities = new ArrayList<>();
+				athorities.add(new SimpleGrantedAuthority(Role.TEMP.getKey()));
+				
+				UserDto tempUser = UserDto.builder().email(JwtUtils.getUsername(token,"userEmail")).build();
+				
+				SecurityContextHolder.getContext().
+				setAuthentication(new UsernamePasswordAuthenticationToken(tempUser, "", athorities));
 			}
+
+		} else {
+			log.debug("토큰 부적합");
+			return;
 		}
 
 		chain.doFilter(request, response);
@@ -76,7 +91,7 @@ public class JwtAuthFilter extends GenericFilterBean {
 		String userSeq = null;
 
 		try {
-			userSeq = JwtUtils.getUsername(token);
+			userSeq = JwtUtils.getUsername(token,"userSeq");
 
 		} catch (Exception e) {
 			logger.info("토큰 에러:" + e.getMessage());

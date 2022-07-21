@@ -18,7 +18,6 @@ import com.ssafy.gumid101.dto.RecruitmentParamsDto;
 @RequestMapping("/crew-manager")
 public class CrewManagerRestController {
 	
-	@Autowired
 	private CrewManagerService crewManagerService;
 	
 	@GetMapping("/my-current-crew")

@@ -16,7 +16,6 @@ import com.ssafy.gumid101.dto.LatLngParamsDto;
 @RestController
 @RequestMapping("/recommend")
 public class RecommendRestController {
-	@Autowired
 	private RecommendService recommendService;
 	
 	/**
