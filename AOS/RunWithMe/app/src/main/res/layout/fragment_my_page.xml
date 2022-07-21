@@ -123,12 +123,40 @@
                 app:tint="@color/black_low_emphasis" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TableLayout
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout_my_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabTextAppearance="@style/tab_text"
+            app:tabBackground="@color/white"
+            app:tabIndicatorColor="@color/mainColor"
+            app:tabTextColor="@color/black">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_my_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="기록" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_my_board"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="작성글" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_achieve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="업적" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <FrameLayout
+            android:id="@+id/frame_layout_my_page"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
-
-        </TableLayout>
+            android:layout_weight="1"/>
 
     </LinearLayout>
 
