@@ -12,13 +12,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.util.Pair;
 
-
-public class JwtUtils {
+@Service
+public class JwtUtilsService {
 
 	
     /**
@@ -27,7 +28,7 @@ public class JwtUtils {
      * @param token 토큰
      * @return username
      */
-    public static String getUsername(String token) {
+    public  String getUsername(String token) {
     	
         // jwtToken에서 username을 찾습니다.
         return (String) Jwts.parserBuilder()
@@ -48,7 +49,7 @@ public class JwtUtils {
      * @param user 유저
      * @return jwt token
      */
-    public static String createToken(UserDto user) {
+    public  String createToken(UserDto user) {
     
     	Map<String, String> map = new HashMap<>();
     	
