@@ -40,7 +40,7 @@
         </com.google.android.material.appbar.MaterialToolbar>
 
         <TextView
-            android:id="@+id/tv_my_current_crew"
+            android:id="@+id/tv_crew_recruit"
             style="@style/header_text"
             android:layout_marginStart="@dimen/header_margin"
             android:layout_marginTop="@dimen/header_margin"
@@ -57,7 +57,7 @@
             android:orientation="vertical"
             tools:listitem="@layout/item_crew_recruit"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_my_current_crew"
+            app:layout_constraintTop_toBottomOf="@id/tv_crew_recruit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
