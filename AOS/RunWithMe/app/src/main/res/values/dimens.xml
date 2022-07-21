@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bottom_navi_size">60dp</dimen>
+
+    <dimen name="toolbar_title">18sp</dimen>
+</resources>

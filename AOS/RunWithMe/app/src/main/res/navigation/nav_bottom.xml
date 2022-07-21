@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_bottom"
+    app:startDestination="@id/HomeFragment"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <fragment
+        android:id="@+id/HomeFragment"
+        android:name="com.ssafy.runwithme.view.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home"/>
+    <fragment
+        android:id="@+id/CrewRecruitFragment"
+        android:name="com.ssafy.runwithme.view.crew_recruit.CrewRecruitFragment"
+        android:label="CrewRecruitFragment"
+        tools:layout="@layout/fragment_crew_recruit"/>
+    <fragment
+        android:id="@+id/RecommendFragment"
+        android:name="com.ssafy.runwithme.view.recommend.RecommendFragment"
+        android:label="RecommendFragment"
+        tools:layout="@layout/fragment_recommend"/>
+    <fragment
+        android:id="@+id/MyPageFragment"
+        android:name="com.ssafy.runwithme.view.my_page.MyPageFragment"
+        android:label="MyPageFragment"
+        tools:layout="@layout/fragment_my_page"/>
+</navigation>
