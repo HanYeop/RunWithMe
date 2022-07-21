@@ -1,21 +1,647 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.crew_recruit.create.CreateCrewFragment">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/toolbar_margin"
+            android:layout_marginTop="@dimen/toolbar_margin"
+            android:layout_marginEnd="@dimen/toolbar_margin"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
 
-    </FrameLayout>
+            <TextView
+                android:id="@+id/text"
+                style="@style/toolbar_text"
+                android:text="크루원 모집하기" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/tv_create_crew_name"
+                    style="@style/header_text"
+                    android:layout_marginStart="@dimen/header_margin"
+                    android:layout_marginTop="@dimen/header_margin"
+                    android:text="크루명"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/edit_create_crew_name"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/edit_text_round"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_create_crew_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_create_crew_name"
+                    app:layout_constraintTop_toTopOf="@id/tv_create_crew_name" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_create_crew"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_launcher_foreground"
+                    app:layout_constraintBottom_toTopOf="@id/card_crew_create_duration"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edit_create_crew_name" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_crew_create_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="#F7F7F7"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/img_create_crew">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_card_crew_create_duration"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/tv_create_crew_start"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:text="시작일"
+                            android:textColor="@color/black_high_emphasis"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_search_create_duration"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/btn_round_lightgrey"
+                            app:layout_constraintEnd_toStartOf="@id/img_btn_create_start_calendar"
+                            app:layout_constraintStart_toEndOf="@id/tv_create_crew_start"
+                            app:layout_constraintTop_toTopOf="@id/tv_create_crew_start"
+                            tools:text="2022.07.25" />
+
+                        <ImageButton
+                            android:id="@+id/img_btn_create_start_calendar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#00000000"
+                            android:src="@drawable/ic_baseline_calendar_month_24"
+                            app:layout_constraintBottom_toBottomOf="@id/btn_search_create_duration"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/btn_search_create_duration" />
+
+
+                        <TextView
+                            android:id="@+id/tv_create_crew_end"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:text="종료일"
+                            android:textColor="@color/black_high_emphasis"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_create_crew_start" />
+
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_create_end_duration"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/btn_round_lightgrey"
+                            android:textColor="@color/black_high_emphasis"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_create_crew_end"
+                            app:layout_constraintEnd_toStartOf="@id/img_btn_create_end_calendar"
+                            app:layout_constraintStart_toEndOf="@id/tv_create_crew_end"
+                            app:layout_constraintTop_toTopOf="@id/tv_create_crew_end"
+                            tools:text="2022.09.01" />
+
+
+                        <ImageButton
+                            android:id="@+id/img_btn_create_end_calendar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#00000000"
+                            android:src="@drawable/ic_baseline_calendar_month_24"
+                            app:layout_constraintBottom_toBottomOf="@id/btn_create_end_duration"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/btn_create_end_duration" />
+
+
+                        <TextView
+                            android:id="@+id/tv_create_crew_goal_days"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:text="목표"
+                            android:textColor="@color/black_high_emphasis"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_create_crew_end" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_create_crew_goal_days"
+                            android:layout_width="200dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="32dp"
+                            android:background="@drawable/btn_round_lightgrey"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_create_crew_goal_days"
+                            app:layout_constraintEnd_toStartOf="@id/tv_create_crew_goal_days_text"
+                            app:layout_constraintTop_toTopOf="@id/tv_create_crew_goal_days"
+                            tools:text="4" />
+
+                        <TextView
+                            android:id="@+id/tv_create_crew_goal_days_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            android:text="주"
+                            app:layout_constraintBottom_toBottomOf="@id/btn_create_crew_goal_days"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/btn_create_crew_goal_days" />
+
+
+                        <TextView
+                            android:id="@+id/tv_crew_create_running_start_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:text="러닝 시작 시간"
+                            android:textColor="@color/black_high_emphasis"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_create_crew_goal_days" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_crew_create_running_start_time"
+                            android:layout_width="80dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/btn_round_lightgrey"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_crew_create_running_start_time"
+                            app:layout_constraintEnd_toStartOf="@id/text_view2"
+                            app:layout_constraintStart_toEndOf="@id/tv_crew_create_running_start_time"
+                            app:layout_constraintTop_toTopOf="@id/tv_crew_create_running_start_time"
+                            tools:text="19:00" />
+
+                        <TextView
+                            android:id="@+id/text_view2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:text="~"
+                            android:textColor="@color/black_high_emphasis"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toBottomOf="@id/btn_crew_create_running_start_time"
+                            app:layout_constraintEnd_toStartOf="@id/btn_crew_create_running_end_time"
+                            app:layout_constraintStart_toEndOf="@id/btn_crew_create_running_start_time"
+                            app:layout_constraintTop_toTopOf="@id/btn_crew_create_running_start_time" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_crew_create_running_end_time"
+                            android:layout_width="80dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/btn_round_lightgrey"
+                            app:layout_constraintBottom_toBottomOf="@id/btn_crew_create_running_start_time"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/btn_crew_create_running_start_time"
+                            tools:text="20:00" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_crew_create_passwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="#F7F7F7"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/card_crew_create_duration">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:padding="12dp">
+
+                    <LinearLayout
+                        android:id="@+id/layout_radio_group_passwd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_baseline_lock_24"
+                            android:layout_marginEnd="48dp"/>
+
+                        <RadioGroup
+                            android:id="@+id/radio_group_passwd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="32dp"
+                            android:layout_marginEnd="32dp"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/radio_btn_passwd_on"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:text="공개"
+                                android:textColor="@color/black_high_emphasis" />
+
+                            <RadioButton
+                                android:id="@+id/radio_btn_passwd_off"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:text="비공개"
+                                android:textColor="@color/black_high_emphasis" />
+
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="비밀번호 설정"
+                            android:textColor="@color/black_high_emphasis"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:layout_marginStart="8dp"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_create_crew_passwd"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:text="****"
+                            android:textColor="@color/black_high_emphasis"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:includeFontPadding="false"
+                            android:background="@drawable/btn_round_lightgrey"
+                            android:layout_marginStart="32dp"
+                            android:layout_marginEnd="32dp"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_crew_create_member"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="32dp"
+                    android:backgroundTint="#F7F7F7"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/card_crew_create_passwd"
+                    >
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_card_crew_create_member"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:padding="8dp"
+                        >
+
+                        <TextView
+                            android:id="@+id/tv_create_crew_max_member"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="참가 인원"
+                            android:textColor="@color/black_high_emphasis"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="8dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_create_crew_max_member"
+                            android:layout_width="200dp"
+                            android:layout_height="40dp"
+                            tools:text="20"
+                            android:background="@drawable/btn_round_lightgrey"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            app:layout_constraintEnd_toStartOf="@id/tv_max"
+                            app:layout_constraintTop_toTopOf="@id/tv_create_crew_max_member"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_create_crew_max_member" />
+
+                        <TextView
+                            android:id="@+id/tv_max"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Max"
+                            android:textSize="18sp"
+                            android:textColor="@color/black_high_emphasis"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:layout_marginStart="16dp"
+                            android:includeFontPadding="false"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/btn_create_crew_max_member"
+                            app:layout_constraintBottom_toBottomOf="@id/btn_create_crew_max_member"/>
+
+                        <TextView
+                            android:id="@+id/tv_create_crew_cost"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="참가비"
+                            android:textColor="@color/black_high_emphasis"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="8dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_create_crew_max_member"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_create_crew_cost"
+                            android:layout_width="200dp"
+                            android:layout_height="40dp"
+                            tools:text="20,000"
+                            android:background="@drawable/btn_round_lightgrey"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            app:layout_constraintEnd_toStartOf="@id/tv_point"
+                            app:layout_constraintTop_toTopOf="@id/tv_create_crew_cost"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_create_crew_cost" />
+
+                        <TextView
+                            android:id="@+id/tv_point"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Point"
+                            android:textSize="18sp"
+                            android:textColor="@color/black_high_emphasis"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:layout_marginStart="16dp"
+                            android:includeFontPadding="false"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/btn_create_crew_cost"
+                            app:layout_constraintBottom_toBottomOf="@id/btn_create_crew_cost"/>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_crew_create_purpose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="32dp"
+                    android:backgroundTint="#F7F7F7"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/card_crew_create_member"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <LinearLayout
+                            android:id="@+id/layout_radio_group_purpose"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Purpose"
+                                android:textColor="@color/black_high_emphasis"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:layout_marginStart="24dp"
+                                android:layout_marginEnd="24dp"/>
+
+
+                            <RadioGroup
+                                android:id="@+id/radio_group_purpose"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginStart="32dp"
+                                android:layout_marginEnd="32dp">
+
+                                <RadioButton
+                                    android:id="@+id/radio_btn_time"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="시간"
+                                    android:layout_weight="1"
+                                    android:textColor="@color/black_high_emphasis"
+                                    android:fontFamily="@font/noto_sans_bold"/>
+
+                                <RadioButton
+                                    android:id="@+id/radio_btn_distance"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="거리"
+                                    android:layout_weight="1"
+                                    android:textColor="@color/black_high_emphasis"
+                                    android:fontFamily="@font/noto_sans_bold"/>
+
+
+                            </RadioGroup>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="목표"
+                                android:textColor="@color/black_high_emphasis"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:layout_marginStart="24dp"
+                                android:layout_marginEnd="24dp"/>
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/btn_create_goal_amount_end"
+                                android:layout_width="200dp"
+                                android:layout_height="40dp"
+                                tools:text="5.0"
+                                android:textColor="@color/black_high_emphasis"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:background="@drawable/btn_round_lightgrey"/>
+
+                            <TextView
+                                android:id="@+id/tv_goal_type"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="km"
+                                android:textColor="@color/black_high_emphasis"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:layout_marginStart="24dp"/>
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="주"
+                                android:textColor="@color/black_high_emphasis"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginEnd="32dp"/>
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/btn_create_goal_days"
+                                android:layout_width="100dp"
+                                android:layout_height="40dp"
+                                tools:text="3"
+                                android:textColor="@color/black_high_emphasis"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:layout_marginStart="32dp"
+                                android:background="@drawable/btn_round_lightgrey"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="일"
+                                android:textColor="@color/black_high_emphasis"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:gravity="center"
+                                android:layout_marginStart="32dp"
+                                android:layout_marginEnd="16dp"/>
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_create"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="모집하기"
+                    android:textSize="16sp"
+                    android:textColor="@color/black_high_emphasis"
+                    android:fontFamily="@font/noto_sans_bold"
+                    android:background="@drawable/btn_round_lightgrey"
+                    android:layout_margin="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/card_crew_create_purpose"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
