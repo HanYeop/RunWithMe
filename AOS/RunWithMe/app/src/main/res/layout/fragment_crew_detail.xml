@@ -7,31 +7,503 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.crew_detail.CrewDetailFragment">
+        android:orientation="vertical">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_marginTop="@dimen/toolbar_margin"
             android:layout_marginStart="@dimen/toolbar_margin"
+            android:layout_marginTop="@dimen/toolbar_margin"
             android:layout_marginEnd="@dimen/toolbar_margin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/white"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
 
             <TextView
                 android:id="@+id/text"
                 style="@style/toolbar_text"
-                android:text="크루 상세"/>
-
+                android:text="크루 상세" />
         </com.google.android.material.appbar.MaterialToolbar>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/image_crew_recruit"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:background="@android:color/transparent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/img" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:text="가입"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:textSize="16sp"
+                        android:background="@drawable/btn_circle_main_color"
+                        app:layout_constraintBottom_toBottomOf="@+id/image_crew_recruit"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/image_crew_recruit" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/tv_crew_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/header_margin"
+                    android:layout_marginEnd="@dimen/header_margin"
+                    style="@style/header_text"
+                    android:textSize="24sp"
+                    android:text="TSLA" />
+
+                <TextView
+                    android:id="@+id/tv_crew_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/header_margin"
+                    android:layout_marginEnd="@dimen/header_margin"
+                    android:textColor="@color/black_high_emphasis"
+                    android:fontFamily="@font/noto_sans_regular"
+                    android:includeFontPadding="false"
+                    android:textSize="14sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:text="친환경 러닝을 목표로 하는 테슬라 크루입니다~! \n환경에 관심 있는 러너 누구나 환영~^^" />
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_running"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/header_margin"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="@dimen/header_margin"
+                    android:backgroundTint="#F7F7F7"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_crew_name">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_card_running"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/tv_my_record_header"
+                            style="@style/header_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/header_margin"
+                            android:text="내 활동"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_my_record_more"
+                            style="@style/more_text"
+                            android:layout_marginEnd="@dimen/header_margin"
+                            android:layout_marginBottom="2dp"
+                            android:text="더보기"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_my_record_header"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/tv_my_record_header" />
+
+                        <TextView
+                            android:id="@+id/tv_my_distance"
+                            style="@style/header_text"
+                            android:textSize="28sp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginStart="@dimen/header_margin"
+                            android:text="5.7km"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_my_record_header" />
+
+                        <TextView
+                            android:id="@+id/tv_my_distance_header"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="총 뛴 거리"
+                            android:textColor="@color/black_medium_emphasis"
+                            android:textSize="16sp"
+                            app:layout_constraintEnd_toEndOf="@+id/tv_my_distance"
+                            app:layout_constraintStart_toStartOf="@+id/tv_my_distance"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_my_distance" />
+
+                        <TextView
+                            android:id="@+id/tv_my_time"
+                            style="@style/header_text"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="@dimen/header_margin"
+                            android:text="58분"
+                            android:textSize="28sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_my_record_header" />
+
+                        <TextView
+                            android:id="@+id/tv_my_time_header"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="총 뛴 시간"
+                            android:textColor="@color/black_medium_emphasis"
+                            android:textSize="16sp"
+                            app:layout_constraintEnd_toEndOf="@+id/tv_my_time"
+                            app:layout_constraintStart_toStartOf="@+id/tv_my_time"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_my_time" />
+
+                        <ProgressBar
+                            android:id="@+id/progress_bar"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginTop="16dp"
+                            android:max="100"
+                            android:progress="30"
+                            android:progressTint="@color/mainColor"
+                            android:scaleY="4"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_my_distance_header" />
+
+                        <TextView
+                            android:id="@+id/tv_goal"
+                            style="@style/header_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="3/4"
+                            android:textColor="@color/mainColor"
+                            app:layout_constraintEnd_toEndOf="@+id/progress_bar"
+                            app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
+
+                        <TextView
+                            android:id="@+id/tv_goal_header"
+                            style="@style/header_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="주간 목표 달성"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/tv_goal"
+                            app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <TextView
+                        android:id="@+id/tv_crew_user_ranking"
+                        style="@style/header_text"
+                        android:layout_marginStart="@dimen/header_margin"
+                        android:layout_marginTop="@dimen/header_margin"
+                        android:text="크루원 랭킹"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_ranking_more"
+                        style="@style/more_text"
+                        android:layout_marginEnd="@dimen/header_margin"
+                        android:text="더보기"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_crew_user_ranking"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_crew_user_ranking" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_ranking"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="#F7F7F7"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:id="@+id/layout_card_ranking"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingBottom="4dp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/crown_one_32"
+                                app:layout_constraintBottom_toTopOf="@id/image_one_user"
+                                app:layout_constraintEnd_toEndOf="@id/image_one_user"
+                                app:layout_constraintStart_toStartOf="@+id/image_one_user"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/image_one_user"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_gravity="center"
+                                android:background="@android:color/transparent"
+                                android:src="@drawable/img"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_one_user_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/black_high_emphasis"
+                                tools:text="김싸피"
+                                app:layout_constraintEnd_toEndOf="@+id/image_one_user"
+                                app:layout_constraintStart_toStartOf="@+id/image_one_user"
+                                app:layout_constraintTop_toBottomOf="@+id/image_one_user" />
+
+                            <TextView
+                                android:id="@+id/tv_one_user_record"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/noto_sans_regular"
+                                android:includeFontPadding="false"
+                                android:textSize="12sp"
+                                android:textColor="@color/black_medium_emphasis"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/tv_one_user_name"
+                                app:layout_constraintStart_toStartOf="@+id/tv_one_user_name"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_one_user_name"
+                                tools:text="99.2km" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/crown_two_32"
+                                app:layout_constraintBottom_toTopOf="@id/image_two_user"
+                                app:layout_constraintEnd_toEndOf="@id/image_two_user"
+                                app:layout_constraintStart_toStartOf="@+id/image_two_user"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/image_two_user"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_gravity="center"
+                                android:background="@android:color/transparent"
+                                android:src="@drawable/img"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_two_user_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/black_high_emphasis"
+                                tools:text="김싸피"
+                                app:layout_constraintEnd_toEndOf="@+id/image_two_user"
+                                app:layout_constraintStart_toStartOf="@+id/image_two_user"
+                                app:layout_constraintTop_toBottomOf="@+id/image_two_user" />
+
+                            <TextView
+                                android:id="@+id/tv_two_user_record"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/noto_sans_regular"
+                                android:includeFontPadding="false"
+                                android:textSize="12sp"
+                                android:textColor="@color/black_medium_emphasis"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/tv_two_user_name"
+                                app:layout_constraintStart_toStartOf="@+id/tv_two_user_name"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_two_user_name"
+                                tools:text="89.2km" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/crown_three_32"
+                                app:layout_constraintBottom_toTopOf="@id/image_three_user"
+                                app:layout_constraintEnd_toEndOf="@id/image_three_user"
+                                app:layout_constraintStart_toStartOf="@+id/image_three_user"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/image_three_user"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_gravity="center"
+                                android:background="@android:color/transparent"
+                                android:src="@drawable/img"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_three_user_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/black_high_emphasis"
+                                tools:text="김싸피"
+                                app:layout_constraintEnd_toEndOf="@+id/image_three_user"
+                                app:layout_constraintStart_toStartOf="@+id/image_three_user"
+                                app:layout_constraintTop_toBottomOf="@+id/image_three_user" />
+
+                            <TextView
+                                android:id="@+id/tv_three_user_record"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/noto_sans_regular"
+                                android:includeFontPadding="false"
+                                android:textSize="12sp"
+                                android:textColor="@color/black_medium_emphasis"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/tv_three_user_name"
+                                app:layout_constraintStart_toStartOf="@+id/tv_three_user_name"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_three_user_name"
+                                tools:text="69.2km" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <TextView
+                        android:id="@+id/tv_crew_board_header"
+                        style="@style/header_text"
+                        android:layout_marginStart="@dimen/header_margin"
+                        android:layout_marginTop="@dimen/header_margin"
+                        android:text="게시판"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_board_more"
+                        style="@style/more_text"
+                        android:layout_marginEnd="@dimen/header_margin"
+                        android:text="더보기"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_crew_board_header"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_crew_board_header" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- height 임시 -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_crew_board"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/header_margin"
+                    android:layout_marginEnd="@dimen/header_margin"
+                    android:layout_height="100dp"
+                    android:background="@drawable/board_round"
+                    tools:listitem="@layout/item_crew_board_summary"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <TextView
+                        android:id="@+id/tv_crew_record"
+                        style="@style/header_text"
+                        android:layout_marginStart="@dimen/header_margin"
+                        android:layout_marginTop="@dimen/header_margin"
+                        android:text="러닝 기록"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_crew_record_more"
+                        style="@style/more_text"
+                        android:layout_marginEnd="@dimen/header_margin"
+                        android:text="더보기"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_crew_record"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_crew_record" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- height 임시 -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_crew_record"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/header_margin"
+                    android:layout_marginEnd="@dimen/header_margin"
+                    android:layout_height="300dp"
+                    android:background="@drawable/board_round"
+                    tools:listitem="@layout/item_running_record"/>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
 </layout>

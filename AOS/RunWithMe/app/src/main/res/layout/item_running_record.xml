@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_crew"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/header_margin"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/header_margin"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="#F7F7F7"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_card_crew"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/img_run_record"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/img" />
+
+                <TextView
+                    android:id="@+id/tv_distance"
+                    style="@style/header_text"
+                    android:text="0.3km"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_distance_header"
+                    app:layout_constraintStart_toStartOf="@+id/tv_distance_header"
+                    app:layout_constraintTop_toTopOf="@+id/img_run_record" />
+
+                <TextView
+                    android:id="@+id/tv_distance_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="4dp"
+                    android:text="이동 거리"
+                    android:textColor="@color/black_medium_emphasis"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toEndOf="@+id/img_run_record"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_distance" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    style="@style/header_text"
+                    android:layout_marginBottom="4dp"
+                    android:text="07 : 27"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_time_header"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_time_header"
+                    app:layout_constraintStart_toStartOf="@+id/tv_time_header" />
+
+                <TextView
+                    android:id="@+id/tv_time_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:text="소요 시간"
+                    android:textColor="@color/black_medium_emphasis"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/img_run_record"
+                    app:layout_constraintStart_toEndOf="@+id/img_run_record" />
+
+                <TextView
+                    android:id="@+id/tv_calorie"
+                    style="@style/header_text"
+                    android:text="140 kcal"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_calorie_header"
+                    app:layout_constraintStart_toStartOf="@+id/tv_calorie_header"
+                    app:layout_constraintTop_toTopOf="@+id/img_run_record" />
+
+                <TextView
+                    android:id="@+id/tv_calorie_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="48dp"
+                    android:text="칼로리"
+                    android:textColor="@color/black_medium_emphasis"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_distance" />
+
+                <TextView
+                    android:id="@+id/tv_speed"
+                    style="@style/header_text"
+                    android:layout_marginBottom="4dp"
+                    android:text="8.3 km/h"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_speed_header"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_speed_header"
+                    app:layout_constraintStart_toStartOf="@+id/tv_speed_header" />
+
+                <TextView
+                    android:id="@+id/tv_speed_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="40dp"
+                    android:text="평균 속도"
+                    android:textColor="@color/black_medium_emphasis"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/img_run_record"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
