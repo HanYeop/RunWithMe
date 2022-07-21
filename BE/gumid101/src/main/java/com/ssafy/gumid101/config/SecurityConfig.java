@@ -6,25 +6,30 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gumid101.OAuth.CustomOAuth2UserService;
 import com.ssafy.gumid101.OAuth.OAuth2SuccessHandler;
 import com.ssafy.gumid101.jwt.JwtAuthFilter;
+import com.ssafy.gumid101.jwt.JwtUtilsService;
 import com.ssafy.gumid101.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
 ///oauth2/authorization/google
 	private final UserRepository userRepo;
+	private final JwtUtilsService jwtUtilService;
+	private final ObjectMapper mapper;
     private final CustomOAuth2UserService oAuth2UserService;
     private final OAuth2SuccessHandler successHandler;
 	// 패스워드 암호화에 사용
@@ -41,6 +46,11 @@ public class SecurityConfig {
 	}
 
 	@Bean
+	public WebSecurityCustomizer WebSecurityCustomizer() {
+		return (web)-> web.ignoring().antMatchers("/swagger-ui/**","/swagger-resources/**","/v2/api-docs");
+	}
+	
+	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager)
 			throws Exception {
 		http.cors().disable();// cors 문제 무시
@@ -50,16 +60,16 @@ public class SecurityConfig {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 스프링 시큐리티 컨텍스트 홀더 세션 사용 안함
 
 		//oath 사용한다고 설정, 
-		http.oauth2Login().loginPage("/token/expired").successHandler(successHandler)
-        .userInfoEndpoint().userService(oAuth2UserService);
+		http.oauth2Login().loginPage("/token/expired").successHandler(successHandler).
+        userInfoEndpoint().userService(oAuth2UserService);
 		
 		
-		http.addFilterBefore(new JwtAuthFilter(userRepo),
+		http.addFilterBefore(new JwtAuthFilter(jwtUtilService,userRepo,mapper),
                 UsernamePasswordAuthenticationFilter.class);
 
 		http.authorizeHttpRequests((authz) -> {
 			authz.antMatchers("/index/**").authenticated();
-			authz.antMatchers("/swagger-ui/**").permitAll();
+			
 		});
 
 		// test 과정이기에 전체 허용

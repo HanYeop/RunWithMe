@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.ssafy.gumid101.jwt.JwtProperties;
+
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -38,7 +40,7 @@ public class SwaggerConfig {
 	
 	
 	private ApiKey apiKey() { 
-	    return new ApiKey("JWT", "Authorization", "header"); 
+	    return new ApiKey("JWT", JwtProperties.JWT_ACESS_NAME, "header"); 
 	}
 
 	private SecurityContext securityContext() { 
