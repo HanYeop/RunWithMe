@@ -91,4 +91,7 @@ dependencies {
     // googleMap
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.android.gms:play-services-location:20.0.0'
+
+    // SimpleRatingBar
+    implementation 'com.github.ome450901:SimpleRatingBar:1.5.1'
 }
