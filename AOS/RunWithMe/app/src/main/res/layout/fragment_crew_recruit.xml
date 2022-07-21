@@ -28,21 +28,38 @@
                 style="@style/toolbar_text"
                 android:text="@string/app_name"/>
 
+            <ImageButton
+                android:id="@+id/img_btn_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_baseline_search_24"
+                android:backgroundTint="@color/white"
+                android:layout_gravity="right"/>
+
         </com.google.android.material.appbar.MaterialToolbar>
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="모집 화면입니다."
-            android:textSize="32sp"
-            android:textColor="@color/black_high_emphasis"
-            android:fontFamily="@font/noto_sans_regular"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            android:id="@+id/tv_my_current_crew"
+            style="@style/header_text"
+            android:layout_marginStart="@dimen/header_margin"
+            android:layout_marginTop="@dimen/header_margin"
+            android:text="모집 중인 크루 리스트"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_crew_recruit"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            tools:listitem="@layout/item_crew_recruit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_my_current_crew"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

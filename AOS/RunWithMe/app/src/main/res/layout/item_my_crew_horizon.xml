@@ -69,6 +69,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_crew_name" />
 
                 <ImageButton
+                    android:id="@+id/img_btn_start_running"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/btn_round"
