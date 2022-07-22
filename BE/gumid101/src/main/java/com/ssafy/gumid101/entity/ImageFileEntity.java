@@ -1,0 +1,37 @@
+package com.ssafy.gumid101.entity;
+
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Table(name = "t_img")
+@Getter
+@Setter
+public class ImageFileEntity {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "img_seq")
+	private long img_seq;
+
+	@Column(name = "img_original_name")
+	private String img_original_name;
+	
+	@Column(name = "img_saved_name")
+	private String img_saved_name;
+	
+	@Column(name = "img_saved_path")
+	private String img_saved_path;
+	
+	@Column(name = "img_reg_time")
+	private LocalDateTime img_reg_time;
+}
