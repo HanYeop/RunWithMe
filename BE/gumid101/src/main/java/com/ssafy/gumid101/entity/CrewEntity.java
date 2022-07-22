@@ -2,7 +2,6 @@ package com.ssafy.gumid101.entity;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -20,10 +19,12 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Table(name="t_crew")
+@Builder
 @Entity
 @Getter
 @Setter
@@ -88,8 +89,8 @@ public class CrewEntity {
 	@OneToMany(mappedBy = "crewEntity")
 	private List<RunRecordEntity> runRecordEntitys;
 	
-	@OneToMany(mappedBy = "crewBoardEntity")
-	private List<RunRecordEntity> crewBoardEntitys;
+	@OneToMany(mappedBy = "crewEntity")
+	private List<CrewBoardEntity> crewBoardEntitys;
 	
 	@CreatedDate
 	@Column(nullable = false, name="crew_reg_time")
