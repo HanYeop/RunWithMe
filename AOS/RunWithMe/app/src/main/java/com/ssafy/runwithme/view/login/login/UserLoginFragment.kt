@@ -72,6 +72,7 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
                 val account = task.getResult(ApiException::class.java)
                 val accessToken = account.serverAuthCode!!
                 showToast(accessToken)
+                userViewModel.googleLogin(accessToken)
                 Log.d("test5", ":$accessToken ")
             } catch (e: ApiException) {
                 Log.w("test5", "signInResult:failed code=" + e.statusCode)

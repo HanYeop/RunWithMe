@@ -9,8 +9,8 @@ import javax.inject.Inject
 class Oauth2Repository @Inject constructor(
     private val oauth2RemoteDataSource: Oauth2RemoteDataSource
 ){
-    fun googleLogin() = flow<String> {
-        oauth2RemoteDataSource.googleLogin().collect {
+    fun googleLogin(token: String) = flow<String> {
+        oauth2RemoteDataSource.googleLogin(token).collect {
             emit(it.toString())
         }
     }.catch { e ->

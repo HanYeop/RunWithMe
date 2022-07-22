@@ -15,9 +15,9 @@ class UserViewModel @Inject constructor(
     private val oauth2Repository: Oauth2Repository
 ): ViewModel(){
 
-    fun googleLogin(){
+    fun googleLogin(token: String){
         viewModelScope.launch(Dispatchers.Main){
-            oauth2Repository.googleLogin().collectLatest {
+            oauth2Repository.googleLogin(token).collectLatest {
                 Log.d("test5", "googleLogin: $it")
             }
         }
