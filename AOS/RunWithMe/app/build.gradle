@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.ssafy.runwithme"
-        minSdk 21
+        minSdk 23
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -99,8 +99,8 @@ dependencies {
     implementation "com.google.android.gms:play-services-auth:20.2.0"
 
     // kakao
-    implementation "com.kakao.sdk:v2-user:2.10.0" // 카카오 로그인
-    implementation "com.kakao.sdk:v2-talk:2.10.0" // 친구, 메시지(카카오톡)
-    implementation "com.kakao.sdk:v2-friend:2.10.0" // 카카오톡 소셜 피커, 리소스 번들 파일 포함
-    implementation "com.kakao.sdk:v2-link:2.10.0" // 메시지(카카오링크)
+    implementation "com.kakao.sdk:v2-user:2.10.0"
+
+    // naver
+    implementation 'com.navercorp.nid:oauth-jdk8:5.1.1'
 }

@@ -3,6 +3,7 @@ package com.ssafy.runwithme.view.login.login
 import android.app.Activity
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
@@ -17,6 +18,8 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.OAuthLoginCallback
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentUserLoginBinding
@@ -38,6 +41,9 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
         binding.apply {
             imgBtnLoginGoogle.setOnClickListener {
                 googleSignIn()
+            }
+            imgBtnLoginNaver.setOnClickListener {
+                naverSignIn()
             }
             imgBtnLoginKakao.setOnClickListener {
                 kakaoSignIn()
@@ -140,5 +146,25 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
         } else {
             UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
         }
+    }
+
+    private fun naverSignIn(){
+        val oauthLoginCallback = object : OAuthLoginCallback {
+            override fun onSuccess() {
+                // 네이버 로그인 인증이 성공했을 때 수행할 코드 추가
+                Log.d(TAG, "onSuccess: ${NaverIdLoginSDK.getAccessToken()}")
+            }
+
+            override fun onFailure(httpStatus: Int, message: String) {
+                val errorCode = NaverIdLoginSDK.getLastErrorCode().code
+                val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+                showToast("errorCode:$errorCode, errorDesc:$errorDescription")
+            }
+            override fun onError(errorCode: Int, message: String) {
+                onFailure(errorCode, message)
+            }
+        }
+
+        NaverIdLoginSDK.authenticate(requireContext(), oauthLoginCallback)
     }
 }
