@@ -21,7 +21,7 @@ import lombok.Setter;
 
 
 @Entity
-@Table(name="t_ahievement_complete")
+@Table(name="t_achievement_complete")
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)

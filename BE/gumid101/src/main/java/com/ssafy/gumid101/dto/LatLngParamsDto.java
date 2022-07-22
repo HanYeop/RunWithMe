@@ -15,8 +15,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LatLngParamsDto {
-	private double leftLng;
-	private double rightLng;
-	private double upperLat;
-	private double lowerLat;
+	private Double leftLng;
+	private Double rightLng;
+	private Double upperLat;
+	private Double lowerLat;
 }

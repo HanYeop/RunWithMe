@@ -20,7 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CrewBoardDto implements Serializable {
 
-	private long crewBoardSeq;
+	private Long crewBoardSeq;
 
 	private String crewBoardContent;
 	
