@@ -88,9 +88,12 @@ dependencies {
     // lottie
     implementation 'com.airbnb.android:lottie:5.2.0'
 
+    // LifecycleService
+    implementation 'androidx.lifecycle:lifecycle-service:2.3.0'
+
     // googleMap
-    implementation 'com.google.android.gms:play-services-maps:18.1.0'
-    implementation 'com.google.android.gms:play-services-location:20.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
 
     // SimpleRatingBar
     implementation 'com.github.ome450901:SimpleRatingBar:1.5.1'
