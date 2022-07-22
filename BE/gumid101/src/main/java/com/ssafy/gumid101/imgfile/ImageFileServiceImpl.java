@@ -14,7 +14,7 @@ public class ImageFileServiceImpl implements ImageFileService {
 	private final ImageFileRepository imgFileRepo;
 	
 	@Override
-	public ImageFileDto getImageFile(long imageSeq) throws Exception {
+	public ImageFileDto getImageFile(Long imageSeq) throws Exception {
 		
 		ImageFileEntity imgEntity =  imgFileRepo.findById(imageSeq).orElse(null);
 		
