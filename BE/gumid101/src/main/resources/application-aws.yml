@@ -1,0 +1,11 @@
+cloud:
+  aws:
+    credentials:
+      accessKey: "AKIAZWADO6PW37AMLVOB"
+      secretKey: "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"
+    s3:
+      bucket: "runwithme-buket"
+    region:
+      static: "ap-northeast-2"
+    stack:
+      auto: false

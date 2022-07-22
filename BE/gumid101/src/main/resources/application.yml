@@ -2,6 +2,11 @@ spring:
   profiles:
     include:
     - oauth
+    - aws
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
   mail:
     host: smtp.gmail.com
     username: skj2393@gmail.com
