@@ -14,5 +14,6 @@ public class ResponseFrame<T> {
 	private boolean isSuccess;
 	private T data;
 	private int count;
+	private String msg;
 
 }
