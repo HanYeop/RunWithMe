@@ -17,6 +17,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.util.IOUtils;
+import com.ssafy.gumid101.dto.ImageFileDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,18 +34,16 @@ public class S3FileServiceImpl implements S3FileService {
 	/**
 	 * 
 	 * @param multipartFile 저장될 파일 
-	 * @param savedFileName 저장될 파일의 이름,호출하는데서 만들어서 보내주세요
 	 * @param savedPath 저장될 파일의 엣지까지의 디렉토리
 	 * @return
 	 * @throws IOException
 	 */
-	public String upload(MultipartFile multipartFile,String savedPath) throws Exception{
+	public ImageFileDto upload(MultipartFile multipartFile,String savedPath) throws Exception{
 		
 		multipartFile.getOriginalFilename();
 		
 		
-		String savedFileName = savedPath+ File.separator+UUID.randomUUID().toString() ;
-		
+		String savedFileName = UUID.randomUUID().toString() ;
 		
 		
 		long size = multipartFile.getSize(); // 파일 크기
@@ -59,17 +58,19 @@ public class S3FileServiceImpl implements S3FileService {
 				.withCannedAcl(CannedAccessControlList.PublicRead)
 		);
 		
-		String imagePath = amazonS3Client.getUrl(bucket, savedFileName).toString(); // 접근가능한 URL 가져오기
+		String imagePath = amazonS3Client.getUrl(bucket,savedPath+ "/" +savedFileName).toString(); // 접근가능한 URL 가져오기
 
+		log.info("S3 버켓({}) <={}",bucket,imagePath);
 		//사실상 savedpath 
 		
 		//유저는 /images/{imgseq}
+
 		
-		return imagePath;
+		return ImageFileDto.builder().imgSavedName(savedFileName).imgSavedPath(savedPath).build();
     }
 	
 	public InputStream getObject(String storedFileName) throws IOException {
-		
+	      //  Content-Type : image/jpeg 
         S3Object o = amazonS3Client.getObject(new GetObjectRequest(bucket, storedFileName));
         //
         
@@ -80,7 +81,7 @@ public class S3FileServiceImpl implements S3FileService {
        // byte[] bytes = IOUtils.toByteArray(objectInputStream);
  
         //String fileName = URLEncoder.encode(storedFileName, "UTF-8").replaceAll("\\+", "%20");
-        
+
        // HttpHeaders httpHeaders = new HttpHeaders();
        // httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
        // httpHeaders.setContentLength(bytes.length);

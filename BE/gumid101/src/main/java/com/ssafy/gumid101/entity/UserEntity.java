@@ -15,9 +15,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -59,7 +61,7 @@ public class UserEntity {
 	@Column(nullable = true, name = "user_weight")
 	private Integer weight;
 
-	@Column(name = "user_point")
+	@Column(name = "user_point",nullable = false,columnDefinition = "Int default 0")
 	private Integer point;
 
 	@Column(name = "user_fcm_token")
@@ -69,7 +71,7 @@ public class UserEntity {
 	private String userState;
 
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false, name = "user_roll")
+	@Column(nullable = false, name = "user_roll",columnDefinition = "varchar(10) default 'USER'")
 	private Role role;
 
 	@CreatedDate
@@ -99,6 +101,12 @@ public class UserEntity {
 	private List<CrewTotalRecordEntity> crewTotalRecordEntity;
 	
 
+	@PrePersist
+	public void setting() {
+		this.point = 0;
+		this.userState = "N";
+		this.role = Role.USER;
+	}
 
 	public String getRoleKey() {
 		return this.role.getKey();

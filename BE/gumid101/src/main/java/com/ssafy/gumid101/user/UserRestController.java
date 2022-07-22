@@ -24,6 +24,9 @@ import com.ssafy.gumid101.jwt.JwtProperties;
 import com.ssafy.gumid101.jwt.JwtUtilsService;
 import com.ssafy.gumid101.res.ResponseFrame;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 @Slf4j
+@Api(tags   = "유저 컨트롤러")
 public class UserRestController {
 
 	private final JwtUtilsService jwtUtilService;
@@ -42,8 +46,9 @@ public class UserRestController {
 	 * @return
 	 * @throws Exception
 	 */
+	@ApiOperation(code  =200,value =   "닉네임 중복체크")
 	@GetMapping("/check/{nickname}")
-	public ResponseEntity<?> checkDupNickName(@PathVariable String nickname) throws Exception {
+	public ResponseEntity<?> checkDupNickName(@ApiParam("중복체크할 닉네임") @PathVariable(required = true) String nickname) throws Exception {
 
 		int count = userService.checkDupNickname(nickname);
 
@@ -64,6 +69,7 @@ public class UserRestController {
 	 * @return
 	 * @throws DuplicateException
 	 */
+	@ApiOperation(code  =200,value =   "초기 프로필 설정 / 회원가입")
 	@PostMapping("/profile")
 	public ResponseEntity<?> setMyProfile(@RequestBody UserDto userDto) throws Exception {
 
@@ -119,7 +125,7 @@ public class UserRestController {
 	{
 		ResponseFrame<String> responseFrame = new ResponseFrame<String>();
 
-		responseFrame.setCount(1);
+		responseFrame.setCount(0);
 		responseFrame.setSuccess(false);
 		responseFrame.setData(e.getMessage());
 

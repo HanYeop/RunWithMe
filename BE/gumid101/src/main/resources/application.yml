@@ -35,7 +35,7 @@ logging:
   level:
     org:
       hibernate: info
-    root: debug
+    root: info
 server:
   servlet:
     context-path: /api

@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,12 +17,13 @@ import lombok.Setter;
 @Table(name = "t_img")
 @Getter
 @Setter
+@Builder
 public class ImageFileEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "img_seq")
-	private long img_seq;
+	private Long img_seq;
 
 	@Column(name = "img_original_name")
 	private String img_original_name;
