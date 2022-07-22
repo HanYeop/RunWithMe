@@ -3,12 +3,14 @@ package com.ssafy.gumid101.req;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class ProfileEditDto {
 
 	private String nickName;
-	private String height;
-	private String weight;
-	MultipartFile imageFile;
+	private Integer height;
+	private Integer  weight;
 }

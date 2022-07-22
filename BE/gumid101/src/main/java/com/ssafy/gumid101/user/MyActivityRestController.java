@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -36,6 +37,7 @@ public class MyActivityRestController {
 
 	/**
 	 * 토큰으로 부터 유저 DTO 로드
+	 * 
 	 * @return
 	 */
 	private UserDto loadUserFromToken() {
@@ -43,33 +45,38 @@ public class MyActivityRestController {
 		UserDto tokenUser = (UserDto) autentication.getPrincipal();
 		return tokenUser;
 	}
+
 	/**
 	 * 자신의 프로필 조회
 	 * 
 	 * @return
 	 */
-	@ApiOperation(value= "자신의 회원 정보 조회/프로필 조회")
+	@ApiOperation(value = "자신의 회원 정보 조회/프로필 조회")
 	@GetMapping("/profile")
 	public ResponseEntity<?> getMyProfile() throws Exception {
 
 		UserDto userDto = loadUserFromToken();
-		
+
 		UserDto resUserDto = userService.getUserProfileById(userDto.getId());
-		
+
 		ResponseFrame<UserDto> resFrame = new ResponseFrame<UserDto>();
-		
-		resFrame.setCount(resUserDto == null ? 0:1);
-		resFrame.setSuccess(resUserDto == null ? false:true);
+
+		resFrame.setCount(resUserDto == null ? 0 : 1);
+		resFrame.setSuccess(resUserDto == null ? false : true);
 		resFrame.setData(resUserDto);
 
-		return new ResponseEntity<>(resFrame, resUserDto != null ?  HttpStatus.OK:HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(resFrame, resUserDto != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
 	}
 
-	@ApiOperation(value= "자신의 프로필 수정")
-	@PatchMapping("/profile")
-	public ResponseEntity<?> editMyProfile(@ModelAttribute ProfileEditDto profileEditDto) {
+	@ApiOperation(value = "자신의 프로필 수정")
+	@PostMapping("/profile")
+	public ResponseEntity<?> editMyProfile(@ModelAttribute ProfileEditDto profile,
+			@RequestPart(value = "imgFile") MultipartFile imgFile) throws Exception {
+
+		UserDto userDto = loadUserFromToken();
+		userDto.setHeight(profile.getHeight());
 		
-		System.out.println(profileEditDto);
+		userService.editMyProfile(userDto,imgFile);
 		return null;
 	}
 

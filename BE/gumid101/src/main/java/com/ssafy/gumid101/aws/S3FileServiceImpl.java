@@ -42,7 +42,7 @@ public class S3FileServiceImpl implements S3FileService {
 		multipartFile.getOriginalFilename();
 		
 		
-		String savedFileName = savedPath+ File.separator+UUID.randomUUID().toString() ;
+		String savedFileName = savedPath+ "/"+UUID.randomUUID().toString() ;
 		
 		
 		
@@ -63,7 +63,7 @@ public class S3FileServiceImpl implements S3FileService {
 		//사실상 savedpath 
 		
 		//유저는 /images/{imgseq}
-		
+
 		return imagePath;
     }
 	
