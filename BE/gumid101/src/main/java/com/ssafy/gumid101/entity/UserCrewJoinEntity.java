@@ -15,12 +15,14 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "t_crew_user")
 public class UserCrewJoinEntity {
