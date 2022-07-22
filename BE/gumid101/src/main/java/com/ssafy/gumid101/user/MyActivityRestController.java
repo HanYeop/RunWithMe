@@ -8,21 +8,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.dto.RecordParamsDto;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.req.ProfileEditDto;
 import com.ssafy.gumid101.res.ResponseFrame;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/my-activity")
+@Api(tags = "내정보 관련 컨트롤러")
 public class MyActivityRestController {
 
 	private final UserService userService;
@@ -41,6 +48,7 @@ public class MyActivityRestController {
 	 * 
 	 * @return
 	 */
+	@ApiOperation(value= "자신의 회원 정보 조회/프로필 조회")
 	@GetMapping("/profile")
 	public ResponseEntity<?> getMyProfile() throws Exception {
 
@@ -57,8 +65,11 @@ public class MyActivityRestController {
 		return new ResponseEntity<>(resFrame, resUserDto != null ?  HttpStatus.OK:HttpStatus.BAD_REQUEST);
 	}
 
+	@ApiOperation(value= "자신의 프로필 수정")
 	@PatchMapping("/profile")
-	public ResponseEntity<?> editMyProfile() {
+	public ResponseEntity<?> editMyProfile(@ModelAttribute ProfileEditDto profileEditDto) {
+		
+		System.out.println(profileEditDto);
 		return null;
 	}
 
