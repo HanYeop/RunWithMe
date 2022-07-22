@@ -1,8 +1,8 @@
 package com.ssafy.runwithme.model.dto
 
+import com.google.gson.annotations.SerializedName
+
 data class UserAuthorization(
-    val msg: String,
-    val isRegistered: Boolean,
-    val email: String,
-    val jwtToken: String
+    @SerializedName("location")
+    val location: String
 )

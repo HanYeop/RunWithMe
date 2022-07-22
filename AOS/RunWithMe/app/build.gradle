@@ -94,4 +94,7 @@ dependencies {
 
     // SimpleRatingBar
     implementation 'com.github.ome450901:SimpleRatingBar:1.5.1'
+
+    // auth
+    implementation "com.google.android.gms:play-services-auth:20.2.0"
 }

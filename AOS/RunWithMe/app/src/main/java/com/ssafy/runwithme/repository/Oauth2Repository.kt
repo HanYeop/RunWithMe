@@ -11,7 +11,7 @@ class Oauth2Repository @Inject constructor(
 ){
     fun googleLogin() = flow<String> {
         oauth2RemoteDataSource.googleLogin().collect {
-            emit(it)
+            emit(it.toString())
         }
     }.catch { e ->
         emit(e.toString())
