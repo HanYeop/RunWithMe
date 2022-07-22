@@ -28,8 +28,7 @@ public class MyActivityRestController {
 	private final UserService userService;
 
 	/**
-	 * 자신의 프로필 조회
-	 * 
+	 * 토큰으로 부터 유저 DTO 로드
 	 * @return
 	 */
 	private UserDto loadUserFromToken() {
@@ -37,7 +36,11 @@ public class MyActivityRestController {
 		UserDto tokenUser = (UserDto) autentication.getPrincipal();
 		return tokenUser;
 	}
-
+	/**
+	 * 자신의 프로필 조회
+	 * 
+	 * @return
+	 */
 	@GetMapping("/profile")
 	public ResponseEntity<?> getMyProfile() throws Exception {
 
