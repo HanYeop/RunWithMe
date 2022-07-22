@@ -29,7 +29,7 @@
             <TextView
                 android:id="@+id/text"
                 style="@style/toolbar_text"
-                android:text="크루원 모집하기" />
+                android:text="내 크루 목록" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 
