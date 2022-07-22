@@ -39,6 +39,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
+                <TextView
+                    android:id="@+id/tv_my_total_record_header"
+                    android:layout_marginStart="@dimen/header_margin"
+                    android:layout_marginTop="20dp"
+                    style="@style/header_text"
+                    android:text="누적 기록" />
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_info"
                     android:layout_width="match_parent"
