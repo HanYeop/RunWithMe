@@ -6,7 +6,9 @@ import android.widget.ArrayAdapter
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentUserJoinBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UserJoinFragment : BaseFragment<FragmentUserJoinBinding>(R.layout.fragment_user_join) {
     override fun init() {
         initSpinner() // 키와 몸무게 스피너 값 넣기
