@@ -33,7 +33,6 @@ public class S3FileServiceImpl implements S3FileService {
 	/**
 	 * 
 	 * @param multipartFile 저장될 파일 
-	 * @param savedFileName 저장될 파일의 이름,호출하는데서 만들어서 보내주세요
 	 * @param savedPath 저장될 파일의 엣지까지의 디렉토리
 	 * @return
 	 * @throws IOException
@@ -43,7 +42,7 @@ public class S3FileServiceImpl implements S3FileService {
 		multipartFile.getOriginalFilename();
 		
 		
-		String savedFileName = savedPath+ File.separator+UUID.randomUUID().toString() ;
+		String savedFileName = savedPath+ "/"+UUID.randomUUID().toString() ;
 		
 		
 		
@@ -64,12 +63,12 @@ public class S3FileServiceImpl implements S3FileService {
 		//사실상 savedpath 
 		
 		//유저는 /images/{imgseq}
-		
+
 		return imagePath;
     }
 	
 	public InputStream getObject(String storedFileName) throws IOException {
-		
+	      //  Content-Type : image/jpeg 
         S3Object o = amazonS3Client.getObject(new GetObjectRequest(bucket, storedFileName));
         //
         
@@ -80,7 +79,7 @@ public class S3FileServiceImpl implements S3FileService {
        // byte[] bytes = IOUtils.toByteArray(objectInputStream);
  
         //String fileName = URLEncoder.encode(storedFileName, "UTF-8").replaceAll("\\+", "%20");
-        
+
        // HttpHeaders httpHeaders = new HttpHeaders();
        // httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
        // httpHeaders.setContentLength(bytes.length);

@@ -59,7 +59,7 @@ public class UserEntity {
 	@Column(nullable = true, name = "user_weight")
 	private Integer weight;
 
-	@Column(name = "user_point")
+	@Column(name = "user_point",nullable = false,columnDefinition = "Int default 0")
 	private Integer point;
 
 	@Column(name = "user_fcm_token")
