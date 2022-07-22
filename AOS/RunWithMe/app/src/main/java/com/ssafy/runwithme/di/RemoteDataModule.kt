@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ssafy.runwithme.api.Oauth2Api
 import com.ssafy.runwithme.utils.BASE_URL
+import com.ssafy.runwithme.utils.XAccessTokenInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +19,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RemoteDataModule {
 
-    // Interceptor DI
+    // HttpLoggingInterceptor DI
     @Provides
     @Singleton
     fun provideInterceptor(): HttpLoggingInterceptor {
@@ -28,8 +29,10 @@ object RemoteDataModule {
     // OkHttpClient DI
     @Provides
     @Singleton
-    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor, ): OkHttpClient {
+    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor
+    ,xAccessTokenInterceptor: XAccessTokenInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
+//            .addNetworkInterceptor(xAccessTokenInterceptor)
             .addInterceptor(httpLoggingInterceptor)
             .build()
     }
