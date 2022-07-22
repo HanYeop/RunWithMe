@@ -78,7 +78,9 @@ public class MyActivityRestController {
 			@RequestPart(value = "imgFile") MultipartFile imgFile) throws Exception {
 
 		UserDto userDto = loadUserFromToken();
+		userDto.setWeight(profile.getWeight());
 		userDto.setHeight(profile.getHeight());
+		userDto.setNickName(profile.getNickName());
 		
 		UserFileDto userFileDto= userService.editMyProfile(userDto,imgFile);
 		

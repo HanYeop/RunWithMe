@@ -9,8 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -18,6 +20,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ImageFileEntity {
 
 	@Id
@@ -27,13 +31,13 @@ public class ImageFileEntity {
 
 	@Column(name = "img_original_name")
 	private String img_original_name;
-	
+
 	@Column(name = "img_saved_name")
 	private String img_saved_name;
-	
+
 	@Column(name = "img_saved_path")
 	private String img_saved_path;
-	
+
 	@Column(name = "img_reg_time")
 	private LocalDateTime img_reg_time;
 }
