@@ -54,6 +54,7 @@ public class UserRestController {
 
 		ResponseFrame<Integer> responseFrame = new ResponseFrame<>();
 
+		responseFrame.setMsg(String.format("동일 닉네임 갯수 : %d" , count));
 		responseFrame.setCount(count);
 		responseFrame.setData(count);
 		responseFrame.setSuccess(true);
@@ -97,6 +98,7 @@ public class UserRestController {
 			responseMap.setCount(0);
 			responseMap.setSuccess(false);
 			responseMap.setData(dataMap);
+			responseMap.setMsg("초기 프로필/회원 가입 실패");
 		} else {
 			String token = jwtUtilService.createToken(savedDto);
 			dataMap.put(JwtProperties.JWT_ACESS_NAME, token);
@@ -104,6 +106,7 @@ public class UserRestController {
 			responseMap.setData(dataMap);
 			responseMap.setCount(1);
 			responseMap.setSuccess(true);
+			responseMap.setMsg("초기프로필설정/회원 가입 성공");
 		}
 
 		return new ResponseEntity<>(responseMap, httpStatus);
