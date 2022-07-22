@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Getter;
@@ -41,6 +42,7 @@ public class AchievementEntity {
 	@Column(name="achieve_value")
 	private Double achiveValue;
 	
+	@CreatedDate
 	@Column(name="achieve_reg_time")
 	private LocalDateTime achieveRegTime;
 }
