@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.gumid101.customexception.DuplicateException;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.req.ProfileEditDto;
+import com.ssafy.gumid101.res.UserFileDto;
 
 @Service
 public interface UserService {
@@ -28,7 +29,7 @@ public interface UserService {
 
 	UserDto getUserProfileById(Long id)throws Exception;
 
-	boolean editMyProfile(UserDto userDto, MultipartFile imgFile)throws Exception;
+	UserFileDto editMyProfile(UserDto userDto, MultipartFile imgFile)throws Exception;
 
 
 }

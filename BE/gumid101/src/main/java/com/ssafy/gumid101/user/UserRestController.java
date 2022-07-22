@@ -125,7 +125,7 @@ public class UserRestController {
 	{
 		ResponseFrame<String> responseFrame = new ResponseFrame<String>();
 
-		responseFrame.setCount(1);
+		responseFrame.setCount(0);
 		responseFrame.setSuccess(false);
 		responseFrame.setData(e.getMessage());
 

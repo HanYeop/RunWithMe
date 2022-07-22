@@ -2,11 +2,13 @@ package com.ssafy.gumid101.user;
 
 import java.util.Map;
 
+import org.apache.http.annotation.Experimental;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.gumid101.customexception.ThirdPartyException;
 import com.ssafy.gumid101.dto.RecordParamsDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.req.ProfileEditDto;
 import com.ssafy.gumid101.res.ResponseFrame;
+import com.ssafy.gumid101.res.UserFileDto;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -76,8 +80,15 @@ public class MyActivityRestController {
 		UserDto userDto = loadUserFromToken();
 		userDto.setHeight(profile.getHeight());
 		
-		userService.editMyProfile(userDto,imgFile);
-		return null;
+		UserFileDto userFileDto= userService.editMyProfile(userDto,imgFile);
+		
+		ResponseFrame<UserFileDto> res = new ResponseFrame<>();
+		
+		res.setCount(userFileDto == null ?  0 : 1);
+		res.setData(userFileDto);
+		res.setSuccess(userFileDto == null ?  false: true);
+		
+		return new ResponseEntity<>(res,HttpStatus.OK);
 	}
 
 	/**
@@ -124,4 +135,16 @@ public class MyActivityRestController {
 		return null;
 	}
 
+	@ExceptionHandler(ThirdPartyException.class)
+	public ResponseEntity<?> thirdParthExceptionHandle(ThirdPartyException e){
+		
+		ResponseFrame<?> res = new ResponseFrame<>();
+		
+		res.setCount(0);
+		res.setData(null);
+		res.setSuccess(false);
+		
+		return new ResponseEntity<>(res,HttpStatus.INTERNAL_SERVER_ERROR);
+		
+	}
 }

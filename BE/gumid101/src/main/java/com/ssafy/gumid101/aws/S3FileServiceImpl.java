@@ -17,6 +17,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.util.IOUtils;
+import com.ssafy.gumid101.dto.ImageFileDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,13 +38,12 @@ public class S3FileServiceImpl implements S3FileService {
 	 * @return
 	 * @throws IOException
 	 */
-	public String upload(MultipartFile multipartFile,String savedPath) throws Exception{
+	public ImageFileDto upload(MultipartFile multipartFile,String savedPath) throws Exception{
 		
 		multipartFile.getOriginalFilename();
 		
 		
-		String savedFileName = savedPath+ "/"+UUID.randomUUID().toString() ;
-		
+		String savedFileName = UUID.randomUUID().toString() ;
 		
 		
 		long size = multipartFile.getSize(); // 파일 크기
@@ -58,13 +58,15 @@ public class S3FileServiceImpl implements S3FileService {
 				.withCannedAcl(CannedAccessControlList.PublicRead)
 		);
 		
-		String imagePath = amazonS3Client.getUrl(bucket, savedFileName).toString(); // 접근가능한 URL 가져오기
+		String imagePath = amazonS3Client.getUrl(bucket,savedPath+ "/" +savedFileName).toString(); // 접근가능한 URL 가져오기
 
+		log.info("S3 버켓({}) <={}",bucket,imagePath);
 		//사실상 savedpath 
 		
 		//유저는 /images/{imgseq}
 
-		return imagePath;
+		
+		return ImageFileDto.builder().imgSavedName(savedFileName).imgSavedPath(savedPath).build();
     }
 	
 	public InputStream getObject(String storedFileName) throws IOException {
