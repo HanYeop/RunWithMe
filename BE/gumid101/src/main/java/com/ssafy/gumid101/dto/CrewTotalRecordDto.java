@@ -20,19 +20,19 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CrewTotalRecordDto implements Serializable {
 
-	private long totalRecordSeq;
+	private Long totalRecordSeq;
 
-	private int totalTime;
+	private Integer totalTime;
 
-	private double totalDistance;
+	private Integer totalDistance;
 
-	private int totalLongestTime;
+	private Integer totalLongestTime;
 	
-	private double totalLongestDistance;
+	private Integer totalLongestDistance;
 	
-	private double totalAvgSpeed;
+	private Double totalAvgSpeed;
 	
-	private double totalCalorie;
+	private Double totalCalorie;
 	
 	public static CrewTotalRecordDto of(CrewTotalRecordEntity crewTotalRecord) {
 		return new CrewTotalRecordDtoBuilder()

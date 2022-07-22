@@ -30,23 +30,23 @@ public class CrewTotalRecordEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long totalRecoredSeq;
 	
-	@Column(name = "total_calorie")
-	private double totalCalorie;
+	@Column(nullable = false, name = "total_calorie")
+	private Double totalCalorie;
 	
-	@Column(name = "total_distance")
-	private double totalDistance;
+	@Column(nullable = false, name = "total_distance")
+	private Integer totalDistance;
 
-	@Column(name = "total_time")
-	private int totalTime;
+	@Column(nullable = false, name = "total_time")
+	private Integer totalTime;
 	
-	@Column(name = "total_longest_time")
-	private int totalLongestTime;
+	@Column(nullable = false, name = "total_longest_time")
+	private Integer totalLongestTime;
 	
-	@Column(name = "total_longest_distance")
-	private int totalLongestDistance;
+	@Column(nullable = false, name = "total_longest_distance")
+	private Integer totalLongestDistance;
 
-	@Column(name = "total_avg_speed")
-	private double totalAvgSpeed;
+	@Column(nullable = false, name = "total_avg_speed")
+	private Double totalAvgSpeed;
 
 	@ManyToOne
 	@JoinColumn(name = "user_seq")
@@ -56,7 +56,7 @@ public class CrewTotalRecordEntity {
 	@JoinColumn(name = "crew_seq")
 	private CrewEntity crewEntity;
 	
-	@Column(name = "total_record_reg_time")
+	@Column(nullable = false, name = "total_record_reg_time")
 	@CreatedDate
 	private LocalDateTime totalRecordRegTime;
 }

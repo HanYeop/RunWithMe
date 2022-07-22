@@ -20,15 +20,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RecordParamsDto implements Serializable {
-	private long userSeq;
+	private Long userSeq;
 	
-	private long crewSeq;
+	private Long crewSeq;
 	
-	private int size;
+	private Integer size;
 	
-	private int offset;
+	private Integer offset;
 	
-	private int year;
+	private Integer year;
 	
-	private int month;
+	private Integer month;
 }

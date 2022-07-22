@@ -20,11 +20,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TrackBoardDto implements Serializable {
 
-	private long trackBoardSeq;
+	private Long trackBoardSeq;
 	
-	private int trackBoardHardPoint;
+	private Integer trackBoardHardPoint;
 	
-	private int trackBoardEnvironmentPoint;
+	private Integer trackBoardEnvironmentPoint;
 	
 	public static TrackBoardDto of(TrackBoardEntity trackBoard) {
 		return new TrackBoardDtoBuilder()

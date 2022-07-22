@@ -28,17 +28,17 @@ public class ReportEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "report_seq")
-	private long reportSeq;
+	private Long reportSeq;
 
-	@Column(name = "report_content")
+	@Column(nullable = false, name = "report_content")
 	private String reportContent;
 	
-	@Column(name = "report_status")
+	@Column(nullable = false, name = "report_status")
 	private String reportStatus;
 
 	// 이거 일부러 외래키 안 한댔음.
-	@Column(name = "report_crew_board_seq")
-	private int reportCrewBoardSeq;
+	@Column(nullable = false, name = "report_crew_board_seq")
+	private Long reportCrewBoardSeq;
 
 	@ManyToOne
 	@JoinColumn(name = "reporter_seq")
@@ -48,7 +48,7 @@ public class ReportEntity {
 	@JoinColumn(name = "target_seq")
 	private UserEntity userTargetEntity;
 	
-	@Column(name = "report_reg_time")
+	@Column(nullable = false, name = "report_reg_time")
 	@CreatedDate
 	private LocalDateTime reportRegTime;
 }

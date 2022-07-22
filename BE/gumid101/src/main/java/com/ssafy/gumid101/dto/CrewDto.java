@@ -22,17 +22,17 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CrewDto implements Serializable {
 
-	private long crewSeq;
+	private Long crewSeq;
 
 	private String crewName;
 	
 	private String crewDescription;
 	
-	private int crewGoalDays;
+	private Integer crewGoalDays;
 	
 	private String crewGoalType;
 	
-	private double crewGoalAmount;
+	private Integer crewGoalAmount;
 	
 	private LocalDateTime crewDateStart;
 	
@@ -44,9 +44,9 @@ public class CrewDto implements Serializable {
 
 	private String crewPassword;
 	
-	private int crewCost;
+	private Integer crewCost;
 	
-	private int crewMaxMember;
+	private Integer crewMaxMember;
 	
 	public static CrewDto of(CrewEntity crew) {
 		return new CrewDtoBuilder().crewSeq(crew.getCrewSeq()).crewCost(crew.getCrewCost()).crewDateEnd(crew.getCrewDateEnd()).crewDateStart(crew.getCrewDateEnd())

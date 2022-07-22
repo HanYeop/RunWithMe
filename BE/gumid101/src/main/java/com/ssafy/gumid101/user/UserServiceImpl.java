@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserFileDto editMyProfile(UserDto userDto, MultipartFile imgFile) throws Exception {
 
-		UserEntity userEntity = userRepo.findById(userDto.getId())
+		UserEntity userEntity = userRepo.findById(userDto.getUserSeq())
 				.orElseThrow(() -> new NotFoundUserException("해당 유저를 찾을 수 없습니다."));
 
 		userEntity.setHeight(userDto.getHeight());
@@ -97,8 +97,8 @@ public class UserServiceImpl implements UserService {
 			throw new ThirdPartyException("S3 Buket 파일 업로드 중 오류가 발생하였습니다.");
 		}
 
-		ImageFileEntity imageEntity = ImageFileEntity.builder().img_original_name(imgFile.getOriginalFilename())
-				.img_saved_name(imageFileDto.getImgSavedName()).img_saved_path(imageFileDto.getImgSavedPath()).build();
+		ImageFileEntity imageEntity = ImageFileEntity.builder().imgOriginalName(imgFile.getOriginalFilename())
+				.imgSavedName(imageFileDto.getImgSavedName()).imgSavedPath(imageFileDto.getImgSavedPath()).build();
 
 		imageRepo.save(imageEntity);
 
