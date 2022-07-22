@@ -61,7 +61,7 @@ public class MyActivityRestController {
 
 		UserDto userDto = loadUserFromToken();
 
-		UserDto resUserDto = userService.getUserProfileById(userDto.getId());
+		UserDto resUserDto = userService.getUserProfileById(userDto.getUserSeq());
 
 		ResponseFrame<UserDto> resFrame = new ResponseFrame<UserDto>();
 

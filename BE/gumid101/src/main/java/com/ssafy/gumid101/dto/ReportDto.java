@@ -20,13 +20,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ReportDto implements Serializable {
 
-	private long reportSeq;
+	private Long reportSeq;
 	
 	private String reportContent;
 	
 	private String reportStatus;
 	
-	private long reportCrewBoardSeq;
+	private Long reportCrewBoardSeq;
 	
 	public static ReportDto of(ReportEntity report) {
 		return new ReportDtoBuilder()

@@ -1,6 +1,7 @@
 package com.ssafy.gumid101.dto;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import com.ssafy.gumid101.entity.AchievementEntity;
 
@@ -20,13 +21,15 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AchievementDto implements Serializable {
 
-	private long achieveSeq;
+	private Long achieveSeq;
 	
 	private String achieveName;
 	
 	private String achieveType;
 	
-	private double achieveValue;
+	private Double achieveValue;
+	
+	private LocalDateTime achieveRegTime;
 	
 	public static AchievementDto of(AchievementEntity achieve) {
 		return new AchievementDtoBuilder()
@@ -34,6 +37,7 @@ public class AchievementDto implements Serializable {
 				.achieveName(achieve.getAchieveName())
 				.achieveType(achieve.getAchieveType())
 				.achieveValue(achieve.getAchiveValue())
+				.achieveRegTime(achieve.getAchieveRegTime())
 				.build();
 	}
 }

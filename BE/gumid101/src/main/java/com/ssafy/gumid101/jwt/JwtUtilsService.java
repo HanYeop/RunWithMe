@@ -61,7 +61,7 @@ public class JwtUtilsService {
     		map.put("userSeq", "");
     		map.put("role", Role.TEMP.getKey());
     	}else {
-    		map.put("userSeq", user.getId().toString());
+    		map.put("userSeq", user.getUserSeq().toString());
     		map.put("role",user.getRole().getKey());	
     	}
     	
