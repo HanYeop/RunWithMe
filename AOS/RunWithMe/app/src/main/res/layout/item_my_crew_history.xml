@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_my_crew_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/header_margin"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="@dimen/header_margin"
+        android:backgroundTint="#F7F7F7"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:layout_marginHorizontal="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="구미 SSAFY 크루"
+                android:fontFamily="@font/noto_sans_bold"
+                android:textColor="@color/black_high_emphasis"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="목표 달성율"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/noto_sans_bold"
+                    android:textColor="@color/black_high_emphasis"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    tools:text="80%"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/noto_sans_bold"
+                    android:textColor="@color/black_high_emphasis"/>
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progress_bar_crew_history"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progressTint="@color/mainColor"
+                android:scaleY="2"
+                android:progress="80" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="상세 보기"
+                android:textSize="10sp"
+                android:fontFamily="@font/noto_sans_bold"
+                android:textColor="@color/black_high_emphasis"/>
+
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</layout>
