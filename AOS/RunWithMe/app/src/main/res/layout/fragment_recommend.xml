@@ -30,19 +30,39 @@
 
         </com.google.android.material.appbar.MaterialToolbar>
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout_recommend"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="추천 화면 입니다."
-            android:textColor="@color/black_high_emphasis"
-            android:fontFamily="@font/noto_sans_regular"
-            android:textSize="32sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:tabTextAppearance="@style/tab_text"
+            app:tabBackground="@color/white"
+            app:tabIndicatorColor="@color/mainColor"
+            app:tabTextColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_admin_recommend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지도" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_user_recommend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="유저 추천" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <FrameLayout
+            android:id="@+id/frame_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tab_layout_recommend" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -81,7 +81,7 @@
                     app:layout_constraintTop_toTopOf="@id/tv_user_name"
                     app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
                     app:layout_constraintEnd_toStartOf="@id/tv_user_total_type"
-                    android:text="144.8" />
+                    tools:text="144.8" />
 
                 <TextView
                     android:id="@+id/tv_user_total_type"
@@ -94,7 +94,7 @@
                     app:layout_constraintTop_toTopOf="@id/tv_user_name"
                     app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:text="km" />
+                    tools:text="km" />
 
 
 
