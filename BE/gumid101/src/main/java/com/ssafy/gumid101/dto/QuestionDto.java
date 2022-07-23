@@ -20,7 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class QuestionDto implements Serializable {
 
-	private long questionSeq;
+	private Long questionSeq;
 	
 	private String questionContent;
 	

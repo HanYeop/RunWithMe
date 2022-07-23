@@ -21,23 +21,23 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RunRecordDto implements Serializable {
 
-	private long runRecordSeq;
+	private Long runRecordSeq;
 
 	private LocalDateTime runRecordStartTime;
 	
 	private LocalDateTime runRecordEndTime;
 	
-	private int runRecordRunningTime;
+	private Integer runRecordRunningTime;
 
-	private double runRecordRunningDistance;
+	private Integer runRecordRunningDistance;
 	
-	private double runRecordRunningAvgSpeed;
+	private Double runRecordRunningAvgSpeed;
 	
-	private double runRecordRunningCalorie;
+	private Double runRecordRunningCalorie;
 	
-	private double runRecordRunningLat;
+	private Double runRecordRunningLat;
 	
-	private double runRecordRunningLng;
+	private Double runRecordRunningLng;
 	
 	private String runRecordRunningCompleteYN;
 	

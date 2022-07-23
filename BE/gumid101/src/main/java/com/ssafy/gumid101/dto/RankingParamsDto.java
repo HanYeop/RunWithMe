@@ -20,13 +20,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RankingParamsDto implements Serializable {
-	private long userSeq;
+	private Long userSeq;
 	
-	private long crewSeq;
+	private Long crewSeq;
 	
-	private int size;
+	private Integer size;
 	
-	private int offset;
+	private Integer offset;
 	
 	private String type;
 }

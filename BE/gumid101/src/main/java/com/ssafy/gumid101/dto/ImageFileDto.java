@@ -20,7 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ImageFileDto implements Serializable {
 
-    private long imgSeq;
+    private Long imgSeq;
 
     private String imgOriginalName;
     
@@ -30,10 +30,10 @@ public class ImageFileDto implements Serializable {
     
     public static ImageFileDto of(ImageFileEntity imageFile) {
         return new ImageFileDtoBuilder()
-                .imgSeq(imageFile.getImg_seq())
-                .imgOriginalName(imageFile.getImg_original_name())
-                .imgSavedName(imageFile.getImg_saved_name())
-                .imgSavedPath(imageFile.getImg_saved_path())
+                .imgSeq(imageFile.getImgSeq())
+                .imgOriginalName(imageFile.getImgOriginalName())
+                .imgSavedName(imageFile.getImgSavedName())
+                .imgSavedPath(imageFile.getImgSavedPath())
                 .build();
     }
 }

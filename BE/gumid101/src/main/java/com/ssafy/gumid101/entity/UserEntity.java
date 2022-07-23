@@ -46,9 +46,8 @@ public class UserEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_seq")
-	private Long id;
+	private Long userSeq;
 
-	// 이미지 테이블이랑 관꼐 만들어야함
 	@Column(nullable = true, name = "user_nickname")
 	private String nickName;
 
@@ -61,13 +60,13 @@ public class UserEntity {
 	@Column(nullable = true, name = "user_weight")
 	private Integer weight;
 
-	@Column(name = "user_point",nullable = false,columnDefinition = "Int default 0")
+	@Column(nullable = false, name = "user_point", columnDefinition = "Int default 0")
 	private Integer point;
 
-	@Column(name = "user_fcm_token")
+	@Column(nullable = true, name = "user_fcm_token")
 	private String fcmToken;
 
-	@Column(name = "user_delete_yn", columnDefinition = "varchar(10) default 'N'")
+	@Column(nullable = false, name = "user_delete_yn", columnDefinition = "varchar(10) default 'N'")
 	private String userState;
 
 	@Enumerated(EnumType.STRING)
@@ -81,24 +80,28 @@ public class UserEntity {
 	@JoinColumn(name = "img_seq")
 	@OneToOne
 	private ImageFileEntity imageFile;
-
 	
 	@OneToMany(mappedBy = "userEntity")
-	private List<RunRecordEntity> runRecordEntity;
+	private List<AchievementCompleteEntity> achievementCompleteEntitys;
 	
 	@OneToMany(mappedBy = "userEntity")
-	private List<UserCrewJoinEntity> userCrewJoins;
+	private List<CrewTotalRecordEntity> crewTotalRecordEntitys;
 	
 	@OneToMany(mappedBy = "userEntity")
-	private List<CrewBoardEntity> crewBoards;
+	private List<RunRecordEntity> runRecordEntitys;
 	
 	@OneToMany(mappedBy = "userEntity")
-	private List<AchievementCompleteEntity> achievementCompleteList;
-	
-	
+	private List<UserCrewJoinEntity> userCrewJoinEntitys;
 	
 	@OneToMany(mappedBy = "userEntity")
-	private List<CrewTotalRecordEntity> crewTotalRecordEntity;
+	private List<CrewBoardEntity> crewBoardEntitys;
+	
+	@OneToMany(mappedBy = "userReporterEntity")
+	private List<ReportEntity> reportEntitys;
+	
+	@OneToMany(mappedBy = "userEntity")
+	private List<QuestionEntity> questionEntitys;
+	
 	
 
 	@PrePersist

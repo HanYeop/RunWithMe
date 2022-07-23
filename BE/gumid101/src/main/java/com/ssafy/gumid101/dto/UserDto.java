@@ -21,7 +21,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserDto implements Serializable {
 
-	private Long id;
+	private Long userSeq;
 
 	private String nickName;
 
@@ -40,7 +40,7 @@ public class UserDto implements Serializable {
 	private Role role;
 
 	public static UserDto of(UserEntity user) {
-		return new UserDtoBuilder().id(user.getId()).nickName(user.getNickName()).email(user.getEmail())
+		return new UserDtoBuilder().userSeq(user.getUserSeq()).nickName(user.getNickName()).email(user.getEmail())
 				.height(user.getHeight()).weight(user.getWeight()).point(user.getPoint()).fcmToken(user.getFcmToken())
 				.userState(user.getUserState()).role(user.getRole()).build();
 	}

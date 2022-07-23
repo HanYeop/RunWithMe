@@ -15,12 +15,14 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "t_crew_user")
 public class UserCrewJoinEntity {
@@ -38,8 +40,8 @@ public class UserCrewJoinEntity {
 	@JoinColumn(name = "crew_seq")
 	private CrewEntity crewEntity;
 	
-	@Column(name="crew_user_reg_time")
+	@Column(nullable = false, name="crew_user_reg_time")
 	@CreatedDate
-	private LocalDateTime joinTime;
+	private LocalDateTime crewUserRegTime;
 	
 }

@@ -29,19 +29,19 @@ public class QuestionEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "question_seq")
-	private long questionSeq;
+	private Long questionSeq;
 
-	@Column(name = "question_content")
+	@Column(nullable = false, name = "question_content")
 	private String questionContent;
 	
-	@Column(name = "question_status")
+	@Column(nullable = false, name = "question_status")
 	private String questionStatus;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_seq")
 	private UserEntity userEntity;
 	
-	@Column(name = "question_reg_time")
+	@Column(nullable = false, name = "question_reg_time")
 	@CreatedDate
 	private LocalDateTime questionRegTime;
 }

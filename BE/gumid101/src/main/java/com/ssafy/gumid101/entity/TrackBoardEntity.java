@@ -10,10 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.ssafy.gumid101.user.Role;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -37,15 +40,21 @@ public class TrackBoardEntity {
 	
 	@JoinColumn(name="run_record_seq")
 	@ManyToOne
-	private RunRecordEntity runRecord;
+	private RunRecordEntity runRecordEntity;
 	
-	@Column(name="track_board_hard_point")
-	private int trackBoardHardPoint;
+	@Column(nullable = true, name="track_board_hard_point")
+	private Integer trackBoardHardPoint;
 	
-	@Column(name="track_board_enviroment_point")
-	private int trackBoardEnviromentPoint;
+	@Column(nullable = true, name="track_board_enviroment_point")
+	private Integer trackBoardEnviromentPoint;
+
+	@PrePersist
+	public void setting() {
+		this.trackBoardHardPoint = 5;
+		this.trackBoardEnviromentPoint = 5;
+	}
 	
 	@CreatedDate
-	@Column(name="track_board_reg_time")
+	@Column(nullable = false, name="track_board_reg_time")
 	private LocalDateTime trackBoardRegTime;
 }
