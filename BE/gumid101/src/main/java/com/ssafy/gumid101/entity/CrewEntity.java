@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,13 +23,14 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 public class CrewEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "crew_seq")
-	private long crewSeq;
+	private Long crewSeq;
 	
 	@Column(name="crew_name")
 	private String crewName;

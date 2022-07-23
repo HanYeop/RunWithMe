@@ -28,7 +28,7 @@ public class UserCrewJoinEntity {
 	@Id
 	@Column(name="crew_user_seq")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int crewUserSeq;
+	private Long crewUserSeq;
 
 	@ManyToOne
 	@JoinColumn(name="user_seq")
