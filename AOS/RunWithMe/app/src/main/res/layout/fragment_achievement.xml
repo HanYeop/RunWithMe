@@ -7,11 +7,6 @@
 
     </data>
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -275,9 +270,5 @@
                 tools:listitem="@layout/item_my_crew_history" />
 
         </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-
 
 </layout>
