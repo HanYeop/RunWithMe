@@ -16,8 +16,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import com.ssafy.gumid101.crew.CrewManagerRepository;
 import com.ssafy.gumid101.crew.UserCrewJoinRepository;
+import com.ssafy.gumid101.crew.manager.CrewManagerRepository;
 import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.UserCrewJoinEntity;
 import com.ssafy.gumid101.entity.UserEntity;

@@ -1,4 +1,4 @@
-package com.ssafy.gumid101.crew;
+package com.ssafy.gumid101.crew.manager;
 
 
 import java.time.LocalDateTime;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.aws.S3FileService;
+import com.ssafy.gumid101.crew.UserCrewJoinRepository;
 import com.ssafy.gumid101.customexception.IllegalParameterException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.dto.CrewDto;
