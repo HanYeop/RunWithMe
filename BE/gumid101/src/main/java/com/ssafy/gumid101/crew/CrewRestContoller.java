@@ -1,15 +1,22 @@
 package com.ssafy.gumid101.crew;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.gumid101.customexception.CrewNotFoundException;
+import com.ssafy.gumid101.customexception.PasswrodNotMatchException;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.res.CrewUserDto;
+import com.ssafy.gumid101.res.ResponseFrame;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
@@ -34,15 +41,34 @@ public class CrewRestContoller {
 		return null;
 	}
 	
-	@PostMapping("")
-	public  ResponseEntity<?>  jonCrew(@PathVariable(required = true) long crewId,@RequestBody String passwrod ) {
+	@PostMapping("/{crewId}/join")
+	public  ResponseEntity<?>  jonCrew(@PathVariable(required = true) long crewId,@RequestBody String passwrod ) throws Exception {
 		
 		UserDto userDto =  loadUserFromToken();
 		
-		//int result = crewService.joinCrew(userDto.getUserSeq(),crewId,passwrod);
+		CrewUserDto result = crewService.joinCrew(userDto.getUserSeq(),crewId,passwrod);
 		
+		ResponseFrame<CrewUserDto> res = ResponseFrame.of(result, 1, "사용자의 크루 가입 성공");
 		
-		//return new ResponseEntity<T>();
-		return null;
+		return new ResponseEntity<>(res,HttpStatus.OK);
+	}
+	
+	@ExceptionHandler(UsernameNotFoundException.class)
+	public ResponseEntity<?> userSeqNotFoundHandler(UsernameNotFoundException e){ 
+		return new ResponseEntity<>(ResponseFrame.of(false, e.getMessage()),HttpStatus.FORBIDDEN);
+	}
+	
+	@ExceptionHandler(CrewNotFoundException.class)
+	public ResponseEntity<?> crewSeqNotFoundHandler(UsernameNotFoundException e){ 
+		
+		return new ResponseEntity<>(ResponseFrame.of(false, e.getMessage()),HttpStatus.FORBIDDEN);
+	
+	}
+	
+	@ExceptionHandler(PasswrodNotMatchException.class)
+	public ResponseEntity<?> crewSeqNotFoundHandler(PasswrodNotMatchException e){ 
+		
+		return new ResponseEntity<>(ResponseFrame.of(false, e.getMessage()),HttpStatus.FORBIDDEN);
+	
 	}
 }

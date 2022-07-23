@@ -12,4 +12,6 @@ public interface CrewManagerService {
 	CrewFileDto createCrew(MultipartFile image, CrewDto crewDto, UserDto tokenUser) throws Exception;
 	
 	List<CrewDto> getMyCurrentCruew(Long userSeq) throws Exception;
+
+	int deleteCrew(long crewSeq, long userSeq)throws Exception;
 }

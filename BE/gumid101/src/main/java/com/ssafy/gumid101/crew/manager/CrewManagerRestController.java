@@ -109,8 +109,19 @@ public class CrewManagerRestController {
 		return new ResponseEntity<>(responseMap, httpStatus);
 	}
 	
+	/**
+	 * 크루 삭제하기 , 크루장만 가능 , 조건 - 시작일 전만
+	 * @param crewSeq
+	 * @return
+	 * @throws Exception 
+	 */
 	@DeleteMapping("/crew/{crewSeq}")
-	public RequestEntity<?> deleteCrew(@PathVariable long crewSeq){
+	public RequestEntity<?> deleteCrew(@PathVariable(required = true) long crewSeq) throws Exception{
+		
+		UserDto userDto = loadUserFromToken();
+		
+		crewManagerService.deleteCrew(crewSeq,userDto.getUserSeq());
+		
 		return null;
 	}
 	
