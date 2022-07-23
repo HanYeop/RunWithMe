@@ -2,6 +2,7 @@ package com.ssafy.runwithme.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.ssafy.runwithme.api.CrewManagerApi
 import com.ssafy.runwithme.api.Oauth2Api
 import com.ssafy.runwithme.utils.BASE_URL
 import com.ssafy.runwithme.utils.XAccessTokenInterceptor
@@ -60,5 +61,12 @@ object RemoteDataModule {
     @Singleton
     fun provideOauth2Api(retrofit: Retrofit): Oauth2Api {
         return retrofit.create(Oauth2Api::class.java)
+    }
+
+    // CrewMangerApi DI
+    @Provides
+    @Singleton
+    fun provideCrewMangerApi(retrofit: Retrofit): CrewManagerApi {
+        return retrofit.create(CrewManagerApi::class.java)
     }
 }

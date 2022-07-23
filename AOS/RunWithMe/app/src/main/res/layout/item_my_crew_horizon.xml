@@ -5,7 +5,9 @@
     >
 
     <data>
-
+        <variable
+            name="myCurrentCrewResponse"
+            type="com.ssafy.runwithme.model.dto.MyCurrentCrewResponse" />
     </data>
 
     <LinearLayout
@@ -50,6 +52,7 @@
                     android:textColor="@color/black_high_emphasis"
                     android:fontFamily="@font/noto_sans_bold"
                     android:includeFontPadding="false"
+                    android:text="@{myCurrentCrewResponse.name}"
                     tools:text="TSLA"
                     app:layout_constraintEnd_toEndOf="@+id/image_crew"
                     app:layout_constraintStart_toStartOf="@+id/image_crew"
@@ -63,6 +66,8 @@
                     android:textColor="@color/black_medium_emphasis"
                     android:fontFamily="@font/noto_sans_bold"
                     android:includeFontPadding="false"
+                    app:startTime="@{myCurrentCrewResponse.timeStart}"
+                    app:endTime="@{myCurrentCrewResponse.timeEnd}"
                     tools:text="09 : 00 ~ 10 : 00"
                     app:layout_constraintEnd_toEndOf="@+id/tv_crew_name"
                     app:layout_constraintStart_toStartOf="@+id/tv_crew_name"
