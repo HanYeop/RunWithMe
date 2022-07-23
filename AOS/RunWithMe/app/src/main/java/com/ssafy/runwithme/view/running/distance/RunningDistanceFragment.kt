@@ -29,7 +29,7 @@ class RunningDistanceFragment : BaseFragment<FragmentRunningDistanceBinding>(R.l
 
     override fun init() {
         sumDistance = updateDistance()
-        binding.tvCurrentTime.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
+        binding.tvDistance.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
 
         initLiveData()
     }
@@ -99,5 +99,13 @@ class RunningDistanceFragment : BaseFragment<FragmentRunningDistanceBinding>(R.l
             distance += result[0]
         }
         return distance
+    }
+
+    // 백그라운드 상태에서 돌아왔을 때 거리 표시
+    override fun onResume() {
+        // 거리 텍스트 동기화
+        sumDistance = updateDistance()
+        binding.tvDistance.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
+        super.onResume()
     }
 }

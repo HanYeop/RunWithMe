@@ -1,6 +1,7 @@
 package com.ssafy.runwithme.view.running
 
 import android.content.Intent
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.ssafy.runwithme.R
@@ -37,15 +38,21 @@ class RunningFragment : BaseFragment<FragmentRunningBinding>(R.layout.fragment_r
         initClickListener()
 
         firstStart()
+
+        // 위치 추적 여부 관찰하여 updateTracking 호출
+        RunningService.isTracking.observe(this){
+            updateTracking(it)
+        }
     }
 
     private fun firstStart(){
         if(!RunningService.isFirstRun){
             runningLoadingDialog = RunningLoadingDialog(requireContext())
-            sendCommandToService(ACTION_SHOW_RUNNING_ACTIVITY)
             runningLoadingDialog.show()
             CoroutineScope(Dispatchers.Main).launch {
-                delay(3500L)
+                delay(3000L)
+                sendCommandToService(ACTION_SHOW_RUNNING_ACTIVITY)
+                delay(500L)
                 runningLoadingDialog.dismiss()
                 sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
             }
@@ -80,6 +87,23 @@ class RunningFragment : BaseFragment<FragmentRunningBinding>(R.layout.fragment_r
         }
     }
 
+    // 위치 추적 상태에 따른 레이아웃 변경
+    private fun updateTracking(isTracking: Boolean) {
+        this.isTracking = isTracking
+        binding.apply {
+            if (!isTracking) {
+                imgPause.visibility = View.INVISIBLE
+                imgStart.visibility = View.VISIBLE
+                imgStop.visibility = View.VISIBLE
+            }
+            else if (isTracking) {
+                imgPause.visibility = View.VISIBLE
+                imgStart.visibility = View.GONE
+                imgStop.visibility = View.GONE
+            }
+        }
+    }
+
     private fun initClickListener(){
         // 스타트 버튼 클릭 시 서비스를 시작함
         binding.apply {
@@ -88,10 +112,9 @@ class RunningFragment : BaseFragment<FragmentRunningBinding>(R.layout.fragment_r
                 if(isTracking) {
                     sendCommandToService(ACTION_PAUSE_SERVICE)
                 }
-                // 아니라면 실행
-                else{
-                    sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
-                }
+            }
+            imgStart.setOnClickListener {
+                sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
             }
             imgStop.setOnClickListener {
                 stopRun()

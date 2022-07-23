@@ -16,7 +16,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RunWithMe"
-        android:launchMode="singleTask"
         android:usesCleartextTraffic="true">
         <service
             android:name=".service.RunningService"
@@ -25,7 +24,8 @@
         <activity
             android:name=".view.running.RunningActivity"
             android:exported="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
