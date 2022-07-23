@@ -1,6 +1,7 @@
 package com.ssafy.runwithme.view.home
 
 import android.content.Intent
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.runwithme.R
@@ -12,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
-    private val homeViewModel by viewModels<HomeViewModel>()
+    private val homeViewModel by activityViewModels<HomeViewModel>()
     private val homeMyCurrentCrewAdapter = HomeMyCurrentCrewAdapter()
 
     override fun init() {
@@ -31,7 +32,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             tvMyCurrentCrew.setOnClickListener {
                 startActivity(Intent(requireContext(),RunningActivity::class.java))
             }
-            tvCrewMore.setOnClickListener {
+            tvCrewMore.setOnClickListener { // 받은 데이터 그대로 이동
                 findNavController().navigate(R.id.action_HomeFragment_to_myCurrentCrewFragment)
             }
             tvRankingMore.setOnClickListener {

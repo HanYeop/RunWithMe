@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.runwithme.model.dto.MyCurrentCrewResponse
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.view.home.HomeMyCurrentCrewAdapter
+import com.ssafy.runwithme.view.home.my_crew.MyCurrentCrewAdapter
 
 object RecyclerViewBinding {
 
@@ -16,6 +17,9 @@ object RecyclerViewBinding {
         if (result is Result.Success) {
             when (view.adapter) {
                 is HomeMyCurrentCrewAdapter -> {
+                    (view.adapter as ListAdapter<Any, *>).submitList(result.data as List<MyCurrentCrewResponse>)
+                }
+                is MyCurrentCrewAdapter -> {
                     (view.adapter as ListAdapter<Any, *>).submitList(result.data as List<MyCurrentCrewResponse>)
                 }
             }

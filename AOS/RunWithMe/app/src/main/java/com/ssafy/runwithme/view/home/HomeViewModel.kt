@@ -3,6 +3,7 @@ package com.ssafy.runwithme.view.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.annotations.SerializedName
+import com.ssafy.runwithme.R
 import com.ssafy.runwithme.model.dto.MyCurrentCrewResponse
 import com.ssafy.runwithme.repository.CrewManagerRepository
 import com.ssafy.runwithme.utils.Result
@@ -33,8 +34,8 @@ class HomeViewModel @Inject constructor(
         // TEST
         _myCurrentCrewList.value = Result.Success(
             listOf(
-                MyCurrentCrewResponse(1, "test", 1, 6, "시간", 20, "09 : 00", "10 : 00", false)
-                ,MyCurrentCrewResponse(1, "test", 1, 6, "시간", 20, "09 : 00", "10 : 00", false)
+                MyCurrentCrewResponse(1, "감크루", "감스트", "안녕하세요 감크루입니다", 1, 6, "시간", 20, "09 : 00", "10 : 00", "2022/07/01", "2022/08/19",false)
+                ,MyCurrentCrewResponse(1, "철크루", "철구", "안녕하세요 철크루입니다",1, 6, "시간", 20, "09 : 00", "10 : 00", "2022/07/15", "2022/08/30", false)
         ))
     }
 }

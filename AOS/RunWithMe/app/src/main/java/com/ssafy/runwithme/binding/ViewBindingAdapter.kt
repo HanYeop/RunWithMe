@@ -14,6 +14,22 @@ object ViewBindingAdapter {
         this.text = "$timeStart ~ $timeEnd"
     }
 
+    @BindingAdapter("startDay", "endDay")
+    @JvmStatic
+    fun TextView.setDay(dayStart : String, dayEnd : String){
+        this.text = "$dayStart ~ $dayEnd"
+    }
+
+    @BindingAdapter("goalType", "goalAmount")
+    @JvmStatic
+    fun TextView.setAmount(goalType : String, goalAmount : Int){
+        if(goalType == "시간"){
+            this.text = "$goalAmount 분씩"
+        } else {
+            this.text = "$goalAmount Km"
+        }
+    }
+
     @BindingAdapter("crewHorizonImage")
     @JvmStatic
     fun ImageView.setSearchImage (imageUrl: Any){

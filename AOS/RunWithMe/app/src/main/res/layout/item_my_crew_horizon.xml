@@ -52,7 +52,7 @@
                     android:textColor="@color/black_high_emphasis"
                     android:fontFamily="@font/noto_sans_bold"
                     android:includeFontPadding="false"
-                    android:text="@{myCurrentCrewResponse.name}"
+                    android:text="@{myCurrentCrewResponse.crewName}"
                     tools:text="TSLA"
                     app:layout_constraintEnd_toEndOf="@+id/image_crew"
                     app:layout_constraintStart_toStartOf="@+id/image_crew"
