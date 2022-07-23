@@ -1,5 +1,7 @@
 package com.ssafy.gumid101.config;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gumid101.OAuth.CustomOAuth2UserService;
+import com.ssafy.gumid101.OAuth.CustomOAuthLoginValidateFilter;
 import com.ssafy.gumid101.OAuth.OAuth2SuccessHandler;
 import com.ssafy.gumid101.jwt.JwtAuthFilter;
 import com.ssafy.gumid101.jwt.JwtUtilsService;
@@ -50,10 +53,11 @@ public class SecurityConfig {
 
 	@Bean
 	public WebSecurityCustomizer WebSecurityCustomizer() {
-		return (web)-> web.ignoring().antMatchers("/images/**","/swagger-ui/**","/swagger-resources/**","/v2/api-docs");
-			
+		return (web)-> web.ignoring().antMatchers("/test","/test/**","/images/**","/swagger-ui/**","/swagger-resources/**","/v2/api-docs");
+	
 	}
 
+	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager)
 			throws Exception {
@@ -64,12 +68,15 @@ public class SecurityConfig {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 스프링 시큐리티 컨텍스트 홀더 세션 사용 안함
 
 		// oath 사용한다고 설정,
-		http.oauth2Login().loginPage("/token/expired").successHandler(successHandler).userInfoEndpoint()
-				.userService(oAuth2UserService);
+		//http.oauth2Login().successHandler(successHandler).userInfoEndpoint()
+		//		.userService(oAuth2UserService);
 
+		
 		http.addFilterBefore(new JwtAuthFilter(jwtUtilService, userRepo, mapper),
 				UsernamePasswordAuthenticationFilter.class);
-
+		
+		http.addFilterBefore(new CustomOAuthLoginValidateFilter( successHandler),JwtAuthFilter.class);
+		
 		http.authorizeHttpRequests((authz) -> {
 			authz.antMatchers("/user/profile").hasRole(Role.TEMP.toString());
 
