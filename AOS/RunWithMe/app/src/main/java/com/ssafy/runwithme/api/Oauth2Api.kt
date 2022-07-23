@@ -7,7 +7,7 @@ import retrofit2.http.Query
 interface Oauth2Api {
 
     @GET("login/oauth2/code/google")
-    suspend fun googleLogin(@Query("code") code: String, @Query("state") state: String)
+    suspend fun googleLogin(@Query("code") code: String)
 
     @GET("oauth2/authorization/naver")
     suspend fun naverLogin(@Query("token") token: String)

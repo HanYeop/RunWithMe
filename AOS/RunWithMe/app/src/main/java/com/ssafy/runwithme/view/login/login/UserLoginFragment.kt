@@ -55,6 +55,7 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
             .requestScopes(Scope(Scopes.EMAIL))
             .requestServerAuthCode(resources.getString(R.string.google_client_key))
             .requestEmail()
+            .requestIdToken(getString(R.string.google_client_key))
             .build()
 
         val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
@@ -69,8 +70,9 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(it.data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                val accessToken = account.serverAuthCode!!
+                val accessToken = account.idToken!!
                 showToast(accessToken)
+
                 userViewModel.googleLogin(accessToken)
                 Log.d("test5", ":$accessToken ")
             } catch (e: ApiException) {

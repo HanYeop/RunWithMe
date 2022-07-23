@@ -9,6 +9,6 @@ class Oauth2RemoteDataSource @Inject constructor(
     private val oauth2Api: Oauth2Api
 ){
     fun googleLogin(token: String): Flow<String> = flow {
-        emit(oauth2Api.googleLogin(token,"ttta").toString())
+        emit(oauth2Api.googleLogin(token).toString())
     }
 }
