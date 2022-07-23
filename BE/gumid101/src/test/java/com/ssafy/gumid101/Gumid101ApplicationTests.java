@@ -2,7 +2,6 @@ package com.ssafy.gumid101;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,10 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.ssafy.gumid101.crew.CrewManagerRepository;
@@ -78,7 +74,7 @@ class Gumid101ApplicationTests {
 		List<UserCrewJoinEntity> ss =ucrRepo.findAll();
 		
 		ss.forEach((item)->{
-			System.out.println(item.getJoinTime()+"----"+item.getCrewUserSeq());
+			System.out.println(item.getCrewUserRegTime()+"----"+item.getCrewUserSeq());
 		});
 		
 		
