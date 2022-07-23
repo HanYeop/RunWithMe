@@ -28,6 +28,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 public class CrewEntity {
 

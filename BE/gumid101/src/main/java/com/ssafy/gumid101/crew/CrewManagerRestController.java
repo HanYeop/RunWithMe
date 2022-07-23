@@ -1,5 +1,9 @@
 package com.ssafy.gumid101.crew;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -38,8 +42,23 @@ public class CrewManagerRestController {
 	private final JwtUtilsService jwtUtilService;
 	private final CrewManagerService crewManagerService;
 	
+	private UserDto loadUserFromToken() {
+		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDto tokenUser = (UserDto) autentication.getPrincipal();
+		return tokenUser;
+	}
+	/**
+	 * 
+	 * @return
+	 * @throws Exception 
+	 */
+	@ApiOperation(value="진행 중인 내 크루보기")
 	@GetMapping("/my-current-crew")
-	public RequestEntity<?> getMyCurrentCrew(){
+	public RequestEntity<?> getMyCurrentCrew() throws Exception{
+		
+		UserDto userDto= loadUserFromToken();
+		
+		List<CrewDto> crewList =  crewManagerService.getMyCurrentCruew(userDto.getId());
 		return null;
 	}
 	

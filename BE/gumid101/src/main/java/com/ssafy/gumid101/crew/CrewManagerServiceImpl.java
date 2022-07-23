@@ -1,5 +1,6 @@
 package com.ssafy.gumid101.crew;
 
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import javax.transaction.Transactional;
@@ -35,6 +36,23 @@ public class CrewManagerServiceImpl implements CrewManagerService{
 	private final UserCrewJoinRepository userCrewJoinRepository;
 	private final S3FileService s3FileService;
 	private final ImageFileRepository imageRepo;
+		@Override
+	public List<CrewDto> getMyCurrentCruew(Long userSeq) throws Exception {
+		// new jpabook.jpashop.repository.order.simplequery.
+		// OrderSimpleQueryDto(o.id, m.name, o.status, o.orderDate, d.address)
+
+		UserEntity user = userRepo.findById(userSeq).orElseThrow(() -> {
+			return new NotFoundUserException("나의 현재 진행중 크루를 찾는 중, 유저를 특정할 수 없습니다.");
+		});
+		
+		List<CrewEntity> crews = cmRepo.findByUserSeqActive(user, LocalDateTime.now());
+
+		List<CrewDto> crewList = crews.stream().map((entity) -> {
+			return CrewDto.of(entity);
+		}).collect(Collectors.toList());
+
+		return crewList;
+	}
 	
 	@Transactional
 	@Override
@@ -126,4 +144,5 @@ public class CrewManagerServiceImpl implements CrewManagerService{
 	}
 	
 	
+>>>>>>> BE/gumid101/src/main/java/com/ssafy/gumid101/crew/CrewManagerServiceImpl.java
 }
