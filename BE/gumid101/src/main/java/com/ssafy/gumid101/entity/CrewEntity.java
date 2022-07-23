@@ -24,7 +24,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Table(name="t_crew")
-@Builder
+@Builder()
 @Entity
 @Getter
 @Setter
