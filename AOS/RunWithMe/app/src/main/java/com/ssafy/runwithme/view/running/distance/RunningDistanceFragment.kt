@@ -27,6 +27,9 @@ class RunningDistanceFragment : BaseFragment<FragmentRunningDistanceBinding>(R.l
     // 총 이동거리
     private var sumDistance = 0f
 
+    // TEST : 1분
+    private val goal = 60 * 1000L
+
     override fun init() {
         sumDistance = updateDistance()
         binding.tvDistance.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
@@ -50,6 +53,9 @@ class RunningDistanceFragment : BaseFragment<FragmentRunningDistanceBinding>(R.l
             currentTimeInMillis = it
             val formattedTime = TrackingUtility.getFormattedStopWatchTime(it, true)
             binding.tvCurrentTime.text = formattedTime
+
+            // 프로그래스바 진행도 변경
+            if(it > 0) binding.progressBar.progress = (it / (goal / 100)).toInt()
         }
     }
 
