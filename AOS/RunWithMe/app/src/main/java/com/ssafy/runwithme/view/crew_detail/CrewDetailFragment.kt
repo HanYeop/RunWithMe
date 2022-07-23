@@ -15,6 +15,22 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
             toolbar.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
+
+            tvMyRecordMore.setOnClickListener {
+                findNavController().navigate(R.id.action_crewDetailFragment_to_crewMyRunRecordFragment)
+            }
+
+            tvRankingMore.setOnClickListener {
+                findNavController().navigate(R.id.action_crewDetailFragment_to_crewUserRankingFragment)
+            }
+
+            tvBoardMore.setOnClickListener {
+                findNavController().navigate(R.id.action_crewDetailFragment_to_crewBoardFragment)
+            }
+
+            tvRankingMore.setOnClickListener {
+                findNavController().navigate(R.id.action_crewDetailFragment_to_crewUserRankingFragment)
+            }
         }
     }
 }

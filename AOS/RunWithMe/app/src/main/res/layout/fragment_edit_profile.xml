@@ -160,7 +160,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/edit_join_weight" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_join"
+                android:id="@+id/btn_modify"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"

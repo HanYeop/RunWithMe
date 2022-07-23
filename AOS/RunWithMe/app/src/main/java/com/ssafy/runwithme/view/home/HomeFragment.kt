@@ -34,6 +34,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             tvCrewMore.setOnClickListener {
                 findNavController().navigate(R.id.action_HomeFragment_to_myCurrentCrewFragment)
             }
+            tvRankingMore.setOnClickListener {
+                findNavController().navigate(R.id.action_HomeFragment_to_totalUserRankingFragment)
+            }
+
         }
     }
 }

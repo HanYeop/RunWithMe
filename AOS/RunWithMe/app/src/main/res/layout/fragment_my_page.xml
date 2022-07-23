@@ -114,6 +114,7 @@
                 app:layout_constraintTop_toTopOf="@+id/tv_user_weight" />
 
             <ImageView
+                android:id="@+id/image_edit_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_create_24"

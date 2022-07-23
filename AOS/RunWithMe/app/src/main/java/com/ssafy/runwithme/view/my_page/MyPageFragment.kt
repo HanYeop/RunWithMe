@@ -1,6 +1,7 @@
 package com.ssafy.runwithme.view.my_page
 
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
@@ -16,6 +17,18 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
     override fun init() {
         initTabLayout()
+        initClickListener()
+    }
+
+    private fun initClickListener() {
+        binding.apply {
+            imageSettings.setOnClickListener {
+                findNavController().navigate(R.id.action_MyPageFragment_to_othersFragment)
+            }
+            imageEditProfile.setOnClickListener {
+                findNavController().navigate(R.id.action_MyPageFragment_to_editProfileFragment)
+            }
+        }
     }
 
     // 각 탭에 들어갈 프레그먼트 객체화

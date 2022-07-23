@@ -3,12 +3,14 @@ package com.ssafy.runwithme.view.home.ranking
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.navigation.fragment.findNavController
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentTotalUserRankingBinding
 
 class TotalUserRankingFragment : BaseFragment<FragmentTotalUserRankingBinding>(R.layout.fragment_total_user_ranking) {
     override fun init() {
+        initClickListener()
 
         binding.spinnerTotalUserRanking.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(
@@ -25,6 +27,13 @@ class TotalUserRankingFragment : BaseFragment<FragmentTotalUserRankingBinding>(R
             }
 
         }
+    }
 
+    private fun initClickListener() {
+        binding.apply {
+            toolbar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
     }
 }
