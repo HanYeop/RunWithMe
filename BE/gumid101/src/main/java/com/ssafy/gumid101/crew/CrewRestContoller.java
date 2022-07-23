@@ -18,6 +18,7 @@ import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.res.CrewUserDto;
 import com.ssafy.gumid101.res.ResponseFrame;
 
+import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
@@ -40,7 +41,7 @@ public class CrewRestContoller {
 		//return new ResponseEntity<T>();
 		return null;
 	}
-	
+	@ApiOperation(value = "크루가입")
 	@PostMapping("/{crewId}/join")
 	public  ResponseEntity<?>  jonCrew(@PathVariable(required = true) long crewId,@RequestBody String passwrod ) throws Exception {
 		

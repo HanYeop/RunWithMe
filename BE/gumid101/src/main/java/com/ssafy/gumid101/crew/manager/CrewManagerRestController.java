@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.gumid101.customexception.CrewPermissonDeniedException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.dto.CrewDto;
 import com.ssafy.gumid101.dto.RecruitmentParamsDto;
@@ -115,14 +116,17 @@ public class CrewManagerRestController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@ApiOperation(value = "크루장이 크루 해체")
 	@DeleteMapping("/crew/{crewSeq}")
-	public RequestEntity<?> deleteCrew(@PathVariable(required = true) long crewSeq) throws Exception{
+	public ResponseEntity<?> deleteCrew(@PathVariable(required = true) long crewSeq) throws Exception{
 		
 		UserDto userDto = loadUserFromToken();
 		
-		crewManagerService.deleteCrew(crewSeq,userDto.getUserSeq());
+		int result = crewManagerService.deleteCrew(crewSeq,userDto.getUserSeq());
 		
-		return null;
+		ResponseFrame<Integer> res = ResponseFrame.of(result,result,"크루장의 크루삭제가 완료되었습니다.");
+		
+		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 	
 	@GetMapping("/crew/{crewSeq}")
@@ -130,19 +134,48 @@ public class CrewManagerRestController {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param crewSeq
+	 * @param password
+	 * @return
+	 */
 	@PostMapping("/crew/{crewSeq}/user")
 	public RequestEntity<?> joinCrew(@PathVariable long crewSeq, @RequestParam String password){
-		return null;
+		return null;//이거 crewController에 있는 듯?
 	}
 	
+	/**
+	 * 크루원이 크루 시작전 크루 탈퇴
+	 * @param crewSeq
+	 * @return
+	 * @throws Exception 
+	 */
 	@DeleteMapping("/crew/{crewSeq}/user")
-	public RequestEntity<?> exitCrew(@PathVariable long crewSeq){
-		return null;
+	public ResponseEntity<?> exitCrew(@PathVariable long crewSeq) throws Exception{
+		UserDto user =  loadUserFromToken();
+		
+		int result = crewManagerService.exitCrew(crewSeq,user.getUserSeq());
+		
+		ResponseFrame<?> frame;
+		if(1==result) {
+			frame = ResponseFrame.of(result, result, "정상적으로 탈퇴되었습니다.");
+		}else {
+			frame = ResponseFrame.of(false, "탈퇴 중에 오류 발생");
+		}
+		
+		return new ResponseEntity<>(frame,HttpStatus.OK);
 	}
 	
 	
 	@ExceptionHandler(NotFoundUserException.class)
 	public ResponseEntity<?> userNofoundControll(NotFoundUserException nue){
+		
+		return new ResponseEntity<>(ResponseFrame.of(false, nue.getMessage()),HttpStatus.FORBIDDEN);
+	}
+	
+	@ExceptionHandler(CrewPermissonDeniedException.class)
+	public ResponseEntity<?> crewPermisionDnieHandler(NotFoundUserException nue){
 		
 		return new ResponseEntity<>(ResponseFrame.of(false, nue.getMessage()),HttpStatus.FORBIDDEN);
 	}

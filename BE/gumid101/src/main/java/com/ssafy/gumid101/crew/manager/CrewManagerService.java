@@ -14,4 +14,6 @@ public interface CrewManagerService {
 	List<CrewDto> getMyCurrentCruew(Long userSeq) throws Exception;
 
 	int deleteCrew(long crewSeq, long userSeq)throws Exception;
+
+	int exitCrew(long crewSeq, Long userSeq)throws Exception;
 }

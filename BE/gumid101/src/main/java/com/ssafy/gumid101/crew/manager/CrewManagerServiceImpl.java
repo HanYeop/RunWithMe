@@ -130,6 +130,9 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		return new CrewFileDto(crewDto.of(crewEntity), savedFileDto);
 	}
 
+	/**
+	 * return 0 실패 , 0!= 성공
+	 */
 	@Transactional
 	@Override
 	public int deleteCrew(long crewSeq, long userSeq) throws Exception {
@@ -139,10 +142,9 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		CrewEntity crew = crewManagerRepo.findById(crewSeq)
 				.orElseThrow(() -> new CrewNotFoundException("크루 삭제중,크루를 특정할 수 없습니다."));
 
-		if (crew.getManagerEntity().getUserSeq().longValue()==userSeq) {
-			if ( LocalDateTime.now().isAfter(crew.getCrewDateStart())) {
-				int refundcount = userCrewJoinRepository.pointRefunds(crew,crew.getCrewCost());
-				// 포인트 환급 로직 추후 추가####
+		if (crew.getManagerEntity().getUserSeq().longValue() == userSeq) {
+			if (LocalDateTime.now().isAfter(crew.getCrewDateStart())) {
+				int refundcount = userCrewJoinRepository.pointRefunds(crew, crew.getCrewCost());
 				int deletedJoin = userCrewJoinRepository.deleteAllBycrewSeq(crew);
 				crewManagerRepo.delete(crew);
 				log.info("{}로 부터의 -환급 갯수 :{}, 탈퇴 갯수{}", crew.getCrewSeq(), refundcount, deletedJoin);
@@ -154,6 +156,32 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 			throw new CrewPermissonDeniedException("크루장이 아니면 크루를 삭제할 수 없습니다.");
 		}
 
-		return 0;
+		return 1;
 	}
+
+	@Override
+	public int exitCrew(long crewSeq, Long userSeq) throws Exception {
+
+		UserEntity user = userRepo.findById(userSeq)
+				.orElseThrow(() -> new UsernameNotFoundException("크루 탈퇴 중,유저를 특정할 수 없습니다."));
+		CrewEntity crew = crewManagerRepo.findById(crewSeq)
+				.orElseThrow(() -> new CrewNotFoundException("크루 탈퇴 중,크루를 특정할 수 없습니다."));
+
+		int result = 0;
+
+		if (LocalDateTime.now().isAfter(crew.getCrewDateStart())) {
+
+			user.setPoint(user.getPoint() + crew.getCrewCost()); //탈퇴 포인트 환급
+			result = userCrewJoinRepository.deleteByUserAndCrew(user, crew);//유저와 크루 참가 관계 삭제
+
+		} else {
+			throw new CrewPermissonDeniedException("이미 시작한 크루는 탈퇴할 수 없습니다.");
+		}
+
+		if (result != 1) {
+			log.error("해당 오류가 났다는 것은 데이터 무결성이 깨졌다는 것을 의미한다. result = {}", result);
+		}
+		return result;
+	}
+
 }

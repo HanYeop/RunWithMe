@@ -34,6 +34,8 @@ public class CrewServiceImpl implements CrewService {
 		UserEntity user = userRepo.findById(userSeq).orElseThrow(()->new UsernameNotFoundException("크루 가입 중 유저를 특정할 수 없습니다."));
 		CrewEntity crew = crewManagerRepo.findById(crewId).orElseThrow(()->new CrewNotFoundException("크루 가입 중, 크루를 특정할 수 없습니다."));
 		
+		//가입비 내는 거 구현 안되있다.####
+		
 		if(Strings.hasLength(crew.getCrewPassword()) ) {
 			if(crew.getCrewPassword().compareTo(password)!=0) {
 				throw new PasswrodNotMatchException("크루 패스워드 불일치");
