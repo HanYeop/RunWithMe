@@ -18,6 +18,7 @@ import com.ssafy.runwithme.databinding.ActivityRunningBinding
 import com.ssafy.runwithme.service.Polyline
 import com.ssafy.runwithme.service.RunningService
 import com.ssafy.runwithme.utils.*
+import com.ssafy.runwithme.view.running.result.RunningResultActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -252,10 +253,14 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             tvTabGoal.setOnClickListener {
                 layoutMap.visibility = View.GONE
                 layoutGoal.visibility = View.VISIBLE
+                tvTabGoal.setTextColor(resources.getColor(R.color.mainColor))
+                tvTabMap.setTextColor(resources.getColor(R.color.black_high_emphasis))
             }
             tvTabMap.setOnClickListener {
                 layoutMap.visibility = View.VISIBLE
                 layoutGoal.visibility = View.GONE
+                tvTabGoal.setTextColor(resources.getColor(R.color.black_high_emphasis))
+                tvTabMap.setTextColor(resources.getColor(R.color.mainColor))
             }
         }
     }
@@ -277,6 +282,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
     // 달리기 종료
     private fun stopRun() {
         sendCommandToService(ACTION_STOP_SERVICE)
+        startActivity(Intent(this,RunningResultActivity::class.java))
         finish()
     }
 

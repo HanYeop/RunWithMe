@@ -12,26 +12,46 @@
         android:layout_height="match_parent"
         tools:context=".view.run_record_detail.RunRecordDetailFragment">
 
-        <TextView
-            android:id="@+id/tv_running_result_name"
-            style="@style/header_text"
-            android:layout_marginTop="20dp"
-            android:text="2022년 1월 1일 러닝 상세기록...."
-            android:textSize="24sp"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/toolbar_margin"
+            android:layout_marginTop="@dimen/toolbar_margin"
+            android:layout_marginEnd="@dimen/toolbar_margin"
+            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
+
+            <TextView
+                android:id="@+id/text"
+                style="@style/toolbar_text"
+                android:text="러닝 상세 정보" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <TextView
+            android:id="@+id/tv_record_name"
+            style="@style/header_text"
+            android:layout_marginTop="10dp"
+            android:text="2020년 1월 1일 러닝 기록"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <ImageView
             android:id="@+id/img_result"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_running_result_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_record_name"
             app:srcCompat="@drawable/img" />
 
         <TextView
@@ -47,7 +67,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/header_margin"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="@dimen/header_margin"
             android:backgroundTint="#F7F7F7"
             app:cardCornerRadius="16dp"
@@ -175,22 +195,23 @@
             android:id="@+id/btn_ok"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/btn_round_main_color"
             android:fontFamily="@font/noto_sans_bold"
             android:includeFontPadding="false"
             android:text="확인"
             android:textColor="@color/white"
-            android:layout_marginEnd="20dp"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_recommend"
-            app:layout_constraintStart_toStartOf="@+id/card_info"
-            app:layout_constraintTop_toBottomOf="@+id/card_info" />
+            app:layout_constraintStart_toStartOf="@+id/card_info" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_recommend"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/btn_round_main_color"
             android:fontFamily="@font/noto_sans_bold"
             android:includeFontPadding="false"
@@ -200,8 +221,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/card_info"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btn_ok"
-            app:layout_constraintTop_toBottomOf="@+id/card_info" />
+            app:layout_constraintStart_toEndOf="@+id/btn_ok" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

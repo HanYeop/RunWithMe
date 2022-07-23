@@ -17,6 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RunWithMe"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".view.running.result.RunningResultActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+
         <service
             android:name=".service.RunningService"
             android:foregroundServiceType="location" />
@@ -24,8 +29,8 @@
         <activity
             android:name=".view.running.RunningActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -54,7 +59,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
