@@ -23,6 +23,7 @@ import com.ssafy.gumid101.jwt.JwtUtilsService;
 import com.ssafy.gumid101.res.CrewFileDto;
 import com.ssafy.gumid101.res.ResponseFrame;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/crew-manager")
 @RequiredArgsConstructor
+@Api(tags = "크루 관리 컨트롤러")
 @Slf4j
 public class CrewManagerRestController {
 
@@ -64,25 +66,21 @@ public class CrewManagerRestController {
 		UserDto managerDto = (UserDto) autentication.getPrincipal();
 		HttpStatus httpStatus = HttpStatus.OK;
 		ResponseFrame<CrewFileDto> responseMap = new ResponseFrame<>();
-		if (crewDto.getCrewCost() > managerDto.getPoint()) {
+		
+		CrewFileDto crewFileDto = null;
+		try {
+			crewFileDto = crewManagerService.createCrew(image, crewDto, managerDto);
+		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseMap.setCount(0);
 			responseMap.setSuccess(false);
-			responseMap.setData(null);
-			responseMap.setMsg("포인트가 부족합니다.");
-			return new ResponseEntity<>(responseMap, httpStatus);
+			responseMap.setMsg(e.getMessage());
 		}
 		
-		CrewFileDto crewFileDto = crewManagerService.createCrew(image, crewDto, managerDto);
-		
-		if (crewFileDto == null) {
-			httpStatus = HttpStatus.CONFLICT;
-			responseMap.setCount(0);
-			responseMap.setSuccess(false);
-			responseMap.setMsg("입력된 조건을 확인해주세요.");
-		} else {
+		if (crewFileDto != null) {
 			responseMap.setCount(1);
 			responseMap.setSuccess(true);
+			responseMap.setMsg("크루 생성에 성공했습니다.");
 		}
 		responseMap.setData(crewFileDto);
 		return new ResponseEntity<>(responseMap, httpStatus);
