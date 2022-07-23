@@ -13,8 +13,10 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.ssafy.runwithme.base.BaseActivity
 import com.ssafy.runwithme.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 import github.com.st235.lib_expandablebottombar.navigation.ExpandableBottomBarNavigationUI
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private lateinit var navController : NavController

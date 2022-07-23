@@ -13,10 +13,12 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeViewModel by viewModels<HomeViewModel>()
+    private val homeMyCurrentCrewAdapter = HomeMyCurrentCrewAdapter()
 
     override fun init() {
         binding.apply {
             homeVM = homeViewModel
+            recyclerMyCrewHorizon.adapter = homeMyCurrentCrewAdapter
         }
 
         homeViewModel.getMyCurrentCrew()

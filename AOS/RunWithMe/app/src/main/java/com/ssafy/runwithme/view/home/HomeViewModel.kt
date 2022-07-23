@@ -2,6 +2,7 @@ package com.ssafy.runwithme.view.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.annotations.SerializedName
 import com.ssafy.runwithme.model.dto.MyCurrentCrewResponse
 import com.ssafy.runwithme.repository.CrewManagerRepository
 import com.ssafy.runwithme.utils.Result
@@ -23,10 +24,17 @@ class HomeViewModel @Inject constructor(
     val myCurrentCrewList get() = _myCurrentCrewList.asStateFlow()
 
     fun getMyCurrentCrew(){
-        viewModelScope.launch(Dispatchers.IO) {
-            crewManagerRepository.getMyCurrentCrew().collect{
-                _myCurrentCrewList.value = it
-            }
-        }
+//        viewModelScope.launch(Dispatchers.IO) {
+//            crewManagerRepository.getMyCurrentCrew().collect{
+//                _myCurrentCrewList.value = it
+//            }
+//        }
+
+        // TEST
+        _myCurrentCrewList.value = Result.Success(
+            listOf(
+                MyCurrentCrewResponse(1, "test", 1, 6, "시간", 20, "09 : 00", "10 : 00", false)
+                ,MyCurrentCrewResponse(1, "test", 1, 6, "시간", 20, "09 : 00", "10 : 00", false)
+        ))
     }
 }
