@@ -19,6 +19,7 @@ class UserJoinFragment : BaseFragment<FragmentUserJoinBinding>(R.layout.fragment
         val weightList = Array(231) { i -> i + 20 }
 
         binding.spinnerHeight.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, heightList)
+        binding.spinnerHeight.setSelection(30) // 초기 값 설정
         binding.spinnerHeight.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 showToast((position + 120).toString())
@@ -28,6 +29,7 @@ class UserJoinFragment : BaseFragment<FragmentUserJoinBinding>(R.layout.fragment
         }
 
         binding.spinnerWeight.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, weightList)
+        binding.spinnerWeight.setSelection(30) // 초기 값 설정
         binding.spinnerWeight.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 showToast((position + 20).toString())

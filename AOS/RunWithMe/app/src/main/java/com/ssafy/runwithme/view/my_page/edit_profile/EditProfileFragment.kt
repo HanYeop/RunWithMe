@@ -27,6 +27,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
         val weightList = Array(231) { i -> i + 20 }
 
         binding.spinnerEditHeight.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, heightList)
+        binding.spinnerEditHeight.setSelection(30) // 초기 값 설정 - 원래 유저 값 가져오기
         binding.spinnerEditHeight.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 showToast((position + 120).toString())
@@ -36,6 +37,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
         }
 
         binding.spinnerEditWeight.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, weightList)
+        binding.spinnerEditHeight.setSelection(30) // 초기 값 설정 - 원래 유저 값 가져오기
         binding.spinnerEditWeight.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 showToast((position + 20).toString())
