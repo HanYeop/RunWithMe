@@ -76,6 +76,7 @@
             android:layout_width="wrap_content"
             android:text="cm"
             android:fontFamily="@font/noto_sans_regular"
+            android:textColor="@color/black_high_emphasis"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/spinner_height"
             app:layout_constraintBottom_toBottomOf="@id/spinner_height" />
@@ -102,6 +103,7 @@
             android:layout_width="wrap_content"
             android:text="kg"
             android:fontFamily="@font/noto_sans_regular"
+            android:textColor="@color/black_high_emphasis"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/spinner_weight"
             app:layout_constraintBottom_toBottomOf="@id/spinner_weight" />
