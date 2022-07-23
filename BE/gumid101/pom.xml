@@ -18,6 +18,19 @@
 		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
+		<!-- 클라이언트에서 구글 로그인 후 넘겨준 토큰을 검증하기위함 -->
+		<!-- https://mvnrepository.com/artifact/com.google.api-client/google-api-client-jackson2 -->
+		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client-jackson2</artifactId>
+			<version>1.33.2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client</artifactId>
+			<version>1.32.1</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
