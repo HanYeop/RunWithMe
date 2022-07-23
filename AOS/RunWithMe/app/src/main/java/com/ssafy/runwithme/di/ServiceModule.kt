@@ -37,7 +37,7 @@ object ServiceModule {
             it.action = Intent.ACTION_MAIN
             it.addCategory(Intent.CATEGORY_LAUNCHER)
             it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        }, PendingIntent.FLAG_UPDATE_CURRENT
+        }, PendingIntent.FLAG_MUTABLE
     )!!
 
     // NotificationCompat.Builder DI

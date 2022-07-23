@@ -104,12 +104,12 @@ class RunningService : LifecycleService() {
             val pauseIntent = Intent(this, RunningService::class.java).apply {
                 action = ACTION_PAUSE_SERVICE
             }
-            PendingIntent.getService(this, 1, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getService(this, 1, pauseIntent, PendingIntent.FLAG_MUTABLE)
         } else {
             val resumeIntent = Intent(this, RunningService::class.java).apply {
                 action = ACTION_START_OR_RESUME_SERVICE
             }
-            PendingIntent.getService(this, 2, resumeIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getService(this, 2, resumeIntent, PendingIntent.FLAG_MUTABLE)
         }
 
         val notificationManager =
@@ -188,10 +188,6 @@ class RunningService : LifecycleService() {
                 }
             }
         }
-    }
-
-    private val lo = object : LocationCallback(){
-
     }
 
     // 위치 정보 요청하기
