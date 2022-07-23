@@ -12,8 +12,8 @@ class LoginActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_login)
 
     override fun init() {
 
-//        // TEST
-//        startActivity(Intent(this,MainActivity::class.java))
-//        finish()
+        // TEST
+        startActivity(Intent(this,MainActivity::class.java))
+        finish()
     }
 }

@@ -32,5 +32,6 @@
     <fragment
         android:id="@+id/myCurrentCrewFragment"
         android:name="com.ssafy.runwithme.view.home.my_crew.MyCurrentCrewFragment"
-        android:label="MyCurrentCrewFragment" />
+        android:label="MyCurrentCrewFragment"
+        tools:layout="@layout/fragment_my_current_crew"/>
 </navigation>
