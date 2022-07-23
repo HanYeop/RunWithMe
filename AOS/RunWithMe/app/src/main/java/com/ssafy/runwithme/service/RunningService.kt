@@ -234,6 +234,10 @@ class RunningService : LifecycleService() {
                     Log.d(TAG, "종료 ")
                     killService()
                 }
+                // 처음 화면 켰을 때
+                ACTION_SHOW_RUNNING_ACTIVITY ->{
+                    updateLocation(true)
+                }
                 else -> null
             }
         }

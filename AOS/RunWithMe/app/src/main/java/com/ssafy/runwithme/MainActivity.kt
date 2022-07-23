@@ -3,6 +3,7 @@ package com.ssafy.runwithme
 import android.Manifest
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.view.View
 import android.widget.Toast
@@ -13,6 +14,9 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.ssafy.runwithme.base.BaseActivity
 import com.ssafy.runwithme.databinding.ActivityMainBinding
+import com.ssafy.runwithme.service.RunningService
+import com.ssafy.runwithme.utils.ACTION_SHOW_TRACKING_ACTIVITY
+import com.ssafy.runwithme.view.running.RunningActivity
 import dagger.hilt.android.AndroidEntryPoint
 import github.com.st235.lib_expandablebottombar.navigation.ExpandableBottomBarNavigationUI
 
@@ -29,6 +33,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             }
         }
         initNavigation()
+
+        runningCheck()
+    }
+
+    private fun runningCheck(){
+        // 트래킹이 종료되지 않았을 때, 백그라운드에서 제거 후 실행해도 바로 트래킹 화면이 뜨게함
+        if(RunningService.isFirstRun){
+            val intent = Intent(this, MainActivity::class.java).also {
+                it.action = ACTION_SHOW_TRACKING_ACTIVITY
+            }
+            navigateToTrackingFragmentIfNeeded(intent)
+        }
+    }
+
+    // 알림 창 클릭시 메인 -> Tracking
+    private fun navigateToTrackingFragmentIfNeeded(intent: Intent?) {
+        if(intent?.action == ACTION_SHOW_TRACKING_ACTIVITY) {
+            startActivity(Intent(this, RunningActivity::class.java))
+        }
     }
 
     private fun requestPermission(logic : () -> Unit){
