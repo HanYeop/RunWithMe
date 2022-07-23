@@ -73,11 +73,13 @@
     <fragment
         android:id="@+id/totalUserRankingFragment"
         android:name="com.ssafy.runwithme.view.home.ranking.TotalUserRankingFragment"
-        android:label="TotalUserRankingFragment" />
+        android:label="TotalUserRankingFragment"
+        tools:layout="@layout/fragment_total_user_ranking"/>
     <fragment
         android:id="@+id/crewDetailFragment"
         android:name="com.ssafy.runwithme.view.crew_detail.CrewDetailFragment"
-        android:label="CrewDetailFragment" >
+        android:label="CrewDetailFragment"
+        tools:layout="@layout/fragment_crew_detail">
         <action
             android:id="@+id/action_crewDetailFragment_to_crewMyRunRecordFragment"
             app:destination="@id/crewMyRunRecordFragment" />
@@ -94,19 +96,23 @@
     <fragment
         android:id="@+id/crewMyRunRecordFragment"
         android:name="com.ssafy.runwithme.view.crew_detail.my_record.CrewMyRunRecordFragment"
-        android:label="CrewMyRunRecordFragment" />
+        android:label="CrewMyRunRecordFragment"
+        tools:layout="@layout/fragment_crew_my_run_record"/>
     <fragment
         android:id="@+id/crewUserRunRecordFragment"
         android:name="com.ssafy.runwithme.view.crew_detail.user_record.CrewUserRunRecordFragment"
-        android:label="CrewUserRunRecordFragment" />
+        android:label="CrewUserRunRecordFragment"
+        tools:layout="@layout/fragment_crew_user_run_record"/>
     <fragment
         android:id="@+id/crewUserRankingFragment"
         android:name="com.ssafy.runwithme.view.crew_detail.ranking.CrewUserRankingFragment"
-        android:label="CrewUserRankingFragment" />
+        android:label="CrewUserRankingFragment"
+        tools:layout="@layout/fragment_crew_user_ranking"/>
     <fragment
         android:id="@+id/crewBoardFragment"
         android:name="com.ssafy.runwithme.view.crew_detail.board.CrewBoardFragment"
-        android:label="CrewBoardFragment" >
+        android:label="CrewBoardFragment"
+        tools:layout="@layout/fragment_crew_board">
         <action
             android:id="@+id/action_crewBoardFragment_to_createCrewBoardFragment"
             app:destination="@id/createCrewBoardFragment" />
@@ -114,15 +120,18 @@
     <fragment
         android:id="@+id/createCrewBoardFragment"
         android:name="com.ssafy.runwithme.view.crew_detail.board.create.CreateCrewBoardFragment"
-        android:label="CreateCrewBoardFragment" />
+        android:label="CreateCrewBoardFragment"
+        tools:layout="@layout/fragment_create_crew_board"/>
     <fragment
         android:id="@+id/createCrewFragment"
         android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment"
-        android:label="CreateCrewFragment" />
+        android:label="CreateCrewFragment"
+        tools:layout="@layout/fragment_create_crew"/>
     <fragment
         android:id="@+id/searchCrewFragment"
         android:name="com.ssafy.runwithme.view.crew_recruit.search.SearchCrewFragment"
-        android:label="SearchCrewFragment" >
+        android:label="SearchCrewFragment"
+        tools:layout="@layout/fragment_search_crew">
         <action
             android:id="@+id/action_searchCrewFragment_to_searchCrewResultFragment"
             app:destination="@id/searchCrewResultFragment" />
@@ -130,7 +139,8 @@
     <fragment
         android:id="@+id/searchCrewResultFragment"
         android:name="com.ssafy.runwithme.view.crew_recruit.search.result.SearchCrewResultFragment"
-        android:label="SearchCrewResultFragment" >
+        android:label="SearchCrewResultFragment"
+        tools:layout="@layout/fragment_search_crew_result">
         <action
             android:id="@+id/action_searchCrewResultFragment_to_crewDetailFragment"
             app:destination="@id/crewDetailFragment" />
@@ -138,19 +148,23 @@
     <fragment
         android:id="@+id/runRecordDetailFragment"
         android:name="com.ssafy.runwithme.view.run_record_detail.RunRecordDetailFragment"
-        android:label="RunRecordDetailFragment" />
+        android:label="RunRecordDetailFragment"
+        tools:layout="@layout/fragment_run_record_detail"/>
     <fragment
         android:id="@+id/othersFragment"
         android:name="com.ssafy.runwithme.view.my_page.others.OthersFragment"
-        android:label="OthersFragment" />
+        android:label="OthersFragment"
+        tools:layout="@layout/fragment_others"/>
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.ssafy.runwithme.view.my_page.edit_profile.EditProfileFragment"
-        android:label="EditProfileFragment" />
+        android:label="EditProfileFragment"
+        tools:layout="@layout/fragment_edit_profile"/>
     <fragment
         android:id="@+id/myTotalRunRecordFragment"
         android:name="com.ssafy.runwithme.view.my_page.tab.total_record.MyTotalRunRecordFragment"
-        android:label="MyTotalRunRecordFragment" >
+        android:label="MyTotalRunRecordFragment"
+        tools:layout="@layout/fragment_my_total_run_record">
         <action
             android:id="@+id/action_myTotalRunRecordFragment_to_runRecordDetailFragment"
             app:destination="@id/runRecordDetailFragment" />
