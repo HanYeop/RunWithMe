@@ -5,10 +5,13 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.NavHostFragment
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.ssafy.runwithme.base.BaseActivity
 import com.ssafy.runwithme.databinding.ActivityMainBinding
+import github.com.st235.lib_expandablebottombar.navigation.ExpandableBottomBarNavigationUI
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
@@ -19,6 +22,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 permissionDialog()
             }
         }
+        initNavigation()
+    }
+
+
+    private fun initNavigation() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
+        val navController = navHostFragment.navController
+        ExpandableBottomBarNavigationUI.setupWithNavController(binding.expandableBottomBar,navController)
     }
 
     private fun requestPermission(logic : () -> Unit){

@@ -9,7 +9,11 @@
         android:id="@+id/HomeFragment"
         android:name="com.ssafy.runwithme.view.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_HomeFragment_to_myCurrentCrewFragment"
+            app:destination="@id/myCurrentCrewFragment" />
+    </fragment>
     <fragment
         android:id="@+id/CrewRecruitFragment"
         android:name="com.ssafy.runwithme.view.crew_recruit.CrewRecruitFragment"
@@ -25,4 +29,8 @@
         android:name="com.ssafy.runwithme.view.my_page.MyPageFragment"
         android:label="MyPageFragment"
         tools:layout="@layout/fragment_my_page"/>
+    <fragment
+        android:id="@+id/myCurrentCrewFragment"
+        android:name="com.ssafy.runwithme.view.home.my_crew.MyCurrentCrewFragment"
+        android:label="MyCurrentCrewFragment" />
 </navigation>
