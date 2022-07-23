@@ -1,4 +1,4 @@
-package com.ssafy.gumid101.crew;
+package com.ssafy.gumid101.crew.manager;
 
 import java.time.LocalDateTime;
 import java.util.List;

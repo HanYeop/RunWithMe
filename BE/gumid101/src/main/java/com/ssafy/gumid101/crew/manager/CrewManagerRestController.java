@@ -1,4 +1,4 @@
-package com.ssafy.gumid101.crew;
+package com.ssafy.gumid101.crew.manager;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.dto.CrewDto;
 import com.ssafy.gumid101.dto.RecruitmentParamsDto;
 import com.ssafy.gumid101.dto.UserDto;
@@ -52,12 +54,16 @@ public class CrewManagerRestController {
 	 */
 	@ApiOperation(value="진행 중인 내 크루보기")
 	@GetMapping("/my-current-crew")
-	public RequestEntity<?> getMyCurrentCrew() throws Exception{
+	public ResponseEntity<?> getMyCurrentCrew() throws Exception{
 		
 		UserDto userDto= loadUserFromToken();
 		
 		List<CrewDto> crewList =  crewManagerService.getMyCurrentCruew(userDto.getUserSeq());
-		return null;
+		
+		ResponseFrame.of(crewList, crewList.size(), "현재 진행중, 진행 예정인 나의 현재 크루가 반환되었습니다.");
+		
+		
+		return new ResponseEntity<>(crewList,HttpStatus.OK);
 	}
 	
 	@GetMapping("/my-end-crew")
@@ -79,8 +85,8 @@ public class CrewManagerRestController {
 	@ApiOperation(value = "크루 생성하기(모집하기)")
 	@PostMapping("/crew")
 	public ResponseEntity<?> createCrew(@RequestPart(name = "img", required = false) MultipartFile image, @ModelAttribute CrewDto crewDto) throws Exception{
-		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
-		UserDto managerDto = (UserDto) autentication.getPrincipal();
+
+		UserDto managerDto = loadUserFromToken();
 		HttpStatus httpStatus = HttpStatus.OK;
 		ResponseFrame<CrewFileDto> responseMap = new ResponseFrame<>();
 		
@@ -121,5 +127,12 @@ public class CrewManagerRestController {
 	@DeleteMapping("/crew/{crewSeq}/user")
 	public RequestEntity<?> exitCrew(@PathVariable long crewSeq){
 		return null;
+	}
+	
+	
+	@ExceptionHandler(NotFoundUserException.class)
+	public ResponseEntity<?> userNofoundControll(NotFoundUserException nue){
+		
+		return new ResponseEntity<>(ResponseFrame.of(false, nue.getMessage()),HttpStatus.FORBIDDEN);
 	}
 }

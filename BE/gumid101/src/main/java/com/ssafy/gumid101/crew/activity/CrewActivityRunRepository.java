@@ -1,6 +1,8 @@
-package com.ssafy.gumid101.crew;
+package com.ssafy.gumid101.crew.activity;
 
-import java.util.ArrayList;
+import java.util.ArrayList
+;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;

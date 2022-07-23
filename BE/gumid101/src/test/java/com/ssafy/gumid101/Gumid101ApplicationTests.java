@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -15,8 +16,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import com.ssafy.gumid101.crew.CrewManagerRepository;
 import com.ssafy.gumid101.crew.UserCrewJoinRepository;
+import com.ssafy.gumid101.crew.manager.CrewManagerRepository;
 import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.UserCrewJoinEntity;
 import com.ssafy.gumid101.entity.UserEntity;
@@ -47,25 +48,44 @@ class Gumid101ApplicationTests {
 		
 		//given
 		UserEntity user = UserEntity.builder().email("test@kr.coke").nickName("테스터").height(20).weight(10).build();
+		
 		CrewEntity endCrew = CrewEntity.builder().
 				crewCost(10).
 				crewDateEnd(LocalDateTime.now())
 				.crewDescription("테스트 크루")
+				.crewGoalAmount(3)
+				.crewGoalDays(3)
+				.crewMaxMember(30)
+				.crewName("훠")
+				.crewGoalType("distance")
+				.crewTimeStart(LocalTime.of(9, 10))
+				.crewTimeEnd(LocalTime.of(10, 1))
 				.crewDateStart(LocalDateTime.now().minusMonths(1L))
 				.build();
+		
 		CrewEntity notEndCrew = CrewEntity.builder()
 				.crewCost(100)
+				.crewDateStart(LocalDateTime.now())
+				.crewGoalAmount(3)
+				.crewGoalDays(3)
+				.crewMaxMember(30)
+				.crewGoalType("distance")
+				.crewName("하와아ㅘ")
+				.crewTimeStart(LocalTime.of(9, 10))
+				.crewTimeEnd(LocalTime.of(10, 1))
 				.crewDateEnd(LocalDateTime.now().plusMonths(1))
 				.build();
+		
+		
 		crRepo.save(endCrew);
 		crRepo.save(notEndCrew);
 		userRepo.save(user);
 		
-		UserCrewJoinEntity ucj = new UserCrewJoinEntity();
+		UserCrewJoinEntity ucj = UserCrewJoinEntity.builder().build();
 		ucj.setCrewEntity(endCrew);
 		ucj.setUserEntity(user);
 		ucrRepo.save(ucj);
-		ucj = new UserCrewJoinEntity();
+		ucj =UserCrewJoinEntity.builder().build();
 		ucj.setCrewEntity(notEndCrew);
 		ucj.setUserEntity(user);
 		

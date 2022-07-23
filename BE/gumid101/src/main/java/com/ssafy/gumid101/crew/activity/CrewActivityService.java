@@ -1,4 +1,4 @@
-package com.ssafy.gumid101.crew;
+package com.ssafy.gumid101.crew.activity;
 
 import java.util.List;
 
