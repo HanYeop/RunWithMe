@@ -1,11 +1,14 @@
 package com.ssafy.gumid101.crew;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.aws.S3FileService;
+import com.ssafy.gumid101.customexception.IllegalParameterException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.dto.CrewDto;
 import com.ssafy.gumid101.dto.ImageFileDto;
@@ -38,33 +41,76 @@ public class CrewManagerServiceImpl implements CrewManagerService{
 	public CrewFileDto createCrew(MultipartFile image, CrewDto crewDto, UserDto manager) throws Exception {
 
 		UserEntity managerEntity = userRepo.findById(manager.getUserSeq())
-				.orElseThrow(() -> new NotFoundUserException("해당 유저를 찾을 수 없습니다."));
+				.orElseThrow(() -> new NotFoundUserException("유저 정보가 올바르지 않습니다."));
+		
 		
 		ImageFileDto savedFileDto = null;
+		CrewEntity crewEntity;
+		if (crewDto.getCrewName() == null ||
+				crewDto.getCrewGoalAmount() == null ||
+				crewDto.getCrewGoalType() == null ||
+				crewDto.getCrewGoalDays() == null ||
+				crewDto.getCrewDateStart() == null ||
+				crewDto.getCrewDateEnd() == null ||
+				crewDto.getCrewTimeStart() == null ||
+				crewDto.getCrewTimeEnd() == null ||
+				crewDto.getCrewMaxMember() == null) {
+			throw new IllegalParameterException("필수 입력 정보에 누락이 있습니다.");
+		}
+		if (crewDto.getCrewDescription() == null) {
+			crewDto.setCrewDescription("");
+		}
+		if (crewDto.getCrewCost() == null) {
+			crewDto.setCrewCost(0);
+		}
+		if (crewDto.getCrewMaxMember() == null || crewDto.getCrewMaxMember() <= 1 ) {
+			throw new IllegalParameterException("최대 인원 설정이 잘못되었습니다..");
+		}
+		if (crewDto.getCrewDateStart().compareTo(crewDto.getCrewDateStart()) >= 0) {
+			throw new IllegalParameterException("크루 종료일은 크루 시작일보다 늦어야합니다.");
+		}
+		if (crewDto.getCrewTimeStart().compareTo(crewDto.getCrewTimeEnd()) >= 0) {
+			throw new IllegalParameterException("크루 일일 활동 종료시간은 시작시간보다 늦어야합니다.");
+		}
+		if (managerEntity.getPoint() < crewDto.getCrewCost()) {
+			throw new IllegalParameterException("생성을 위한 포인트가 부족합니다.");
+		}
+		try {
+			crewEntity = CrewEntity.builder()
+					.crewName(crewDto.getCrewName())
+					.crewDescription(crewDto.getCrewDescription())
+					.crewGoalDays(crewDto.getCrewGoalDays())
+					.crewGoalType(crewDto.getCrewGoalType())
+					.crewGoalAmount(crewDto.getCrewGoalAmount())
+					.crewPassword(crewDto.getCrewPassword())
+					.crewCost(crewDto.getCrewCost())
+					.crewMaxMember(crewDto.getCrewMaxMember())
+					.crewDateStart(crewDto.getCrewDateStart())
+					.crewDateEnd(crewDto.getCrewDateEnd())
+					.crewTimeStart(crewDto.getCrewTimeStart())
+					.crewTimeEnd(crewDto.getCrewTimeEnd())
+					.managerEntity(managerEntity)
+					.build();
+		}catch (Exception e) {
+			throw new IllegalParameterException("크루 생성 과정에서 문제가 발생했습니다.");
+		}
 		ImageFileEntity imageEntity = null;
 		if (image != null) {
-			savedFileDto = s3FileService.upload(image, ImageDirectory.CREW_LOGO.getPath());
-			// 이미지쪽 세이브
-			imageEntity = ImageFileEntity.builder()
-					.imgOriginalName(savedFileDto.getImgOriginalName())
-					.imgSavedName(savedFileDto.getImgSavedName())
-					.imgSavedPath(savedFileDto.getImgSavedPath())
-					.build();
-			imageRepo.save(imageEntity);
+			try {
+				savedFileDto = s3FileService.upload(image, ImageDirectory.CREW_LOGO.getPath());
+				// 이미지쪽 세이브
+				imageEntity = ImageFileEntity.builder()
+						.imgOriginalName(savedFileDto.getImgOriginalName())
+						.imgSavedName(savedFileDto.getImgSavedName())
+						.imgSavedPath(savedFileDto.getImgSavedPath())
+						.build();
+				imageRepo.save(imageEntity);
+				crewEntity.setImageFile(imageEntity);
+			} catch (Exception e) {
+				throw new Exception("이미지 저장에 실패했습니다.");
+			}
 		}
 		
-		CrewEntity crewEntity = CrewEntity.builder()
-				.crewName(crewDto.getCrewName())
-				.crewDescription(crewDto.getCrewDescription())
-				.crewGoalDays(crewDto.getCrewGoalDays())
-				.crewGoalType(crewDto.getCrewGoalType())
-				.crewGoalAmount(crewDto.getCrewGoalAmount())
-				.crewPassword(crewDto.getCrewPassword())
-				.crewCost(crewDto.getCrewCost())
-				.crewMaxMember(crewDto.getCrewMaxMember())
-				.managerEntity(managerEntity)
-				.build();
-		crewEntity.setImageFile(imageEntity);
 		
 		UserCrewJoinEntity userCrewJoinEntity = UserCrewJoinEntity.builder()
 				.crewEntity(crewEntity)
@@ -72,6 +118,9 @@ public class CrewManagerServiceImpl implements CrewManagerService{
 				.build();
 		
 		userCrewJoinRepository.save(userCrewJoinEntity);
+		
+		managerEntity.setPoint(manager.getPoint() - crewDto.getCrewCost());
+		userRepo.save(managerEntity);
 		
 		return new CrewFileDto(crewDto.of(crewEntity), savedFileDto);
 	}

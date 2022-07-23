@@ -16,12 +16,14 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "t_run_record")
 @EntityListeners(AuditingEntityListener.class)
 public class RunRecordEntity {
