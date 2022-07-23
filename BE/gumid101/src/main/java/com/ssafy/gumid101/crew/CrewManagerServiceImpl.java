@@ -1,7 +1,9 @@
 package com.ssafy.gumid101.crew;
 
 
-import static org.junit.jupiter.api.Assertions.assertAll;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -45,7 +47,7 @@ public class CrewManagerServiceImpl implements CrewManagerService{
 			return new NotFoundUserException("나의 현재 진행중 크루를 찾는 중, 유저를 특정할 수 없습니다.");
 		});
 		
-		List<CrewEntity> crews = cmRepo.findByUserSeqActive(user, LocalDateTime.now());
+		List<CrewEntity> crews = crewManagerRepo.findByUserSeqActive(user, LocalDateTime.now());
 
 		List<CrewDto> crewList = crews.stream().map((entity) -> {
 			return CrewDto.of(entity);
@@ -142,7 +144,4 @@ public class CrewManagerServiceImpl implements CrewManagerService{
 		
 		return new CrewFileDto(crewDto.of(crewEntity), savedFileDto);
 	}
-	
-	
->>>>>>> BE/gumid101/src/main/java/com/ssafy/gumid101/crew/CrewManagerServiceImpl.java
 }

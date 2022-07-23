@@ -2,8 +2,6 @@ package com.ssafy.gumid101.crew;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -58,7 +56,7 @@ public class CrewManagerRestController {
 		
 		UserDto userDto= loadUserFromToken();
 		
-		List<CrewDto> crewList =  crewManagerService.getMyCurrentCruew(userDto.getId());
+		List<CrewDto> crewList =  crewManagerService.getMyCurrentCruew(userDto.getUserSeq());
 		return null;
 	}
 	
