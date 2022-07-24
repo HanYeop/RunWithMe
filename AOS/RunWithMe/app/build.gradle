@@ -109,4 +109,7 @@ dependencies {
 
     // work
     implementation("androidx.work:work-runtime-ktx:2.7.1")
+
+    // Paging 3
+    implementation "androidx.paging:paging-runtime-ktx:3.1.0"
 }
