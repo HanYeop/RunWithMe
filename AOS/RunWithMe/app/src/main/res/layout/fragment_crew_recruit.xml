@@ -32,7 +32,7 @@
                 android:id="@+id/img_btn_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_baseline_search_24"
                 android:backgroundTint="@color/white"
                 android:layout_gravity="right"/>

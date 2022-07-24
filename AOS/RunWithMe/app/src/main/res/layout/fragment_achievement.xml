@@ -33,7 +33,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:scaleType="fitXY"
-                    app:tint="@color/light_grey"
+                    android:alpha="0.2"
                     android:src="@drawable/achieve_running_first" />
                 <ImageView
                     android:id="@+id/image_achieve_num_ten"
@@ -41,7 +41,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:scaleType="fitXY"
-                    app:tint="@color/light_grey"
+                    android:alpha="0.2"
                     android:src="@drawable/achieve_running_ten" />
                 <ImageView
                     android:id="@+id/image_achieve_num_hundred"
@@ -49,7 +49,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:scaleType="fitXY"
-                    app:tint="@color/light_grey"
+                    android:alpha="0.2"
                     android:src="@drawable/achieve_running_hundred" />
                 <ImageView
                     android:id="@+id/image_achieve_num_thousand"
@@ -57,7 +57,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:scaleType="fitXY"
-                    app:tint="@color/light_grey"
+                    android:alpha="0.2"
                     android:src="@drawable/achieve_running_thousand" />
             </LinearLayout>
 
@@ -108,7 +108,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:scaleType="centerInside"
-                    app:tint="@color/light_grey"
+                    android:alpha="0.2"
                     android:src="@drawable/achieve_time_ten" />
                 <ImageView
                     android:id="@+id/image_achieve_time_hundred"
@@ -116,7 +116,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:scaleType="centerInside"
-                    app:tint="@color/light_grey"
+                    android:alpha="0.2"
                     android:src="@drawable/achieve_time_hundred" />
                 <ImageView
                     android:id="@+id/image_achieve_time_thousand"
@@ -124,7 +124,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:scaleType="centerInside"
-                    app:tint="@color/light_grey"
+                    android:alpha="0.2"
                     android:src="@drawable/achieve_time_thousand"/>
                 <ImageView
                     android:id="@+id/image_achieve_time_ten_thousand"
@@ -132,7 +132,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:scaleType="centerInside"
-                    app:tint="@color/light_grey"
+                    android:alpha="0.2"
                     android:src="@drawable/achieve_time_ten_thousand" />
             </LinearLayout>
 
@@ -186,7 +186,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:scaleType="fitCenter"
-                    app:tint="@color/light_grey"
+                    android:alpha="0.2"
                     android:src="@drawable/achieve_distance_ten" />
                 <ImageView
                     android:id="@+id/image_achieve_distance_hundred"
@@ -194,7 +194,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:scaleType="fitCenter"
-                    app:tint="@color/light_grey"
+                    android:alpha="0.2"
                     android:src="@drawable/achieve_distance_hundred" />
                 <ImageView
                     android:id="@+id/image_achieve_distance_thousand"
@@ -202,7 +202,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:scaleType="fitCenter"
-                    app:tint="@color/light_grey"
+                    android:alpha="0.2"
                     android:src="@drawable/achieve_distance_thousand" />
                 <ImageView
                     android:id="@+id/image_achieve_distance_ten_thousand"
@@ -210,7 +210,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:scaleType="fitCenter"
-                    app:tint="@color/light_grey"
+                    android:alpha="0.2"
                     android:src="@drawable/achieve_distance_ten_thousand" />
             </LinearLayout>
 
