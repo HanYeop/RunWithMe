@@ -54,6 +54,8 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        POLYLINE_COLOR = resources.getColor(R.color.mainColor)
+        
         binding.apply {
             mapView.onCreate(savedInstanceState)
             // 맵 불러오기
