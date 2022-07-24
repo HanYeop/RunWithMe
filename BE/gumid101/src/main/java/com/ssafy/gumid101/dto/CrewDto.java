@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.ssafy.gumid101.entity.CrewEntity;
 
 import lombok.AllArgsConstructor;
@@ -38,8 +40,10 @@ public class CrewDto implements Serializable {
 	
 	private LocalDateTime crewDateEnd;
 	
+	@DateTimeFormat(pattern = "HH:mm:ss")
 	private LocalTime crewTimeStart;
 
+	@DateTimeFormat(pattern = "HH:mm:ss")
 	private LocalTime crewTimeEnd;
 
 	private String crewPassword;
