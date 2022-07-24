@@ -16,6 +16,9 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
 
     private fun initClickListener() {
         binding.apply {
+            toolbar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
             btnModify.setOnClickListener {
                 findNavController().popBackStack()
             }

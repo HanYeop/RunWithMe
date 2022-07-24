@@ -124,8 +124,9 @@
                 android:id="@+id/tv_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="로그 아웃"
+                android:text="로그아웃"
                 android:textSize="16sp"
+                android:layout_marginBottom="8dp"
                 android:textColor="@color/black_high_emphasis"
                 android:fontFamily="@font/noto_sans_bold"
                 android:gravity="center"/>
