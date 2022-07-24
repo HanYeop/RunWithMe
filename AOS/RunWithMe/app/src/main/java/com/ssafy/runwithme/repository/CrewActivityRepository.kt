@@ -9,13 +9,13 @@ import javax.inject.Inject
 class CrewActivityRepository @Inject constructor(
     private val crewActivityApi: CrewActivityApi,
 ) {
-    fun getCrewBoards(crewId: Int) =
+    fun getCrewBoards(crewId: Int, size: Int) =
         Pager(
             config = PagingConfig(
-                pageSize = 20,
-                maxSize = 100,
+                pageSize = size * 2,
+                maxSize = size * 10,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { GetCrewBoardsPagingSource(crewActivityApi = crewActivityApi, crewId = crewId)}
+            pagingSourceFactory = { GetCrewBoardsPagingSource(crewActivityApi = crewActivityApi, crewId = crewId, size = size)}
         ).flow
 }

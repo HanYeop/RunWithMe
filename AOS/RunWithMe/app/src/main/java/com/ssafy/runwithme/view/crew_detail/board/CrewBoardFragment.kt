@@ -37,7 +37,7 @@ class CrewBoardFragment : BaseFragment<FragmentCrewBoardBinding>(R.layout.fragme
 
     private fun initViewModelCallback(){
         lifecycleScope.launch {
-            crewDetailViewModel.getPagingCrewBoards(1).collectLatest { pagingData ->
+            crewDetailViewModel.getCrewBoards(1,10).collectLatest { pagingData ->
                 crewBoardAdapter.submitData(pagingData)
             }
         }

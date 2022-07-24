@@ -9,7 +9,8 @@ import java.io.IOException
 
 class GetCrewBoardsPagingSource (
     private val crewActivityApi: CrewActivityApi,
-    private val crewId: Int
+    private val crewId: Int,
+    private val size: Int
 ): PagingSource<Int, CrewBoardResponse>() {
 
     // 데이터 로드
@@ -23,7 +24,7 @@ class GetCrewBoardsPagingSource (
             // 데이터를 제공하는 인스턴스의 메소드 사용
             val response = crewActivityApi.getCrewBoards(
                 crewId = crewId,
-                size = 10,
+                size = size,
                 offset = position
             ).body()
 
@@ -33,7 +34,7 @@ class GetCrewBoardsPagingSource (
                 if (data!!.isEmpty()){
                     null
                 }else{
-                    position + 10
+                    position + size
                 }
 
             /* 로드에 성공 시 LoadResult.Page 반환
