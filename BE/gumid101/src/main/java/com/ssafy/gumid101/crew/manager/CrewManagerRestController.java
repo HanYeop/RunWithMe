@@ -58,7 +58,7 @@ public class CrewManagerRestController {
 		
 		UserDto userDto= loadUserFromToken();
 		
-		List<CrewDto> crewList =  crewManagerService.getMyCurrentCruew(userDto.getUserSeq());
+		List<CrewDto> crewList =  crewManagerService.getMyCurrentCrew(userDto.getUserSeq());
 		
 		ResponseFrame.of(crewList, crewList.size(), "현재 진행중, 진행 예정인 나의 현재 크루가 반환되었습니다.");
 		
@@ -84,7 +84,7 @@ public class CrewManagerRestController {
 	 */
 	@ApiOperation(value = "크루 생성하기(모집하기)")
 	@PostMapping("/crew")
-	public ResponseEntity<?> createCrew(@RequestPart(name = "img", required = false) MultipartFile image, @ModelAttribute CrewDto crewDto) throws Exception{
+	public ResponseEntity<?> createCrew(CrewDto crewDto, @RequestPart(name = "img", required = false) MultipartFile image) throws Exception{
 
 		UserDto managerDto = loadUserFromToken();
 		HttpStatus httpStatus = HttpStatus.OK;
