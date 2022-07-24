@@ -1,6 +1,7 @@
 package com.ssafy.gumid101;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.time.LocalDateTime;
@@ -10,24 +11,30 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.gumid101.config.QueryDslConfig;
 import com.ssafy.gumid101.crew.UserCrewJoinRepository;
 import com.ssafy.gumid101.crew.manager.CrewManagerRepository;
+import com.ssafy.gumid101.entity.CrewBoardEntity;
 import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.UserCrewJoinEntity;
 import com.ssafy.gumid101.entity.UserEntity;
+import com.ssafy.gumid101.user.UserCustomRepositoryImpl;
 import com.ssafy.gumid101.user.UserRepository;
 
 @EnableJpaAuditing
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
 @EnableJpaRepositories
+@Import(QueryDslConfig.class)
 class Gumid101ApplicationTests {
 
 	@Autowired
@@ -37,6 +44,8 @@ class Gumid101ApplicationTests {
 	@Autowired
 	private UserCrewJoinRepository ucrRepo;
 
+
+	
 	@Test
 	void test() {
 		System.out.println("qwe");
@@ -137,13 +146,48 @@ class Gumid101ApplicationTests {
 		ucj.setUserEntity(user2);
 		ucj.setCrewEntity(crew);
 		ucrRepo.save(ucj);
-
+		//벌크
 		int k = ucrRepo.pointRefunds(crew, crew.getCrewCost());
 System.out.println("영향 행 " + k);
+
 		userRepo.flush();
 		userRepo.findAll().forEach((qwe)->{System.out.println("asd:"+qwe.getPoint());});
 
 		assertEquals(user.getPoint(), 5);
 		assertEquals(user2.getPoint(), 5);
+	}
+	
+	@Test
+	public void localDateTimeTest() {
+		LocalDateTime lt = LocalDateTime.parse("2016-10-31");
+		
+		System.out.println(lt);
+	}
+	
+	@Test
+	void findUserBoardsWithOffestAndSize() {
+		
+		UserEntity user1 = UserEntity.builder().email("test@kr.coke").nickName("테스터").height(20).weight(10).build();
+		UserEntity user2 = UserEntity.builder().email("t2222@kr.coke").nickName("테2222스터").height(20).weight(103).build();
+
+		userRepo.save(user1);
+		userRepo.save(user2);
+		
+		CrewBoardEntity cbe1 = new CrewBoardEntity();
+		cbe1.setCrewBoardRegTime(LocalDateTime.now());
+		cbe1.setCrewBoardContent("보드11 \n");
+		cbe1.setImgFile(null);
+		cbe1.setUserEntity(user1);
+		
+		
+		CrewBoardEntity cbe2 = new CrewBoardEntity();
+		cbe1.setCrewBoardRegTime(LocalDateTime.now());
+		cbe1.setCrewBoardContent("보드22 \n");
+		cbe1.setImgFile(null);
+		cbe1.setUserEntity(user2);
+		
+		//crew
+		userRepo.findUserBoardsWithOffestAndSize(user1, 0L, 10L);
+		
 	}
 }

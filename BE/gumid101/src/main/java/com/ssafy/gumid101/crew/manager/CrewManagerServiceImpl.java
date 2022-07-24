@@ -159,6 +159,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		return 1;
 	}
 
+	@Transactional
 	@Override
 	public int exitCrew(long crewSeq, Long userSeq) throws Exception {
 

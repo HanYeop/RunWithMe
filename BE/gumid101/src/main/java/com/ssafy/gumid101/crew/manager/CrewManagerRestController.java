@@ -151,6 +151,7 @@ public class CrewManagerRestController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@ApiOperation("크루 탈퇴")
 	@DeleteMapping("/crew/{crewSeq}/user")
 	public ResponseEntity<?> exitCrew(@PathVariable long crewSeq) throws Exception{
 		UserDto user =  loadUserFromToken();
