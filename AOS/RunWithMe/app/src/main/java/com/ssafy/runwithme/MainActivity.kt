@@ -29,13 +29,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         requestPermission{
             if (checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
                 == PackageManager.PERMISSION_DENIED) {
-                permissionDialog()
+                permissionDialog("백그라운드 위치 권한을 위해 항상 허용으로 설정해주세요.")
+            }
+        }
+        galleryRequestPermission{
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_DENIED) {
+                permissionDialog("사진 접근 권한을 위해 항상 허용으로 설정해주세요.")
             }
         }
         initNavigation()
 
         runningCheck()
     }
+
 
     private fun runningCheck(){
         // 트래킹이 종료되지 않았을 때, 백그라운드에서 제거 후 실행해도 바로 트래킹 화면이 뜨게함
@@ -60,6 +67,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         }
     }
 
+    private fun galleryRequestPermission(logic : () -> Unit){
+        TedPermission.create()
+            .setPermissionListener(object : PermissionListener {
+                override fun onPermissionGranted() {
+                    logic()
+                }
+                override fun onPermissionDenied(deniedPermissions: List<String>) {
+                    showToast("권한을 허가해주세요.")
+                }
+            })
+            .setDeniedMessage("사진 접근 권한을 위해 항상 허용으로 설정해주세요. [설정] > [앱 및 알림] > [고급] > [앱 권한]")
+            .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
+            .check()
+    }
+
     private fun requestPermission(logic : () -> Unit){
         TedPermission.create()
             .setPermissionListener(object : PermissionListener {
@@ -78,20 +100,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             .check()
     }
 
-    private fun permissionDialog(){
+    private fun permissionDialog(msg : String){
         var builder = AlertDialog.Builder(this)
-        builder.setTitle("백그라운드 위치 권한을 위해 항상 허용으로 설정해주세요.")
+        builder.setTitle(msg)
 
         var listener = DialogInterface.OnClickListener { _, p1 ->
             when (p1) {
                 DialogInterface.BUTTON_POSITIVE ->
-                    backgroundPermission()
+                    if(msg.startsWith('백')) backgroundPermission()
+                    else galleryPermission()
             }
         }
         builder.setPositiveButton("네", listener)
         builder.setNegativeButton("아니오", null)
 
         builder.show()
+    }
+
+    private fun galleryPermission(){
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+            ), 2)
     }
 
     private fun backgroundPermission(){
