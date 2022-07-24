@@ -20,6 +20,7 @@
             app:tabBackground="@color/white"
             app:tabIndicatorColor="@color/mainColor"
             app:tabTextColor="@color/black"
+            app:tabSelectedTextColor="@color/mainColor"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
