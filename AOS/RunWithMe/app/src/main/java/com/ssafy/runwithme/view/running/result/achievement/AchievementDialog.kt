@@ -1,4 +1,4 @@
-package com.ssafy.runwithme.view.create_recommend
+package com.ssafy.runwithme.view.running.result.achievement
 
 import android.app.Dialog
 import android.content.Context
@@ -8,21 +8,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import com.ssafy.runwithme.R
-import com.ssafy.runwithme.databinding.DialogCreateRecommendBinding
+import com.ssafy.runwithme.databinding.DialogAchievementBinding
 import com.ssafy.runwithme.utils.dialogResize
 
+class AchievementDialog(context: Context): Dialog(context) {
 
-class CreateRecommendDialog(context: Context): Dialog(context) {
-
-    private lateinit var binding: DialogCreateRecommendBinding
+    private lateinit var binding: DialogAchievementBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_create_recommend, null, false)
+        binding = DataBindingUtil.inflate(
+            LayoutInflater.from(context),
+            R.layout.dialog_achievement,
+            null,
+            false
+        )
         setContentView(binding.root)
 
-        context.dialogResize(this,0.8f,0.5f)
+        context.dialogResize(this, 0.9f, 0.25f)
 
         // 배경 투명하게 바꿔줌
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -32,12 +36,8 @@ class CreateRecommendDialog(context: Context): Dialog(context) {
 
     private fun initClickListener(){
         binding.apply {
-            btnCancel.setOnClickListener {
+            btnOk.setOnClickListener {
                 dismiss()
-            }
-            // TODO : 공유하기 기능
-            btnRecommend.setOnClickListener {
-
             }
         }
     }

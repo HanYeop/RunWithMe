@@ -6,12 +6,12 @@
 
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:background="@drawable/dialog_round"
         android:gravity="center"
-        android:background="@drawable/dialog_round">
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/img_run_record"
@@ -23,56 +23,78 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/img" />
 
-            <TextView
-                android:id="@+id/tv_hard_point_header"
-                style="@style/header_text"
-                android:layout_marginTop="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="러닝 난이도" />
+        <TextView
+            android:id="@+id/tv_hard_point_header"
+            style="@style/header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="러닝 난이도"
+            app:layout_constraintEnd_toEndOf="@+id/img_run_record"
+            app:layout_constraintStart_toStartOf="@+id/img_run_record"
+            app:layout_constraintTop_toBottomOf="@+id/img_run_record" />
 
-            <com.willy.ratingbar.ScaleRatingBar
-                android:id="@+id/rating_hard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srb_clickable="true"
-                app:srb_isIndicator="false"
-                app:srb_numStars="5"
-                app:srb_rating="0"
-                app:srb_scrollable="true"
-                app:srb_starPadding="2dp"
-                app:srb_stepSize="0.5" />
+        <com.willy.ratingbar.ScaleRatingBar
+            android:id="@+id/rating_hard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_hard_point_header"
+            app:layout_constraintStart_toStartOf="@+id/tv_hard_point_header"
+            app:layout_constraintTop_toBottomOf="@+id/tv_hard_point_header"
+            app:srb_clickable="true"
+            app:srb_isIndicator="false"
+            app:srb_numStars="5"
+            app:srb_rating="0"
+            app:srb_scrollable="true"
+            app:srb_starPadding="2dp"
+            app:srb_stepSize="0.5" />
 
-            <TextView
-                android:id="@+id/tv_environment_point_header"
-                style="@style/header_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="러닝 환경"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/rating_environment"
-                app:layout_constraintTop_toTopOf="@+id/rating_environment" />
+        <TextView
+            android:id="@+id/tv_environment_point_header"
+            style="@style/header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="4dp"
+            android:text="러닝 환경"
+            app:layout_constraintEnd_toEndOf="@+id/rating_hard"
+            app:layout_constraintStart_toStartOf="@+id/rating_hard"
+            app:layout_constraintTop_toBottomOf="@+id/rating_hard" />
 
-            <com.willy.ratingbar.ScaleRatingBar
-                android:id="@+id/rating_environment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="8dp"
-                app:srb_clickable="true"
-                app:srb_isIndicator="false"
-                app:srb_numStars="5"
-                app:srb_rating="0"
-                app:srb_scrollable="true"
-                app:srb_starPadding="2dp"
-                app:srb_stepSize="0.5" />
+        <com.willy.ratingbar.ScaleRatingBar
+            android:id="@+id/rating_environment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_environment_point_header"
+            app:layout_constraintStart_toStartOf="@+id/tv_environment_point_header"
+            app:layout_constraintTop_toBottomOf="@+id/tv_environment_point_header"
+            app:srb_clickable="true"
+            app:srb_isIndicator="false"
+            app:srb_numStars="5"
+            app:srb_rating="0"
+            app:srb_scrollable="true"
+            app:srb_starPadding="2dp"
+            app:srb_stepSize="0.5" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_cancel"
+            style="@style/header_text"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            android:background="@drawable/btn_round_main_color"
+            android:text="취소"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_recommend"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rating_environment" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_recommend"
@@ -84,11 +106,13 @@
             android:background="@drawable/btn_round_main_color"
             android:text="공유"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_cancel"
+            app:layout_constraintTop_toBottomOf="@+id/rating_environment" />
 
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
