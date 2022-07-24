@@ -24,7 +24,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
+import kotlin.math.round
 
 @AndroidEntryPoint
 class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_running) {
@@ -48,6 +51,8 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
 
     // TEST : 1분
     private val goal = 60 * 1000L
+    private val weight = 70
+    private var caloriesBurned = 0
 
     private lateinit var runningLoadingDialog: RunningLoadingDialog
 
@@ -78,9 +83,12 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             updateTracking(it)
         }
 
+        // 거리 텍스트 변경
         sumDistance = updateDistance()
         binding.tvDistance.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
 
+        // 칼로리 텍스트 변경
+        binding.tvCalorie.text = "$caloriesBurned kcal"
         initLiveData()
     }
 
@@ -134,9 +142,14 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             addLatestPolyline()
             moveCameraToUser()
 
+            // 칼로리 소모량 체크
+            caloriesBurned = ((sumDistance / 1000f) * weight).toInt()
+
             // 거리 텍스트 변경
             binding.tvDistance.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
-            Log.d("test5", "distance: ${TrackingUtility.getFormattedDistance(sumDistance)}")
+
+            // 칼로리 텍스트 변경
+            binding.tvCalorie.text = "$caloriesBurned kcal"
         }
 
         // 시간(타이머) 경과 관찰
@@ -214,9 +227,9 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
                 binding.tvCurrentTime.text = "00 : 00"
                 delay(3000L)
                 sendCommandToService(ACTION_SHOW_RUNNING_ACTIVITY)
-                delay(500L)
-                runningLoadingDialog.dismiss()
                 sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
+                delay(1000L)
+                runningLoadingDialog.dismiss()
             }
         }
     }
@@ -253,14 +266,14 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
                 stopRun()
             }
             tvTabGoal.setOnClickListener {
-                layoutMap.visibility = View.GONE
+                layoutMap.visibility = View.INVISIBLE
                 layoutGoal.visibility = View.VISIBLE
                 tvTabGoal.setTextColor(resources.getColor(R.color.mainColor))
                 tvTabMap.setTextColor(resources.getColor(R.color.black_high_emphasis))
             }
             tvTabMap.setOnClickListener {
                 layoutMap.visibility = View.VISIBLE
-                layoutGoal.visibility = View.GONE
+                layoutGoal.visibility = View.INVISIBLE
                 tvTabGoal.setTextColor(resources.getColor(R.color.black_high_emphasis))
                 tvTabMap.setTextColor(resources.getColor(R.color.mainColor))
             }
@@ -284,6 +297,39 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
     // 달리기 종료
     private fun stopRun() {
         sendCommandToService(ACTION_STOP_SERVICE)
+        zoomToWholeTrack()
+        endRunAndSaveToDB()
+    }
+
+    // 달리기 기록 저장
+    private fun endRunAndSaveToDB() {
+        // 몸무게 불러오기
+//        val weight = sharedPref.getFloat(KEY_WEIGHT,70f)
+
+        /**
+         * 날짜 변환
+         */
+        val calendar = Calendar.getInstance()
+        val yearFormat = SimpleDateFormat("yyyy", Locale.getDefault())
+        val monthFormat = SimpleDateFormat("MM", Locale.getDefault())
+        val dayFormat = SimpleDateFormat("dd", Locale.getDefault())
+
+        val year = yearFormat.format(calendar.time)
+        val month = monthFormat.format(calendar.time)
+        val day = dayFormat.format(calendar.time)
+        val title = "${year}년 ${month}월 ${day}일 러닝"
+
+        map?.snapshot { bmp ->
+            // 반올림
+            val avgSpeed =
+                round((sumDistance / 1000f) / (currentTimeInMillis / 1000f / 60 / 60) * 10) / 10f
+            val timestamp = calendar.timeInMillis
+            val caloriesBurned = ((sumDistance / 1000f) * weight).toInt()
+
+            Log.d("test5", "endRunAndSaveToDB: $bmp")
+//            val run = Run(0,bmp,timestamp,avgSpeed,sumDistance,currentTimeInMillis,
+//                caloriesBurned,title,year.toInt(),month.toInt(),day.toInt() )
+        }
         startActivity(Intent(this,RunningResultActivity::class.java))
         finish()
     }
@@ -307,6 +353,11 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         // 거리 텍스트 동기화
         sumDistance = updateDistance()
         binding.tvDistance.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
+
+        // 칼로리 소모량 체크
+        caloriesBurned = ((sumDistance / 1000f) * weight).toInt()
+        // 칼로리 텍스트 변경
+        binding.tvCalorie.text = "$caloriesBurned kcal"
         super.onResume()
     }
 
