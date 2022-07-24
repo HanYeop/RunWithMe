@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.dto.CrewDto;
+import com.ssafy.gumid101.dto.RecruitmentParamsDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.res.CrewFileDto;
 
@@ -16,4 +17,6 @@ public interface CrewManagerService {
 	int deleteCrew(long crewSeq, long userSeq)throws Exception;
 
 	int exitCrew(long crewSeq, Long userSeq)throws Exception;
+
+	List<CrewDto> crewSearcheByRecruitmentParams(RecruitmentParamsDto paramsDto)throws Exception;
 }

@@ -18,6 +18,7 @@ import com.ssafy.gumid101.customexception.IllegalParameterException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.dto.CrewDto;
 import com.ssafy.gumid101.dto.ImageFileDto;
+import com.ssafy.gumid101.dto.RecruitmentParamsDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.ImageFileEntity;
@@ -183,6 +184,15 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 			log.error("해당 오류가 났다는 것은 데이터 무결성이 깨졌다는 것을 의미한다. result = {}", result);
 		}
 		return result;
+	}
+
+	@Override
+	public List<CrewDto> crewSearcheByRecruitmentParams(RecruitmentParamsDto paramsDto) throws Exception {
+		
+		List<CrewDto> crewList =  crewManagerRepo.crewSearcheByRecruitmentParams(paramsDto);
+		
+		
+		return null;
 	}
 
 }

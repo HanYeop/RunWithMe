@@ -17,18 +17,18 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RecruitmentParamsDto implements Serializable {
-	private Integer size;
-	private Integer offset;
-	private String title;
-	private String startDay;
-	private String endDay;
-	private String startTime;
-	private String endTime;
-	private Integer pointMin;
-	private Integer pointMax;
-	private String purposeType;
-	private Integer purposeMinValue;
-	private Integer purposeMaxValue;
-	private Integer goalMinDays;
-	private Integer goalMaxDay;
+	private Long size; //오프셋으로 부터 보여줄 갯수
+	private Long offset; //0~떨어진 정도
+	private String title; //크루 이름 검색
+	private String startDay; //시작일
+	private String endDay; //종료일
+	private String startTime; //시작 시간
+	private String endTime; //끝나는 시간
+	private Integer pointMin; //포인트 최소 (포함)
+	private Integer pointMax; //포인트 최대 (포함)
+	private String purposeType; //perposeType distance,time
+	private Integer purposeMinValue; //목표 최소 (포함)
+	private Integer purposeMaxValue; //목표 최대 ( 포함 )
+	private Integer goalMinDay; //1주일에 행해야하는 횟수 최소
+	private Integer goalMaxDay; //1주일에 행해야하는 횟수 최대
 }

@@ -72,9 +72,16 @@ public class CrewManagerRestController {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param paramsDto
+	 * @return
+	 */
+	@ApiOperation("모집 중인 크루 리스트 보기")
 	@GetMapping("/recruitment")
 	public RequestEntity<?> getCrewRecruitment(@ModelAttribute RecruitmentParamsDto paramsDto){
 		
+		List<CrewDto> crewList =  crewManagerService.crewSearcheByRecruitmentParams(paramsDto);
 		return null;
 	}
 	
