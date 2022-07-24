@@ -15,7 +15,7 @@
         <TextView
             android:id="@+id/tv_running_result_name"
             style="@style/header_text"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="28dp"
             android:text="2022년 1월 1일 러닝"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"

@@ -51,7 +51,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:text="알림 켜기"
-                android:textSize="@dimen/join_title" />
+                android:textSize="@dimen/other_title" />
 
             <Switch
                 android:id="@+id/switch_notice"
@@ -69,7 +69,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:text="문의하기 QnA"
-            android:textSize="@dimen/join_title" />
+            android:textSize="@dimen/other_title" />
 
         <TextView
             android:id="@+id/tv_privacy_paper"
@@ -77,7 +77,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:text="개인정보 처리 방침"
-            android:textSize="@dimen/join_title" />
+            android:textSize="@dimen/other_title" />
 
 
         <LinearLayout
@@ -91,7 +91,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:text="서비스 버전"
-                android:textSize="@dimen/join_title" />
+                android:textSize="@dimen/other_title" />
 
             <TextView
                 android:id="@+id/tv_app_version_value"
@@ -101,7 +101,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginRight="24dp"
                 android:text="1.0"
-                android:textSize="@dimen/join_title" />
+                android:textSize="@dimen/other_title" />
 
         </LinearLayout>
 
@@ -112,7 +112,7 @@
             android:layout_marginTop="24dp"
             android:text="회원 탈퇴"
             android:textColor="@color/red"
-            android:textSize="@dimen/join_title" />
+            android:textSize="@dimen/other_title" />
 
 
         <LinearLayout
