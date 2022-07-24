@@ -14,12 +14,24 @@
         android:layout_height="match_parent"
         tools:context=".view.login.login.UserLoginFragment">
 
+        <ImageView
+            android:id="@+id/img_login_back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:alpha="0.3"
+            android:background="@drawable/login_back" />
+
         <TextView
             android:id="@+id/tv_login"
             style="@style/header_text"
             android:layout_marginTop="120dp"
-            android:text="로그인"
-            android:textSize="48sp"
+            android:text="로고 들어갈 자리\n(TEST : 누르면 메인 페이지로)"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,34 +40,34 @@
             android:id="@+id/img_btn_login_google"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginBottom="16dp"
             android:scaleType="fitXY"
             android:src="@drawable/google_login"
+            app:layout_constraintBottom_toTopOf="@+id/img_btn_login_naver"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_login" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/img_btn_login_naver"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
             android:scaleType="fitXY"
             android:src="@drawable/naver_login"
+            app:layout_constraintBottom_toTopOf="@+id/img_btn_login_kakao"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_btn_login_google" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/img_btn_login_kakao"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginBottom="80dp"
             android:scaleType="fitXY"
             android:src="@drawable/kakao_login"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_btn_login_naver" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -19,6 +19,7 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
+import com.ssafy.runwithme.MainActivity
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentUserLoginBinding
@@ -38,6 +39,11 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
 
     private fun initClickListener(){
         binding.apply {
+            // TEST
+            tvLogin.setOnClickListener {
+                startActivity(Intent(requireContext(),MainActivity::class.java))
+                requireActivity().finish()
+            }
             imgBtnLoginGoogle.setOnClickListener {
                 googleSignIn()
             }
