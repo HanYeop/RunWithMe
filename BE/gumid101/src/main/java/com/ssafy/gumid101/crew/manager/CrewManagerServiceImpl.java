@@ -5,6 +5,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +32,7 @@ import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.imgfile.ImageDirectory;
 import com.ssafy.gumid101.imgfile.ImageFileRepository;
 import com.ssafy.gumid101.res.CrewFileDto;
+import com.ssafy.gumid101.res.CrewUserFileDto;
 import com.ssafy.gumid101.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -44,7 +50,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 	private final ImageFileRepository imageRepo;
 
 	@Override
-	public List<CrewDto> getMyCurrentCrew(Long userSeq) throws Exception {
+	public List<?> getMyCurrentCruew(Long userSeq) throws Exception {
 		// new jpabook.jpashop.repository.order.simplequery.
 		// OrderSimpleQueryDto(o.id, m.name, o.status, o.orderDate, d.address)
 
@@ -53,10 +59,14 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		});
 		List<CrewEntity> crews = crewManagerRepo.findByUserSeqActive(user, LocalDateTime.now());
 
-		
+		List<CrewUserFileDto> crewList = crews.stream().map((entity) -> {
 
-		List<CrewDto> crewList = crews.stream().map((entity) -> {
-			return CrewDto.of(entity);
+			ImageFileDto imgDto = ImageFileDto.of(entity.getImageFile());
+			UserDto userDto = UserDto.of(entity.getManagerEntity());
+			CrewDto crewDto = CrewDto.of(entity);
+
+			return CrewUserFileDto.builder().crewDto(crewDto).userDto(userDto).ImageFileDto(imgDto).build();
+
 		}).collect(Collectors.toList());
 
 		return crewList;
@@ -97,21 +107,14 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 			throw new IllegalParameterException("생성을 위한 포인트가 부족합니다.");
 		}
 		try {
-			crewEntity = CrewEntity.builder()
-					.crewName(crewDto.getCrewName())
-					.crewDescription(crewDto.getCrewDescription())
-					.crewGoalDays(crewDto.getCrewGoalDays())
-					.crewGoalType(crewDto.getCrewGoalType())
-					.crewGoalAmount(crewDto.getCrewGoalAmount())
-					.crewPassword(crewDto.getCrewPassword())
-					.crewCost(crewDto.getCrewCost())
-					.crewMaxMember(crewDto.getCrewMaxMember())
-					.crewDateStart(crewDto.getCrewDateStart())
-					.crewDateEnd(crewDto.getCrewDateEnd())
-					.crewTimeStart(crewDto.getCrewTimeStart())
-					.crewTimeEnd(crewDto.getCrewTimeEnd())
-					.build();
-		}catch (Exception e) {
+			crewEntity = CrewEntity.builder().crewName(crewDto.getCrewName())
+					.crewDescription(crewDto.getCrewDescription()).crewGoalDays(crewDto.getCrewGoalDays())
+					.crewGoalType(crewDto.getCrewGoalType()).crewGoalAmount(crewDto.getCrewGoalAmount())
+					.crewPassword(crewDto.getCrewPassword()).crewCost(crewDto.getCrewCost())
+					.crewMaxMember(crewDto.getCrewMaxMember()).crewDateStart(crewDto.getCrewDateStart())
+					.crewDateEnd(crewDto.getCrewDateEnd()).crewTimeStart(crewDto.getCrewTimeStart())
+					.crewTimeEnd(crewDto.getCrewTimeEnd()).build();
+		} catch (Exception e) {
 			throw new IllegalParameterException("크루 생성 과정에서 문제가 발생했습니다.");
 		}
 		ImageFileEntity imageEntity = null;
@@ -128,21 +131,17 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 				throw new Exception("이미지 저장에 실패했습니다.");
 			}
 		}
-		
-		
+
 		managerEntity.setPoint(manager.getPoint() - crewDto.getCrewCost());
 //		userRepo.save(managerEntity);
 		crewManagerRepo.save(crewEntity);
 		crewEntity.setManagerEntity(managerEntity);
-		
-		UserCrewJoinEntity userCrewJoinEntity = UserCrewJoinEntity.builder()
-				.crewEntity(crewEntity)
-				.userEntity(managerEntity)
-				.build();
-		
+
+		UserCrewJoinEntity userCrewJoinEntity = UserCrewJoinEntity.builder().crewEntity(crewEntity)
+				.userEntity(managerEntity).build();
+
 		userCrewJoinRepository.save(userCrewJoinEntity);
-		
-		
+
 		return new CrewFileDto(CrewDto.of(crewEntity), savedFileDto);
 	}
 
@@ -188,8 +187,8 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 
 		if (LocalDateTime.now().isAfter(crew.getCrewDateStart())) {
 
-			user.setPoint(user.getPoint() + crew.getCrewCost()); //탈퇴 포인트 환급
-			result = userCrewJoinRepository.deleteByUserAndCrew(user, crew);//유저와 크루 참가 관계 삭제
+			user.setPoint(user.getPoint() + crew.getCrewCost()); // 탈퇴 포인트 환급
+			result = userCrewJoinRepository.deleteByUserAndCrew(user, crew);// 유저와 크루 참가 관계 삭제
 
 		} else {
 			throw new CrewPermissonDeniedException("이미 시작한 크루는 탈퇴할 수 없습니다.");
@@ -203,10 +202,9 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 
 	@Override
 	public List<CrewDto> crewSearcheByRecruitmentParams(RecruitmentParamsDto paramsDto) throws Exception {
-		
-		List<CrewDto> crewList =  crewManagerRepo.crewSearcheByRecruitmentParams(paramsDto);
-		
-		
+
+		List<CrewDto> crewList = crewManagerRepo.crewSearcheByRecruitmentParams(paramsDto);
+
 		return null;
 	}
 
