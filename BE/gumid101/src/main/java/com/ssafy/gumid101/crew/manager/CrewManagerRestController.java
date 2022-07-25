@@ -76,10 +76,11 @@ public class CrewManagerRestController {
 	 * 
 	 * @param paramsDto
 	 * @return
+	 * @throws Exception 
 	 */
 	@ApiOperation("모집 중인 크루 리스트 보기")
 	@GetMapping("/recruitment")
-	public RequestEntity<?> getCrewRecruitment(@ModelAttribute RecruitmentParamsDto paramsDto){
+	public RequestEntity<?> getCrewRecruitment(@ModelAttribute RecruitmentParamsDto paramsDto) throws Exception{
 		
 		List<CrewDto> crewList =  crewManagerService.crewSearcheByRecruitmentParams(paramsDto);
 		return null;
