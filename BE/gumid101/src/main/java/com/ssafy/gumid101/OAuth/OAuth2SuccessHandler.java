@@ -77,6 +77,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 		
 		map.put(JwtProperties.JWT_ACESS_NAME, token);
 		writer.append(mapper.writeValueAsString(map));
+		
 		writer.flush();
 
 

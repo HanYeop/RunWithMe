@@ -21,6 +21,7 @@ import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.res.CrewUserDto;
 import com.ssafy.gumid101.res.ResponseFrame;
+import com.ssafy.gumid101.res.RunRecordResultDto;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,13 +44,21 @@ public class CrewRestContoller {
 	
 	@ApiOperation("런 레코드 등록(미구현)")
 	@PostMapping("/crew/{crewId}/records")
-	public ResponseEntity<?> recordMyRun(@PathVariable("crewId") Long crewId ,@ModelAttribute RunRecordDto runRecord,@RequestPart MultipartFile imgFile){
+	public ResponseEntity<?> recordMyRun(
+			@PathVariable("crewId") Long crewId ,
+			@ModelAttribute RunRecordDto runRecord,
+			@RequestPart MultipartFile imgFile) throws Exception{
 		UserDto userDto =  loadUserFromToken();
 		
 		Long userSeq = userDto.getUserSeq();
-		crewService.insertUserRunRecordAsCrew(userSeq,crewId);
 		
-		return null;
+		
+		RunRecordResultDto runRecordResult = crewService.insertUserRunRecordAsCrew(userSeq,crewId,runRecord,imgFile);
+		
+		ResponseFrame<RunRecordResultDto> res= ResponseFrame.of(runRecordResult, 0, "러닝 기록 완료 결과에 대해 반환합니다.");
+		
+		
+		return new ResponseEntity<>(res,HttpStatus.OK);
 	}
 	@ApiOperation(value = "크루가입")
 	@PostMapping("/{crewId}/join")
