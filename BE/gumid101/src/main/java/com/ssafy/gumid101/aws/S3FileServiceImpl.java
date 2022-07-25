@@ -37,11 +37,9 @@ public class S3FileServiceImpl implements S3FileService {
 	 */
 	public ImageFileDto upload(MultipartFile multipartFile,String savedPath) throws Exception{
 		
-		multipartFile.getOriginalFilename();
 		
 		
 		String savedFileName = UUID.randomUUID().toString() ;
-		
 		
 		long size = multipartFile.getSize(); // 파일 크기
 		
@@ -63,7 +61,7 @@ public class S3FileServiceImpl implements S3FileService {
 		//유저는 /images/{imgseq}
 
 		
-		return ImageFileDto.builder().imgSavedName(savedFileName).imgSavedPath(savedPath).build();
+		return ImageFileDto.builder().imgSavedName(savedFileName).imgSavedPath(savedPath).imgOriginalName(multipartFile.getOriginalFilename()).build();
     }
 	
 //	public InputStream getObject(String storedFileName) throws IOException {
