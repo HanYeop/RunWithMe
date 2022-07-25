@@ -1,5 +1,8 @@
 package com.ssafy.gumid101.config;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,6 +27,9 @@ public class SwaggerConfig {
 	@Bean
 	public Docket api() {
 	    return new Docket(DocumentationType.SWAGGER_2)
+	    	.directModelSubstitute(LocalTime.class, String.class)
+	    	.directModelSubstitute(LocalDate.class, String.class)
+	    	.directModelSubstitute(LocalDateTime.class, String.class)
 	      .apiInfo(apiInfo())
 	      .securityContexts(Arrays.asList(securityContext()))
 	      .securitySchemes(Arrays.asList(apiKey()))

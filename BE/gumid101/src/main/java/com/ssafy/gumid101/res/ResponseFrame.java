@@ -16,4 +16,21 @@ public class ResponseFrame<T> {
 	private int count;
 	private String msg;
 
+	public static ResponseFrame<?> of(boolean isSuccess,String message){
+		ResponseFrame<?> frame = new ResponseFrame<>();
+		frame.setCount(0);
+		frame.setData(null);
+		frame.setMsg(message);
+		frame.setSuccess(isSuccess);
+		return  frame;
+	}
+	
+	public static <T> ResponseFrame<T> of(T data,int count,String message){
+		ResponseFrame<T> frame = new ResponseFrame<>();
+		frame.setCount(count);
+		frame.setData(data);
+		frame.setMsg(message);
+		frame.setSuccess(true);
+		return  frame;
+	}
 }

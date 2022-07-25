@@ -1,5 +1,6 @@
 package com.ssafy.gumid101.user;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.http.annotation.Experimental;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.customexception.ThirdPartyException;
+import com.ssafy.gumid101.dto.CrewBoardDto;
 import com.ssafy.gumid101.dto.RecordParamsDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.req.ProfileEditDto;
@@ -61,7 +63,7 @@ public class MyActivityRestController {
 
 		UserDto userDto = loadUserFromToken();
 
-		UserDto resUserDto = userService.getUserProfileById(userDto.getId());
+		UserDto resUserDto = userService.getUserProfileById(userDto.getUserSeq());
 
 		ResponseFrame<UserDto> resFrame = new ResponseFrame<UserDto>();
 
@@ -78,7 +80,9 @@ public class MyActivityRestController {
 			@RequestPart(value = "imgFile") MultipartFile imgFile) throws Exception {
 
 		UserDto userDto = loadUserFromToken();
+		userDto.setWeight(profile.getWeight());
 		userDto.setHeight(profile.getHeight());
+		userDto.setNickName(profile.getNickName());
 		
 		UserFileDto userFileDto= userService.editMyProfile(userDto,imgFile);
 		
@@ -120,21 +124,37 @@ public class MyActivityRestController {
 		return null;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@GetMapping("/rewards")
 	public ResponseEntity<?> getMyAchieve() {
 		return null;
 	}
 
-	@GetMapping("/boards")
-	public ResponseEntity<?> getMyBoards(@RequestParam(required = false) int size,
-			@RequestParam(required = false) int offset) {
-		/**
-		 * int값은 안 들어올 때 0으로 들어오는것으로 알고, size, offset은 검색 조건이 있다면 0이 아닌 값이므로 0이 들어왔을 떼
-		 * 예외적인 처리를 해야함.
-		 */
-		return null;
+	/**
+	 * int값은 안 들어올 때 0으로 들어오는것으로 알고, size, offset은 검색 조건이 있다면 0이 아닌 값이므로 0이 들어왔을 떼
+	 * 예외적인 처리를 해야함.
+	 * @throws Exception 
+	 */
+	@GetMapping("/boards") //안쓴 거는 null로 받기위해 참조형으로 파라메터를 받음
+	public ResponseEntity<?> getMyBoards(@RequestParam(required = false,name = "size") Long size,
+			@RequestParam(required = false,name = "offset") Long offset) throws Exception {
+		UserDto userDto = loadUserFromToken();
+		
+		List<CrewBoardDto> myBoardList =  userService.getMyBoards(userDto.getUserSeq(),size,offset);
+		
+		ResponseFrame<?> res = ResponseFrame.of(myBoardList,myBoardList.size(),"자신이 쓴 글을 반환합니다.");
+		
+		return new ResponseEntity<>(res,HttpStatus.OK);
 	}
 
+	/**
+	 * 우리 자체의 오류가 아니라 , S3를 사용하면서 난 오류이다.
+	 * @param e
+	 * @return
+	 */
 	@ExceptionHandler(ThirdPartyException.class)
 	public ResponseEntity<?> thirdParthExceptionHandle(ThirdPartyException e){
 		

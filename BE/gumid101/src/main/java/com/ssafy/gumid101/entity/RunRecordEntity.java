@@ -16,12 +16,14 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "t_run_record")
 @EntityListeners(AuditingEntityListener.class)
 public class RunRecordEntity {
@@ -29,33 +31,33 @@ public class RunRecordEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "run_record_seq")
-	private long runRecordSeq;
+	private Long runRecordSeq;
 
-	@Column(name = "run_record_start_time")
+	@Column(nullable = true, name = "run_record_start_time")
 	private LocalDateTime runRecordStartTime;
 	
-	@Column(name = "run_record_end_time")
+	@Column(nullable = true, name = "run_record_end_time")
 	private LocalDateTime runRecordEndTime;
 
-	@Column(name = "run_record_running_time")
-	private int runRecordRunningTime;
+	@Column(nullable = true, name = "run_record_running_time")
+	private Integer runRecordRunningTime;
 
-	@Column(name = "run_record_running_distance")
-	private double runRecordRunningDistance;
+	@Column(nullable = true, name = "run_record_running_distance")
+	private Integer runRecordRunningDistance;
 
-	@Column(name = "run_record_avg_speed")
-	private double runRecordAvgSpeed;
+	@Column(nullable = true, name = "run_record_avg_speed")
+	private Double runRecordAvgSpeed;
 
-	@Column(name = "run_record_calorie")
-	private double runRecordCalorie;
+	@Column(nullable = true, name = "run_record_calorie")
+	private Double runRecordCalorie;
 
-	@Column(name = "run_record_lat")
-	private double runRecordLat;
+	@Column(nullable = true, name = "run_record_lat")
+	private Double runRecordLat;
 
-	@Column(name = "run_record_lng")
-	private double runRecordLng;
+	@Column(nullable = true, name = "run_record_lng")
+	private Double runRecordLng;
 
-	@Column(name = "run_record_complete_YN", columnDefinition = "varchar(10) default 'N'")
+	@Column(nullable = true, name = "run_record_complete_YN", columnDefinition = "varchar(10) default 'N'")
 	private String runRecordCompleteYN;
 
 	@ManyToOne
@@ -65,11 +67,12 @@ public class RunRecordEntity {
 	@OneToOne
 	@JoinColumn(name="img_seq")
 	private ImageFileEntity imageFile;
-	/**
-	 * 관계 더 남음
-	 */
-
-	@Column(name = "run_record_reg_time")
+	
+	@ManyToOne
+	@JoinColumn(name = "crew_seq")
+	private CrewEntity crewEntity;
+	
+	@Column(nullable = false, name = "run_record_reg_time")
 	@CreatedDate
 	private LocalDateTime runRecordRegTime;
 }

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.user.Role;
 
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,15 +21,21 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RecordParamsDto implements Serializable {
-	private long userSeq;
+	@ApiParam(value = "유저 번호")
+	private Long userSeq;
+
+	@ApiParam(value = "크루 번호")
+	private Long crewSeq;
+
+	@ApiParam(value = "얻어올 개수")
+	private Integer size;
+
+	@ApiParam(value = "얻어올 위치")
+	private Integer offset;
 	
-	private long crewSeq;
+	@ApiParam(value = "년")
+	private Integer year;
 	
-	private int size;
-	
-	private int offset;
-	
-	private int year;
-	
-	private int month;
+	@ApiParam(value = "월")
+	private Integer month;
 }

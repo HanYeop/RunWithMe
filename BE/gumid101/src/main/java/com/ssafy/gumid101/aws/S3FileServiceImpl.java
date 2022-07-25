@@ -1,6 +1,5 @@
 package com.ssafy.gumid101.aws;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
@@ -15,8 +14,6 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import com.amazonaws.util.IOUtils;
 import com.ssafy.gumid101.dto.ImageFileDto;
 
 import lombok.RequiredArgsConstructor;
@@ -40,11 +37,9 @@ public class S3FileServiceImpl implements S3FileService {
 	 */
 	public ImageFileDto upload(MultipartFile multipartFile,String savedPath) throws Exception{
 		
-		multipartFile.getOriginalFilename();
 		
 		
 		String savedFileName = UUID.randomUUID().toString() ;
-		
 		
 		long size = multipartFile.getSize(); // 파일 크기
 		
@@ -54,7 +49,7 @@ public class S3FileServiceImpl implements S3FileService {
 		
 		// S3에 업로드
 		amazonS3Client.putObject(
-			new PutObjectRequest(bucket, savedFileName, multipartFile.getInputStream(), objectMetaData)
+			new PutObjectRequest(bucket, savedPath + "/" + savedFileName, multipartFile.getInputStream(), objectMetaData)
 				.withCannedAcl(CannedAccessControlList.PublicRead)
 		);
 		
@@ -66,29 +61,37 @@ public class S3FileServiceImpl implements S3FileService {
 		//유저는 /images/{imgseq}
 
 		
-		return ImageFileDto.builder().imgSavedName(savedFileName).imgSavedPath(savedPath).build();
+		return ImageFileDto.builder().imgSavedName(savedFileName).imgSavedPath(savedPath).imgOriginalName(multipartFile.getOriginalFilename()).build();
     }
 	
-	public InputStream getObject(String storedFileName) throws IOException {
-	      //  Content-Type : image/jpeg 
-        S3Object o = amazonS3Client.getObject(new GetObjectRequest(bucket, storedFileName));
-        //
+//	public InputStream getObject(String storedFileName) throws IOException {
+//	      //  Content-Type : image/jpeg 
+//        S3Object o = amazonS3Client.getObject(new GetObjectRequest(bucket, storedFileName));
+//        //
+//        
+//        S3ObjectInputStream objectInputStream = ((S3Object) o).getObjectContent();
+//        
+//        InputStream is = (InputStream)objectInputStream;
+//        
+//       // byte[] bytes = IOUtils.toByteArray(objectInputStream);
+// 
+//        //String fileName = URLEncoder.encode(storedFileName, "UTF-8").replaceAll("\\+", "%20");
+//
+//       // HttpHeaders httpHeaders = new HttpHeaders();
+//       // httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//       // httpHeaders.setContentLength(bytes.length);
+//        //httpHeaders.setContentDispositionFormData("attachment", fileName);
+// 
+//        return is;
+// 
+	@Override
+	public InputStream getObject(ImageFileDto imageDto) throws IOException {
+        S3Object o = amazonS3Client.getObject(new GetObjectRequest(bucket, imageDto.getImgSavedPath() + "/" + imageDto.getImgSavedName()));
+//        S3Object o = amazonS3Client.getObject(new GetObjectRequest(bucket, imageDto.getImgSavedName()));
         
-        S3ObjectInputStream objectInputStream = ((S3Object) o).getObjectContent();
-        
-        InputStream is = (InputStream)objectInputStream;
-        
-       // byte[] bytes = IOUtils.toByteArray(objectInputStream);
- 
-        //String fileName = URLEncoder.encode(storedFileName, "UTF-8").replaceAll("\\+", "%20");
-
-       // HttpHeaders httpHeaders = new HttpHeaders();
-       // httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-       // httpHeaders.setContentLength(bytes.length);
-        //httpHeaders.setContentDispositionFormData("attachment", fileName);
- 
-        return is;
- 
+        return o.getObjectContent();
+//        S3ObjectInputStream objectInputStream = o.getObjectContent();
+//        return IOUtils.toByteArray(objectInputStream);
     }
 
 	

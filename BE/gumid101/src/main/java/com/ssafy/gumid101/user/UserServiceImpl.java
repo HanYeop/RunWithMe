@@ -2,11 +2,14 @@ package com.ssafy.gumid101.user;
 
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,9 +17,13 @@ import com.ssafy.gumid101.aws.S3FileService;
 import com.ssafy.gumid101.customexception.DuplicateException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.customexception.ThirdPartyException;
+import com.ssafy.gumid101.dto.CrewBoardDto;
 import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.entity.CrewBoardEntity;
+import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.ImageFileEntity;
+import com.ssafy.gumid101.entity.QUserEntity;
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.imgfile.ImageDirectory;
 import com.ssafy.gumid101.imgfile.ImageFileRepository;
@@ -80,7 +87,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserFileDto editMyProfile(UserDto userDto, MultipartFile imgFile) throws Exception {
 
-		UserEntity userEntity = userRepo.findById(userDto.getId())
+		UserEntity userEntity = userRepo.findById(userDto.getUserSeq())
 				.orElseThrow(() -> new NotFoundUserException("해당 유저를 찾을 수 없습니다."));
 
 		userEntity.setHeight(userDto.getHeight());
@@ -97,14 +104,28 @@ public class UserServiceImpl implements UserService {
 			throw new ThirdPartyException("S3 Buket 파일 업로드 중 오류가 발생하였습니다.");
 		}
 
-		ImageFileEntity imageEntity = ImageFileEntity.builder().img_original_name(imgFile.getOriginalFilename())
-				.img_saved_name(imageFileDto.getImgSavedName()).img_saved_path(imageFileDto.getImgSavedPath()).build();
+		ImageFileEntity imageEntity = ImageFileEntity.builder().imgOriginalName(imgFile.getOriginalFilename())
+				.imgSavedName(imageFileDto.getImgSavedName()).imgSavedPath(imageFileDto.getImgSavedPath()).build();
 
 		imageRepo.save(imageEntity);
 
 		userEntity.setImageFile(imageEntity);
 
 		return new UserFileDto(UserDto.of(userEntity), ImageFileDto.of(imageEntity));
+	}
+
+	@Override
+	public List<CrewBoardDto> getMyBoards(Long userSeq, Long size, Long offset) throws Exception {
+		
+		
+		UserEntity user = userRepo.findById(userSeq).orElseThrow(()->new UsernameNotFoundException("자신의 글 조회중, 유저를 특정할 수 없습니다.")); 
+		
+		List<CrewBoardEntity> myBoards  = userRepo.findUserBoardsWithOffestAndSize(user, size, offset);
+		
+		List<CrewBoardDto> myBoardList= myBoards.stream().map((item)->CrewBoardDto.of(item)).collect(Collectors.toList());
+		
+		
+		return myBoardList;
 	}
 
 }

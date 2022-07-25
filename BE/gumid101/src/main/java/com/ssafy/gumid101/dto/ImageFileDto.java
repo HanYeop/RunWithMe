@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.ssafy.gumid101.entity.ImageFileEntity;
 
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,20 +21,24 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ImageFileDto implements Serializable {
 
-    private long imgSeq;
+	@ApiParam(value = "이미지 번호")
+    private Long imgSeq;
 
+	@ApiParam(value = "이미지 원래 이름")
     private String imgOriginalName;
     
+	@ApiParam(value = "S3상 저장된 이름")
     private String imgSavedName;
     
+	@ApiParam(value = "S3상 저장 경로")
     private String imgSavedPath;
     
     public static ImageFileDto of(ImageFileEntity imageFile) {
         return new ImageFileDtoBuilder()
-                .imgSeq(imageFile.getImg_seq())
-                .imgOriginalName(imageFile.getImg_original_name())
-                .imgSavedName(imageFile.getImg_saved_name())
-                .imgSavedPath(imageFile.getImg_saved_path())
+                .imgSeq(imageFile.getImgSeq())
+                .imgOriginalName(imageFile.getImgOriginalName())
+                .imgSavedName(imageFile.getImgSavedName())
+                .imgSavedPath(imageFile.getImgSavedPath())
                 .build();
     }
 }

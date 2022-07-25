@@ -4,13 +4,21 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -18,22 +26,26 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class ImageFileEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "img_seq")
-	private Long img_seq;
+	private Long imgSeq;
 
-	@Column(name = "img_original_name")
-	private String img_original_name;
+	@Column(nullable = false, name = "img_original_name")
+	private String imgOriginalName;
 	
-	@Column(name = "img_saved_name")
-	private String img_saved_name;
+	@Column(nullable = false, name = "img_saved_name")
+	private String imgSavedName;
 	
-	@Column(name = "img_saved_path")
-	private String img_saved_path;
+	@Column(nullable = false, name = "img_saved_path")
+	private String imgSavedPath;
 	
-	@Column(name = "img_reg_time")
-	private LocalDateTime img_reg_time;
+	@CreatedDate
+	@Column(nullable = false, name = "img_reg_time")
+	private LocalDateTime imgRegTime;
 }
