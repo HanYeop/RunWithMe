@@ -54,4 +54,10 @@ public class CrewServiceImpl implements CrewService {
 		return crewUserDto;
 	}
 
+	@Override
+	public void insertUserRunRecordAsCrew(Long userSeq, Long crewId) {
+		
+		
+	}
+
 }

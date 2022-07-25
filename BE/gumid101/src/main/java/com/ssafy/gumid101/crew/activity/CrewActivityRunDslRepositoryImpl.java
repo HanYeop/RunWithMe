@@ -14,7 +14,7 @@ import com.ssafy.gumid101.entity.QRunRecordEntity;
 import com.ssafy.gumid101.entity.RunRecordEntity;
 
 @Repository
-public class CrewActivityRunRepositoryDSL{
+public class CrewActivityRunDslRepositoryImpl implements CrewActivityRunDslRepository{
 	
 	@Autowired
 	EntityManager em;
@@ -22,19 +22,20 @@ public class CrewActivityRunRepositoryDSL{
 	@Autowired
 	JPAQueryFactory factory;
 	
+	@Override
 	public List<RunRecordEntity> getRunRecords(RecordParamsDto condition){
 		QRunRecordEntity qRunRecordEntity = QRunRecordEntity.runRecordEntity;
 		BooleanBuilder builder = new BooleanBuilder();
-		if (condition.getCrewSeq() != null && condition.getCrewSeq() == -1) {
+		if (condition.getCrewSeq() != null && condition.getCrewSeq() > 0) {
 			builder.and(qRunRecordEntity.crewEntity.crewSeq.eq(condition.getCrewSeq()));
 		}
-		if (condition.getUserSeq() != null && condition.getUserSeq() == -1) {
+		if (condition.getUserSeq() != null && condition.getUserSeq() > 0) {
 			builder.and(qRunRecordEntity.userEntity.userSeq.eq(condition.getUserSeq()));
 		}
-		if (condition.getMonth() != null && condition.getMonth() == 0) {
+		if (condition.getMonth() != null && condition.getMonth() != 0) {
 			builder.and(qRunRecordEntity.runRecordRegTime.month().eq(condition.getMonth()));
 		}
-		if (condition.getYear() != null && condition.getYear() == 0) {
+		if (condition.getYear() != null && condition.getYear() != 0) {
 			builder.and(qRunRecordEntity.runRecordRegTime.year().eq(condition.getYear()));
 		}
 		factory = new JPAQueryFactory(em);

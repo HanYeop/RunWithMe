@@ -38,6 +38,12 @@ public class CrewActivityRestController {
 	
 	private final CrewActivityService crewActivityService;
 	private final CrewActivityBoardService crewActivityBoardService;
+
+	private UserDto loadUserFromToken() {
+		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDto tokenUser = (UserDto) autentication.getPrincipal();
+		return tokenUser;
+	}
 	
 	public RequestEntity<?> getCrewRecord(){
 		return null;
@@ -66,16 +72,35 @@ public class CrewActivityRestController {
 		return new ResponseEntity<>(responseMap, httpStatus);
 	}
 	
+	@ApiOperation("크루내 랭킹(미구현)")
 	@GetMapping("/{crewSeq}/ranking")
 	public RequestEntity<?> getCrewRankings(@ModelAttribute RankingParamsDto rankingParamsDto){
 		return null;
 	}
 
-	@GetMapping("/{crewSeq}/my")
-	public RequestEntity<?> getCrewMyRecords(@ModelAttribute RecordParamsDto recordParamsDto){
-		return null;
+	@ApiOperation(value = "크루 내 나의 기록 조회")
+	@GetMapping("/{crewSeq_p}/my")
+	public ResponseEntity<?> getCrewMyRecords(@PathVariable(name = "crewSeq_p") String crewSeq, @ModelAttribute RecordParamsDto recordParamsDto){
+		recordParamsDto.setCrewSeq(Long.parseLong(crewSeq));
+		ResponseFrame<List<RunRecordDto>> responseMap = new ResponseFrame<>();
+		HttpStatus httpStatus = HttpStatus.OK;
+		
+		List<RunRecordDto> crewRecordList = crewActivityService.getCrewRecordList(recordParamsDto);
+
+		if (crewRecordList == null) {
+			httpStatus = HttpStatus.CONFLICT;
+			responseMap.setCount(0);
+			responseMap.setSuccess(false);
+		} else {
+			responseMap.setCount(crewRecordList.size());
+			responseMap.setSuccess(true);
+		}
+		responseMap.setData(crewRecordList);
+
+		return new ResponseEntity<>(responseMap, httpStatus);
 	}
 	
+	@ApiOperation("크루내 내 통합 누적 기록 보기(미구현)")
 	@GetMapping("/{crewSeq}/my-total")
 	public RequestEntity<?> getCrewMyTotalRecords(@PathVariable long crewSeq){
 		return null;
@@ -137,6 +162,7 @@ public class CrewActivityRestController {
 		return new ResponseEntity<>(responseFrame, httpStatus);
 	}
 	
+	@ApiOperation("크루 내 게시글 삭제")
 	@DeleteMapping("/{crewSeq}/boards/{boardSeq}")
 	public ResponseEntity<?> deleteCrewBoards(@PathVariable Long crewSeq, @PathVariable Long boardSeq){
 		Boolean deleteSuccess = null;
