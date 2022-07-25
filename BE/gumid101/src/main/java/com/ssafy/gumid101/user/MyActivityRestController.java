@@ -67,7 +67,7 @@ public class MyActivityRestController {
 		ResponseFrame<UserDto> resFrame = new ResponseFrame<UserDto>();
 
 		resFrame.setCount(resUserDto == null ? 0 : 1);
-		resFrame.setSuccess(resUserDto == null ? false : true);
+		resFrame.setIsSuccess(resUserDto == null ? false : true);
 		resFrame.setData(resUserDto);
 
 		return new ResponseEntity<>(resFrame, resUserDto != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
@@ -89,7 +89,7 @@ public class MyActivityRestController {
 		
 		res.setCount(userFileDto == null ?  0 : 1);
 		res.setData(userFileDto);
-		res.setSuccess(userFileDto == null ?  false: true);
+		res.setIsSuccess(userFileDto == null ?  false: true);
 		
 		return new ResponseEntity<>(res,HttpStatus.OK);
 	}
@@ -112,13 +112,13 @@ public class MyActivityRestController {
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseFrame.setCount(0);
-			responseFrame.setSuccess(false);
+			responseFrame.setIsSuccess(false);
 			responseFrame.setMsg(e.getMessage());
 		}
 		
 		if (myTotalRecord != null) {
 			responseFrame.setCount(1);
-			responseFrame.setSuccess(true);
+			responseFrame.setIsSuccess(true);
 			responseFrame.setMsg("자신 누적 기록 조회에 성공했습니다.");
 		}
 		responseFrame.setData(myTotalRecord);
@@ -155,13 +155,13 @@ public class MyActivityRestController {
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseFrame.setCount(0);
-			responseFrame.setSuccess(false);
+			responseFrame.setIsSuccess(false);
 			responseFrame.setMsg(e.getMessage());
 		}
 		
 		if (myRecordList != null) {
 			responseFrame.setCount(myRecordList.size());
-			responseFrame.setSuccess(true);
+			responseFrame.setIsSuccess(true);
 			responseFrame.setMsg("자신의 전체 기록 목록 조회에 성공했습니다.");
 		}
 		responseFrame.setData(myRecordList);
@@ -197,7 +197,7 @@ public class MyActivityRestController {
 		
 		res.setCount(0);
 		res.setData(null);
-		res.setSuccess(false);
+		res.setIsSuccess(false);
 		
 		return new ResponseEntity<>(res,HttpStatus.INTERNAL_SERVER_ERROR);
 		

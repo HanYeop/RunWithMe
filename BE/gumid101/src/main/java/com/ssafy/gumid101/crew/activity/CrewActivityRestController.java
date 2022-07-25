@@ -56,10 +56,10 @@ public class CrewActivityRestController {
 		if (crewRecordList == null) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseMap.setCount(0);
-			responseMap.setSuccess(false);
+			responseMap.setIsSuccess(false);
 		} else {
 			responseMap.setCount(crewRecordList.size());
-			responseMap.setSuccess(true);
+			responseMap.setIsSuccess(true);
 		}
 		responseMap.setData(crewRecordList);
 
@@ -101,13 +101,13 @@ public class CrewActivityRestController {
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseFrame.setCount(0);
-			responseFrame.setSuccess(false);
+			responseFrame.setIsSuccess(false);
 			responseFrame.setMsg(e.getMessage());
 		}
 		
 		if (crewBoardFileDto != null) {
 			responseFrame.setCount(1);
-			responseFrame.setSuccess(true);
+			responseFrame.setIsSuccess(true);
 			responseFrame.setMsg("글 작성에 성공했습니다.");
 		}
 		responseFrame.setData(crewBoardFileDto);
@@ -127,13 +127,13 @@ public class CrewActivityRestController {
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseFrame.setCount(0);
-			responseFrame.setSuccess(false);
+			responseFrame.setIsSuccess(false);
 			responseFrame.setMsg(e.getMessage());
 		}
 		
 		if (crewBoardFileDtoList != null) {
 			responseFrame.setCount(crewBoardFileDtoList.size());
-			responseFrame.setSuccess(true);
+			responseFrame.setIsSuccess(true);
 			responseFrame.setMsg("글 조회 성공");
 		}
 		responseFrame.setData(crewBoardFileDtoList);
@@ -151,13 +151,13 @@ public class CrewActivityRestController {
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseFrame.setCount(0);
-			responseFrame.setSuccess(false);
+			responseFrame.setIsSuccess(false);
 			responseFrame.setMsg(e.getMessage());
 		}
 		
 		if (deleteSuccess != null) {
 			responseFrame.setCount(1);
-			responseFrame.setSuccess(true);
+			responseFrame.setIsSuccess(true);
 			responseFrame.setMsg("글 삭제 성공");
 		}
 		responseFrame.setData(deleteSuccess);
