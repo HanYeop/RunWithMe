@@ -59,7 +59,7 @@ public class CrewManagerRestController {
 		
 		UserDto userDto= loadUserFromToken();
 		
-		List<CrewDto> crewList =  crewManagerService.getMyCurrentCruew(userDto.getUserSeq());
+		List<CrewDto> crewList =  crewManagerService.getMyCurrentCrew(userDto.getUserSeq());
 		
 		ResponseFrame.of(crewList, crewList.size(), "현재 진행중, 진행 예정인 나의 현재 크루가 반환되었습니다.");
 		
