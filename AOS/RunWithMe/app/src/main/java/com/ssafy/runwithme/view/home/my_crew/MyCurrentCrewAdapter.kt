@@ -8,14 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.runwithme.databinding.ItemMyCurrentCrewBinding
 import com.ssafy.runwithme.model.dto.MyCurrentCrewResponse
 
-class MyCurrentCrewAdapter : ListAdapter<MyCurrentCrewResponse, MyCurrentCrewAdapter.ViewHolder>(diffUtil){
+class MyCurrentCrewAdapter(private val listener: MyCurrentCrewListener) : ListAdapter<MyCurrentCrewResponse, MyCurrentCrewAdapter.ViewHolder>(diffUtil){
 
     inner class ViewHolder(private val binding: ItemMyCurrentCrewBinding): RecyclerView.ViewHolder(binding.root){
 
-        // TODO : 클릭리스너
         init {
-
+            binding.root.setOnClickListener {
+                listener.onItemClick(getItem(adapterPosition))
+            }
         }
+
         fun bind(myCurrentCrew: MyCurrentCrewResponse){
             binding.myCurrentCrewResponse = myCurrentCrew
         }

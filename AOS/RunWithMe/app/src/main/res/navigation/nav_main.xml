@@ -69,7 +69,11 @@
         android:id="@+id/myCurrentCrewFragment"
         android:name="com.ssafy.runwithme.view.home.my_crew.MyCurrentCrewFragment"
         android:label="MyCurrentCrewFragment"
-        tools:layout="@layout/fragment_my_current_crew"/>
+        tools:layout="@layout/fragment_my_current_crew">
+        <action
+            android:id="@+id/action_myCurrentCrewFragment_to_crewDetailFragment"
+            app:destination="@id/crewDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/totalUserRankingFragment"
         android:name="com.ssafy.runwithme.view.home.ranking.TotalUserRankingFragment"
@@ -92,6 +96,9 @@
         <action
             android:id="@+id/action_crewDetailFragment_to_crewBoardFragment"
             app:destination="@id/crewBoardFragment" />
+        <argument
+            android:name="mycrewdetail"
+            app:argType="com.ssafy.runwithme.model.dto.MyCurrentCrewResponse" />
     </fragment>
     <fragment
         android:id="@+id/crewMyRunRecordFragment"

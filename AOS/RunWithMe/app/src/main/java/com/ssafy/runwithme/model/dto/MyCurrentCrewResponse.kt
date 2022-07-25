@@ -1,7 +1,10 @@
 package com.ssafy.runwithme.model.dto
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class MyCurrentCrewResponse(
     @SerializedName ("crew_id") val crewId: Int,
     @SerializedName ("crew_name") val crewName: String,
@@ -16,4 +19,4 @@ data class MyCurrentCrewResponse(
     @SerializedName ("day_start") val dayStart: String,
     @SerializedName ("day_end") val dayEnd: String,
     @SerializedName ("today_complete") val todayComplete: Boolean
-)
+): Parcelable
