@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -25,6 +27,8 @@ import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentUserLoginBinding
 import com.ssafy.runwithme.view.login.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragment_user_login) {
@@ -35,6 +39,8 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
         binding.userVm = userViewModel
 
         initClickListener()
+
+        initViewModelCallBack()
     }
 
     private fun initClickListener(){
@@ -53,6 +59,16 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
             imgBtnLoginKakao.setOnClickListener {
                 kakaoSignIn()
             }
+        }
+    }
+
+    private fun initViewModelCallBack(){
+        userViewModel.joinEvent.observe(viewLifecycleOwner) {
+            findNavController().navigate(R.id.action_userLoginFragment_to_userJoinFragment)
+        }
+        userViewModel.loginEvent.observe(viewLifecycleOwner){
+            startActivity(Intent(requireContext(),MainActivity::class.java))
+            requireActivity().finish()
         }
     }
 
@@ -77,10 +93,8 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
             try {
                 val account = task.getResult(ApiException::class.java)
                 val accessToken = account.idToken!!
-                showToast(accessToken)
 
                 userViewModel.googleLogin(accessToken)
-                Log.d("test5", ":$accessToken ")
             } catch (e: ApiException) {
                 Log.w("test5", "signInResult:failed code=" + e.statusCode)
             }

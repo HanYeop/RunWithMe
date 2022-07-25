@@ -22,7 +22,7 @@ class UserJoinFragment : BaseFragment<FragmentUserJoinBinding>(R.layout.fragment
         binding.spinnerHeight.setSelection(30) // 초기 값 설정
         binding.spinnerHeight.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                showToast((position + 120).toString())
+//                showToast((position + 120).toString())
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) { }
@@ -32,7 +32,7 @@ class UserJoinFragment : BaseFragment<FragmentUserJoinBinding>(R.layout.fragment
         binding.spinnerWeight.setSelection(30) // 초기 값 설정
         binding.spinnerWeight.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                showToast((position + 20).toString())
+//                showToast((position + 20).toString())
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) { }
