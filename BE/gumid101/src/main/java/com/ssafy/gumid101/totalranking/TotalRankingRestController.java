@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiParam;
 @Api(tags = "전체 랭킹")
 @RequestMapping("/total-ranking")
 @RestController
-public class TotalRankingController {
+public class TotalRankingRestController {
 
 	TotalRankingService totalRankingService;
 	/**
@@ -30,7 +30,8 @@ public class TotalRankingController {
 	 * @return
 	 * @throws Exception 
 	 */
-	@ApiOperation("전체 랭킹 가져오기")
+	
+	@ApiOperation("전체 랭킹 가져오기,입력 값 타입 {distance,time,point}")
 	@RequestMapping("/{type}")
 	public ResponseEntity<?> getTotalRanking(@ApiParam("distance,time,point") @PathVariable String rankingType,@RequestParam Long size,@RequestParam Long offset) throws Exception{
 		

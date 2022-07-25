@@ -22,10 +22,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.res.ResponseFrame;
 import com.ssafy.gumid101.user.Role;
 import com.ssafy.gumid101.user.UserRepository;
 
@@ -37,17 +39,58 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class JwtAuthFilter extends GenericFilterBean {
+public class JwtAuthFilter extends OncePerRequestFilter  {
 
 	private final JwtUtilsService JwtUtils;
 	private final UserRepository userRepo;
 
 	private final ObjectMapper mapper;
 
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
 
+	private String validateTokenOrOccurFailResponse(HttpServletResponse hRes, String token) throws IOException {
+		String userSeq = null;
+
+		try {
+			userSeq = JwtUtils.getUsername(token,"userSeq");
+
+		} catch (Exception e) {
+			logger.info("토큰 에러:" + e.getMessage());
+
+			hRes.setStatus(401);
+			
+			hRes.getWriter().write(mapper.writeValueAsString(ResponseFrame.of(false,e.getMessage())));
+
+			hRes.flushBuffer();
+		}
+		// UnsupportedJwtException - if the claimsJws argument does not represent an
+		// Claims
+		// JWSMalformedJwtException - if the claimsJws string is not a valid JWS
+		// SignatureException - if the claimsJws JWS signature validation
+		// failsExpiredJwtException - if the specified JWT is a Claims JWT and the
+		// Claims has an expiration timebefore the time this method is invoked.
+		// IllegalArgumentException - if the claimsJws string is null or empty or only
+		// whitespace
+
+		return userSeq;
+	}
+
+	public Authentication getAuthentication(UserDto member) {
+
+		ArrayList<SimpleGrantedAuthority> athorities = new ArrayList<>();
+
+		if ("ROLE_USER".equals(member.getRole().getKey())) {
+			athorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		} else if ("ROLE_ADMIN".equals(member.getRole().getKey())) {
+			athorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+			athorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		}
+
+		return new UsernamePasswordAuthenticationToken(member, "", athorities);
+	}
+
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
 		String token = ((HttpServletRequest) request).getHeader(JwtProperties.JWT_ACESS_NAME);
 		
 		HttpServletResponse hRes = (HttpServletResponse) response;
@@ -85,48 +128,7 @@ public class JwtAuthFilter extends GenericFilterBean {
 			return;
 		}
 
-		chain.doFilter(request, response);
-	}
-
-	private String validateTokenOrOccurFailResponse(HttpServletResponse hRes, String token) throws IOException {
-		String userSeq = null;
-
-		try {
-			userSeq = JwtUtils.getUsername(token,"userSeq");
-
-		} catch (Exception e) {
-			logger.info("토큰 에러:" + e.getMessage());
-
-			hRes.setStatus(401);
-			Map<String, String> map = new HashMap<>();
-			map.put("msg", e.getMessage());
-			hRes.getWriter().write(mapper.writeValueAsString(map));
-
-			hRes.flushBuffer();
-		}
-		// UnsupportedJwtException - if the claimsJws argument does not represent an
-		// Claims
-		// JWSMalformedJwtException - if the claimsJws string is not a valid JWS
-		// SignatureException - if the claimsJws JWS signature validation
-		// failsExpiredJwtException - if the specified JWT is a Claims JWT and the
-		// Claims has an expiration timebefore the time this method is invoked.
-		// IllegalArgumentException - if the claimsJws string is null or empty or only
-		// whitespace
-
-		return userSeq;
-	}
-
-	public Authentication getAuthentication(UserDto member) {
-
-		ArrayList<SimpleGrantedAuthority> athorities = new ArrayList<>();
-
-		if ("ROLE_USER".equals(member.getRole().getKey())) {
-			athorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-		} else if ("ROLE_ADMIN".equals(member.getRole().getKey())) {
-			athorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-			athorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-		}
-
-		return new UsernamePasswordAuthenticationToken(member, "", athorities);
+		filterChain.doFilter(request, response);
+		
 	}
 }

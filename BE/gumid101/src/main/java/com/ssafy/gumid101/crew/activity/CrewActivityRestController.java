@@ -56,26 +56,29 @@ public class CrewActivityRestController {
 		if (crewRecordList == null) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseMap.setCount(0);
-			responseMap.setSuccess(false);
+			responseMap.setIsSuccess(false);
 		} else {
 			responseMap.setCount(crewRecordList.size());
-			responseMap.setSuccess(true);
+			responseMap.setIsSuccess(true);
 		}
 		responseMap.setData(crewRecordList);
 
 		return new ResponseEntity<>(responseMap, httpStatus);
 	}
 	
+	@ApiOperation("크루내 랭킹(미구현)")
 	@GetMapping("/{crewSeq}/ranking")
 	public RequestEntity<?> getCrewRankings(@ModelAttribute RankingParamsDto rankingParamsDto){
 		return null;
 	}
 
+	@ApiOperation("크루내 내 기록 보기(미구현)")
 	@GetMapping("/{crewSeq}/my")
 	public RequestEntity<?> getCrewMyRecords(@ModelAttribute RecordParamsDto recordParamsDto){
 		return null;
 	}
 	
+	@ApiOperation("크루내 내 통합 누적 기록 보기(미구현)")
 	@GetMapping("/{crewSeq}/my-total")
 	public RequestEntity<?> getCrewMyTotalRecords(@PathVariable long crewSeq){
 		return null;
@@ -98,13 +101,13 @@ public class CrewActivityRestController {
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseFrame.setCount(0);
-			responseFrame.setSuccess(false);
+			responseFrame.setIsSuccess(false);
 			responseFrame.setMsg(e.getMessage());
 		}
 		
 		if (crewBoardFileDto != null) {
 			responseFrame.setCount(1);
-			responseFrame.setSuccess(true);
+			responseFrame.setIsSuccess(true);
 			responseFrame.setMsg("글 작성에 성공했습니다.");
 		}
 		responseFrame.setData(crewBoardFileDto);
@@ -124,19 +127,20 @@ public class CrewActivityRestController {
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseFrame.setCount(0);
-			responseFrame.setSuccess(false);
+			responseFrame.setIsSuccess(false);
 			responseFrame.setMsg(e.getMessage());
 		}
 		
 		if (crewBoardFileDtoList != null) {
 			responseFrame.setCount(crewBoardFileDtoList.size());
-			responseFrame.setSuccess(true);
+			responseFrame.setIsSuccess(true);
 			responseFrame.setMsg("글 조회 성공");
 		}
 		responseFrame.setData(crewBoardFileDtoList);
 		return new ResponseEntity<>(responseFrame, httpStatus);
 	}
 	
+	@ApiOperation("크루 내 게시글 삭제")
 	@DeleteMapping("/{crewSeq}/boards/{boardSeq}")
 	public ResponseEntity<?> deleteCrewBoards(@PathVariable Long crewSeq, @PathVariable Long boardSeq){
 		Boolean deleteSuccess = null;
@@ -147,18 +151,19 @@ public class CrewActivityRestController {
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseFrame.setCount(0);
-			responseFrame.setSuccess(false);
+			responseFrame.setIsSuccess(false);
 			responseFrame.setMsg(e.getMessage());
 		}
 		
 		if (deleteSuccess != null) {
 			responseFrame.setCount(1);
-			responseFrame.setSuccess(true);
+			responseFrame.setIsSuccess(true);
 			responseFrame.setMsg("글 삭제 성공");
 		}
 		responseFrame.setData(deleteSuccess);
 		return new ResponseEntity<>(responseFrame, httpStatus);
 	}
+	
 	
 	@PostMapping("/{crewSeq}/records")
 	public RequestEntity<?> writeRunRecord(@PathVariable long crewSeq, @RequestPart(name = "img") MultipartFile image, @RequestPart RunRecordDto runRecordDto){

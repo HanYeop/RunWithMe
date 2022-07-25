@@ -26,6 +26,7 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import com.google.api.client.util.Strings;
 import com.ssafy.gumid101.OAuth.custom.validate.GoogleTokenValidate;
+import com.ssafy.gumid101.OAuth.custom.validate.KaKaoTokenValiate;
 import com.ssafy.gumid101.OAuth.custom.validate.NaverTokenValidate;
 
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,8 @@ public class CustomOAuthLoginValidateFilter extends GenericFilterBean {
 	private final AntPathMatcher pathMatcher = new AntPathMatcher();
 	private final GoogleTokenValidate googleTokenValidate = new GoogleTokenValidate();
     private final NaverTokenValidate naverTokenValidate = new NaverTokenValidate();
+    private final KaKaoTokenValiate kakaoTokenValidate = new KaKaoTokenValiate();
+    
 	private final SimpleUrlAuthenticationSuccessHandler successHandler;
 
 	@Override
@@ -55,7 +58,6 @@ public class CustomOAuthLoginValidateFilter extends GenericFilterBean {
 						SecurityContextHolder.getContext().getAuthentication());
 			}else {
 				chain.doFilter(request, response);
-				
 			}
 		} catch (Exception e) {
 
@@ -83,19 +85,33 @@ public class CustomOAuthLoginValidateFilter extends GenericFilterBean {
 		SecurityContextHolder.getContext().getAuthentication();
 		
 		Map<String, Object> userMap=null;
+		try {
+			
+		
 		switch (registrationId) {
 		case "google":
 			userMap = googleTokenValidate.validate(idToken);
 
 			break;
 		case "naver":
+			userMap = naverTokenValidate.validate(idToken);
 			break;
 		case "kakao":
+			userMap = kakaoTokenValidate.validate(idToken);
+			break;
 		default:
 			break;
 		}
+		}catch (Exception e) {
+			log.warn("토큰 검증 중 에러 : {}",e.getMessage());
+			e.printStackTrace();
+		}
+		
 		if(userMap ==null && userMap.size() == 0) {
+			
+			
 			return false;
+			//검증에 실패하였을 경우
 			
 		}
 

@@ -2,7 +2,6 @@ package com.ssafy.gumid101.user;
 
 import java.util.List;
 
-
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.BooleanBuilder;
@@ -10,8 +9,10 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.entity.CrewBoardEntity;
 import com.ssafy.gumid101.entity.QCrewBoardEntity;
+import com.ssafy.gumid101.entity.QCrewTotalRecordEntity;
 import com.ssafy.gumid101.entity.QUserEntity;
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.res.RankingDto;
@@ -84,6 +85,26 @@ public class UserCustomRepositoryImpl implements UserCustomRepository{
 		.fetch();
 		
 		return rankingList;
+	}
+	
+	@Override
+	public CrewTotalRecordDto getMyTotalRecord(UserEntity userEntity) throws Exception{
+		QCrewTotalRecordEntity qCrewTotalRecordEntity = QCrewTotalRecordEntity.crewTotalRecordEntity;
+		BooleanBuilder builder = new BooleanBuilder();
+		
+		return jpqQueryFactory
+				.select(
+						Projections.fields(CrewTotalRecordDto.class, 
+						qCrewTotalRecordEntity.totalCalorie.sum().as("totalCalorie"),
+						qCrewTotalRecordEntity.totalDistance.sum().as("totalDistance"),
+						qCrewTotalRecordEntity.totalTime.sum().as("totalTime"),
+						qCrewTotalRecordEntity.totalLongestDistance.max().as("totalLongestDistance"),
+						qCrewTotalRecordEntity.totalLongestTime.max().as("totalLongestTime")
+					)
+				)
+				.from(qCrewTotalRecordEntity)
+				.where(builder)
+				.fetchOne();
 	}
 
 }

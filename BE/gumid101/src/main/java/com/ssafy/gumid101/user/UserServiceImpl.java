@@ -1,14 +1,10 @@
 package com.ssafy.gumid101.user;
 
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,16 +14,14 @@ import com.ssafy.gumid101.customexception.DuplicateException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.customexception.ThirdPartyException;
 import com.ssafy.gumid101.dto.CrewBoardDto;
+import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.CrewBoardEntity;
-import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.ImageFileEntity;
-import com.ssafy.gumid101.entity.QUserEntity;
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.imgfile.ImageDirectory;
 import com.ssafy.gumid101.imgfile.ImageFileRepository;
-import com.ssafy.gumid101.req.ProfileEditDto;
 import com.ssafy.gumid101.res.UserFileDto;
 
 import lombok.RequiredArgsConstructor;
@@ -128,4 +122,27 @@ public class UserServiceImpl implements UserService {
 		return myBoardList;
 	}
 
+	@Override
+	public CrewTotalRecordDto getMyTotalRecord(Long userSeq) throws Exception{
+		UserEntity userEntity = userRepo.findById(userSeq)
+				.orElseThrow(() -> new NotFoundUserException("해당 유저를 찾을 수 없습니다."));
+		
+		
+		CrewTotalRecordDto crewTotalRecordDto = userRepo.getMyTotalRecord(userEntity);
+		if (crewTotalRecordDto.getTotalTime() == null || crewTotalRecordDto.getTotalTime() == 0) {
+			return CrewTotalRecordDto.builder()
+					.totalAvgSpeed(0.0)
+					.totalCalorie(0.0)
+					.totalDistance(0)
+					.totalLongestDistance(0)
+					.totalLongestTime(0)
+					.totalTime(0)
+					.build();
+		}
+		else {
+			// 1m/s == 3.6km/h
+			crewTotalRecordDto.setTotalAvgSpeed(3.6 * crewTotalRecordDto.getTotalDistance() / crewTotalRecordDto.getTotalTime());
+		}
+		return crewTotalRecordDto;
+	}
 }

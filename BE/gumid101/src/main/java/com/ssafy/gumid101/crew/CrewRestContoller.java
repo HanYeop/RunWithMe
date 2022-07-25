@@ -6,22 +6,29 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.customexception.CrewNotFoundException;
 import com.ssafy.gumid101.customexception.PasswrodNotMatchException;
+import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.res.CrewUserDto;
 import com.ssafy.gumid101.res.ResponseFrame;
+import com.ssafy.gumid101.res.RunRecordResultDto;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
+@Api(tags = "크루 컨트롤러")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/crew")
@@ -35,11 +42,23 @@ public class CrewRestContoller {
 		return tokenUser;
 	}
 	
-	public ResponseEntity<?> recordMyRun(){
+	@ApiOperation("런 레코드 등록(미구현)")
+	@PostMapping("/crew/{crewId}/records")
+	public ResponseEntity<?> recordMyRun(
+			@PathVariable("crewId") Long crewId ,
+			@ModelAttribute RunRecordDto runRecord,
+			@RequestPart MultipartFile imgFile) throws Exception{
 		UserDto userDto =  loadUserFromToken();
 		
-		//return new ResponseEntity<T>();
-		return null;
+		Long userSeq = userDto.getUserSeq();
+		
+		
+		RunRecordResultDto runRecordResult = crewService.insertUserRunRecordAsCrew(userSeq,crewId,runRecord,imgFile);
+		
+		ResponseFrame<RunRecordResultDto> res= ResponseFrame.of(runRecordResult, 0, "러닝 기록 완료 결과에 대해 반환합니다.");
+		
+		
+		return new ResponseEntity<>(res,HttpStatus.OK);
 	}
 	@ApiOperation(value = "크루가입")
 	@PostMapping("/{crewId}/join")

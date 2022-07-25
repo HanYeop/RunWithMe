@@ -44,15 +44,16 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 	private final ImageFileRepository imageRepo;
 
 	@Override
-	public List<CrewDto> getMyCurrentCruew(Long userSeq) throws Exception {
+	public List<CrewDto> getMyCurrentCrew(Long userSeq) throws Exception {
 		// new jpabook.jpashop.repository.order.simplequery.
 		// OrderSimpleQueryDto(o.id, m.name, o.status, o.orderDate, d.address)
 
 		UserEntity user = userRepo.findById(userSeq).orElseThrow(() -> {
 			return new NotFoundUserException("나의 현재 진행중 크루를 찾는 중, 유저를 특정할 수 없습니다.");
 		});
-
 		List<CrewEntity> crews = crewManagerRepo.findByUserSeqActive(user, LocalDateTime.now());
+
+		
 
 		List<CrewDto> crewList = crews.stream().map((entity) -> {
 			return CrewDto.of(entity);

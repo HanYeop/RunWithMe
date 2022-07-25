@@ -45,9 +45,6 @@ public class CrewTotalRecordEntity {
 	@Column(nullable = false, name = "total_longest_distance")
 	private Integer totalLongestDistance;
 
-	@Column(nullable = false, name = "total_avg_speed")
-	private Double totalAvgSpeed;
-
 	@ManyToOne
 	@JoinColumn(name = "user_seq")
 	private UserEntity userEntity;
