@@ -54,9 +54,11 @@ public class CrewServiceImpl implements CrewService {
 		return crewUserDto;
 	}
 
+	@Transactional
 	@Override
 	public void insertUserRunRecordAsCrew(Long userSeq, Long crewId) {
 		
+		//크루 런레코드 테이블에 저장 
 		
 	}
 

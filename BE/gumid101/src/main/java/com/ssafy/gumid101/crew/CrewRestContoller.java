@@ -46,7 +46,9 @@ public class CrewRestContoller {
 	public ResponseEntity<?> recordMyRun(@PathVariable("crewId") Long crewId ,@ModelAttribute RunRecordDto runRecord,@RequestPart MultipartFile imgFile){
 		UserDto userDto =  loadUserFromToken();
 		
-		//return new ResponseEntity<T>();
+		Long userSeq = userDto.getUserSeq();
+		crewService.insertUserRunRecordAsCrew(userSeq,crewId);
+		
 		return null;
 	}
 	@ApiOperation(value = "크루가입")
