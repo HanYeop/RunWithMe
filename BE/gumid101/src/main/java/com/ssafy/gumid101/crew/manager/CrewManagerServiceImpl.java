@@ -44,7 +44,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 	private final ImageFileRepository imageRepo;
 
 	@Override
-	public List<CrewDto> getMyCurrentCruew(Long userSeq) throws Exception {
+	public List<CrewDto> getMyCurrentCrew(Long userSeq) throws Exception {
 		// new jpabook.jpashop.repository.order.simplequery.
 		// OrderSimpleQueryDto(o.id, m.name, o.status, o.orderDate, d.address)
 
