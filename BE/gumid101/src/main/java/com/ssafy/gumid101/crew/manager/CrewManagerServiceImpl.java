@@ -85,24 +85,32 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		if (crewDto.getCrewMaxMember() == null || crewDto.getCrewMaxMember() <= 1) {
 			throw new IllegalParameterException("최대 인원 설정이 잘못되었습니다..");
 		}
-		if (crewDto.getCrewDateStart().compareTo(crewDto.getCrewDateStart()) >= 0) {
+		log.info(String.valueOf(crewDto.getCrewDateEnd().isBefore(crewDto.getCrewDateStart())));
+		if (crewDto.getCrewDateEnd().isBefore(crewDto.getCrewDateStart())) {
 			throw new IllegalParameterException("크루 종료일은 크루 시작일보다 늦어야합니다.");
 		}
-		if (crewDto.getCrewTimeStart().compareTo(crewDto.getCrewTimeEnd()) >= 0) {
+		if (crewDto.getCrewTimeEnd().isBefore(crewDto.getCrewTimeStart())) {
 			throw new IllegalParameterException("크루 일일 활동 종료시간은 시작시간보다 늦어야합니다.");
 		}
 		if (managerEntity.getPoint() < crewDto.getCrewCost()) {
 			throw new IllegalParameterException("생성을 위한 포인트가 부족합니다.");
 		}
 		try {
-			crewEntity = CrewEntity.builder().crewName(crewDto.getCrewName())
-					.crewDescription(crewDto.getCrewDescription()).crewGoalDays(crewDto.getCrewGoalDays())
-					.crewGoalType(crewDto.getCrewGoalType()).crewGoalAmount(crewDto.getCrewGoalAmount())
-					.crewPassword(crewDto.getCrewPassword()).crewCost(crewDto.getCrewCost())
-					.crewMaxMember(crewDto.getCrewMaxMember()).crewDateStart(crewDto.getCrewDateStart())
-					.crewDateEnd(crewDto.getCrewDateEnd()).crewTimeStart(crewDto.getCrewTimeStart())
-					.crewTimeEnd(crewDto.getCrewTimeEnd()).managerEntity(managerEntity).build();
-		} catch (Exception e) {
+			crewEntity = CrewEntity.builder()
+					.crewName(crewDto.getCrewName())
+					.crewDescription(crewDto.getCrewDescription())
+					.crewGoalDays(crewDto.getCrewGoalDays())
+					.crewGoalType(crewDto.getCrewGoalType())
+					.crewGoalAmount(crewDto.getCrewGoalAmount())
+					.crewPassword(crewDto.getCrewPassword())
+					.crewCost(crewDto.getCrewCost())
+					.crewMaxMember(crewDto.getCrewMaxMember())
+					.crewDateStart(crewDto.getCrewDateStart())
+					.crewDateEnd(crewDto.getCrewDateEnd())
+					.crewTimeStart(crewDto.getCrewTimeStart())
+					.crewTimeEnd(crewDto.getCrewTimeEnd())
+					.build();
+		}catch (Exception e) {
 			throw new IllegalParameterException("크루 생성 과정에서 문제가 발생했습니다.");
 		}
 		ImageFileEntity imageEntity = null;
@@ -119,16 +127,22 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 				throw new Exception("이미지 저장에 실패했습니다.");
 			}
 		}
-
-		UserCrewJoinEntity userCrewJoinEntity = UserCrewJoinEntity.builder().crewEntity(crewEntity)
-				.userEntity(managerEntity).build();
-
-		userCrewJoinRepository.save(userCrewJoinEntity);
-
+		
+		
 		managerEntity.setPoint(manager.getPoint() - crewDto.getCrewCost());
-		userRepo.save(managerEntity);
-
-		return new CrewFileDto(crewDto.of(crewEntity), savedFileDto);
+//		userRepo.save(managerEntity);
+		crewManagerRepo.save(crewEntity);
+		crewEntity.setManagerEntity(managerEntity);
+		
+		UserCrewJoinEntity userCrewJoinEntity = UserCrewJoinEntity.builder()
+				.crewEntity(crewEntity)
+				.userEntity(managerEntity)
+				.build();
+		
+		userCrewJoinRepository.save(userCrewJoinEntity);
+		
+		
+		return new CrewFileDto(CrewDto.of(crewEntity), savedFileDto);
 	}
 
 	/**

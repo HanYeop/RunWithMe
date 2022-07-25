@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.ssafy.gumid101.entity.CrewBoardEntity;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,8 +25,13 @@ public class CrewBoardDto implements Serializable {
 
 	private String crewBoardContent;
 	
+//	@ApiModelProperty(hidden = true)
+//	private Long boardImageSeq;
+	
 	public static CrewBoardDto of(CrewBoardEntity crewBoard) {
-		return new CrewBoardDtoBuilder().crewBoardSeq(crewBoard.getCrewBoardSeq()).crewBoardContent(crewBoard.getCrewBoardContent()).build();
+		return new CrewBoardDtoBuilder().crewBoardSeq(crewBoard.getCrewBoardSeq()).crewBoardContent(crewBoard.getCrewBoardContent())
+//				.boardImageSeq(crewBoard.getImgFile().getImgSeq())
+				.build();
 	}
 	
 
