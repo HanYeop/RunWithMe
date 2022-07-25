@@ -25,6 +25,8 @@ import lombok.Setter;
 public class RunRecordDto implements Serializable {
 
 	private Long runRecordSeq;
+	
+	private Long runImageSeq;
 
 	@ApiParam(value = "달리기 시작 년월일시분초. (yyyy-MM-dd HH:mm:ss)", required = true)
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -66,6 +68,7 @@ public class RunRecordDto implements Serializable {
 				.runRecordRunningLat(runRecord.getRunRecordLat())
 				.runRecordRunningLng(runRecord.getRunRecordLng())
 				.runRecordRunningCompleteYN(runRecord.getRunRecordCompleteYN())
+				.runImageSeq(runRecord.getImageFile() == null ? null : runRecord.getImageFile().getImgSeq())
 				.build();
 	}
 }
