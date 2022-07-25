@@ -39,6 +39,7 @@ class UserViewModel @Inject constructor(
                 }
                 // 이미 등록된 사용자라서 토큰 바로 저장
                 else{
+                    Log.d(TAG, "googleLogin: ${it.jwtToken}")
                     sharedPreferences.edit().putString(JWT,it.jwtToken).apply()
                     _loginEvent.postValue(it.msg)
                 }

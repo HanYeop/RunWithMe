@@ -21,8 +21,6 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
 
         crewDetail = args.mycrewdetail
         binding.crewDetail = crewDetail
-
-        viewModel.getCrewBoards(crewDetail.crewId, 3)
     }
 
     private fun initClickListener(){
@@ -39,8 +37,11 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
                 findNavController().navigate(R.id.action_crewDetailFragment_to_crewUserRankingFragment)
             }
 
+            // TEST
             tvBoardMore.setOnClickListener {
-                findNavController().navigate(R.id.action_crewDetailFragment_to_crewBoardFragment)
+//                val action = CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewBoardFragment(crewDetail.crewId)
+                val action = CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewBoardFragment(3)
+                findNavController().navigate(action)
             }
 
             tvRankingMore.setOnClickListener {

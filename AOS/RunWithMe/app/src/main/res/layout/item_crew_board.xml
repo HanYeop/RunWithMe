@@ -5,7 +5,9 @@
     >
 
     <data>
-
+        <variable
+            name="board"
+            type="com.ssafy.runwithme.model.response.CrewBoardResponse" />
     </data>
 
     <LinearLayout
@@ -30,11 +32,12 @@
                 android:padding="8dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/image_crew_board"
+                    android:id="@+id/image_crew_board_profile"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="16dp"
+                    app:crewBoardProfileImage="@{board.imageDto.imgSeq}"
                     android:background="@android:color/transparent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -49,9 +52,10 @@
                     android:includeFontPadding="false"
                     android:textColor="@color/black_high_emphasis"
                     android:textSize="18sp"
-                    app:layout_constraintStart_toEndOf="@id/image_crew_board"
-                    app:layout_constraintTop_toTopOf="@+id/image_crew_board"
-                    app:layout_constraintBottom_toBottomOf="@id/image_crew_board"
+                    android:text="@{board.crewBoardDto.crewBoardContent}"
+                    app:layout_constraintStart_toEndOf="@id/image_crew_board_profile"
+                    app:layout_constraintTop_toTopOf="@+id/image_crew_board_profile"
+                    app:layout_constraintBottom_toBottomOf="@id/image_crew_board_profile"
                     tools:text="김싸피" />
 
                 <ImageView

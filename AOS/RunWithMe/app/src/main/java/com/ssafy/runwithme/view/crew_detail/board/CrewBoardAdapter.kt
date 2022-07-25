@@ -17,9 +17,9 @@ class CrewBoardAdapter : PagingDataAdapter<CrewBoardResponse, CrewBoardAdapter.V
 
         }
 
-        // TODO : 바인딩
         fun bind(board: CrewBoardResponse) {
-
+            binding.board = board
+            binding.executePendingBindings()
         }
     }
 
@@ -40,7 +40,7 @@ class CrewBoardAdapter : PagingDataAdapter<CrewBoardResponse, CrewBoardAdapter.V
     companion object {
         private val diffUtil = object : DiffUtil.ItemCallback<CrewBoardResponse>() {
             override fun areItemsTheSame(oldItem: CrewBoardResponse, newItem: CrewBoardResponse) =
-                oldItem.content == newItem.content
+                oldItem.crewBoardDto.crewBoardSeq == newItem.crewBoardDto.crewBoardSeq
 
             override fun areContentsTheSame(
                 oldItem: CrewBoardResponse,

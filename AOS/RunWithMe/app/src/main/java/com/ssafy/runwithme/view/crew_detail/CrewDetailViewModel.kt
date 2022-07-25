@@ -15,7 +15,7 @@ class CrewDetailViewModel @Inject constructor(
     private val crewActivityRepository: CrewActivityRepository
 ) : ViewModel(){
 
-    fun getCrewBoards(crewId: Int, size: Int): Flow<PagingData<CrewBoardResponse>> {
-        return crewActivityRepository.getCrewBoards(crewId, size).cachedIn(viewModelScope)
+    fun getCrewBoards(crewSeq: Int, size: Int): Flow<PagingData<CrewBoardResponse>> {
+        return crewActivityRepository.getCrewBoards(crewSeq, size).cachedIn(viewModelScope)
     }
 }
