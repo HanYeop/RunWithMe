@@ -57,7 +57,7 @@ public class UserRestController {
 		responseFrame.setMsg(String.format("동일 닉네임 갯수 : %d" , count));
 		responseFrame.setCount(count);
 		responseFrame.setData(count);
-		responseFrame.setSuccess(true);
+		responseFrame.setIsSuccess(true);
 		
 		return new ResponseEntity<>(responseFrame, HttpStatus.OK);
 
@@ -96,7 +96,7 @@ public class UserRestController {
 			dataMap.put(JwtProperties.JWT_ACESS_NAME, "");
 			dataMap.put("user", savedDto);
 			responseMap.setCount(0);
-			responseMap.setSuccess(false);
+			responseMap.setIsSuccess(false);
 			responseMap.setData(dataMap);
 			responseMap.setMsg("초기 프로필/회원 가입 실패");
 		} else {
@@ -105,7 +105,7 @@ public class UserRestController {
 			dataMap.put("user", savedDto);
 			responseMap.setData(dataMap);
 			responseMap.setCount(1);
-			responseMap.setSuccess(true);
+			responseMap.setIsSuccess(true);
 			responseMap.setMsg("초기 프로필 설정/회원 가입 성공");
 		}
 
@@ -117,7 +117,7 @@ public class UserRestController {
 		ResponseFrame<String> responseFrame = new ResponseFrame<String>();
 
 		responseFrame.setCount(1);
-		responseFrame.setSuccess(false);
+		responseFrame.setIsSuccess(false);
 		responseFrame.setData(de.getMessage());
 
 		return new ResponseEntity<>(responseFrame, HttpStatus.CONFLICT);
@@ -129,7 +129,7 @@ public class UserRestController {
 		ResponseFrame<String> responseFrame = new ResponseFrame<String>();
 
 		responseFrame.setCount(0);
-		responseFrame.setSuccess(false);
+		responseFrame.setIsSuccess(false);
 		responseFrame.setData(e.getMessage());
 
 		return new ResponseEntity<>(responseFrame, HttpStatus.BAD_REQUEST);
