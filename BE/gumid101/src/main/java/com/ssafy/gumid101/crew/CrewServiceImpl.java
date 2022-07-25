@@ -62,7 +62,7 @@ public class CrewServiceImpl implements CrewService {
 				throw new PasswrodNotMatchException("크루 패스워드 불일치");
 			}
 		}
-		UserEntity user = userRepo.findWithLockingById(userSeq)
+		UserEntity user = userRepo.findWithLockingByUserSeq(userSeq)
 				.orElseThrow(() -> new UsernameNotFoundException("크루 가입 중 유저를 특정할 수 없습니다."));
 		if (user.getPoint() < crew.getCrewCost()) {
 			throw new CrewPermissonDeniedException("포인트가 부족하여 가입이 불가능 합니다.");
@@ -132,7 +132,7 @@ public class CrewServiceImpl implements CrewService {
 		}
 		
 		//베타락을 얻어온다.
-		 userCrewTotalEntity = userCrewTotalRunRepo.findWithLockByUserAndCrew(userEntity,crewEntity);
+		 userCrewTotalEntity = userCrewTotalRunRepo.findWithLockByUserEntityAndCrewEntity(userEntity,crewEntity);
 		if(userCrewTotalEntity== null) {
 			userCrewTotalEntity.setCrewEntity(crewEntity);
 			userCrewTotalEntity.setUserEntity(userEntity);

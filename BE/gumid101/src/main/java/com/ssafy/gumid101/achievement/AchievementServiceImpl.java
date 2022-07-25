@@ -1,6 +1,8 @@
 package com.ssafy.gumid101.achievement;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -29,7 +31,7 @@ public class AchievementServiceImpl implements AchievementService {
 	public List<AchievementDto> getAchieveList() throws Exception{	
 		return achieveRepo.findAll().stream().map((entity) -> {
 			return AchievementDto.of(entity);
-		}).toList();
+		}).collect(Collectors.toList());
 	}
 
 	@Override
@@ -37,8 +39,8 @@ public class AchievementServiceImpl implements AchievementService {
 		UserEntity user = userRepo.findById(userSeq).orElseThrow(() -> {
 			return new NotFoundUserException("유저 정보가 올바르지 않습니다.");
 		});
-		return completeRepo.findById(user.getUserSeq()).stream().map((entity) -> {
+		return completeRepo.findByUserSeq(user.getUserSeq()).stream().map((entity) -> {
 			return new MyAchieveCompleteDto(AchievementDto.of(entity.getAchieveEntity()), entity.getAchieveCompleteRegTime());
-		}).toList();
+		}).collect(Collectors.toList());
 	}
 }

@@ -13,7 +13,7 @@ import com.ssafy.gumid101.entity.UserEntity;
 public interface UserCrewRunRecordRepository extends JpaRepository<CrewTotalRecordEntity, Long> {
 
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
-	@Query("select ctr from CrewTotalRecordEntity ctr where ctr.userEntity = AND ctr.crewEntity")
-	CrewTotalRecordEntity findWithLockByUserAndCrew(UserEntity userEntity, CrewEntity crewEntity);
+	@Query("select ctr from CrewTotalRecordEntity ctr where ctr.userEntity = :userEntity AND ctr.crewEntity = :crewEntity")
+	CrewTotalRecordEntity findWithLockByUserEntityAndCrewEntity(UserEntity userEntity, CrewEntity crewEntity);
 
 }

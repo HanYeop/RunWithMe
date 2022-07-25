@@ -20,6 +20,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>, UserCus
 	int countByNickName(@Param("nickName") String nickname);
 
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
-	Optional<UserEntity> findWithLockingById(Long userSeq);
+	Optional<UserEntity> findWithLockingByUserSeq(Long userSeq);
 
 }
