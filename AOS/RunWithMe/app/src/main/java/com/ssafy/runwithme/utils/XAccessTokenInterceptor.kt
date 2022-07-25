@@ -6,7 +6,6 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
 
-
 class XAccessTokenInterceptor @Inject constructor(
     private val sharedPref: SharedPreferences
 ): Interceptor {
