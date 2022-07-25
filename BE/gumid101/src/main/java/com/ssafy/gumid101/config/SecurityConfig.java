@@ -1,10 +1,16 @@
 package com.ssafy.gumid101.config;
 
+import java.io.IOException;
+
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +20,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,6 +68,7 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager)
 			throws Exception {
+		
 		http.cors().disable();// cors 문제 무시
 		http.httpBasic().disable(); // 헤더에 username,password 로그인 사용 불가
 		http.csrf().disable(); // csrf 보안 사용 안함
@@ -78,10 +86,23 @@ public class SecurityConfig {
 		http.addFilterBefore(new CustomOAuthLoginValidateFilter( successHandler),JwtAuthFilter.class);
 		
 		http.authorizeHttpRequests((authz) -> {
-			authz.antMatchers("/user/profile").hasRole(Role.TEMP.toString());
+			authz.antMatchers("/**").hasRole(Role.USER.toString());
+			//authz.antMatchers("/user/profile").hasRole(Role.TEMP.toString());
 
 		});
 
+		http.exceptionHandling().accessDeniedHandler(new AccessDeniedHandler() {
+			
+			@Override
+			public void handle(HttpServletRequest request, HttpServletResponse response,
+					AccessDeniedException accessDeniedException) throws IOException, ServletException {
+			
+				response.getWriter().println(String.format("%s -- %s", "실패",accessDeniedException.getMessage()));
+				
+			}
+		});
+		
+		
 		
 
 		// test 과정이기에 전체 허용

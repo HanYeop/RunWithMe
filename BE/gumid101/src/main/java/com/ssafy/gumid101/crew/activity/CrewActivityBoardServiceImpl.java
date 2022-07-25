@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -77,8 +79,10 @@ public class CrewActivityBoardServiceImpl implements CrewActivityBoardService{
 	
 	@Override
 	public List<CrewBoardFileDto> getCrewBoards(Long crewSeq, Integer size, Long offset) throws Exception {
-//		Pageable pageable = new OffsetBasedPageRequest(offset, size);
-		return boardRepo.findByCrewEntity(crewRepo.findById(crewSeq).get()) //
+		Pageable pageable = PageRequest.of(offset.intValue(), size);
+		
+		
+		return boardRepo.findByCrewEntity(crewRepo.findById(crewSeq).get(),pageable) //
 				.stream() //
 				.map((entity) -> { //
 			return new CrewBoardFileDto( //
@@ -86,6 +90,8 @@ public class CrewActivityBoardServiceImpl implements CrewActivityBoardService{
 					entity.getImgFile() == null ? null : ImageFileDto.of(imageRepo.findById(entity.getImgFile().getImgSeq()).get()) //
 					); //
 		}).collect(Collectors.toList());
+		
+		
 	}
 	
 	@Override

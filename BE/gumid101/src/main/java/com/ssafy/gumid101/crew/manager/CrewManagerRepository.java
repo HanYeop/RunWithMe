@@ -16,7 +16,7 @@ import com.ssafy.gumid101.entity.UserEntity;
 public interface CrewManagerRepository extends JpaRepository<CrewEntity, Long>,CrewManagerCustomRepository {
 
 	
-	@Query(value = "SELECT ce FROM UserCrewJoinEntity ucj INNER JOIN ucj.crewEntity ce where ucj.userEntity =:userEntity AND ce.crewDateEnd <= :now")
+	@Query(value = "SELECT ce FROM UserCrewJoinEntity ucj INNER JOIN ucj.crewEntity ce where ucj.userEntity =:userEntity AND ce.crewDateEnd >= :now")
 	List<CrewEntity> findByUserSeqActive(UserEntity userEntity,LocalDateTime now);
 
 	
