@@ -6,4 +6,6 @@ public interface CrewService {
 
 	CrewUserDto joinCrew(Long userSeq, long crewId, String passwrod) throws Exception;
 
+	void insertUserRunRecordAsCrew(Long userSeq, Long crewId);
+
 }
