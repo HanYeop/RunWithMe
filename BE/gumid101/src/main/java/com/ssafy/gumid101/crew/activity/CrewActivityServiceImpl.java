@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +26,12 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 	
 	private final CrewActivityRunRepositoryDSL crewRunRepo;
 	private final CrewActivityBoardRepository boardRepo;
+
+	private UserDto loadUserFromToken() {
+		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDto tokenUser = (UserDto) autentication.getPrincipal();
+		return tokenUser;
+	}
 	
 	@Override
 	public List<RunRecordDto> getCrewRecordList(RecordParamsDto recordParamsDto) {
@@ -33,8 +41,14 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 		}).collect(Collectors.toList());
 		
 		return runRecordList;
-		
 	}
+	
+	@Override
+	public List<RunRecordDto> getMyRecordList(RecordParamsDto recordParamsDto) {
+		recordParamsDto.setUserSeq(loadUserFromToken().getUserSeq());
+		return getCrewRecordList(recordParamsDto);
+	}
+	
 
 	@Override
 	public CrewBoardDto writeBoard(MultipartFile image, UserDto tokenUser, CrewBoardDto content) throws Exception {

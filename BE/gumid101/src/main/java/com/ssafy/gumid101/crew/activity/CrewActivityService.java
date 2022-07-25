@@ -13,4 +13,5 @@ import com.ssafy.gumid101.dto.UserDto;
 public interface CrewActivityService {
 	List<RunRecordDto> getCrewRecordList(RecordParamsDto recordParamsDto);
 	CrewBoardDto writeBoard(MultipartFile image, UserDto tokenUser, CrewBoardDto content) throws Exception;
+	List<RunRecordDto> getMyRecordList(RecordParamsDto recordParamsDto);
 }
