@@ -51,8 +51,9 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		UserEntity user = userRepo.findById(userSeq).orElseThrow(() -> {
 			return new NotFoundUserException("나의 현재 진행중 크루를 찾는 중, 유저를 특정할 수 없습니다.");
 		});
-
 		List<CrewEntity> crews = crewManagerRepo.findByUserSeqActive(user, LocalDateTime.now());
+
+		
 
 		List<CrewDto> crewList = crews.stream().map((entity) -> {
 			return CrewDto.of(entity);

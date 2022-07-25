@@ -2,6 +2,9 @@ package com.ssafy.gumid101.dto;
 
 import java.io.Serializable;
 
+import javax.annotation.RegEx;
+import javax.validation.constraints.Pattern;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.ssafy.gumid101.entity.UserEntity;
@@ -27,6 +30,7 @@ public class UserDto implements Serializable {
 	private Long userSeq;
 
 
+	@Pattern(regexp = "",message = "닉네임에 사용불가능한 단어가 있습니다.")
 	@ApiParam(value = "사용자 닉네임")
 	private String nickName;
 
