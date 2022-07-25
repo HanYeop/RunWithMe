@@ -106,7 +106,7 @@ public class UserRestController {
 			responseMap.setData(dataMap);
 			responseMap.setCount(1);
 			responseMap.setSuccess(true);
-			responseMap.setMsg("초기프로필설정/회원 가입 성공");
+			responseMap.setMsg("초기 프로필 설정/회원 가입 성공");
 		}
 
 		return new ResponseEntity<>(responseMap, httpStatus);
