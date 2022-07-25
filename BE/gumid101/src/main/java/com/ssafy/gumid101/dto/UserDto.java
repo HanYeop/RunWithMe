@@ -2,9 +2,12 @@ package com.ssafy.gumid101.dto;
 
 import java.io.Serializable;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.user.Role;
 
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,14 +26,20 @@ public class UserDto implements Serializable {
 
 	private Long userSeq;
 
+
+	@ApiParam(value = "사용자 닉네임")
 	private String nickName;
 
+	@ApiParam(value = "사용자 이메일")
 	private String email;
 
+	@ApiParam(value = "사용자 키")
 	private Integer height;
 
+	@ApiParam(value = "사용자 몸무게")
 	private Integer weight;
 
+	@ApiParam(value = "사용자 포인트")
 	private Integer point;
 
 	private String fcmToken;

@@ -1,5 +1,6 @@
 package com.ssafy.gumid101.dto;
 
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,8 +16,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LatLngParamsDto {
-	private Double leftLng;
-	private Double rightLng;
+	@ApiParam(value = "위도(상)")
 	private Double upperLat;
+	@ApiParam(value = "위도(하)")
 	private Double lowerLat;
+	@ApiParam(value = "경도(좌)")
+	private Double leftLng;
+	@ApiParam(value = "경도(우)")
+	private Double rightLng;
 }
