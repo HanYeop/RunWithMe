@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ResponseFrame<T> {
 
-	private boolean isSuccess;
+	private Boolean isSuccess;
 	private T data;
 	private int count;
 	private String msg;
@@ -21,7 +21,7 @@ public class ResponseFrame<T> {
 		frame.setCount(0);
 		frame.setData(null);
 		frame.setMsg(message);
-		frame.setSuccess(isSuccess);
+		frame.setIsSuccess(isSuccess);
 		return  frame;
 	}
 	
@@ -30,7 +30,7 @@ public class ResponseFrame<T> {
 		frame.setCount(count);
 		frame.setData(data);
 		frame.setMsg(message);
-		frame.setSuccess(true);
+		frame.setIsSuccess(true);
 		return  frame;
 	}
 }

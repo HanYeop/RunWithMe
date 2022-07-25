@@ -143,9 +143,9 @@ public class CrewServiceImpl implements CrewService {
 		userCrewTotalEntity.setTotalTime(userCrewTotalEntity.getTotalTime() + runRecordDto.getRunRecordRunningTime());
 		userCrewTotalEntity.setTotalDistance(userCrewTotalEntity.getTotalDistance() + runRecordDto.getRunRecordRunningDistance());
 		userCrewTotalEntity.setTotalCalorie(userCrewTotalEntity.getTotalCalorie() + runRecord.getRunRecordCalorie());
-		userCrewTotalEntity.setTotalAvgSpeed((Double)userCrewTotalEntity.getTotalDistance().doubleValue() / (userCrewTotalEntity.getTotalTime() == 0 ? Long.MAX_VALUE : userCrewTotalEntity.getTotalTime()));
 		
 		CrewTotalRecordDto userCrewDto = CrewTotalRecordDto.of(userCrewTotalEntity);
+		userCrewDto.setTotalAvgSpeed(3.6 * userCrewTotalEntity.getTotalDistance().doubleValue() / (userCrewTotalEntity.getTotalTime() == 0 ? Long.MAX_VALUE : userCrewTotalEntity.getTotalTime()));
 		
 		ArrayList<AchievementDto> newCompleteDtoList =   getNewCompleteAchiveMent();
 		// 3.업적 로직 계산
