@@ -40,9 +40,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-
 		log.debug("Principal에서 꺼낸 OAuth2User = {}", oAuth2User);
-
 		String email = oAuth2User.getAttribute("email");
 		// 최초 로그인이라면 회원가입 처리를 한다.
 		// DB 확인하고 여러가지
@@ -59,23 +57,22 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 		Map<String, Object> map = new HashMap<>();
 		
 		if (user != null) {
-
 			userDto = UserDto.of(user);
 			token = jwtUtils.createToken(userDto);
 			response.setStatus(HttpStatus.OK.value());
-
 			map.put("msg", "정상적 인증으로 토큰을 발급합니다.");
 			map.put("isRegistered",true);
-		} else {
+			map.put("email",null);
 			
+		} else {
 			userDto = new UserDto();
 			userDto.setEmail(email);
 			userDto.setRole(Role.TEMP);
-			
 			token = jwtUtils.createToken(userDto);
 			map.put("msg", "초기 프로필 설정이 필요합니다.");
 			map.put("email",userDto.getEmail());
 			map.put("isRegistered",false);
+			
 		}
 		
 		map.put(JwtProperties.JWT_ACESS_NAME, token);

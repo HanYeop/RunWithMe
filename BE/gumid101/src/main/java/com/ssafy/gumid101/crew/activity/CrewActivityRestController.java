@@ -72,6 +72,7 @@ public class CrewActivityRestController {
 		return new ResponseEntity<>(responseMap, httpStatus);
 	}
 	
+	@ApiOperation("크루내 랭킹(미구현)")
 	@GetMapping("/{crewSeq}/ranking")
 	public RequestEntity<?> getCrewRankings(@ModelAttribute RankingParamsDto rankingParamsDto){
 		return null;
@@ -99,6 +100,7 @@ public class CrewActivityRestController {
 		return new ResponseEntity<>(responseMap, httpStatus);
 	}
 	
+	@ApiOperation("크루내 내 통합 누적 기록 보기(미구현)")
 	@GetMapping("/{crewSeq}/my-total")
 	public RequestEntity<?> getCrewMyTotalRecords(@PathVariable long crewSeq){
 		return null;
@@ -160,6 +162,7 @@ public class CrewActivityRestController {
 		return new ResponseEntity<>(responseFrame, httpStatus);
 	}
 	
+	@ApiOperation("크루 내 게시글 삭제")
 	@DeleteMapping("/{crewSeq}/boards/{boardSeq}")
 	public ResponseEntity<?> deleteCrewBoards(@PathVariable Long crewSeq, @PathVariable Long boardSeq){
 		Boolean deleteSuccess = null;

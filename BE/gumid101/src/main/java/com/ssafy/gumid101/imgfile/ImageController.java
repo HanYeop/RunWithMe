@@ -18,6 +18,9 @@ import com.ssafy.gumid101.aws.S3FileService;
 import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.res.ResponseFrame;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import springfox.documentation.annotations.ApiIgnore;
@@ -26,11 +29,14 @@ import springfox.documentation.annotations.ApiIgnore;
 @Controller
 @RequestMapping("/images")
 @Slf4j
+@Api("이미지 정적 리소스 컨트롤러")
 public class ImageController {
 	
 
 	private final ImageFileService imgService;
 	private final S3FileService s3FileService;
+	
+	@ApiOperation("이미지 가져오기 ")
 	@GetMapping("/{image-seq}")
 	public void getImage(@PathVariable("image-seq") Long imageSeq, @ApiIgnore HttpServletResponse response) throws Exception {
 		

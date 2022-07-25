@@ -1,7 +1,4 @@
 spring:
-  jackson:
-    serialization:
-      write_dates_as_timestamps: false
   profiles:
     include:
     - oauth
@@ -38,7 +35,12 @@ logging:
     org:
       hibernate: info
     root: info
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
 server:
   servlet:
     context-path: /api
   port: '8080'
+  
