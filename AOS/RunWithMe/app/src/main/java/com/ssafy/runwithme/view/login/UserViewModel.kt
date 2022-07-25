@@ -47,12 +47,9 @@ class UserViewModel @Inject constructor(
     }
 
     fun joinUser(token: String, userDto: UserDto) {
-        Log.d(TAG, "joinUser: ")
         viewModelScope.launch(Dispatchers.IO) {
             userRepository.joinUser(token, userDto).collectLatest {
-                Log.d(TAG, "joinUser: $it")
                 if(it is Result.Success) {
-                    Log.d(TAG, "joinUser: succ")
                     sharedPreferences.edit().putString(JWT,it.data.data.jwtToken).apply()
                     _loginEvent.postValue(it.data.msg)
                 }

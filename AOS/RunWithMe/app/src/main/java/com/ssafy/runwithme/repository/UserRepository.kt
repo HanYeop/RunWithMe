@@ -1,12 +1,10 @@
 package com.ssafy.runwithme.repository
 
-import android.util.Log
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.datasource.UserRemoteDataSource
 import com.ssafy.runwithme.model.dto.UserDto
 import com.ssafy.runwithme.model.response.JoinResponse
 import com.ssafy.runwithme.utils.Result
-import com.ssafy.runwithme.utils.TAG
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -20,8 +18,7 @@ class UserRepository @Inject constructor(
     fun joinUser(token: String, userDto: UserDto): Flow<Result<BaseResponse<JoinResponse>>> = flow {
         emit(Result.Loading)
         userRemoteDataSource.joinUser(token, userDto).collect {
-            Log.d(TAG, "joinUser: $it")
-            if(it.isSuccess){
+            if(it.success){
                 emit(Result.Success(it))
             }else{
                 emit(Result.Empty)
