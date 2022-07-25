@@ -14,7 +14,7 @@ import com.ssafy.gumid101.entity.QRunRecordEntity;
 import com.ssafy.gumid101.entity.RunRecordEntity;
 
 @Repository
-public class CrewActivityRunRepositoryDSL{
+public class CrewActivityRunDslRepositoryImpl implements CrewActivityRunDslRepository{
 	
 	@Autowired
 	EntityManager em;
@@ -22,6 +22,7 @@ public class CrewActivityRunRepositoryDSL{
 	@Autowired
 	JPAQueryFactory factory;
 	
+	@Override
 	public List<RunRecordEntity> getRunRecords(RecordParamsDto condition){
 		QRunRecordEntity qRunRecordEntity = QRunRecordEntity.runRecordEntity;
 		BooleanBuilder builder = new BooleanBuilder();

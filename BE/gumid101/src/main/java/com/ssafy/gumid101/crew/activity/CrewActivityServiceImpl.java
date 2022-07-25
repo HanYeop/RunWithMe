@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class CrewActivityServiceImpl implements CrewActivityService{
 	
-	private final CrewActivityRunRepositoryDSL crewRunRepo;
+	private final CrewActivityRunDslRepository crewRunRepo;
 	private final CrewActivityBoardRepository boardRepo;
 
 	private UserDto loadUserFromToken() {
