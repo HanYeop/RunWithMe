@@ -1,7 +1,7 @@
 package com.ssafy.runwithme.repository
 
 import com.ssafy.runwithme.datasource.CrewManagerRemoteDataSource
-import com.ssafy.runwithme.model.dto.MyCurrentCrewResponse
+import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 import com.ssafy.runwithme.utils.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

@@ -3,7 +3,7 @@ package com.ssafy.runwithme.binding
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.ssafy.runwithme.model.dto.MyCurrentCrewResponse
+import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.view.home.HomeMyCurrentCrewAdapter
 import com.ssafy.runwithme.view.home.my_crew.MyCurrentCrewAdapter

@@ -5,11 +5,8 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.ssafy.runwithme.R
 import com.ssafy.runwithme.databinding.ItemCrewBoardBinding
-import com.ssafy.runwithme.model.dto.CrewBoardResponse
+import com.ssafy.runwithme.model.response.CrewBoardResponse
 
 class CrewBoardAdapter : PagingDataAdapter<CrewBoardResponse, CrewBoardAdapter.ViewHolder>(diffUtil) {
 

@@ -7,7 +7,7 @@
     <data>
         <variable
             name="myCurrentCrewResponse"
-            type="com.ssafy.runwithme.model.dto.MyCurrentCrewResponse" />
+            type="com.ssafy.runwithme.model.response.MyCurrentCrewResponse" />
     </data>
 
     <LinearLayout

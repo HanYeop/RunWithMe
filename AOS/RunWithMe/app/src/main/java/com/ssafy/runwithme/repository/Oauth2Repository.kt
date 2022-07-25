@@ -1,7 +1,7 @@
 package com.ssafy.runwithme.repository
 
 import com.ssafy.runwithme.datasource.Oauth2RemoteDataSource
-import com.ssafy.runwithme.model.dto.OauthResponse
+import com.ssafy.runwithme.model.response.OauthResponse
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow

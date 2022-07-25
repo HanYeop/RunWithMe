@@ -1,4 +1,4 @@
-package com.ssafy.runwithme.model.dto
+package com.ssafy.runwithme.model.response
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

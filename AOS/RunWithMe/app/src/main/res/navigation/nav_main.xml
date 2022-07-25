@@ -98,7 +98,7 @@
             app:destination="@id/crewBoardFragment" />
         <argument
             android:name="mycrewdetail"
-            app:argType="com.ssafy.runwithme.model.dto.MyCurrentCrewResponse" />
+            app:argType="com.ssafy.runwithme.model.response.MyCurrentCrewResponse" />
     </fragment>
     <fragment
         android:id="@+id/crewMyRunRecordFragment"

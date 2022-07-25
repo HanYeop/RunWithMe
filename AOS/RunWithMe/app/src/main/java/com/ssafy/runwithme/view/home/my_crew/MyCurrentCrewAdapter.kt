@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.runwithme.databinding.ItemMyCurrentCrewBinding
-import com.ssafy.runwithme.model.dto.MyCurrentCrewResponse
+import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 
 class MyCurrentCrewAdapter(private val listener: MyCurrentCrewListener) : ListAdapter<MyCurrentCrewResponse, MyCurrentCrewAdapter.ViewHolder>(diffUtil){
 

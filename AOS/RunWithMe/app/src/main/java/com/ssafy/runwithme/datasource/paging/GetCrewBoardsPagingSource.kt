@@ -3,7 +3,7 @@ package com.ssafy.runwithme.datasource.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.ssafy.runwithme.api.CrewActivityApi
-import com.ssafy.runwithme.model.dto.CrewBoardResponse
+import com.ssafy.runwithme.model.response.CrewBoardResponse
 import retrofit2.HttpException
 import java.io.IOException
 

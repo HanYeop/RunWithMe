@@ -1,7 +1,7 @@
 package com.ssafy.runwithme.datasource
 
 import com.ssafy.runwithme.api.Oauth2Api
-import com.ssafy.runwithme.model.dto.OauthResponse
+import com.ssafy.runwithme.model.response.OauthResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response

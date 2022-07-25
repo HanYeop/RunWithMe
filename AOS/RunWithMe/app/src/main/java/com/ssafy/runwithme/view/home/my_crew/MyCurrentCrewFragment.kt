@@ -5,7 +5,7 @@ import androidx.navigation.fragment.findNavController
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentMyCurrentCrewBinding
-import com.ssafy.runwithme.model.dto.MyCurrentCrewResponse
+import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 import com.ssafy.runwithme.view.home.HomeViewModel
 
 class MyCurrentCrewFragment

@@ -1,4 +1,4 @@
-package com.ssafy.runwithme.model.dto
+package com.ssafy.runwithme.model.response
 
 import com.google.gson.annotations.SerializedName
 

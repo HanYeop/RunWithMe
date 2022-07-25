@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.runwithme.databinding.ItemMyCrewHorizonBinding
-import com.ssafy.runwithme.model.dto.MyCurrentCrewResponse
+import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 
 class HomeMyCurrentCrewAdapter
     : ListAdapter<MyCurrentCrewResponse, HomeMyCurrentCrewAdapter.ViewHolder>(diffUtil){

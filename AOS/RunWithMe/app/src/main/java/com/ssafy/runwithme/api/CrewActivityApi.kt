@@ -1,6 +1,6 @@
 package com.ssafy.runwithme.api
 
-import com.ssafy.runwithme.model.dto.CrewBoardResponse
+import com.ssafy.runwithme.model.response.CrewBoardResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

@@ -1,6 +1,6 @@
 package com.ssafy.runwithme.api
 
-import com.ssafy.runwithme.model.dto.MyCurrentCrewResponse
+import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 import retrofit2.http.GET
 
 interface CrewManagerApi {

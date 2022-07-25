@@ -1,6 +1,6 @@
 package com.ssafy.runwithme.api
 
-import com.ssafy.runwithme.model.dto.OauthResponse
+import com.ssafy.runwithme.model.response.OauthResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
