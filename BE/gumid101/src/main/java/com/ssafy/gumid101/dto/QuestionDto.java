@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.ssafy.gumid101.entity.QuestionEntity;
 
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,10 +21,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class QuestionDto implements Serializable {
 
+	@ApiParam(value = "질문 번호")
 	private Long questionSeq;
 	
+	@ApiParam(value = "질문 내용")
 	private String questionContent;
 	
+	@ApiParam(value = "질문 처리상황")
 	private String questionStatus;
 	
 	public static QuestionDto of(QuestionEntity question) {
