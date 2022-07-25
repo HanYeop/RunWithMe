@@ -1,9 +1,12 @@
 package com.ssafy.gumid101.user;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.customexception.DuplicateException;
+import com.ssafy.gumid101.dto.CrewBoardDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.req.ProfileEditDto;
 import com.ssafy.gumid101.res.UserFileDto;
@@ -30,6 +33,8 @@ public interface UserService {
 	UserDto getUserProfileById(Long id)throws Exception;
 
 	UserFileDto editMyProfile(UserDto userDto, MultipartFile imgFile)throws Exception;
+
+	List<CrewBoardDto> getMyBoards(Long userSeq, Long size, Long offset) throws Exception;
 
 
 }
