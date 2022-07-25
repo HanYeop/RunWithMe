@@ -16,14 +16,22 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.ssafy.gumid101.dto.CrewBoardDto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Table(name="t_crew_board")
 @Entity
 @Getter
 @Setter
+@Builder
 @EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor
+@AllArgsConstructor
 public class CrewBoardEntity {
 
 	@Id
@@ -48,4 +56,12 @@ public class CrewBoardEntity {
 	@ManyToOne
 	@JoinColumn(name="user_seq")
 	private UserEntity userEntity;
+	
+	// 다른 Entity는 dto에 없는데 어떡하지?
+	public static CrewBoardEntity of(CrewBoardDto dto) {
+		return new CrewBoardEntityBuilder()
+				.crewBoardSeq(dto.getCrewBoardSeq())
+				.crewBoardContent(dto.getCrewBoardContent())
+				.build();
+	}
 }

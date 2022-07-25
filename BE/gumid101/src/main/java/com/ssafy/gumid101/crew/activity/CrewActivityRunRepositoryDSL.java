@@ -1,8 +1,5 @@
 package com.ssafy.gumid101.crew.activity;
 
-import java.util.ArrayList
-;
-
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -13,12 +10,11 @@ import org.springframework.stereotype.Repository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.gumid101.dto.RecordParamsDto;
-import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.entity.QRunRecordEntity;
 import com.ssafy.gumid101.entity.RunRecordEntity;
 
 @Repository
-public class CrewActivityRunRepository{
+public class CrewActivityRunRepositoryDSL{
 	
 	@Autowired
 	EntityManager em;
@@ -26,7 +22,7 @@ public class CrewActivityRunRepository{
 	@Autowired
 	JPAQueryFactory factory;
 	
-	public List<RunRecordDto> getRunRecords(RecordParamsDto condition){
+	public List<RunRecordEntity> getRunRecords(RecordParamsDto condition){
 		QRunRecordEntity qRunRecordEntity = QRunRecordEntity.runRecordEntity;
 		BooleanBuilder builder = new BooleanBuilder();
 		if (condition.getCrewSeq() != null && condition.getCrewSeq() == -1) {
@@ -42,14 +38,9 @@ public class CrewActivityRunRepository{
 			builder.and(qRunRecordEntity.runRecordRegTime.year().eq(condition.getYear()));
 		}
 		factory = new JPAQueryFactory(em);
-		List<RunRecordEntity> fetch = factory.selectFrom(qRunRecordEntity).where(builder)
+		return factory.selectFrom(qRunRecordEntity).where(builder)
 				.limit(condition.getSize() == null || condition.getSize() <= 0 ? 10 : condition.getSize())
 				.offset(condition.getOffset() == null? 0 : condition.getOffset()).fetch();
-		List<RunRecordDto> dtos = new ArrayList<>(fetch.size());
-		for(RunRecordEntity recEnt : fetch) {
-			dtos.add(RunRecordDto.of(recEnt));
-		}
-		return dtos;
 	}
 
 }
