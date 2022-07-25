@@ -26,6 +26,7 @@ import org.springframework.web.filter.GenericFilterBean;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.res.ResponseFrame;
 import com.ssafy.gumid101.user.Role;
 import com.ssafy.gumid101.user.UserRepository;
 
@@ -98,9 +99,8 @@ public class JwtAuthFilter extends GenericFilterBean {
 			logger.info("토큰 에러:" + e.getMessage());
 
 			hRes.setStatus(401);
-			Map<String, String> map = new HashMap<>();
-			map.put("msg", e.getMessage());
-			hRes.getWriter().write(mapper.writeValueAsString(map));
+			
+			hRes.getWriter().write(mapper.writeValueAsString(ResponseFrame.of(false,e.getMessage())));
 
 			hRes.flushBuffer();
 		}

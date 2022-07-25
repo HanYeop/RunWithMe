@@ -82,6 +82,8 @@ public class SecurityConfig {
 
 		});
 
+		
+
 		// test 과정이기에 전체 허용
 		return http.build();
 	}

@@ -67,6 +67,7 @@ public class CrewManagerRestController {
 		return new ResponseEntity<>(crewList,HttpStatus.OK);
 	}
 	
+	@ApiOperation("내 끝난 크루를 조회 why? 업적 조회할 떄,")
 	@GetMapping("/my-end-crew")
 	public RequestEntity<?> getMyEndCrew(){
 		return null;
