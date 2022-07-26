@@ -37,7 +37,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="16dp"
-                    app:crewBoardProfileImage="@{board.imageDto.imgSeq}"
+                    app:crewBoardProfileImage="@{board.imageFileDto.imgSeq}"
                     android:background="@android:color/transparent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

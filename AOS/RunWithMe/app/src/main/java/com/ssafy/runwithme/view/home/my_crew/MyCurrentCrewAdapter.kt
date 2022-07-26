@@ -35,7 +35,7 @@ class MyCurrentCrewAdapter(private val listener: MyCurrentCrewListener) : ListAd
     companion object{
         val diffUtil = object : DiffUtil.ItemCallback<MyCurrentCrewResponse>(){
             override fun areItemsTheSame(oldItem: MyCurrentCrewResponse, newItem: MyCurrentCrewResponse): Boolean {
-                return oldItem.crewId == newItem.crewId
+                return oldItem.crewDto.crewSeq == newItem.crewDto.crewSeq
             }
 
             override fun areContentsTheSame(oldItem: MyCurrentCrewResponse, newItem: MyCurrentCrewResponse): Boolean {
