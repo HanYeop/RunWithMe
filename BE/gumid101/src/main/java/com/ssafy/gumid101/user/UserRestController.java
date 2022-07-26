@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/user")
@@ -57,7 +59,7 @@ public class UserRestController {
 		responseFrame.setMsg(String.format("동일 닉네임 갯수 : %d" , count));
 		responseFrame.setCount(count);
 		responseFrame.setData(count);
-		responseFrame.setIsSuccess(true);
+		responseFrame.setSuccess(true);
 		
 		return new ResponseEntity<>(responseFrame, HttpStatus.OK);
 
@@ -72,8 +74,13 @@ public class UserRestController {
 	 */
 	@ApiOperation(code  =200,value =   "초기 프로필 설정 / 회원가입")
 	@PostMapping("/profile")
-	public ResponseEntity<?> setMyProfile(@RequestBody UserDto userDto) throws Exception {
+	public ResponseEntity<?> setMyProfile(@RequestBody UserDto userDto,@ApiIgnore BindingResult result) throws Exception {
 
+		if(result.hasErrors()) {
+			log.warn(result.getAllErrors().toString()); ;
+			
+		}
+		
 		log.debug("초기 프로필 설정 진입 : 몸무게:{},키 : {}, 닉네임 :{}", userDto.getWeight(), userDto.getHeight(),
 				userDto.getNickName());
 
@@ -96,7 +103,7 @@ public class UserRestController {
 			dataMap.put(JwtProperties.JWT_ACESS_NAME, "");
 			dataMap.put("user", savedDto);
 			responseMap.setCount(0);
-			responseMap.setIsSuccess(false);
+			responseMap.setSuccess(false);
 			responseMap.setData(dataMap);
 			responseMap.setMsg("초기 프로필/회원 가입 실패");
 		} else {
@@ -105,7 +112,7 @@ public class UserRestController {
 			dataMap.put("user", savedDto);
 			responseMap.setData(dataMap);
 			responseMap.setCount(1);
-			responseMap.setIsSuccess(true);
+			responseMap.setSuccess(true);
 			responseMap.setMsg("초기 프로필 설정/회원 가입 성공");
 		}
 
@@ -117,7 +124,7 @@ public class UserRestController {
 		ResponseFrame<String> responseFrame = new ResponseFrame<String>();
 
 		responseFrame.setCount(1);
-		responseFrame.setIsSuccess(false);
+		responseFrame.setSuccess(false);
 		responseFrame.setData(de.getMessage());
 
 		return new ResponseEntity<>(responseFrame, HttpStatus.CONFLICT);
@@ -129,7 +136,7 @@ public class UserRestController {
 		ResponseFrame<String> responseFrame = new ResponseFrame<String>();
 
 		responseFrame.setCount(0);
-		responseFrame.setIsSuccess(false);
+		responseFrame.setSuccess(false);
 		responseFrame.setData(e.getMessage());
 
 		return new ResponseEntity<>(responseFrame, HttpStatus.BAD_REQUEST);

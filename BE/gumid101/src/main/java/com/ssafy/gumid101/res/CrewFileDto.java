@@ -10,5 +10,5 @@ import lombok.Data;
 @Data
 public class CrewFileDto {
 	private final CrewDto crewDto;
-	private final ImageFileDto imageDto;
+	private final ImageFileDto imageFileDto;
 }

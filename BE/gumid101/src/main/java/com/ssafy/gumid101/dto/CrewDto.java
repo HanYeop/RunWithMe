@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ssafy.gumid101.entity.CrewEntity;
+import com.ssafy.gumid101.entity.ImageFileEntity;
 
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
@@ -72,12 +73,35 @@ public class CrewDto implements Serializable {
 	@ApiParam(value = "크루 인원 제한", required = true)
 	private Integer crewMaxMember;
 	
+	@ApiParam(value = "크루장 닉네임")
+	private String crewManagerNickName;
+	
+	@ApiParam(value = "크루장 SEQ")
+	private Long crewManagerSeq;
+	
 	public static CrewDto of(CrewEntity crew) {
+		if(crew == null)
+			return null;
 		return new CrewDtoBuilder().crewSeq(crew.getCrewSeq()).crewCost(crew.getCrewCost()).crewDateEnd(crew.getCrewDateEnd()).crewDateStart(crew.getCrewDateEnd())
 				.crewDescription(crew.getCrewDescription()).crewGoalAmount(crew.getCrewGoalAmount()).crewGoalDays(crew.getCrewGoalDays())
 				.crewGoalType(crew.getCrewGoalType()).crewMaxMember(crew.getCrewMaxMember()).crewName(crew.getCrewName()).crewPassword(crew.getCrewPassword())
 				.crewTimeEnd(crew.getCrewTimeEnd()).crewTimeStart(crew.getCrewTimeStart()).build();
 	}
 	
+	
+	public static CrewDto of(CrewEntity crew,String crewManagerNickName, Long crewManagerSeq) {
+		if(crew == null)
+			return null;
+		
+		CrewDto dto = new CrewDtoBuilder().crewSeq(crew.getCrewSeq()).crewCost(crew.getCrewCost()).crewDateEnd(crew.getCrewDateEnd()).crewDateStart(crew.getCrewDateEnd())
+		.crewDescription(crew.getCrewDescription()).crewGoalAmount(crew.getCrewGoalAmount()).crewGoalDays(crew.getCrewGoalDays())
+		.crewGoalType(crew.getCrewGoalType()).crewMaxMember(crew.getCrewMaxMember()).crewName(crew.getCrewName()).crewPassword(crew.getCrewPassword())
+		.crewTimeEnd(crew.getCrewTimeEnd()).crewTimeStart(crew.getCrewTimeStart()).build();
+		
+		dto.setCrewManagerNickName(crewManagerNickName);
+		dto.setCrewManagerSeq(crewManagerSeq);
+		
+		return dto; 
+	}
 
 }

@@ -61,6 +61,10 @@ public class RunRecordDto implements Serializable {
 	private String runRecordRunningCompleteYN;
 	
 	public static RunRecordDto of(RunRecordEntity runRecord) {
+		
+		if(runRecord == null)
+			return null;
+		
 		return new RunRecordDtoBuilder().runRecordSeq(runRecord.getRunRecordSeq())
 				.runRecordStartTime(runRecord.getRunRecordStartTime())
 				.runRecordEndTime(runRecord.getRunRecordEndTime())
