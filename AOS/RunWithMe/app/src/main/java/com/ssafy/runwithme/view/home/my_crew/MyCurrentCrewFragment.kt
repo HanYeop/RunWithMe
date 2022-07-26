@@ -50,12 +50,5 @@ class MyCurrentCrewFragment
         homeViewModel.errorMsgEvent.observe(viewLifecycleOwner){
             showToast(it)
         }
-        lifecycleScope.launch {
-            homeViewModel.myCurrentCrewList.collectLatest {
-                if(it is Result.Success){
-                    myCurrentCrewAdapter.submitList(it.data.data)
-                }
-            }
-        }
     }
 }

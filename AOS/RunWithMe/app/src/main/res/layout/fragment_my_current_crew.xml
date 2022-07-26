@@ -40,6 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
+            submitList="@{homeVM.myCurrentCrewList}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
             tools:listitem="@layout/item_my_current_crew"
