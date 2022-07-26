@@ -17,9 +17,9 @@ class MyCurrentCrewAdapter(private val listener: MyCurrentCrewListener) : ListAd
                 listener.onItemClick(getItem(adapterPosition))
             }
         }
-
         fun bind(myCurrentCrew: MyCurrentCrewResponse){
             binding.myCurrentCrewResponse = myCurrentCrew
+            binding.executePendingBindings()
         }
     }
 

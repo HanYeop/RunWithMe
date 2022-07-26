@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.view.crew_detail
 
+import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -24,10 +25,8 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
         crewDto = args.crewdto
         imageFileDto = args.imagefiledto
 
-        binding.apply {
-            crewDto = crewDto
-            imageFileDto = imageFileDto
-        }
+        binding.crewDto = crewDto
+        binding.imageFileDto = imageFileDto
     }
 
     private fun initClickListener(){
@@ -35,7 +34,6 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
             toolbar.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
-
             tvMyRecordMore.setOnClickListener {
                 findNavController().navigate(R.id.action_crewDetailFragment_to_crewMyRunRecordFragment)
             }

@@ -20,6 +20,7 @@ class HomeMyCurrentCrewAdapter(private val listener: HomeMyCurrentCrewListener)
         }
         fun bind(myCurrentCrew: MyCurrentCrewResponse){
             binding.myCurrentCrewResponse = myCurrentCrew
+            binding.executePendingBindings()
         }
     }
 
