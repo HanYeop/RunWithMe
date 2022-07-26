@@ -71,7 +71,7 @@ public class CrewManagerCustomRepositoryImpl implements CrewManagerCustomReposit
 		LocalDateTime endDay = null;
 
 		try {
-			startDay = LocalDateTime.parse(paramsDto.getStartDay());
+			startDay = LocalDateTime.parse(paramsDto.getStartDay()).withHour(0).withMinute(0).withSecond(0);
 
 		} catch (Exception e) {
 
@@ -79,7 +79,7 @@ public class CrewManagerCustomRepositoryImpl implements CrewManagerCustomReposit
 		}
 
 		try {
-			endDay = LocalDateTime.parse(paramsDto.getEndDay());
+			endDay = LocalDateTime.parse(paramsDto.getEndDay()).withHour(23).withMinute(59).withSecond(59);
 		} catch (Exception e) {
 			log.warn("시작 종료범위 파싱 중 에러 : {}", e.getMessage());
 		}
