@@ -1,9 +1,11 @@
 package com.ssafy.runwithme.view.running.result
 
+import android.util.Log
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseActivity
 import com.ssafy.runwithme.databinding.ActivityRunningResultBinding
 import com.ssafy.runwithme.view.create_recommend.CreateRecommendDialog
+import com.ssafy.runwithme.view.running.RunningActivity
 import com.ssafy.runwithme.view.running.result.achievement.AchievementDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -13,6 +15,9 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
     override fun init() {
         initClickListener()
 
+        binding.imgResult.setImageBitmap(RunningActivity.image)
+
+        // TEST
         AchievementDialog(this).show()
     }
 

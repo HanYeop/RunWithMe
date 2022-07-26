@@ -3,11 +3,13 @@ package com.ssafy.runwithme.view.running
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLngBounds
@@ -18,6 +20,7 @@ import com.ssafy.runwithme.databinding.ActivityRunningBinding
 import com.ssafy.runwithme.service.Polyline
 import com.ssafy.runwithme.service.RunningService
 import com.ssafy.runwithme.utils.*
+import com.ssafy.runwithme.view.loading.LoadingDialog
 import com.ssafy.runwithme.view.running.result.RunningResultActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -303,9 +306,6 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
 
     // 달리기 기록 저장
     private fun endRunAndSaveToDB() {
-        // 몸무게 불러오기
-//        val weight = sharedPref.getFloat(KEY_WEIGHT,70f)
-
         /**
          * 날짜 변환
          */
@@ -319,19 +319,26 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         val day = dayFormat.format(calendar.time)
         val title = "${year}년 ${month}월 ${day}일 러닝"
 
-        map?.snapshot { bmp ->
-            // 반올림
-            val avgSpeed =
-                round((sumDistance / 1000f) / (currentTimeInMillis / 1000f / 60 / 60) * 10) / 10f
-            val timestamp = calendar.timeInMillis
-            val caloriesBurned = ((sumDistance / 1000f) * weight).toInt()
 
-            Log.d("test5", "endRunAndSaveToDB: $bmp")
-//            val run = Run(0,bmp,timestamp,avgSpeed,sumDistance,currentTimeInMillis,
-//                caloriesBurned,title,year.toInt(),month.toInt(),day.toInt() )
+        binding.layoutMap.visibility = View.VISIBLE
+        binding.layoutGoal.visibility = View.INVISIBLE
+        CoroutineScope(Dispatchers.Main).launch {
+            val dialog = LoadingDialog(this@RunningActivity)
+            dialog.show()
+            delay(1000)
+            dialog.dismiss()
+
+            map?.snapshot { bmp ->
+                image = bmp!!
+            }
+
+            dialog.show()
+            delay(1000)
+            dialog.dismiss()
+
+            startActivity(Intent(this@RunningActivity, RunningResultActivity::class.java))
+            finish()
         }
-        startActivity(Intent(this,RunningResultActivity::class.java))
-        finish()
     }
 
     // 서비스에게 명령을 전달함
@@ -379,5 +386,9 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
     override fun onLowMemory() {
         super.onLowMemory()
         binding.mapView.onLowMemory()
+    }
+
+    companion object{
+        lateinit var image: Bitmap
     }
 }
