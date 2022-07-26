@@ -14,7 +14,7 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
 
     private val args by navArgs<CrewDetailFragmentArgs>()
     private lateinit var crewDetail: MyCurrentCrewResponse
-    private val viewModel by viewModels<CrewDetailViewModel>()
+    private val crewDetailViewModel by viewModels<CrewDetailViewModel>()
 
     override fun init() {
         initClickListener()
