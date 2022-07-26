@@ -2,12 +2,15 @@ package com.ssafy.gumid101.crew;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.gumid101.achievement.AchievementRepository;
 import com.ssafy.gumid101.aws.S3FileService;
 import com.ssafy.gumid101.crew.manager.CrewManagerRepository;
 import com.ssafy.gumid101.customexception.CrewNotFoundException;
@@ -20,6 +23,7 @@ import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.entity.AchievementEntity;
 import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.CrewTotalRecordEntity;
 import com.ssafy.gumid101.entity.ImageFileEntity;
@@ -48,6 +52,7 @@ public class CrewServiceImpl implements CrewService {
 	private final RunRecordRepository runRecordRepo;
 	private final S3FileService s3FileService;
 	private final ImageFileRepository imageRepo;
+	private final AchievementRepository achiveRepo;
 	@Transactional
 	@Override
 	public CrewUserDto joinCrew(Long userSeq, long crewId, String password) throws Exception {
@@ -103,6 +108,7 @@ public class CrewServiceImpl implements CrewService {
 		.runRecordRegTime(LocalDateTime.now()).build();
 		//기본 속성들 다 넣어주고
 		
+		//이미지가 없을 리 없음 ..
 		ImageFileDto imageDto =  s3FileService.upload(imgFile, ImageDirectory.RUN_RECORD.getPath());
 
 		ImageFileEntity image = ImageFileEntity.builder()
@@ -134,28 +140,52 @@ public class CrewServiceImpl implements CrewService {
 		//베타락을 얻어온다.
 		 userCrewTotalEntity = userCrewTotalRunRepo.findWithLockByUserEntityAndCrewEntity(userEntity,crewEntity);
 		if(userCrewTotalEntity== null) {
+			userCrewTotalEntity = new CrewTotalRecordEntity();
 			userCrewTotalEntity.setCrewEntity(crewEntity);
 			userCrewTotalEntity.setUserEntity(userEntity);
+			userCrewTotalRunRepo.save(userCrewTotalEntity);
+		}else {
+			userCrewTotalEntity.setTotalRecordRegTime(LocalDateTime.now());
+			userCrewTotalEntity.setTotalLongestDistance(  Math.max(userCrewTotalEntity.getTotalLongestDistance() ,runRecordDto.getRunRecordRunningDistance()));
+			userCrewTotalEntity.setTotalLongestTime(Math.max(userCrewTotalEntity.getTotalLongestTime(), runRecordDto.getRunRecordRunningTime()));
+			userCrewTotalEntity.setTotalTime(userCrewTotalEntity.getTotalTime() + runRecordDto.getRunRecordRunningTime());
+			userCrewTotalEntity.setTotalDistance(userCrewTotalEntity.getTotalDistance() + runRecordDto.getRunRecordRunningDistance());
+			userCrewTotalEntity.setTotalCalorie(userCrewTotalEntity.getTotalCalorie() + runRecord.getRunRecordCalorie());
 		}
-		userCrewTotalEntity.setTotalRecordRegTime(LocalDateTime.now());
-		userCrewTotalEntity.setTotalLongestDistance(  Math.max(userCrewTotalEntity.getTotalLongestDistance() ,runRecordDto.getRunRecordRunningDistance()));
-		userCrewTotalEntity.setTotalLongestTime(Math.max(userCrewTotalEntity.getTotalLongestTime(), runRecordDto.getRunRecordRunningTime()));
-		userCrewTotalEntity.setTotalTime(userCrewTotalEntity.getTotalTime() + runRecordDto.getRunRecordRunningTime());
-		userCrewTotalEntity.setTotalDistance(userCrewTotalEntity.getTotalDistance() + runRecordDto.getRunRecordRunningDistance());
-		userCrewTotalEntity.setTotalCalorie(userCrewTotalEntity.getTotalCalorie() + runRecord.getRunRecordCalorie());
-		
+
 		CrewTotalRecordDto userCrewDto = CrewTotalRecordDto.of(userCrewTotalEntity);
 		userCrewDto.setTotalAvgSpeed(3.6 * userCrewTotalEntity.getTotalDistance().doubleValue() / (userCrewTotalEntity.getTotalTime() == 0 ? Long.MAX_VALUE : userCrewTotalEntity.getTotalTime()));
 		
-		ArrayList<AchievementDto> newCompleteDtoList =   getNewCompleteAchiveMent();
+		ArrayList<AchievementDto> newCompleteDtoList =   getNewCompleteAchiveMent(userEntity);
 		// 3.업적 로직 계산
 
 		return new RunRecordResultDto(RunRecordDto.of(runRecord),newCompleteDtoList);
 	}
 
-	private ArrayList<AchievementDto> getNewCompleteAchiveMent() {
+	private ArrayList<AchievementDto> getNewCompleteAchiveMent(UserEntity userEntity) {
 		
 		ArrayList<AchievementDto> newCompleteDtoList = new ArrayList<>();
+		
+		List<AchievementEntity> achieveMents =  achiveRepo.findNotAchivement(userEntity);
+		
+		List<AchievementDto> achiveList =  achieveMents.stream().map((achievement)->AchievementDto.of(achievement))
+		.collect(Collectors.toList());
+		//achiveMentType
+		AchievementDto achive =null;
+		for(int i = 0 ; i < achiveList.size();i++) {
+			achive = achiveList.get(i);
+			//if(achive.getAchieveType()) {
+				
+			//}else if(achive.getAchieveType()) {
+				
+			//}else if(achive.getAchieveType()) {
+			//	
+			//}
+			
+		}
+		
+		
+		
 		
 		return newCompleteDtoList;
 	}

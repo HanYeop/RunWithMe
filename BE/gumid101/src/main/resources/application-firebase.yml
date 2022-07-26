@@ -1,0 +1,6 @@
+fire_base:
+  api_url: "API.URL"
+  firebase_config_path: "예시json" 
+  scoped: "예시"
+  
+# https://fcm.googleapis.com/v1/projects/{프로젝트 ID}/messages:send

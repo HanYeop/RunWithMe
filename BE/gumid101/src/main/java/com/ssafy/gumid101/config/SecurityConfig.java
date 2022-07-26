@@ -86,11 +86,10 @@ public class SecurityConfig {
 		http.addFilterBefore(new CustomOAuthLoginValidateFilter( successHandler),JwtAuthFilter.class);
 		
 		http.authorizeHttpRequests((authz) -> {
+			
+			authz.antMatchers("/user/profile").hasRole(Role.TEMP.toString());
 			authz.antMatchers("/**").hasRole(Role.USER.toString());
-			//authz.antMatchers("/user/profile").hasRole(Role.TEMP.toString());
-
 		});
-
 		http.exceptionHandling().accessDeniedHandler(new AccessDeniedHandler() {
 			
 			@Override
