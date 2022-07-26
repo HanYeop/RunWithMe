@@ -1,10 +1,10 @@
 package com.ssafy.runwithme.model.response
 
 import com.google.gson.annotations.SerializedName
+import com.ssafy.runwithme.model.dto.CrewBoardDto
+import com.ssafy.runwithme.model.dto.ImageDto
 
 data class CrewBoardResponse(
-    @SerializedName("user_id") val userId: Int,
-    @SerializedName("user_nickname") val userNickname: String,
-    @SerializedName("img_id") val imgId: Int,
-    @SerializedName("content") val content: String
+    @SerializedName("crewBoardDto") val crewBoardDto: CrewBoardDto,
+    @SerializedName("imageDto") val imageDto: ImageDto,
 )

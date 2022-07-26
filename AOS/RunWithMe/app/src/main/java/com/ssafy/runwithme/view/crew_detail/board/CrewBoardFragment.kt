@@ -1,8 +1,10 @@
 package com.ssafy.runwithme.view.crew_detail.board
 
+import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentCrewBoardBinding
@@ -16,8 +18,13 @@ class CrewBoardFragment : BaseFragment<FragmentCrewBoardBinding>(R.layout.fragme
 
     private val crewDetailViewModel by viewModels<CrewDetailViewModel>()
     private val crewBoardAdapter = CrewBoardAdapter()
+    private val args by navArgs<CrewBoardFragmentArgs>()
 
     override fun init() {
+        binding.apply {
+            recyclerCrewBoard.adapter = crewBoardAdapter
+        }
+
         initClickListener()
 
         initViewModelCallback()
@@ -37,7 +44,7 @@ class CrewBoardFragment : BaseFragment<FragmentCrewBoardBinding>(R.layout.fragme
 
     private fun initViewModelCallback(){
         lifecycleScope.launch {
-            crewDetailViewModel.getCrewBoards(1,10).collectLatest { pagingData ->
+            crewDetailViewModel.getCrewBoards(args.crewid,10).collectLatest { pagingData ->
                 crewBoardAdapter.submitData(pagingData)
             }
         }
