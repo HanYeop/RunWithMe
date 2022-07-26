@@ -3,11 +3,13 @@ package com.ssafy.runwithme.view.running
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLngBounds
@@ -18,6 +20,7 @@ import com.ssafy.runwithme.databinding.ActivityRunningBinding
 import com.ssafy.runwithme.service.Polyline
 import com.ssafy.runwithme.service.RunningService
 import com.ssafy.runwithme.utils.*
+import com.ssafy.runwithme.view.loading.LoadingDialog
 import com.ssafy.runwithme.view.running.result.RunningResultActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -52,7 +55,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
     // TEST : 1분
     private val goal = 60 * 1000L
     private val weight = 70
-    private var caloriesBurned = 0
+    private var caloriesBurned : Double = 0.0
 
     private lateinit var runningLoadingDialog: RunningLoadingDialog
 
@@ -143,7 +146,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             moveCameraToUser()
 
             // 칼로리 소모량 체크
-            caloriesBurned = ((sumDistance / 1000f) * weight).toInt()
+            caloriesBurned = ((sumDistance / 1000f) * weight).toDouble()
 
             // 거리 텍스트 변경
             binding.tvDistance.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
@@ -303,35 +306,28 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
 
     // 달리기 기록 저장
     private fun endRunAndSaveToDB() {
-        // 몸무게 불러오기
-//        val weight = sharedPref.getFloat(KEY_WEIGHT,70f)
+        val dialog = LoadingDialog(this@RunningActivity)
 
-        /**
-         * 날짜 변환
-         */
-        val calendar = Calendar.getInstance()
-        val yearFormat = SimpleDateFormat("yyyy", Locale.getDefault())
-        val monthFormat = SimpleDateFormat("MM", Locale.getDefault())
-        val dayFormat = SimpleDateFormat("dd", Locale.getDefault())
+        binding.layoutMap.visibility = View.VISIBLE
+        binding.layoutGoal.visibility = View.INVISIBLE
+        CoroutineScope(Dispatchers.Main).launch {
+            runRecordEndTime = timeFormatter(System.currentTimeMillis())
 
-        val year = yearFormat.format(calendar.time)
-        val month = monthFormat.format(calendar.time)
-        val day = dayFormat.format(calendar.time)
-        val title = "${year}년 ${month}월 ${day}일 러닝"
+            dialog.show()
+            delay(1000)
+            dialog.dismiss()
 
-        map?.snapshot { bmp ->
-            // 반올림
-            val avgSpeed =
-                round((sumDistance / 1000f) / (currentTimeInMillis / 1000f / 60 / 60) * 10) / 10f
-            val timestamp = calendar.timeInMillis
-            val caloriesBurned = ((sumDistance / 1000f) * weight).toInt()
+            map?.snapshot { bmp ->
+                image = bmp!!
+            }
 
-            Log.d("test5", "endRunAndSaveToDB: $bmp")
-//            val run = Run(0,bmp,timestamp,avgSpeed,sumDistance,currentTimeInMillis,
-//                caloriesBurned,title,year.toInt(),month.toInt(),day.toInt() )
+            dialog.show()
+            delay(1000)
+            dialog.dismiss()
+
+            startActivity(Intent(this@RunningActivity, RunningResultActivity::class.java))
+            finish()
         }
-        startActivity(Intent(this,RunningResultActivity::class.java))
-        finish()
     }
 
     // 서비스에게 명령을 전달함
@@ -355,7 +351,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         binding.tvDistance.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
 
         // 칼로리 소모량 체크
-        caloriesBurned = ((sumDistance / 1000f) * weight).toInt()
+        caloriesBurned = ((sumDistance / 1000f) * weight).toDouble()
         // 칼로리 텍스트 변경
         binding.tvCalorie.text = "$caloriesBurned kcal"
         super.onResume()
@@ -379,5 +375,23 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
     override fun onLowMemory() {
         super.onLowMemory()
         binding.mapView.onLowMemory()
+    }
+
+    companion object{
+        lateinit var image: Bitmap
+
+        // 러닝 시작 전에 받아야 함.
+        var crewId: Int = 0
+        var runRecordStartTime: String = ""
+
+        // 러닝 종료될 때 받아야 함.
+        var runRecordEndTime: String = ""
+        var runRecordRunningAvgSpeed : Double = 0.0
+        var runRecordRunningCalorie: Double = 0.0
+        var runRecordRunningCompleteYN: String = "N"
+        var runRecordRunningDistance: Int = 0
+        var runRecordRunningLat: Double = 0.0
+        var runRecordRunningLng: Double = 0.0
+        var runRecordRunningTime: Int = 0
     }
 }
