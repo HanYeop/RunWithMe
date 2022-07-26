@@ -5,6 +5,8 @@ import android.content.Context
 import android.graphics.Point
 import android.os.Build
 import android.view.WindowManager
+import java.text.SimpleDateFormat
+import java.util.*
 
 // 다이얼로그 사이즈 조절
 fun Context.dialogResize(dialog: Dialog, width: Float, height: Float){
@@ -32,4 +34,13 @@ fun Context.dialogResize(dialog: Dialog, width: Float, height: Float){
 
         window?.setLayout(x, y)
     }
+}
+
+fun timeFormatter(time: Long?): String {
+    if(time == null){
+        return ""
+    }
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+    return dateFormat.format(time)
 }
