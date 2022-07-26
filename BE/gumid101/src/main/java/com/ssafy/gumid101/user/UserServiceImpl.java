@@ -65,16 +65,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto getUserProfileById(Long id) throws Exception {
+	public UserFileDto getUserProfileById(Long id) throws Exception {
 
 		UserEntity user = userRepo.findById(id).orElse(null);
-
+		
+		ImageFileDto imgDto =  ImageFileDto.of( user.getImageFile());
+		
+		
 		UserDto userDto = null;
 		if (user != null) {
 			userDto = UserDto.of(user);
 		}
 
-		return userDto;
+		return new UserFileDto(userDto,imgDto);
 	}
 
 	@Transactional
@@ -90,58 +93,57 @@ public class UserServiceImpl implements UserService {
 		userEntity.setPoint(0);
 
 		ImageFileDto imageFileDto = null;
-		try {
+		ImageFileEntity imageEntity = null;
+		if (imgFile != null && !imgFile.isEmpty()) {
 
-			imageFileDto = s3FileService.upload(imgFile, ImageDirectory.PROFILE.getPath());
+			try {
 
-		} catch (Exception e) {
-			throw new ThirdPartyException("S3 Buket 파일 업로드 중 오류가 발생하였습니다.");
-		}
+				imageFileDto = s3FileService.upload(imgFile, ImageDirectory.PROFILE.getPath());
 
-		ImageFileEntity imageEntity = ImageFileEntity.builder().imgOriginalName(imgFile.getOriginalFilename())
-				.imgSavedName(imageFileDto.getImgSavedName()).imgSavedPath(imageFileDto.getImgSavedPath()).build();
+			} catch (Exception e) {
+				throw new ThirdPartyException("S3 Buket 파일 업로드 중 오류가 발생하였습니다.");
+			}
 
-		imageRepo.save(imageEntity);
+			imageEntity = ImageFileEntity.builder().imgOriginalName(imgFile.getOriginalFilename())
+					.imgSavedName(imageFileDto.getImgSavedName()).imgSavedPath(imageFileDto.getImgSavedPath()).build();
 
-		userEntity.setImageFile(imageEntity);
+			imageRepo.save(imageEntity);
+			userEntity.setImageFile(imageEntity);
+		} 
+
+		
 
 		return new UserFileDto(UserDto.of(userEntity), ImageFileDto.of(imageEntity));
 	}
 
+	@Transactional // 쿼리 dsl을 같은 트랜잭션에 포함시켜 영속성을 살려야함
 	@Override
-	public List<CrewBoardDto> getMyBoards(Long userSeq, Long size, Long offset) throws Exception {
-		
-		
-		UserEntity user = userRepo.findById(userSeq).orElseThrow(()->new UsernameNotFoundException("자신의 글 조회중, 유저를 특정할 수 없습니다.")); 
-		
-		List<CrewBoardEntity> myBoards  = userRepo.findUserBoardsWithOffestAndSize(user, size, offset);
-		
-		List<CrewBoardDto> myBoardList= myBoards.stream().map((item)->CrewBoardDto.of(item)).collect(Collectors.toList());
-		
-		
+	public List<CrewBoardDto> getMyBoards(Long userSeq, Long size, Long maxBoardSeq) throws Exception {
+
+		UserEntity user = userRepo.findById(userSeq)
+				.orElseThrow(() -> new UsernameNotFoundException("자신의 글 조회중, 유저를 특정할 수 없습니다."));
+
+		List<CrewBoardEntity> myBoards = userRepo.findUserBoardsWithOffestAndSize(user, size, maxBoardSeq);
+
+		List<CrewBoardDto> myBoardList = myBoards.stream().map((item) -> CrewBoardDto.of(item))
+				.collect(Collectors.toList());
+
 		return myBoardList;
 	}
 
 	@Override
-	public CrewTotalRecordDto getMyTotalRecord(Long userSeq) throws Exception{
+	public CrewTotalRecordDto getMyTotalRecord(Long userSeq) throws Exception {
 		UserEntity userEntity = userRepo.findById(userSeq)
 				.orElseThrow(() -> new NotFoundUserException("해당 유저를 찾을 수 없습니다."));
-		
-		
+
 		CrewTotalRecordDto crewTotalRecordDto = userRepo.getMyTotalRecord(userEntity);
 		if (crewTotalRecordDto.getTotalTime() == null || crewTotalRecordDto.getTotalTime() == 0) {
-			return CrewTotalRecordDto.builder()
-					.totalAvgSpeed(0.0)
-					.totalCalorie(0.0)
-					.totalDistance(0)
-					.totalLongestDistance(0)
-					.totalLongestTime(0)
-					.totalTime(0)
-					.build();
-		}
-		else {
+			return CrewTotalRecordDto.builder().totalAvgSpeed(0.0).totalCalorie(0.0).totalDistance(0)
+					.totalLongestDistance(0).totalLongestTime(0).totalTime(0).build();
+		} else {
 			// 1m/s == 3.6km/h
-			crewTotalRecordDto.setTotalAvgSpeed(3.6 * crewTotalRecordDto.getTotalDistance() / crewTotalRecordDto.getTotalTime());
+			crewTotalRecordDto
+					.setTotalAvgSpeed(3.6 * crewTotalRecordDto.getTotalDistance() / crewTotalRecordDto.getTotalTime());
 		}
 		return crewTotalRecordDto;
 	}

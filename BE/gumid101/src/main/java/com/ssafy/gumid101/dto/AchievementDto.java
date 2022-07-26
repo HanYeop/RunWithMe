@@ -43,6 +43,8 @@ public class AchievementDto implements Serializable {
 	private LocalDateTime achieveRegTime;
 	
 	public static AchievementDto of(AchievementEntity achieve) {
+		if(achieve == null)
+			return null;
 		return new AchievementDtoBuilder()
 				.achieveSeq(achieve.getAchiveSeq())
 				.achieveName(achieve.getAchieveName())

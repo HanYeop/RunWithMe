@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 직렬화 기능을 가진 User클래스
+ * 레코드 리스트
  */
 @Builder
 @Getter
@@ -30,8 +30,8 @@ public class RecordParamsDto implements Serializable {
 	@ApiParam(value = "얻어올 개수")
 	private Integer size;
 
-	@ApiParam(value = "얻어올 위치")
-	private Integer offset;
+	@ApiParam(value = "맥스 뭐시기")
+	private Integer maxRunRecordSeq;
 	
 	@ApiParam(value = "년")
 	private Integer year;
