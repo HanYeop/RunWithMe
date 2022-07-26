@@ -8,7 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ssafy.gumid101.entity.CrewEntity;
-import com.ssafy.gumid101.entity.ImageFileEntity;
 
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;

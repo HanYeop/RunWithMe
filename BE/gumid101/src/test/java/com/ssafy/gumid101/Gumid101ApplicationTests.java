@@ -1,34 +1,18 @@
 package com.ssafy.gumid101;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
-
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.gumid101.achievement.AchievementRepository;
 import com.ssafy.gumid101.config.QueryDslConfig;
 import com.ssafy.gumid101.crew.UserCrewJoinRepository;
 import com.ssafy.gumid101.crew.manager.CrewManagerRepository;
-import com.ssafy.gumid101.entity.CrewBoardEntity;
-import com.ssafy.gumid101.entity.CrewEntity;
-import com.ssafy.gumid101.entity.UserCrewJoinEntity;
 import com.ssafy.gumid101.entity.UserEntity;
-import com.ssafy.gumid101.user.UserCustomRepositoryImpl;
 import com.ssafy.gumid101.user.UserRepository;
 
 @EnableJpaAuditing

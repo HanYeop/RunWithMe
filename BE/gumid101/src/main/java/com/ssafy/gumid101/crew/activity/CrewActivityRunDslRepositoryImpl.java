@@ -2,8 +2,6 @@ package com.ssafy.gumid101.crew.activity;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

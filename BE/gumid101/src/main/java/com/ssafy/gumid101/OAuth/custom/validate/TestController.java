@@ -1,7 +1,6 @@
 package com.ssafy.gumid101.OAuth.custom.validate;
 
 import java.io.IOException;
-
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ssafy.gumid101.dto.UserDto;

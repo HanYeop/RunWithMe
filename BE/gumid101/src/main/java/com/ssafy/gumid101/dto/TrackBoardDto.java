@@ -2,8 +2,6 @@ package com.ssafy.gumid101.dto;
 
 import java.io.Serializable;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.ssafy.gumid101.entity.TrackBoardEntity;
 
 import io.swagger.annotations.ApiParam;
