@@ -8,6 +8,11 @@ import com.ssafy.gumid101.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * 크루 가입 후 반환
+ * @author start
+ *
+ */
 @AllArgsConstructor
 @Data
 public class CrewUserDto {

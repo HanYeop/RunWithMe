@@ -31,6 +31,7 @@ public class AchievementDto implements Serializable {
 	@ApiParam(value = "업적 이름")
 	private String achieveName;
 
+	//
 	@ApiParam(value = "업적 형식")
 	private String achieveType;
 
