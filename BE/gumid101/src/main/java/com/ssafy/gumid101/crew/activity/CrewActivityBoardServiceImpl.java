@@ -68,7 +68,10 @@ public class CrewActivityBoardServiceImpl implements CrewActivityBoardService {
 //				throw new Exception("이미지 저장에 실패했습니다.");
 			}
 		}
-
+		if (savedFileDto == null) {
+			savedFileDto = ImageFileDto.getNotExist();
+		}
+		
 		crewBoardEntity.setUserEntity(writerEntity);
 		crewBoardEntity.setCrewEntity(crewEntity);
 		crewBoardEntity.setImgFile(imageEntity);
