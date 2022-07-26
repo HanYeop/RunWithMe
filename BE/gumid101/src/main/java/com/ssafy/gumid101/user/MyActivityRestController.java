@@ -62,9 +62,9 @@ public class MyActivityRestController {
 
 		UserDto userDto = loadUserFromToken();
 
-		UserDto resUserDto = userService.getUserProfileById(userDto.getUserSeq());
+		UserFileDto resUserDto = userService.getUserProfileById(userDto.getUserSeq());
 
-		ResponseFrame<UserDto> resFrame = new ResponseFrame<UserDto>();
+		ResponseFrame<UserFileDto> resFrame = new ResponseFrame<UserFileDto>();
 
 		resFrame.setCount(resUserDto == null ? 0 : 1);
 		resFrame.setSuccess(resUserDto == null ? false : true);
@@ -76,7 +76,7 @@ public class MyActivityRestController {
 	@ApiOperation(value = "자신의 프로필 수정")
 	@PostMapping("/profile")
 	public ResponseEntity<?> editMyProfile(@ModelAttribute ProfileEditDto profile,
-			@RequestPart(value = "imgFile") MultipartFile imgFile) throws Exception {
+			@RequestPart(value = "imgFile",required = false) MultipartFile imgFile) throws Exception {
 
 		UserDto userDto = loadUserFromToken();
 		userDto.setWeight(profile.getWeight());
@@ -151,7 +151,9 @@ public class MyActivityRestController {
 		ResponseFrame<List<RunRecordDto>> responseFrame = new ResponseFrame<>();
 		List<RunRecordDto> myRecordList = null;
 		try {
+			
 			myRecordList = runService.getMyRecordList(params);
+			
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseFrame.setCount(0);
@@ -169,16 +171,17 @@ public class MyActivityRestController {
 	}
 
 	/**
-	 * int값은 안 들어올 때 0으로 들어오는것으로 알고, size, offset은 검색 조건이 있다면 0이 아닌 값이므로 0이 들어왔을 떼
-	 * 예외적인 처리를 해야함.
+	 * 
+	 * 2022-07-26 페이징 수정 손광진
 	 * @throws Exception 
 	 */
 	@GetMapping("/boards") //안쓴 거는 null로 받기위해 참조형으로 파라메터를 받음
 	public ResponseEntity<?> getMyBoards(@RequestParam(required = false,name = "size") Long size,
-			@RequestParam(required = false,name = "offset") Long offset) throws Exception {
+			@RequestParam(required = false,name = "offset") Long boardMaxSeq) throws Exception {
+		
 		UserDto userDto = loadUserFromToken();
 		
-		List<CrewBoardDto> myBoardList =  userService.getMyBoards(userDto.getUserSeq(),size,offset);
+		List<CrewBoardDto> myBoardList =  userService.getMyBoards(userDto.getUserSeq(),size,boardMaxSeq);
 		
 		ResponseFrame<?> res = ResponseFrame.of(myBoardList,myBoardList.size(),"자신이 쓴 글을 반환합니다.");
 		

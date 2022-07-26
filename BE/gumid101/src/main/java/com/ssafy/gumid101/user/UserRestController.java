@@ -77,7 +77,8 @@ public class UserRestController {
 	public ResponseEntity<?> setMyProfile(@RequestBody UserDto userDto,@ApiIgnore BindingResult result) throws Exception {
 
 		if(result.hasErrors()) {
-			result.getAllErrors();
+			log.warn(result.getAllErrors().toString()); ;
+			
 		}
 		
 		log.debug("초기 프로필 설정 진입 : 몸무게:{},키 : {}, 닉네임 :{}", userDto.getWeight(), userDto.getHeight(),

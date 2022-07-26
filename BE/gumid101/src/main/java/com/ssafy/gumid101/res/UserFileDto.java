@@ -10,7 +10,7 @@ import lombok.Getter;
 public class UserFileDto {
 
 	private final UserDto user;
-	private final ImageFileDto file;
+	private final ImageFileDto imgFileDto;
 	
 	
 }

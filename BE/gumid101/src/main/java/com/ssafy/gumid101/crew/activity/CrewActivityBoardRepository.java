@@ -12,8 +12,9 @@ import com.ssafy.gumid101.res.CrewBoardFileDto;
 
 public interface CrewActivityBoardRepository extends JpaRepository<CrewBoardEntity, Long> {
 	List<CrewBoardEntity> findByCrewEntity(CrewEntity crewEntity, Pageable pageable);
-	//List<CrewBoardEntity> findByCrewEntity(CrewEntity crewEntity);
+	// List<CrewBoardEntity> findByCrewEntity(CrewEntity crewEntity);
 
-	List<CrewBoardEntity> findByCrewEntityAndCrewBoardSeqLessThan(CrewEntity crewEntity,Long crewBoardSeq, Pageable pageable);
+	List<CrewBoardEntity> findByCrewEntityAndCrewBoardSeqLessThan(
+			CrewEntity crewEntity, Long maxCrewBoardSeq, Pageable pageable);
 
 }

@@ -3,15 +3,18 @@ package com.ssafy.gumid101.crew.manager;
 import java.time.LocalDateTime;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.gumid101.crew.CrewGoalType;
 import com.ssafy.gumid101.dto.CrewDto;
 import com.ssafy.gumid101.dto.RecruitmentParamsDto;
+import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.QCrewEntity;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,10 @@ public class CrewManagerCustomRepositoryImpl implements CrewManagerCustomReposit
 
 	private final JPAQueryFactory jpaQueryFactory;
 
+	/**
+	 * 모집 중인 크루 조회 and 검색 파라메터 값에 따라 조회 혹은 검색
+	 */
+
 	@Override
 	public List<CrewDto> crewSearcheByRecruitmentParams(RecruitmentParamsDto paramsDto) {
 
@@ -31,14 +38,24 @@ public class CrewManagerCustomRepositoryImpl implements CrewManagerCustomReposit
 
 		BooleanBuilder builder = RecruitmentParamsProcessedCondition(crewEntity, paramsDto);
 
-		jpaQueryFactory.from(crewEntity).where(builder).where(crewEntity.crewDateStart.after(LocalDateTime.now())) 
-				.orderBy(crewEntity.crewDateStart.asc());
-		// 시작일
-		// 지난
-		// 크루는
-		// 보여주지
-		// 않는다.
-		return null;
+		Long maxCrewSeq = paramsDto.getMaxCrueSeq() == 0 ? Long.MAX_VALUE : paramsDto.getMaxCrueSeq();
+		// maxCrewSeq가 0이라는 것은 초기 검색임으로 정렬 최상위 부터 size만큼 반환
+		// maxCrewwSeq가 0이 아니라는 것은, 스크롤 이후로 발생하는 것 , 따라서 maxCrewSeq가 값이 의미가 있이 오는데
+		// 거기서 기존 검색 꺼는 주면 안되기 때문에 maxCrewSeq 밑으로 부터 반환해야한다.
+		Long size = paramsDto.getSize() == 0 ? Long.MAX_VALUE : paramsDto.getSize();
+		// size가 0이면 전체 검색하는 걸로 하자
+
+		// 검색 조건에 따라 + 시작 안한 크루만 + 페이징
+		List<CrewEntity> crews = jpaQueryFactory.selectFrom(crewEntity).innerJoin(crewEntity.managerEntity).fetchJoin()
+				.where(builder).where(crewEntity.crewDateStart.after(LocalDateTime.now()))
+				.where(crewEntity.crewSeq.lt(maxCrewSeq)).orderBy(crewEntity.crewDateStart.asc()).limit(size).fetch();
+
+		// orderby 바뀔지 안바뀔지 모르겟다. 현재는 크루 시작일이 얼마 남지 않은 순으로 반환한다.
+
+		return crews.stream().map((crew) -> {
+			return CrewDto.of(crew, crew.getManagerEntity().getNickName(), crew.getManagerEntity().getUserSeq());
+		}).collect(Collectors.toList());
+
 	}
 
 	private BooleanBuilder RecruitmentParamsProcessedCondition(QCrewEntity crewEntity, RecruitmentParamsDto paramsDto) {
@@ -85,7 +102,6 @@ public class CrewManagerCustomRepositoryImpl implements CrewManagerCustomReposit
 			builder.and(crewEntity.crewCost.loe(paramsDto.getPointMax()));
 		}
 
-		
 		// 크루의 목표 타입 검증, 목표 타입의 범위 검색
 		if (StringUtils.hasLength(paramsDto.getPurposeType())) {
 			boolean isAccepted = false;
@@ -99,26 +115,26 @@ public class CrewManagerCustomRepositoryImpl implements CrewManagerCustomReposit
 				isAccepted = true;
 			}
 
-			if(isAccepted) {
+			if (isAccepted) {
 				if (paramsDto.getPurposeMinValue() != null) {
 
 					builder.and(crewEntity.crewGoalAmount.goe(paramsDto.getPurposeMinValue()));
 				}
-				
+
 				if (paramsDto.getPurposeMaxValue() != null) {
 					builder.and(crewEntity.crewGoalAmount.loe(paramsDto.getPurposeMaxValue()));
 				}
 			}
 			// 크루 목표의 거리와 시간..... 22시 ~ 01시는 아직 안 고려
-			
+
 		}
-		
-		//주에 몇번 성공해야하는지
-		if(paramsDto.getGoalMinDay() != null) {
-			builder.and(crewEntity.crewGoalDays.goe(paramsDto.getGoalMinDay() ));
+
+		// 주에 몇번 성공해야하는지
+		if (paramsDto.getGoalMinDay() != null) {
+			builder.and(crewEntity.crewGoalDays.goe(paramsDto.getGoalMinDay()));
 		}
-		
-		if(paramsDto.getGoalMaxDay() != null) {
+
+		if (paramsDto.getGoalMaxDay() != null) {
 			builder.and(crewEntity.crewGoalDays.loe(paramsDto.getGoalMaxDay()));
 		}
 
