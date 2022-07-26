@@ -5,7 +5,6 @@ import java.io.Serializable;
 import com.ssafy.gumid101.customercenter.QuestStatus;
 import com.ssafy.gumid101.entity.QuestionEntity;
 
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

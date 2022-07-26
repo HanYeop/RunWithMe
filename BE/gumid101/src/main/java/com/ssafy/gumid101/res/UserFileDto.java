@@ -4,7 +4,6 @@ import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.UserDto;
 
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class UserFileDto {

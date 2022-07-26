@@ -2,10 +2,7 @@ package com.ssafy.gumid101.dto;
 
 import java.io.Serializable;
 
-import javax.annotation.RegEx;
 import javax.validation.constraints.Pattern;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.user.Role;

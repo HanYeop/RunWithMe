@@ -1,7 +1,6 @@
 package com.ssafy.gumid101.crew.manager;
 
 import java.time.LocalDateTime;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.gumid101.crew.CrewGoalType;
 import com.ssafy.gumid101.dto.CrewDto;

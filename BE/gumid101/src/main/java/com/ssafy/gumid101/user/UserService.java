@@ -37,5 +37,10 @@ public interface UserService {
 
 	CrewTotalRecordDto getMyTotalRecord(Long userSeq) throws Exception;
 
+	boolean setUserFcmToken(Long userSeq, String string)throws Exception;
+
+	boolean deleteUserFcmToken(Long userSeq) throws Exception;
+
+
 
 }

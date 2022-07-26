@@ -2,8 +2,6 @@ package com.ssafy.gumid101.recommend;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.ssafy.gumid101.dto.LatLngParamsDto;
 import com.ssafy.gumid101.dto.TrackBoardDto;
 import com.ssafy.gumid101.res.TrackBoardFileDto;
