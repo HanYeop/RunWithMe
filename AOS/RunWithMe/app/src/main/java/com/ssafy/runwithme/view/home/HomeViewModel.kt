@@ -1,12 +1,18 @@
 package com.ssafy.runwithme.view.home
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 import com.ssafy.runwithme.repository.CrewManagerRepository
 import com.ssafy.runwithme.utils.Result
+import com.ssafy.runwithme.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -14,23 +20,22 @@ class HomeViewModel @Inject constructor(
     private val crewManagerRepository: CrewManagerRepository
 ) : ViewModel(){
 
-    private val _myCurrentCrewList: MutableStateFlow<Result<List<MyCurrentCrewResponse>>>
+    private val _myCurrentCrewList: MutableStateFlow<Result<BaseResponse<List<MyCurrentCrewResponse>>>>
         = MutableStateFlow(Result.Uninitialized)
     val myCurrentCrewList get() = _myCurrentCrewList.asStateFlow()
 
-    fun getMyCurrentCrew(){
-//        viewModelScope.launch(Dispatchers.IO) {
-//            crewManagerRepository.getMyCurrentCrew().collect{
-//                _myCurrentCrewList.value = it
-//            }
-//        }
+    private val _errorMsgEvent = SingleLiveEvent<String>()
+    val errorMsgEvent get() = _errorMsgEvent
 
-        // TEST
-        _myCurrentCrewList.value = Result.Success(
-            listOf(
-                MyCurrentCrewResponse(1, "감크루", "감스트", "안녕하세요 감크루입니다", 1, 6, "시간", 20, "09 : 00", "10 : 00", "2022/07/01", "2022/08/19",false)
-                ,
-                MyCurrentCrewResponse(1, "철크루", "철구", "안녕하세요 철크루입니다",1, 6, "시간", 20, "09 : 00", "10 : 00", "2022/07/15", "2022/08/30", false)
-        ))
+    fun getMyCurrentCrew(){
+        viewModelScope.launch(Dispatchers.IO) {
+            crewManagerRepository.getMyCurrentCrew().collectLatest{
+                if(it is Result.Success){
+                    _myCurrentCrewList.value = it
+                }else if(it is Result.Error){
+                    _errorMsgEvent.postValue("오류가 발생했습니다.")
+                }
+            }
+        }
     }
 }

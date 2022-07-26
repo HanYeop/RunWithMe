@@ -35,9 +35,9 @@ object ViewBindingAdapter {
 
     @BindingAdapter("crewHorizonImage")
     @JvmStatic
-    fun ImageView.setCrewHorizonImage (imageUrl: Any){
+    fun ImageView.setCrewHorizonImage (imageSeq: Any){
         Glide.with(this.context)
-            .load(imageUrl)
+            .load("${BASE_URL}images/${imageSeq}")
             .override(80,80)
             .placeholder(R.drawable.img)
             .into(this)
@@ -50,6 +50,18 @@ object ViewBindingAdapter {
         Glide.with(this.context)
             .load("${BASE_URL}images/${imageSeq}")
             .override(40,40)
+            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true))
+            .placeholder(R.drawable.img)
+            .into(this)
+        this.clipToOutline = true
+    }
+
+    @BindingAdapter("crewDetailImage")
+    @JvmStatic
+    fun ImageView.setCrewDetailImage (imageSeq: Any){
+        Glide.with(this.context)
+            .load("${BASE_URL}images/${imageSeq}")
+            .override(160,160)
             .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true))
             .placeholder(R.drawable.img)
             .into(this)
