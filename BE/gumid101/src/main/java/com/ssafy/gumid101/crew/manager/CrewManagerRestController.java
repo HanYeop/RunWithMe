@@ -55,7 +55,7 @@ public class CrewManagerRestController {
 	 */
 	
 	
-	@ApiOperation(value="진행 중인 내 크루보기")
+	@ApiOperation(value="진행 중인 내 크루보기 정렬 아직 없음")
 	@GetMapping("/my-current-crew")
 	public ResponseEntity<?> getMyCurrentCrew() throws Exception{
 		

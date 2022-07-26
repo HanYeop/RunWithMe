@@ -29,7 +29,7 @@ public interface UserService {
 	 */
 	int checkDupNickname(String nickname) throws Exception;
 
-	UserDto getUserProfileById(Long id)throws Exception;
+	UserFileDto getUserProfileById(Long id)throws Exception;
 
 	UserFileDto editMyProfile(UserDto userDto, MultipartFile imgFile)throws Exception;
 

@@ -42,7 +42,7 @@ public class CrewRestContoller {
 		return tokenUser;
 	}
 	
-	@ApiOperation("런 레코드 등록(미구현)")
+	@ApiOperation("런 레코드 등록(구현중)")
 	@PostMapping("/crew/{crewId}/records")
 	public ResponseEntity<?> recordMyRun(
 			@PathVariable("crewId") Long crewId ,
