@@ -47,11 +47,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <ImageView
                         android:id="@+id/image_crew_recruit"
                         android:layout_width="@dimen/crew_detail_image_size"
                         android:layout_height="@dimen/crew_detail_image_size"
                         android:layout_gravity="center"
+                        android:scaleType="fitXY"
                         app:crewDetailImage="@{imageFileDto.imgSeq}"
                         android:layout_marginTop="8dp"
                         android:background="@android:color/transparent"

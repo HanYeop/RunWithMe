@@ -31,11 +31,12 @@
                 android:padding="8dp"
                 android:layout_gravity="center">
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <ImageView
                     android:id="@+id/image_crew_recruit"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="@dimen/crew_horizon_image_size"
+                    android:layout_height="@dimen/crew_horizon_image_size"
                     android:layout_gravity="center"
+                    android:scaleType="fitXY"
                     app:crewHorizonImage="@{myCurrentCrewResponse.imageFileDto.imgSeq}"
                     android:background="@android:color/transparent"
                     app:layout_constraintStart_toStartOf="parent"
