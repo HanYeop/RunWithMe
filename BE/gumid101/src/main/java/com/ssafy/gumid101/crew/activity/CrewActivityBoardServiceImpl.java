@@ -67,6 +67,9 @@ public class CrewActivityBoardServiceImpl implements CrewActivityBoardService{
 //				throw new Exception("이미지 저장에 실패했습니다.");
 			}
 		}
+		if (savedFileDto == null) {
+			savedFileDto = ImageFileDto.getNotExist();
+		}
 		
 		crewBoardEntity.setUserEntity(writerEntity);
 		crewBoardEntity.setCrewEntity(crewEntity);
@@ -90,7 +93,7 @@ public class CrewActivityBoardServiceImpl implements CrewActivityBoardService{
 				.map((entity) -> { 
 			return new CrewBoardFileDto( 
 					CrewBoardDto.of(entity), 
-					entity.getImgFile() == null ? null : ImageFileDto.of(imageRepo.findById(entity.getImgFile().getImgSeq()).get()) //
+					entity.getImgFile() == null ? ImageFileDto.getNotExist() : ImageFileDto.of(imageRepo.findById(entity.getImgFile().getImgSeq()).get()) //
 					); 
 		}).collect(Collectors.toList());
 		
