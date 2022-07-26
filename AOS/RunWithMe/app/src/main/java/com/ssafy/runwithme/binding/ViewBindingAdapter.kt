@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.ssafy.runwithme.R
+import com.ssafy.runwithme.binding.ViewBindingAdapter.setCrewHorizonImage
 import com.ssafy.runwithme.utils.BASE_URL
 
 object ViewBindingAdapter {
@@ -35,24 +36,49 @@ object ViewBindingAdapter {
 
     @BindingAdapter("crewHorizonImage")
     @JvmStatic
-    fun ImageView.setCrewHorizonImage (imageSeq: Any){
-        Glide.with(this.context)
-            .load("${BASE_URL}images/${imageSeq}")
-            .override(80,80)
-            .placeholder(R.drawable.img)
-            .into(this)
+    fun ImageView.setCrewHorizonImage (imageSeq: Int){
+        if(imageSeq == 0){
+            Glide.with(this.context)
+                .load(R.drawable.ic_baseline_add_24)
+                .override(R.dimen.crew_horizon_image_size,R.dimen.crew_horizon_image_size)
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true))
+                .placeholder(R.drawable.img)
+                .into(this)
+        }
+        else {
+            Glide.with(this.context)
+                .load("${BASE_URL}images/${imageSeq}")
+                .override(R.dimen.crew_horizon_image_size,R.dimen.crew_horizon_image_size)
+                .apply(
+                    RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true)
+                )
+                .placeholder(R.drawable.img)
+                .into(this)
+        }
         this.clipToOutline = true
     }
 
     @BindingAdapter("crewBoardProfileImage")
     @JvmStatic
     fun ImageView.setCrewBoardProfileImage (imageSeq: Any){
-        Glide.with(this.context)
-            .load("${BASE_URL}images/${imageSeq}")
-            .override(40,40)
-            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true))
-            .placeholder(R.drawable.img)
-            .into(this)
+        if(imageSeq == 0){
+            Glide.with(this.context)
+                .load(R.drawable.user_image)
+                .override(R.dimen.crew_board_profile_image_size,R.dimen.crew_board_profile_image_size)
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true))
+                .placeholder(R.drawable.img)
+                .into(this)
+        }
+        else {
+            Glide.with(this.context)
+                .load("${BASE_URL}images/${imageSeq}")
+                .override(R.dimen.crew_board_profile_image_size,R.dimen.crew_board_profile_image_size)
+                .apply(
+                    RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true)
+                )
+                .placeholder(R.drawable.img)
+                .into(this)
+        }
         this.clipToOutline = true
     }
 
@@ -61,7 +87,7 @@ object ViewBindingAdapter {
     fun ImageView.setCrewDetailImage (imageSeq: Any){
         Glide.with(this.context)
             .load("${BASE_URL}images/${imageSeq}")
-            .override(160,160)
+            .override(R.dimen.crew_detail_image_size,R.dimen.crew_detail_image_size)
             .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true))
             .placeholder(R.drawable.img)
             .into(this)

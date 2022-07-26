@@ -11,4 +11,8 @@
     <dimen name="other_title">20sp</dimen>
     <dimen name="profile_modify">16sp</dimen>
 
+    <dimen name="crew_horizon_image_size">100dp</dimen>
+    <dimen name="crew_board_profile_image_size">40dp</dimen>
+    <dimen name="crew_detail_image_size">160dp</dimen>
+
 </resources>

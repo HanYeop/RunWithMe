@@ -49,8 +49,8 @@
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/image_crew_recruit"
-                        android:layout_width="160dp"
-                        android:layout_height="160dp"
+                        android:layout_width="@dimen/crew_detail_image_size"
+                        android:layout_height="@dimen/crew_detail_image_size"
                         android:layout_gravity="center"
                         app:crewDetailImage="@{imageFileDto.imgSeq}"
                         android:layout_marginTop="8dp"
