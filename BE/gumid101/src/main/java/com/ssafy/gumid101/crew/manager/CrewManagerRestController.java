@@ -112,13 +112,13 @@ public class CrewManagerRestController {
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseMap.setCount(0);
-			responseMap.setIsSuccess(false);
+			responseMap.setSuccess(false);
 			responseMap.setMsg(e.getMessage());
 		}
 		
 		if (crewFileDto != null) {
 			responseMap.setCount(1);
-			responseMap.setIsSuccess(true);
+			responseMap.setSuccess(true);
 			responseMap.setMsg("크루 생성에 성공했습니다.");
 		}
 		responseMap.setData(crewFileDto);
