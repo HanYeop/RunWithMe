@@ -65,8 +65,15 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
             findNavController().navigate(action)
         }
         userViewModel.loginEvent.observe(viewLifecycleOwner){
+            showToast(it)
             startActivity(Intent(requireContext(),MainActivity::class.java))
             requireActivity().finish()
+        }
+        userViewModel.errorMsgEvent.observe(viewLifecycleOwner){
+            showToast(it)
+        }
+        userViewModel.joinMsgEvent.observe(viewLifecycleOwner){
+            showToast(it)
         }
     }
 

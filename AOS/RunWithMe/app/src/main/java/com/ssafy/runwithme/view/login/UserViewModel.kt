@@ -31,17 +31,28 @@ class UserViewModel @Inject constructor(
     private val _loginEvent = SingleLiveEvent<String>()
     val loginEvent :LiveData<String> get() = _loginEvent
 
+    private val _errorMsgEvent = SingleLiveEvent<String>()
+    val errorMsgEvent get() = _errorMsgEvent
+
+    private val _joinMsgEvent = SingleLiveEvent<String>()
+    val joinMsgEvent get() = _joinMsgEvent
+
+    // TODO : 메세지 임의 변경
     fun googleLogin(code: String){
         viewModelScope.launch(Dispatchers.IO){
             oauth2Repository.googleLogin(code).collectLatest {
-                if(!it.isRegistered){
-                    _joinEvent.postValue(it.jwtToken)
-                }
-                // 이미 등록된 사용자라서 토큰 바로 저장
-                else{
-                    Log.d(TAG, "googleLogin: ${it.jwtToken}")
-                    sharedPreferences.edit().putString(JWT,it.jwtToken).apply()
-                    _loginEvent.postValue(it.msg)
+                if(it is Result.Success) {
+                    // 등록 되지 않은 사용자 회원 가입
+                    if (!it.data.isRegistered) {
+                        _joinEvent.postValue(it.data.jwtToken)
+                        _joinMsgEvent.postValue("회원 가입 페이지로 이동합니다.")
+                    } else {
+                        // 이미 등록된 사용자라서 토큰 바로 저장
+                        sharedPreferences.edit().putString(JWT, it.data.jwtToken).apply()
+                        _loginEvent.postValue("로그인 완료")
+                    }
+                }else if (it is Result.Error){
+                    _errorMsgEvent.postValue("서버 에러 발생")
                 }
             }
         }
@@ -52,7 +63,7 @@ class UserViewModel @Inject constructor(
             userRepository.joinUser(token, userDto).collectLatest {
                 if(it is Result.Success) {
                     sharedPreferences.edit().putString(JWT,it.data.data.jwtToken).apply()
-                    _loginEvent.postValue(it.data.msg)
+                    _loginEvent.postValue("로그인 완료")
                 }
             }
         }
