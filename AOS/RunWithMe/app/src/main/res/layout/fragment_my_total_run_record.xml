@@ -15,7 +15,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" >
 
                 <TextView
                     android:id="@+id/tv_my_total_record_header"
@@ -202,7 +205,7 @@
                 <CalendarView
                     android:id="@+id/calendarView"
                     android:layout_width="wrap_content"
-                    android:layout_height="500dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="16dp" />
 

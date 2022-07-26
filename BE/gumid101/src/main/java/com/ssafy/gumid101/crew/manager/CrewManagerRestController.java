@@ -53,19 +53,22 @@ public class CrewManagerRestController {
 	 * @return
 	 * @throws Exception 
 	 */
+	
+	
 	@ApiOperation(value="진행 중인 내 크루보기")
 	@GetMapping("/my-current-crew")
 	public ResponseEntity<?> getMyCurrentCrew() throws Exception{
 		
 		UserDto userDto= loadUserFromToken();
 		
-		List<CrewDto> crewList =  crewManagerService.getMyCurrentCruew(userDto.getUserSeq());
+		List<CrewDto> crewList =  crewManagerService.getMyCurrentCrew(userDto.getUserSeq());
 		
-		ResponseFrame.of(crewList, crewList.size(), "현재 진행중, 진행 예정인 나의 현재 크루가 반환되었습니다.");
+		ResponseFrame<?> res = ResponseFrame.of(crewList, crewList.size(), "현재 진행중, 진행 예정인 나의 현재 크루가 반환되었습니다.");
 		
 		
-		return new ResponseEntity<>(crewList,HttpStatus.OK);
+		return new ResponseEntity<>(res,HttpStatus.OK);
 	}
+	
 	
 	@ApiOperation("내 끝난 크루를 조회 why? 업적 조회할 떄,")
 	@GetMapping("/my-end-crew")
@@ -109,13 +112,13 @@ public class CrewManagerRestController {
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseMap.setCount(0);
-			responseMap.setSuccess(false);
+			responseMap.setIsSuccess(false);
 			responseMap.setMsg(e.getMessage());
 		}
 		
 		if (crewFileDto != null) {
 			responseMap.setCount(1);
-			responseMap.setSuccess(true);
+			responseMap.setIsSuccess(true);
 			responseMap.setMsg("크루 생성에 성공했습니다.");
 		}
 		responseMap.setData(crewFileDto);

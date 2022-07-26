@@ -18,5 +18,9 @@
         android:id="@+id/userJoinFragment"
         android:name="com.ssafy.runwithme.view.login.join.UserJoinFragment"
         android:label="UserJoinFragment"
-        tools:layout="@layout/fragment_user_join"/>
+        tools:layout="@layout/fragment_user_join">
+        <argument
+            android:name="tmptoken"
+            app:argType="string" />
+    </fragment>
 </navigation>

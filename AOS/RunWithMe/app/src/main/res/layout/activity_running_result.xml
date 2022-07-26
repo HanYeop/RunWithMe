@@ -27,6 +27,7 @@
             android:id="@+id/img_result"
             android:layout_width="300dp"
             android:layout_height="300dp"
+            android:scaleType="fitXY"
             android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

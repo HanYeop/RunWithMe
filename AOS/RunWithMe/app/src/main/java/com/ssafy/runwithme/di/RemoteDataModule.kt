@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder
 import com.ssafy.runwithme.api.CrewActivityApi
 import com.ssafy.runwithme.api.CrewManagerApi
 import com.ssafy.runwithme.api.Oauth2Api
+import com.ssafy.runwithme.api.UserApi
 import com.ssafy.runwithme.utils.BASE_URL
 import com.ssafy.runwithme.utils.XAccessTokenInterceptor
 import dagger.Module
@@ -34,8 +35,8 @@ object RemoteDataModule {
     fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor
     ,xAccessTokenInterceptor: XAccessTokenInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
-//            .addNetworkInterceptor(xAccessTokenInterceptor)
-            .addInterceptor(httpLoggingInterceptor)
+            .addNetworkInterceptor(xAccessTokenInterceptor)
+//            .addInterceptor(httpLoggingInterceptor)
             .build()
     }
 
@@ -76,5 +77,12 @@ object RemoteDataModule {
     @Singleton
     fun provideCrewActivityApi(retrofit: Retrofit): CrewActivityApi {
         return retrofit.create(CrewActivityApi::class.java)
+    }
+
+    // UserApi DI
+    @Provides
+    @Singleton
+    fun provideUserApi(retrofit: Retrofit): UserApi {
+        return retrofit.create(UserApi::class.java)
     }
 }

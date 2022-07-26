@@ -1,26 +1,34 @@
 package com.ssafy.runwithme.view.home.my_crew
 
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentMyCurrentCrewBinding
-import com.ssafy.runwithme.model.dto.MyCurrentCrewResponse
+import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
+import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.view.home.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MyCurrentCrewFragment
-    : BaseFragment<FragmentMyCurrentCrewBinding>(R.layout.fragment_my_current_crew), MyCurrentCrewListener {
+    : BaseFragment<FragmentMyCurrentCrewBinding>(R.layout.fragment_my_current_crew) {
 
     private val homeViewModel by activityViewModels<HomeViewModel>()
     private lateinit var myCurrentCrewAdapter : MyCurrentCrewAdapter
 
     override fun init() {
-        myCurrentCrewAdapter = MyCurrentCrewAdapter(this)
+        myCurrentCrewAdapter = MyCurrentCrewAdapter(listener)
         binding.apply {
             homeVM = homeViewModel
             recyclerMyCurrentCrew.adapter = myCurrentCrewAdapter
         }
         initClickListener()
+
+        initViewModelCallBack()
     }
 
     private fun initClickListener() {
@@ -31,15 +39,16 @@ class MyCurrentCrewFragment
         }
     }
 
-//    private val listener : MyCurrentCrewListener = object : MyCurrentCrewListener {
-//        override fun onItemClick(myCurrentCrewResponse: MyCurrentCrewResponse) {
-//            val action = MyCurrentCrewFragmentDirections.actionMyCurrentCrewFragmentToCrewDetailFragment(myCurrentCrewResponse)
-//            findNavController().navigate(action)
-//        }
-//    }
+    private val listener : MyCurrentCrewListener = object : MyCurrentCrewListener {
+        override fun onItemClick(myCurrentCrewResponse: MyCurrentCrewResponse) {
+            val action = MyCurrentCrewFragmentDirections.actionMyCurrentCrewFragmentToCrewDetailFragment(myCurrentCrewResponse.crewDto, myCurrentCrewResponse.imageFileDto)
+            findNavController().navigate(action)
+        }
+    }
 
-    override fun onItemClick(myCurrentCrewResponse: MyCurrentCrewResponse) {
-        val action = MyCurrentCrewFragmentDirections.actionMyCurrentCrewFragmentToCrewDetailFragment(myCurrentCrewResponse)
-        findNavController().navigate(action)
+    private fun initViewModelCallBack(){
+        homeViewModel.errorMsgEvent.observe(viewLifecycleOwner){
+            showToast(it)
+        }
     }
 }

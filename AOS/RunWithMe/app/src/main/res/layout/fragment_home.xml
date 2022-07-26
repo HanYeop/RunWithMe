@@ -67,10 +67,10 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_my_crew_horizon"
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
+                    android:layout_height="240dp"
                     android:layout_marginTop="8dp"
+                    submitList="@{homeVM.myCurrentCrewList}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:submitList="@{homeVM.myCurrentCrewList}"
                     android:orientation="horizontal"
                     tools:listitem="@layout/item_my_crew_horizon"/>
 

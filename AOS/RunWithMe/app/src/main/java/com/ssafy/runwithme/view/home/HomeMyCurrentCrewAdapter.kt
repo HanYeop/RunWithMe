@@ -6,19 +6,21 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.runwithme.databinding.ItemMyCrewHorizonBinding
-import com.ssafy.runwithme.model.dto.MyCurrentCrewResponse
+import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 
-class HomeMyCurrentCrewAdapter
+class HomeMyCurrentCrewAdapter(private val listener: HomeMyCurrentCrewListener)
     : ListAdapter<MyCurrentCrewResponse, HomeMyCurrentCrewAdapter.ViewHolder>(diffUtil){
 
     inner class ViewHolder(private val binding: ItemMyCrewHorizonBinding): RecyclerView.ViewHolder(binding.root){
 
-        // TODO : 클릭리스너
         init {
-
+            binding.root.setOnClickListener {
+                listener.onItemClick(getItem(adapterPosition))
+            }
         }
         fun bind(myCurrentCrew: MyCurrentCrewResponse){
             binding.myCurrentCrewResponse = myCurrentCrew
+            binding.executePendingBindings()
         }
     }
 
@@ -34,7 +36,7 @@ class HomeMyCurrentCrewAdapter
     companion object{
         val diffUtil = object : DiffUtil.ItemCallback<MyCurrentCrewResponse>(){
             override fun areItemsTheSame(oldItem: MyCurrentCrewResponse, newItem: MyCurrentCrewResponse): Boolean {
-                return oldItem.crewId == newItem.crewId
+                return oldItem.crewDto.crewSeq == newItem.crewDto.crewSeq
             }
 
             override fun areContentsTheSame(oldItem: MyCurrentCrewResponse, newItem: MyCurrentCrewResponse): Boolean {

@@ -97,8 +97,11 @@
             android:id="@+id/action_crewDetailFragment_to_crewBoardFragment"
             app:destination="@id/crewBoardFragment" />
         <argument
-            android:name="mycrewdetail"
-            app:argType="com.ssafy.runwithme.model.dto.MyCurrentCrewResponse" />
+            android:name="crewdto"
+            app:argType="com.ssafy.runwithme.model.dto.CrewDto" />
+        <argument
+            android:name="imagefiledto"
+            app:argType="com.ssafy.runwithme.model.dto.ImageFileDto" />
     </fragment>
     <fragment
         android:id="@+id/crewMyRunRecordFragment"
@@ -123,6 +126,8 @@
         <action
             android:id="@+id/action_crewBoardFragment_to_createCrewBoardFragment"
             app:destination="@id/createCrewBoardFragment" />
+        <argument android:name="crewid"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/createCrewBoardFragment"

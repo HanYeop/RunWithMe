@@ -7,18 +7,18 @@
     <data>
         <variable
             name="myCurrentCrewResponse"
-            type="com.ssafy.runwithme.model.dto.MyCurrentCrewResponse" />
+            type="com.ssafy.runwithme.model.response.MyCurrentCrewResponse" />
     </data>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="220dp"
+        android:layout_height="240dp"
         android:gravity="center">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_crew"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
             android:layout_marginStart="24dp"
             android:backgroundTint="#F7F7F7"
             android:layout_marginEnd="16dp"
@@ -32,12 +32,14 @@
                 android:layout_gravity="center"
                 android:padding="8dp">
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <ImageView
                     android:id="@+id/image_crew"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="@dimen/crew_horizon_image_size"
+                    android:layout_height="@dimen/crew_horizon_image_size"
+                    android:scaleType="fitXY"
                     android:layout_gravity="center"
                     android:background="@android:color/transparent"
+                    app:crewHorizonImage="@{myCurrentCrewResponse.imageFileDto.imgSeq}"
                     tools:src="@drawable/img"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -52,7 +54,7 @@
                     android:textColor="@color/black_high_emphasis"
                     android:fontFamily="@font/noto_sans_bold"
                     android:includeFontPadding="false"
-                    android:text="@{myCurrentCrewResponse.crewName}"
+                    android:text="@{myCurrentCrewResponse.crewDto.crewName}"
                     tools:text="TSLA"
                     app:layout_constraintEnd_toEndOf="@+id/image_crew"
                     app:layout_constraintStart_toStartOf="@+id/image_crew"
@@ -66,8 +68,8 @@
                     android:textColor="@color/black_medium_emphasis"
                     android:fontFamily="@font/noto_sans_bold"
                     android:includeFontPadding="false"
-                    app:startTime="@{myCurrentCrewResponse.timeStart}"
-                    app:endTime="@{myCurrentCrewResponse.timeEnd}"
+                    app:startTime="@{myCurrentCrewResponse.crewDto.crewTimeStart}"
+                    app:endTime="@{myCurrentCrewResponse.crewDto.crewTimeEnd}"
                     tools:text="09 : 00 ~ 10 : 00"
                     app:layout_constraintEnd_toEndOf="@+id/tv_crew_name"
                     app:layout_constraintStart_toStartOf="@+id/tv_crew_name"

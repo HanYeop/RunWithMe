@@ -1,28 +1,32 @@
 package com.ssafy.runwithme.view.crew_detail
 
+import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentCrewDetailBinding
-import com.ssafy.runwithme.model.dto.MyCurrentCrewResponse
+import com.ssafy.runwithme.model.dto.CrewDto
+import com.ssafy.runwithme.model.dto.ImageFileDto
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.fragment_crew_detail) {
 
     private val args by navArgs<CrewDetailFragmentArgs>()
-    private lateinit var crewDetail: MyCurrentCrewResponse
-    private val viewModel by viewModels<CrewDetailViewModel>()
+    private lateinit var crewDto: CrewDto
+    private lateinit var imageFileDto: ImageFileDto
+    private val crewDetailViewModel by viewModels<CrewDetailViewModel>()
 
     override fun init() {
         initClickListener()
 
-        crewDetail = args.mycrewdetail
-        binding.crewDetail = crewDetail
+        crewDto = args.crewdto
+        imageFileDto = args.imagefiledto
 
-        viewModel.getCrewBoards(crewDetail.crewId, 3)
+        binding.crewDto = crewDto
+        binding.imageFileDto = imageFileDto
     }
 
     private fun initClickListener(){
@@ -30,7 +34,6 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
             toolbar.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
-
             tvMyRecordMore.setOnClickListener {
                 findNavController().navigate(R.id.action_crewDetailFragment_to_crewMyRunRecordFragment)
             }
@@ -40,7 +43,8 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
             }
 
             tvBoardMore.setOnClickListener {
-                findNavController().navigate(R.id.action_crewDetailFragment_to_crewBoardFragment)
+                val action = CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewBoardFragment(crewDto!!.crewSeq)
+                findNavController().navigate(action)
             }
 
             tvRankingMore.setOnClickListener {

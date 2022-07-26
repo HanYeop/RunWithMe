@@ -5,14 +5,14 @@ import android.content.Intent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentEditProfileBinding
 
 class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fragment_edit_profile) {
-
-    private val IMAGE_PICK_CODE = 1000;
 
     override fun init() {
         initClickListener()
@@ -32,19 +32,17 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
     }
 
     private fun pickPhotoGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, IMAGE_PICK_CODE)
+        val photoIntent = Intent(Intent.ACTION_PICK)
+        photoIntent.type = "image/*"
+        pickPhotoResult.launch(photoIntent)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if(resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE){
-            binding.imageUserProfile.setImageURI(data?.data)
+    private val pickPhotoResult : ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()){
+        if(it.resultCode == Activity.RESULT_OK){
+            binding.imageUserProfile.setImageURI(it.data?.data)
         }
     }
-
 
     private fun initSpinner(){
         val heightList = Array(131) { i -> i + 120 }

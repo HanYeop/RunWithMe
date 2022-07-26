@@ -7,7 +7,7 @@
     <data>
         <variable
             name="myCurrentCrewResponse"
-            type="com.ssafy.runwithme.model.dto.MyCurrentCrewResponse" />
+            type="com.ssafy.runwithme.model.response.MyCurrentCrewResponse" />
     </data>
 
     <LinearLayout
@@ -31,11 +31,13 @@
                 android:padding="8dp"
                 android:layout_gravity="center">
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <ImageView
                     android:id="@+id/image_crew_recruit"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="@dimen/crew_horizon_image_size"
+                    android:layout_height="@dimen/crew_horizon_image_size"
                     android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    app:crewHorizonImage="@{myCurrentCrewResponse.imageFileDto.imgSeq}"
                     android:background="@android:color/transparent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -52,7 +54,7 @@
                     android:textSize="24sp"
                     app:layout_constraintStart_toEndOf="@id/image_crew_recruit"
                     app:layout_constraintTop_toTopOf="@+id/image_crew_recruit"
-                    android:text="@{myCurrentCrewResponse.crewName}"
+                    android:text="@{myCurrentCrewResponse.crewDto.crewName}"
                     tools:text="김크루" />
 
 
@@ -67,7 +69,7 @@
                     app:layout_constraintBottom_toBottomOf="@id/tv_crew_name_recruit"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tv_crew_name_recruit"
-                    android:text="@{myCurrentCrewResponse.managerName}"
+                    android:text="@{myCurrentCrewResponse.crewDto.crewManagerNickName}"
                     tools:text="크루장" />
 
                 <TextView
@@ -81,7 +83,7 @@
                     app:layout_constraintStart_toStartOf="@id/tv_crew_name_recruit"
                     app:layout_constraintTop_toBottomOf="@id/tv_crew_name_recruit"
                     tools:text="저희 크루 한번 구경해보시고 등록해주세요. \n 저희 크루 한번 구경해보시고 등록해주세요."
-                    android:text="@{myCurrentCrewResponse.description}" />
+                    android:text="@{myCurrentCrewResponse.crewDto.crewDescription}" />
 
                 <TextView
                     android:id="@+id/tv_crew_start_duration"
@@ -96,8 +98,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/image_crew_recruit"
                     tools:text="2022/07/21 ~ 2022/08/21"
-                    app:startDay="@{myCurrentCrewResponse.dayStart}"
-                    app:endDay="@{myCurrentCrewResponse.dayEnd}" />
+                    app:startDay="@{myCurrentCrewResponse.crewDto.crewDateStart}"
+                    app:endDay="@{myCurrentCrewResponse.crewDto.crewDateEnd}" />
 
                 <TextView
                     android:id="@+id/tv_crew_start_time"
@@ -112,8 +114,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_crew_start_duration"
-                    app:startTime="@{myCurrentCrewResponse.timeStart}"
-                    app:endTime="@{myCurrentCrewResponse.timeEnd}"
+                    app:startTime="@{myCurrentCrewResponse.crewDto.crewTimeStart}"
+                    app:endTime="@{myCurrentCrewResponse.crewDto.crewTimeEnd}"
                     tools:text="21:00 ~ 22:00" />
 
                 <TextView
@@ -125,7 +127,7 @@
                     android:fontFamily="@font/noto_sans_bold"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:text="@{ `주 ` + myCurrentCrewResponse.goalDays + `회` }"
+                    android:text="@{ `주 ` + myCurrentCrewResponse.crewDto.crewGoalDays + `회` }"
                     android:textColor="@color/black_high_emphasis"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toStartOf="@+id/tv_crew_goal_amount"
@@ -151,8 +153,8 @@
                     app:layout_constraintStart_toEndOf="@+id/tv_crew_goal_days"
                     app:layout_constraintTop_toBottomOf="@id/tv_crew_start_time"
                     tools:text="30분씩"
-                    goalType="@{myCurrentCrewResponse.goalType}"
-                    goalAmount="@{myCurrentCrewResponse.goalAmount}"/>
+                    goalType="@{myCurrentCrewResponse.crewDto.crewGoalType}"
+                    goalAmount="@{myCurrentCrewResponse.crewDto.crewGoalAmount}"/>
 
                 <ImageButton
                     android:id="@+id/img_btn_start_running"

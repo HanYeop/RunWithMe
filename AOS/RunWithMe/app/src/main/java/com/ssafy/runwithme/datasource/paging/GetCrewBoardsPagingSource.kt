@@ -1,15 +1,16 @@
 package com.ssafy.runwithme.datasource.paging
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.ssafy.runwithme.api.CrewActivityApi
-import com.ssafy.runwithme.model.dto.CrewBoardResponse
+import com.ssafy.runwithme.model.response.CrewBoardResponse
 import retrofit2.HttpException
 import java.io.IOException
 
 class GetCrewBoardsPagingSource (
     private val crewActivityApi: CrewActivityApi,
-    private val crewId: Int,
+    private val crewSeq: Int,
     private val size: Int
 ): PagingSource<Int, CrewBoardResponse>() {
 
@@ -23,18 +24,16 @@ class GetCrewBoardsPagingSource (
 
             // 데이터를 제공하는 인스턴스의 메소드 사용
             val response = crewActivityApi.getCrewBoards(
-                crewId = crewId,
+                crewSeq = crewSeq,
                 size = size,
                 offset = position
-            ).body()
-
-            val data = response
+            )
 
             val nextKey =
-                if (data!!.isEmpty()){
+                if (response.count < size){
                     null
                 }else{
-                    position + size
+                    position + 1
                 }
 
             /* 로드에 성공 시 LoadResult.Page 반환
@@ -43,7 +42,7 @@ class GetCrewBoardsPagingSource (
             nextKey : 다음 값 (아래 스크롤 방향)
              */
             LoadResult.Page(
-                data = data,
+                data = response.data,
                 prevKey = null,
                 nextKey = nextKey
             )

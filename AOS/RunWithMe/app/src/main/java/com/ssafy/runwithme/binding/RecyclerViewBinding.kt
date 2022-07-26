@@ -3,24 +3,29 @@ package com.ssafy.runwithme.binding
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.ssafy.runwithme.model.dto.MyCurrentCrewResponse
+import com.ssafy.runwithme.base.BaseResponse
+import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.view.home.HomeMyCurrentCrewAdapter
 import com.ssafy.runwithme.view.home.my_crew.MyCurrentCrewAdapter
 
 object RecyclerViewBinding {
 
-    // 검색 리사이클러뷰 아이템 바인딩
+    // 페이징 하지 않는 리사이클러뷰 아이템 바인딩
     @JvmStatic
     @BindingAdapter("submitList")
     fun bindSubmitList(view: RecyclerView, result: Result<*>) {
         if (result is Result.Success) {
-            when (view.adapter) {
-                is HomeMyCurrentCrewAdapter -> {
-                    (view.adapter as ListAdapter<Any, *>).submitList(result.data as List<MyCurrentCrewResponse>)
-                }
-                is MyCurrentCrewAdapter -> {
-                    (view.adapter as ListAdapter<Any, *>).submitList(result.data as List<MyCurrentCrewResponse>)
+            if(result.data is BaseResponse<*>) {
+                when (view.adapter) {
+                    is HomeMyCurrentCrewAdapter -> {
+                        (view.adapter as ListAdapter<Any, *>).submitList(result.data.data as List<MyCurrentCrewResponse>)
+
+                    }
+                    is MyCurrentCrewAdapter -> {
+                        (view.adapter as ListAdapter<Any, *>).submitList(result.data.data as List<MyCurrentCrewResponse>)
+                    }
+                    // 같은 형태로 추가하면 됨
                 }
             }
         } else if (result is Result.Empty) {

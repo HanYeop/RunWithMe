@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -35,6 +36,8 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
         binding.userVm = userViewModel
 
         initClickListener()
+
+        initViewModelCallBack()
     }
 
     private fun initClickListener(){
@@ -53,6 +56,24 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
             imgBtnLoginKakao.setOnClickListener {
                 kakaoSignIn()
             }
+        }
+    }
+
+    private fun initViewModelCallBack(){
+        userViewModel.joinEvent.observe(viewLifecycleOwner) {
+            val action = UserLoginFragmentDirections.actionUserLoginFragmentToUserJoinFragment(it)
+            findNavController().navigate(action)
+        }
+        userViewModel.loginEvent.observe(viewLifecycleOwner){
+            showToast(it)
+            startActivity(Intent(requireContext(),MainActivity::class.java))
+            requireActivity().finish()
+        }
+        userViewModel.errorMsgEvent.observe(viewLifecycleOwner){
+            showToast(it)
+        }
+        userViewModel.joinMsgEvent.observe(viewLifecycleOwner){
+            showToast(it)
         }
     }
 
@@ -77,10 +98,8 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
             try {
                 val account = task.getResult(ApiException::class.java)
                 val accessToken = account.idToken!!
-                showToast(accessToken)
 
                 userViewModel.googleLogin(accessToken)
-                Log.d("test5", ":$accessToken ")
             } catch (e: ApiException) {
                 Log.w("test5", "signInResult:failed code=" + e.statusCode)
             }

@@ -5,11 +5,8 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.ssafy.runwithme.R
 import com.ssafy.runwithme.databinding.ItemCrewBoardBinding
-import com.ssafy.runwithme.model.dto.CrewBoardResponse
+import com.ssafy.runwithme.model.response.CrewBoardResponse
 
 class CrewBoardAdapter : PagingDataAdapter<CrewBoardResponse, CrewBoardAdapter.ViewHolder>(diffUtil) {
 
@@ -20,9 +17,9 @@ class CrewBoardAdapter : PagingDataAdapter<CrewBoardResponse, CrewBoardAdapter.V
 
         }
 
-        // TODO : 바인딩
         fun bind(board: CrewBoardResponse) {
-
+            binding.board = board
+            binding.executePendingBindings()
         }
     }
 
@@ -43,7 +40,7 @@ class CrewBoardAdapter : PagingDataAdapter<CrewBoardResponse, CrewBoardAdapter.V
     companion object {
         private val diffUtil = object : DiffUtil.ItemCallback<CrewBoardResponse>() {
             override fun areItemsTheSame(oldItem: CrewBoardResponse, newItem: CrewBoardResponse) =
-                oldItem.content == newItem.content
+                oldItem.crewBoardDto.crewBoardSeq == newItem.crewBoardDto.crewBoardSeq
 
             override fun areContentsTheSame(
                 oldItem: CrewBoardResponse,
