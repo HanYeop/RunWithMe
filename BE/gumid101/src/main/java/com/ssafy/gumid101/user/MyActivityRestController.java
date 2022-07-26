@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -186,6 +187,35 @@ public class MyActivityRestController {
 		ResponseFrame<?> res = ResponseFrame.of(myBoardList,myBoardList.size(),"자신이 쓴 글을 반환합니다.");
 		
 		return new ResponseEntity<>(res,HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "자신이 오늘 크루에서 뛴 기록이 있는지 조회 (연습크루는 나중에 생각합시다.)")
+	@GetMapping("/runstatus/{crewSeq}")
+	public ResponseEntity<?> getIsMyTodayRecord(@PathVariable Long crewSeq) {
+		
+		UserDto userDto = loadUserFromToken();
+		
+		HttpStatus httpStatus = HttpStatus.OK;
+		
+		ResponseFrame<Boolean> responseFrame = new ResponseFrame<>();
+		Boolean todayRecord = null;
+		try {
+			todayRecord = runService.isMyTodayRecord(userDto.getUserSeq(), crewSeq);
+			
+		}catch (Exception e) {
+			httpStatus = HttpStatus.CONFLICT;
+			responseFrame.setCount(0);
+			responseFrame.setSuccess(false);
+			responseFrame.setMsg(e.getMessage());
+		}
+		
+		if (todayRecord != null) {
+			responseFrame.setCount(1);
+			responseFrame.setSuccess(true);
+			responseFrame.setMsg("기록 여부를 성공적으로 반환했습니다. true : 이미 기록 존재, false : 기록 없음.");
+		}
+		responseFrame.setData(todayRecord);
+		return new ResponseEntity<>(responseFrame, httpStatus);
 	}
 
 	/**

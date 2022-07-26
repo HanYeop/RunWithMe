@@ -106,6 +106,24 @@ public class CrewServiceImpl implements CrewService {
 		.runRecordLat(runRecordDto.getRunRecordRunningLat())
 		.runRecordLng(runRecordDto.getRunRecordRunningLng())
 		.runRecordRegTime(LocalDateTime.now()).build();
+		// 입력에 혹시모를 null 들어오는지 체크해야함.
+		if (crewEntity.getCrewGoalType().equals("distance")){
+			if (crewEntity.getCrewGoalAmount() <= runRecord.getRunRecordRunningDistance()){
+				runRecord.setRunRecordCompleteYN("Y");
+			}
+			else{
+				runRecord.setRunRecordCompleteYN("N");
+			}
+		}
+		else{
+			if (crewEntity.getCrewGoalAmount() <= runRecord.getRunRecordRunningTime()){
+				runRecord.setRunRecordCompleteYN("Y");
+			}
+			else{
+				runRecord.setRunRecordCompleteYN("N");
+			}
+		}
+
 		//기본 속성들 다 넣어주고
 		
 		//이미지가 없을 리 없음 ..
