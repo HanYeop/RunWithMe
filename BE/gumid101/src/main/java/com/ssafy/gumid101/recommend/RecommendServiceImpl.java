@@ -1,15 +1,23 @@
 package com.ssafy.gumid101.recommend;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
 import com.ssafy.gumid101.crew.RunRecordRepository;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
+import com.ssafy.gumid101.dto.ImageFileDto;
+import com.ssafy.gumid101.dto.LatLngParamsDto;
+import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.TrackBoardDto;
+import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.RunRecordEntity;
 import com.ssafy.gumid101.entity.TrackBoardEntity;
 import com.ssafy.gumid101.imgfile.ImageFileRepository;
+import com.ssafy.gumid101.res.TrackBoardFileDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +30,30 @@ public class RecommendServiceImpl implements RecommendService{
 	private final RecommendRepository recommendRepo;
 	private final RunRecordRepository runRecoRepo;
 	private final ImageFileRepository imageRepo;
+	
+	@Override
+	public List<TrackBoardFileDto> getTrackBoard(LatLngParamsDto params) throws Exception{
+		List<TrackBoardFileDto> trackBoardFileDtoList = null;
+		try { 
+			trackBoardFileDtoList = recommendRepo.findByRunRecordEntity_RunRecordLatBetweenAndRunRecordEntity_RunRecordLngBetween
+					(params.getLowerLat(), params.getUpperLat(), params.getLeftLng(), params.getRightLng())
+					.stream()
+					.map((trackBoardEntity) -> {
+						return TrackBoardFileDto.builder()
+								.trackBoardDto(TrackBoardDto.of(trackBoardEntity))
+								.runRecordDto(RunRecordDto.of(trackBoardEntity.getRunRecordEntity()))
+								.userDto(UserDto.builder()
+										.userSeq(trackBoardEntity.getRunRecordEntity().getUserEntity().getUserSeq())
+										.nickName(trackBoardEntity.getRunRecordEntity().getUserEntity().getNickName())
+										.build())
+								.imageFileDto(trackBoardEntity.getRunRecordEntity().getImageFile() == null ? ImageFileDto.getNotExist() : ImageFileDto.of(trackBoardEntity.getRunRecordEntity().getImageFile()))
+								.build();
+					}).collect(Collectors.toList());
+		} catch (Exception e) {
+			throw new Exception("기록 불러오기에 실패했습니다.");
+		}
+		return trackBoardFileDtoList;
+	}
 	
 	@Transactional
 	@Override
@@ -50,5 +82,22 @@ public class RecommendServiceImpl implements RecommendService{
 			throw new Exception("저장에 실패했습니다.");
 		}
 		return TrackBoardDto.of(trackBoardEntity);
+	}
+	
+	@Transactional
+	@Override
+	public Boolean deleteTrackBoard(Long userSeq, Long trackBoardSeq) throws Exception {
+		TrackBoardEntity trackBoardEntity = recommendRepo.findById(trackBoardSeq)
+				.orElseThrow(() -> new NotFoundUserException("해당 게시글을 찾을 수 없습니다."));
+		if (userSeq == null || userSeq != trackBoardEntity.getRunRecordEntity().getUserEntity().getUserSeq()) {
+			throw new Exception("본인의 기록만 삭제할 수 있습니다.");
+		}
+		
+		try {
+			recommendRepo.deleteById(trackBoardSeq);
+		} catch(Exception e) {
+			throw new Exception("삭제에 실패했습니다.");
+		}
+		return true;
 	}
 }
