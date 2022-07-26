@@ -10,7 +10,4 @@ public interface CrewActivityRunDslRepository{
 
 	List<RunRecordEntity> getRunRecords(RecordParamsDto condition);
 
-	List<RunRecordEntity> findAllByUserEntity_userSeqAndCrewEntity_crewSeqAndRunRecordStartTimeBetween(Long userSeq,
-			Long crewSeq, LocalDateTime start, LocalDateTime end);
-
 }
