@@ -1,14 +1,8 @@
 package com.ssafy.gumid101.crew.manager;
 
 import java.time.LocalDateTime;
-
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -32,7 +26,6 @@ import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.imgfile.ImageDirectory;
 import com.ssafy.gumid101.imgfile.ImageFileRepository;
 import com.ssafy.gumid101.res.CrewFileDto;
-import com.ssafy.gumid101.res.CrewUserFileDto;
 import com.ssafy.gumid101.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -63,7 +56,9 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 			UserDto userDto = UserDto.of(entity.getManagerEntity());
 			ImageFileDto imgDto = ImageFileDto.of(entity.getImageFile());
 			CrewDto crewDto = CrewDto.of(entity,userDto.getNickName(),userDto.getUserSeq());
-			
+			if (imgDto == null) {
+				imgDto = ImageFileDto.getNotExist();
+			}
 			
 
 			return new CrewFileDto(crewDto,imgDto);
@@ -131,6 +126,9 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 			} catch (Exception e) {
 				throw new Exception("이미지 저장에 실패했습니다.");
 			}
+		}
+		if (savedFileDto == null) {
+			savedFileDto = ImageFileDto.getNotExist();
 		}
 
 		managerEntity.setPoint(manager.getPoint() - crewDto.getCrewCost());
