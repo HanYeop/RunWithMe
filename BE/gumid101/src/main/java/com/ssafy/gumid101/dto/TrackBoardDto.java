@@ -32,6 +32,11 @@ public class TrackBoardDto implements Serializable {
 	private Integer trackBoardEnvironmentPoint;
 	
 	public static TrackBoardDto of(TrackBoardEntity trackBoard) {
+		
+		if(trackBoard == null)
+			return null;
+		
+		
 		return new TrackBoardDtoBuilder()
 				.trackBoardSeq(trackBoard.getTrackBoardSeq())
 				.trackBoardHardPoint(trackBoard.getTrackBoardHardPoint())

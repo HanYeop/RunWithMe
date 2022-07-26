@@ -59,13 +59,14 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		});
 		List<CrewEntity> crews = crewManagerRepo.findByUserSeqActive(user, LocalDateTime.now());
 
-		List<CrewUserFileDto> crewList = crews.stream().map((entity) -> {
-
-			ImageFileDto imgDto = ImageFileDto.of(entity.getImageFile());
+		List<CrewFileDto> crewList = crews.stream().map((entity) -> {
 			UserDto userDto = UserDto.of(entity.getManagerEntity());
-			CrewDto crewDto = CrewDto.of(entity);
+			ImageFileDto imgDto = ImageFileDto.of(entity.getImageFile());
+			CrewDto crewDto = CrewDto.of(entity,userDto.getNickName(),userDto.getUserSeq());
+			
+			
 
-			return CrewUserFileDto.builder().crewDto(crewDto).userDto(userDto).ImageFileDto(imgDto).build();
+			return new CrewFileDto(crewDto,imgDto);
 
 		}).collect(Collectors.toList());
 

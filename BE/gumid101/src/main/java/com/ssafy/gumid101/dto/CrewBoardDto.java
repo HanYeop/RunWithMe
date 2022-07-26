@@ -32,6 +32,9 @@ public class CrewBoardDto implements Serializable {
 //	private Long boardImageSeq;
 	
 	public static CrewBoardDto of(CrewBoardEntity crewBoard) {
+		if(crewBoard == null)
+			return null;
+		
 		return new CrewBoardDtoBuilder().crewBoardSeq(crewBoard.getCrewBoardSeq()).crewBoardContent(crewBoard.getCrewBoardContent())
 //				.boardImageSeq(crewBoard.getImgFile().getImgSeq())
 				.build();

@@ -78,17 +78,20 @@ public class CrewActivityBoardServiceImpl implements CrewActivityBoardService{
 	
 	
 	@Override
-	public List<CrewBoardFileDto> getCrewBoards(Long crewSeq, Integer size, Long offset) throws Exception {
+	public List<CrewBoardFileDto> getCrewBoards(Long crewSeq, Integer size, Long offset,Long crewBoardSeq) throws Exception {
 		Pageable pageable = PageRequest.of(offset.intValue(), size);
 		
+		if(crewBoardSeq == null) {
+			crewBoardSeq = Long.MAX_VALUE;
+		}
 		
-		return boardRepo.findByCrewEntity(crewRepo.findById(crewSeq).get(),pageable) //
-				.stream() //
-				.map((entity) -> { //
-			return new CrewBoardFileDto( //
-					CrewBoardDto.of(entity), //
+		return boardRepo.findByCrewEntityAndCrewBoardSeqLessThan(crewRepo.findById(crewSeq).get(),crewBoardSeq,pageable) //
+				.stream() 
+				.map((entity) -> { 
+			return new CrewBoardFileDto( 
+					CrewBoardDto.of(entity), 
 					entity.getImgFile() == null ? null : ImageFileDto.of(imageRepo.findById(entity.getImgFile().getImgSeq()).get()) //
-					); //
+					); 
 		}).collect(Collectors.toList());
 		
 		

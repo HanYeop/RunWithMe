@@ -9,5 +9,5 @@ import lombok.Data;
 public class CrewBoardFileDto {
 	private final CrewBoardDto crewBoardDto;
 //	private final Long imageSeq;
-	private final ImageFileDto imageDto;
+	private final ImageFileDto imageFileDto;
 }

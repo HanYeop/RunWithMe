@@ -31,6 +31,8 @@ public class QuestionDto implements Serializable {
 	private String questionStatus;
 	
 	public static QuestionDto of(QuestionEntity question) {
+		if(question == null)
+			return null;
 		return new QuestionDtoBuilder()
 				.questionSeq(question.getQuestionSeq())
 				.questionContent(question.getQuestionContent())
