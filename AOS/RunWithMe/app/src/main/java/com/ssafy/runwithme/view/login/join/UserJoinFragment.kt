@@ -56,13 +56,22 @@ class UserJoinFragment : BaseFragment<FragmentUserJoinBinding>(R.layout.fragment
 
     private fun initViewModelCallback(){
         userViewModel.loginEvent.observe(viewLifecycleOwner){
+            showToast(it)
             startActivity(Intent(requireContext(), MainActivity::class.java))
             requireActivity().finish()
+        }
+        userViewModel.errorMsgEvent.observe(viewLifecycleOwner){
+            showToast(it)
+        }
+        userViewModel.joinMsgEvent.observe(viewLifecycleOwner){
+            showToast(it)
         }
     }
 
     private fun initClickListener(){
         binding.apply{
+
+            // TODO
             btnJoin.setOnClickListener {
                 userViewModel.joinUser(args.tmptoken,
                 userDto = UserDto(200,100,"hi")
