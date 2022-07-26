@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.gumid101.crew.RunRecordRepository;
 import com.ssafy.gumid101.crew.UserCrewJoinRepository;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.dto.CrewBoardDto;
@@ -32,6 +33,7 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 	private final CrewActivityRunDslRepository crewRunRepo;
 	private final CrewActivityBoardRepository boardRepo;
 	private final UserCrewJoinRepository ucRepo;
+	private final RunRecordRepository runRepo;
 
 	private UserDto loadUserFromToken() {
 		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
@@ -64,7 +66,7 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 		LocalDateTime end = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59);
 		List<RunRecordEntity> myToday = null;
 		try{
-			 myToday = crewRunRepo.findAllByUserEntity_userSeqAndCrewEntity_crewSeqAndRunRecordStartTimeBetween(userSeq, crewSeq, start, end);
+			 myToday = runRepo.findAllByUserEntity_userSeqAndCrewEntity_crewSeqAndRunRecordStartTimeBetween(userSeq, crewSeq, start, end);
 		} catch (Exception e) {
 			throw new Exception("기록 조회에 실패했습니다.");
 		}
