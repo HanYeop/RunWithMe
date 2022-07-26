@@ -61,9 +61,12 @@ class UserViewModel @Inject constructor(
     fun joinUser(token: String, userDto: UserDto) {
         viewModelScope.launch(Dispatchers.IO) {
             userRepository.joinUser(token, userDto).collectLatest {
+                Log.d(TAG, "joinUser: $it")
                 if(it is Result.Success) {
                     sharedPreferences.edit().putString(JWT,it.data.data.jwtToken).apply()
                     _loginEvent.postValue("로그인 완료")
+                }else if (it is Result.Error){
+                    _errorMsgEvent.postValue("서버 에러 발생")
                 }
             }
         }
