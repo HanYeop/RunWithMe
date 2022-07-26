@@ -24,6 +24,8 @@ import lombok.Setter;
 public class TrackBoardDto implements Serializable {
 
 	private Long trackBoardSeq;
+	
+	private Long runRecordSeq;
 
 	@ApiParam(value = "난이도 별점 (0 ~ 5)")
 	private Integer trackBoardHardPoint;
@@ -41,6 +43,7 @@ public class TrackBoardDto implements Serializable {
 				.trackBoardSeq(trackBoard.getTrackBoardSeq())
 				.trackBoardHardPoint(trackBoard.getTrackBoardHardPoint())
 				.trackBoardEnvironmentPoint(trackBoard.getTrackBoardEnviromentPoint())
+				.runRecordSeq(trackBoard.getRunRecordEntity().getRunRecordSeq())
 				.build();
 	}
 }
