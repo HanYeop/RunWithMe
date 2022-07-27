@@ -45,9 +45,6 @@ public class RunRecordEntity {
 	@Column(nullable = true, name = "run_record_running_distance")
 	private Integer runRecordRunningDistance;
 
-	@Column(nullable = true, name = "run_record_avg_speed")
-	private Double runRecordAvgSpeed;
-
 	@Column(nullable = true, name = "run_record_calorie")
 	private Double runRecordCalorie;
 
