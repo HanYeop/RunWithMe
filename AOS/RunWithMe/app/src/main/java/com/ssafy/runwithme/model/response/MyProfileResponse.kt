@@ -6,7 +6,7 @@ import com.ssafy.runwithme.model.dto.UserDto
 
 data class MyProfileResponse(
     @SerializedName("user") val userDto: UserDto,
-    @SerializedName("imageFileDto") val imageFileDto: ImageFileDto
+    @SerializedName("imgFileDto") val imageFileDto: ImageFileDto
 )
 
 

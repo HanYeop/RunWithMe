@@ -21,12 +21,12 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
 
     override fun init() {
+        myPageViewModel.getMyProfile()
+        binding.myPageVM = myPageViewModel
+
         initTabLayout()
         initClickListener()
         initViewModelCallBack()
-
-        myPageViewModel.getMyProfile()
-        binding.myPageVM = myPageViewModel
     }
 
     private fun initClickListener() {

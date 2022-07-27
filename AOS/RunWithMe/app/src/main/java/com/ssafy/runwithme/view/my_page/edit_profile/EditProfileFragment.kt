@@ -13,8 +13,15 @@ import androidx.navigation.fragment.findNavController
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentEditProfileBinding
+import com.ssafy.runwithme.model.dto.ProfileEditDto
 import com.ssafy.runwithme.model.dto.UserDto
 import com.ssafy.runwithme.view.my_page.MyPageViewModel
+import com.ssafy.runwithme.view.running.RunningActivity
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
+import java.io.IOException
 import java.util.regex.Pattern
 
 class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fragment_edit_profile) {
@@ -22,12 +29,14 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
 
     override fun init() {
-
         binding.myPageVM = myPageViewModel
 
-        initClickListener()
-        initNickNameRule() // 닉네임 규칙 설정
         initSpinner() // 키와 몸무게 스피너 값 넣기
+
+        initNickNameRule() // 닉네임 규칙 설정
+
+        initClickListener()
+
         initViewModelCallback()
     }
 
@@ -41,14 +50,25 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
     private fun initClickListener() {
         binding.apply {
             btnModify.setOnClickListener {
-                if(editJoinNickname.text.length < 2){ // 최소 길이는 따로 검증해줘야함
+                if(editJoinNickname.text.toString().length < 2){ // 최소 길이는 따로 검증해줘야함
                     showToast("닉네임은 한글, 영문, 숫자로만 2자 ~ 8자까지 입력 가능합니다.")
                 } else {
+                    var imageFile: File? = null
+//                    try {
+//                        imageFile = createFileFromBitmap(RunningActivity.image)
+//                    } catch (e: IOException) {
+//                        e.printStackTrace()
+//                    }
+//
+//                    val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imageFile!!)
+//                    val imgFile = MultipartBody.Part.createFormData("imgFile", imageFile!!.name, requestFile)
                     myPageViewModel.editMyProfile(
-                        userDto = UserDto(
-                            spinnerEditHeight.selectedItem as Int, spinnerEditWeight.selectedItem as Int,
-                            editJoinNickname.text.toString(), "", -1
-                        )
+                        profile = ProfileEditDto(
+                            editJoinNickname.text.toString(),
+                            spinnerEditHeight.selectedItem as Int,
+                            spinnerEditWeight.selectedItem as Int,
+                        ),
+                        null
                     )
                 }
             }
@@ -79,20 +99,14 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
         binding.spinnerEditHeight.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, heightList)
         binding.spinnerEditHeight.setSelection(myPageViewModel.height.value.toInt()) // 초기 값 설정 - 원래 유저 값 가져오기
         binding.spinnerEditHeight.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                showToast((position + 120).toString())
-            }
-
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {}
             override fun onNothingSelected(parent: AdapterView<*>?) { }
         }
 
         binding.spinnerEditWeight.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, weightList)
         binding.spinnerEditHeight.setSelection(myPageViewModel.weight.value.toInt()) // 초기 값 설정 - 원래 유저 값 가져오기
         binding.spinnerEditWeight.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                showToast((position + 20).toString())
-            }
-
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {}
             override fun onNothingSelected(parent: AdapterView<*>?) { }
         }
     }
