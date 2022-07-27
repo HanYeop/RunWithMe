@@ -3,12 +3,15 @@ package com.ssafy.runwithme.binding
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.utils.BASE_URL
+import java.text.DecimalFormat
+import java.text.NumberFormat
 
 object ViewBindingAdapter {
 
@@ -127,5 +130,23 @@ object ViewBindingAdapter {
                 .into(this)
         }
         this.clipToOutline = true
+    }
+
+    @BindingAdapter("costFormat")
+    @JvmStatic
+    fun AppCompatButton.setCostFormat (cost: String){
+        val formatter: NumberFormat = DecimalFormat("#,###")
+        val formattedNumber: String = formatter.format(cost.toInt())
+        this.setText(formattedNumber)
+    }
+
+    @BindingAdapter("isDistance", "distance", "time")
+    @JvmStatic
+    fun AppCompatButton.setPurposeType (isDistance: Boolean, distance: String, time: String){
+        if(isDistance){
+            this.setText(distance)
+        }else{
+            this.setText(time)
+        }
     }
 }
