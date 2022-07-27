@@ -89,4 +89,11 @@ object RemoteDataModule {
     fun provideCrewApi(retrofit: Retrofit): CrewApi {
         return retrofit.create(CrewApi::class.java)
     }
+
+    // MyActivityApi DI
+    @Provides
+    @Singleton
+    fun provideMyActivityApi(retrofit: Retrofit): MyActivityApi {
+        return retrofit.create(MyActivityApi::class.java)
+    }
 }

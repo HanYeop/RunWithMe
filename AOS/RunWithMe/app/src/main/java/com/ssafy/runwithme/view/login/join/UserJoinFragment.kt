@@ -96,7 +96,7 @@ class UserJoinFragment : BaseFragment<FragmentUserJoinBinding>(R.layout.fragment
                         args.tmptoken,
                         userDto = UserDto(
                             spinnerHeight.selectedItem as Int, spinnerWeight.selectedItem as Int,
-                            editJoinNickname.text.toString()
+                            editJoinNickname.text.toString(), "", -1
                         )
                     )
                 }
