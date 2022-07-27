@@ -99,7 +99,7 @@ public class CrewServiceImpl implements CrewService {
 		RunRecordEntity runRecord = RunRecordEntity.builder()
 		.runRecordStartTime(runRecordDto.getRunRecordStartTime())
 		.runRecordEndTime(runRecordDto.getRunRecordEndTime())
-		.runRecordRunningTime(null)
+		.runRecordRunningTime(runRecordDto.getRunRecordRunningTime())
 		.runRecordRunningDistance(runRecordDto.getRunRecordRunningDistance())
 		.runRecordAvgSpeed(runRecordDto.getRunRecordRunningAvgSpeed())
 		.runRecordCalorie(runRecordDto.getRunRecordRunningCalorie())
@@ -138,6 +138,7 @@ public class CrewServiceImpl implements CrewService {
 		//
 		runRecordRepo.save(runRecord); //퍼시스턴스 영역에 등록
 		//등록한 후에 관계 설정
+		runRecord.setImageFile(image);
 		runRecord.setUserEntity(userEntity);
 		runRecord.setCrewEntity(crewEntity);
 		

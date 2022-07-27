@@ -75,7 +75,7 @@ public class RunRecordDto implements Serializable {
 				.runRecordRunningLat(runRecord.getRunRecordLat())
 				.runRecordRunningLng(runRecord.getRunRecordLng())
 				.runRecordRunningCompleteYN(runRecord.getRunRecordCompleteYN())
-				.runImageSeq(runRecord.getImageFile() == null ? null : runRecord.getImageFile().getImgSeq())
+				.runImageSeq(runRecord.getImageFile() == null ? 0 : runRecord.getImageFile().getImgSeq())
 				.build();
 	}
 }
