@@ -3,6 +3,7 @@ package com.ssafy.gumid101.user;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gumid101.crew.activity.CrewActivityService;
 import com.ssafy.gumid101.customexception.ThirdPartyException;
 import com.ssafy.gumid101.dto.CrewBoardDto;
 import com.ssafy.gumid101.dto.CrewTotalRecordDto;
+import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.RecordParamsDto;
 import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
@@ -40,7 +43,7 @@ public class MyActivityRestController {
 
 	private final UserService userService;
 	private final CrewActivityService runService;
-
+	private final ObjectMapper objectMapper; 
 	/**
 	 * 토큰으로 부터 유저 DTO 로드
 	 * 
@@ -65,24 +68,39 @@ public class MyActivityRestController {
 
 		UserFileDto resUserDto = userService.getUserProfileById(userDto.getUserSeq());
 
+		
+		if(resUserDto.getImgFileDto() == null) {
+			resUserDto.setImgFileDto(ImageFileDto.builder()
+					.imgOriginalName("초기")
+					.imgSavedName("초기")
+					.imgSavedPath("초기")
+					.imgSeq(0L).build());
+		}
+		if(resUserDto.getUser().getFcmToken() == null) {
+			resUserDto.getUser().setFcmToken("");
+		}
+		
+		
 		ResponseFrame<UserFileDto> resFrame = new ResponseFrame<UserFileDto>();
-
 		resFrame.setCount(resUserDto == null ? 0 : 1);
 		resFrame.setSuccess(resUserDto == null ? false : true);
+		resFrame.setMsg("회원의 정보를 반환합니다.");
 		resFrame.setData(resUserDto);
 
 		return new ResponseEntity<>(resFrame, resUserDto != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
 	}
 
 	@ApiOperation(value = "자신의 프로필 수정")
-	@PostMapping("/profile")
-	public ResponseEntity<?> editMyProfile(@ModelAttribute ProfileEditDto profile,
+	@PostMapping(value="/profile",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+	public ResponseEntity<?> editMyProfile(@RequestPart("profile") String profile,
 			@RequestPart(value = "imgFile",required = false) MultipartFile imgFile) throws Exception {
 
+		ProfileEditDto profileEditDto = objectMapper.readValue(profile, ProfileEditDto.class);
+		
 		UserDto userDto = loadUserFromToken();
-		userDto.setWeight(profile.getWeight());
-		userDto.setHeight(profile.getHeight());
-		userDto.setNickName(profile.getNickName());
+		userDto.setWeight(profileEditDto.getWeight());
+		userDto.setHeight(profileEditDto.getHeight());
+		userDto.setNickName(profileEditDto.getNickName());
 		
 		UserFileDto userFileDto= userService.editMyProfile(userDto,imgFile);
 		
@@ -190,8 +208,9 @@ public class MyActivityRestController {
 	}
 	
 	@ApiOperation(value = "자신이 오늘 크루에서 뛴 기록이 있는지 조회 (연습크루는 나중에 생각합시다.)")
-	@GetMapping("/runstatus/{crewSeq}")
-	public ResponseEntity<?> getIsMyTodayRecord(@PathVariable Long crewSeq) {
+	@GetMapping("/runabletoday/{crewSeq}")
+	public ResponseEntity<?> getRunabletoday(@PathVariable Long crewSeq) {
+		// crewSeq가 연습크루일 경우 : true 반환
 		
 		UserDto userDto = loadUserFromToken();
 		
@@ -200,7 +219,8 @@ public class MyActivityRestController {
 		ResponseFrame<Boolean> responseFrame = new ResponseFrame<>();
 		Boolean todayRecord = null;
 		try {
-			todayRecord = runService.isMyTodayRecord(userDto.getUserSeq(), crewSeq);
+			
+			todayRecord = runService.getRunabletoday(userDto.getUserSeq(), crewSeq);
 			
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
@@ -212,7 +232,7 @@ public class MyActivityRestController {
 		if (todayRecord != null) {
 			responseFrame.setCount(1);
 			responseFrame.setSuccess(true);
-			responseFrame.setMsg("기록 여부를 성공적으로 반환했습니다. true : 이미 기록 존재, false : 기록 없음.");
+			responseFrame.setMsg("뛸 수 있는 여부 반환 완료.");
 		}
 		responseFrame.setData(todayRecord);
 		return new ResponseEntity<>(responseFrame, httpStatus);

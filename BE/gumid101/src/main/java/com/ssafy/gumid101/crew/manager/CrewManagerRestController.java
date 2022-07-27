@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gumid101.customexception.CrewPermissonDeniedException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.dto.CrewDto;
@@ -43,7 +44,7 @@ public class CrewManagerRestController {
 
 	private final JwtUtilsService jwtUtilService;
 	private final CrewManagerService crewManagerService;
-	
+	private final ObjectMapper objectMapper;
 	private UserDto loadUserFromToken() {
 		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDto tokenUser = (UserDto) autentication.getPrincipal();
@@ -103,15 +104,17 @@ public class CrewManagerRestController {
 	 */
 	@ApiOperation(value = "크루 생성하기(모집하기)")
 	@PostMapping("/crew")
-	public ResponseEntity<?> createCrew(CrewDto crewDto, @RequestPart(name = "img", required = false) MultipartFile image) throws Exception{
+	public ResponseEntity<?> createCrew(@RequestPart("crewDto") String crewDto, @RequestPart(name = "img", required = false) MultipartFile image) throws Exception{
 
 		UserDto managerDto = loadUserFromToken();
 		HttpStatus httpStatus = HttpStatus.OK;
 		ResponseFrame<CrewFileDto> responseMap = new ResponseFrame<>();
 		
+		CrewDto crewteCrewDto = objectMapper.readValue(crewDto, CrewDto.class);
+		
 		CrewFileDto crewFileDto = null;
 		try {
-			crewFileDto = crewManagerService.createCrew(image, crewDto, managerDto);
+			crewFileDto = crewManagerService.createCrew(image, crewteCrewDto, managerDto);
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseMap.setCount(0);

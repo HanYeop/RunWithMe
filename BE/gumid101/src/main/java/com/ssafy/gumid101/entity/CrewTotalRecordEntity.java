@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Getter;
@@ -63,6 +64,6 @@ public class CrewTotalRecordEntity {
 	private CrewEntity crewEntity;
 
 	@Column(nullable = false, name = "total_record_reg_time")
-	@CreatedDate
+	@LastModifiedDate
 	private LocalDateTime totalRecordRegTime;
 }

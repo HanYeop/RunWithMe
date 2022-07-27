@@ -16,14 +16,18 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "t_run_record")
 @EntityListeners(AuditingEntityListener.class)
 public class RunRecordEntity {
@@ -44,9 +48,6 @@ public class RunRecordEntity {
 
 	@Column(nullable = true, name = "run_record_running_distance")
 	private Integer runRecordRunningDistance;
-
-	@Column(nullable = true, name = "run_record_avg_speed")
-	private Double runRecordAvgSpeed;
 
 	@Column(nullable = true, name = "run_record_calorie")
 	private Double runRecordCalorie;

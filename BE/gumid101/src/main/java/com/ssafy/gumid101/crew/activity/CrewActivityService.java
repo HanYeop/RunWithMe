@@ -13,5 +13,5 @@ public interface CrewActivityService {
 	List<RunRecordDto> getCrewRecordList(RecordParamsDto recordParamsDto);
 	CrewBoardDto writeBoard(MultipartFile image, UserDto tokenUser, CrewBoardDto content) throws Exception;
 	List<RunRecordDto> getMyRecordList(RecordParamsDto recordParamsDto);
-	Boolean isMyTodayRecord(Long userSeq, Long crewSeq) throws Exception;
+	Boolean getRunabletoday(Long userSeq, Long crewSeq) throws Exception;
 }
