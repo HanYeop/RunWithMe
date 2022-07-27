@@ -208,8 +208,9 @@ public class MyActivityRestController {
 	}
 	
 	@ApiOperation(value = "자신이 오늘 크루에서 뛴 기록이 있는지 조회 (연습크루는 나중에 생각합시다.)")
-	@GetMapping("/runstatus/{crewSeq}")
-	public ResponseEntity<?> getIsMyTodayRecord(@PathVariable Long crewSeq) {
+	@GetMapping("/runabletoday/{crewSeq}")
+	public ResponseEntity<?> getRunabletoday(@PathVariable Long crewSeq) {
+		// crewSeq가 연습크루일 경우 : true 반환
 		
 		UserDto userDto = loadUserFromToken();
 		
@@ -218,7 +219,8 @@ public class MyActivityRestController {
 		ResponseFrame<Boolean> responseFrame = new ResponseFrame<>();
 		Boolean todayRecord = null;
 		try {
-			todayRecord = runService.isMyTodayRecord(userDto.getUserSeq(), crewSeq);
+			
+			todayRecord = runService.getRunabletoday(userDto.getUserSeq(), crewSeq);
 			
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
@@ -230,7 +232,7 @@ public class MyActivityRestController {
 		if (todayRecord != null) {
 			responseFrame.setCount(1);
 			responseFrame.setSuccess(true);
-			responseFrame.setMsg("기록 여부를 성공적으로 반환했습니다. true : 이미 기록 존재, false : 기록 없음.");
+			responseFrame.setMsg("뛸 수 있는 여부 반환 완료.");
 		}
 		responseFrame.setData(todayRecord);
 		return new ResponseEntity<>(responseFrame, httpStatus);
