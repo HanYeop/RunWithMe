@@ -81,7 +81,7 @@ public class CrewDto implements Serializable {
 	public static CrewDto of(CrewEntity crew) {
 		if(crew == null)
 			return null;
-		return new CrewDtoBuilder().crewSeq(crew.getCrewSeq()).crewCost(crew.getCrewCost()).crewDateEnd(crew.getCrewDateEnd()).crewDateStart(crew.getCrewDateEnd())
+		return new CrewDtoBuilder().crewSeq(crew.getCrewSeq()).crewCost(crew.getCrewCost()).crewDateEnd(crew.getCrewDateEnd()).crewDateStart(crew.getCrewDateStart())
 				.crewDescription(crew.getCrewDescription()).crewGoalAmount(crew.getCrewGoalAmount()).crewGoalDays(crew.getCrewGoalDays())
 				.crewGoalType(crew.getCrewGoalType()).crewMaxMember(crew.getCrewMaxMember()).crewName(crew.getCrewName()).crewPassword(crew.getCrewPassword())
 				.crewTimeEnd(crew.getCrewTimeEnd()).crewTimeStart(crew.getCrewTimeStart()).build();
@@ -92,7 +92,7 @@ public class CrewDto implements Serializable {
 		if(crew == null)
 			return null;
 		
-		CrewDto dto = new CrewDtoBuilder().crewSeq(crew.getCrewSeq()).crewCost(crew.getCrewCost()).crewDateEnd(crew.getCrewDateEnd()).crewDateStart(crew.getCrewDateEnd())
+		CrewDto dto = new CrewDtoBuilder().crewSeq(crew.getCrewSeq()).crewCost(crew.getCrewCost()).crewDateEnd(crew.getCrewDateEnd()).crewDateStart(crew.getCrewDateStart())
 		.crewDescription(crew.getCrewDescription()).crewGoalAmount(crew.getCrewGoalAmount()).crewGoalDays(crew.getCrewGoalDays())
 		.crewGoalType(crew.getCrewGoalType()).crewMaxMember(crew.getCrewMaxMember()).crewName(crew.getCrewName()).crewPassword(crew.getCrewPassword())
 		.crewTimeEnd(crew.getCrewTimeEnd()).crewTimeStart(crew.getCrewTimeStart()).build();
