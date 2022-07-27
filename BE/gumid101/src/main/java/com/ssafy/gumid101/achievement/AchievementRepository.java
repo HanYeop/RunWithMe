@@ -10,9 +10,7 @@ import com.ssafy.gumid101.entity.UserEntity;
 
 public interface AchievementRepository extends JpaRepository<AchievementEntity, Long>{
 
-	@Query("SELECT a FROM AchievementEntity a "+
-	"WHERE a NOT IN "
-			+ "(SELECT ac.achieveEntity FROM UserEntity u Join u.achievementCompleteEntitys ac) ")
+	@Query("SELECT a FROM AchievementEntity a WHERE a NOT IN (SELECT ac.achieveEntity FROM UserEntity u Join u.achievementCompleteEntitys ac) ")
 	List<AchievementEntity> findNotAchivement(UserEntity userEntity);
 
 }
