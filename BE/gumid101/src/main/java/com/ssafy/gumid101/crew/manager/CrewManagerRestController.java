@@ -116,8 +116,9 @@ public class CrewManagerRestController {
 		try {
 			crewFileDto = crewManagerService.createCrew(image, crewteCrewDto, managerDto);
 		}catch (Exception e) {
-			httpStatus = HttpStatus.CONFLICT;
+			httpStatus = HttpStatus.OK;
 			responseMap.setCount(0);
+			responseMap.setData(new CrewFileDto(null, null));
 			responseMap.setSuccess(false);
 			responseMap.setMsg(e.getMessage());
 		}

@@ -7,9 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Setter;
 
+@AllArgsConstructor
 @Setter
 @Data
-@AllArgsConstructor
 public class UserFileDto {
 
 	private  UserDto user;

@@ -18,24 +18,7 @@ import lombok.Data;
 public class CrewBoardFileDto {
 	
 	
-
-	@ApiParam(value = "크루  글 번호")
-	private Long crewBoardSeq;
-	
-	@ApiParam(value = "글 내용")
-	private String crewBoardContent;
-	
-	private LocalDateTime crewBoardRegTime;
-	
-	
-	@ApiParam(value = "글 쓴 유저 SEQ")
-	private String userNickName;
-	
-	@ApiParam(value = "글쓴 유저 SEQ")
-	private Long userSeq;
-	
-	@ApiParam(value = "글쓴 크루")
-	private String crewName;
+	private CrewBoardRes crewBoardDto;
 	
 	private  ImageFileDto imageFileDto;
 }
