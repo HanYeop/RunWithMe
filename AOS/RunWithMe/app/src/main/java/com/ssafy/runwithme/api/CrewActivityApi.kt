@@ -9,11 +9,11 @@ import retrofit2.http.Query
 
 interface CrewActivityApi {
 
-    // Page 단위
+    // 마지막 인덱스를 넘겨줘야함
     @GET("crew-activity/{crewSeq}/boards")
     suspend fun getCrewBoards(
         @Path("crewSeq") crewSeq: Int,
-        @Query("offset") offset: Int,
+        @Query("maxCrewBoardSeq") maxCrewBoardSeq: Int,
         @Query("size") size: Int,
     ): BaseResponse<List<CrewBoardResponse>>
 }

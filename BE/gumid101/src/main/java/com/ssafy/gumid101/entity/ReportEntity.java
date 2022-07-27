@@ -15,12 +15,20 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.ssafy.gumid101.customercenter.QuestStatus;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Builder
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "t_report")
 @EntityListeners(AuditingEntityListener.class)
 public class ReportEntity {
@@ -39,6 +47,10 @@ public class ReportEntity {
 	// 이거 일부러 외래키 안 한댔음.
 	@Column(nullable = false, name = "report_crew_board_seq")
 	private Long reportCrewBoardSeq;
+	
+	//@ManyToOne
+	//@JoinColumn("report_crew_board_seq")
+	//private CrewBoardEntity reportCrewBoard;
 
 	@ManyToOne
 	@JoinColumn(name = "reporter_seq")

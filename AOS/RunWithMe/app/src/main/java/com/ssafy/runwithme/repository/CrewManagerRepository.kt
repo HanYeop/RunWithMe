@@ -17,7 +17,6 @@ class CrewManagerRepository @Inject constructor(
     fun getMyCurrentCrew(): Flow<Result<BaseResponse<List<MyCurrentCrewResponse>>>> = flow {
         emit(Result.Loading)
         crewManagerRemoteDataSource.getMyCurrentCrew().collect {
-            Log.d("test5", "getMyCurrentCrew: $it")
             if(it.data.isEmpty()){
                 emit(Result.Empty)
             }else if(it.success){

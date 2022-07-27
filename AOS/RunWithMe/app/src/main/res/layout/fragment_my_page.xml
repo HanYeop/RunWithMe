@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="myPageVM"
+            type="com.ssafy.runwithme.view.my_page.MyPageViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -83,12 +85,13 @@
                             android:background="@android:color/transparent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
+                            app:myPageProfileImage="@{myPageVM.imgSeq}"
                             tools:src="@drawable/img" />
 
                         <TextView
                             android:id="@+id/tv_user_name"
                             style="@style/header_text"
-                            android:text="김싸피"
+                            android:text="@{myPageVM.nickname}"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             android:layout_marginStart="28dp"
@@ -98,7 +101,7 @@
                         <TextView
                             android:id="@+id/tv_user_height"
                             style="@style/header_text"
-                            android:text="180cm /"
+                            android:text="@{myPageVM.height + `cm  /` }"
                             android:textSize="16sp"
                             android:textColor="@color/white"
                             android:layout_marginTop="16dp"
@@ -107,7 +110,7 @@
                         <TextView
                             android:id="@+id/tv_user_weight"
                             style="@style/header_text"
-                            android:text="72kg"
+                            android:text="@{myPageVM.weight + `kg`}"
                             android:textColor="@color/white"
                             android:textSize="16sp"
                             android:layout_marginStart="8dp"
@@ -127,7 +130,7 @@
                         <TextView
                             android:id="@+id/tv_user_point_value"
                             style="@style/header_text"
-                            android:text="100,000P"
+                            android:text="@{myPageVM.point + `P`}"
                             android:textColor="@color/white"
                             android:textSize="16sp"
                             app:layout_constraintEnd_toEndOf="@+id/tv_user_point"

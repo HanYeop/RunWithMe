@@ -25,15 +25,19 @@ class GetCrewBoardsPagingSource (
             // 데이터를 제공하는 인스턴스의 메소드 사용
             val response = crewActivityApi.getCrewBoards(
                 crewSeq = crewSeq,
+                maxCrewBoardSeq = position,
                 size = size,
-                offset = position
             )
+            Log.d("test5", "load: $response")
 
             val nextKey =
+                // 사이즈 보다 불러온 것이 작으면 더 불러올 필요가 없다.
                 if (response.count < size){
                     null
-                }else{
-                    position + 1
+                }
+                // 더 불러 올 때 마지막 인덱스 값을 주어 그 이후의 값들을 불러온다.
+                else{
+                    response.data.last().crewBoardDto.crewBoardSeq
                 }
 
             /* 로드에 성공 시 LoadResult.Page 반환

@@ -1,26 +1,28 @@
 package com.ssafy.runwithme.view.home
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentHomeBinding
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
-import com.ssafy.runwithme.utils.Result
-import com.ssafy.runwithme.view.home.my_crew.MyCurrentCrewFragmentDirections
+import com.ssafy.runwithme.utils.RUN_RECORD_CREW_ID
+import com.ssafy.runwithme.utils.RUN_RECORD_CREW_NAME
+import com.ssafy.runwithme.utils.RUN_RECORD_START_TIME
 import com.ssafy.runwithme.view.running.RunningActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeViewModel by activityViewModels<HomeViewModel>()
     private lateinit var homeMyCurrentCrewAdapter: HomeMyCurrentCrewAdapter
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun init() {
         homeMyCurrentCrewAdapter = HomeMyCurrentCrewAdapter(listener)
@@ -41,6 +43,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.apply {
             // TEST
             tvMyCurrentCrew.setOnClickListener {
+                sharedPreferences.edit().putLong(RUN_RECORD_START_TIME, System.currentTimeMillis()).apply()
+                sharedPreferences.edit().putInt(RUN_RECORD_CREW_ID, 6).apply()
+                sharedPreferences.edit().putString(RUN_RECORD_CREW_NAME, "테스트 크루").apply()
                 startActivity(Intent(requireContext(),RunningActivity::class.java))
             }
             tvCrewMore.setOnClickListener { // 받은 데이터 그대로 이동

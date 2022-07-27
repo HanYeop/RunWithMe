@@ -92,6 +92,9 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		if (crewDto.getCrewMaxMember() == null || crewDto.getCrewMaxMember() <= 1) {
 			throw new IllegalParameterException("최대 인원 설정이 잘못되었습니다..");
 		}
+		crewDto.setCrewDateEnd(crewDto.getCrewDateEnd().withHour(23).withMinute(59).withSecond(59));
+		crewDto.setCrewDateStart(crewDto.getCrewDateStart().withHour(0).withMinute(0).withSecond(0));
+		
 		log.info(String.valueOf(crewDto.getCrewDateEnd().isBefore(crewDto.getCrewDateStart())));
 		if (crewDto.getCrewDateEnd().isBefore(crewDto.getCrewDateStart())) {
 			throw new IllegalParameterException("크루 종료일은 크루 시작일보다 늦어야합니다.");
@@ -103,13 +106,19 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 			throw new IllegalParameterException("생성을 위한 포인트가 부족합니다.");
 		}
 		try {
-			crewEntity = CrewEntity.builder().crewName(crewDto.getCrewName())
-					.crewDescription(crewDto.getCrewDescription()).crewGoalDays(crewDto.getCrewGoalDays())
-					.crewGoalType(crewDto.getCrewGoalType()).crewGoalAmount(crewDto.getCrewGoalAmount())
-					.crewPassword(crewDto.getCrewPassword()).crewCost(crewDto.getCrewCost())
-					.crewMaxMember(crewDto.getCrewMaxMember()).crewDateStart(crewDto.getCrewDateStart())
-					.crewDateEnd(crewDto.getCrewDateEnd()).crewTimeStart(crewDto.getCrewTimeStart())
-					.crewTimeEnd(crewDto.getCrewTimeEnd()).build();
+			crewEntity = CrewEntity.builder().crewName(crewDto.getCrewName()) //
+					.crewDescription(crewDto.getCrewDescription()) //
+					.crewGoalDays(crewDto.getCrewGoalDays()) //
+					.crewGoalType(crewDto.getCrewGoalType()) //
+					.crewGoalAmount(crewDto.getCrewGoalAmount()) //
+					.crewPassword(crewDto.getCrewPassword()) //
+					.crewCost(crewDto.getCrewCost()) //
+					.crewMaxMember(crewDto.getCrewMaxMember()) //
+					.crewDateStart(crewDto.getCrewDateStart()) //
+					.crewDateEnd(crewDto.getCrewDateEnd()) //
+					.crewTimeStart(crewDto.getCrewTimeStart()) //
+					.crewTimeEnd(crewDto.getCrewTimeEnd()) //
+					.build();
 		} catch (Exception e) {
 			throw new IllegalParameterException("크루 생성 과정에서 문제가 발생했습니다.");
 		}
@@ -141,7 +150,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 
 		userCrewJoinRepository.save(userCrewJoinEntity);
 
-		return new CrewFileDto(CrewDto.of(crewEntity), savedFileDto);
+		return new CrewFileDto(CrewDto.of(crewEntity, managerEntity.getNickName(), managerEntity.getUserSeq()), savedFileDto);
 	}
 
 	/**

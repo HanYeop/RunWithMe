@@ -2,9 +2,6 @@ package com.ssafy.gumid101.req;
 
 import javax.validation.constraints.Pattern;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

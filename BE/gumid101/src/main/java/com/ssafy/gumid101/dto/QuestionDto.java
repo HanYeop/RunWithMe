@@ -2,6 +2,7 @@ package com.ssafy.gumid101.dto;
 
 import java.io.Serializable;
 
+import com.ssafy.gumid101.customercenter.QuestStatus;
 import com.ssafy.gumid101.entity.QuestionEntity;
 
 import io.swagger.annotations.ApiParam;
@@ -21,14 +22,15 @@ import lombok.Setter;
 @AllArgsConstructor
 public class QuestionDto implements Serializable {
 
-	@ApiParam(value = "질문 번호")
+	@ApiParam(value = "질문 번호",hidden = true)
 	private Long questionSeq;
 	
 	@ApiParam(value = "질문 내용")
 	private String questionContent;
 	
+	
 	@ApiParam(value = "질문 처리상황")
-	private String questionStatus;
+	private QuestStatus questionStatus;
 	
 	public static QuestionDto of(QuestionEntity question) {
 		if(question == null)

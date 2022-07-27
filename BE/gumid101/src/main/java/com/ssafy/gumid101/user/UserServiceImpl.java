@@ -147,4 +147,22 @@ public class UserServiceImpl implements UserService {
 		}
 		return crewTotalRecordDto;
 	}
+
+	@Override
+	public boolean setUserFcmToken(Long userSeq, String fcmToken) throws Exception {
+		
+		UserEntity user = userRepo.findById(userSeq).orElseThrow(()->new NotFoundUserException("FCM 토큰 설정중, 유저를 특정할 수 없습니다."));
+		user.setFcmToken(fcmToken);
+		
+		
+		return true;
+	}
+
+	@Override
+	public boolean deleteUserFcmToken(Long userSeq) throws Exception {
+		UserEntity user = userRepo.findById(userSeq).orElseThrow(()->new NotFoundUserException("FCM 토큰 설정중, 유저를 특정할 수 없습니다."));
+		user.setFcmToken(null);
+		
+		return true;
+	}
 }

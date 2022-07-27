@@ -1,6 +1,8 @@
 package com.ssafy.runwithme.view.my_page
 
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.ssafy.runwithme.R
@@ -9,15 +11,22 @@ import com.ssafy.runwithme.databinding.FragmentMyPageBinding
 import com.ssafy.runwithme.view.my_page.tab.achievement.AchievementFragment
 import com.ssafy.runwithme.view.my_page.tab.my_board.MyBoardFragment
 import com.ssafy.runwithme.view.my_page.tab.total_record.MyTotalRunRecordFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
     private lateinit var myBoardFragment: MyBoardFragment
     private lateinit var myTotalRunRecordFragment: MyTotalRunRecordFragment
     private lateinit var achievementFragment: AchievementFragment
+    private val myPageViewModel by activityViewModels<MyPageViewModel>()
 
     override fun init() {
+        myPageViewModel.getMyProfile()
+        binding.myPageVM = myPageViewModel
+
         initTabLayout()
         initClickListener()
+        initViewModelCallBack()
     }
 
     private fun initClickListener() {
@@ -28,6 +37,12 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             imageEditProfile.setOnClickListener {
                 findNavController().navigate(R.id.action_MyPageFragment_to_editProfileFragment)
             }
+        }
+    }
+
+    private fun initViewModelCallBack(){
+        myPageViewModel.errorMsgEvent.observe(viewLifecycleOwner){
+            showToast(it)
         }
     }
 
