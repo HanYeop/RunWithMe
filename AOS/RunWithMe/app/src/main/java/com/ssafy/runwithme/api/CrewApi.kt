@@ -8,7 +8,7 @@ import retrofit2.http.*
 
 interface CrewApi {
     @Multipart
-    @POST("crew/crew/{crewId}/records")
+    @POST("crew/{crewId}/records")
     suspend fun createRunRecords(
         @Path("crewId") crewId: Int,
         @Part("runRecord") runRecordDto: RequestBody,

@@ -55,19 +55,13 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
             Log.d(TAG, "initResult: ${timeFormatter(sharedPreferences.getLong(RUN_RECORD_START_TIME,0))}")
             Log.d(TAG, "initResult: ${sharedPreferences.getInt(RUN_RECORD_CREW_ID,0)}")
             Log.d(TAG, "initResult: ${RunningActivity.runRecordRunningLat} ${RunningActivity.runRecordRunningLng}")
-//            RunningActivity.runRecordEndTime = timeFormatter(System.currentTimeMillis())
-//            RunningActivity.runRecordRunningAvgSpeed = (round((sumDistance / 1000f) / (currentTimeInMillis / 1000f / 60 / 60) * 10) / 10f).toDouble()
-//            RunningActivity.runRecordRunningCalorie = caloriesBurned
-//            RunningActivity.runRecordRunningDistance = (sumDistance * 1000).toInt()
-//            RunningActivity.runRecordRunningLat = pathPoints.first()[0].latitude
-//            RunningActivity.runRecordRunningLng = pathPoints.first()[0].longitude
-//            RunningActivity.runRecordRunningTime = currentTimeInMillis.toInt()
         }
     }
 
+    // TODO
     @Throws(IOException::class)
     private fun createFileFromBitmap(bitmap: Bitmap): File? {
-        val newFile = File(this.filesDir, "test")
+        val newFile = File(this.filesDir, "record_${System.currentTimeMillis()}")
         val fileOutputStream = FileOutputStream(newFile)
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
         fileOutputStream.close()
@@ -89,15 +83,15 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
         val runDto = RunRecordDto(
             runRecordSeq = 0,
             runImageSeq = 0,
-            runRecordStartTime = timeFormatter(System.currentTimeMillis()),
+            runRecordStartTime = timeFormatter(sharedPreferences.getLong(RUN_RECORD_START_TIME, 0L)),
             runRecordEndTime = timeFormatter(System.currentTimeMillis()),
-            runRecordRunningTime = 1,
-            runRecordRunningDistance = 2,
-            runRecordRunningAvgSpeed = 1.1,
-            runRecordRunningCalorie = 1,
-            runRecordRunningLat = 37.111,
-            runRecordRunningLng = 127.1111,
-            runRecordRunningCompleteYN = "Y"
+            runRecordRunningTime = (RunningActivity.runRecordRunningTime / 1000).toInt(),
+            runRecordRunningDistance = (RunningActivity.runRecordRunningDistance).toInt(),
+            runRecordRunningAvgSpeed = (RunningActivity.runRecordRunningAvgSpeed).toDouble(),
+            runRecordRunningCalorie = (RunningActivity.runRecordRunningCalorie),
+            runRecordRunningLat = (RunningActivity.runRecordRunningLat),
+            runRecordRunningLng = (RunningActivity.runRecordRunningLng),
+            runRecordRunningCompleteYN = ""
         )
 
         runningViewModel.createRunRecord(imgFile,runDto)
