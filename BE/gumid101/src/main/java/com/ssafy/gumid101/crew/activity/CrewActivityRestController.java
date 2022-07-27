@@ -114,16 +114,16 @@ public class CrewActivityRestController {
 		return new ResponseEntity<>(responseFrame, httpStatus);
 	}
 	
-	@ApiOperation(value = "크루 게시판 글 조회. (size : 전체조회 -1, 미입력시 10 / offset : 미입력시 0")
+	@ApiOperation(value = "크루 게시판 글 조회. (size : 전체조회 -1, 미입력시 10 / offset : 미입력시 0/maxCrewBoardSeq : 최고 id or null")
 	@GetMapping("/{crewSeq}/boards")
-	public ResponseEntity<?> getCrewBoards(@PathVariable Long crewSeq, @RequestParam(required = false) Integer size, @RequestParam(required = false) Long offset){
+	public ResponseEntity<?> getCrewBoards(@PathVariable Long crewSeq, @RequestParam(required = false) Integer size,@RequestParam(required = false) Long maxCrewBoadrSeq){
 		
 		ResponseFrame<List<CrewBoardFileDto>> responseFrame = new ResponseFrame<>();
 		HttpStatus httpStatus = HttpStatus.OK; 
 		
 		List<CrewBoardFileDto> crewBoardFileDtoList = null;
 		try {
-			crewBoardFileDtoList = crewActivityBoardService.getCrewBoards(crewSeq, size, offset);
+			crewBoardFileDtoList = crewActivityBoardService.getCrewBoards(crewSeq, size,maxCrewBoadrSeq);
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseFrame.setCount(0);

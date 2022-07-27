@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ssafy.gumid101.entity.RunRecordEntity;
 
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,7 +46,8 @@ public class RunRecordDto implements Serializable {
 	@ApiParam(value = "달린 거리 (미터단위)", required = true)
 	private Integer runRecordRunningDistance;
 	
-	@ApiParam(value = "평균 속도 (km/h로 할지 m/s로 할지 나중에 결정합시다.)", required = true)
+	@ApiModelProperty(hidden = true)
+	@ApiParam(value = "평균 속도 km/h인데 입력받지 않고 서버에서 계산해서 저장함")
 	private Double runRecordRunningAvgSpeed;
 	
 	@ApiParam(value = "소비 칼로리 (Kcal)")
@@ -61,17 +63,22 @@ public class RunRecordDto implements Serializable {
 	private String runRecordRunningCompleteYN;
 	
 	public static RunRecordDto of(RunRecordEntity runRecord) {
+		
+		if(runRecord == null)
+			return null;
+		
 		return new RunRecordDtoBuilder().runRecordSeq(runRecord.getRunRecordSeq())
 				.runRecordStartTime(runRecord.getRunRecordStartTime())
 				.runRecordEndTime(runRecord.getRunRecordEndTime())
 				.runRecordRunningTime(runRecord.getRunRecordRunningTime())
 				.runRecordRunningDistance(runRecord.getRunRecordRunningDistance())
-				.runRecordRunningAvgSpeed(runRecord.getRunRecordAvgSpeed())
+				.runRecordRunningAvgSpeed(runRecord.getRunRecordRunningTime() == null || runRecord.getRunRecordRunningTime() == 0 ? 0 :
+						3.6 * runRecord.getRunRecordRunningDistance() / runRecord.getRunRecordRunningTime())
 				.runRecordRunningCalorie(runRecord.getRunRecordCalorie())
 				.runRecordRunningLat(runRecord.getRunRecordLat())
 				.runRecordRunningLng(runRecord.getRunRecordLng())
 				.runRecordRunningCompleteYN(runRecord.getRunRecordCompleteYN())
-				.runImageSeq(runRecord.getImageFile() == null ? null : runRecord.getImageFile().getImgSeq())
+				.runImageSeq(runRecord.getImageFile() == null ? 0 : runRecord.getImageFile().getImgSeq())
 				.build();
 	}
 }

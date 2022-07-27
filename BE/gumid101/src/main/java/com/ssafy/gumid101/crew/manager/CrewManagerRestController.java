@@ -1,5 +1,6 @@
 package com.ssafy.gumid101.crew.manager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -53,19 +54,22 @@ public class CrewManagerRestController {
 	 * @return
 	 * @throws Exception 
 	 */
-	@ApiOperation(value="진행 중인 내 크루보기")
+	
+	
+	@ApiOperation(value="진행 중인 내 크루보기 정렬 아직 없음")
 	@GetMapping("/my-current-crew")
 	public ResponseEntity<?> getMyCurrentCrew() throws Exception{
 		
 		UserDto userDto= loadUserFromToken();
 		
-		List<CrewDto> crewList =  crewManagerService.getMyCurrentCruew(userDto.getUserSeq());
+		List<?> crewList =  crewManagerService.getMyCurrentCruew(userDto.getUserSeq());
 		
-		ResponseFrame.of(crewList, crewList.size(), "현재 진행중, 진행 예정인 나의 현재 크루가 반환되었습니다.");
+		ResponseFrame<?> res = ResponseFrame.of(crewList, crewList.size(), "현재 진행중, 진행 예정인 나의 현재 크루가 반환되었습니다.");
 		
 		
-		return new ResponseEntity<>(crewList,HttpStatus.OK);
+		return new ResponseEntity<>(res,HttpStatus.OK);
 	}
+	
 	
 	@ApiOperation("내 끝난 크루를 조회 why? 업적 조회할 떄,")
 	@GetMapping("/my-end-crew")
@@ -84,8 +88,10 @@ public class CrewManagerRestController {
 	public ResponseEntity<?> getCrewRecruitment(@ModelAttribute RecruitmentParamsDto paramsDto) throws Exception{
 		
 		List<CrewDto> crewList =  crewManagerService.crewSearcheByRecruitmentParams(paramsDto);
-		
-		ResponseFrame<?> res = ResponseFrame.of(crewList, 0, "모집중인 크루 리스트를 반환합니다.");
+		if(crewList == null) {
+			crewList = new ArrayList<CrewDto>();
+		}
+		ResponseFrame<?> res = ResponseFrame.of(crewList, crewList.size(), "모집중인 크루 리스트를 반환합니다.");
 		
 		return new ResponseEntity<>(res,HttpStatus.OK);
 	}

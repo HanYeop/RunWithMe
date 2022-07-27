@@ -2,9 +2,6 @@ package com.ssafy.gumid101.dto;
 
 import java.io.Serializable;
 
-import com.ssafy.gumid101.entity.UserEntity;
-import com.ssafy.gumid101.user.Role;
-
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

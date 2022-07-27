@@ -1,7 +1,5 @@
 package com.ssafy.gumid101.imgfile;
 
-import java.io.File;
-
 import lombok.Getter;
 
 @Getter

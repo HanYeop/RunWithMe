@@ -1,15 +1,14 @@
 package com.ssafy.gumid101.user;
 
-import java.security.Principal;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +28,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/user")
@@ -39,7 +39,14 @@ public class UserRestController {
 
 	private final JwtUtilsService jwtUtilService;
 	private final UserService userService;
+	
+	private UserDto loadUserFromToken() {
+		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDto tokenUser = (UserDto) autentication.getPrincipal();
+		return tokenUser;
+	}
 
+	
 	/**
 	 * 닉네임 중복체크
 	 * @param nickname
@@ -72,8 +79,13 @@ public class UserRestController {
 	 */
 	@ApiOperation(code  =200,value =   "초기 프로필 설정 / 회원가입")
 	@PostMapping("/profile")
-	public ResponseEntity<?> setMyProfile(@RequestBody UserDto userDto) throws Exception {
+	public ResponseEntity<?> setMyProfile(@RequestBody UserDto userDto,@ApiIgnore BindingResult result) throws Exception {
 
+		if(result.hasErrors()) {
+			log.warn(result.getAllErrors().toString()); ;
+			
+		}
+		
 		log.debug("초기 프로필 설정 진입 : 몸무게:{},키 : {}, 닉네임 :{}", userDto.getWeight(), userDto.getHeight(),
 				userDto.getNickName());
 
@@ -111,7 +123,32 @@ public class UserRestController {
 
 		return new ResponseEntity<>(responseMap, httpStatus);
 	}
+	
+	@ApiOperation("fcm 토큰 설정")
+	@PostMapping()
+	public ResponseEntity<?> setMyFcmToken(@ApiParam("{fcmToken:\"값\"}") @RequestBody Map<String,String> body)throws Exception{
+		
+		
+		UserDto userDto= loadUserFromToken();
+		
+		boolean result =  userService.setUserFcmToken(userDto.getUserSeq(),body.get("fcmToken"));
+		
 
+		return new ResponseEntity<>(ResponseFrame.of(result, "FCM 토큰이 정상적으로 등록되었습니다."), HttpStatus.OK);
+	}
+	
+	@ApiOperation("fcm 토큰 삭제")
+	@DeleteMapping()
+	public ResponseEntity<?> deleteMyFcmToken() throws Exception{
+		
+		UserDto userDto= loadUserFromToken();
+		boolean result = userService.deleteUserFcmToken(userDto.getUserSeq());
+		
+		return new ResponseEntity<>(ResponseFrame.of(result, "FCM 토큰이 정상적으로 삭제되었습니다."), HttpStatus.OK);
+	}
+
+	
+	
 	@ExceptionHandler(DuplicateException.class)
 	public ResponseEntity<?> duplicationExceptionHandle(DuplicateException de) {
 		ResponseFrame<String> responseFrame = new ResponseFrame<String>();

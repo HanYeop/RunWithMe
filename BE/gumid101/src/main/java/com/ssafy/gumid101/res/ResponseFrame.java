@@ -11,17 +11,17 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ResponseFrame<T> {
 
-	private boolean isSuccess;
+	private Boolean success;
 	private T data;
 	private int count;
 	private String msg;
 
-	public static ResponseFrame<?> of(boolean isSuccess,String message){
+	public static ResponseFrame<?> of(boolean success,String message){
 		ResponseFrame<?> frame = new ResponseFrame<>();
 		frame.setCount(0);
 		frame.setData(null);
 		frame.setMsg(message);
-		frame.setSuccess(isSuccess);
+		frame.setSuccess(success);
 		return  frame;
 	}
 	

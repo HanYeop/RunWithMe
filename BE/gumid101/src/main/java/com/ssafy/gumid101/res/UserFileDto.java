@@ -3,14 +3,17 @@ package com.ssafy.gumid101.res;
 import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.UserDto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
+import lombok.Setter;
 
+@Setter
 @Data
+@AllArgsConstructor
 public class UserFileDto {
 
-	private final UserDto user;
-	private final ImageFileDto file;
+	private  UserDto user;
+	private  ImageFileDto imgFileDto;
 	
 	
 }

@@ -1,29 +1,31 @@
 package com.ssafy.gumid101.user;
 
 import java.util.List;
-import java.util.Map;
 
-import org.apache.http.annotation.Experimental;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.gumid101.crew.activity.CrewActivityService;
 import com.ssafy.gumid101.customexception.ThirdPartyException;
 import com.ssafy.gumid101.dto.CrewBoardDto;
+import com.ssafy.gumid101.dto.CrewTotalRecordDto;
+import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.RecordParamsDto;
+import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.req.ProfileEditDto;
 import com.ssafy.gumid101.res.ResponseFrame;
@@ -40,7 +42,8 @@ import lombok.RequiredArgsConstructor;
 public class MyActivityRestController {
 
 	private final UserService userService;
-
+	private final CrewActivityService runService;
+	private final ObjectMapper objectMapper; 
 	/**
 	 * 토큰으로 부터 유저 DTO 로드
 	 * 
@@ -63,26 +66,41 @@ public class MyActivityRestController {
 
 		UserDto userDto = loadUserFromToken();
 
-		UserDto resUserDto = userService.getUserProfileById(userDto.getUserSeq());
+		UserFileDto resUserDto = userService.getUserProfileById(userDto.getUserSeq());
 
-		ResponseFrame<UserDto> resFrame = new ResponseFrame<UserDto>();
-
+		
+		if(resUserDto.getImgFileDto() == null) {
+			resUserDto.setImgFileDto(ImageFileDto.builder()
+					.imgOriginalName("초기")
+					.imgSavedName("초기")
+					.imgSavedPath("초기")
+					.imgSeq(0L).build());
+		}
+		if(resUserDto.getUser().getFcmToken() == null) {
+			resUserDto.getUser().setFcmToken("");
+		}
+		
+		
+		ResponseFrame<UserFileDto> resFrame = new ResponseFrame<UserFileDto>();
 		resFrame.setCount(resUserDto == null ? 0 : 1);
 		resFrame.setSuccess(resUserDto == null ? false : true);
+		resFrame.setMsg("회원의 정보를 반환합니다.");
 		resFrame.setData(resUserDto);
 
 		return new ResponseEntity<>(resFrame, resUserDto != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
 	}
 
 	@ApiOperation(value = "자신의 프로필 수정")
-	@PostMapping("/profile")
-	public ResponseEntity<?> editMyProfile(@ModelAttribute ProfileEditDto profile,
-			@RequestPart(value = "imgFile") MultipartFile imgFile) throws Exception {
+	@PostMapping(value="/profile",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+	public ResponseEntity<?> editMyProfile(@RequestPart("profile") String profile,
+			@RequestPart(value = "imgFile",required = false) MultipartFile imgFile) throws Exception {
 
+		ProfileEditDto profileEditDto = objectMapper.readValue(profile, ProfileEditDto.class);
+		
 		UserDto userDto = loadUserFromToken();
-		userDto.setWeight(profile.getWeight());
-		userDto.setHeight(profile.getHeight());
-		userDto.setNickName(profile.getNickName());
+		userDto.setWeight(profileEditDto.getWeight());
+		userDto.setHeight(profileEditDto.getHeight());
+		userDto.setNickName(profileEditDto.getNickName());
 		
 		UserFileDto userFileDto= userService.editMyProfile(userDto,imgFile);
 		
@@ -102,7 +120,28 @@ public class MyActivityRestController {
 	 */
 	@GetMapping("/total-activity")
 	public ResponseEntity<?> getMyTotalRecord() {
-		return null;
+		UserDto userDto = loadUserFromToken();
+		
+		HttpStatus httpStatus = HttpStatus.OK;
+		
+		ResponseFrame<CrewTotalRecordDto> responseFrame = new ResponseFrame<>();
+		CrewTotalRecordDto myTotalRecord = null;
+		try {
+			myTotalRecord = userService.getMyTotalRecord(userDto.getUserSeq());
+		}catch (Exception e) {
+			httpStatus = HttpStatus.CONFLICT;
+			responseFrame.setCount(0);
+			responseFrame.setSuccess(false);
+			responseFrame.setMsg(e.getMessage());
+		}
+		
+		if (myTotalRecord != null) {
+			responseFrame.setCount(1);
+			responseFrame.setSuccess(true);
+			responseFrame.setMsg("자신 누적 기록 조회에 성공했습니다.");
+		}
+		responseFrame.setData(myTotalRecord);
+		return new ResponseEntity<>(responseFrame, httpStatus);
 	}
 
 	/**
@@ -114,40 +153,87 @@ public class MyActivityRestController {
 	 * @param month
 	 * @return
 	 */
+	@ApiOperation(value = "자신의 전체 기록 목록 조회 (year, month는 미입력 또는 0 입력 시 전체 조회)")
 	@GetMapping("/activity")
 	public ResponseEntity<?> getMyTotalRecordList(RecordParamsDto params) {
 		/**
 		 * int값은 안 들어올 때 0으로 들어오는것으로 알고, size, offset, year, month는 검색 조건이 있다면 0이 아닌
 		 * 값이므로 0이 들어왔을 떼 예외적인 처리를 해야함.
 		 */
-
-		return null;
+		
+		UserDto userDto = loadUserFromToken();
+		params.setUserSeq(userDto.getUserSeq());
+		params.setCrewSeq(null);
+		
+		HttpStatus httpStatus = HttpStatus.OK;
+		
+		ResponseFrame<List<RunRecordDto>> responseFrame = new ResponseFrame<>();
+		List<RunRecordDto> myRecordList = null;
+		try {
+			
+			myRecordList = runService.getMyRecordList(params);
+			
+		}catch (Exception e) {
+			httpStatus = HttpStatus.CONFLICT;
+			responseFrame.setCount(0);
+			responseFrame.setSuccess(false);
+			responseFrame.setMsg(e.getMessage());
+		}
+		
+		if (myRecordList != null) {
+			responseFrame.setCount(myRecordList.size());
+			responseFrame.setSuccess(true);
+			responseFrame.setMsg("자신의 전체 기록 목록 조회에 성공했습니다.");
+		}
+		responseFrame.setData(myRecordList);
+		return new ResponseEntity<>(responseFrame, httpStatus);
 	}
 
 	/**
-	 *
-	 * @return
-	 */
-	@GetMapping("/rewards")
-	public ResponseEntity<?> getMyAchieve() {
-		return null;
-	}
-
-	/**
-	 * int값은 안 들어올 때 0으로 들어오는것으로 알고, size, offset은 검색 조건이 있다면 0이 아닌 값이므로 0이 들어왔을 떼
-	 * 예외적인 처리를 해야함.
+	 * 
+	 * 2022-07-26 페이징 수정 손광진
 	 * @throws Exception 
 	 */
 	@GetMapping("/boards") //안쓴 거는 null로 받기위해 참조형으로 파라메터를 받음
 	public ResponseEntity<?> getMyBoards(@RequestParam(required = false,name = "size") Long size,
-			@RequestParam(required = false,name = "offset") Long offset) throws Exception {
+			@RequestParam(required = false,name = "offset") Long boardMaxSeq) throws Exception {
+		
 		UserDto userDto = loadUserFromToken();
 		
-		List<CrewBoardDto> myBoardList =  userService.getMyBoards(userDto.getUserSeq(),size,offset);
+		List<CrewBoardDto> myBoardList =  userService.getMyBoards(userDto.getUserSeq(),size,boardMaxSeq);
 		
 		ResponseFrame<?> res = ResponseFrame.of(myBoardList,myBoardList.size(),"자신이 쓴 글을 반환합니다.");
 		
 		return new ResponseEntity<>(res,HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "자신이 오늘 크루에서 뛴 기록이 있는지 조회 (연습크루는 나중에 생각합시다.)")
+	@GetMapping("/runstatus/{crewSeq}")
+	public ResponseEntity<?> getIsMyTodayRecord(@PathVariable Long crewSeq) {
+		
+		UserDto userDto = loadUserFromToken();
+		
+		HttpStatus httpStatus = HttpStatus.OK;
+		
+		ResponseFrame<Boolean> responseFrame = new ResponseFrame<>();
+		Boolean todayRecord = null;
+		try {
+			todayRecord = runService.isMyTodayRecord(userDto.getUserSeq(), crewSeq);
+			
+		}catch (Exception e) {
+			httpStatus = HttpStatus.CONFLICT;
+			responseFrame.setCount(0);
+			responseFrame.setSuccess(false);
+			responseFrame.setMsg(e.getMessage());
+		}
+		
+		if (todayRecord != null) {
+			responseFrame.setCount(1);
+			responseFrame.setSuccess(true);
+			responseFrame.setMsg("기록 여부를 성공적으로 반환했습니다. true : 이미 기록 존재, false : 기록 없음.");
+		}
+		responseFrame.setData(todayRecord);
+		return new ResponseEntity<>(responseFrame, httpStatus);
 	}
 
 	/**
