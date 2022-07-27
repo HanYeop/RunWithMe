@@ -46,4 +46,10 @@
         <item name="android:textSize">20sp</item>
         <item name="fontFamily">@font/noto_sans_bold</item>
     </style>
+
+    <style name="NumberPickerStyle">
+        <item name="colorControlNormal">@color/mainColor</item>
+        <item name="android:textSize">26dp</item>
+        <item name="android:textColorPrimary">@color/mainColor</item>
+    </style>
 </resources>
