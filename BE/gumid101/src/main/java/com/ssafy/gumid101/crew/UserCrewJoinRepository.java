@@ -1,5 +1,6 @@
 package com.ssafy.gumid101.crew;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.ssafy.gumid101.dto.AchievementDto;
 import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.UserCrewJoinEntity;
 import com.ssafy.gumid101.entity.UserEntity;
@@ -29,6 +31,8 @@ public interface UserCrewJoinRepository extends JpaRepository<UserCrewJoinEntity
 	int deleteByUserAndCrew(UserEntity user, CrewEntity crew);
 
 	Optional<UserCrewJoinEntity> findByUserEntity_UserSeqAndCrewEntity_CrewSeq(Long userSeq, Long crewSeq);
+
+	List<UserCrewJoinEntity> findAllByCrewEntity(CrewEntity crew);
 
 	
 	
