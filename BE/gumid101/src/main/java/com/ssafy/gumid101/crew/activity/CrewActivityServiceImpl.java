@@ -73,9 +73,9 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 		}
 		List<RunRecordEntity> myToday = null;
 		try{
-			 myToday = runRepo.findAllByUserEntityAndCrewEntity(ucjEntity.getUserEntity(), ucjEntity.getCrewEntity());
+			 myToday = runRepo.findByUserEntityAndCrewEntity(ucjEntity.getUserEntity(), ucjEntity.getCrewEntity());
 		} catch (Exception e) {
-			throw new Exception("기록 조회에 실패했습니다. 다시 조회해주세요.");
+			throw new Exception("기록 조회에 실패했습니다.");
 		}
 		if (myToday != null && myToday.size() > 0){
 			return false;
