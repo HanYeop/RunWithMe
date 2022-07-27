@@ -2,6 +2,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+			<project>
+			
+			</project>
+				<deploy.phase>local</deploy.phase>
+			</properties>
+		</profile>
+		<profile>
+			<id>deploy</id>
+			<properties>
+				<deploy.phase>dedeployv</deploy.phase>
+			</properties>
+		</profile>
+	</profiles>
+
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -30,14 +51,8 @@
 		<!-- 클라이언트에서 구글 로그인 후 넘겨준 토큰을 검증하기위함 -->
 		<!-- https://mvnrepository.com/artifact/com.google.api-client/google-api-client-jackson2 -->
 		<!-- <dependency> <groupId>com.google.api-client</groupId> <artifactId>google-api-client-jackson2</artifactId> 
-			<version>1.33.2</version> </dependency>
-
-		<dependency>
-			<groupId>com.google.api-client</groupId>
-			<artifactId>google-api-client</artifactId>
-			<version>1.32.1</version>
-		</dependency>
-		 -->
+			<version>1.33.2</version> </dependency> <dependency> <groupId>com.google.api-client</groupId> 
+			<artifactId>google-api-client</artifactId> <version>1.32.1</version> </dependency> -->
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
