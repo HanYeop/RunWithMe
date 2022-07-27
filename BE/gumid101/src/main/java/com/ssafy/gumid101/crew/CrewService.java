@@ -8,7 +8,7 @@ import com.ssafy.gumid101.res.RunRecordResultDto;
 
 public interface CrewService {
 
-	CrewUserDto joinCrew(Long userSeq, long crewId, String passwrod) throws Exception;
+	CrewUserDto joinCrew(Long userSeq, Long crewId, String passwrod) throws Exception;
 
 
 	RunRecordResultDto insertUserRunRecordAsCrew(Long userSeq, Long crewId, RunRecordDto runRecord, MultipartFile imgFile) throws Exception;

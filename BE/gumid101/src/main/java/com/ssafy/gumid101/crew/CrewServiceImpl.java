@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.gumid101.achievement.AchieveType;
 import com.ssafy.gumid101.achievement.AchievementRepository;
 import com.ssafy.gumid101.aws.S3FileService;
 import com.ssafy.gumid101.crew.manager.CrewManagerRepository;
@@ -55,24 +56,30 @@ public class CrewServiceImpl implements CrewService {
 	private final AchievementRepository achiveRepo;
 	@Transactional
 	@Override
-	public CrewUserDto joinCrew(Long userSeq, long crewId, String password) throws Exception {
+	public CrewUserDto joinCrew(Long userSeq, Long crewSeq, String password) throws Exception {
 
-		CrewEntity crew = crewManagerRepo.findById(crewId)
+		CrewEntity crew = crewManagerRepo.findById(crewSeq)
 				.orElseThrow(() -> new CrewNotFoundException("크루 가입 중, 크루를 특정할 수 없습니다."));
 
-		// 가입비 내는 거 구현 안되있다.####
+		// 인원수 체크
+		if (ucJoinRepo.findAllByCrewEntity_CrewSeq(crewSeq).size() >= crew.getCrewMaxMember()) {
+			throw new CrewPermissonDeniedException("크루 인원 수를 초과했습니다.");
+		}
 
+		UserEntity user = userRepo.findWithLockingByUserSeq(userSeq)
+				.orElseThrow(() -> new UsernameNotFoundException("크루 가입 중 유저를 특정할 수 없습니다."));
+		// 가입비 체크
+		if (user.getPoint() < crew.getCrewCost()) {
+			throw new CrewPermissonDeniedException("포인트가 부족하여 가입이 불가능 합니다.");
+		}
+		user.setPoint(user.getPoint() - crew.getCrewCost());
+
+		// 패스워드 체크
 		if (Strings.hasLength(crew.getCrewPassword())) {
 			if (crew.getCrewPassword().compareTo(password) != 0) {
 				throw new PasswrodNotMatchException("크루 패스워드 불일치");
 			}
 		}
-		UserEntity user = userRepo.findWithLockingByUserSeq(userSeq)
-				.orElseThrow(() -> new UsernameNotFoundException("크루 가입 중 유저를 특정할 수 없습니다."));
-		if (user.getPoint() < crew.getCrewCost()) {
-			throw new CrewPermissonDeniedException("포인트가 부족하여 가입이 불가능 합니다.");
-		}
-		user.setPoint(user.getPoint() - crew.getCrewCost());
 
 		UserCrewJoinEntity ucjEntity = UserCrewJoinEntity.builder().build();
 		ucjEntity.setCrewEntity(crew);
@@ -91,6 +98,9 @@ public class CrewServiceImpl implements CrewService {
 	public RunRecordResultDto insertUserRunRecordAsCrew(Long userSeq, Long crewId, RunRecordDto runRecordDto, MultipartFile imgFile) throws Exception {
 		// TODO Auto-generated method stub
 
+		if (runRecordDto.getRunRecordRunningTime() == null || runRecordDto.getRunRecordRunningTime() == 0) {
+			throw new Exception("달린 시간이 0인 기록은 저장할 수 없습니다.");
+		}
 		 UserEntity userEntity =  userRepo.findById(userSeq).orElseThrow(()->new NotFoundUserException("러닝 완료 중, 유저를 특정할 수 없습니다."));
 		CrewEntity crewEntity =  crewManagerRepo.findById(crewId).orElseThrow(()->new CrewNotFoundException("러닝 완료 중 , 크루를 특정할 수 없습니다."));
 		
@@ -101,7 +111,6 @@ public class CrewServiceImpl implements CrewService {
 		.runRecordEndTime(runRecordDto.getRunRecordEndTime())
 		.runRecordRunningTime(runRecordDto.getRunRecordRunningTime())
 		.runRecordRunningDistance(runRecordDto.getRunRecordRunningDistance())
-		.runRecordAvgSpeed(runRecordDto.getRunRecordRunningAvgSpeed())
 		.runRecordCalorie(runRecordDto.getRunRecordRunningCalorie())
 		.runRecordLat(runRecordDto.getRunRecordRunningLat())
 		.runRecordLng(runRecordDto.getRunRecordRunningLng())
@@ -164,7 +173,6 @@ public class CrewServiceImpl implements CrewService {
 			userCrewTotalEntity.setUserEntity(userEntity);
 			userCrewTotalRunRepo.save(userCrewTotalEntity);
 		}else {
-			userCrewTotalEntity.setTotalRecordRegTime(LocalDateTime.now());
 			userCrewTotalEntity.setTotalLongestDistance(  Math.max(userCrewTotalEntity.getTotalLongestDistance() ,runRecordDto.getRunRecordRunningDistance()));
 			userCrewTotalEntity.setTotalLongestTime(Math.max(userCrewTotalEntity.getTotalLongestTime(), runRecordDto.getRunRecordRunningTime()));
 			userCrewTotalEntity.setTotalTime(userCrewTotalEntity.getTotalTime() + runRecordDto.getRunRecordRunningTime());
@@ -175,38 +183,48 @@ public class CrewServiceImpl implements CrewService {
 		CrewTotalRecordDto userCrewDto = CrewTotalRecordDto.of(userCrewTotalEntity);
 		userCrewDto.setTotalAvgSpeed(3.6 * userCrewTotalEntity.getTotalDistance().doubleValue() / (userCrewTotalEntity.getTotalTime() == 0 ? Long.MAX_VALUE : userCrewTotalEntity.getTotalTime()));
 		
-		ArrayList<AchievementDto> newCompleteDtoList =   getNewCompleteAchiveMent(userEntity);
+		List<AchievementDto> newCompleteDtoList =   getNewCompleteAchiveMent(userEntity, userCrewTotalEntity, runRecord);
 		// 3.업적 로직 계산
 
 		return new RunRecordResultDto(RunRecordDto.of(runRecord),newCompleteDtoList);
 	}
 
-	private ArrayList<AchievementDto> getNewCompleteAchiveMent(UserEntity userEntity) {
+	private List<AchievementDto> getNewCompleteAchiveMent(UserEntity userEntity, CrewTotalRecordEntity userCrewTotalEntity, RunRecordEntity runRecordEntity) {
+
 		
-		ArrayList<AchievementDto> newCompleteDtoList = new ArrayList<>();
+//		Integer runCount = runRecordRepo.findByUserEntity(userEntity).size();
 		
-		List<AchievementEntity> achieveMents =  achiveRepo.findNotAchivement(userEntity);
-		
-		List<AchievementDto> achiveList =  achieveMents.stream().map((achievement)->AchievementDto.of(achievement))
-		.collect(Collectors.toList());
+		List<AchievementEntity> nonAchieveMents =  achiveRepo.findNotAchivement(userEntity);
+		List<AchievementEntity> achieveList = new ArrayList<>();
 		//achiveMentType
-		AchievementDto achive =null;
-		for(int i = 0 ; i < achiveList.size();i++) {
-			achive = achiveList.get(i);
-			//if(achive.getAchieveType()) {
-				
-			//}else if(achive.getAchieveType()) {
-				
-			//}else if(achive.getAchieveType()) {
-			//	
-			//}
-			
+		for(AchievementEntity nonAchieve : nonAchieveMents) {
+			if (nonAchieve.getAchieveType().equals(AchieveType.DISTANCE)) {
+				if (nonAchieve.getAchiveValue() <= runRecordEntity.getRunRecordRunningDistance()) {
+					achieveList.add(nonAchieve);
+				}
+			}
+			else if (nonAchieve.getAchieveType().equals(AchieveType.TIME)) {
+				if (nonAchieve.getAchiveValue() <= runRecordEntity.getRunRecordRunningTime()) {
+					achieveList.add(nonAchieve);
+				}
+			}
+			else if (nonAchieve.getAchieveType().equals(AchieveType.TOTALDISTANCE)) {
+				if (nonAchieve.getAchiveValue() <= userCrewTotalEntity.getTotalDistance()) {
+					achieveList.add(nonAchieve);
+				}
+			}
+			else if (nonAchieve.getAchieveType().equals(AchieveType.TOTALTIME)) {
+				if (nonAchieve.getAchiveValue() <= userCrewTotalEntity.getTotalTime()) {
+					achieveList.add(nonAchieve);
+				}
+			}
+//			else if (nonAchieve.getAchieveType().equals(AchieveType.RUNCOUNT)) {
+//				if (nonAchieve.getAchiveValue() <= runCount + 1) {
+//					achieveList.add(nonAchieve);
+//				}
+//			}
 		}
-		
-		
-		
-		
-		return newCompleteDtoList;
+		return achieveList.stream().map((entity) -> AchievementDto.of(entity)).collect(Collectors.toList());
 	}
 
 	
