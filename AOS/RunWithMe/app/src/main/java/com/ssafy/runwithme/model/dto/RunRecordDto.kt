@@ -3,8 +3,8 @@ package com.ssafy.runwithme.model.dto
 import com.google.gson.annotations.SerializedName
 
 data class RunRecordDto(
-    @SerializedName("runRecordSeq") val runRecordSeq: Long,
-    @SerializedName("runImageSeq") val runImageSeq: Long,
+    @SerializedName("runRecordSeq") val runRecordSeq: Int,
+    @SerializedName("runImageSeq") val runImageSeq: Int,
     @SerializedName("runRecordStartTime") val runRecordStartTime: String,
     @SerializedName("runRecordEndTime") val runRecordEndTime: String,
     @SerializedName("runRecordRunningTime") val runRecordRunningTime: Int,
