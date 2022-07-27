@@ -1,7 +1,12 @@
 package com.ssafy.runwithme.model.dto
 
+import com.google.gson.annotations.SerializedName
+
 data class UserDto(
-    val height: Int,
-    val weight: Int,
-    val nickName: String
+    @SerializedName("height") val height: Int,
+    @SerializedName("weight") val weight: Int,
+    @SerializedName("nickName") val nickName: String,
+    @SerializedName("email") val email: String,
+    @SerializedName("point") val point: Int,
+
 )
