@@ -45,7 +45,7 @@ public class CrewRestContoller {
 	}
 
 	@ApiOperation("런 레코드 등록(구현중)")
-	@PostMapping(value= "/crew/{crewId}/records",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+	@PostMapping(value= "/{crewId}/records",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<?> recordMyRun(
 			@PathVariable("crewId") Long crewId ,
 			@RequestPart(value="runRecord") String runRecord,

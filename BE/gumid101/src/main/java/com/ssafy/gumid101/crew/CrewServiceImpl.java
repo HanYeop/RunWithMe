@@ -62,7 +62,7 @@ public class CrewServiceImpl implements CrewService {
 				.orElseThrow(() -> new CrewNotFoundException("크루 가입 중, 크루를 특정할 수 없습니다."));
 
 		// 인원수 체크
-		if (ucJoinRepo.findAllByCrewEntity_CrewSeq(crewSeq).size() >= crew.getCrewMaxMember()) {
+		if (ucJoinRepo.findAllByCrewEntity(crew).size() >= crew.getCrewMaxMember()) {
 			throw new CrewPermissonDeniedException("크루 인원 수를 초과했습니다.");
 		}
 

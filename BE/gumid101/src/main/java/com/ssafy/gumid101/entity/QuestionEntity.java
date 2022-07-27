@@ -20,14 +20,18 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.ssafy.gumid101.customercenter.QuestStatus;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Builder
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "t_question")
 @EntityListeners(AuditingEntityListener.class)
 public class QuestionEntity {
