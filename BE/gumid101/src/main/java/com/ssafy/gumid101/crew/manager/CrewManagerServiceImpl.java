@@ -150,7 +150,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 
 		userCrewJoinRepository.save(userCrewJoinEntity);
 
-		return new CrewFileDto(CrewDto.of(crewEntity, manager.getNickName(), manager.getUserSeq()), savedFileDto);
+		return new CrewFileDto(CrewDto.of(crewEntity, managerEntity.getNickName(), managerEntity.getUserSeq()), savedFileDto);
 	}
 
 	/**
