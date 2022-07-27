@@ -4,12 +4,14 @@ import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.UserDto;
 
 import lombok.Data;
+import lombok.Setter;
 
+@Setter
 @Data
 public class UserFileDto {
 
-	private final UserDto user;
-	private final ImageFileDto imgFileDto;
+	private  UserDto user;
+	private  ImageFileDto imgFileDto;
 	
 	
 }
