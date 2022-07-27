@@ -62,9 +62,12 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 		// 해당 크루가 자기 크루인지 1차 확인
 		UserCrewJoinEntity userCrewJoinEntity = ucRepo.findByUserEntity_UserSeqAndCrewEntity_CrewSeq(userSeq, crewSeq)
 				.orElseThrow(() -> new NotFoundUserException("자신의 소속 크루의 활동만 조회할 수 있습니다."));
+		
 		LocalDateTime start = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
 		LocalDateTime end = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59);
-		List<RunRecordEntity> myToday = null;
+		
+		ist<RunRecordEntity> myToday = null;
+		
 		try{
 			 myToday = runRepo.findAllByUserEntity_userSeqAndCrewEntity_crewSeqAndRunRecordStartTimeBetween(userSeq, crewSeq, start, end);
 		} catch (Exception e) {

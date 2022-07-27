@@ -4,6 +4,7 @@ spring:
     - oauth
     - aws
     - firebase
+    default : dev
   servlet:
     multipart:
       max-file-size: 20MB
@@ -44,4 +45,27 @@ server:
   servlet:
     context-path: /api
   port: '8080'
-  
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    password: ssafy
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://localhost:3306/commonssafy?serverTimezone=UTC&characterEncoding=UTF-8    
+---  
+spring:
+  config:
+    activate:
+      on-profile: deploy
+  datasource:
+    password: ssafy
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://localhost:3306/commonssafy?serverTimezone=UTC&characterEncoding=UTF-8    
+
+      
