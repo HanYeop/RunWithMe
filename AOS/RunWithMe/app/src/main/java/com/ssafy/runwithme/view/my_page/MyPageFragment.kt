@@ -1,6 +1,7 @@
 package com.ssafy.runwithme.view.my_page
 
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
@@ -17,7 +18,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     private lateinit var myBoardFragment: MyBoardFragment
     private lateinit var myTotalRunRecordFragment: MyTotalRunRecordFragment
     private lateinit var achievementFragment: AchievementFragment
-    private val myPageViewModel by viewModels<MyPageViewModel>()
+    private val myPageViewModel by activityViewModels<MyPageViewModel>()
 
     override fun init() {
         initTabLayout()

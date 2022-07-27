@@ -104,4 +104,28 @@ object ViewBindingAdapter {
         }
         this.clipToOutline = true
     }
+
+    @BindingAdapter("myPageProfileImage")
+    @JvmStatic
+    fun ImageView.setMyPageProfileImage (imageSeq: Int){
+        if(imageSeq == 0){
+            Glide.with(this.context)
+                .load(R.drawable.user_image)
+                .override(R.dimen.my_page_profile_image_size * 2,R.dimen.my_page_profile_image_size * 2)
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true))
+                .placeholder(R.drawable.img)
+                .into(this)
+        }
+        else {
+            Glide.with(this.context)
+                .load("${BASE_URL}images/${imageSeq}")
+                .override(R.dimen.my_page_profile_image_size * 2,R.dimen.my_page_profile_image_size * 2)
+                .apply(
+                    RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true)
+                )
+                .placeholder(R.drawable.img)
+                .into(this)
+        }
+        this.clipToOutline = true
+    }
 }

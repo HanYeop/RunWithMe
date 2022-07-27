@@ -2,6 +2,7 @@ package com.ssafy.runwithme.datasource
 
 import com.ssafy.runwithme.api.MyActivityApi
 import com.ssafy.runwithme.base.BaseResponse
+import com.ssafy.runwithme.model.dto.UserDto
 import com.ssafy.runwithme.model.response.MyProfileResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -12,5 +13,9 @@ class MyActivityRemoteDataSource @Inject constructor(
 ){
     fun getMyProfile(): Flow<BaseResponse<MyProfileResponse>> = flow {
         emit(myActivityApi.getMyProfile())
+    }
+
+    fun editMyProfile(userDto: UserDto): Flow<BaseResponse<MyProfileResponse>> = flow {
+        emit(myActivityApi.editMyProfile(userDto))
     }
 }
