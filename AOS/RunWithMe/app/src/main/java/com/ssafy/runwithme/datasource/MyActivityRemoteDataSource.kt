@@ -6,6 +6,7 @@ import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.dto.ImageFileDto
 import com.ssafy.runwithme.model.dto.UserDto
 import com.ssafy.runwithme.model.response.MyProfileResponse
+import com.ssafy.runwithme.utils.TAG
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
@@ -24,7 +25,7 @@ class MyActivityRemoteDataSource @Inject constructor(
         if(imgFile == null){
             emit(myActivityApi.editMyProfile(profileEditDto))
         } else {
-            emit(myActivityApi.editMyProfile(profileEditDto, imgFile))
+            emit(myActivityApi.editMyProfile(profileEditDto, imgFile!!))
         }
     }
 }

@@ -23,6 +23,6 @@ interface MyActivityApi {
     @POST("my-activity/profile")
     suspend fun editMyProfile(
         @Part("profile") profileEditDto : RequestBody,
-        @Part("imgFile") imgFile : MultipartBody.Part?
+        @Part("imgFile") imgFile : MultipartBody.Part
     ) : BaseResponse<MyProfileResponse>
 }
