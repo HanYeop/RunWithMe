@@ -1,10 +1,12 @@
 package com.ssafy.runwithme.view.login.join
 
 import android.content.Intent
+import android.text.InputFilter
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.ssafy.runwithme.MainActivity
@@ -15,6 +17,7 @@ import com.ssafy.runwithme.model.dto.UserDto
 import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.view.login.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.regex.Pattern
 
 @AndroidEntryPoint
 class UserJoinFragment : BaseFragment<FragmentUserJoinBinding>(R.layout.fragment_user_join) {
@@ -27,6 +30,8 @@ class UserJoinFragment : BaseFragment<FragmentUserJoinBinding>(R.layout.fragment
         binding.userVM = userViewModel
 
         initSpinner() // 키와 몸무게 스피너 값 넣기
+
+        initNickNameRule()
 
         initViewModelCallback()
 
@@ -52,6 +57,21 @@ class UserJoinFragment : BaseFragment<FragmentUserJoinBinding>(R.layout.fragment
         }
     }
 
+    private fun initNickNameRule(){
+        binding.editJoinNickname.filters = arrayOf(
+            InputFilter { src, start, end, dst, dstart, dend ->
+                //val ps = Pattern.compile("^[a-zA-Z0-9ㄱ-ㅎ가-흐]+$") // 영문 숫자 한글
+                //영문 숫자 한글 천지인 middle dot[ᆞ]
+                val ps = Pattern.compile("^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ\\u318D\\u119E\\u11A2\\u2022\\u2025a\\u00B7\\uFE55]+$")
+                if (src.equals("") || ps.matcher(src).matches()) {
+                    return@InputFilter src;
+                }
+                showToast("닉네임은 한글, 영문, 숫자로만 2자 ~ 8자까지 입력 가능합니다.")
+                return@InputFilter "";
+            }
+        , InputFilter.LengthFilter(8))
+    }
+
     private fun initViewModelCallback(){
         userViewModel.loginEvent.observe(viewLifecycleOwner){
             showToast(it)
@@ -66,16 +86,20 @@ class UserJoinFragment : BaseFragment<FragmentUserJoinBinding>(R.layout.fragment
         }
     }
 
-    private fun initClickListener(){
-        binding.apply{
+    private fun initClickListener() {
+        binding.apply {
             btnJoin.setOnClickListener {
-                // 닉네임 규칙검사
-
-                userViewModel.joinUser(args.tmptoken,
-                userDto = UserDto(spinnerHeight.selectedItem as Int, spinnerWeight.selectedItem as Int, 
-                    editJoinNickname.text.toString())
-                )
-                Log.d(TAG, "initClickListener: ${spinnerHeight.selectedItem}")
+                if(editJoinNickname.text.length < 2){ // 최소 길이는 따로 검증해줘야함
+                    showToast("닉네임은 한글, 영문, 숫자로만 2자 ~ 8자까지 입력 가능합니다.")
+                } else {
+                    userViewModel.joinUser(
+                        args.tmptoken,
+                        userDto = UserDto(
+                            spinnerHeight.selectedItem as Int, spinnerWeight.selectedItem as Int,
+                            editJoinNickname.text.toString()
+                        )
+                    )
+                }
             }
         }
     }
