@@ -36,6 +36,7 @@ fun Context.dialogResize(dialog: Dialog, width: Float, height: Float){
     }
 }
 
+// 서버 시간 포매터
 fun timeFormatter(time: Long?): String {
     if(time == null){
         return ""
@@ -44,3 +45,14 @@ fun timeFormatter(time: Long?): String {
 
     return dateFormat.format(time)
 }
+
+// 러닝 제목 포매터
+fun timeNameFormatter(time: Long?): String {
+    if(time == null){
+        return ""
+    }
+    val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일 러닝")
+
+    return dateFormat.format(time)
+}
+
