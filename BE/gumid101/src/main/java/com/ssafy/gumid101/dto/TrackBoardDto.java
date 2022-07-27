@@ -2,8 +2,6 @@ package com.ssafy.gumid101.dto;
 
 import java.io.Serializable;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.ssafy.gumid101.entity.TrackBoardEntity;
 
 import io.swagger.annotations.ApiParam;
@@ -24,6 +22,8 @@ import lombok.Setter;
 public class TrackBoardDto implements Serializable {
 
 	private Long trackBoardSeq;
+	
+	private Long runRecordSeq;
 
 	@ApiParam(value = "난이도 별점 (0 ~ 5)")
 	private Integer trackBoardHardPoint;
@@ -32,10 +32,16 @@ public class TrackBoardDto implements Serializable {
 	private Integer trackBoardEnvironmentPoint;
 	
 	public static TrackBoardDto of(TrackBoardEntity trackBoard) {
+		
+		if(trackBoard == null)
+			return null;
+		
+		
 		return new TrackBoardDtoBuilder()
 				.trackBoardSeq(trackBoard.getTrackBoardSeq())
 				.trackBoardHardPoint(trackBoard.getTrackBoardHardPoint())
 				.trackBoardEnvironmentPoint(trackBoard.getTrackBoardEnviromentPoint())
+				.runRecordSeq(trackBoard.getRunRecordEntity().getRunRecordSeq())
 				.build();
 	}
 }

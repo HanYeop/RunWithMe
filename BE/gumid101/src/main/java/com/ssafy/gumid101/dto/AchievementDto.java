@@ -31,6 +31,7 @@ public class AchievementDto implements Serializable {
 	@ApiParam(value = "업적 이름")
 	private String achieveName;
 
+	//
 	@ApiParam(value = "업적 형식")
 	private String achieveType;
 
@@ -43,6 +44,8 @@ public class AchievementDto implements Serializable {
 	private LocalDateTime achieveRegTime;
 	
 	public static AchievementDto of(AchievementEntity achieve) {
+		if(achieve == null)
+			return null;
 		return new AchievementDtoBuilder()
 				.achieveSeq(achieve.getAchiveSeq())
 				.achieveName(achieve.getAchieveName())

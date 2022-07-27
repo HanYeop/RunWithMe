@@ -33,6 +33,9 @@ public class ReportDto implements Serializable {
 	private Long reportCrewBoardSeq;
 	
 	public static ReportDto of(ReportEntity report) {
+		
+		if(report == null)
+			return null;
 		return new ReportDtoBuilder()
 				.reportSeq(report.getReportSeq())
 				.reportContent(report.getReportContent())

@@ -2,12 +2,10 @@ package com.ssafy.gumid101.config;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
@@ -86,11 +84,10 @@ public class SecurityConfig {
 		http.addFilterBefore(new CustomOAuthLoginValidateFilter( successHandler),JwtAuthFilter.class);
 		
 		http.authorizeHttpRequests((authz) -> {
+			
+			authz.antMatchers("/user/profile").hasRole(Role.TEMP.toString());
 			authz.antMatchers("/**").hasRole(Role.USER.toString());
-			//authz.antMatchers("/user/profile").hasRole(Role.TEMP.toString());
-
 		});
-
 		http.exceptionHandling().accessDeniedHandler(new AccessDeniedHandler() {
 			
 			@Override

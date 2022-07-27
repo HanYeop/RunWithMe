@@ -56,10 +56,10 @@ public class CrewActivityRestController {
 		if (crewRecordList == null) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseMap.setCount(0);
-			responseMap.setIsSuccess(false);
+			responseMap.setSuccess(false);
 		} else {
 			responseMap.setCount(crewRecordList.size());
-			responseMap.setIsSuccess(true);
+			responseMap.setSuccess(true);
 		}
 		responseMap.setData(crewRecordList);
 
@@ -101,39 +101,39 @@ public class CrewActivityRestController {
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseFrame.setCount(0);
-			responseFrame.setIsSuccess(false);
+			responseFrame.setSuccess(false);
 			responseFrame.setMsg(e.getMessage());
 		}
 		
 		if (crewBoardFileDto != null) {
 			responseFrame.setCount(1);
-			responseFrame.setIsSuccess(true);
+			responseFrame.setSuccess(true);
 			responseFrame.setMsg("글 작성에 성공했습니다.");
 		}
 		responseFrame.setData(crewBoardFileDto);
 		return new ResponseEntity<>(responseFrame, httpStatus);
 	}
 	
-	@ApiOperation(value = "크루 게시판 글 조회. (size : 전체조회 -1, 미입력시 10 / offset : 미입력시 0")
+	@ApiOperation(value = "크루 게시판 글 조회. (size : 전체조회 -1, 미입력시 10 / offset : 미입력시 0/maxCrewBoardSeq : 최고 id or null")
 	@GetMapping("/{crewSeq}/boards")
-	public ResponseEntity<?> getCrewBoards(@PathVariable Long crewSeq, @RequestParam(required = false) Integer size, @RequestParam(required = false) Long offset){
+	public ResponseEntity<?> getCrewBoards(@PathVariable Long crewSeq, @RequestParam(required = false) Integer size,@RequestParam(required = false) Long maxCrewBoadrSeq){
 		
 		ResponseFrame<List<CrewBoardFileDto>> responseFrame = new ResponseFrame<>();
 		HttpStatus httpStatus = HttpStatus.OK; 
 		
 		List<CrewBoardFileDto> crewBoardFileDtoList = null;
 		try {
-			crewBoardFileDtoList = crewActivityBoardService.getCrewBoards(crewSeq, size, offset);
+			crewBoardFileDtoList = crewActivityBoardService.getCrewBoards(crewSeq, size,maxCrewBoadrSeq);
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseFrame.setCount(0);
-			responseFrame.setIsSuccess(false);
+			responseFrame.setSuccess(false);
 			responseFrame.setMsg(e.getMessage());
 		}
 		
 		if (crewBoardFileDtoList != null) {
 			responseFrame.setCount(crewBoardFileDtoList.size());
-			responseFrame.setIsSuccess(true);
+			responseFrame.setSuccess(true);
 			responseFrame.setMsg("글 조회 성공");
 		}
 		responseFrame.setData(crewBoardFileDtoList);
@@ -151,13 +151,13 @@ public class CrewActivityRestController {
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseFrame.setCount(0);
-			responseFrame.setIsSuccess(false);
+			responseFrame.setSuccess(false);
 			responseFrame.setMsg(e.getMessage());
 		}
 		
 		if (deleteSuccess != null) {
 			responseFrame.setCount(1);
-			responseFrame.setIsSuccess(true);
+			responseFrame.setSuccess(true);
 			responseFrame.setMsg("글 삭제 성공");
 		}
 		responseFrame.setData(deleteSuccess);

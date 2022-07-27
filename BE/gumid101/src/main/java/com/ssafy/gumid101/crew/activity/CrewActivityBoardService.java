@@ -13,8 +13,9 @@ public interface CrewActivityBoardService {
 	CrewBoardFileDto writeBoard(UserDto writerDto, MultipartFile image, CrewBoardDto crewBoardDto, Long crewSeq)
 			throws Exception;
 
-	List<CrewBoardFileDto> getCrewBoards(Long crewSeq, Integer size, Long offset) throws Exception;
 
 	boolean deleteCrewBoard(Long crewSeq, Long boardSeq) throws Exception;
+
+	List<CrewBoardFileDto> getCrewBoards(Long crewSeq, Integer size,Long maxCrewBoardSeq) throws Exception;
 
 }

@@ -61,6 +61,10 @@ public class RunRecordDto implements Serializable {
 	private String runRecordRunningCompleteYN;
 	
 	public static RunRecordDto of(RunRecordEntity runRecord) {
+		
+		if(runRecord == null)
+			return null;
+		
 		return new RunRecordDtoBuilder().runRecordSeq(runRecord.getRunRecordSeq())
 				.runRecordStartTime(runRecord.getRunRecordStartTime())
 				.runRecordEndTime(runRecord.getRunRecordEndTime())
@@ -71,7 +75,7 @@ public class RunRecordDto implements Serializable {
 				.runRecordRunningLat(runRecord.getRunRecordLat())
 				.runRecordRunningLng(runRecord.getRunRecordLng())
 				.runRecordRunningCompleteYN(runRecord.getRunRecordCompleteYN())
-				.runImageSeq(runRecord.getImageFile() == null ? null : runRecord.getImageFile().getImgSeq())
+				.runImageSeq(runRecord.getImageFile() == null ? 0 : runRecord.getImageFile().getImgSeq())
 				.build();
 	}
 }
