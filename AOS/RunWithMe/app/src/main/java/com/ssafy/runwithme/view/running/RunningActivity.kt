@@ -55,7 +55,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
     // TEST : 1분
     private val goal = 60 * 1000L
     private val weight = 70
-    private var caloriesBurned : Double = 0.0
+    private var caloriesBurned: Int = 0
 
     private lateinit var runningLoadingDialog: RunningLoadingDialog
 
@@ -146,19 +146,18 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             moveCameraToUser()
 
             // 칼로리 소모량 체크
-            caloriesBurned = ((sumDistance / 1000f) * weight).toDouble()
+            caloriesBurned = round((sumDistance / 1000f) * weight).toInt()
+            // 칼로리 텍스트 변경
+            binding.tvCalorie.text = "$caloriesBurned kcal"
 
             // 거리 텍스트 변경
             binding.tvDistance.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
-
-            // 칼로리 텍스트 변경
-            binding.tvCalorie.text = "$caloriesBurned kcal"
         }
 
         // 시간(타이머) 경과 관찰
         RunningService.timeRunInMillis.observe(this) {
             currentTimeInMillis = it
-            val formattedTime = TrackingUtility.getFormattedStopWatchTime(it, true)
+            val formattedTime = TrackingUtility.getFormattedStopWatchTime(it, false)
             binding.tvCurrentTime.text = formattedTime
 
             // 프로그래스바 진행도 변경
@@ -312,6 +311,12 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         binding.layoutGoal.visibility = View.INVISIBLE
         CoroutineScope(Dispatchers.Main).launch {
             runRecordEndTime = timeFormatter(System.currentTimeMillis())
+            runRecordRunningAvgSpeed = (round((sumDistance / 1000f) / (currentTimeInMillis / 1000f / 60 / 60) * 10) / 10f)
+            runRecordRunningCalorie = caloriesBurned
+            runRecordRunningDistance = sumDistance
+            runRecordRunningLat = pathPoints.first()[0].latitude
+            runRecordRunningLng = pathPoints.first()[0].longitude
+            runRecordRunningTime = currentTimeInMillis
 
             dialog.show()
             delay(1000)
@@ -351,7 +356,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         binding.tvDistance.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
 
         // 칼로리 소모량 체크
-        caloriesBurned = ((sumDistance / 1000f) * weight).toDouble()
+        caloriesBurned = round((sumDistance / 1000f) * weight).toInt()
         // 칼로리 텍스트 변경
         binding.tvCalorie.text = "$caloriesBurned kcal"
         super.onResume()
@@ -386,12 +391,12 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
 
         // 러닝 종료될 때 받아야 함.
         var runRecordEndTime: String = ""
-        var runRecordRunningAvgSpeed : Double = 0.0
-        var runRecordRunningCalorie: Double = 0.0
+        var runRecordRunningAvgSpeed : Float = 0f
+        var runRecordRunningCalorie: Int = 0
         var runRecordRunningCompleteYN: String = "N"
-        var runRecordRunningDistance: Int = 0
+        var runRecordRunningDistance: Float = 0f
         var runRecordRunningLat: Double = 0.0
         var runRecordRunningLng: Double = 0.0
-        var runRecordRunningTime: Int = 0
+        var runRecordRunningTime: Long = 0
     }
 }
