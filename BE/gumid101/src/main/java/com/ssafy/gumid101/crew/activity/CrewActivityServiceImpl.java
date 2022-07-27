@@ -1,6 +1,7 @@
 package com.ssafy.gumid101.crew.activity;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,22 +59,28 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 	}
 	
 	@Override
-	public Boolean isMyTodayRecord(Long userSeq, Long crewSeq) throws Exception {
+	public Boolean getRunabletoday(Long userSeq, Long crewSeq) throws Exception {
 		// 해당 크루가 자기 크루인지 1차 확인
-		UserCrewJoinEntity userCrewJoinEntity = ucRepo.findByUserEntity_UserSeqAndCrewEntity_CrewSeq(userSeq, crewSeq)
+		UserCrewJoinEntity ucjEntity = ucRepo.findByUserEntity_UserSeqAndCrewEntity_CrewSeq(userSeq, crewSeq)
 				.orElseThrow(() -> new NotFoundUserException("자신의 소속 크루의 활동만 조회할 수 있습니다."));
-		LocalDateTime start = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
-		LocalDateTime end = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59);
+		LocalDateTime nowDateTime = LocalDateTime.now();
+		LocalTime nowTime = LocalTime.now();
+		if (ucjEntity.getCrewEntity().getCrewDateStart().isAfter(nowDateTime) || ucjEntity.getCrewEntity().getCrewDateEnd().isBefore(nowDateTime)) {
+			throw new Exception("크루 활동 기간이 아닙니다.");
+		}
+		if (ucjEntity.getCrewEntity().getCrewTimeStart().isAfter(nowTime) || ucjEntity.getCrewEntity().getCrewTimeEnd().isBefore(nowTime)) {
+			throw new Exception("크루 활동 시간이 아닙니다.");
+		}
 		List<RunRecordEntity> myToday = null;
 		try{
-			 myToday = runRepo.findAllByUserEntity_userSeqAndCrewEntity_crewSeqAndRunRecordStartTimeBetween(userSeq, crewSeq, start, end);
+			 myToday = runRepo.findAllByUserEntityAndCrewEntity(ucjEntity.getUserEntity(), ucjEntity.getCrewEntity());
 		} catch (Exception e) {
-			throw new Exception("기록 조회에 실패했습니다.");
+			throw new Exception("기록 조회에 실패했습니다. 다시 조회해주세요.");
 		}
 		if (myToday != null && myToday.size() > 0){
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 
