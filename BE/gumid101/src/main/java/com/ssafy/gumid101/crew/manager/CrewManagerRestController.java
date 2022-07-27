@@ -1,5 +1,6 @@
 package com.ssafy.gumid101.crew.manager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -55,13 +56,13 @@ public class CrewManagerRestController {
 	 */
 	
 	
-	@ApiOperation(value="진행 중인 내 크루보기")
+	@ApiOperation(value="진행 중인 내 크루보기 정렬 아직 없음")
 	@GetMapping("/my-current-crew")
 	public ResponseEntity<?> getMyCurrentCrew() throws Exception{
 		
 		UserDto userDto= loadUserFromToken();
 		
-		List<CrewDto> crewList =  crewManagerService.getMyCurrentCrew(userDto.getUserSeq());
+		List<?> crewList =  crewManagerService.getMyCurrentCruew(userDto.getUserSeq());
 		
 		ResponseFrame<?> res = ResponseFrame.of(crewList, crewList.size(), "현재 진행중, 진행 예정인 나의 현재 크루가 반환되었습니다.");
 		
@@ -87,8 +88,10 @@ public class CrewManagerRestController {
 	public ResponseEntity<?> getCrewRecruitment(@ModelAttribute RecruitmentParamsDto paramsDto) throws Exception{
 		
 		List<CrewDto> crewList =  crewManagerService.crewSearcheByRecruitmentParams(paramsDto);
-		
-		ResponseFrame<?> res = ResponseFrame.of(crewList, 0, "모집중인 크루 리스트를 반환합니다.");
+		if(crewList == null) {
+			crewList = new ArrayList<CrewDto>();
+		}
+		ResponseFrame<?> res = ResponseFrame.of(crewList, crewList.size(), "모집중인 크루 리스트를 반환합니다.");
 		
 		return new ResponseEntity<>(res,HttpStatus.OK);
 	}
@@ -112,13 +115,13 @@ public class CrewManagerRestController {
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseMap.setCount(0);
-			responseMap.setIsSuccess(false);
+			responseMap.setSuccess(false);
 			responseMap.setMsg(e.getMessage());
 		}
 		
 		if (crewFileDto != null) {
 			responseMap.setCount(1);
-			responseMap.setIsSuccess(true);
+			responseMap.setSuccess(true);
 			responseMap.setMsg("크루 생성에 성공했습니다.");
 		}
 		responseMap.setData(crewFileDto);

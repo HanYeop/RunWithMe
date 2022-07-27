@@ -1,7 +1,6 @@
 package com.ssafy.gumid101.entity;
 
 import java.time.LocalDateTime;
-
 import java.util.List;
 
 import javax.persistence.Column;
@@ -19,7 +18,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 

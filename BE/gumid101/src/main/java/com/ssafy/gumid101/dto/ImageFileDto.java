@@ -32,8 +32,19 @@ public class ImageFileDto implements Serializable {
     
 	@ApiParam(value = "S3상 저장 경로")
     private String imgSavedPath;
+	
+	public static ImageFileDto getNotExist() {
+		return ImageFileDto.builder()
+				.imgSeq(0L)
+				.imgOriginalName("기본 이미지")
+				.imgSavedName("기본 이미지")
+				.imgSavedPath("basic")
+				.build();
+	}
     
     public static ImageFileDto of(ImageFileEntity imageFile) {
+    	if(imageFile==null)
+    		return null;
         return new ImageFileDtoBuilder()
                 .imgSeq(imageFile.getImgSeq())
                 .imgOriginalName(imageFile.getImgOriginalName())

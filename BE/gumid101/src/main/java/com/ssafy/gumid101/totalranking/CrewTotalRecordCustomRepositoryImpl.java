@@ -2,14 +2,11 @@ package com.ssafy.gumid101.totalranking;
 
 import java.util.List;
 
-
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-
-import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.QCrewTotalRecordEntity;
 import com.ssafy.gumid101.res.RankingDto;
 

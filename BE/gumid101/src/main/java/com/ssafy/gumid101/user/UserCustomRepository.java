@@ -9,7 +9,7 @@ import com.ssafy.gumid101.res.RankingDto;
 
 public interface UserCustomRepository {
 
-	List<CrewBoardEntity> findUserBoardsWithOffestAndSize(UserEntity user, Long size, Long offset);
+	List<CrewBoardEntity> findUserBoardsWithOffestAndSize(UserEntity user, Long size, Long boardMaxSeq);
 
 	List<RankingDto> getUserTotalPointRanking(Long size, Long offset);
 

@@ -15,9 +15,11 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+@Builder
 @Getter
 @Setter
 @Entity
@@ -39,6 +41,10 @@ public class ReportEntity {
 	// 이거 일부러 외래키 안 한댔음.
 	@Column(nullable = false, name = "report_crew_board_seq")
 	private Long reportCrewBoardSeq;
+	
+	//@ManyToOne
+	//@JoinColumn("report_crew_board_seq")
+	//private CrewBoardEntity reportCrewBoard;
 
 	@ManyToOne
 	@JoinColumn(name = "reporter_seq")

@@ -18,10 +18,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RecruitmentParamsDto implements Serializable {
+	
 	@ApiParam(value = "오프셋으로 부터 보여줄 개수")
 	private Long size; 
-	@ApiParam(value = "몇 번째부터 얻어올지")
-	private Long offset;
+	
+	//2022-07-26 페이징 긴급 수정
+	@ApiParam(value = "몇 번째부터 얻어올지,offset => maxCrueSeq")
+	private Long maxCrueSeq;
+	
 	@ApiParam(value = "크루 이름")
 	private String title;
 	@ApiParam(value = "크루 시작시점(yyyy-MM-dd HH:mm:ss)")

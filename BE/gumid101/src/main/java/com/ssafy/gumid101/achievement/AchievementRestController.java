@@ -50,13 +50,13 @@ public class AchievementRestController {
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseMap.setCount(0);
-			responseMap.setIsSuccess(false);
+			responseMap.setSuccess(false);
 			responseMap.setMsg(e.getMessage());
 		}
 		
 		if (achieveDtoList != null) {
 			responseMap.setCount(achieveDtoList.size());
-			responseMap.setIsSuccess(true);
+			responseMap.setSuccess(true);
 			responseMap.setMsg("업적 목록 반환에 성공했습니다.");
 		}
 		responseMap.setData(achieveDtoList);
@@ -78,13 +78,13 @@ public class AchievementRestController {
 		}catch (Exception e) {
 			httpStatus = HttpStatus.CONFLICT;
 			responseMap.setCount(0);
-			responseMap.setIsSuccess(false);
+			responseMap.setSuccess(false);
 			responseMap.setMsg(e.getMessage());
 		}
 		
 		if (achieveDtoList != null) {
 			responseMap.setCount(achieveDtoList.size());
-			responseMap.setIsSuccess(true);
+			responseMap.setSuccess(true);
 			responseMap.setMsg("달성한 업적 반환에 성공했습니다.");
 		}
 		responseMap.setData(achieveDtoList);

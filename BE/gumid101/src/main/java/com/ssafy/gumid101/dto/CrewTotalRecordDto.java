@@ -43,6 +43,8 @@ public class CrewTotalRecordDto implements Serializable {
 	private Double totalCalorie;
 	
 	public static CrewTotalRecordDto of(CrewTotalRecordEntity crewTotalRecord) {
+		if(crewTotalRecord == null)
+			return null;
 		return new CrewTotalRecordDtoBuilder()
 				.totalRecordSeq(crewTotalRecord.getTotalRecoredSeq())
 				.totalCalorie(crewTotalRecord.getTotalCalorie())

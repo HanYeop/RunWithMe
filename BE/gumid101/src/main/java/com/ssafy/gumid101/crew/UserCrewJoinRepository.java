@@ -1,9 +1,8 @@
 package com.ssafy.gumid101.crew;
 
-import javax.persistence.LockModeType;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,6 +27,8 @@ public interface UserCrewJoinRepository extends JpaRepository<UserCrewJoinEntity
 	@Modifying(flushAutomatically = true,clearAutomatically = true) //쿼리전 플러시, 쿼리후 플러시 
 	@Query("DELETE FROM UserCrewJoinEntity ucj WHERE ucj.userEntity = :user and ucj.crewEntity = :crew")
 	int deleteByUserAndCrew(UserEntity user, CrewEntity crew);
+
+	Optional<UserCrewJoinEntity> findByUserEntity_UserSeqAndCrewEntity_CrewSeq(Long userSeq, Long crewSeq);
 
 	
 	

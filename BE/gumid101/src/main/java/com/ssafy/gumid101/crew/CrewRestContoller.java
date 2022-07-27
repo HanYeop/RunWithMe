@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,7 +41,7 @@ public class CrewRestContoller {
 		return tokenUser;
 	}
 	
-	@ApiOperation("런 레코드 등록(미구현)")
+	@ApiOperation("런 레코드 등록(구현중)")
 	@PostMapping("/crew/{crewId}/records")
 	public ResponseEntity<?> recordMyRun(
 			@PathVariable("crewId") Long crewId ,
