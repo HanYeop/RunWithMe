@@ -54,7 +54,7 @@ public class CrewActivityRestController {
 		List<RunRecordDto> crewRecordList = crewActivityService.getCrewRecordList(recordParamsDto);
 
 		if (crewRecordList == null) {
-			httpStatus = HttpStatus.CONFLICT;
+			httpStatus = HttpStatus.OK;
 			responseMap.setCount(0);
 			responseMap.setSuccess(false);
 		} else {
@@ -99,7 +99,7 @@ public class CrewActivityRestController {
 		try {
 			crewBoardFileDto = crewActivityBoardService.writeBoard(writerUser, image, crewBoardDto, crewSeq);
 		}catch (Exception e) {
-			httpStatus = HttpStatus.CONFLICT;
+			httpStatus = HttpStatus.OK;
 			responseFrame.setCount(0);
 			responseFrame.setSuccess(false);
 			responseFrame.setMsg(e.getMessage());
@@ -125,7 +125,7 @@ public class CrewActivityRestController {
 		try {
 			crewBoardFileDtoList = crewActivityBoardService.getCrewBoards(crewSeq, size,maxCrewBoardSeq);
 		}catch (Exception e) {
-			httpStatus = HttpStatus.CONFLICT;
+			httpStatus = HttpStatus.OK;
 			responseFrame.setCount(0);
 			responseFrame.setSuccess(false);
 			responseFrame.setMsg(e.getMessage());
@@ -149,7 +149,7 @@ public class CrewActivityRestController {
 		try {
 			deleteSuccess = crewActivityBoardService.deleteCrewBoard(crewSeq, boardSeq);
 		}catch (Exception e) {
-			httpStatus = HttpStatus.CONFLICT;
+			httpStatus = HttpStatus.OK;
 			responseFrame.setCount(0);
 			responseFrame.setSuccess(false);
 			responseFrame.setMsg(e.getMessage());

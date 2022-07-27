@@ -18,7 +18,7 @@
 		<profile>
 			<id>deploy</id>
 			<properties>
-				<deploy.phase>dedeployv</deploy.phase>
+				<deploy.phase>dedeploy</deploy.phase>
 			</properties>
 		</profile>
 	</profiles>

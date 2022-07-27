@@ -48,7 +48,7 @@ public class AchievementRestController {
 		try {
 			achieveDtoList = achievementService.getAchieveList();
 		}catch (Exception e) {
-			httpStatus = HttpStatus.CONFLICT;
+			httpStatus = HttpStatus.OK;
 			responseMap.setCount(0);
 			responseMap.setSuccess(false);
 			responseMap.setMsg(e.getMessage());
@@ -76,7 +76,7 @@ public class AchievementRestController {
 		try {
 			achieveDtoList = achievementService.getUserAchievement(userDto.getUserSeq());
 		}catch (Exception e) {
-			httpStatus = HttpStatus.CONFLICT;
+			httpStatus = HttpStatus.OK;
 			responseMap.setCount(0);
 			responseMap.setSuccess(false);
 			responseMap.setMsg(e.getMessage());
