@@ -5,9 +5,11 @@ import androidx.lifecycle.lifecycleScope
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentMyBoardBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MyBoardFragment : BaseFragment<FragmentMyBoardBinding>(R.layout.fragment_my_board) {
 
     private val myBoardViewModel by viewModels<MyBoardViewModel>()
