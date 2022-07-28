@@ -24,7 +24,7 @@ public class RecruitmentParamsDto implements Serializable {
 	
 	//2022-07-26 페이징 긴급 수정
 	@ApiParam(value = "몇 번째부터 얻어올지,offset => maxCrueSeq")
-	private Long maxCrueSeq;
+	private Long maxCrewSeq;
 	
 	@ApiParam(value = "크루 이름")
 	private String title;

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -78,23 +79,23 @@ public class CrewEntity {
 	private Integer crewMaxMember; //참가인원
 	
 	@JoinColumn(name = "img_seq")
-	@OneToOne
+	@OneToOne(orphanRemoval = true)
 	private ImageFileEntity imageFile;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="user_seq")
 	private UserEntity managerEntity;
 	
-	@OneToMany(mappedBy = "crewEntity")
+	@OneToMany(mappedBy = "crewEntity",orphanRemoval = true)
 	private List<UserCrewJoinEntity> userCrewJoinEntitys;
 	
-	@OneToMany(mappedBy = "crewEntity")
+	@OneToMany(mappedBy = "crewEntity",orphanRemoval = true)
 	private List<CrewTotalRecordEntity> crewTotalRecordEntitys;
 
-	@OneToMany(mappedBy = "crewEntity")
+	@OneToMany(mappedBy = "crewEntity",orphanRemoval = true)
 	private List<RunRecordEntity> runRecordEntitys;
 	
-	@OneToMany(mappedBy = "crewEntity")
+	@OneToMany(mappedBy = "crewEntity",orphanRemoval = true)
 	private List<CrewBoardEntity> crewBoardEntitys;
 	
 	@CreatedDate
