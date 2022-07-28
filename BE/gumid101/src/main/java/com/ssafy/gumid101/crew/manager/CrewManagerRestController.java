@@ -113,7 +113,7 @@ public class CrewManagerRestController {
 		ResponseFrame<CrewFileDto> responseMap = new ResponseFrame<>();
 		
 		CrewDto crewteCrewDto = objectMapper.readValue(crewDto, CrewDto.class);
-		
+		crewteCrewDto.setCrewMemberCount(1);
 		CrewFileDto crewFileDto = null;
 		try {
 			crewFileDto = crewManagerService.createCrew(image, crewteCrewDto, managerDto);

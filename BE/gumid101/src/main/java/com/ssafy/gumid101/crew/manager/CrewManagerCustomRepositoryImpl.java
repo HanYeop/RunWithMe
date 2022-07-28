@@ -10,9 +10,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.gumid101.crew.CrewGoalType;
 import com.ssafy.gumid101.dto.CrewDto;
+import com.ssafy.gumid101.dto.CrewSortType;
 import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.RecruitmentParamsDto;
 import com.ssafy.gumid101.entity.CrewEntity;
@@ -50,10 +52,23 @@ public class CrewManagerCustomRepositoryImpl implements CrewManagerCustomReposit
 		// size가 0이면 전체 검색하는 걸로 하자
 
 		// 검색 조건에 따라 + 시작 안한 크루만 + 페이징
+
+		OrderSpecifier<LocalDateTime> order1 = crewEntity.crewDateStart.asc(); // 기본정렬
+		OrderSpecifier<Long> order2 = crewEntity.crewSeq.desc();
+		// 2022-07-28 정렬 기능생김
+		if (paramsDto.getSortType() == CrewSortType.REG_RECENT) {
+			// 이 조건문 필요없는데, 그래도 이게 더 표현상 좋지 않을까?
+			order1 = crewEntity.crewRegTime.desc();
+		} else if (paramsDto.getSortType() == CrewSortType.STARTDATE_RECENT) {
+			// 시작일 얼마 안남은 순
+			order1 = crewEntity.crewDateStart.asc();
+		}
+
 		List<CrewEntity> crews = jpaQueryFactory.selectFrom(crewEntity).innerJoin(crewEntity.managerEntity)
 				.where(builder).where(crewEntity.crewDateStart.after(LocalDateTime.now()))
-				.where(crewEntity.crewSeq.lt(maxCrewSeq)).orderBy(crewEntity.crewDateStart.asc()).limit(size).fetch();
+				.where(crewEntity.crewSeq.lt(maxCrewSeq)).orderBy(order1, order2).limit(size).fetch();
 
+		// 검색때는 마감 얼마 안 남은거 , 뿌릴때는 등록된 순서
 		// orderby 바뀔지 안바뀔지 모르겟다. 현재는 크루 시작일이 얼마 남지 않은 순으로 반환한다.
 
 		return crews.stream().map(
@@ -61,6 +76,8 @@ public class CrewManagerCustomRepositoryImpl implements CrewManagerCustomReposit
 				(crew) -> {
 					CrewDto crewDto = CrewDto.of(crew, crew.getManagerEntity().getNickName(),
 							crew.getManagerEntity().getUserSeq());
+
+					crewDto.setCrewMemberCount(crew.getUserCrewJoinEntitys().size());
 
 					Optional<ImageFileEntity> ims = Optional.ofNullable(crew.getImageFile());
 
@@ -92,18 +109,22 @@ public class CrewManagerCustomRepositoryImpl implements CrewManagerCustomReposit
 		LocalDateTime startDay = null;
 		LocalDateTime endDay = null;
 
-		try {
-			startDay = LocalDateTime.parse(paramsDto.getStartDay()).withHour(0).withMinute(0).withSecond(0);
+		if (paramsDto.getStartDay() != null) {
+			try {
+				startDay = LocalDateTime.parse(paramsDto.getStartDay()).withHour(0).withMinute(0).withSecond(0);
 
-		} catch (Exception e) {
+			} catch (Exception e) {
 
-			log.warn("시작 시작범위 파싱 중 에러 : {}", e.getMessage());
+				log.warn("시작 시작범위 파싱 중 에러 : {}", e.getMessage());
+			}
 		}
 
-		try {
-			endDay = LocalDateTime.parse(paramsDto.getEndDay()).withHour(23).withMinute(59).withSecond(59);
-		} catch (Exception e) {
-			log.warn("시작 종료범위 파싱 중 에러 : {}", e.getMessage());
+		if (paramsDto.getEndDay() != null) {
+			try {
+				endDay = LocalDateTime.parse(paramsDto.getEndDay()).withHour(23).withMinute(59).withSecond(59);
+			} catch (Exception e) {
+				log.warn("시작 종료범위 파싱 중 에러 : {}", e.getMessage());
+			}
 		}
 
 		if (startDay != null) {
