@@ -12,11 +12,8 @@ import java.time.LocalDate
 import java.util.*
 import javax.inject.Inject
 
-@HiltViewModel
 @RequiresApi(Build.VERSION_CODES.O)
-class SearchCrewViewModel @Inject constructor(
-    private val crewManagerRepository: CrewManagerRepository
-) : ViewModel(){
+class SearchCrewViewModel : ViewModel(){
 
     private val _failMsgEvent = SingleLiveEvent<String>()
     val failMsgEvent get() = _failMsgEvent
@@ -56,8 +53,11 @@ class SearchCrewViewModel @Inject constructor(
     private val _goalTypeDistance : MutableStateFlow<Boolean> = MutableStateFlow(true)
     val goalTypeDistance get() = _goalTypeDistance.asStateFlow()
 
-    private val _goalDays : MutableStateFlow<String> = MutableStateFlow("3")
-    val goalDays get() = _goalDays.asStateFlow()
+    private val _minGoalDays : MutableStateFlow<String> = MutableStateFlow("1")
+    val minGoalDays get() = _minGoalDays.asStateFlow()
+
+    private val _maxGoalDays : MutableStateFlow<String> = MutableStateFlow("7")
+    val maxGoalDays get() = _maxGoalDays.asStateFlow()
 
     fun setGoalTypeDistance(isRight : Boolean){
         if(isRight){
@@ -67,8 +67,12 @@ class SearchCrewViewModel @Inject constructor(
         }
     }
 
-    fun setGoalDays(days: Int){
-        _goalDays.value = days.toString()
+    fun setMinGoalDays(days: Int){
+        _minGoalDays.value = days.toString()
+    }
+
+    fun setMaxGoalDays(days: Int){
+        _maxGoalDays.value = days.toString()
     }
 
     fun setMinTime(time : String){

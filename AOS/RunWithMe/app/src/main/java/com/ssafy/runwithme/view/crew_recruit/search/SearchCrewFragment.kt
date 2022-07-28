@@ -1,6 +1,5 @@
 package com.ssafy.runwithme.view.crew_recruit.search
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Build
 import android.view.View
@@ -12,11 +11,9 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentSearchCrewBinding
 import com.ssafy.runwithme.view.crew_recruit.*
-import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
 
-@AndroidEntryPoint
 @RequiresApi(Build.VERSION_CODES.O)
 class SearchCrewFragment : BaseFragment<FragmentSearchCrewBinding>(R.layout.fragment_search_crew) {
 
@@ -90,22 +87,24 @@ class SearchCrewFragment : BaseFragment<FragmentSearchCrewBinding>(R.layout.frag
                     if(checkboxCrewPurpose.isChecked){
                         val check = radioGroupPurpose.checkedRadioButtonId
                         if(check == R.id.radio_btn_time){
-                            minPurPoseAmount = searchCrewViewModel.minTime.value.toInt()
-                            maxPurPoseAmount = searchCrewViewModel.maxTime.value.toInt()
+                            minPurPoseAmount = searchCrewViewModel.minTime.value.toInt() * 60
+                            maxPurPoseAmount = searchCrewViewModel.maxTime.value.toInt() * 60
                         }else{
-                            minPurPoseAmount = searchCrewViewModel.minDistance.value.toInt()
-                            maxPurPoseAmount = searchCrewViewModel.maxDistance.value.toInt()
+                            minPurPoseAmount = searchCrewViewModel.minDistance.value.toInt() * 1000
+                            maxPurPoseAmount = searchCrewViewModel.maxDistance.value.toInt() * 1000
                         }
 
                     }
                 }
 
-                var goalDays = 0
+                var minGoalDays = 0
+                var maxGoalDays = 7
                 if(checkboxSearchGoalDyas.isChecked){
-                    goalDays = searchCrewViewModel.goalDays.value.toInt()
+                    minGoalDays = searchCrewViewModel.minGoalDays.value.toInt()
+                    maxGoalDays = searchCrewViewModel.maxGoalDays.value.toInt()
                 }
 
-                val action = SearchCrewFragmentDirections.actionSearchCrewFragmentToSearchCrewResultFragment(crewName, startDate, endDate, startTime, endTime, minCost, maxCost, minPurPoseAmount, maxPurPoseAmount, goalDays, goalType)
+                val action = SearchCrewFragmentDirections.actionSearchCrewFragmentToSearchCrewResultFragment(crewName, startDate, endDate, startTime, endTime, minCost, maxCost, minPurPoseAmount, maxPurPoseAmount, minGoalDays, maxGoalDays, goalType)
                 findNavController().navigate(action)
             }
 
@@ -151,10 +150,13 @@ class SearchCrewFragment : BaseFragment<FragmentSearchCrewBinding>(R.layout.frag
                 }
             }
 
-            btnSearchGoalDays.setOnClickListener {
-                initGoalDaysDialog()
+            btnSearchMinGoalDays.setOnClickListener {
+                initMinGoalDaysDialog()
             }
 
+            btnSearchMaxGoalDays.setOnClickListener {
+                initMaxGoalDaysDialog()
+            }
         }
     }
 
@@ -256,8 +258,13 @@ class SearchCrewFragment : BaseFragment<FragmentSearchCrewBinding>(R.layout.frag
         endTimeDialog.show()
     }
 
-    private fun initGoalDaysDialog() {
-        val goalDaysDialog = GoalDaysDialog(requireContext(), goalDaysDialogListener)
+    private fun initMinGoalDaysDialog() {
+        val goalDaysDialog = GoalDaysDialog(requireContext(), goalMinDaysDialogListener)
+        goalDaysDialog.show()
+    }
+
+    private fun initMaxGoalDaysDialog() {
+        val goalDaysDialog = GoalDaysDialog(requireContext(), goalMaxDaysDialogListener)
         goalDaysDialog.show()
     }
 
@@ -303,9 +310,15 @@ class SearchCrewFragment : BaseFragment<FragmentSearchCrewBinding>(R.layout.frag
         }
     }
 
-    private val goalDaysDialogListener : GoalDaysDialogListener = object : GoalDaysDialogListener {
+    private val goalMinDaysDialogListener : GoalDaysDialogListener = object : GoalDaysDialogListener {
         override fun onItemClick(days: Int) {
-            searchCrewViewModel.setGoalDays(days)
+            searchCrewViewModel.setMinGoalDays(days)
+        }
+    }
+
+    private val goalMaxDaysDialogListener : GoalDaysDialogListener = object : GoalDaysDialogListener {
+        override fun onItemClick(days: Int) {
+            searchCrewViewModel.setMaxGoalDays(days)
         }
     }
 
@@ -504,12 +517,20 @@ class SearchCrewFragment : BaseFragment<FragmentSearchCrewBinding>(R.layout.frag
 
             checkboxSearchGoalDyas.setOnCheckedChangeListener { button, isChecked ->
                 if(isChecked){
-                    btnSearchGoalDays.apply{
+                    btnSearchMinGoalDays.apply{
+                        alpha = 1F
+                        isEnabled = true
+                    }
+                    btnSearchMaxGoalDays.apply{
                         alpha = 1F
                         isEnabled = true
                     }
                 }else{
-                    btnSearchGoalDays.apply{
+                    btnSearchMinGoalDays.apply{
+                        alpha = 0.5F
+                        isEnabled = false
+                    }
+                    btnSearchMaxGoalDays.apply{
                         alpha = 0.5F
                         isEnabled = false
                     }

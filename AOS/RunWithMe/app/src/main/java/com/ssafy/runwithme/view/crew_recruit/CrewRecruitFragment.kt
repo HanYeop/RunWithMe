@@ -17,7 +17,7 @@ class CrewRecruitFragment : BaseFragment<FragmentCrewRecruitBinding>(R.layout.fr
     private val crewRecruitViewModel by viewModels<CrewRecruitViewModel>()
     private lateinit var crewRecruitAdapter : CrewRecruitAdapter
 
-    val CREW_PAGING_SIZE = 10
+    private val CREW_PAGING_SIZE = 10
 
     override fun init() {
         crewRecruitAdapter = CrewRecruitAdapter(listener)

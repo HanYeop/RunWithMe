@@ -492,20 +492,39 @@
                             android:text="주"
                             android:textColor="@color/black_high_emphasis"
                             android:fontFamily="@font/noto_sans_bold"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="32dp"/>
+                            android:layout_marginStart="16dp"/>
 
                         <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btn_search_goal_days"
-                            android:layout_width="100dp"
+                            android:id="@+id/btn_search_min_goal_days"
+                            android:layout_width="60dp"
                             android:layout_height="40dp"
                             tools:text="3"
-                            android:text="@{searchCrewVM.goalDays}"
+                            android:text="@{searchCrewVM.minGoalDays}"
                             android:fontFamily="@font/noto_sans_bold"
                             android:layout_marginStart="32dp"
                             android:alpha="0.5"
                             android:enabled="false"
                             android:background="@drawable/btn_round_lightgrey"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="~"
+                            android:gravity="center"
+                            android:layout_marginStart="16dp"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_search_max_goal_days"
+                            android:layout_width="60dp"
+                            android:layout_height="40dp"
+                            tools:text="4"
+                            android:text="@{searchCrewVM.maxGoalDays}"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:layout_marginStart="16dp"
+                            android:alpha="0.5"
+                            android:enabled="false"
+                            android:background="@drawable/btn_round_lightgrey"/>
+
 
                         <TextView
                             android:layout_width="match_parent"
@@ -514,7 +533,7 @@
                             android:textColor="@color/black_high_emphasis"
                             android:fontFamily="@font/noto_sans_bold"
                             android:gravity="center"
-                            android:layout_marginStart="32dp"/>
+                            android:layout_marginStart="16dp"/>
 
                     </LinearLayout>
 

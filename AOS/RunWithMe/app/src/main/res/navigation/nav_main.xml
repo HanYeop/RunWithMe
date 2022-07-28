@@ -184,7 +184,10 @@
             android:name="maxpurposeamount"
             app:argType="integer" />
         <argument
-            android:name="goaldays"
+            android:name="mingoaldays"
+            app:argType="integer" />
+        <argument
+            android:name="maxgoaldays"
             app:argType="integer" />
         <argument
             android:name="goaltype"
