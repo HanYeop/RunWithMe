@@ -25,10 +25,10 @@ public class TrackBoardDto implements Serializable {
 	
 	private Long runRecordSeq;
 
-	@ApiParam(value = "난이도 별점 (0 ~ 5)")
+	@ApiParam(value = "난이도 별점 (1 ~ 5)")
 	private Integer trackBoardHardPoint;
 	
-	@ApiParam(value = "주변 환경 별점 (0 ~ 5)")
+	@ApiParam(value = "주변 환경 별점 (1 ~ 5)")
 	private Integer trackBoardEnvironmentPoint;
 	
 	public static TrackBoardDto of(TrackBoardEntity trackBoard) {

@@ -50,4 +50,8 @@ public class RecruitmentParamsDto implements Serializable {
 	private Integer goalMinDay;
 	@ApiParam(value = "1주일 내 목표일 수 최대치")
 	private Integer goalMaxDay; //1주일에 행해야하는 횟수 최대
+	
+	
+	private CrewSortType sortType;
+	
 }
