@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.repository.CrewRepository
-import com.ssafy.runwithme.utils.FormDataUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest

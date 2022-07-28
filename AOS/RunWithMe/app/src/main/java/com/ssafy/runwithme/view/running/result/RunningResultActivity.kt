@@ -39,7 +39,7 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
 
         callApi()
 
-        // TEST
+        // TODO : TEST
         AchievementDialog(this).show()
     }
 
@@ -84,7 +84,7 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
             runRecordSeq = 0,
             runImageSeq = 0,
             runRecordStartTime = timeFormatter(sharedPreferences.getLong(RUN_RECORD_START_TIME, 0L)),
-            runRecordEndTime = timeFormatter(System.currentTimeMillis()),
+            runRecordEndTime = timeFormatter(RunningActivity.runRecordEndTime),
             runRecordRunningTime = (RunningActivity.runRecordRunningTime / 1000).toInt(),
             runRecordRunningDistance = (RunningActivity.runRecordRunningDistance).toInt(),
             runRecordRunningAvgSpeed = (RunningActivity.runRecordRunningAvgSpeed).toDouble(),

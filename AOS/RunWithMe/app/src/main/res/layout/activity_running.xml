@@ -48,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/img_pause"
+            android:layout_marginBottom="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -85,19 +86,19 @@
 
 
                     <TextView
-                        android:id="@+id/tv_current_time_header"
+                        android:id="@+id/tv_main_record_header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="현재 뛴 시간"
                         android:textColor="@color/black_medium_emphasis"
                         android:textSize="18sp"
-                        app:layout_constraintEnd_toEndOf="@+id/tv_current_time"
-                        app:layout_constraintStart_toStartOf="@+id/tv_current_time"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_current_time" />
+                        app:layout_constraintEnd_toEndOf="@+id/tv_main_record"
+                        app:layout_constraintStart_toStartOf="@+id/tv_main_record"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_main_record" />
 
                     <TextView
-                        android:id="@+id/tv_current_time"
+                        android:id="@+id/tv_main_record"
                         style="@style/header_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -115,7 +116,7 @@
                         android:layout_height="60dp"
                         app:layout_constraintEnd_toStartOf="@+id/progress_bar"
                         app:layout_constraintStart_toStartOf="@+id/progress_bar"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_current_time_header"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_main_record_header"
                         app:lottie_autoPlay="true"
                         app:lottie_fileName="running.json"
                         app:lottie_loop="true" />
@@ -194,7 +195,7 @@
                     android:padding="8dp">
 
                     <TextView
-                        android:id="@+id/tv_distance_header"
+                        android:id="@+id/tv_sub_record_header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -203,9 +204,9 @@
                         android:textColor="@color/black_medium_emphasis"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/tv_distance"
-                        app:layout_constraintStart_toStartOf="@+id/tv_distance"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_distance" />
+                        app:layout_constraintEnd_toEndOf="@+id/tv_sub_record"
+                        app:layout_constraintStart_toStartOf="@+id/tv_sub_record"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_sub_record" />
 
                     <TextView
                         android:id="@+id/tv_calorie_header"
@@ -222,7 +223,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/tv_calorie" />
 
                     <TextView
-                        android:id="@+id/tv_distance"
+                        android:id="@+id/tv_sub_record"
                         style="@style/header_text"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
@@ -252,6 +253,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:visibility="invisible"
+            android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toTopOf="@+id/img_pause"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -262,7 +264,6 @@
                 android:id="@+id/mapView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="30dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
