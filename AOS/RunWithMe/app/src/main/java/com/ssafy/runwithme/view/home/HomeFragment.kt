@@ -41,13 +41,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun initClickListener(){
         binding.apply {
-            // TEST
-            tvMyCurrentCrew.setOnClickListener {
-                sharedPreferences.edit().putLong(RUN_RECORD_START_TIME, System.currentTimeMillis()).apply()
-                sharedPreferences.edit().putInt(RUN_RECORD_CREW_ID, 6).apply()
-                sharedPreferences.edit().putString(RUN_RECORD_CREW_NAME, "테스트 크루").apply()
-                startActivity(Intent(requireContext(),RunningActivity::class.java))
-            }
             tvCrewMore.setOnClickListener { // 받은 데이터 그대로 이동
                 findNavController().navigate(R.id.action_HomeFragment_to_myCurrentCrewFragment)
             }
@@ -55,6 +48,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 findNavController().navigate(R.id.action_HomeFragment_to_totalUserRankingFragment)
             }
         }
+    }
+
+    private fun runningStart(crewId: Int, crewName: String){
+        sharedPreferences.edit().putLong(RUN_RECORD_START_TIME, System.currentTimeMillis()).apply()
+        sharedPreferences.edit().putInt(RUN_RECORD_CREW_ID, crewId).apply()
+        sharedPreferences.edit().putString(RUN_RECORD_CREW_NAME, crewName).apply()
+        startActivity(Intent(requireContext(),RunningActivity::class.java))
     }
 
     private fun initViewModelCallBack(){
@@ -67,6 +67,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         override fun onItemClick(myCurrentCrewResponse: MyCurrentCrewResponse) {
             val action = HomeFragmentDirections.actionHomeFragmentToCrewDetailFragment(myCurrentCrewResponse.crewDto, myCurrentCrewResponse.imageFileDto)
             findNavController().navigate(action)
+        }
+
+        override fun onBtnStartClick(myCurrentCrewResponse: MyCurrentCrewResponse) {
+            runningStart(myCurrentCrewResponse.crewDto.crewSeq, myCurrentCrewResponse.crewDto.crewName)
         }
     }
 }
