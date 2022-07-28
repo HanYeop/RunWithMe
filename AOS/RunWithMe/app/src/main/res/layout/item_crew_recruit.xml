@@ -5,7 +5,9 @@
     >
 
     <data>
-
+        <variable
+            name="crew"
+            type="com.ssafy.runwithme.model.response.RecruitCrewResponse" />
     </data>
 
     <LinearLayout
@@ -30,12 +32,14 @@
                 android:layout_gravity="center"
                 android:padding="8dp">
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <ImageView
                     android:id="@+id/image_crew_recruit"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center"
                     android:background="@android:color/transparent"
+                    crewImage="@{crew.imageFileDto.imgSeq}"
+                    android:scaleType="fitXY"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:src="@drawable/img" />
@@ -49,6 +53,7 @@
                     android:includeFontPadding="false"
                     android:textColor="@color/black_high_emphasis"
                     android:textSize="24sp"
+                    android:text="@{crew.crewDto.crewName}"
                     app:layout_constraintStart_toEndOf="@id/image_crew_recruit"
                     app:layout_constraintTop_toTopOf="@+id/image_crew_recruit"
                     tools:text="김크루" />
@@ -58,6 +63,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_baseline_lock_24"
+                    imgCrewPasswd="@{crew.crewDto.crewPassword}"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="4dp"
                     app:layout_constraintStart_toEndOf="@id/tv_crew_name_recruit"
@@ -70,6 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
+                    android:text="@{crew.crewDto.crewManagerNickName}"
                     android:fontFamily="@font/noto_sans_bold"
                     android:includeFontPadding="false"
                     android:textColor="@color/black_medium_emphasis"
@@ -83,6 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:text="@{crew.crewDto.crewDescription}"
                     android:maxLines="2"
                     android:ellipsize="end"
                     android:textColor="@color/black_high_emphasis"
@@ -98,6 +106,8 @@
                     android:fontFamily="@font/noto_sans_bold"
                     android:gravity="center"
                     android:includeFontPadding="false"
+                    app:startDay="@{crew.crewDto.crewDateStart}"
+                    app:endDay="@{crew.crewDto.crewDateEnd}"
                     android:textColor="@color/black_high_emphasis"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -109,6 +119,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    app:startTime="@{crew.crewDto.crewTimeStart}"
+                    app:endTime="@{crew.crewDto.crewTimeEnd}"
                     android:fontFamily="@font/noto_sans_bold"
                     android:gravity="center"
                     android:includeFontPadding="false"
@@ -130,6 +142,7 @@
                     android:includeFontPadding="false"
                     android:textColor="@color/black_high_emphasis"
                     android:textSize="18sp"
+                    app:goalDays="@{crew.crewDto.crewGoalDays}"
                     app:layout_constraintEnd_toStartOf="@+id/tv_crew_goal_amount"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="packed"
@@ -145,6 +158,8 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/noto_sans_bold"
                     android:gravity="center"
+                    app:goalType="@{crew.crewDto.crewGoalType}"
+                    app:goalAmount="@{crew.crewDto.crewGoalAmount}"
                     android:includeFontPadding="false"
                     android:textColor="@color/black_high_emphasis"
                     android:textSize="18sp"
@@ -159,6 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="3"
+                    android:text="@{Integer.toString(crew.crewDto.crewMemberCount)}"
                     android:textColor="@color/black_medium_emphasis"
                     app:layout_constraintBottom_toTopOf="@id/tv_crew_p"
                     app:layout_constraintEnd_toStartOf="@id/tv_crew_user_slash"/>
@@ -177,6 +193,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="20"
+                    android:text="@{Integer.toString(crew.crewDto.crewMaxMember)}"
                     android:textColor="@color/black_medium_emphasis"
                     app:layout_constraintBottom_toTopOf="@id/tv_crew_p"
                     app:layout_constraintEnd_toStartOf="@id/tv_crew_user_num_unit"/>
@@ -195,6 +212,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="10,000"
+                    app:textCostFormat="@{crew.crewDto.crewCost}"
                     android:textColor="@color/black_medium_emphasis"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/tv_crew_p"/>

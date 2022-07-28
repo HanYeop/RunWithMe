@@ -16,6 +16,7 @@ import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.response.CreateCrewResponse
 import com.ssafy.runwithme.model.response.CrewBoardResponse
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
+import com.ssafy.runwithme.model.response.RecruitCrewResponse
 import com.ssafy.runwithme.repository.CrewActivityRepository
 import com.ssafy.runwithme.repository.CrewManagerRepository
 import com.ssafy.runwithme.utils.Result
@@ -37,10 +38,14 @@ import java.time.LocalDate
 import java.util.*
 import javax.inject.Inject
 
-@RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class CrewRecruitViewModel @Inject constructor(
     private val crewManagerRepository: CrewManagerRepository
 ) : ViewModel(){
+
+
+    fun getRecruitCrew(size: Int) : Flow<PagingData<RecruitCrewResponse>> {
+        return crewManagerRepository.getRecruitCrew(size).cachedIn(viewModelScope)
+    }
 
 }

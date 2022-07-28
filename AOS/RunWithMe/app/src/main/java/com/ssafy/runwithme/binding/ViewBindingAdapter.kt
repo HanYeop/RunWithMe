@@ -143,9 +143,9 @@ object ViewBindingAdapter {
 
     @BindingAdapter("textCostFormat")
     @JvmStatic
-    fun TextView.setTextCostFormat (cost: String){
+    fun TextView.setTextCostFormat (cost: Int){
         val formatter: NumberFormat = DecimalFormat("#,###")
-        val formattedNumber: String = formatter.format(cost.toInt())
+        val formattedNumber: String = formatter.format(cost)
         this.setText(formattedNumber)
     }
 
@@ -176,7 +176,6 @@ object ViewBindingAdapter {
                 .placeholder(R.drawable.img)
                 .into(this)
         }
-        this.clipToOutline = true
     }
 
     @BindingAdapter("imgCrewPasswd")
