@@ -7,6 +7,7 @@ import android.graphics.ImageDecoder
 import android.os.Build
 import android.provider.MediaStore
 import android.text.InputFilter
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -18,6 +19,7 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentEditProfileBinding
 import com.ssafy.runwithme.model.dto.ProfileEditDto
+import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.view.my_page.MyPageViewModel
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -53,6 +55,14 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
 
     private fun initClickListener() {
         binding.apply {
+            toolbar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
+            // 프로필 이미지 변경 아이콘 클릭
+            imageEditPhoto.setOnClickListener {
+                pickPhotoGallery()
+            }
+            // 수정하기
             btnModify.setOnClickListener {
                 if(editJoinNickname.text.toString().length < 2){ // 최소 길이는 따로 검증해줘야함
                     showToast("닉네임은 한글, 영문, 숫자로만 2자 ~ 8자까지 입력 가능합니다.")
@@ -66,14 +76,6 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
                         imgFile
                     )
                 }
-            }
-            // 프로필 이미지 변경 아이콘 클릭
-            imageEditPhoto.setOnClickListener {
-                pickPhotoGallery()
-            }
-
-            toolbar.setNavigationOnClickListener {
-                findNavController().popBackStack()
             }
         }
     }
@@ -89,16 +91,16 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
         if(it.resultCode == Activity.RESULT_OK){
             binding.imageUserProfile.setImageURI(it.data?.data)
 
-            var bitmap : Bitmap? = null
+            var bitmap : Bitmap?
             val uri = it.data?.data
-            try{
+            try {
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
                     bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(requireActivity().contentResolver, uri!!))
                 }else{
                     bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
                 }
                 createMultiPart(bitmap!!)
-            }catch (e : Exception){
+            } catch (e : Exception){
                 e.printStackTrace()
             }
         }
@@ -130,14 +132,14 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
         val weightList = Array(231) { i -> i + 20 }
 
         binding.spinnerEditHeight.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, heightList)
-        binding.spinnerEditHeight.setSelection(myPageViewModel.height.value.toInt()) // 초기 값 설정 - 원래 유저 값 가져오기
+        binding.spinnerEditHeight.setSelection(myPageViewModel.height.value.toInt() - 120) // 초기 값 설정 - 원래 유저 값 가져오기
         binding.spinnerEditHeight.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {}
             override fun onNothingSelected(parent: AdapterView<*>?) { }
         }
 
         binding.spinnerEditWeight.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, weightList)
-        binding.spinnerEditHeight.setSelection(myPageViewModel.weight.value.toInt()) // 초기 값 설정 - 원래 유저 값 가져오기
+        binding.spinnerEditHeight.setSelection(myPageViewModel.weight.value.toInt() - 20) // 초기 값 설정 - 원래 유저 값 가져오기
         binding.spinnerEditWeight.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {}
             override fun onNothingSelected(parent: AdapterView<*>?) { }
@@ -146,8 +148,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
 
     private fun initNickNameRule(){
         binding.editJoinNickname.filters = arrayOf(
-            InputFilter { src, start, end, dst, dstart, dend ->
-                //val ps = Pattern.compile("^[a-zA-Z0-9ㄱ-ㅎ가-흐]+$") // 영문 숫자 한글
+            InputFilter { src, _, _, _, _, _ ->
                 //영문 숫자 한글 천지인 middle dot[ᆞ]
                 val ps = Pattern.compile("^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ\\u318D\\u119E\\u11A2\\u2022\\u2025a\\u00B7\\uFE55]+$")
                 if (src.equals("") || ps.matcher(src).matches()) {
@@ -155,8 +156,9 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
                 }
                 showToast("닉네임은 한글, 영문, 숫자로만 2자 ~ 8자까지 입력 가능합니다.")
                 return@InputFilter "";
-            }
-            , InputFilter.LengthFilter(8))
+            },
+            InputFilter.LengthFilter(8)
+        )
     }
 
 }

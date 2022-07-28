@@ -60,16 +60,17 @@ class UserJoinFragment : BaseFragment<FragmentUserJoinBinding>(R.layout.fragment
     private fun initNickNameRule(){
         binding.editJoinNickname.filters = arrayOf(
             InputFilter { src, start, end, dst, dstart, dend ->
-                //val ps = Pattern.compile("^[a-zA-Z0-9ㄱ-ㅎ가-흐]+$") // 영문 숫자 한글
-                //영문 숫자 한글 천지인 middle dot[ᆞ]
+                // val ps = Pattern.compile("^[a-zA-Z0-9ㄱ-ㅎ가-흐]+$") // 영문 숫자 한글
+                // 영문 숫자 한글 천지인 middle dot[ᆞ]
                 val ps = Pattern.compile("^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ\\u318D\\u119E\\u11A2\\u2022\\u2025a\\u00B7\\uFE55]+$")
                 if (src.equals("") || ps.matcher(src).matches()) {
                     return@InputFilter src;
                 }
                 showToast("닉네임은 한글, 영문, 숫자로만 2자 ~ 8자까지 입력 가능합니다.")
                 return@InputFilter "";
-            }
-        , InputFilter.LengthFilter(8))
+            },
+            InputFilter.LengthFilter(8)
+        )
     }
 
     private fun initViewModelCallback(){
