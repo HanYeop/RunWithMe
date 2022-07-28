@@ -44,7 +44,6 @@ object ViewBindingAdapter {
             Glide.with(this.context)
                 .load(R.drawable.crew_image)
                 .override(R.dimen.crew_horizon_image_size * 2,R.dimen.crew_horizon_image_size * 2)
-                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true))
                 .placeholder(R.drawable.img)
                 .into(this)
         }
@@ -52,9 +51,6 @@ object ViewBindingAdapter {
             Glide.with(this.context)
                 .load("${BASE_URL}images/${imageSeq}")
                 .override(R.dimen.crew_horizon_image_size * 2,R.dimen.crew_horizon_image_size * 2)
-                .apply(
-                    RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true)
-                )
                 .placeholder(R.drawable.img)
                 .into(this)
         }
@@ -68,16 +64,12 @@ object ViewBindingAdapter {
             Glide.with(this.context)
                 .load(R.drawable.crew_image)
                 .override(R.dimen.crew_detail_image_size * 2,R.dimen.crew_detail_image_size * 2)
-                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true))
                 .placeholder(R.drawable.img)
                 .into(this)
         }else {
             Glide.with(this.context)
                 .load("${BASE_URL}images/${imageSeq}")
                 .override(R.dimen.crew_detail_image_size * 2, R.dimen.crew_detail_image_size * 2)
-                .apply(
-                    RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true)
-                )
                 .placeholder(R.drawable.img)
                 .into(this)
         }
@@ -91,7 +83,6 @@ object ViewBindingAdapter {
             Glide.with(this.context)
                 .load(R.drawable.user_image)
                 .override(R.dimen.crew_board_profile_image_size * 2,R.dimen.crew_board_profile_image_size * 2)
-                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true))
                 .placeholder(R.drawable.img)
                 .into(this)
         }
@@ -99,9 +90,6 @@ object ViewBindingAdapter {
             Glide.with(this.context)
                 .load("${BASE_URL}images/${imageSeq}")
                 .override(R.dimen.crew_board_profile_image_size * 2,R.dimen.crew_board_profile_image_size * 2)
-                .apply(
-                    RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true)
-                )
                 .placeholder(R.drawable.img)
                 .into(this)
         }
@@ -115,7 +103,6 @@ object ViewBindingAdapter {
             Glide.with(this.context)
                 .load(R.drawable.user_image)
                 .override(R.dimen.my_page_profile_image_size * 2,R.dimen.my_page_profile_image_size * 2)
-                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true))
                 .placeholder(R.drawable.img)
                 .into(this)
         }
@@ -123,9 +110,6 @@ object ViewBindingAdapter {
             Glide.with(this.context)
                 .load("${BASE_URL}images/${imageSeq}")
                 .override(R.dimen.my_page_profile_image_size * 2,R.dimen.my_page_profile_image_size * 2)
-                .apply(
-                    RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).skipMemoryCache(true)
-                )
                 .placeholder(R.drawable.img)
                 .into(this)
         }
