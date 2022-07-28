@@ -20,7 +20,7 @@ class SearchCrewViewModel : ViewModel(){
 
     val crewName : MutableStateFlow<String> = MutableStateFlow("")
 
-    private val _dateStart : MutableStateFlow<String> = MutableStateFlow("")
+    private val _dateStart : MutableStateFlow<String> = MutableStateFlow("2022-")
     val dateStart get() = _dateStart.asStateFlow()
 
     private val _dateEnd : MutableStateFlow<String> = MutableStateFlow("")
@@ -68,6 +68,10 @@ class SearchCrewViewModel : ViewModel(){
     }
 
     fun setMinGoalDays(days: Int){
+        if(maxGoalDays.value.toInt() < days){
+            _maxGoalDays.value = "7"
+        }
+
         _minGoalDays.value = days.toString()
     }
 
@@ -76,27 +80,53 @@ class SearchCrewViewModel : ViewModel(){
     }
 
     fun setMinTime(time : String){
+        if(maxTime.value.toInt() < time.toInt()){
+            _maxTime.value = (time.toInt() + 10).toString()
+        }
+
         _minTime.value = time
     }
 
     fun setMaxTime(time : String){
-        _maxTime.value = time
+        if(minTime.value.toInt() > time.toInt()){
+            _maxTime.value = (minTime.value.toInt() + 10).toString()
+            _failMsgEvent.postValue("시간을 재설정해주세요.")
+        }else {
+            _maxTime.value = time
+        }
     }
 
     fun setMinDistance(distance : Int){
+        if(maxDistance.value.toInt() < distance){
+            _maxDistance.value = (distance + 1).toString()
+        }
         _minDistance.value = distance.toString()
     }
 
     fun setMaxDistance(distance : Int){
-        _maxDistance.value = distance.toString()
+        if(minDistance.value.toInt() > distance){
+            _maxDistance.value = (minDistance.value.toInt() + 1).toString()
+            _failMsgEvent.postValue("거리를 재설정해주세요.")
+        }else {
+            _maxDistance.value = distance.toString()
+        }
     }
 
     fun setMinCost(cost: String){
+        if(maxCost.value < cost){
+            _maxCost.value = (cost.toInt() + 5000).toString()
+        }
         _minCost.value = cost
+
     }
 
     fun setMaxCost(cost: String){
-        _maxCost.value = cost
+        if(minCost.value.toInt() > cost.toInt()){
+            _maxCost.value = (minCost.value.toInt() + 5000).toString()
+            _failMsgEvent.postValue("참가비 범위를 다시 설정해주세요.")
+        }else {
+            _maxCost.value = cost
+        }
     }
 
     fun setTimeStart(hour: String, minute: String){
@@ -170,7 +200,57 @@ class SearchCrewViewModel : ViewModel(){
     }
 
     fun setDateStart(date : String) {
+        val startToken = StringTokenizer(date, "-")
+        var startYear = startToken.nextToken()
+        var startMonth = startToken.nextToken()
+        var startDay = startToken.nextToken()
+        var startYearInt = startYear.toInt()
+        var startMonthInt = startMonth.toInt()
+        var startDayInt = startDay.toInt()
+
+        val endToken = StringTokenizer(dateEnd.value, "-")
+        var endYear = endToken.nextToken()
+        var endMonth = endToken.nextToken()
+        var endDay = endToken.nextToken()
+        var endYearInt = endYear.toInt()
+        var endMonthInt = endMonth.toInt()
+        var endDayInt = endDay.toInt()
+
+        if(startYearInt == endYearInt){
+
+            if(startMonthInt == endMonthInt){
+
+                if(startDayInt < endDayInt){
+
+                }else{
+                    endDayInt = startDayInt + 1
+                    endDay = endDayInt.toString()
+                    if(endDayInt < 10){
+                        endDay = "0" + endDay
+                    }
+                }
+
+            }else if(startMonthInt > endMonthInt){
+                if(startMonthInt == 12){
+                    endMonthInt = 1
+                    endYear = (startYearInt + 1).toString()
+                }else {
+                    endMonthInt = startMonthInt + 1
+                }
+                endMonth = endMonthInt.toString()
+                if(endMonthInt < 10){
+                    endMonth = "0" + endMonth
+                }
+
+            }
+
+        }else if(startYearInt > endYearInt){
+            endYear = (startYearInt + 1).toString()
+
+        }
+
         _dateStart.value = date
+        _dateEnd.value = "$endYear-$endMonth-$endDay"
     }
 
     fun setDateEnd(date: String){
@@ -190,8 +270,8 @@ class SearchCrewViewModel : ViewModel(){
         if(startDateDayInt < 10){
             startDateDay = "0" + startDateDay
         }
-        setDateStart("$startDateYear-${startDateMonth}-$startDateDay")
-        setDateEnd("$startDateYear-${startDateMonthInt + 1}-$startDateDayInt")
+        _dateStart.value = "$startDateYear-${startDateMonth}-$startDateDay"
+        _dateEnd.value = "$startDateYear-${startDateMonthInt + 1}-$startDateDayInt"
     }
 
 

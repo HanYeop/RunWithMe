@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.view.crew_recruit.search.result
 
+import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -23,18 +24,18 @@ class SearchCrewResultFragment : BaseFragment<FragmentSearchCrewResultBinding>(R
 
     private val CREW_PAGING_SIZE = 10
 
-    private var crewName : String = ""
-    private var startDate : String = ""
-    private var endDate : String = ""
-    private var startTime : String = ""
-    private var endTime : String = ""
+    private var crewName : String? = ""
+    private var startDate : String? = ""
+    private var endDate : String? = ""
+    private var startTime : String? = ""
+    private var endTime : String? = ""
     private var minCost : Int = 0
     private var maxCost : Int = 0
     private var minPurposeAmount : Int = 0
     private var maxPurposeAmount : Int = 0
     private var minGoalDays : Int = 0
     private var maxGoalDays : Int = 7
-    private var goalType : String = ""
+    private var goalType : String? = ""
 
     override fun init() {
         crewRecruitAdapter = CrewRecruitAdapter(listener)
@@ -43,11 +44,11 @@ class SearchCrewResultFragment : BaseFragment<FragmentSearchCrewResultBinding>(R
             recyclerCrewSearchResult.adapter = crewRecruitAdapter
         }
 
+        initNavArgs()
+
         initClickListener()
 
         initViewModelCallback()
-
-        initNavArgs()
     }
 
     private fun initNavArgs() {
@@ -64,6 +65,7 @@ class SearchCrewResultFragment : BaseFragment<FragmentSearchCrewResultBinding>(R
         maxGoalDays = args.maxgoaldays
         goalType = args.goaltype
 
+        Log.d("test5", "initNavArgs: $crewName, $startDate, $endDate, $startTime, $endTime, $minCost, $maxCost, $minPurposeAmount, $maxPurposeAmount, $minGoalDays, $maxGoalDays, $goalType")
     }
 
     private fun initClickListener() {
@@ -76,6 +78,32 @@ class SearchCrewResultFragment : BaseFragment<FragmentSearchCrewResultBinding>(R
 
 
     private fun initViewModelCallback() {
+        if(crewName == ""){
+            crewName = null
+        }
+
+        if(startDate == ""){
+            startDate = null
+        }
+
+        if(endDate == ""){
+            endDate = null
+        }
+
+        if(startTime == ""){
+            startTime = null
+        }
+
+        if(endTime == ""){
+            endTime = null
+        }
+
+        if(goalType == ""){
+            goalType = null
+        }
+
+        Log.d("test5", "post: $crewName, $startDate, $endDate, $startTime, $endTime, $minCost, $maxCost, $minPurposeAmount, $maxPurposeAmount, $minGoalDays, $maxGoalDays, $goalType")
+
         lifecycleScope.launch {
             searchCrewResultViewModel.getSearchResultCrew(CREW_PAGING_SIZE, crewName, startDate, endDate,
                 startTime,
