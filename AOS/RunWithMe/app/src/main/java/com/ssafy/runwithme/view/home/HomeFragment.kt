@@ -31,6 +31,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         homeViewModel.getMyCurrentCrew()
+        homeViewModel.getTotalRanking("distance", 100, 0)
+        homeViewModel.getMyRanking("distance")
 
         initViewModelCallBack()
 

@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="homeVM"
+            type="com.ssafy.runwithme.view.home.HomeViewModel" />
+        <variable
+            name="myRank"
+            type="com.ssafy.runwithme.model.response.RankingResponse" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -117,6 +122,7 @@
                         android:id="@+id/tv_my_ranking_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(myRank.rankingIndex)}"
                         tools:text="1"
                         android:layout_marginStart="16dp"
                         android:fontFamily="@font/noto_sans_bold"
@@ -152,7 +158,8 @@
                         app:layout_constraintStart_toEndOf="@id/image_my_ranking_profile"
                         app:layout_constraintTop_toTopOf="@id/image_my_ranking_profile"
                         app:layout_constraintBottom_toBottomOf="@id/image_my_ranking_profile"
-                        tools:text="나" />
+                        tools:text="나"
+                        android:text="@{myRank.userName}"/>
 
                     <TextView
                         android:id="@+id/tv_my_ranking_total_amount"
@@ -165,7 +172,7 @@
                         app:layout_constraintTop_toTopOf="@id/tv_my_ranking_name"
                         app:layout_constraintBottom_toBottomOf="@id/tv_my_ranking_name"
                         app:layout_constraintEnd_toStartOf="@id/tv_my_ranking_total_type"
-                        android:text="144.8" />
+                        android:text="@{String.valueOf(myRank.rankingValue)}" />
 
                     <TextView
                         android:id="@+id/tv_my_ranking_total_type"
@@ -178,7 +185,7 @@
                         app:layout_constraintTop_toTopOf="@id/tv_my_ranking_name"
                         app:layout_constraintBottom_toBottomOf="@id/tv_my_ranking_name"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:text="km" />
+                        android:text="@{homeVM.unit}" />
 
 
 
