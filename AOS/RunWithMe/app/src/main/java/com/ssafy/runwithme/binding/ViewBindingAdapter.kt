@@ -164,7 +164,7 @@ object ViewBindingAdapter {
     fun ImageView.setCrewImage (imageSeq: Int){
         if(imageSeq == 0){
             Glide.with(this.context)
-                .load(R.drawable.user_image)
+                .load(R.drawable.crew_image)
                 .override(R.dimen.crew_image_size * 2,R.dimen.crew_image_size * 2)
                 .placeholder(R.drawable.img)
                 .into(this)
