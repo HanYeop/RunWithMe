@@ -7,9 +7,22 @@ import com.ssafy.runwithme.model.response.RecruitCrewResponse
 import retrofit2.HttpException
 import java.io.IOException
 
-class GetRecruitCrewPagingSource(
-private val crewManagerApi: CrewManagerApi,
-private val size: Int
+
+class GetSearchResultCrewPagingSource(
+    private val crewManagerApi: CrewManagerApi,
+    private val size: Int,
+    private val crewName: String?,
+    private val startDay: String?,
+    private val endDay: String?,
+    private val startTime: String?,
+    private val endTime: String?,
+    private val minCost: Int,
+    private val maxCost: Int,
+    private val purposeMinValue: Int,
+    private val purposeMaxValue: Int,
+    private val goalMinDay: Int,
+    private val goalMaxDay: Int,
+    private val purposeType: String?
 ): PagingSource<Int, RecruitCrewResponse>() {
 
     // 데이터 로드
@@ -21,9 +34,21 @@ private val size: Int
             val position = params.key ?: 0
 
             // 데이터를 제공하는 인스턴스의 메소드 사용
-            val response = crewManagerApi.getRecruitCrew(
+            val response = crewManagerApi.getSearchResultCrew(
                 maxCrewSeq = position,
                 size = size,
+                crewName = crewName,
+                startDate = startDay,
+                endDate = endDay,
+                startTime = startTime,
+                endTime = endTime,
+                minCost = minCost,
+                maxCost = maxCost,
+                purposeMinValue = purposeMinValue,
+                purposeMaxValue = purposeMaxValue,
+                goalMinDay = goalMinDay,
+                goalMaxDay = goalMaxDay,
+                goalType = purposeType
             )
 
             val nextKey =

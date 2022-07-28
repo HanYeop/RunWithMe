@@ -23,4 +23,14 @@ interface CrewManagerApi {
     @GET("crew-manager/recruitment")
     suspend fun getRecruitCrew(@Query("maxCrewSeq") maxCrewSeq: Int, @Query("size") size: Int) : BaseResponse<List<RecruitCrewResponse>>
 
+    @GET("crew-manager/recruitment")
+    suspend fun getSearchResultCrew(@Query("maxCrewSeq") maxCrewSeq: Int, @Query("size") size: Int,
+                               @Query("title") crewName: String?, @Query("startDay") startDate: String?, @Query("endDay") endDate: String?
+                                ,@Query("startTime") startTime: String?, @Query("endTime") endTime: String?,
+                               @Query("pointMin") minCost: Int, @Query("pointMax") maxCost: Int,
+                               @Query("purposeMinValue") purposeMinValue: Int, @Query("purposeMaxValue") purposeMaxValue: Int,
+                               @Query("goalMinDay") goalMinDay: Int, @Query("goalMaxDay") goalMaxDay: Int,
+                               @Query("purposeType") goalType: String?
+    ): BaseResponse<List<RecruitCrewResponse>>
+
 }

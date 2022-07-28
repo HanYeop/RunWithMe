@@ -8,6 +8,7 @@ import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.datasource.CrewManagerRemoteDataSource
 import com.ssafy.runwithme.datasource.paging.GetCrewBoardsPagingSource
 import com.ssafy.runwithme.datasource.paging.GetRecruitCrewPagingSource
+import com.ssafy.runwithme.datasource.paging.GetSearchResultCrewPagingSource
 import com.ssafy.runwithme.model.dto.CrewDto
 import com.ssafy.runwithme.model.response.CreateCrewResponse
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
@@ -64,6 +65,31 @@ class CrewManagerRepository @Inject constructor(
             ),
             pagingSourceFactory = { GetRecruitCrewPagingSource(crewManagerApi = crewManagerApi, size = size)}
         ).flow
+
+    fun getSearchResultCrew(size: Int, crewName: String?,
+                            startDay: String?,
+                            endDay: String?,
+                            startTime: String?,
+                            endTime: String?,
+                            minCost: Int,
+                            maxCost: Int,
+                            purposeMinValue: Int,
+                            purposeMaxValue: Int,
+                            goalMinDay: Int,
+                            goalMaxDay: Int,
+                            purposeType: String?) =
+        Pager(
+            config = PagingConfig(
+                pageSize = size * 2,
+                maxSize = size * 10,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { GetSearchResultCrewPagingSource(crewManagerApi = crewManagerApi, size = size,
+                crewName = crewName, startDay = startDay, endDay = endDay, startTime = startTime, endTime = endTime,
+                minCost = minCost, maxCost = maxCost, purposeMinValue = purposeMinValue, purposeMaxValue = purposeMaxValue,
+                goalMinDay = goalMinDay, goalMaxDay = goalMaxDay, purposeType = purposeType)}
+        ).flow
+
 
 
 }
