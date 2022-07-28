@@ -70,7 +70,7 @@ class MyTotalRunRecordViewModel @Inject constructor(
                     _longestDistance.value = df.format((it.data.data.totalLongestDistance / 1000f)).toString()
 
                     _speed.value = String.format("%.1f", it.data.data.totalAvgSpeed)
-                    _calorie.value = it.data.data.totalCalorie.toString()
+                    _calorie.value = it.data.data.totalCalorie.toInt().toString()
                 } else if(it is Result.Error){
                     _errorMsgEvent.postValue("누적 기록을 불러오는 중 오류가 발생했습니다.")
                 }
