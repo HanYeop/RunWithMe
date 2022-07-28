@@ -212,9 +212,9 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 	}
 
 	@Override
-	public List<CrewDto> crewSearcheByRecruitmentParams(RecruitmentParamsDto paramsDto) throws Exception {
+	public List<CrewFileDto> crewSearcheByRecruitmentParams(RecruitmentParamsDto paramsDto) throws Exception {
 
-		List<CrewDto> crewList = crewManagerRepo.crewSearcheByRecruitmentParams(paramsDto);
+		List<CrewFileDto> crewList = crewManagerRepo.crewSearcheByRecruitmentParams(paramsDto);
 
 		return crewList;
 	}

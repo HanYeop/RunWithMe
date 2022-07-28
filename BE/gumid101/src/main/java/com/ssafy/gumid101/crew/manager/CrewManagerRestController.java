@@ -88,9 +88,11 @@ public class CrewManagerRestController {
 	@GetMapping("/recruitment")
 	public ResponseEntity<?> getCrewRecruitment(@ModelAttribute RecruitmentParamsDto paramsDto) throws Exception{
 		
-		List<CrewDto> crewList =  crewManagerService.crewSearcheByRecruitmentParams(paramsDto);
+
+		
+		List<CrewFileDto> crewList =  crewManagerService.crewSearcheByRecruitmentParams(paramsDto);
 		if(crewList == null) {
-			crewList = new ArrayList<CrewDto>();
+			crewList = new ArrayList<CrewFileDto>();
 		}
 		ResponseFrame<?> res = ResponseFrame.of(crewList, crewList.size(), "모집중인 크루 리스트를 반환합니다.");
 		

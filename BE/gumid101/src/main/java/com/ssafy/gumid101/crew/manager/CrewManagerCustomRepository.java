@@ -4,7 +4,8 @@ import java.util.List;
 
 import com.ssafy.gumid101.dto.CrewDto;
 import com.ssafy.gumid101.dto.RecruitmentParamsDto;
+import com.ssafy.gumid101.res.CrewFileDto;
 
 public interface CrewManagerCustomRepository {
-	List<CrewDto> crewSearcheByRecruitmentParams(RecruitmentParamsDto paramsDto);
+	List<CrewFileDto> crewSearcheByRecruitmentParams(RecruitmentParamsDto paramsDto);
 }

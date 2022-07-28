@@ -18,7 +18,7 @@ public interface CrewManagerService {
 
 	int exitCrew(long crewSeq, Long userSeq)throws Exception;
 
-	List<CrewDto> crewSearcheByRecruitmentParams(RecruitmentParamsDto paramsDto)throws Exception;
+	List<CrewFileDto> crewSearcheByRecruitmentParams(RecruitmentParamsDto paramsDto)throws Exception;
 
 
 	CrewFileDto getCrewDetail(Long crewId) throws Exception;
