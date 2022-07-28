@@ -69,6 +69,8 @@ public class CrewDto implements Serializable {
 	@ApiParam(value = "참가비")
 	private Integer crewCost;
 	
+	@ApiParam("크루 인원 수")
+	private Integer crewMemberCount;
 	@ApiParam(value = "크루 인원 제한", required = true)
 	private Integer crewMaxMember;
 	
@@ -78,13 +80,15 @@ public class CrewDto implements Serializable {
 	@ApiParam(value = "크루장 SEQ")
 	private Long crewManagerSeq;
 	
+	
 	public static CrewDto of(CrewEntity crew) {
 		if(crew == null)
 			return null;
 		return new CrewDtoBuilder().crewSeq(crew.getCrewSeq()).crewCost(crew.getCrewCost()).crewDateEnd(crew.getCrewDateEnd()).crewDateStart(crew.getCrewDateStart())
 				.crewDescription(crew.getCrewDescription()).crewGoalAmount(crew.getCrewGoalAmount()).crewGoalDays(crew.getCrewGoalDays())
 				.crewGoalType(crew.getCrewGoalType()).crewMaxMember(crew.getCrewMaxMember()).crewName(crew.getCrewName()).crewPassword(crew.getCrewPassword())
-				.crewTimeEnd(crew.getCrewTimeEnd()).crewTimeStart(crew.getCrewTimeStart()).build();
+				.crewTimeEnd(crew.getCrewTimeEnd()).crewTimeStart(crew.getCrewTimeStart())
+				.build();
 	}
 	
 	

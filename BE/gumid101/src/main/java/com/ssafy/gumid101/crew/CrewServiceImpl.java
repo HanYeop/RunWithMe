@@ -54,6 +54,7 @@ public class CrewServiceImpl implements CrewService {
 	private final S3FileService s3FileService;
 	private final ImageFileRepository imageRepo;
 	private final AchievementRepository achiveRepo;
+	
 	@Transactional
 	@Override
 	public CrewUserDto joinCrew(Long userSeq, Long crewSeq, String password) throws Exception {
@@ -89,7 +90,11 @@ public class CrewServiceImpl implements CrewService {
 
 		UserDto userDto = UserDto.of(ucjEntity.getUserEntity());
 		CrewDto crewDto = CrewDto.of(ucjEntity.getCrewEntity());
+		
+		crewDto.setCrewMemberCount(ucJoinRepo.findCountCrewUser(crewSeq));
+		
 		CrewUserDto crewUserDto = new CrewUserDto(crewDto, userDto, ucjEntity.getCrewUserRegTime());
+
 		return crewUserDto;
 	}
 

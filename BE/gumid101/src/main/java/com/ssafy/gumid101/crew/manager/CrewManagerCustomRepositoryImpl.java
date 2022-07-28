@@ -61,7 +61,9 @@ public class CrewManagerCustomRepositoryImpl implements CrewManagerCustomReposit
 				(crew) -> {
 					CrewDto crewDto = CrewDto.of(crew, crew.getManagerEntity().getNickName(),
 							crew.getManagerEntity().getUserSeq());
-
+					
+					crewDto.setCrewMemberCount(crew.getUserCrewJoinEntitys().size());
+					
 					Optional<ImageFileEntity> ims = Optional.ofNullable(crew.getImageFile());
 
 					ImageFileDto imgDto = null;
