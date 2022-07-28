@@ -1,4 +1,4 @@
-package com.ssafy.runwithme.view.crew_recruit.create
+package com.ssafy.runwithme.view.crew_recruit
 
 interface StartTimeDialogListener {
     fun onItemClick(hour: String, minute: String)

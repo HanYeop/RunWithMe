@@ -156,6 +156,39 @@
         <action
             android:id="@+id/action_searchCrewResultFragment_to_crewDetailFragment"
             app:destination="@id/crewDetailFragment" />
+        <argument
+            android:name="crewname"
+            app:argType="string" />
+        <argument
+            android:name="startdate"
+            app:argType="string" />
+        <argument
+            android:name="enddate"
+            app:argType="string" />
+        <argument
+            android:name="starttime"
+            app:argType="string" />
+        <argument
+            android:name="endtime"
+            app:argType="string" />
+        <argument
+            android:name="mincost"
+            app:argType="integer" />
+        <argument
+            android:name="maxcost"
+            app:argType="integer" />
+        <argument
+            android:name="minpurposeamount"
+            app:argType="integer" />
+        <argument
+            android:name="maxpurposeamount"
+            app:argType="integer" />
+        <argument
+            android:name="goaldays"
+            app:argType="integer" />
+        <argument
+            android:name="goaltype"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/runRecordDetailFragment"

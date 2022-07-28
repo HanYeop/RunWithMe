@@ -173,7 +173,7 @@ class CreateCrewViewModel @Inject constructor(
 
         val timeToken = StringTokenizer(timeEnd.value, ":")
         val endHour = timeToken.nextToken().toInt()
-        val endMinute = timeToken.nextToken().toInt()
+        val endMinuteInt = timeToken.nextToken().toInt()
 
         var isRightTime = true
         val startHourInt = hour.toInt()
@@ -181,7 +181,7 @@ class CreateCrewViewModel @Inject constructor(
 
         if(startHourInt == endHour){
 
-            if(startMinuteInt >= endMinute){
+            if(startMinuteInt >= endMinuteInt){
                 isRightTime = false
             }
 
@@ -189,12 +189,16 @@ class CreateCrewViewModel @Inject constructor(
             isRightTime = false
         }
 
+        var endMinute = endMinuteInt.toString()
+        if(endMinuteInt < 10){
+            endMinute = "0" + endMinute
+        }
 
         if (isRightTime){
             _timeEnd.value = "$endHour:$endMinute"
         }else {
             if (startHourInt == 23) {
-                _timeEnd.value = "$startHourInt:$startMinuteInt"
+                _timeEnd.value = "$startHourInt:30"
             } else {
                 _timeEnd.value = "${startHourInt + 1}:30"
                 _failMsgEvent.postValue("시간을 다시 설정해주세요.")
@@ -224,7 +228,11 @@ class CreateCrewViewModel @Inject constructor(
         if (isRightTime){
             _timeEnd.value = "$endHour:$endMinute"
         }else{
-            _timeEnd.value = "${startHour + 1}:$startMinute"
+            if(startHour == 23){
+                _timeEnd.value = "23:30"
+            }else{
+                _timeEnd.value = "${startHour + 1}:30"
+            }
             _failMsgEvent.postValue("시간을 다시 설정해주세요.")
         }
         //_timeEnd.value = "$endHour:$endMinute"

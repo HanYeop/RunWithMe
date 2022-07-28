@@ -4,333 +4,359 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="searchCrewVM"
+            type="com.ssafy.runwithme.view.crew_recruit.search.SearchCrewViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".view.crew_recruit.search.SearchCrewFragment">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_marginTop="@dimen/toolbar_margin"
-            android:layout_marginStart="@dimen/toolbar_margin"
-            android:layout_marginEnd="@dimen/toolbar_margin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
+            android:layout_height="match_parent"
+            tools:context=".view.crew_recruit.search.SearchCrewFragment">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="@dimen/toolbar_margin"
+                android:layout_marginStart="@dimen/toolbar_margin"
+                android:layout_marginEnd="@dimen/toolbar_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
+
+                <TextView
+                    android:id="@+id/text"
+                    style="@style/toolbar_text"
+                    android:text="크루 검색하기"/>
+
+            </com.google.android.material.appbar.MaterialToolbar>
 
             <TextView
-                android:id="@+id/text"
-                style="@style/toolbar_text"
-                android:text="크루 검색하기"/>
+                android:id="@+id/tv_search_crew_name"
+                style="@style/header_text"
+                android:layout_marginStart="@dimen/header_margin"
+                android:layout_marginTop="@dimen/header_margin"
+                android:text="크루명"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-        </com.google.android.material.appbar.MaterialToolbar>
+            <EditText
+                android:id="@+id/edit_search_crew_name"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:background="@drawable/edit_text_round"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:maxLines="1"
+                android:maxLength="8"
+                android:text="@={searchCrewVM.crewName}"
+                app:layout_constraintStart_toEndOf="@id/tv_search_crew_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_search_crew_name"
+                app:layout_constraintBottom_toBottomOf="@id/tv_search_crew_name"/>
 
-        <TextView
-            android:id="@+id/tv_search_crew_name"
-            style="@style/header_text"
-            android:layout_marginStart="@dimen/header_margin"
-            android:layout_marginTop="@dimen/header_margin"
-            android:text="크루명"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-        <EditText
-            android:id="@+id/edit_search_crew_name"
-            android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:background="@drawable/edit_text_round"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintStart_toEndOf="@id/tv_search_crew_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_search_crew_name"
-            app:layout_constraintBottom_toBottomOf="@id/tv_search_crew_name"/>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_crew_search_duration"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="32dp"
-            android:backgroundTint="#F7F7F7"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_search_crew_name"
-            >
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_card_crew_search_duration"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_crew_search_duration"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:padding="8dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="32dp"
+                android:backgroundTint="#F7F7F7"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_search_crew_name"
                 >
 
-                <CheckBox
-                    android:id="@+id/checkbox_crew_duration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_search_crew_duration"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_search_crew_duration"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_card_crew_search_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:padding="8dp"
+                    >
 
-                <TextView
-                    android:id="@+id/tv_search_crew_duration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="시작\n범위"
-                    android:textColor="@color/black_high_emphasis"
-                    android:fontFamily="@font/noto_sans_bold"
-                    app:layout_constraintStart_toEndOf="@id/checkbox_crew_duration"
-                    app:layout_constraintTop_toTopOf="@id/btn_search_start_duration"
-                    app:layout_constraintBottom_toBottomOf="@id/btn_search_end_duration"/>
+                    <CheckBox
+                        android:id="@+id/checkbox_crew_duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_search_crew_duration"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_search_crew_duration"/>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_search_start_duration"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    tools:text="2022.07.25"
-                    android:background="@drawable/btn_round_lightgrey"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    app:layout_constraintStart_toEndOf="@id/tv_search_crew_duration"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/img_btn_search_start_calendar"/>
+                    <TextView
+                        android:id="@+id/tv_search_crew_duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="시작\n범위"
+                        android:textColor="@color/black_high_emphasis"
+                        android:fontFamily="@font/noto_sans_bold"
+                        app:layout_constraintStart_toEndOf="@id/checkbox_crew_duration"
+                        app:layout_constraintTop_toTopOf="@id/btn_search_start_duration"
+                        app:layout_constraintBottom_toBottomOf="@id/btn_search_end_duration"/>
 
-                <TextView
-                    android:id="@+id/text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="~"
-                    android:textSize="18sp"
-                    android:textColor="@color/black_high_emphasis"
-                    android:fontFamily="@font/noto_sans_bold"
-                    android:includeFontPadding="false"
-                    app:layout_constraintStart_toStartOf="@id/btn_search_start_duration"
-                    app:layout_constraintEnd_toEndOf="@id/btn_search_start_duration"
-                    app:layout_constraintTop_toBottomOf="@id/btn_search_start_duration"/>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_search_start_duration"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        tools:text="2022.07.25"
+                        android:text="@{searchCrewVM.dateStart}"
+                        android:alpha="0.5"
+                        android:enabled="false"
+                        android:background="@drawable/btn_round_lightgrey"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintStart_toEndOf="@id/tv_search_crew_duration"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/img_btn_search_start_calendar"/>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_search_end_duration"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/btn_round_lightgrey"
-                    android:textColor="@color/black_high_emphasis"
-                    app:layout_constraintEnd_toStartOf="@id/img_btn_search_end_calendar"
-                    app:layout_constraintStart_toEndOf="@id/tv_search_crew_duration"
-                    app:layout_constraintTop_toBottomOf="@id/text_view"
-                    tools:text="2022.09.01" />
+                    <TextView
+                        android:id="@+id/text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="~"
+                        android:textSize="18sp"
+                        android:textColor="@color/black_high_emphasis"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:includeFontPadding="false"
+                        app:layout_constraintStart_toStartOf="@id/btn_search_start_duration"
+                        app:layout_constraintEnd_toEndOf="@id/btn_search_start_duration"
+                        app:layout_constraintTop_toBottomOf="@id/btn_search_start_duration"/>
 
-                <ImageButton
-                    android:id="@+id/img_btn_search_start_calendar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#00000000"
-                    android:src="@drawable/ic_baseline_calendar_month_24"
-                    app:layout_constraintBottom_toBottomOf="@id/btn_search_start_duration"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/btn_search_start_duration" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_search_end_duration"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@{searchCrewVM.dateEnd}"
+                        android:alpha="0.5"
+                        android:enabled="false"
+                        android:background="@drawable/btn_round_lightgrey"
+                        app:layout_constraintEnd_toStartOf="@id/img_btn_search_end_calendar"
+                        app:layout_constraintStart_toEndOf="@id/tv_search_crew_duration"
+                        app:layout_constraintTop_toBottomOf="@id/text_view"
+                        tools:text="2022.09.01" />
 
-                <ImageButton
-                    android:id="@+id/img_btn_search_end_calendar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#00000000"
-                    android:src="@drawable/ic_baseline_calendar_month_24"
-                    app:layout_constraintBottom_toBottomOf="@id/btn_search_end_duration"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/btn_search_end_duration" />
+                    <ImageButton
+                        android:id="@+id/img_btn_search_start_calendar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00000000"
+                        android:src="@drawable/ic_baseline_calendar_month_24"
+                        app:layout_constraintBottom_toBottomOf="@id/btn_search_start_duration"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/btn_search_start_duration" />
 
-                <CheckBox
-                    android:id="@+id/checkbox_crew_running_start_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/btn_search_end_duration"/>
+                    <ImageButton
+                        android:id="@+id/img_btn_search_end_calendar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00000000"
+                        android:src="@drawable/ic_baseline_calendar_month_24"
+                        app:layout_constraintBottom_toBottomOf="@id/btn_search_end_duration"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/btn_search_end_duration" />
 
-                <TextView
-                    android:id="@+id/tv_crew_running_start_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="러닝 시작 기간"
-                    android:textColor="@color/black_high_emphasis"
-                    android:fontFamily="@font/noto_sans_bold"
-                    app:layout_constraintStart_toEndOf="@id/checkbox_crew_running_start_time"
-                    app:layout_constraintTop_toTopOf="@id/checkbox_crew_running_start_time"
-                    app:layout_constraintBottom_toBottomOf="@id/checkbox_crew_running_start_time"/>
+                    <CheckBox
+                        android:id="@+id/checkbox_crew_running_start_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/btn_search_end_duration"/>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_crew_running_start_time"
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    tools:text="19:00"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/btn_round_lightgrey"
-                    app:layout_constraintTop_toTopOf="@id/tv_crew_running_start_time"
-                    app:layout_constraintEnd_toStartOf="@id/text_view2"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_crew_running_start_time"
-                    app:layout_constraintStart_toEndOf="@id/tv_crew_running_start_time"/>
+                    <TextView
+                        android:id="@+id/tv_crew_running_start_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="러닝 시작 기간"
+                        android:textColor="@color/black_high_emphasis"
+                        android:fontFamily="@font/noto_sans_bold"
+                        app:layout_constraintStart_toEndOf="@id/checkbox_crew_running_start_time"
+                        app:layout_constraintTop_toTopOf="@id/checkbox_crew_running_start_time"
+                        app:layout_constraintBottom_toBottomOf="@id/checkbox_crew_running_start_time"/>
 
-                <TextView
-                    android:id="@+id/text_view2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="~"
-                    android:textSize="18sp"
-                    android:textColor="@color/black_high_emphasis"
-                    android:fontFamily="@font/noto_sans_bold"
-                    app:layout_constraintEnd_toStartOf="@id/btn_crew_running_end_time"
-                    app:layout_constraintStart_toEndOf="@id/btn_crew_running_start_time"
-                    app:layout_constraintTop_toTopOf="@id/btn_crew_running_start_time"
-                    app:layout_constraintBottom_toBottomOf="@id/btn_crew_running_start_time"/>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_crew_running_start_time"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        tools:text="19:00"
+                        android:text="@{searchCrewVM.timeStart}"
+                        android:layout_marginStart="8dp"
+                        android:alpha="0.5"
+                        android:enabled="false"
+                        android:background="@drawable/btn_round_lightgrey"
+                        app:layout_constraintTop_toTopOf="@id/tv_crew_running_start_time"
+                        app:layout_constraintEnd_toStartOf="@id/text_view2"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_crew_running_start_time"
+                        app:layout_constraintStart_toEndOf="@id/tv_crew_running_start_time"/>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_crew_running_end_time"
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    tools:text="20:00"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/btn_round_lightgrey"
-                    app:layout_constraintTop_toTopOf="@id/btn_crew_running_start_time"
-                    app:layout_constraintBottom_toBottomOf="@id/btn_crew_running_start_time"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    <TextView
+                        android:id="@+id/text_view2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="~"
+                        android:textSize="18sp"
+                        android:textColor="@color/black_high_emphasis"
+                        android:fontFamily="@font/noto_sans_bold"
+                        app:layout_constraintEnd_toStartOf="@id/btn_crew_running_end_time"
+                        app:layout_constraintStart_toEndOf="@id/btn_crew_running_start_time"
+                        app:layout_constraintTop_toTopOf="@id/btn_crew_running_start_time"
+                        app:layout_constraintBottom_toBottomOf="@id/btn_crew_running_start_time"/>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_crew_running_end_time"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        tools:text="20:00"
+                        android:text="@{searchCrewVM.timeEnd}"
+                        android:layout_marginEnd="8dp"
+                        android:alpha="0.5"
+                        android:enabled="false"
+                        android:background="@drawable/btn_round_lightgrey"
+                        app:layout_constraintTop_toTopOf="@id/btn_crew_running_start_time"
+                        app:layout_constraintBottom_toBottomOf="@id/btn_crew_running_start_time"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
-        </androidx.cardview.widget.CardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
 
 
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_crew_search_cost"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="32dp"
-            android:backgroundTint="#F7F7F7"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_crew_search_duration"
-            >
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_card_crew_search_cost"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_crew_search_cost"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:padding="8dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="32dp"
+                android:backgroundTint="#F7F7F7"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_crew_search_duration"
                 >
 
-                <CheckBox
-                    android:id="@+id/checkbox_crew_cost"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_card_crew_search_cost"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:padding="8dp"
+                    >
 
-                <TextView
-                    android:id="@+id/tv_search_crew_cost"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="참가비"
-                    android:textColor="@color/black_high_emphasis"
-                    android:fontFamily="@font/noto_sans_bold"
-                    app:layout_constraintStart_toEndOf="@id/checkbox_crew_cost"
-                    app:layout_constraintTop_toTopOf="@id/checkbox_crew_cost"
-                    app:layout_constraintBottom_toBottomOf="@id/checkbox_crew_cost"/>
+                    <CheckBox
+                        android:id="@+id/checkbox_crew_cost"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_search_min_cost"
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    tools:text="5,000"
-                    android:background="@drawable/btn_round_lightgrey"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    app:layout_constraintStart_toEndOf="@id/tv_search_crew_cost"
-                    app:layout_constraintTop_toTopOf="@id/tv_search_crew_cost"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_search_crew_cost" />
+                    <TextView
+                        android:id="@+id/tv_search_crew_cost"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="참가비"
+                        android:textColor="@color/black_high_emphasis"
+                        android:fontFamily="@font/noto_sans_bold"
+                        app:layout_constraintStart_toEndOf="@id/checkbox_crew_cost"
+                        app:layout_constraintTop_toTopOf="@id/checkbox_crew_cost"
+                        app:layout_constraintBottom_toBottomOf="@id/checkbox_crew_cost"/>
 
-                <TextView
-                    android:id="@+id/text_view3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="~"
-                    android:textSize="18sp"
-                    android:textColor="@color/black_high_emphasis"
-                    android:fontFamily="@font/noto_sans_bold"
-                    android:layout_marginStart="16dp"
-                    android:includeFontPadding="false"
-                    app:layout_constraintStart_toEndOf="@id/btn_search_min_cost"
-                    app:layout_constraintEnd_toStartOf="@id/btn_search_max_cost"
-                    app:layout_constraintTop_toTopOf="@id/btn_search_min_cost"
-                    app:layout_constraintBottom_toBottomOf="@id/btn_search_min_cost"/>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_search_min_cost"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        tools:text="5,000"
+                        app:costFormat="@{searchCrewVM.minCost}"
+                        android:background="@drawable/btn_round_lightgrey"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:alpha="0.5"
+                        android:enabled="false"
+                        app:layout_constraintStart_toEndOf="@id/tv_search_crew_cost"
+                        app:layout_constraintTop_toTopOf="@id/tv_search_crew_cost"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_search_crew_cost" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_search_max_cost"
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/btn_round_lightgrey"
-                    android:textColor="@color/black_high_emphasis"
-                    app:layout_constraintEnd_toStartOf="@id/tv_p"
-                    app:layout_constraintTop_toTopOf="@id/text_view3"
-                    app:layout_constraintBottom_toBottomOf="@id/text_view3"
-                    app:layout_constraintStart_toEndOf="@id/text_view3"
-                    tools:text="50,000" />
+                    <TextView
+                        android:id="@+id/text_view3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="~"
+                        android:textSize="18sp"
+                        android:textColor="@color/black_high_emphasis"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:layout_marginStart="16dp"
+                        android:includeFontPadding="false"
+                        app:layout_constraintStart_toEndOf="@id/btn_search_min_cost"
+                        app:layout_constraintEnd_toStartOf="@id/btn_search_max_cost"
+                        app:layout_constraintTop_toTopOf="@id/btn_search_min_cost"
+                        app:layout_constraintBottom_toBottomOf="@id/btn_search_min_cost"/>
 
-                <TextView
-                    android:id="@+id/tv_p"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" P"
-                    android:textColor="@color/black_high_emphasis"
-                    android:fontFamily="@font/noto_sans_bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/btn_search_max_cost"
-                    app:layout_constraintBottom_toBottomOf="@id/btn_search_max_cost"/>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_search_max_cost"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:alpha="0.5"
+                        android:enabled="false"
+                        app:costFormat="@{searchCrewVM.maxCost}"
+                        android:background="@drawable/btn_round_lightgrey"
+                        app:layout_constraintEnd_toStartOf="@id/tv_p"
+                        app:layout_constraintTop_toTopOf="@id/text_view3"
+                        app:layout_constraintBottom_toBottomOf="@id/text_view3"
+                        app:layout_constraintStart_toEndOf="@id/text_view3"
+                        tools:text="50,000" />
+
+                    <TextView
+                        android:id="@+id/tv_p"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" P"
+                        android:textColor="@color/black_high_emphasis"
+                        android:fontFamily="@font/noto_sans_bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/btn_search_max_cost"
+                        app:layout_constraintBottom_toBottomOf="@id/btn_search_max_cost"/>
 
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
 
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_crew_search_purpose"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="32dp"
-            android:backgroundTint="#F7F7F7"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_crew_search_cost"
-            >
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_crew_search_purpose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="32dp"
+                android:backgroundTint="#F7F7F7"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_crew_search_cost"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -364,8 +390,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="시간"
+                                android:alpha="0.5"
+                                android:enabled="false"
                                 android:layout_weight="1"
-                                android:textColor="@color/black_high_emphasis"
                                 android:fontFamily="@font/noto_sans_bold"/>
 
                             <RadioButton
@@ -373,8 +400,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="거리"
+                                android:alpha="0.5"
+                                android:enabled="false"
                                 android:layout_weight="1"
-                                android:textColor="@color/black_high_emphasis"
                                 android:fontFamily="@font/noto_sans_bold"/>
 
 
@@ -393,6 +421,8 @@
                             android:id="@+id/checkbox_search_goal_amount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:alpha="0.5"
+                            android:enabled="false"
                             android:layout_marginStart="8dp"/>
 
                         <androidx.appcompat.widget.AppCompatButton
@@ -400,8 +430,12 @@
                             android:layout_width="100dp"
                             android:layout_height="40dp"
                             tools:text="3.0"
-                            android:textColor="@color/black_high_emphasis"
+                            app:isDistance="@{searchCrewVM.goalTypeDistance}"
+                            app:distance="@{searchCrewVM.minDistance}"
+                            app:time="@{searchCrewVM.minTime}"
                             android:fontFamily="@font/noto_sans_bold"
+                            android:alpha="0.5"
+                            android:enabled="false"
                             android:background="@drawable/btn_round_lightgrey"/>
 
                         <TextView
@@ -418,8 +452,12 @@
                             android:layout_width="100dp"
                             android:layout_height="40dp"
                             tools:text="5.0"
-                            android:textColor="@color/black_high_emphasis"
                             android:fontFamily="@font/noto_sans_bold"
+                            android:alpha="0.5"
+                            android:enabled="false"
+                            app:isDistance="@{searchCrewVM.goalTypeDistance}"
+                            app:distance="@{searchCrewVM.maxDistance}"
+                            app:time="@{searchCrewVM.maxTime}"
                             android:background="@drawable/btn_round_lightgrey"/>
 
                         <TextView
@@ -427,6 +465,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="km"
+                            android:visibility="invisible"
                             android:textColor="@color/black_high_emphasis"
                             android:fontFamily="@font/noto_sans_bold"
                             android:layout_marginStart="24dp"/>
@@ -461,9 +500,11 @@
                             android:layout_width="100dp"
                             android:layout_height="40dp"
                             tools:text="3"
-                            android:textColor="@color/black_high_emphasis"
+                            android:text="@{searchCrewVM.goalDays}"
                             android:fontFamily="@font/noto_sans_bold"
                             android:layout_marginStart="32dp"
+                            android:alpha="0.5"
+                            android:enabled="false"
                             android:background="@drawable/btn_round_lightgrey"/>
 
                         <TextView
@@ -481,22 +522,25 @@
                 </LinearLayout>
 
 
-        </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="검색"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/noto_sans_bold"
-            android:background="@drawable/btn_round_main_color"
-            android:layout_margin="16dp"
-            app:layout_constraintTop_toBottomOf="@id/card_crew_search_purpose"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="검색"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/noto_sans_bold"
+                android:background="@drawable/btn_round_main_color"
+                android:layout_margin="16dp"
+                app:layout_constraintTop_toBottomOf="@id/card_crew_search_purpose"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
 </layout>

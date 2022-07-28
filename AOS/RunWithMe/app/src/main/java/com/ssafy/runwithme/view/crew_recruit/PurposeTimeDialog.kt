@@ -1,4 +1,4 @@
-package com.ssafy.runwithme.view.crew_recruit.create
+package com.ssafy.runwithme.view.crew_recruit
 
 import android.app.Dialog
 import android.content.Context
@@ -8,35 +8,43 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import com.ssafy.runwithme.R
-import com.ssafy.runwithme.databinding.DialogGoalDaysBinding
-import com.ssafy.runwithme.databinding.DialogPurposeDistanceBinding
+import com.ssafy.runwithme.databinding.DialogPurposeTimeBinding
 import com.ssafy.runwithme.utils.dialogResize
 
-class PurposeDistanceDialog(context: Context, private val listener : PurposeDistanceDialogListener): Dialog(context) {
+class PurposeTimeDialog (context: Context, private val listener : PurposeTimeDialogListener): Dialog(context) {
 
-    private lateinit var binding: DialogPurposeDistanceBinding
+    private lateinit var binding: DialogPurposeTimeBinding
+    private lateinit var timeValues : Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context),
-            R.layout.dialog_purpose_distance,
+            R.layout.dialog_purpose_time,
             null,
             false
         )
         setContentView(binding.root)
 
+        val time_list = arrayListOf<String>()
 
-        binding.apply {
-            numberpickerDistance.minValue = 1
-            numberpickerDistance.maxValue = 60
-//            numberpickerGoalAmount.displayedValues = goal_amount_values
-            //순환 안되게 막기
-            numberpickerDistance.wrapSelectorWheel = false
+        for(i in 1..60){
+            time_list.add((10 * i).toString())
         }
 
-        context.dialogResize(this, 0.8f, 0.5f)
+        timeValues = time_list.toTypedArray()
+
+        binding.apply {
+            numberpickerTime.minValue = 0
+            numberpickerTime.maxValue = 59
+            numberpickerTime.value = 4
+            numberpickerTime.displayedValues = timeValues
+            //순환 안되게 막기
+            numberpickerTime.wrapSelectorWheel = false
+        }
+
+        context.dialogResize(this, 0.9f, 0.5f)
 
         // 배경 투명하게 바꿔줌
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -47,10 +55,11 @@ class PurposeDistanceDialog(context: Context, private val listener : PurposeDist
     private fun initClickListener() {
         binding.apply {
             tvPositive.setOnClickListener {
-                val amount = numberpickerDistance.value
-                listener.onItemClick(amount)
+                val time = timeValues[numberpickerTime.value]
+                listener.onItemClick(time)
                 dismiss()
             }
         }
     }
+
 }
