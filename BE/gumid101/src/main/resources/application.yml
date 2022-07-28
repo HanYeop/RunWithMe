@@ -63,9 +63,9 @@ spring:
     activate:
       on-profile: deploy
   datasource:
-    password: ssafy
+    password: jgalgostudy
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    url: jdbc:mysql://localhost:3306/commonssafy?serverTimezone=UTC&characterEncoding=UTF-8    
+    username: d101rwm
+    url: jdbc:mysql://host.docker.internal:13306/commonssafy?serverTimezone=UTC&characterEncoding=UTF-8    
 
       

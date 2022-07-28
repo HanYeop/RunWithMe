@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -51,12 +52,6 @@ public class TrackBoardEntity {
 	
 	@Column(nullable = true, name="track_board_enviroment_point")
 	private Integer trackBoardEnviromentPoint;
-
-	@PrePersist
-	public void setting() {
-		this.trackBoardHardPoint = 5;
-		this.trackBoardEnviromentPoint = 5;
-	}
 	
 	@CreatedDate
 	@Column(nullable = false, name="track_board_reg_time")

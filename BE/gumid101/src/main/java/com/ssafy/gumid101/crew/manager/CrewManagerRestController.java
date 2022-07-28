@@ -44,7 +44,9 @@ public class CrewManagerRestController {
 
 	private final JwtUtilsService jwtUtilService;
 	private final CrewManagerService crewManagerService;
-	private final ObjectMapper objectMapper;
+	private final ObjectMapper objectMapper
+	
+	;
 	private UserDto loadUserFromToken() {
 		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDto tokenUser = (UserDto) autentication.getPrincipal();
@@ -113,7 +115,7 @@ public class CrewManagerRestController {
 		ResponseFrame<CrewFileDto> responseMap = new ResponseFrame<>();
 		
 		CrewDto crewteCrewDto = objectMapper.readValue(crewDto, CrewDto.class);
-		
+		crewteCrewDto.setCrewMemberCount(1);
 		CrewFileDto crewFileDto = null;
 		try {
 			crewFileDto = crewManagerService.createCrew(image, crewteCrewDto, managerDto);

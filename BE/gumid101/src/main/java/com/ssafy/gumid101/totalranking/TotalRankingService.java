@@ -8,4 +8,6 @@ public interface TotalRankingService {
 
 	List<RankingDto> getRankingByType(String rankingType, Long size, Long offset)throws Exception;
 
+	RankingDto getMyRankingByType(String rankingType, Long userSeq)throws Exception;
+
 }

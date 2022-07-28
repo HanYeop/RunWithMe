@@ -61,14 +61,15 @@ public class RecommendServiceImpl implements RecommendService{
 
 		RunRecordEntity runRecordEntity = runRecoRepo.findById(runRecordSeq)
 				.orElseThrow(() -> new NotFoundUserException("해당 기록을 찾을 수 없습니다."));
+		
 		if (userSeq == null || userSeq != runRecordEntity.getUserEntity().getUserSeq()) {
 			throw new Exception("본인의 기록만 업로드할 수 있습니다.");
 		}
-		if (hardPoint != null && (hardPoint < 0 || 5 < hardPoint)) {
-			throw new Exception("난이도 별점은 기록하지 않거나, 0점 ~ 5점이여야합니다.");
+		if (hardPoint != null && (hardPoint < 1 || 5 <= hardPoint)) {
+			throw new Exception("난이도 별점은 기록하지 않거나, 1점 ~ 5점이여야합니다.");
 		}
-		if (envPoint != null && (envPoint < 0 || 5 < envPoint)) {
-			throw new Exception("주변 환경 별점은 기록하지 않거나, 0점 ~ 5점이여야합니다.");
+		if (envPoint != null && (envPoint < 1 || 5 < envPoint)) {
+			throw new Exception("주변 환경 별점은 기록하지 않거나, 1점 ~ 5점이여야합니다.");
 		}
 		
 		TrackBoardEntity trackBoardEntity = TrackBoardEntity.builder()

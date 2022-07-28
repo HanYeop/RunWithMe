@@ -2,11 +2,14 @@ package com.ssafy.gumid101.totalranking;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.ssafy.gumid101.res.RankingDto;
 import com.ssafy.gumid101.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+@Service
 @RequiredArgsConstructor
 public class TotalRankingServiceImpl implements TotalRankingService {
 
@@ -24,6 +27,14 @@ public class TotalRankingServiceImpl implements TotalRankingService {
 		}
 		
 		return rankingList;
+	}
+
+	@Override
+	public RankingDto getMyRankingByType(String rankingType, Long userSeq) throws Exception {
+
+		RankingDto ranking =  totalRankingRepo.getMyTotalRanking(rankingType,userSeq);
+	
+		return ranking;
 	}
 
 
