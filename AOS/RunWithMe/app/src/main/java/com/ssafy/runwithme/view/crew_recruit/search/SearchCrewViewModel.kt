@@ -41,13 +41,13 @@ class SearchCrewViewModel : ViewModel(){
     private val _minTime : MutableStateFlow<String> = MutableStateFlow("30")
     val minTime get() = _minTime.asStateFlow()
 
-    private val _maxTime : MutableStateFlow<String> = MutableStateFlow("30")
+    private val _maxTime : MutableStateFlow<String> = MutableStateFlow("600")
     val maxTime get() = _maxTime.asStateFlow()
 
     private val _minDistance : MutableStateFlow<String> = MutableStateFlow("3")
     val minDistance get() = _minDistance.asStateFlow()
 
-    private val _maxDistance : MutableStateFlow<String> = MutableStateFlow("3")
+    private val _maxDistance : MutableStateFlow<String> = MutableStateFlow("60")
     val maxDistance get() = _maxDistance.asStateFlow()
 
     private val _goalTypeDistance : MutableStateFlow<Boolean> = MutableStateFlow(true)
@@ -259,7 +259,7 @@ class SearchCrewViewModel : ViewModel(){
 
     fun initDate() {
         val now = LocalDate.now()
-        val startDateYear = now.year
+        val startDateYearInt = now.year
         val startDateMonthInt = now.monthValue
         var startDateMonth = startDateMonthInt.toString()
         if(startDateMonthInt < 10){
@@ -270,8 +270,16 @@ class SearchCrewViewModel : ViewModel(){
         if(startDateDayInt < 10){
             startDateDay = "0" + startDateDay
         }
-        _dateStart.value = "$startDateYear-${startDateMonth}-$startDateDay"
-        _dateEnd.value = "$startDateYear-${startDateMonthInt + 1}-$startDateDayInt"
+
+        var endYear = startDateYearInt.toString()
+        var endMonth = (startDateMonthInt + 1).toString()
+        if(startDateMonthInt == 12){
+            endMonth = "1"
+            endYear = (startDateYearInt + 1).toString()
+        }
+
+        _dateStart.value = "$startDateYearInt-${startDateMonth}-$startDateDay"
+        _dateEnd.value = "$endYear-${endMonth}-$startDateDay"
     }
 
 

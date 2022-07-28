@@ -82,7 +82,7 @@ class SearchCrewFragment : BaseFragment<FragmentSearchCrewBinding>(R.layout.frag
                 }
 
                 var minPurPoseAmount = 0
-                var maxPurPoseAmount = 600
+                var maxPurPoseAmount = 36000
                 if(checkboxSearchGoalAmount.isChecked){
                     if(checkboxCrewPurpose.isChecked){
                         val check = radioGroupPurpose.checkedRadioButtonId
@@ -442,6 +442,7 @@ class SearchCrewFragment : BaseFragment<FragmentSearchCrewBinding>(R.layout.frag
                     radioBtnTime.apply{
                         alpha = 1F
                         isEnabled = true
+                        setChecked(true)
                     }
                     radioBtnDistance.apply{
                         alpha = 1F

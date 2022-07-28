@@ -32,8 +32,8 @@ class SearchCrewResultFragment : BaseFragment<FragmentSearchCrewResultBinding>(R
     private var minCost : Int = 0
     private var maxCost : Int = 0
     private var minPurposeAmount : Int = 0
-    private var maxPurposeAmount : Int = 0
-    private var minGoalDays : Int = 0
+    private var maxPurposeAmount : Int = 3600
+    private var minGoalDays : Int = 1
     private var maxGoalDays : Int = 7
     private var goalType : String? = ""
 
@@ -53,10 +53,10 @@ class SearchCrewResultFragment : BaseFragment<FragmentSearchCrewResultBinding>(R
 
     private fun initNavArgs() {
         crewName = args.crewname
-        startDate = args.startdate + " 00:00:00"
-        endDate = args.enddate + "23:59:59"
-        startTime = args.starttime + ":00"
-        endTime = args.endtime + ":00"
+        startDate = args.startdate
+        endDate = args.enddate
+        startTime = args.starttime
+        endTime = args.endtime
         minCost = args.mincost
         maxCost = args.maxcost
         minPurposeAmount = args.minpurposeamount
@@ -84,18 +84,26 @@ class SearchCrewResultFragment : BaseFragment<FragmentSearchCrewResultBinding>(R
 
         if(startDate == ""){
             startDate = null
+        }else{
+            startDate = startDate + " 00:00:00"
         }
 
         if(endDate == ""){
             endDate = null
+        }else{
+            endDate = endDate + " 23:59:59"
         }
 
         if(startTime == ""){
             startTime = null
+        }else{
+            startTime = startTime  + ":00"
         }
 
         if(endTime == ""){
             endTime = null
+        }else{
+            endTime = endTime  + ":00"
         }
 
         if(goalType == ""){
