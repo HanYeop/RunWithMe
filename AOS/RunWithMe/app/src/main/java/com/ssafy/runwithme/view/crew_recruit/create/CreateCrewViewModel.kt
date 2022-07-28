@@ -84,10 +84,10 @@ class CreateCrewViewModel @Inject constructor(
         var goalAmount = 0
         if(goalTypeDistance.value){
             goalType = "distance"
-            goalAmount = distance.value.toInt()
+            goalAmount = distance.value.toInt() * 1000
         }else{
             goalType = "time"
-            goalAmount = time.value.toInt()
+            goalAmount = time.value.toInt() * 60
         }
 
         var pass : String? = null

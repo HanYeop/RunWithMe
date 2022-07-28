@@ -1,8 +1,13 @@
 package com.ssafy.runwithme.repository
 
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import com.ssafy.runwithme.api.CrewManagerApi
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.datasource.CrewManagerRemoteDataSource
+import com.ssafy.runwithme.datasource.paging.GetCrewBoardsPagingSource
+import com.ssafy.runwithme.datasource.paging.GetRecruitCrewPagingSource
 import com.ssafy.runwithme.model.dto.CrewDto
 import com.ssafy.runwithme.model.response.CreateCrewResponse
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
@@ -17,7 +22,8 @@ import okhttp3.RequestBody
 import javax.inject.Inject
 
 class CrewManagerRepository @Inject constructor(
-    private val crewManagerRemoteDataSource: CrewManagerRemoteDataSource
+    private val crewManagerRemoteDataSource: CrewManagerRemoteDataSource,
+    private val crewManagerApi: CrewManagerApi
 ){
     fun getMyCurrentCrew(): Flow<Result<BaseResponse<List<MyCurrentCrewResponse>>>> = flow {
         emit(Result.Loading)
@@ -48,4 +54,16 @@ class CrewManagerRepository @Inject constructor(
     }.catch { e ->
         emit(Result.Error(e))
     }
+
+    fun getRecruitCrew(size: Int) =
+        Pager(
+            config = PagingConfig(
+                pageSize = size * 2,
+                maxSize = size * 10,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { GetRecruitCrewPagingSource(crewManagerApi = crewManagerApi, size = size)}
+        ).flow
+
+
 }

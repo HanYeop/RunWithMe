@@ -2,6 +2,7 @@ package com.ssafy.runwithme.utils
 
 import android.app.Dialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Point
 import android.os.Build
 import android.view.WindowManager
@@ -54,5 +55,14 @@ fun timeNameFormatter(time: Long?): String {
     val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일 러닝")
 
     return dateFormat.format(time)
+}
+
+// 러닝 시작 할 때 위 정보를 저장하고 있어야함. 백그라운드에서 동작하여 초기화 가능성 있으므로. sharedPreferences
+fun runningStart(sharedPreferences: SharedPreferences, crewId: Int, crewName: String, goalType: String, goalAmount: Int){
+    sharedPreferences.edit().putLong(RUN_RECORD_START_TIME, System.currentTimeMillis()).apply()
+    sharedPreferences.edit().putInt(RUN_RECORD_CREW_ID, crewId).apply()
+    sharedPreferences.edit().putString(RUN_RECORD_CREW_NAME, crewName).apply()
+    sharedPreferences.edit().putString(RUN_GOAL_TYPE, goalType).apply()
+    sharedPreferences.edit().putInt(RUN_GOAL_AMOUNT, goalAmount).apply()
 }
 

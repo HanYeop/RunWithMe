@@ -52,8 +52,11 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
 
     private var POLYLINE_COLOR = Color.RED
 
-    // TEST : 1분
-    private val goal = 60 * 1000L
+    private var type: String = GOAL_TYPE_TIME
+
+    private var goal = 60 * 1000L
+
+    // TODO : 몸무게
     private val weight = 70
     private var caloriesBurned: Int = 0
 
@@ -63,6 +66,9 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         super.onCreate(savedInstanceState)
 
         POLYLINE_COLOR = resources.getColor(R.color.mainColor)
+
+        type = sharedPref.getString(RUN_GOAL_TYPE, GOAL_TYPE_TIME)!!
+        Log.d(TAG, "onCreate: $type")
         
         binding.apply {
             mapView.onCreate(savedInstanceState)
@@ -73,6 +79,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
                 addAllPolylines()
                 moveCameraToUser()
             }
+            tvCrewName.text = sharedPref.getString(RUN_RECORD_CREW_NAME,"크루")
         }
     }
 
@@ -88,11 +95,44 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
 
         // 거리 텍스트 변경
         sumDistance = updateDistance()
-        binding.tvDistance.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
+
+        changeDistanceText()
 
         // 칼로리 텍스트 변경
         binding.tvCalorie.text = "$caloriesBurned kcal"
         initLiveData()
+    }
+
+    private fun changeDistanceText(){
+        if(type == GOAL_TYPE_TIME) {
+            binding.apply {
+                tvSubRecord.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
+                tvSubRecordHeader.text = "이동 거리"
+            }
+        }else{
+            binding.apply {
+                tvMainRecord.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
+                tvMainRecordHeader.text = "이동 거리"
+            }
+        }
+    }
+
+    private fun changeTimeText(time: String){
+        if(type == GOAL_TYPE_TIME) {
+            binding.apply {
+                tvMainRecord.text = time
+                tvMainRecordHeader.text = "현재 뛴 시간"
+                tvGoal.text = "${sharedPref.getInt(RUN_GOAL_AMOUNT,10)}분"
+                goal = (sharedPref.getInt(RUN_GOAL_AMOUNT,10) * 60000).toLong()
+            }
+        }else{
+            binding.apply {
+                tvSubRecord.text = time
+                tvSubRecordHeader.text = "현재 뛴 시간"
+                tvGoal.text = "${sharedPref.getInt(RUN_GOAL_AMOUNT,1000) / 1000}km"
+                goal = sharedPref.getInt(RUN_GOAL_AMOUNT,1000).toLong()
+            }
+        }
     }
 
     // 경로 전부 표시
@@ -150,18 +190,18 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             // 칼로리 텍스트 변경
             binding.tvCalorie.text = "$caloriesBurned kcal"
 
-            // 거리 텍스트 변경
-            binding.tvDistance.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
+            changeDistanceText()
         }
 
         // 시간(타이머) 경과 관찰
         RunningService.timeRunInMillis.observe(this) {
             currentTimeInMillis = it
             val formattedTime = TrackingUtility.getFormattedStopWatchTime(it, false)
-            binding.tvCurrentTime.text = formattedTime
+
+            changeTimeText(formattedTime)
 
             // 프로그래스바 진행도 변경
-            if(it > 0) binding.progressBar.progress = (it / (goal / 100)).toInt()
+            if(it > 0 && type == GOAL_TYPE_TIME) binding.progressBar.progress = (it / (goal / 100)).toInt()
         }
     }
 
@@ -189,6 +229,12 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
                 result
             )
             sumDistance += result[0]
+
+            // 프로그래스바 진행도 변경
+            if(sumDistance > 0 && type == GOAL_TYPE_DISTANCE)
+                binding.progressBar.progress = (sumDistance / (goal / 100) ).toInt()
+
+            Log.d(TAG, "addLatestPolyline: ${(sumDistance / (goal / 100) ).toInt()} $sumDistance $goal")
         }
     }
 
@@ -226,7 +272,8 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             runningLoadingDialog = RunningLoadingDialog(this)
             runningLoadingDialog.show()
             CoroutineScope(Dispatchers.Main).launch {
-                binding.tvCurrentTime.text = "00 : 00"
+                changeDistanceText()
+                changeTimeText("00:00:00")
                 delay(3000L)
                 sendCommandToService(ACTION_SHOW_RUNNING_ACTIVITY)
                 sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
@@ -285,7 +332,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
     // 뒤로가기 버튼 눌렀을 때
     override fun onBackPressed() {
         var builder = AlertDialog.Builder(this)
-        builder.setTitle("달리기를 취소할까요? 기록은 저장되지 않습니다.")
+        builder.setTitle("달리기를 취소할까요?")
             .setPositiveButton("네"){ _,_ ->
                 // TODO : 달리기 종료시킴
                 stopRun()
@@ -310,7 +357,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         binding.layoutMap.visibility = View.VISIBLE
         binding.layoutGoal.visibility = View.INVISIBLE
         CoroutineScope(Dispatchers.Main).launch {
-            runRecordEndTime = timeFormatter(System.currentTimeMillis())
+            runRecordEndTime = System.currentTimeMillis()
             runRecordRunningAvgSpeed = (round((sumDistance / 1000f) / (currentTimeInMillis / 1000f / 60 / 60) * 10) / 10f)
             runRecordRunningCalorie = caloriesBurned
             runRecordRunningDistance = sumDistance
@@ -333,6 +380,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             startActivity(Intent(this@RunningActivity, RunningResultActivity::class.java))
             finish()
         }
+//        finish()
     }
 
     // 서비스에게 명령을 전달함
@@ -353,7 +401,11 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
 
         // 거리 텍스트 동기화
         sumDistance = updateDistance()
-        binding.tvDistance.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
+        if(type == GOAL_TYPE_TIME) {
+            binding.tvSubRecord.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
+        }else{
+            binding.tvMainRecord.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
+        }
 
         // 칼로리 소모량 체크
         caloriesBurned = round((sumDistance / 1000f) * weight).toInt()
@@ -385,15 +437,10 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
     companion object{
         lateinit var image: Bitmap
 
-        // 러닝 시작 전에 받아야 함.
-        var crewId: Int = 0
-        var runRecordStartTime: String = ""
-
         // 러닝 종료될 때 받아야 함.
-        var runRecordEndTime: String = ""
+        var runRecordEndTime: Long = 0L
         var runRecordRunningAvgSpeed : Float = 0f
         var runRecordRunningCalorie: Int = 0
-        var runRecordRunningCompleteYN: String = "N"
         var runRecordRunningDistance: Float = 0f
         var runRecordRunningLat: Double = 0.0
         var runRecordRunningLng: Double = 0.0

@@ -143,9 +143,9 @@ object ViewBindingAdapter {
 
     @BindingAdapter("textCostFormat")
     @JvmStatic
-    fun TextView.setTextCostFormat (cost: String){
+    fun TextView.setTextCostFormat (cost: Int){
         val formatter: NumberFormat = DecimalFormat("#,###")
-        val formattedNumber: String = formatter.format(cost.toInt())
+        val formattedNumber: String = formatter.format(cost)
         this.setText(formattedNumber)
     }
 
@@ -164,7 +164,7 @@ object ViewBindingAdapter {
     fun ImageView.setCrewImage (imageSeq: Int){
         if(imageSeq == 0){
             Glide.with(this.context)
-                .load(R.drawable.user_image)
+                .load(R.drawable.crew_image)
                 .override(R.dimen.crew_image_size * 2,R.dimen.crew_image_size * 2)
                 .placeholder(R.drawable.img)
                 .into(this)
@@ -176,7 +176,6 @@ object ViewBindingAdapter {
                 .placeholder(R.drawable.img)
                 .into(this)
         }
-        this.clipToOutline = true
     }
 
     @BindingAdapter("imgCrewPasswd")
@@ -198,10 +197,10 @@ object ViewBindingAdapter {
     @BindingAdapter("goalType", "goalAmount")
     @JvmStatic
     fun TextView.setGoal (goalType: String, goalAmount: Int){
-        if(goalType.equals("distance")){
-            this.text = "$goalAmount 분"
+        if(goalType == "distance"){
+            this.text = "${goalAmount / 1000}km"
         }else{
-            this.text = "$goalAmount km"
+            this.text = "${goalAmount / 60}분"
         }
     }
 }

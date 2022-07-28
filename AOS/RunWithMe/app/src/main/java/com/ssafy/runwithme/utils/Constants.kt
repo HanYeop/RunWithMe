@@ -1,7 +1,7 @@
 package com.ssafy.runwithme.utils
 
 // 본인 주소
-const val BASE_URL = "http://192.168.0.7:8080/api/"
+const val BASE_URL = "http://192.168.25.17:8080/api/"
 
 const val JWT = "JWT-AUTHENTICATION"
 
@@ -43,11 +43,19 @@ const val TIMER_UPDATE_INTERVAL = 50L
 
 /**
  * 러닝 진행 페이지 가기 전 저장할 값들
- * => 크루 아이디, 크루 이름, 달리기 시작시간,
+ * => 크루 아이디, 크루 이름, 달리기 시작시간, 목표 타입, 목표량
  */
 const val RUN_RECORD_CREW_ID = "run_record_crew_id"
 const val RUN_RECORD_CREW_NAME = "run_record_crew_name"
 const val RUN_RECORD_START_TIME = "run_record_start_time"
+const val RUN_GOAL_TYPE = "run_goal_type"
+const val RUN_GOAL_AMOUNT = "run_goal_amount"
+
+/**
+ * 목표 타입
+ */
+const val GOAL_TYPE_TIME = "time"
+const val GOAL_TYPE_DISTANCE = "distance"
 
 /**
  * 러닝 진행 페이지에서 저장할 값들

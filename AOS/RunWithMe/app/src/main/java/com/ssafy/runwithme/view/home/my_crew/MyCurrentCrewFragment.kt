@@ -9,10 +9,7 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentMyCurrentCrewBinding
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
-import com.ssafy.runwithme.utils.RUN_RECORD_CREW_ID
-import com.ssafy.runwithme.utils.RUN_RECORD_CREW_NAME
-import com.ssafy.runwithme.utils.RUN_RECORD_START_TIME
-import com.ssafy.runwithme.utils.Result
+import com.ssafy.runwithme.utils.*
 import com.ssafy.runwithme.view.home.HomeViewModel
 import com.ssafy.runwithme.view.running.RunningActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,13 +46,6 @@ class MyCurrentCrewFragment
         }
     }
 
-    private fun runningStart(crewId: Int, crewName: String){
-        sharedPreferences.edit().putLong(RUN_RECORD_START_TIME, System.currentTimeMillis()).apply()
-        sharedPreferences.edit().putInt(RUN_RECORD_CREW_ID, crewId).apply()
-        sharedPreferences.edit().putString(RUN_RECORD_CREW_NAME, crewName).apply()
-        startActivity(Intent(requireContext(), RunningActivity::class.java))
-    }
-
     private val listener : MyCurrentCrewListener = object : MyCurrentCrewListener {
         override fun onItemClick(myCurrentCrewResponse: MyCurrentCrewResponse) {
             val action = MyCurrentCrewFragmentDirections.actionMyCurrentCrewFragmentToCrewDetailFragment(myCurrentCrewResponse.crewDto, myCurrentCrewResponse.imageFileDto)
@@ -63,7 +53,9 @@ class MyCurrentCrewFragment
         }
 
         override fun onBtnStartClick(myCurrentCrewResponse: MyCurrentCrewResponse) {
-            runningStart(myCurrentCrewResponse.crewDto.crewSeq, myCurrentCrewResponse.crewDto.crewName)
+            runningStart(sharedPreferences, myCurrentCrewResponse.crewDto.crewSeq, myCurrentCrewResponse.crewDto.crewName
+                ,myCurrentCrewResponse.crewDto.crewGoalType, myCurrentCrewResponse.crewDto.crewGoalAmount)
+            startActivity(Intent(requireContext(),RunningActivity::class.java))
         }
     }
 

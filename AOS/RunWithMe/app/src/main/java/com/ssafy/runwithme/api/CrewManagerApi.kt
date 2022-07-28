@@ -2,10 +2,7 @@ package com.ssafy.runwithme.api
 
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.dto.CrewDto
-import com.ssafy.runwithme.model.response.CreateCrewResponse
-import com.ssafy.runwithme.model.response.CreateRunRecordResponse
-import com.ssafy.runwithme.model.response.CrewBoardResponse
-import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
+import com.ssafy.runwithme.model.response.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -24,6 +21,6 @@ interface CrewManagerApi {
     suspend fun createCrew(@Part("crewDto") crewDto: RequestBody): BaseResponse<CreateCrewResponse>
 
     @GET("crew-manager/recruitment")
-    suspend fun getRecruitCrew(@Query("maxCrewSeq") maxCrewSeq: Int, @Query("size") size: Int) : BaseResponse<RecruitCrewResponse>
+    suspend fun getRecruitCrew(@Query("maxCrewSeq") maxCrewSeq: Int, @Query("size") size: Int) : BaseResponse<List<RecruitCrewResponse>>
 
 }
