@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.gson.annotations.SerializedName
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseActivity
@@ -12,10 +13,14 @@ import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.utils.*
 import com.ssafy.runwithme.utils.TrackingUtility.Companion.getFormattedStopWatchTime
 import com.ssafy.runwithme.view.create_recommend.CreateRecommendDialog
+import com.ssafy.runwithme.view.create_recommend.CreateRecommendListener
+import com.ssafy.runwithme.view.recommend.RecommendViewModel
 import com.ssafy.runwithme.view.running.RunningActivity
 import com.ssafy.runwithme.view.running.RunningViewModel
 import com.ssafy.runwithme.view.running.result.achievement.AchievementDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -29,6 +34,9 @@ import javax.inject.Inject
 class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layout.activity_running_result) {
 
     private val runningViewModel by viewModels<RunningViewModel>()
+    private val recommendViewModel by viewModels<RecommendViewModel>()
+
+    private var runRecordSeq = 0
     @Inject
     lateinit var sharedPreferences: SharedPreferences
     
@@ -39,8 +47,25 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
 
         callApi()
 
+        initViewModelCallBack()
+
         // TODO : TEST
         AchievementDialog(this).show()
+    }
+
+    private fun initViewModelCallBack(){
+        recommendViewModel.successMsgEvent.observe(this){
+            showToast(it)
+            finish()
+        }
+        recommendViewModel.errorMsgEvent.observe(this){
+            showToast(it)
+        }
+        lifecycleScope.launch {
+            runningViewModel.runRecordSeq.collectLatest {
+                runRecordSeq = it
+            }
+        }
     }
 
     private fun initResult(){
@@ -58,7 +83,6 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
         }
     }
 
-    // TODO
     @Throws(IOException::class)
     private fun createFileFromBitmap(bitmap: Bitmap): File? {
         val newFile = File(this.filesDir, "record_${System.currentTimeMillis()}")
@@ -103,8 +127,14 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
                 finish()
             }
             btnRecommend.setOnClickListener {
-                CreateRecommendDialog(this@RunningResultActivity).show()
+                CreateRecommendDialog(this@RunningResultActivity, createRecommendListener).show()
             }
+        }
+    }
+
+    private val createRecommendListener = object: CreateRecommendListener {
+        override fun onBtnOkClicked(environmentPoint: Int, hardPoint: Int) {
+            recommendViewModel.createRecommend(environmentPoint, hardPoint, runRecordSeq)
         }
     }
 }

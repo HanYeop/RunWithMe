@@ -12,7 +12,7 @@ import com.ssafy.runwithme.databinding.DialogCreateRecommendBinding
 import com.ssafy.runwithme.utils.dialogResize
 
 
-class CreateRecommendDialog(context: Context): Dialog(context) {
+class CreateRecommendDialog(context: Context, private val listener: CreateRecommendListener): Dialog(context) {
 
     private lateinit var binding: DialogCreateRecommendBinding
 
@@ -35,9 +35,10 @@ class CreateRecommendDialog(context: Context): Dialog(context) {
             btnCancel.setOnClickListener {
                 dismiss()
             }
-            // TODO : 공유하기 기능
-            btnRecommend.setOnClickListener {
 
+            btnRecommend.setOnClickListener {
+                listener.onBtnOkClicked(binding.ratingEnvironment.rating.toInt(), binding.ratingHard.rating.toInt())
+                dismiss()
             }
         }
     }

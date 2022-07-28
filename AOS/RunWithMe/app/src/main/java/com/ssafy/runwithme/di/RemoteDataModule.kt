@@ -96,4 +96,11 @@ object RemoteDataModule {
     fun provideMyActivityApi(retrofit: Retrofit): MyActivityApi {
         return retrofit.create(MyActivityApi::class.java)
     }
+
+    // RecommendApi DI
+    @Provides
+    @Singleton
+    fun provideRecommendApi(retrofit: Retrofit): RecommendApi {
+        return retrofit.create(RecommendApi::class.java)
+    }
 }

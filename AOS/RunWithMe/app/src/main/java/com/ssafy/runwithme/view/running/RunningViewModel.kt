@@ -8,10 +8,13 @@ import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.repository.CrewRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import com.ssafy.runwithme.utils.Result
 import okhttp3.RequestBody
 import javax.inject.Inject
 
@@ -20,16 +23,18 @@ class RunningViewModel @Inject constructor(
     private val crewRepository: CrewRepository
 ): ViewModel(){
 
+    private val _runRecordSeq = MutableStateFlow(0)
+    val runRecordSeq get() = _runRecordSeq.asStateFlow()
+
     fun createRunRecord(crewId: Int, imgFile: MultipartBody.Part, runRecordDto: RunRecordDto){
         val json = Gson().toJson(runRecordDto)
         val run = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), json)
 
-        Log.d("test5", "createRunRecord: $imgFile $run")
-
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("test5", "createRunRecord: ")
             crewRepository.createRunRecords(crewId, imgFile, run).collectLatest {
-                Log.d("test5", "createRunRecord: $it")
+                if(it is Result.Success){
+                    _runRecordSeq.value = it.data.data.runRecordDto.runRecordSeq
+                }
             }
         }
     }

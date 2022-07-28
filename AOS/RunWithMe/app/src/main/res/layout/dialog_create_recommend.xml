@@ -39,16 +39,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:padding="8dp"
             app:layout_constraintEnd_toEndOf="@+id/tv_hard_point_header"
             app:layout_constraintStart_toStartOf="@+id/tv_hard_point_header"
             app:layout_constraintTop_toBottomOf="@+id/tv_hard_point_header"
             app:srb_clickable="true"
             app:srb_isIndicator="false"
             app:srb_numStars="5"
-            app:srb_rating="0"
+            app:srb_minimumStars="1"
+            app:srb_rating="1"
             app:srb_scrollable="true"
             app:srb_starPadding="2dp"
-            app:srb_stepSize="0.5" />
+            app:srb_stepSize="1" />
 
         <TextView
             android:id="@+id/tv_environment_point_header"
@@ -66,7 +68,7 @@
             android:id="@+id/rating_environment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="4dp"
+            android:padding="8dp"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="@+id/tv_environment_point_header"
             app:layout_constraintStart_toStartOf="@+id/tv_environment_point_header"
@@ -74,10 +76,11 @@
             app:srb_clickable="true"
             app:srb_isIndicator="false"
             app:srb_numStars="5"
-            app:srb_rating="0"
+            app:srb_minimumStars="1"
+            app:srb_rating="1"
             app:srb_scrollable="true"
             app:srb_starPadding="2dp"
-            app:srb_stepSize="0.5" />
+            app:srb_stepSize="1" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_cancel"
