@@ -6,8 +6,12 @@ import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.dto.ImageFileDto
 import com.ssafy.runwithme.model.dto.UserDto
 import com.ssafy.runwithme.model.response.MyProfileResponse
+import com.ssafy.runwithme.model.response.MyTotalRecordResponse
+import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.TAG
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -23,5 +27,9 @@ class MyActivityRemoteDataSource @Inject constructor(
     fun editMyProfile(profileEditDto: RequestBody, imgFile : MultipartBody.Part?
     ): Flow<BaseResponse<MyProfileResponse>> = flow {
         emit(myActivityApi.editMyProfile(profileEditDto, imgFile))
+    }
+
+    fun getMyTotalRecord(): Flow<BaseResponse<MyTotalRecordResponse>> = flow {
+        emit(myActivityApi.getMyTotalRecord())
     }
 }

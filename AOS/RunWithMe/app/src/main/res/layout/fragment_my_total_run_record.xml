@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="totalRunVM"
+            type="com.ssafy.runwithme.view.my_page.tab.total_record.MyTotalRunRecordViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,7 +66,7 @@
                             android:id="@+id/tv_distance"
                             style="@style/header_text"
                             android:layout_marginTop="16dp"
-                            android:text="0.3km"
+                            android:text="@{totalRunVM.distance + `km`}"
                             android:textColor="@color/black_high_emphasis"
                             android:textSize="26sp"
                             app:layout_constraintEnd_toEndOf="@+id/tv_distance_header"
@@ -89,7 +91,7 @@
                             android:id="@+id/tv_calorie"
                             style="@style/header_text"
                             android:layout_marginTop="16dp"
-                            android:text="14 kcal"
+                            android:text="@{totalRunVM.calorie + `kcal`}"
                             android:textColor="@color/black_high_emphasis"
                             android:textSize="26sp"
                             app:layout_constraintEnd_toEndOf="@+id/tv_calorie_header"
@@ -100,7 +102,7 @@
                             android:id="@+id/tv_time"
                             style="@style/header_text"
                             android:layout_marginTop="8dp"
-                            android:text="07 : 27"
+                            android:text="@{totalRunVM.timeMin + ` : ` + totalRunVM.timeSec}"
                             android:textColor="@color/black_high_emphasis"
                             android:textSize="26sp"
                             app:layout_constraintEnd_toEndOf="@+id/tv_time_header"
@@ -140,7 +142,7 @@
                             android:id="@+id/tv_speed"
                             style="@style/header_text"
                             android:layout_marginTop="8dp"
-                            android:text="8.3km/h"
+                            android:text="@{totalRunVM.speed + `km/h`}"
                             android:textColor="@color/black_high_emphasis"
                             android:textSize="26sp"
                             app:layout_constraintEnd_toEndOf="@+id/tv_speed_header"
@@ -152,7 +154,7 @@
                             style="@style/header_text"
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
-                            android:text="23 : 11"
+                            android:text="@{totalRunVM.longestTimeMin + ` : ` + totalRunVM.longestTimeSec}"
                             android:textColor="@color/black_high_emphasis"
                             android:textSize="26sp"
                             app:layout_constraintBottom_toTopOf="@+id/tv_longest_time_header"
@@ -178,7 +180,7 @@
                             style="@style/header_text"
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
-                            android:text="7.2km"
+                            android:text="@{totalRunVM.longestDistance + `km`}"
                             android:textColor="@color/black_high_emphasis"
                             android:textSize="26sp"
                             app:layout_constraintBottom_toTopOf="@+id/tv_longest_distance_header"

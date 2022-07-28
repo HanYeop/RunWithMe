@@ -6,6 +6,7 @@ import com.ssafy.runwithme.datasource.MyActivityRemoteDataSource
 import com.ssafy.runwithme.model.dto.ImageFileDto
 import com.ssafy.runwithme.model.dto.UserDto
 import com.ssafy.runwithme.model.response.MyProfileResponse
+import com.ssafy.runwithme.model.response.MyTotalRecordResponse
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.TAG
 import kotlinx.coroutines.flow.Flow
@@ -46,4 +47,18 @@ class MyActivityRepository @Inject constructor(
     }.catch { e ->
         emit(Result.Error(e))
     }
+
+    fun getMyTotalRecord(): Flow<Result<BaseResponse<MyTotalRecordResponse>>> = flow {
+        emit(Result.Loading)
+        myActivityRemoteDataSource.getMyTotalRecord().collect {
+            if(it.success){
+                emit(Result.Success(it))
+            }else {
+                emit(Result.Empty)
+            }
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
+
 }
