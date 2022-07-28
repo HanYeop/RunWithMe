@@ -43,7 +43,9 @@ public class UserCustomRepositoryImpl implements UserCustomRepository{
 		if(maxBoardSeq != null && maxBoardSeq != 0  ) {
 			builder.and(crewBoard.crewBoardSeq.lt(maxBoardSeq));
 		}
-		
+		if(size == null || size==0 ) {
+			size = Long.MAX_VALUE;
+		}
 		//크루 보드를 가져오는데 , 특정유저의 것만 , 날짜 오름차순으로
 		//크루 보드를 탐색하면서 주어진 유저랑 같은 거만 추스린 후에
 		//나온 보드의 크루를 구한다.

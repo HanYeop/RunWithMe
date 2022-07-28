@@ -14,7 +14,6 @@ public class Gumid101Application {
 		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
 	}
 	public static void main(String[] args) {
-		
 		System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
 
 		SpringApplication.run(Gumid101Application.class, args);
