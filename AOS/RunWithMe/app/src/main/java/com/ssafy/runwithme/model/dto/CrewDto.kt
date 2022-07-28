@@ -18,6 +18,7 @@ data class CrewDto(
     @SerializedName("crewTimeEnd") val crewTimeEnd: String,
     @SerializedName("crewPassword") val crewPassword: String?,
     @SerializedName("crewCost") val crewCost: Int,
+    @SerializedName("crewMemberCount") val crewMemberCount: Int,
     @SerializedName("crewMaxMember") val crewMaxMember: Int,
     @SerializedName("crewManagerNickName") val crewManagerNickName: String,
     @SerializedName("crewManagerSeq") val crewManagerSeq: Int
