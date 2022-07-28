@@ -213,7 +213,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 
 		List<CrewDto> crewList = crewManagerRepo.crewSearcheByRecruitmentParams(paramsDto);
 
-		return null;
+		return crewList;
 	}
 
 }

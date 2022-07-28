@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import com.google.common.base.Optional;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.gumid101.crew.CrewGoalType;
@@ -36,15 +37,17 @@ public class CrewManagerCustomRepositoryImpl implements CrewManagerCustomReposit
 
 		BooleanBuilder builder = RecruitmentParamsProcessedCondition(crewEntity, paramsDto);
 
-		Long maxCrewSeq = paramsDto.getMaxCrueSeq() == 0 ? Long.MAX_VALUE : paramsDto.getMaxCrueSeq();
+
+		
+		Long maxCrewSeq = (paramsDto.getMaxCrueSeq() == null ||paramsDto.getMaxCrueSeq() == 0) ? Long.MAX_VALUE : paramsDto.getMaxCrueSeq();
 		// maxCrewSeq가 0이라는 것은 초기 검색임으로 정렬 최상위 부터 size만큼 반환
 		// maxCrewwSeq가 0이 아니라는 것은, 스크롤 이후로 발생하는 것 , 따라서 maxCrewSeq가 값이 의미가 있이 오는데
 		// 거기서 기존 검색 꺼는 주면 안되기 때문에 maxCrewSeq 밑으로 부터 반환해야한다.
-		Long size = paramsDto.getSize() == 0 ? Long.MAX_VALUE : paramsDto.getSize();
+		Long size = (paramsDto.getSize() ==null || paramsDto.getSize()== 0) ? Long.MAX_VALUE : paramsDto.getSize();
 		// size가 0이면 전체 검색하는 걸로 하자
 
 		// 검색 조건에 따라 + 시작 안한 크루만 + 페이징
-		List<CrewEntity> crews = jpaQueryFactory.selectFrom(crewEntity).innerJoin(crewEntity.managerEntity).fetchJoin()
+		List<CrewEntity> crews = jpaQueryFactory.selectFrom(crewEntity).innerJoin(crewEntity.managerEntity)
 				.where(builder).where(crewEntity.crewDateStart.after(LocalDateTime.now()))
 				.where(crewEntity.crewSeq.lt(maxCrewSeq)).orderBy(crewEntity.crewDateStart.asc()).limit(size).fetch();
 
