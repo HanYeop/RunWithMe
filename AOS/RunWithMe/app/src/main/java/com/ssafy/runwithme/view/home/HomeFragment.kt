@@ -8,9 +8,7 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentHomeBinding
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
-import com.ssafy.runwithme.utils.RUN_RECORD_CREW_ID
-import com.ssafy.runwithme.utils.RUN_RECORD_CREW_NAME
-import com.ssafy.runwithme.utils.RUN_RECORD_START_TIME
+import com.ssafy.runwithme.utils.*
 import com.ssafy.runwithme.view.running.RunningActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -50,13 +48,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
     }
 
-    private fun runningStart(crewId: Int, crewName: String){
-        sharedPreferences.edit().putLong(RUN_RECORD_START_TIME, System.currentTimeMillis()).apply()
-        sharedPreferences.edit().putInt(RUN_RECORD_CREW_ID, crewId).apply()
-        sharedPreferences.edit().putString(RUN_RECORD_CREW_NAME, crewName).apply()
-        startActivity(Intent(requireContext(),RunningActivity::class.java))
-    }
-
     private fun initViewModelCallBack(){
         homeViewModel.errorMsgEvent.observe(viewLifecycleOwner){
             showToast(it)
@@ -70,7 +61,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         override fun onBtnStartClick(myCurrentCrewResponse: MyCurrentCrewResponse) {
-            runningStart(myCurrentCrewResponse.crewDto.crewSeq, myCurrentCrewResponse.crewDto.crewName)
+            runningStart(sharedPreferences, myCurrentCrewResponse.crewDto.crewSeq, myCurrentCrewResponse.crewDto.crewName
+            ,myCurrentCrewResponse.crewDto.crewGoalType, myCurrentCrewResponse.crewDto.crewGoalAmount)
+            startActivity(Intent(requireContext(),RunningActivity::class.java))
         }
     }
 }
