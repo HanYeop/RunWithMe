@@ -197,10 +197,10 @@ object ViewBindingAdapter {
     @BindingAdapter("goalType", "goalAmount")
     @JvmStatic
     fun TextView.setGoal (goalType: String, goalAmount: Int){
-        if(goalType.equals("distance")){
-            this.text = "$goalAmount 분"
+        if(goalType == "distance"){
+            this.text = "${goalAmount / 1000}km"
         }else{
-            this.text = "$goalAmount km"
+            this.text = "${goalAmount / 60}분"
         }
     }
 }
