@@ -34,6 +34,8 @@ public interface UserCrewJoinRepository extends JpaRepository<UserCrewJoinEntity
 
 	List<UserCrewJoinEntity> findAllByCrewEntity(CrewEntity crew);
 
+	@Query("SELECT count(*) FROM UserCrewJoinEntity ucj where ucj.crewEntity.crewSeq = :crewSeq")
+	int findCountCrewUser(Long crewSeq);
 	
 	
 }

@@ -1,5 +1,6 @@
 package com.ssafy.gumid101.crew.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.imgfile.ImageDirectory;
 import com.ssafy.gumid101.imgfile.ImageFileRepository;
 import com.ssafy.gumid101.res.CrewBoardFileDto;
+import com.ssafy.gumid101.res.CrewBoardRes;
 import com.ssafy.gumid101.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -71,36 +73,42 @@ public class CrewActivityBoardServiceImpl implements CrewActivityBoardService {
 		if (savedFileDto == null) {
 			savedFileDto = ImageFileDto.getNotExist();
 		}
-		
+
 		crewBoardEntity.setUserEntity(writerEntity);
 		crewBoardEntity.setCrewEntity(crewEntity);
 		crewBoardEntity.setImgFile(imageEntity);
 
 		boardRepo.save(crewBoardEntity);
-		return CrewBoardFileDto.builder().crewBoardContent(crewBoardEntity.getCrewBoardContent())
-				.crewBoardSeq(crewBoardEntity.getCrewBoardSeq()).crewBoardSeq(crewBoardEntity.getCrewBoardSeq())
+		return CrewBoardFileDto.builder().crewBoardDto(CrewBoardRes.of(crewBoardEntity))
 				.imageFileDto(ImageFileDto.of(crewBoardEntity.getImgFile())).build();
+				
 	}
 
 	@Override
 	public List<CrewBoardFileDto> getCrewBoards(Long crewSeq, Integer size, Long maxCrewBoardSeq) throws Exception {
 
-		Sort sort = Sort.by(Sort.Direction.DESC,"crewBoardRegTime").and(Sort.by(Sort.Direction.DESC, "crewBoardSeq"));
-		
-		Pageable pageable = PageRequest.of(0,size,sort);
-		
-		
-		if (maxCrewBoardSeq == null) {
+		Sort sort = Sort.by(Sort.Direction.DESC, "crewBoardRegTime").and(Sort.by(Sort.Direction.DESC, "crewBoardSeq"));
+
+		Pageable pageable = PageRequest.of(0, size, sort);
+
+		if (maxCrewBoardSeq == null || maxCrewBoardSeq == 0L) {
 			maxCrewBoardSeq = Long.MAX_VALUE;
 		}
 
 		return boardRepo
 				.findByCrewEntityAndCrewBoardSeqLessThan(crewRepo.findById(crewSeq).get(), maxCrewBoardSeq, pageable) //
-				.stream()
-				.map((entity) -> CrewBoardFileDto.builder().crewBoardContent(entity.getCrewBoardContent())
-						.crewBoardSeq(entity.getCrewBoardSeq()).crewBoardSeq(entity.getCrewBoardSeq())
-						.imageFileDto(ImageFileDto.of(entity.getImgFile())).build())
-				.collect(Collectors.toList());
+				.stream().map((entity) -> {
+					CrewBoardRes crewBoardRes = CrewBoardRes.builder().crewBoardContent(entity.getCrewBoardContent())
+							.crewBoardSeq(entity.getCrewBoardSeq()).crewBoardRegTime(entity.getCrewBoardRegTime())
+							.crewName(entity.getCrewEntity().getCrewName())
+							.userNickName(entity.getUserEntity().getNickName())
+							.userSeq(entity.getUserEntity().getUserSeq()).build();
+					CrewBoardFileDto cbf = CrewBoardFileDto.builder().crewBoardDto(crewBoardRes)
+							.imageFileDto(ImageFileDto.of(entity.getImgFile())).build();
+
+					return cbf;
+				}).collect(Collectors.toList());
+
 	}
 
 	@Override

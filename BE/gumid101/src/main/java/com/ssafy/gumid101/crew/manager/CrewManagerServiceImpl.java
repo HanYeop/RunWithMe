@@ -42,6 +42,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 	private final S3FileService s3FileService;
 	private final ImageFileRepository imageRepo;
 
+	@Transactional
 	@Override
 	public List<?> getMyCurrentCruew(Long userSeq) throws Exception {
 		// new jpabook.jpashop.repository.order.simplequery.
@@ -55,13 +56,14 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		List<CrewFileDto> crewList = crews.stream().map((entity) -> {
 			UserDto userDto = UserDto.of(entity.getManagerEntity());
 			ImageFileDto imgDto = ImageFileDto.of(entity.getImageFile());
-			CrewDto crewDto = CrewDto.of(entity,userDto.getNickName(),userDto.getUserSeq());
+			CrewDto crewDto = CrewDto.of(entity, userDto.getNickName(), userDto.getUserSeq());
+			crewDto.setCrewMemberCount(userCrewJoinRepository.findCountCrewUser(crewDto.getCrewSeq()));
+			
 			if (imgDto == null) {
 				imgDto = ImageFileDto.getNotExist();
 			}
-			
 
-			return new CrewFileDto(crewDto,imgDto);
+			return new CrewFileDto(crewDto, imgDto);
 
 		}).collect(Collectors.toList());
 
@@ -94,7 +96,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		}
 		crewDto.setCrewDateEnd(crewDto.getCrewDateEnd().withHour(23).withMinute(59).withSecond(59));
 		crewDto.setCrewDateStart(crewDto.getCrewDateStart().withHour(0).withMinute(0).withSecond(0));
-		
+
 		log.info(String.valueOf(crewDto.getCrewDateEnd().isBefore(crewDto.getCrewDateStart())));
 		if (crewDto.getCrewDateEnd().isBefore(crewDto.getCrewDateStart())) {
 			throw new IllegalParameterException("크루 종료일은 크루 시작일보다 늦어야합니다.");
@@ -149,8 +151,10 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 				.userEntity(managerEntity).build();
 
 		userCrewJoinRepository.save(userCrewJoinEntity);
+		CrewDto createdDto = CrewDto.of(crewEntity, managerEntity.getNickName(), managerEntity.getUserSeq());
+		createdDto.setCrewMemberCount(1);
 
-		return new CrewFileDto(CrewDto.of(crewEntity, managerEntity.getNickName(), managerEntity.getUserSeq()), savedFileDto);
+		return new CrewFileDto(createdDto, savedFileDto);
 	}
 
 	/**
@@ -167,8 +171,11 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 
 		if (crew.getManagerEntity().getUserSeq().longValue() == userSeq) {
 			if (LocalDateTime.now().isAfter(crew.getCrewDateStart())) {
+
 				int refundcount = userCrewJoinRepository.pointRefunds(crew, crew.getCrewCost());
+				//
 				int deletedJoin = userCrewJoinRepository.deleteAllBycrewSeq(crew);
+				//
 				crewManagerRepo.delete(crew);
 				log.info("{}로 부터의 -환급 갯수 :{}, 탈퇴 갯수{}", crew.getCrewSeq(), refundcount, deletedJoin);
 
@@ -209,11 +216,29 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 	}
 
 	@Override
-	public List<CrewDto> crewSearcheByRecruitmentParams(RecruitmentParamsDto paramsDto) throws Exception {
+	public List<CrewFileDto> crewSearcheByRecruitmentParams(RecruitmentParamsDto paramsDto) throws Exception {
 
-		List<CrewDto> crewList = crewManagerRepo.crewSearcheByRecruitmentParams(paramsDto);
+		List<CrewFileDto> crewList = crewManagerRepo.crewSearcheByRecruitmentParams(paramsDto);
 
-		return null;
+		return crewList;
+	}
+
+	@Transactional
+	@Override
+	public CrewFileDto getCrewDetail(Long crewId) throws Exception {
+
+		CrewEntity crewEntity = crewManagerRepo.findById(crewId)
+				.orElseThrow(() -> new CrewNotFoundException("크루 상세 조회 중 , 크루를 특정할 수 없습니다."));
+		CrewDto crewDto = CrewDto.of(crewEntity, crewEntity.getManagerEntity().getNickName(),
+				crewEntity.getManagerEntity().getUserSeq());
+		
+		crewDto.setCrewMemberCount(userCrewJoinRepository.findCountCrewUser(crewDto.getCrewSeq()));
+		
+		ImageFileDto imageDto = ImageFileDto.of(crewEntity.getImageFile());
+
+		CrewFileDto crewFileDto = new CrewFileDto(crewDto, imageDto);
+
+		return crewFileDto;
 	}
 
 }

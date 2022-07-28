@@ -60,7 +60,7 @@ public class RecommendRestController {
 		try {
 			trackBoardFileDtoList = recommendService.getTrackBoard(latlngParams);
 		}catch (Exception e) {
-			httpStatus = HttpStatus.CONFLICT;
+			httpStatus = HttpStatus.OK;
 			responseFrame.setData(new ArrayList<>());
 			responseFrame.setCount(0);
 			responseFrame.setSuccess(false);
@@ -88,7 +88,7 @@ public class RecommendRestController {
 		try {
 			trackBoardDto = recommendService.writeTrackBoard(userDto.getUserSeq(), run_record_seq, hard_point, environment_point);
 		}catch (Exception e) {
-			httpStatus = HttpStatus.CONFLICT;
+			httpStatus = HttpStatus.OK;
 			responseFrame.setCount(0);
 			responseFrame.setSuccess(false);
 			responseFrame.setMsg(e.getMessage());
@@ -114,7 +114,7 @@ public class RecommendRestController {
 		try {
 			deleted = recommendService.deleteTrackBoard(userDto.getUserSeq(), trackBoardSeq);
 		}catch (Exception e) {
-			httpStatus = HttpStatus.CONFLICT;
+			httpStatus = HttpStatus.OK;
 			responseFrame.setCount(0);
 			responseFrame.setSuccess(false);
 			responseFrame.setMsg(e.getMessage());

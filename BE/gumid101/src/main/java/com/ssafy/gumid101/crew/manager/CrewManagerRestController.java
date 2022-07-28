@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gumid101.customexception.CrewPermissonDeniedException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.dto.CrewDto;
@@ -43,7 +44,7 @@ public class CrewManagerRestController {
 
 	private final JwtUtilsService jwtUtilService;
 	private final CrewManagerService crewManagerService;
-	
+	private final ObjectMapper objectMapper;
 	private UserDto loadUserFromToken() {
 		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDto tokenUser = (UserDto) autentication.getPrincipal();
@@ -87,9 +88,11 @@ public class CrewManagerRestController {
 	@GetMapping("/recruitment")
 	public ResponseEntity<?> getCrewRecruitment(@ModelAttribute RecruitmentParamsDto paramsDto) throws Exception{
 		
-		List<CrewDto> crewList =  crewManagerService.crewSearcheByRecruitmentParams(paramsDto);
+
+		
+		List<CrewFileDto> crewList =  crewManagerService.crewSearcheByRecruitmentParams(paramsDto);
 		if(crewList == null) {
-			crewList = new ArrayList<CrewDto>();
+			crewList = new ArrayList<CrewFileDto>();
 		}
 		ResponseFrame<?> res = ResponseFrame.of(crewList, crewList.size(), "모집중인 크루 리스트를 반환합니다.");
 		
@@ -103,18 +106,21 @@ public class CrewManagerRestController {
 	 */
 	@ApiOperation(value = "크루 생성하기(모집하기)")
 	@PostMapping("/crew")
-	public ResponseEntity<?> createCrew(CrewDto crewDto, @RequestPart(name = "img", required = false) MultipartFile image) throws Exception{
+	public ResponseEntity<?> createCrew(@RequestPart("crewDto") String crewDto, @RequestPart(name = "img", required = false) MultipartFile image) throws Exception{
 
 		UserDto managerDto = loadUserFromToken();
 		HttpStatus httpStatus = HttpStatus.OK;
 		ResponseFrame<CrewFileDto> responseMap = new ResponseFrame<>();
 		
+		CrewDto crewteCrewDto = objectMapper.readValue(crewDto, CrewDto.class);
+		crewteCrewDto.setCrewMemberCount(1);
 		CrewFileDto crewFileDto = null;
 		try {
-			crewFileDto = crewManagerService.createCrew(image, crewDto, managerDto);
+			crewFileDto = crewManagerService.createCrew(image, crewteCrewDto, managerDto);
 		}catch (Exception e) {
-			httpStatus = HttpStatus.CONFLICT;
+			httpStatus = HttpStatus.OK;
 			responseMap.setCount(0);
+			responseMap.setData(new CrewFileDto(null, null));
 			responseMap.setSuccess(false);
 			responseMap.setMsg(e.getMessage());
 		}
@@ -148,8 +154,14 @@ public class CrewManagerRestController {
 	}
 	
 	@GetMapping("/crew/{crewSeq}")
-	public RequestEntity<?> getCrewDetail(@PathVariable long crewSeq){
-		return null;
+	public ResponseEntity<?> getCrewDetail(@PathVariable Long crewSeq) throws Exception{
+		
+		CrewFileDto  crewFileDto = crewManagerService.getCrewDetail(crewSeq);
+		
+		ResponseFrame<CrewFileDto> resFrame = ResponseFrame.of(crewFileDto, 1, "크루 상세정보를 반환합니다.");
+				
+		
+		return new ResponseEntity<>(resFrame,HttpStatus.OK);
 	}
 	
 	/**
