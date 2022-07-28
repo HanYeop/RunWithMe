@@ -4,23 +4,21 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
-import com.ssafy.runwithme.model.dto.ImageFileDto
 import com.ssafy.runwithme.model.dto.ProfileEditDto
-import com.ssafy.runwithme.model.dto.UserDto
 import com.ssafy.runwithme.repository.MyActivityRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import javax.inject.Inject
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.SingleLiveEvent
 import com.ssafy.runwithme.utils.TAG
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import javax.inject.Inject
 
 
 @HiltViewModel
@@ -78,7 +76,6 @@ class MyPageViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             myActivityRepository.editMyProfile(profileEditDto, imgFile).collectLatest {
-                Log.d(TAG, "editMyProfile: $it")
                 if(it is Result.Success){
                     _editMsgEvent.postValue("프로필 수정에 성공했습니다.")
                 } else if(it is Result.Error) {

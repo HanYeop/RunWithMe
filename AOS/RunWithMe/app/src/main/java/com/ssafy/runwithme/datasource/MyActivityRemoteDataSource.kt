@@ -22,10 +22,6 @@ class MyActivityRemoteDataSource @Inject constructor(
 
     fun editMyProfile(profileEditDto: RequestBody, imgFile : MultipartBody.Part?
     ): Flow<BaseResponse<MyProfileResponse>> = flow {
-        if(imgFile == null){
-            emit(myActivityApi.editMyProfile(profileEditDto))
-        } else {
-            emit(myActivityApi.editMyProfile(profileEditDto, imgFile!!))
-        }
+        emit(myActivityApi.editMyProfile(profileEditDto, imgFile))
     }
 }
