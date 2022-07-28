@@ -196,7 +196,7 @@ public class MyActivityRestController {
 	 */
 	@GetMapping("/boards") //안쓴 거는 null로 받기위해 참조형으로 파라메터를 받음
 	public ResponseEntity<?> getMyBoards(@RequestParam(required = false,name = "size") Long size,
-			@RequestParam(required = false,name = "offset") Long boardMaxSeq) throws Exception {
+			@RequestParam(required = false,name = "boardMaxSeq") Long boardMaxSeq) throws Exception {
 		
 		UserDto userDto = loadUserFromToken();
 		

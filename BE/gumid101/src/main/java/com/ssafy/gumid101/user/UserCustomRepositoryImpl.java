@@ -85,9 +85,15 @@ public class UserCustomRepositoryImpl implements UserCustomRepository{
 		.select(Projections.fields(RankingDto.class, 
 				user.userSeq.as("userSeq"),
 				user.nickName.as("nickName"),
-				column.as("lankingValue")))
+				column.as("rankingValue")))
 		.orderBy(column.desc())
 		.fetch();
+		
+		for(int i = offset.intValue() ; i < rankingList.size()+offset.intValue(); i++) {
+			rankingList.get(i).setRankingIndex(i+1);
+		}
+		
+		
 		
 		return rankingList;
 	}

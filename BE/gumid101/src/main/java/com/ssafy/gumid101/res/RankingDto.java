@@ -7,5 +7,6 @@ public class RankingDto {
 
 	private String userName;
 	private Long userSeq;
-	private Integer lankingValue;
+	private Integer rankingIndex;
+	private Integer rankingValue;
 }
