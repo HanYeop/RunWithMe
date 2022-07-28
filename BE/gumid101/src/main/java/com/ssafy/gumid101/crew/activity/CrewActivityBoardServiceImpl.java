@@ -57,7 +57,7 @@ public class CrewActivityBoardServiceImpl implements CrewActivityBoardService {
 
 		ImageFileEntity imageEntity = null;
 		ImageFileDto savedFileDto = null;
-		if (!image.isEmpty()) {
+		if (image != null && !image.isEmpty()) {
 			try {
 				savedFileDto = s3FileService.upload(image, ImageDirectory.CREW_BOARD.getPath());
 				// 이미지쪽 세이브

@@ -29,5 +29,13 @@ public class TotalRankingServiceImpl implements TotalRankingService {
 		return rankingList;
 	}
 
+	@Override
+	public RankingDto getMyRankingByType(String rankingType, Long userSeq) throws Exception {
+
+		RankingDto ranking =  totalRankingRepo.getMyTotalRanking(rankingType,userSeq);
+	
+		return ranking;
+	}
+
 
 }
