@@ -7,9 +7,9 @@
     <string name="menu_my_page">내정보</string>
 
     <string-array name="sort_options">
-        <item>날짜</item>
-        <item>시간</item>
         <item>거리</item>
+        <item>시간</item>
+        <item>포인트</item>
         <item>평균 속도</item>
         <item>칼로리 소모량</item>
     </string-array>
