@@ -2,6 +2,10 @@ package com.ssafy.runwithme.view.my_page.edit_profile
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.os.Build
+import android.provider.MediaStore
 import android.text.InputFilter
 import android.view.View
 import android.widget.AdapterView
@@ -14,19 +18,19 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentEditProfileBinding
 import com.ssafy.runwithme.model.dto.ProfileEditDto
-import com.ssafy.runwithme.model.dto.UserDto
 import com.ssafy.runwithme.view.my_page.MyPageViewModel
-import com.ssafy.runwithme.view.running.RunningActivity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.util.regex.Pattern
 
 class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fragment_edit_profile) {
 
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
+    private var imgFile : MultipartBody.Part? = null
 
     override fun init() {
         binding.myPageVM = myPageViewModel
@@ -53,22 +57,13 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
                 if(editJoinNickname.text.toString().length < 2){ // 최소 길이는 따로 검증해줘야함
                     showToast("닉네임은 한글, 영문, 숫자로만 2자 ~ 8자까지 입력 가능합니다.")
                 } else {
-                    var imageFile: File? = null
-//                    try {
-//                        imageFile = createFileFromBitmap(RunningActivity.image)
-//                    } catch (e: IOException) {
-//                        e.printStackTrace()
-//                    }
-//
-//                    val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imageFile!!)
-//                    val imgFile = MultipartBody.Part.createFormData("imgFile", imageFile!!.name, requestFile)
                     myPageViewModel.editMyProfile(
                         profile = ProfileEditDto(
                             editJoinNickname.text.toString(),
                             spinnerEditHeight.selectedItem as Int,
                             spinnerEditWeight.selectedItem as Int,
                         ),
-                        null
+                        imgFile
                     )
                 }
             }
@@ -89,7 +84,41 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
         ActivityResultContracts.StartActivityForResult()){
         if(it.resultCode == Activity.RESULT_OK){
             binding.imageUserProfile.setImageURI(it.data?.data)
+
+            var bitmap : Bitmap? = null
+            val uri = it.data?.data
+            try{
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
+                    bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(requireActivity().contentResolver, uri!!))
+                }else{
+                    bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
+                }
+                createMultiPart(bitmap!!)
+            }catch (e : Exception){
+                e.printStackTrace()
+            }
         }
+    }
+
+    private fun createMultiPart(bitmap: Bitmap) {
+        var imageFile: File? = null
+        try {
+            imageFile = createFileFromBitmap(bitmap)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imageFile!!)
+        imgFile = MultipartBody.Part.createFormData("imgFile", imageFile!!.name, requestFile)
+    }
+
+    @Throws(IOException::class)
+    private fun createFileFromBitmap(bitmap: Bitmap): File? {
+        val newFile = File(requireActivity().filesDir, "profile_${System.currentTimeMillis()}")
+        val fileOutputStream = FileOutputStream(newFile)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
+        fileOutputStream.close()
+        return newFile
     }
 
     private fun initSpinner(){

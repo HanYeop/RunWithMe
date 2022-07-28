@@ -74,12 +74,12 @@ class MyPageViewModel @Inject constructor(
         val json = Gson().toJson(profile)
         val profileEditDto = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), json)
 
-        Log.d("test5", "createRunRecord: $imgFile $profileEditDto $json")
+        Log.d("test5", "createRunRecord: $json $imgFile ")
 
         viewModelScope.launch(Dispatchers.IO) {
             myActivityRepository.editMyProfile(profileEditDto, imgFile).collectLatest {
+                Log.d(TAG, "editMyProfile: $it")
                 if(it is Result.Success){
-                    Log.d(TAG, "editMyProfile: $it")
                     _editMsgEvent.postValue("프로필 수정에 성공했습니다.")
                 } else if(it is Result.Error) {
                     _errorMsgEvent.postValue("프로필 수정에 실패했습니다.")

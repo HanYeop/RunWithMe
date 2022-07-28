@@ -2,7 +2,6 @@ package com.ssafy.runwithme.view.my_page
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.ssafy.runwithme.R
