@@ -94,7 +94,7 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
             runRecordRunningCompleteYN = ""
         )
 
-        runningViewModel.createRunRecord(imgFile,runDto)
+        runningViewModel.createRunRecord(sharedPreferences.getInt(RUN_RECORD_CREW_ID,0) ,imgFile,runDto)
     }
 
     private fun initClickListener(){

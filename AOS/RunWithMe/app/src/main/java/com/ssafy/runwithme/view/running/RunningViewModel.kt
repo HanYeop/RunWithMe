@@ -21,7 +21,7 @@ class RunningViewModel @Inject constructor(
     private val crewRepository: CrewRepository
 ): ViewModel(){
 
-    fun createRunRecord(imgFile: MultipartBody.Part, runRecordDto: RunRecordDto){
+    fun createRunRecord(crewId: Int, imgFile: MultipartBody.Part, runRecordDto: RunRecordDto){
         val json = Gson().toJson(runRecordDto)
         val run = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), json)
 
@@ -29,7 +29,7 @@ class RunningViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("test5", "createRunRecord: ")
-            crewRepository.createRunRecords(imgFile, run).collectLatest {
+            crewRepository.createRunRecords(crewId, imgFile, run).collectLatest {
                 Log.d("test5", "createRunRecord: $it")
             }
         }

@@ -15,9 +15,9 @@ import javax.inject.Inject
 class CrewRepository @Inject constructor(
     private val crewRemoteDataSource: CrewRemoteDataSource) {
 
-    fun createRunRecords(imgFile: MultipartBody.Part, runRecordDto: RequestBody): Flow<Result<BaseResponse<CreateRunRecordResponse>>> = flow {
+    fun createRunRecords(crewId: Int, imgFile: MultipartBody.Part, runRecordDto: RequestBody): Flow<Result<BaseResponse<CreateRunRecordResponse>>> = flow {
         emit(Result.Loading)
-        crewRemoteDataSource.createRunRecords(imgFile, runRecordDto).collect {
+        crewRemoteDataSource.createRunRecords(crewId, imgFile, runRecordDto).collect {
             if(it.success){
                 emit(Result.Success(it))
             }
