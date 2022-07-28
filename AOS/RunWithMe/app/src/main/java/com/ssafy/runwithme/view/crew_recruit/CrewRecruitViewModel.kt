@@ -108,12 +108,17 @@ class CrewRecruitViewModel @Inject constructor(
             pass = passwd
         }
 
+//        val crew = CrewDto(0, crewName.value, crewDescription.value,
+//                        goalDays.value.toInt(), goalType, goalAmount,
+//            dateStart.value + " 00:00:00", dateEnd.value + " 23:59:59",
+//            timeStart.value + ":00", timeEnd.value + ":00", pass,
+//                        cost.value.toInt(), maxMember.value.toInt(), "", 0)
+
         val crew = CrewDto(0, crewName.value, crewDescription.value,
-                        goalDays.value.toInt(), goalType, goalAmount,
+            goalDays.value.toInt(), goalType, goalAmount,
             dateStart.value + " 00:00:00", dateEnd.value + " 23:59:59",
             timeStart.value + ":00", timeEnd.value + ":00", pass,
-                        cost.value.toInt(), maxMember.value.toInt(), "", 0)
-
+            0, maxMember.value.toInt(), "", 0)
 
         val json = Gson().toJson(crew)
         val crewDto = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), json)
@@ -143,7 +148,8 @@ class CrewRecruitViewModel @Inject constructor(
     }
 
     fun setPasswd(passwd : String){
-        if(passwd.length != 4 || passwd.length != 0){
+        Log.d(TAG, "setPasswd: ${passwd.length}")
+        if(passwd.length != 4 && passwd.isNotEmpty()){
             this.passwd = ""
             _failMsgEvent.postValue("비밀번호는 4자리입니다.")
         }else {
@@ -276,7 +282,7 @@ class CrewRecruitViewModel @Inject constructor(
     }
 
     fun updateDateEnd(){
-        val dateToken = StringTokenizer(dateStart.value, ".")
+        val dateToken = StringTokenizer(dateStart.value, "-")
         val date = LocalDate.of(dateToken.nextToken().toInt(), dateToken.nextToken().toInt(), dateToken.nextToken().toInt())
         val endDate = date.plusWeeks(goalWeeks.value.toLong()).minusDays(1)
         val endDateYear = endDate.year

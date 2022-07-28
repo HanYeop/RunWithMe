@@ -19,6 +19,8 @@
             android:inputType="numberPassword"
             android:hint="****"
             android:textSize="32dp"
+            android:maxLength="4"
+            android:maxLines="1"
             android:layout_marginTop="32dp"
             android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
