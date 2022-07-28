@@ -167,8 +167,11 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 
 		if (crew.getManagerEntity().getUserSeq().longValue() == userSeq) {
 			if (LocalDateTime.now().isAfter(crew.getCrewDateStart())) {
+				
 				int refundcount = userCrewJoinRepository.pointRefunds(crew, crew.getCrewCost());
+				//
 				int deletedJoin = userCrewJoinRepository.deleteAllBycrewSeq(crew);
+				//
 				crewManagerRepo.delete(crew);
 				log.info("{}로 부터의 -환급 갯수 :{}, 탈퇴 갯수{}", crew.getCrewSeq(), refundcount, deletedJoin);
 
@@ -214,6 +217,19 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		List<CrewDto> crewList = crewManagerRepo.crewSearcheByRecruitmentParams(paramsDto);
 
 		return crewList;
+	}
+
+	@Override
+	public CrewFileDto getCrewDetail(Long crewId) throws Exception {
+		
+		CrewEntity crewEntity =  crewManagerRepo.findById(crewId).orElseThrow(()->new CrewNotFoundException("크루 상세 조회 중 , 크루를 특정할 수 없습니다."));
+		CrewDto crewDto = CrewDto.of(crewEntity, crewEntity.getManagerEntity().getNickName(), crewEntity.getManagerEntity().getUserSeq());
+		
+		ImageFileDto imageDto = ImageFileDto.of(crewEntity.getImageFile());
+				
+		CrewFileDto crewFileDto = new CrewFileDto(crewDto, imageDto);
+		
+		return crewFileDto;
 	}
 
 }

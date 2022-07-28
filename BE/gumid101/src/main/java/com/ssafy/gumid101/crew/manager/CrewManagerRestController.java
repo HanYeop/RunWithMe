@@ -152,8 +152,14 @@ public class CrewManagerRestController {
 	}
 	
 	@GetMapping("/crew/{crewSeq}")
-	public RequestEntity<?> getCrewDetail(@PathVariable long crewSeq){
-		return null;
+	public ResponseEntity<?> getCrewDetail(@PathVariable Long crewSeq) throws Exception{
+		
+		CrewFileDto  crewFileDto = crewManagerService.getCrewDetail(crewSeq);
+		
+		ResponseFrame<CrewFileDto> resFrame = ResponseFrame.of(crewFileDto, 1, "크루 상세정보를 반환합니다.");
+				
+		
+		return new ResponseEntity<>(resFrame,HttpStatus.OK);
 	}
 	
 	/**

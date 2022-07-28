@@ -39,7 +39,7 @@ public class CrewManagerCustomRepositoryImpl implements CrewManagerCustomReposit
 
 
 		
-		Long maxCrewSeq = (paramsDto.getMaxCrueSeq() == null ||paramsDto.getMaxCrueSeq() == 0) ? Long.MAX_VALUE : paramsDto.getMaxCrueSeq();
+		Long maxCrewSeq = (paramsDto.getMaxCrewSeq() == null ||paramsDto.getMaxCrewSeq() == 0) ? Long.MAX_VALUE : paramsDto.getMaxCrewSeq();
 		// maxCrewSeq가 0이라는 것은 초기 검색임으로 정렬 최상위 부터 size만큼 반환
 		// maxCrewwSeq가 0이 아니라는 것은, 스크롤 이후로 발생하는 것 , 따라서 maxCrewSeq가 값이 의미가 있이 오는데
 		// 거기서 기존 검색 꺼는 주면 안되기 때문에 maxCrewSeq 밑으로 부터 반환해야한다.
