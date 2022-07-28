@@ -1,11 +1,14 @@
 package com.ssafy.runwithme.repository
 
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import com.ssafy.runwithme.api.MyActivityApi
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.datasource.MyActivityRemoteDataSource
-import com.ssafy.runwithme.model.dto.ImageFileDto
-import com.ssafy.runwithme.model.dto.UserDto
+import com.ssafy.runwithme.datasource.paging.GetMyBoardsPagingSource
 import com.ssafy.runwithme.model.response.MyProfileResponse
+import com.ssafy.runwithme.model.response.MyTotalBoardsResponse
 import com.ssafy.runwithme.model.response.MyTotalRecordResponse
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.TAG
@@ -18,7 +21,8 @@ import okhttp3.RequestBody
 import javax.inject.Inject
 
 class MyActivityRepository @Inject constructor(
-    private val myActivityRemoteDataSource: MyActivityRemoteDataSource
+    private val myActivityRemoteDataSource: MyActivityRemoteDataSource,
+    private val myActivityApi: MyActivityApi
 ){
     fun getMyProfile(): Flow<Result<BaseResponse<MyProfileResponse>>> = flow {
         emit(Result.Loading)
@@ -61,4 +65,13 @@ class MyActivityRepository @Inject constructor(
         emit(Result.Error(e))
     }
 
+    fun getMyBoards(size : Int) =
+        Pager(
+            config = PagingConfig(
+                pageSize = (size * 2),
+                maxSize = (size * 10),
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { GetMyBoardsPagingSource(myActivityApi, size) }
+        ).flow
 }

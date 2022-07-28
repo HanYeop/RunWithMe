@@ -3,7 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
+        <variable
+            name="board"
+            type="com.ssafy.runwithme.model.response.MyTotalBoardsResponse" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -53,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:text="안녕하세요. 오늘 러닝하기 참 좋은 날씨입니다. 모두들 화이팅!" />
+                android:text="@{board.crewBoardContent}" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
