@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="crewRecruitVm"
-            type="com.ssafy.runwithme.view.crew_recruit.CrewRecruitViewModel" />
+            name="crewCreateVM"
+            type="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -71,7 +71,7 @@
                     android:fontFamily="@font/noto_sans_bold"
                     android:includeFontPadding="false"
                     android:gravity="center"
-                    android:text="@={crewRecruitVm.crewName}"
+                    android:text="@={crewCreateVM.crewName}"
                     android:background="@drawable/edit_text_round"
                     app:layout_constraintBottom_toBottomOf="@id/tv_create_crew_name"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -99,7 +99,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="@{crewRecruitVm.crewDescription}"
+                    android:text="@{crewCreateVM.crewDescription}"
                     tools:text="안녕하세요. 감크루입니다.\n다함께 열심히 뛰어보아요"
                     android:padding="5dp"
                     android:maxLines="3"
@@ -153,7 +153,7 @@
                             app:layout_constraintStart_toEndOf="@id/tv_create_crew_start"
                             app:layout_constraintTop_toTopOf="@id/tv_create_crew_start"
                             tools:text="2022.07.25"
-                            android:text="@{crewRecruitVm.dateStart}"/>
+                            android:text="@{crewCreateVM.dateStart}"/>
 
                         <ImageButton
                             android:id="@+id/img_btn_create_start_calendar"
@@ -193,7 +193,7 @@
                             app:layout_constraintStart_toEndOf="@id/tv_create_crew_end"
                             app:layout_constraintTop_toTopOf="@id/tv_create_crew_end"
                             tools:text="2022.09.01"
-                            android:text="@{crewRecruitVm.dateEnd}"/>
+                            android:text="@{crewCreateVM.dateEnd}"/>
 
 
                         <TextView
@@ -217,7 +217,7 @@
                             app:layout_constraintBottom_toBottomOf="@id/tv_create_crew_goal_days"
                             app:layout_constraintEnd_toStartOf="@id/tv_create_crew_goal_days_text"
                             app:layout_constraintTop_toTopOf="@id/tv_create_crew_goal_days"
-                            android:text="@{Integer.toString(crewRecruitVm.goalWeeks)}"
+                            android:text="@{Integer.toString(crewCreateVM.goalWeeks)}"
                             tools:text="4" />
 
                         <TextView
@@ -254,7 +254,7 @@
                             app:layout_constraintStart_toEndOf="@id/tv_crew_create_running_start_time"
                             app:layout_constraintTop_toTopOf="@id/tv_crew_create_running_start_time"
                             tools:text="19:00"
-                            android:text="@{crewRecruitVm.timeStart}"/>
+                            android:text="@{crewCreateVM.timeStart}"/>
 
                         <TextView
                             android:id="@+id/text_view2"
@@ -279,7 +279,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/btn_crew_create_running_start_time"
                             tools:text="20:00"
-                            android:text="@{crewRecruitVm.timeEnd}"/>
+                            android:text="@{crewCreateVM.timeEnd}"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -430,7 +430,7 @@
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
                             android:background="@drawable/btn_round_lightgrey"
-                            android:text="@{crewRecruitVm.maxMember}"
+                            android:text="@{crewCreateVM.maxMember}"
                             app:layout_constraintBottom_toBottomOf="@id/tv_create_crew_max_member"
                             app:layout_constraintEnd_toStartOf="@id/tv_max"
                             app:layout_constraintTop_toTopOf="@id/tv_create_crew_max_member"
@@ -469,7 +469,7 @@
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
                             android:background="@drawable/btn_round_lightgrey"
-                            app:costFormat="@{crewRecruitVm.cost}"
+                            app:costFormat="@{crewCreateVM.cost}"
                             app:layout_constraintBottom_toBottomOf="@id/tv_create_crew_cost"
                             app:layout_constraintEnd_toStartOf="@id/tv_point"
                             app:layout_constraintTop_toTopOf="@id/tv_create_crew_cost"
@@ -588,9 +588,9 @@
                                 android:layout_width="200dp"
                                 android:layout_height="40dp"
                                 tools:text="5.0"
-                                app:isDistance="@{crewRecruitVm.goalTypeDistance}"
-                                app:distance="@{crewRecruitVm.distance}"
-                                app:time="@{crewRecruitVm.time}"
+                                app:isDistance="@{crewCreateVM.goalTypeDistance}"
+                                app:distance="@{crewCreateVM.distance}"
+                                app:time="@{crewCreateVM.time}"
                                 android:textColor="@color/black_high_emphasis"
                                 android:fontFamily="@font/noto_sans_bold"
                                 android:background="@drawable/btn_round_lightgrey"/>
@@ -628,7 +628,7 @@
                                 android:layout_width="100dp"
                                 android:layout_height="40dp"
                                 tools:text="3"
-                                android:text="@{crewRecruitVm.goalDays}"
+                                android:text="@{crewCreateVM.goalDays}"
                                 android:textColor="@color/black_high_emphasis"
                                 android:fontFamily="@font/noto_sans_bold"
                                 android:layout_marginStart="32dp"

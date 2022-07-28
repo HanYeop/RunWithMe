@@ -42,13 +42,13 @@ import java.util.*
 @AndroidEntryPoint
 class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.fragment_create_crew) {
 
-    private val crewRecruitViewModel by viewModels<CrewRecruitViewModel>()
+    private val createCrewViewModel by viewModels<CreateCrewViewModel>()
     private var imgFile : MultipartBody.Part? = null
 
     override fun init() {
 
         binding.apply {
-            crewRecruitVm = crewRecruitViewModel
+            crewCreateVM = createCrewViewModel
         }
 
         initClickListener()
@@ -57,7 +57,7 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
 
         initRadioGroupCheck()
 
-        crewRecruitViewModel.initDate()
+        createCrewViewModel.initDate()
 
         //initImageFile()
     }
@@ -76,7 +76,7 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
             }
 
             btnCreate.setOnClickListener {
-                crewRecruitViewModel.createCrew(imgFile)
+                createCrewViewModel.createCrew(imgFile)
             }
 
             btnCreateCrewGoalWeeks.setOnClickListener {
@@ -140,7 +140,7 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
                             binding.apply {
                                 btnCreateCrewPasswd.visibility = View.GONE
                                 tvPasswd.visibility = View.GONE
-                                crewRecruitViewModel.setPasswd("")
+                                createCrewViewModel.setPasswd("")
                             }
                         }
 
@@ -159,11 +159,11 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
                     when(checkId){
                         R.id.radio_btn_time -> {
                             tvGoalType.text = "분"
-                            crewRecruitViewModel.setGoalTypeDistance(false)
+                            createCrewViewModel.setGoalTypeDistance(false)
                         }
                         R.id.radio_btn_distance -> {
                             tvGoalType.text = "km"
-                            crewRecruitViewModel.setGoalTypeDistance(true)
+                            createCrewViewModel.setGoalTypeDistance(true)
                         }
                     }
                 }
@@ -240,9 +240,9 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
                 dayOfMonth = "0" + dayOfMonth
             }
 
-            crewRecruitViewModel.setDateStart("${year}-${month}-${dayOfMonth}")
+            createCrewViewModel.setDateStart("${year}-${month}-${dayOfMonth}")
 
-            crewRecruitViewModel.setDateEnd(year, monthInt + 1, dayOfMonthInt)
+            createCrewViewModel.setDateEnd(year, monthInt + 1, dayOfMonthInt)
         }
         val datePickerDialog: DatePickerDialog =
             DatePickerDialog(
@@ -267,71 +267,71 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
     private val goalWeeksDialogListener: GoalWeeksDialogListener = object : GoalWeeksDialogListener {
         @RequiresApi(Build.VERSION_CODES.O)
         override fun onItemClick(amount: Int) {
-            crewRecruitViewModel.setGoalWeeks(amount)
-            crewRecruitViewModel.updateDateEnd()
+            createCrewViewModel.setGoalWeeks(amount)
+            createCrewViewModel.updateDateEnd()
         }
     }
 
     private val maxMemberDialogListener: MaxMemberDialogListener = object : MaxMemberDialogListener {
         override fun onItemClick(max: Int) {
-            crewRecruitViewModel.setMaxMember(max)
+            createCrewViewModel.setMaxMember(max)
         }
     }
 
     private val endTimeDialogListener: EndTimeDialogListener = object : EndTimeDialogListener {
         override fun onItemClick(hour: String, minute: String) {
-            crewRecruitViewModel.setTimeEnd(hour, minute)
+            createCrewViewModel.setTimeEnd(hour, minute)
         }
     }
 
     private val startTimeDialogListener: StartTimeDialogListener =
         object : StartTimeDialogListener {
             override fun onItemClick(hour: String, minute: String) {
-                crewRecruitViewModel.setTimeStart(hour, minute)
+                createCrewViewModel.setTimeStart(hour, minute)
             }
         }
 
     private val passwdDialogListener: PasswdDialogListener = object : PasswdDialogListener {
         override fun onItemClick(passwd: String) {
-            crewRecruitViewModel.setPasswd(passwd)
+            createCrewViewModel.setPasswd(passwd)
         }
     }
 
     private val goalDaysDialogListener : GoalDaysDialogListener = object : GoalDaysDialogListener {
         override fun onItemClick(days: Int) {
-            crewRecruitViewModel.setGoalDays(days)
+            createCrewViewModel.setGoalDays(days)
         }
     }
 
     private val costDialogListener : CostDialogListener = object : CostDialogListener {
         override fun onItemClick(cost: String) {
-            crewRecruitViewModel.setCost(cost)
+            createCrewViewModel.setCost(cost)
         }
     }
 
     private val purposeTimeDialogListener : PurposeTimeDialogListener = object : PurposeTimeDialogListener {
         override fun onItemClick(time: String) {
-            crewRecruitViewModel.setTime(time)
+            createCrewViewModel.setTime(time)
         }
     }
 
     private val purposeDistanceDialogListener : PurposeDistanceDialogListener = object : PurposeDistanceDialogListener {
         override fun onItemClick(distance: Int) {
-            crewRecruitViewModel.setDistance(distance)
+            createCrewViewModel.setDistance(distance)
         }
     }
 
     private fun initViewModelCallBack() {
-        crewRecruitViewModel.errorMsgEvent.observe(viewLifecycleOwner) {
+        createCrewViewModel.errorMsgEvent.observe(viewLifecycleOwner) {
             showToast(it)
         }
 
-        crewRecruitViewModel.successMsgEvent.observe(viewLifecycleOwner) {
+        createCrewViewModel.successMsgEvent.observe(viewLifecycleOwner) {
             showToast(it)
             findNavController().popBackStack()
         }
 
-        crewRecruitViewModel.failMsgEvent.observe(viewLifecycleOwner) {
+        createCrewViewModel.failMsgEvent.observe(viewLifecycleOwner) {
             showToast(it)
         }
     }

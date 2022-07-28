@@ -1,6 +1,7 @@
 package com.ssafy.runwithme.binding
 
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
@@ -9,22 +10,38 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.ssafy.runwithme.R
+import com.ssafy.runwithme.binding.ViewBindingAdapter.setCostFormat
 import com.ssafy.runwithme.utils.BASE_URL
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.util.*
 
 object ViewBindingAdapter {
 
     @BindingAdapter("startTime", "endTime")
     @JvmStatic
     fun TextView.setStartTime(timeStart: String, timeEnd: String){
-        this.text = "$timeStart ~ $timeEnd"
+        val startToken = StringTokenizer(timeStart, ":")
+        val startHour = startToken.nextToken()
+        val startMinute = startToken.nextToken()
+
+        val endToken = StringTokenizer(timeEnd, ":")
+        val endHour = endToken.nextToken()
+        val endMinute = endToken.nextToken()
+
+        this.text = "$startHour:$startMinute ~ $endHour:$endMinute"
     }
 
     @BindingAdapter("startDay", "endDay")
     @JvmStatic
     fun TextView.setDay(dayStart : String, dayEnd : String){
-        this.text = "$dayStart ~ $dayEnd"
+        val startToken = StringTokenizer(dayStart, " ")
+        val startDay = startToken.nextToken()
+
+        val endToken = StringTokenizer(dayEnd, " ")
+        val endDay = endToken.nextToken()
+
+        this.text = "$startDay ~ $endDay"
     }
 
     @BindingAdapter("goalType", "goalAmount")
@@ -124,6 +141,14 @@ object ViewBindingAdapter {
         this.setText(formattedNumber)
     }
 
+    @BindingAdapter("textCostFormat")
+    @JvmStatic
+    fun TextView.setTextCostFormat (cost: String){
+        val formatter: NumberFormat = DecimalFormat("#,###")
+        val formattedNumber: String = formatter.format(cost.toInt())
+        this.setText(formattedNumber)
+    }
+
     @BindingAdapter("isDistance", "distance", "time")
     @JvmStatic
     fun AppCompatButton.setPurposeType (isDistance: Boolean, distance: String, time: String){
@@ -131,6 +156,52 @@ object ViewBindingAdapter {
             this.setText(distance)
         }else{
             this.setText(time)
+        }
+    }
+
+    @BindingAdapter("crewImage")
+    @JvmStatic
+    fun ImageView.setCrewImage (imageSeq: Int){
+        if(imageSeq == 0){
+            Glide.with(this.context)
+                .load(R.drawable.user_image)
+                .override(R.dimen.crew_image_size * 2,R.dimen.crew_image_size * 2)
+                .placeholder(R.drawable.img)
+                .into(this)
+        }
+        else {
+            Glide.with(this.context)
+                .load("${BASE_URL}images/${imageSeq}")
+                .override(R.dimen.crew_image_size * 2,R.dimen.crew_image_size * 2)
+                .placeholder(R.drawable.img)
+                .into(this)
+        }
+        this.clipToOutline = true
+    }
+
+    @BindingAdapter("imgCrewPasswd")
+    @JvmStatic
+    fun ImageView.setPasswdVisible (passwd: String?){
+        if(passwd == null){
+            this.visibility = View.INVISIBLE
+        }else{
+            this.visibility = View.VISIBLE
+        }
+    }
+
+    @BindingAdapter("goalDays")
+    @JvmStatic
+    fun TextView.setGoalDays (goalDays: Int){
+        this.text = "주 $goalDays 회"
+    }
+
+    @BindingAdapter("goalType", "goalAmount")
+    @JvmStatic
+    fun TextView.setGoal (goalType: String, goalAmount: Int){
+        if(goalType.equals("distance")){
+            this.text = "$goalAmount 분"
+        }else{
+            this.text = "$goalAmount km"
         }
     }
 }
