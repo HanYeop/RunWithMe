@@ -78,7 +78,7 @@ public class RecommendRestController {
 	
 	@ApiOperation(value = "장소 추천 게시판에 자신의 기록을 등록함 (난이도, 주변환경 별점은 없거나 0 ~ 5의 정수)")
 	@PostMapping("/board")
-	public ResponseEntity<?> writeRecommend(@RequestParam Long run_record_seq, @RequestParam(required = false) Integer hard_point, @RequestParam(required = false) Integer environment_point){
+	public ResponseEntity<?> writeRecommend(@RequestParam Long run_record_seq, @RequestParam(required = true) Integer hard_point, @RequestParam(required = true) Integer environment_point){
 		UserDto userDto = loadUserFromToken();
 		
 		HttpStatus httpStatus = HttpStatus.OK;
