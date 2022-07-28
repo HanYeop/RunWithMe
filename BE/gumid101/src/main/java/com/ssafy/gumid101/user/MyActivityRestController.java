@@ -28,6 +28,7 @@ import com.ssafy.gumid101.dto.RecordParamsDto;
 import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.req.ProfileEditDto;
+import com.ssafy.gumid101.res.CrewBoardRes;
 import com.ssafy.gumid101.res.ResponseFrame;
 import com.ssafy.gumid101.res.UserFileDto;
 
@@ -196,11 +197,11 @@ public class MyActivityRestController {
 	 */
 	@GetMapping("/boards") //안쓴 거는 null로 받기위해 참조형으로 파라메터를 받음
 	public ResponseEntity<?> getMyBoards(@RequestParam(required = false,name = "size") Long size,
-			@RequestParam(required = false,name = "offset") Long boardMaxSeq) throws Exception {
+			@RequestParam(required = false,name = "boardMaxSeq") Long boardMaxSeq) throws Exception {
 		
 		UserDto userDto = loadUserFromToken();
 		
-		List<CrewBoardDto> myBoardList =  userService.getMyBoards(userDto.getUserSeq(),size,boardMaxSeq);
+		List<CrewBoardRes> myBoardList =  userService.getMyBoards(userDto.getUserSeq(),size,boardMaxSeq);
 		
 		ResponseFrame<?> res = ResponseFrame.of(myBoardList,myBoardList.size(),"자신이 쓴 글을 반환합니다.");
 		
