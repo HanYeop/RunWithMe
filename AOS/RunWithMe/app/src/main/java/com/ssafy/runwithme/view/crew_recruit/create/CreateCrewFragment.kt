@@ -173,7 +173,7 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
     }
 
     private fun initGoalDaysDialog() {
-        val goalDaysDialog = GoalDaysDialog(requireContext(), goalDaysDialogListener)
+        val goalDaysDialog = GoalDaysDialog(requireContext(), goalDaysDialogListener, 1)
         goalDaysDialog.show()
     }
 
@@ -193,7 +193,7 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
     }
 
     private fun initPurposeDistanceDialog() {
-        val purposeDistanceDialog = PurposeDistanceDialog(requireContext(), purposeDistanceDialogListener)
+        val purposeDistanceDialog = PurposeDistanceDialog(requireContext(), purposeDistanceDialogListener, 1)
         purposeDistanceDialog.show()
     }
 

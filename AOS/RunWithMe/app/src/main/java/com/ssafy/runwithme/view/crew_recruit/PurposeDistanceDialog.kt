@@ -11,7 +11,7 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.databinding.DialogPurposeDistanceBinding
 import com.ssafy.runwithme.utils.dialogResize
 
-class PurposeDistanceDialog(context: Context, private val listener : PurposeDistanceDialogListener): Dialog(context) {
+class PurposeDistanceDialog(context: Context, private val listener : PurposeDistanceDialogListener, private val minValue : Int): Dialog(context) {
 
     private lateinit var binding: DialogPurposeDistanceBinding
 
@@ -28,7 +28,7 @@ class PurposeDistanceDialog(context: Context, private val listener : PurposeDist
 
 
         binding.apply {
-            numberpickerDistance.minValue = 1
+            numberpickerDistance.minValue = minValue
             numberpickerDistance.maxValue = 60
 //            numberpickerGoalAmount.displayedValues = goal_amount_values
             //순환 안되게 막기

@@ -170,6 +170,7 @@ class SearchCrewFragment : BaseFragment<FragmentSearchCrewBinding>(R.layout.frag
         val today = dateTimeFormat.format(date)
         val todayCalendarType = dateTimeFormat.parse(today)
 
+
         calendar.time = todayCalendarType
 
         val dataSetListener = DatePickerDialog.OnDateSetListener { view, year, monthInt, dayOfMonthInt ->
@@ -228,7 +229,7 @@ class SearchCrewFragment : BaseFragment<FragmentSearchCrewBinding>(R.layout.frag
                 dayOfMonth = "0" + dayOfMonth
             }
 
-            searchCrewViewModel.setDateStart("${year}-${month}-${dayOfMonth}")
+            searchCrewViewModel.setDateEnd("${year}-${month}-${dayOfMonth}")
 
         }
         val datePickerDialog: DatePickerDialog =
@@ -259,12 +260,12 @@ class SearchCrewFragment : BaseFragment<FragmentSearchCrewBinding>(R.layout.frag
     }
 
     private fun initMinGoalDaysDialog() {
-        val goalDaysDialog = GoalDaysDialog(requireContext(), goalMinDaysDialogListener)
+        val goalDaysDialog = GoalDaysDialog(requireContext(), goalMinDaysDialogListener, 1)
         goalDaysDialog.show()
     }
 
     private fun initMaxGoalDaysDialog() {
-        val goalDaysDialog = GoalDaysDialog(requireContext(), goalMaxDaysDialogListener)
+        val goalDaysDialog = GoalDaysDialog(requireContext(), goalMaxDaysDialogListener, searchCrewViewModel.minGoalDays.value.toInt())
         goalDaysDialog.show()
     }
 
@@ -279,12 +280,12 @@ class SearchCrewFragment : BaseFragment<FragmentSearchCrewBinding>(R.layout.frag
     }
 
     private fun initPurposeMinDistanceDialog() {
-        val purposeDistanceDialog = PurposeDistanceDialog(requireContext(), purposeMinDistanceDialogListener)
+        val purposeDistanceDialog = PurposeDistanceDialog(requireContext(), purposeMinDistanceDialogListener, 1)
         purposeDistanceDialog.show()
     }
 
     private fun initPurposeMaxDistanceDialog() {
-        val purposeDistanceDialog = PurposeDistanceDialog(requireContext(), purposeMaxDistanceDialogListener)
+        val purposeDistanceDialog = PurposeDistanceDialog(requireContext(), purposeMaxDistanceDialogListener, searchCrewViewModel.minDistance.value.toInt())
         purposeDistanceDialog.show()
     }
 
@@ -460,6 +461,15 @@ class SearchCrewFragment : BaseFragment<FragmentSearchCrewBinding>(R.layout.frag
                         isEnabled = false
                     }
                     checkboxSearchGoalAmount.apply {
+                        alpha = 0.5F
+                        isEnabled = false
+                        setChecked(false)
+                    }
+                    btnSearchGoalAmountStart.apply {
+                        alpha = 0.5F
+                        isEnabled = false
+                    }
+                    btnSearchGoalAmountEnd.apply {
                         alpha = 0.5F
                         isEnabled = false
                     }

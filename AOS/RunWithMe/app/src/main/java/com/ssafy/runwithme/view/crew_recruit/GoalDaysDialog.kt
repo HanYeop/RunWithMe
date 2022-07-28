@@ -11,7 +11,7 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.databinding.DialogGoalDaysBinding
 import com.ssafy.runwithme.utils.dialogResize
 
-class GoalDaysDialog(context: Context, private val listener : GoalDaysDialogListener): Dialog(context) {
+class GoalDaysDialog(context: Context, private val listener : GoalDaysDialogListener, private val minValue : Int): Dialog(context) {
 
     private lateinit var binding: DialogGoalDaysBinding
 
@@ -28,7 +28,7 @@ class GoalDaysDialog(context: Context, private val listener : GoalDaysDialogList
 
 
         binding.apply {
-            numberpickerGoalDays.minValue = 1
+            numberpickerGoalDays.minValue = minValue
             numberpickerGoalDays.maxValue = 7
             numberpickerGoalDays.wrapSelectorWheel = false
         }
