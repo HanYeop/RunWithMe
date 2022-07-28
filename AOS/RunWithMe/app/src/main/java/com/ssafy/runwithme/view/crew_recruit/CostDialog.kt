@@ -1,4 +1,4 @@
-package com.ssafy.runwithme.view.crew_recruit.create
+package com.ssafy.runwithme.view.crew_recruit
 
 import android.app.Dialog
 import android.content.Context
@@ -9,40 +9,39 @@ import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.databinding.DialogCostBinding
-import com.ssafy.runwithme.databinding.DialogPurposeTimeBinding
 import com.ssafy.runwithme.utils.dialogResize
 
-class PurposeTimeDialog (context: Context, private val listener : PurposeTimeDialogListener): Dialog(context) {
+class CostDialog (context: Context, private val listener : CostDialogListener): Dialog(context) {
 
-    private lateinit var binding: DialogPurposeTimeBinding
-    private lateinit var timeValues : Array<String>
+    private lateinit var binding: DialogCostBinding
+    private lateinit var costValues : Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context),
-            R.layout.dialog_purpose_time,
+            R.layout.dialog_cost,
             null,
             false
         )
         setContentView(binding.root)
 
-        val time_list = arrayListOf<String>()
+        val cost_list = arrayListOf<String>()
 
-        for(i in 1..60){
-            time_list.add((10 * i).toString())
+        for(i in 1..20){
+            cost_list.add((5000 * i).toString())
         }
 
-        timeValues = time_list.toTypedArray()
+        costValues = cost_list.toTypedArray()
 
         binding.apply {
-            numberpickerTime.minValue = 0
-            numberpickerTime.maxValue = 59
-            numberpickerTime.value = 4
-            numberpickerTime.displayedValues = timeValues
+            numberpickerCost.minValue = 0
+            numberpickerCost.maxValue = 19
+            numberpickerCost.value = 1
+            numberpickerCost.displayedValues = costValues
             //순환 안되게 막기
-            numberpickerTime.wrapSelectorWheel = false
+            numberpickerCost.wrapSelectorWheel = false
         }
 
         context.dialogResize(this, 0.9f, 0.5f)
@@ -56,8 +55,8 @@ class PurposeTimeDialog (context: Context, private val listener : PurposeTimeDia
     private fun initClickListener() {
         binding.apply {
             tvPositive.setOnClickListener {
-                val time = timeValues[numberpickerTime.value]
-                listener.onItemClick(time)
+                val cost = costValues[numberpickerCost.value]
+                listener.onItemClick(cost)
                 dismiss()
             }
         }

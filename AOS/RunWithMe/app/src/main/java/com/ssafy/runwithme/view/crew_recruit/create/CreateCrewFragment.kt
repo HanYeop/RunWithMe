@@ -5,36 +5,27 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.RadioGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentCreateCrewBinding
-import com.ssafy.runwithme.model.dto.CrewDto
-import com.ssafy.runwithme.view.crew_recruit.CrewRecruitViewModel
-import com.ssafy.runwithme.view.running.RunningActivity
+import com.ssafy.runwithme.view.crew_recruit.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.net.URI
-import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -309,13 +300,15 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
         }
     }
 
-    private val purposeTimeDialogListener : PurposeTimeDialogListener = object : PurposeTimeDialogListener {
+    private val purposeTimeDialogListener : PurposeTimeDialogListener = object :
+        PurposeTimeDialogListener {
         override fun onItemClick(time: String) {
             createCrewViewModel.setTime(time)
         }
     }
 
-    private val purposeDistanceDialogListener : PurposeDistanceDialogListener = object : PurposeDistanceDialogListener {
+    private val purposeDistanceDialogListener : PurposeDistanceDialogListener = object :
+        PurposeDistanceDialogListener {
         override fun onItemClick(distance: Int) {
             createCrewViewModel.setDistance(distance)
         }

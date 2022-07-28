@@ -1,4 +1,4 @@
-package com.ssafy.runwithme.view.crew_recruit.create
+package com.ssafy.runwithme.view.crew_recruit
 
 import android.app.Dialog
 import android.content.Context
@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.databinding.DialogGoalDaysBinding
-import com.ssafy.runwithme.databinding.DialogWeeksBinding
 import com.ssafy.runwithme.utils.dialogResize
 
 class GoalDaysDialog(context: Context, private val listener : GoalDaysDialogListener): Dialog(context) {

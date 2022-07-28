@@ -1,4 +1,4 @@
-package com.ssafy.runwithme.view.crew_recruit.create
+package com.ssafy.runwithme.view.crew_recruit
 
 import android.app.Dialog
 import android.content.Context
@@ -8,43 +8,34 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import com.ssafy.runwithme.R
-import com.ssafy.runwithme.databinding.DialogCostBinding
+import com.ssafy.runwithme.databinding.DialogPurposeDistanceBinding
 import com.ssafy.runwithme.utils.dialogResize
 
-class CostDialog (context: Context, private val listener : CostDialogListener): Dialog(context) {
+class PurposeDistanceDialog(context: Context, private val listener : PurposeDistanceDialogListener): Dialog(context) {
 
-    private lateinit var binding: DialogCostBinding
-    private lateinit var costValues : Array<String>
+    private lateinit var binding: DialogPurposeDistanceBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context),
-            R.layout.dialog_cost,
+            R.layout.dialog_purpose_distance,
             null,
             false
         )
         setContentView(binding.root)
 
-        val cost_list = arrayListOf<String>()
-
-        for(i in 1..20){
-            cost_list.add((5000 * i).toString())
-        }
-
-        costValues = cost_list.toTypedArray()
 
         binding.apply {
-            numberpickerCost.minValue = 0
-            numberpickerCost.maxValue = 19
-            numberpickerCost.value = 1
-            numberpickerCost.displayedValues = costValues
+            numberpickerDistance.minValue = 1
+            numberpickerDistance.maxValue = 60
+//            numberpickerGoalAmount.displayedValues = goal_amount_values
             //순환 안되게 막기
-            numberpickerCost.wrapSelectorWheel = false
+            numberpickerDistance.wrapSelectorWheel = false
         }
 
-        context.dialogResize(this, 0.9f, 0.5f)
+        context.dialogResize(this, 0.8f, 0.5f)
 
         // 배경 투명하게 바꿔줌
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -55,11 +46,10 @@ class CostDialog (context: Context, private val listener : CostDialogListener): 
     private fun initClickListener() {
         binding.apply {
             tvPositive.setOnClickListener {
-                val cost = costValues[numberpickerCost.value]
-                listener.onItemClick(cost)
+                val amount = numberpickerDistance.value
+                listener.onItemClick(amount)
                 dismiss()
             }
         }
     }
-
 }
