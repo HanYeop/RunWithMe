@@ -71,6 +71,10 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
             imageEditPhoto.setOnClickListener {
                 pickPhotoGallery()
             }
+
+            toolbar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
         }
     }
 
