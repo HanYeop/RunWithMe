@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 import javax.inject.Inject
 
 @HiltViewModel
@@ -57,14 +58,19 @@ class MyTotalRunRecordViewModel @Inject constructor(
                     var sec = it.data.data.totalTime % 60
                     _timeMin.value = min.toString()
                     _timeSec.value = sec.toString()
-                    _distance.value = (it.data.data.totalDistance / 1000).toString()
+
+                    val df = DecimalFormat("###0.000")
+                    _distance.value = df.format((it.data.data.totalDistance / 1000f))
+
                     min = it.data.data.totalLongestTime / 60
                     sec = it.data.data.totalLongestDistance % 60
                     _longestTimeMin.value = min.toString()
                     _longestTimeSec.value = sec.toString()
-                    _longestDistance.value = (it.data.data.totalLongestDistance / 1000).toString()
+
+                    _longestDistance.value = df.format((it.data.data.totalLongestDistance / 1000f)).toString()
+
                     _speed.value = String.format("%.1f", it.data.data.totalAvgSpeed)
-                    _calorie.value = it.data.data.totalTime.toString()
+                    _calorie.value = it.data.data.totalCalorie.toString()
                 } else if(it is Result.Error){
                     _errorMsgEvent.postValue("누적 기록을 불러오는 중 오류가 발생했습니다.")
                 }
