@@ -8,10 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.ssafy.runwithme.model.dto.UserDto
 import com.ssafy.runwithme.repository.Oauth2Repository
 import com.ssafy.runwithme.repository.UserRepository
-import com.ssafy.runwithme.utils.JWT
-import com.ssafy.runwithme.utils.Result
-import com.ssafy.runwithme.utils.SingleLiveEvent
-import com.ssafy.runwithme.utils.TAG
+import com.ssafy.runwithme.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -53,6 +50,7 @@ class UserViewModel @Inject constructor(
                         _joinEvent.postValue(it.data.jwtToken)
                         _joinMsgEvent.postValue("회원 가입 페이지로 이동합니다.")
                     } else {
+                        sharedPreferences.edit().putString(USER, it.data.userSeq.toString()).apply()
                         // 이미 등록된 사용자라서 토큰 바로 저장
                         sharedPreferences.edit().putString(JWT, it.data.jwtToken).apply()
                         _loginEvent.postValue("로그인 완료")
@@ -68,6 +66,7 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             userRepository.joinUser(token, userDto).collectLatest {
                 if(it is Result.Success) {
+                    sharedPreferences.edit().putString(USER, it.data.data.userSeq.toString()).apply()
                     sharedPreferences.edit().putString(JWT,it.data.data.jwtToken).apply()
                     _loginEvent.postValue("로그인 완료")
                 }else if (it is Result.Error){

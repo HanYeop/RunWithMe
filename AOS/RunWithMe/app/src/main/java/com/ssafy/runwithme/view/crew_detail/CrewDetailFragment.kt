@@ -73,6 +73,9 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
 
         crewDetailViewModel.getCrewBoardsTop3(crewDto.crewSeq, 3)
 
+        crewDetailViewModel.checkCrewMember(crewDto.crewSeq)
+
+
         lifecycleScope.launch {
             crewDetailViewModel.crewRunRecordList.collectLatest {
                 crewRunRecordAdapter.submitList(it)

@@ -40,4 +40,6 @@ interface CrewActivityApi {
     @POST("crew-activity/{crewSeq}/board")
     suspend fun createCrewBoard(@Path("crewSeq") crewSeq: Int, @Body crewBoardDto: CreateCrewBoardDto) : BaseResponse<CrewBoardResponse>
 
+    @DELETE("crew-activity/{crewSeq}/boards/{boardSeq}")
+    suspend fun deleteCrewBoard(@Path("crewSeq") crewSeq: Int, @Path("boardSeq") boardSeq: Int) : BaseResponse<Boolean>
 }

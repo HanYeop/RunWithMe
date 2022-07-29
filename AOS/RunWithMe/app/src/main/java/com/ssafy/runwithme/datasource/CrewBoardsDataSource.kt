@@ -22,4 +22,8 @@ class CrewBoardsDataSource @Inject constructor(
         emit(crewActivityApi.createCrewBoard(crewSeq, crewBoardDto))
     }
 
+    fun deleteCrewBoard(crewSeq: Int, boardSeq: Int): Flow<BaseResponse<Boolean>> = flow {
+        emit(crewActivityApi.deleteCrewBoard(crewSeq, boardSeq))
+    }
+
 }

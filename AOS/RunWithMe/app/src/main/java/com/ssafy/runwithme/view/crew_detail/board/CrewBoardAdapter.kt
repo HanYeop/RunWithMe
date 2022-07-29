@@ -6,19 +6,25 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.runwithme.databinding.ItemCrewBoardBinding
+import com.ssafy.runwithme.model.dto.MyUserDto
 import com.ssafy.runwithme.model.response.CrewBoardResponse
 
-class CrewBoardAdapter : PagingDataAdapter<CrewBoardResponse, CrewBoardAdapter.ViewHolder>(diffUtil) {
+class CrewBoardAdapter(private val deleteListener: CrewBoardDeleteListener, private val userSeq: Int) : PagingDataAdapter<CrewBoardResponse, CrewBoardAdapter.ViewHolder>(diffUtil) {
 
     inner class ViewHolder(private val binding: ItemCrewBoardBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        // TODO : 클릭 리스너
-        init {
 
+        init {
+            binding.apply {
+                imgDelete.setOnClickListener {
+                    deleteListener.onItemClick(getItem(adapterPosition)!!)
+                }
+            }
         }
 
         fun bind(board: CrewBoardResponse) {
             binding.board = board
+            binding.userDto = MyUserDto(userSeq)
             binding.executePendingBindings()
         }
     }

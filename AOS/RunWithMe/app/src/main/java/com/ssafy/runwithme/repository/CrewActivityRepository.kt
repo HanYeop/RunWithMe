@@ -84,4 +84,17 @@ class CrewActivityRepository @Inject constructor(
         emit(Result.Error(e))
     }
 
+    fun deleteCrewBoard(crewSeq: Int, boardSeq: Int): Flow<Result<BaseResponse<Boolean>>> = flow {
+        emit(Result.Loading)
+        crewBoardsDataSource.deleteCrewBoard(crewSeq, boardSeq).collect {
+            if(it.success){
+                emit(Result.Success(it))
+            }else if(!it.success){
+                emit(Result.Fail(it))
+            }
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
+
 }

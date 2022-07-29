@@ -42,7 +42,22 @@ class CrewManagerRepository @Inject constructor(
     fun createCrew(crewDto: RequestBody, imgFile: MultipartBody.Part?): Flow<Result<BaseResponse<CreateCrewResponse>>> = flow {
         emit(Result.Loading)
         crewManagerRemoteDataSource.createCrew(crewDto, imgFile).collect{
-            Log.d(TAG, "createCrew repository: $it")
+            if(it.success){
+                emit(Result.Success(it))
+            }else if(!it.success){
+                emit(Result.Fail(it))
+            }
+            else{
+                emit(Result.Empty)
+            }
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
+
+    fun checkCrewMemeber(crewSeq: Int): Flow<Result<BaseResponse<Boolean>>> = flow {
+        emit(Result.Loading)
+        crewManagerRemoteDataSource.checkCrewMebmer(crewSeq).collect {
             if(it.success){
                 emit(Result.Success(it))
             }else if(!it.success){

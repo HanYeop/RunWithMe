@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.view.crew_detail.board
 
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -7,11 +8,11 @@ import androidx.paging.cachedIn
 import com.ssafy.runwithme.model.dto.CreateCrewBoardDto
 import com.ssafy.runwithme.model.dto.CrewBoardDto
 import com.ssafy.runwithme.model.dto.ImageFileDto
-import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.response.CrewBoardResponse
 import com.ssafy.runwithme.repository.CrewActivityRepository
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.SingleLiveEvent
+import com.ssafy.runwithme.utils.USER
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -23,8 +24,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CrewBoardViewModel @Inject constructor(
-    private val crewActivityRepository: CrewActivityRepository
-) : ViewModel(){
+    private val crewActivityRepository: CrewActivityRepository,
+    private val sharedPreferences: SharedPreferences
+    ) : ViewModel(){
 
 
     private val _crewBoardsList: MutableStateFlow<List<CrewBoardResponse>>
@@ -37,8 +39,14 @@ class CrewBoardViewModel @Inject constructor(
     private val _failMsgEvent = SingleLiveEvent<String>()
     val failMsgEvent get() = _failMsgEvent
 
-    private val _createSuccessMsgEvent = SingleLiveEvent<String>()
-    val createSuccessMsgEvent get() = _createSuccessMsgEvent
+    private val _successMsgEvent = SingleLiveEvent<String>()
+    val successMsgEvent get() = _successMsgEvent
+
+    private val userSeq: Int = sharedPreferences.getString(USER, "0")!!.toInt()
+
+    fun getUserSeq(): Int {
+        return userSeq
+    }
 
     fun getCrewBoards(crewSeq: Int, size: Int): Flow<PagingData<CrewBoardResponse>> {
         return crewActivityRepository.getCrewBoards(crewSeq, size).cachedIn(viewModelScope)
@@ -48,7 +56,7 @@ class CrewBoardViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             crewActivityRepository.createCrewBoard(crewSeq, crewBoardDto).collectLatest {
                 if(it is Result.Success){
-                    _createSuccessMsgEvent.postValue("글을 등록했습니다.")
+                    _successMsgEvent.postValue("글을 등록했습니다.")
                 }else if(it is Result.Error){
                     _errorMsgEvent.postValue("오류가 발생했습니다.")
                 }else if(it is Result.Fail){
@@ -57,6 +65,21 @@ class CrewBoardViewModel @Inject constructor(
             }
         }
     }
+
+    fun deleteCrewBoard(crewSeq: Int, boardSeq: Int){
+        viewModelScope.launch (Dispatchers.IO){
+            crewActivityRepository.deleteCrewBoard(crewSeq, boardSeq).collectLatest {
+                if(it is Result.Success){
+                    _successMsgEvent.postValue("삭제 완료했습니다.")
+                }else if(it is Result.Error){
+                    _errorMsgEvent.postValue("오류가 발생했습니다.")
+                }else if(it is Result.Fail){
+                    _failMsgEvent.postValue(it.data.msg)
+                }
+            }
+        }
+    }
+
 
 
 

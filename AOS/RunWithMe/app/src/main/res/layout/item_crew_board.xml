@@ -9,8 +9,8 @@
             name="board"
             type="com.ssafy.runwithme.model.response.CrewBoardResponse" />
         <variable
-            name="userSeq"
-            type="int" />
+            name="userDto"
+            type="com.ssafy.runwithme.model.dto.MyUserDto" />
     </data>
 
     <LinearLayout
@@ -67,6 +67,8 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_baseline_delete_24"
                     android:layout_marginEnd="8dp"
+                    app:myUserSeq="@{userDto.userSeq}"
+                    app:board="@{board.crewBoardDto}"
                     app:layout_constraintEnd_toStartOf="@id/img_report"
                     app:layout_constraintTop_toTopOf="@id/tv_crew_name_board"
                     app:layout_constraintBottom_toBottomOf="@id/tv_crew_name_board"/>

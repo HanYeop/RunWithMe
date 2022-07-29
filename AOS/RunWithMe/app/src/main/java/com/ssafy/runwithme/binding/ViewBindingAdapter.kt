@@ -12,6 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.binding.ViewBindingAdapter.setCostFormat
 import com.ssafy.runwithme.binding.ViewBindingAdapter.synUnit
+import com.ssafy.runwithme.model.dto.CrewBoardDto
 import com.ssafy.runwithme.utils.BASE_URL
 import java.lang.Math.round
 import java.text.DecimalFormat
@@ -293,5 +294,15 @@ object ViewBindingAdapter {
     @JvmStatic
     fun TextView.setSpeedConverter (speed: Double){
         this.text = "${round(speed * 10) / 10 }km/h"
+    }
+
+    @BindingAdapter("myUserSeq", "board")
+    @JvmStatic
+    fun ImageView.setVisibility (userSeq: Int, board: CrewBoardDto){
+        if(userSeq == board.userSeq){
+            this.visibility = View.VISIBLE
+        }else{
+            this.visibility = View.GONE
+        }
     }
 }

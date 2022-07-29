@@ -11,6 +11,7 @@ import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.response.CrewBoardResponse
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 import com.ssafy.runwithme.repository.CrewActivityRepository
+import com.ssafy.runwithme.repository.CrewManagerRepository
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +25,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CrewDetailViewModel @Inject constructor(
-    private val crewActivityRepository: CrewActivityRepository
+    private val crewActivityRepository: CrewActivityRepository,
+    private val crewManagerRepository: CrewManagerRepository
 ) : ViewModel(){
 
     private val _crewRunRecordList: MutableStateFlow<List<RunRecordDto>>
@@ -37,6 +39,9 @@ class CrewDetailViewModel @Inject constructor(
     private val _crewBoardsList: MutableStateFlow<List<CrewBoardResponse>>
         = MutableStateFlow(listOf(CrewBoardResponse(CrewBoardDto(0, "게시글이 없습니다.", "2022-01-01", "관리자", 0, ""), ImageFileDto(0, "", "", ""))))
     val crewBoardsList get() = _crewBoardsList.asStateFlow()
+
+    private val _isCrewMember: MutableStateFlow<Boolean> = MutableStateFlow(true)
+    val isCrewMember get() = _isCrewMember.asStateFlow()
 
 //    private val _crewState: MutableStateFlow<>
 
@@ -80,5 +85,14 @@ class CrewDetailViewModel @Inject constructor(
         }
     }
 
+    fun checkCrewMember(crewSeq: Int){
+        viewModelScope.launch (Dispatchers.IO) {
+            crewManagerRepository.checkCrewMemeber(crewSeq).collectLatest {
+                if(it is Result.Success){
+                    _isCrewMember.value = it.data.data
+                }
+            }
+        }
+    }
 
 }

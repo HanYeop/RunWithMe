@@ -9,6 +9,7 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentCrewBoardBinding
 import com.ssafy.runwithme.model.dto.CreateCrewBoardDto
+import com.ssafy.runwithme.model.response.CrewBoardResponse
 import com.ssafy.runwithme.utils.TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -20,13 +21,15 @@ import kotlinx.coroutines.launch
 class CrewBoardFragment : BaseFragment<FragmentCrewBoardBinding>(R.layout.fragment_crew_board) {
 
     private val crewBoardViewModel by viewModels<CrewBoardViewModel>()
-    private val crewBoardAdapter = CrewBoardAdapter()
+    private lateinit var crewBoardAdapter : CrewBoardAdapter
     private val args by navArgs<CrewBoardFragmentArgs>()
     private lateinit var job : Job
 
     private var crewSeq: Int = 0
 
     override fun init() {
+        Log.d(TAG, "init: userSeq: ${crewBoardViewModel.getUserSeq()}")
+        crewBoardAdapter = CrewBoardAdapter(deleteCrewBoardListener, crewBoardViewModel.getUserSeq())
         binding.apply {
             recyclerCrewBoard.adapter = crewBoardAdapter
         }
@@ -61,6 +64,12 @@ class CrewBoardFragment : BaseFragment<FragmentCrewBoardBinding>(R.layout.fragme
         }
     }
 
+    private val deleteCrewBoardListener : CrewBoardDeleteListener = object : CrewBoardDeleteListener {
+        override fun onItemClick(crewBoardResponse: CrewBoardResponse) {
+            crewBoardViewModel.deleteCrewBoard(crewSeq, crewBoardResponse.crewBoardDto.crewBoardSeq)
+        }
+    }
+
     private fun initViewModelCallback(){
         job = lifecycleScope.launch {
             crewBoardViewModel.getCrewBoards(args.crewid,10).collectLatest { pagingData ->
@@ -68,6 +77,7 @@ class CrewBoardFragment : BaseFragment<FragmentCrewBoardBinding>(R.layout.fragme
                 crewBoardAdapter.submitData(pagingData)
             }
         }
+
 
         crewBoardViewModel.errorMsgEvent.observe(viewLifecycleOwner){
             showToast(it)
@@ -77,7 +87,7 @@ class CrewBoardFragment : BaseFragment<FragmentCrewBoardBinding>(R.layout.fragme
             showToast(it)
         }
 
-        crewBoardViewModel.createSuccessMsgEvent.observe(viewLifecycleOwner){
+        crewBoardViewModel.successMsgEvent.observe(viewLifecycleOwner){
             showToast(it)
             updateList()
 
