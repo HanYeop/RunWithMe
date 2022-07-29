@@ -249,4 +249,48 @@ object ViewBindingAdapter {
             this.text = ""
         }
     }
+
+
+    @BindingAdapter("runRecordImage")
+    @JvmStatic
+    fun ImageView.setRecordImage (imageSeq: Int){
+        if(imageSeq == 0){
+            Glide.with(this.context)
+                .load(R.drawable.running_record)
+                .override(R.dimen.run_record_image_size * 2,R.dimen.run_record_image_size * 2)
+                .placeholder(R.drawable.img)
+                .into(this)
+        }
+        else {
+            Glide.with(this.context)
+                .load("${BASE_URL}images/${imageSeq}")
+                .override(R.dimen.run_record_image_size * 2,R.dimen.run_record_image_size * 2)
+                .placeholder(R.drawable.img)
+                .into(this)
+        }
+    }
+
+    @BindingAdapter("distanceConverter")
+    @JvmStatic
+    fun TextView.setDistanceConverter (distance: Int){
+        this.text = "${distance * 1000} km"
+    }
+
+    @BindingAdapter("timeConverter")
+    @JvmStatic
+    fun TextView.setTimeConverter (time: Int){
+        this.text = "${time * 60} 분"
+    }
+
+    @BindingAdapter("calorieConverter")
+    @JvmStatic
+    fun TextView.setCalorieConverter (calorie: Int){
+        this.text = "$calorie kcal"
+    }
+
+    @BindingAdapter("speedConverter")
+    @JvmStatic
+    fun TextView.setSpeedConverter (speed: Double){
+        this.text = "$speed km/h"
+    }
 }

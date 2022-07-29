@@ -33,4 +33,7 @@ interface CrewManagerApi {
                                @Query("purposeType") goalType: String?
     ): BaseResponse<List<RecruitCrewResponse>>
 
+    @GET("crew-manager/{crewSeq}/membercheck")
+    suspend fun checkCrewMember(@Path("crewSeq") crewSeq: Int) : BaseResponse<Boolean>
+
 }

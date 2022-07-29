@@ -107,17 +107,29 @@
         android:id="@+id/crewMyRunRecordFragment"
         android:name="com.ssafy.runwithme.view.crew_detail.my_record.CrewMyRunRecordFragment"
         android:label="CrewMyRunRecordFragment"
-        tools:layout="@layout/fragment_crew_my_run_record"/>
+        tools:layout="@layout/fragment_crew_my_run_record">
+        <argument
+            android:name="crewid"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/crewUserRunRecordFragment"
         android:name="com.ssafy.runwithme.view.crew_detail.user_record.CrewUserRunRecordFragment"
         android:label="CrewUserRunRecordFragment"
-        tools:layout="@layout/fragment_crew_user_run_record"/>
+        tools:layout="@layout/fragment_crew_user_run_record">
+        <argument
+            android:name="crewid"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/crewUserRankingFragment"
         android:name="com.ssafy.runwithme.view.crew_detail.ranking.CrewUserRankingFragment"
         android:label="CrewUserRankingFragment"
-        tools:layout="@layout/fragment_crew_user_ranking"/>
+        tools:layout="@layout/fragment_crew_user_ranking">
+        <argument
+            android:name="crewid"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/crewBoardFragment"
         android:name="com.ssafy.runwithme.view.crew_detail.board.CrewBoardFragment"
@@ -133,7 +145,11 @@
         android:id="@+id/createCrewBoardFragment"
         android:name="com.ssafy.runwithme.view.crew_detail.board.create.CreateCrewBoardFragment"
         android:label="CreateCrewBoardFragment"
-        tools:layout="@layout/fragment_create_crew_board"/>
+        tools:layout="@layout/fragment_create_crew_board">
+        <argument
+            android:name="crewid"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/createCrewFragment"
         android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment"

@@ -474,6 +474,7 @@
                     android:layout_marginEnd="@dimen/header_margin"
                     android:layout_height="100dp"
                     android:background="@drawable/board_round"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_crew_board_summary"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -507,7 +508,9 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginStart="@dimen/header_margin"
                     android:layout_marginEnd="@dimen/header_margin"
-                    android:layout_height="300dp"
+                    android:layout_marginBottom="32dp"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:background="@drawable/board_round"
                     tools:listitem="@layout/item_running_record"/>
 

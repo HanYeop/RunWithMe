@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="runningRecord"
+            type="com.ssafy.runwithme.model.dto.RunRecordDto" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,6 +42,7 @@
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:scaleType="fitXY"
+                    app:runRecordImage="@{runningRecord.runImageSeq}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -48,7 +51,8 @@
                 <TextView
                     android:id="@+id/tv_distance"
                     style="@style/header_text"
-                    android:text="0.3km"
+                    app:distanceConverter="@{runningRecord.runRecordRunningDistance}"
+                    tools:text="13.3km"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="@+id/tv_distance_header"
                     app:layout_constraintStart_toStartOf="@+id/tv_distance_header"
@@ -70,7 +74,7 @@
                     android:id="@+id/tv_time"
                     style="@style/header_text"
                     android:layout_marginBottom="4dp"
-                    android:text="07 : 27"
+                    app:timeConverter="@{runningRecord.runRecordRunningTime}"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@+id/tv_time_header"
                     app:layout_constraintEnd_toEndOf="@+id/tv_time_header"
@@ -90,7 +94,8 @@
                 <TextView
                     android:id="@+id/tv_calorie"
                     style="@style/header_text"
-                    android:text="140 kcal"
+                    tools:text="140 kcal"
+                    calorieConverter="@{runningRecord.runRecordRunningCalorie}"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="@+id/tv_calorie_header"
                     app:layout_constraintStart_toStartOf="@+id/tv_calorie_header"
@@ -112,7 +117,8 @@
                     android:id="@+id/tv_speed"
                     style="@style/header_text"
                     android:layout_marginBottom="4dp"
-                    android:text="8.3 km/h"
+                    tools:text="8.3 km/h"
+                    app:speedConverter="@{runningRecord.runRecordRunningAvgSpeed}"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@+id/tv_speed_header"
                     app:layout_constraintEnd_toEndOf="@+id/tv_speed_header"
