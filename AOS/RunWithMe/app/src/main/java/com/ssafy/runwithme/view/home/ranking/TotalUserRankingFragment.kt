@@ -19,7 +19,7 @@ class TotalUserRankingFragment : BaseFragment<FragmentTotalUserRankingBinding>(R
             myRank = homeViewModel.myRanking.value
             recyclerTotalUserRanking.adapter = TotalRankingAdapter(homeViewModel)
 
-            spinnerTotalUserRanking.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            spinnerTotalUserRanking.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) { // 1. 거리 , 2. 시간, 3. 포인트
                     var type = when(position) {
@@ -45,5 +45,4 @@ class TotalUserRankingFragment : BaseFragment<FragmentTotalUserRankingBinding>(R
             }
         }
     }
-
 }

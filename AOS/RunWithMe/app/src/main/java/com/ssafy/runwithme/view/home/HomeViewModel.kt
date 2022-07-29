@@ -48,7 +48,7 @@ class HomeViewModel @Inject constructor(
                 if(it is Result.Success){
                     _myCurrentCrewList.value = it
                 }else if(it is Result.Error){
-                    _errorMsgEvent.postValue("오류가 발생했습니다.")
+                    _errorMsgEvent.postValue("내 크루 불러오기 중 오류가 발생했습니다.")
                 }
             }
         }
@@ -68,7 +68,7 @@ class HomeViewModel @Inject constructor(
                 if(it is Result.Success){
                     _totalRanking.value = it
                 } else if(it is Result.Error){
-                    _errorMsgEvent.postValue("오류가 발생했습니다.")
+                    _errorMsgEvent.postValue("전체 랭킹 불러오기 중 오류가 발생했습니다.")
                 }
             }
         }
@@ -81,7 +81,7 @@ class HomeViewModel @Inject constructor(
                 if(it is Result.Success){
                     _myRanking.value = it.data.data
                 } else if(it is Result.Error){
-                    _errorMsgEvent.postValue("오류가 발생했습니다.")
+                    _errorMsgEvent.postValue("내 랭킹 불러오기 중 오류가 발생했습니다.")
                 }
             }
         }
