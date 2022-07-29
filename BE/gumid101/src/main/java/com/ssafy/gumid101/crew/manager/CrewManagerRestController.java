@@ -44,9 +44,8 @@ public class CrewManagerRestController {
 
 	private final JwtUtilsService jwtUtilService;
 	private final CrewManagerService crewManagerService;
-	private final ObjectMapper objectMapper
+	private final ObjectMapper objectMapper;
 	
-	;
 	private UserDto loadUserFromToken() {
 		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDto tokenUser = (UserDto) autentication.getPrincipal();
