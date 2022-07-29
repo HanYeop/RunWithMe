@@ -41,6 +41,9 @@ logging:
       amazonaws:
         util:
           EC2MetadataUtils: error
+      ssafy:
+        gumid101:
+          aop: debug
 server:
   servlet:
     context-path: /api
