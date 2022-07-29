@@ -16,11 +16,14 @@ import com.ssafy.gumid101.crew.RunRecordRepository;
 import com.ssafy.gumid101.crew.UserCrewJoinRepository;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.dto.CrewBoardDto;
+import com.ssafy.gumid101.dto.CrewTotalRecordDto;
+import com.ssafy.gumid101.dto.RankingParamsDto;
 import com.ssafy.gumid101.dto.RecordParamsDto;
 import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.RunRecordEntity;
 import com.ssafy.gumid101.entity.UserCrewJoinEntity;
+import com.ssafy.gumid101.res.RankingDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -85,10 +88,34 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 	}
 	
 
+	/**
+	 * 크루내에서 내 기록들을 반환
+	 */
 	@Override
-	public CrewBoardDto writeBoard(MultipartFile image, UserDto tokenUser, CrewBoardDto content) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<RunRecordDto> getMyCrewRecordsByParam(RecordParamsDto recordParamsDto) throws Exception {
+		List<RunRecordDto> myRunrecordInCrew = crewRunRepo.selectByCrewAndUserSeqWithOffsetSize(recordParamsDto);
+		return myRunrecordInCrew;
+	}
+
+	/**
+	 * 크루 내에서 사용자의 랭킹들을 반환
+	 */
+	@Override
+	public List<RankingDto> getCrewRankingByParam(RankingParamsDto rankingParamsDto) throws Exception {
+		
+
+		
+		List<RankingDto> rakingInCrewList = crewRunRepo.selectAllCrewRanking(rankingParamsDto);
+		return rakingInCrewList;
+		
+	}
+/**
+ * 해당 크루 내 누적기록 반환
+ */
+	@Override
+	public CrewTotalRecordDto getMyCrewTotalRecord(long crewSeq, Long userSeq) throws Exception {
+		CrewTotalRecordDto myTotalInCrew = crewRunRepo.selectByCrewSeqAnduserSeq(crewSeq,userSeq);
+		return myTotalInCrew;
 	}
 
 }

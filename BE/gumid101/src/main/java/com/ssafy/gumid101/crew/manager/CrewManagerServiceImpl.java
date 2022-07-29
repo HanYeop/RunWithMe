@@ -10,7 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.aws.S3FileService;
+import com.ssafy.gumid101.crew.RunRecordRepository;
 import com.ssafy.gumid101.crew.UserCrewJoinRepository;
+import com.ssafy.gumid101.customexception.CrewAlreadyDistributeException;
+import com.ssafy.gumid101.customexception.CrewNotFinishedException;
 import com.ssafy.gumid101.customexception.CrewNotFoundException;
 import com.ssafy.gumid101.customexception.CrewPermissonDeniedException;
 import com.ssafy.gumid101.customexception.IllegalParameterException;
@@ -38,13 +41,26 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 
 	private final UserRepository userRepo;
 	private final CrewManagerRepository crewManagerRepo;
-	private final UserCrewJoinRepository userCrewJoinRepository;
+	private final UserCrewJoinRepository userCrewJoinRepo;
 	private final S3FileService s3FileService;
 	private final ImageFileRepository imageRepo;
+	private final RunRecordRepository runRepo;
 
+	@Override
+	public Boolean isUserCrewMember(Long userSeq, Long crewSeq) throws Exception {
+		// 해당 크루가 자기 크루인지 1차 확인
+		try {			
+			userCrewJoinRepo.findByUserEntity_UserSeqAndCrewEntity_CrewSeq(userSeq, crewSeq).get();
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
+	}
+	
 	@Transactional
 	@Override
-	public List<?> getMyCurrentCruew(Long userSeq) throws Exception {
+	public List<?> getMyCurrentCrew(Long userSeq) throws Exception {
 		// new jpabook.jpashop.repository.order.simplequery.
 		// OrderSimpleQueryDto(o.id, m.name, o.status, o.orderDate, d.address)
 
@@ -57,7 +73,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 			UserDto userDto = UserDto.of(entity.getManagerEntity());
 			ImageFileDto imgDto = ImageFileDto.of(entity.getImageFile());
 			CrewDto crewDto = CrewDto.of(entity, userDto.getNickName(), userDto.getUserSeq());
-			crewDto.setCrewMemberCount(userCrewJoinRepository.findCountCrewUser(crewDto.getCrewSeq()));
+			crewDto.setCrewMemberCount(userCrewJoinRepo.findCountCrewUser(crewDto.getCrewSeq()));
 			
 			if (imgDto == null) {
 				imgDto = ImageFileDto.getNotExist();
@@ -150,7 +166,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		UserCrewJoinEntity userCrewJoinEntity = UserCrewJoinEntity.builder().crewEntity(crewEntity)
 				.userEntity(managerEntity).build();
 
-		userCrewJoinRepository.save(userCrewJoinEntity);
+		userCrewJoinRepo.save(userCrewJoinEntity);
 		CrewDto createdDto = CrewDto.of(crewEntity, managerEntity.getNickName(), managerEntity.getUserSeq());
 		createdDto.setCrewMemberCount(1);
 
@@ -172,9 +188,9 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		if (crew.getManagerEntity().getUserSeq().longValue() == userSeq) {
 			if (LocalDateTime.now().isAfter(crew.getCrewDateStart())) {
 
-				int refundcount = userCrewJoinRepository.pointRefunds(crew, crew.getCrewCost());
+				int refundcount = userCrewJoinRepo.pointRefunds(crew, crew.getCrewCost());
 				//
-				int deletedJoin = userCrewJoinRepository.deleteAllBycrewSeq(crew);
+				int deletedJoin = userCrewJoinRepo.deleteAllBycrewSeq(crew);
 				//
 				crewManagerRepo.delete(crew);
 				log.info("{}로 부터의 -환급 갯수 :{}, 탈퇴 갯수{}", crew.getCrewSeq(), refundcount, deletedJoin);
@@ -203,7 +219,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		if (LocalDateTime.now().isAfter(crew.getCrewDateStart())) {
 
 			user.setPoint(user.getPoint() + crew.getCrewCost()); // 탈퇴 포인트 환급
-			result = userCrewJoinRepository.deleteByUserAndCrew(user, crew);// 유저와 크루 참가 관계 삭제
+			result = userCrewJoinRepo.deleteByUserAndCrew(user, crew);// 유저와 크루 참가 관계 삭제
 
 		} else {
 			throw new CrewPermissonDeniedException("이미 시작한 크루는 탈퇴할 수 없습니다.");
@@ -232,13 +248,44 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		CrewDto crewDto = CrewDto.of(crewEntity, crewEntity.getManagerEntity().getNickName(),
 				crewEntity.getManagerEntity().getUserSeq());
 		
-		crewDto.setCrewMemberCount(userCrewJoinRepository.findCountCrewUser(crewDto.getCrewSeq()));
+		crewDto.setCrewMemberCount(userCrewJoinRepo.findCountCrewUser(crewDto.getCrewSeq()));
+		
 		
 		ImageFileDto imageDto = ImageFileDto.of(crewEntity.getImageFile());
-
 		CrewFileDto crewFileDto = new CrewFileDto(crewDto, imageDto);
 
 		return crewFileDto;
 	}
+	
+//	@Transactional
+//	public Boolean crewFinishPoint(Long crewSeq) throws Exception {
+//		CrewEntity crewEntity = crewManagerRepo.findById(crewSeq)
+//				.orElseThrow(() -> new CrewNotFoundException("크루 상세 조회 중 , 크루를 특정할 수 없습니다."));
+//		if (crewEntity.getCrewCheckYn() != null && crewEntity.getCrewCheckYn().equals("Y")) {
+//			throw new CrewAlreadyDistributeException("이미 정산이 완료된 크루입니다.");
+//		}
+//		if (crewEntity.getCrewDateEnd().isAfter(LocalDateTime.now())) {
+//			throw new CrewNotFinishedException("종료기간 이전인 크루입니다.");			
+//		}
+//		List<UserCrewJoinEntity> userCrewList = userCrewJoinRepo.findAllByCrewEntity(crewEntity);
+//		if (crewEntity.getCrewCost() == null || crewEntity.getCrewCost() <= 0 || userCrewList.size() == 0) {
+//			crewEntity.setCrewCheckYn("Y");
+//			return true;
+//		}
+//		int[] userSucceedDays = new int[userCrewList.size()]; 
+//		
+//		// 전체 참가비 합계
+//		Long totalPoint = (long) userCrewList.size() * crewEntity.getCrewCost();
+//		int totalSucceedDay = 0;
+//		// 시작과 끝 간격을 1주일로 함
+//		LocalDateTime weeksStart = crewEntity.getCrewDateStart().plusDays(0);
+//		LocalDateTime weeksEnd = crewEntity.getCrewDateStart().plusDays(6).plusHours(23).plusMinutes(59).plusMinutes(59);
+//		while (!weeksEnd.isAfter(crewEntity.getCrewDateEnd())) {
+//			for (UserCrewJoinEntity ucjE : userCrewList) {
+//				
+//			}
+//		}
+//		
+//	}
 
 }

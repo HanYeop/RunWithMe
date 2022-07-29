@@ -1,5 +1,6 @@
 package com.ssafy.gumid101.crew.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.dto.CrewBoardDto;
+import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.RankingParamsDto;
 import com.ssafy.gumid101.dto.RecordParamsDto;
 import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.res.CrewBoardFileDto;
+import com.ssafy.gumid101.res.RankingDto;
 import com.ssafy.gumid101.res.ResponseFrame;
 
 import io.swagger.annotations.Api;
@@ -42,12 +45,16 @@ public class CrewActivityRestController {
 	public RequestEntity<?> getCrewRecord(){
 		return null;
 	}
-	
+	private UserDto loadUserFromToken() {
+		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDto tokenUser = (UserDto) autentication.getPrincipal();
+		return tokenUser;
+	}
 	@ApiOperation(value = "검색 조건에 따라 기록의 목록을 조회한다. (URL의 crewSeq만 적용)")
 	@GetMapping("/{crewSeq_p}/records")
-	public ResponseEntity<?> getCrewRecordList(@PathVariable(name = "crewSeq_p") String crewSeq, @ModelAttribute RecordParamsDto recordParamsDto){
+	public ResponseEntity<?> getCrewRecordList(@PathVariable(name = "crewSeq_p") Long crewSeq, @ModelAttribute RecordParamsDto recordParamsDto){
 //		log.debug("크루 생성 시도 : 이름 {}, 설명 {}, ", crewDto.getCrewName());
-		recordParamsDto.setCrewSeq(Long.parseLong(crewSeq));
+		recordParamsDto.setCrewSeq(crewSeq);
 		ResponseFrame<List<RunRecordDto>> responseMap = new ResponseFrame<>();
 		HttpStatus httpStatus = HttpStatus.OK;
 		
@@ -68,20 +75,55 @@ public class CrewActivityRestController {
 	
 	@ApiOperation("크루내 랭킹(미구현)")
 	@GetMapping("/{crewSeq}/ranking")
-	public RequestEntity<?> getCrewRankings(@ModelAttribute RankingParamsDto rankingParamsDto){
-		return null;
+	public ResponseEntity<?> getCrewRankings(@ModelAttribute RankingParamsDto rankingParamsDto)throws Exception{
+		
+		
+		
+		List<RankingDto> rankingList = crewActivityService.getCrewRankingByParam(rankingParamsDto);
+		
+		if(rankingList == null) {
+			rankingList = new ArrayList<RankingDto>();
+		}
+		
+		ResponseFrame<List<RankingDto>> res = ResponseFrame.of(rankingList, rankingList.size(), "크루 내 랭킹을 반환합니다.");
+		
+		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 
-	@ApiOperation("크루내 내 기록 보기(미구현)")
+	/**
+	 * 
+	 * @param recordParamsDto
+	 * @return
+	 */
+	@ApiOperation("크루내 내 기록 보기,리스트(미구현)")
 	@GetMapping("/{crewSeq}/my")
-	public RequestEntity<?> getCrewMyRecords(@ModelAttribute RecordParamsDto recordParamsDto){
-		return null;
+	public ResponseEntity<?> getCrewMyRecords(@ModelAttribute RecordParamsDto recordParamsDto)throws Exception{
+		recordParamsDto.setUserSeq(loadUserFromToken().getUserSeq());
+		List<RunRecordDto> runRecordList = crewActivityService.getMyCrewRecordsByParam(recordParamsDto);
+		
+		if(runRecordList == null) {
+			runRecordList = new ArrayList<RunRecordDto>();
+		}
+		
+		ResponseFrame<List<RunRecordDto>> res = ResponseFrame.of(runRecordList, runRecordList.size(), "크루 내 누적기록을 반환합니다.");
+		
+		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 	
 	@ApiOperation("크루내 내 통합 누적 기록 보기(미구현)")
 	@GetMapping("/{crewSeq}/my-total")
-	public RequestEntity<?> getCrewMyTotalRecords(@PathVariable long crewSeq){
-		return null;
+	public ResponseEntity<?> getCrewMyTotalRecords(@PathVariable long crewSeq)throws Exception{
+		
+		CrewTotalRecordDto myTotalRecord = crewActivityService.getMyCrewTotalRecord(crewSeq,loadUserFromToken().getUserSeq());
+		
+		if(myTotalRecord == null) {
+			myTotalRecord = CrewTotalRecordDto.defaultCrewTotalRecordDto();
+		}
+		
+		ResponseFrame<CrewTotalRecordDto> res = ResponseFrame.of(myTotalRecord, 1, "크루 내 랭킹을 반환합니다.");
+		
+		return new ResponseEntity<>(res, HttpStatus.OK);
+		
 	}
 	
 	@PostMapping("/{crewSeq}/board")

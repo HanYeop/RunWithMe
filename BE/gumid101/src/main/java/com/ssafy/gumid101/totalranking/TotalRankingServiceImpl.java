@@ -16,6 +16,9 @@ public class TotalRankingServiceImpl implements TotalRankingService {
 	private final CrewTotalRecordRepository totalRankingRepo;
 	private final UserRepository userRepo;
 
+	/**
+	 * 랭킹 뿌려줌
+	 */
 	@Override
 	public List<RankingDto> getRankingByType(String rankingType, Long size, Long offset) throws Exception {
 		List<RankingDto> rankingList = null;
@@ -29,6 +32,9 @@ public class TotalRankingServiceImpl implements TotalRankingService {
 		return rankingList;
 	}
 
+	/**
+	 * 자기 랭킹 뿌려줌
+	 */
 	@Override
 	public RankingDto getMyRankingByType(String rankingType, Long userSeq) throws Exception {
 
