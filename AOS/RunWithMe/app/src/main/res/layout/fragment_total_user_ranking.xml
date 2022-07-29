@@ -120,7 +120,7 @@
                         android:id="@+id/tv_my_ranking_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{String.valueOf(myRank.rankingIndex)}"
+                        android:text="@{String.valueOf(homeVM.myRanking.rankingIndex)}"
                         tools:text="1"
                         android:layout_marginStart="16dp"
                         android:fontFamily="@font/noto_sans_bold"
@@ -142,7 +142,7 @@
                         app:layout_constraintStart_toEndOf="@id/tv_my_ranking_num"
                         app:layout_constraintTop_toTopOf="@id/tv_my_ranking_num"
                         app:layout_constraintBottom_toBottomOf="@id/tv_my_ranking_num"
-                        app:rankingProfileImage="@{myRank.imgSeq}"
+                        app:rankingProfileImage="@{homeVM.myRanking.imgSeq}"
                         tools:src="@drawable/img" />
 
                     <TextView
@@ -158,7 +158,7 @@
                         app:layout_constraintTop_toTopOf="@id/image_my_ranking_profile"
                         app:layout_constraintBottom_toBottomOf="@id/image_my_ranking_profile"
                         tools:text="나"
-                        android:text="@{myRank.userName}"/>
+                        android:text="@{homeVM.myRanking.userName}"/>
 
                     <TextView
                         android:id="@+id/tv_my_ranking_total_amount"
