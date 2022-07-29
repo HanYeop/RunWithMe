@@ -250,8 +250,8 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		
 		crewDto.setCrewMemberCount(userCrewJoinRepo.findCountCrewUser(crewDto.getCrewSeq()));
 		
+		
 		ImageFileDto imageDto = ImageFileDto.of(crewEntity.getImageFile());
-
 		CrewFileDto crewFileDto = new CrewFileDto(crewDto, imageDto);
 
 		return crewFileDto;
