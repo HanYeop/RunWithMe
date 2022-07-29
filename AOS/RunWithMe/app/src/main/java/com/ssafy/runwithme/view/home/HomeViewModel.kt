@@ -58,7 +58,8 @@ class HomeViewModel @Inject constructor(
         _unit.value = when(type){
             "distance" -> "km"
             "time" -> "분"
-            else -> "P"
+            "point" -> "P"
+            else -> ""
         }
 
         viewModelScope.launch(Dispatchers.IO) {
