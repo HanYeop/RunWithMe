@@ -295,7 +295,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
         Long totalPoint = (long) userCrewList.size() * crewEntity.getCrewCost();
         long totalSucceedDay = 0;
         // 시작과 끝 간격을 1주일로 함
-        LocalDateTime weeksEnd = crewEntity.getCrewDateStart().plusDays(6).plusHours(23).plusMinutes(59).plusMinutes(59);
+        LocalDateTime weeksEnd = crewEntity.getCrewDateStart().plusDays(6).plusHours(23).plusMinutes(59).plusSeconds(59);
         int idx = 0;
         while (idx < crewRunRecords.size() && !weeksEnd.isAfter(crewEntity.getCrewDateEnd())) {
         	Map<Long, Long> weekSucceedDays = new HashMap<>(); 
@@ -324,9 +324,9 @@ public class CrewManagerServiceImpl implements CrewManagerService {
         }
 
         for (int i = 0; i < userCrewList.size(); i++) {
-        	if (userSucceedDays.containsKey(userCrewList.get(i).getCrewUserSeq())) {
+        	if (userSucceedDays.containsKey(userCrewList.get(i).getUserEntity().getUserSeq())) {
         		// 주어진 조건 내에서 계산결과는 Integer범위에서 안 벗어남. (심지어 괄호 내부계산은 long형이다.) 
-        		userCrewList.get(i).getUserEntity().setPoint( (int) (userCrewList.get(i).getUserEntity().getPoint() + totalPoint * userSucceedDays.get(userCrewList.get(i).getCrewUserSeq()) / totalSucceedDay) );
+        		userCrewList.get(i).getUserEntity().setPoint( (int) (userCrewList.get(i).getUserEntity().getPoint() + totalPoint * userSucceedDays.get(userCrewList.get(i).getUserEntity().getUserSeq()) / totalSucceedDay) );
         	}
         }
         crewEntity.setCrewCheckYn("Y");
