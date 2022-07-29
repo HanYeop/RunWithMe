@@ -13,6 +13,7 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.binding.ViewBindingAdapter.setCostFormat
 import com.ssafy.runwithme.binding.ViewBindingAdapter.synUnit
 import com.ssafy.runwithme.utils.BASE_URL
+import java.lang.Math.round
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
@@ -273,13 +274,13 @@ object ViewBindingAdapter {
     @BindingAdapter("distanceConverter")
     @JvmStatic
     fun TextView.setDistanceConverter (distance: Int){
-        this.text = "${distance * 1000} km"
+        this.text = "${round(1.0 * distance / 1000 * 10) / 10} km"
     }
 
     @BindingAdapter("timeConverter")
     @JvmStatic
     fun TextView.setTimeConverter (time: Int){
-        this.text = "${time * 60} 분"
+        this.text = "${time / 60} 분"
     }
 
     @BindingAdapter("calorieConverter")
@@ -291,6 +292,6 @@ object ViewBindingAdapter {
     @BindingAdapter("speedConverter")
     @JvmStatic
     fun TextView.setSpeedConverter (speed: Double){
-        this.text = "$speed km/h"
+        this.text = "${round(speed * 10) / 10 }km/h"
     }
 }
