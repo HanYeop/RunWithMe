@@ -9,4 +9,5 @@ public class RankingDto {
 	private Long userSeq;
 	private Integer rankingIndex;
 	private Integer rankingValue;
+	private Long imgSeq;
 }
