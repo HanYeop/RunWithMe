@@ -31,6 +31,7 @@ import com.ssafy.gumid101.res.ResponseFrame;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -130,7 +131,7 @@ public class CrewActivityRestController {
 	@ApiOperation(value = "크루 게시판 글 작성")
 	public ResponseEntity<?> writeCrewBoards(@PathVariable Long crewSeq,
 			@RequestPart(name = "img", required = false) MultipartFile image,
-			@ModelAttribute CrewBoardDto crewBoardDto){
+			@RequestBody CrewBoardDto crewBoardDto){
 		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDto writerUser = (UserDto) autentication.getPrincipal();
 
