@@ -1,6 +1,5 @@
 package com.ssafy.runwithme.view.crew_detail.board
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -10,10 +9,10 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentCrewBoardBinding
 import com.ssafy.runwithme.model.dto.CreateCrewBoardDto
-import com.ssafy.runwithme.model.dto.CrewBoardDto
 import com.ssafy.runwithme.utils.TAG
-import com.ssafy.runwithme.view.crew_detail.CrewDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -23,6 +22,7 @@ class CrewBoardFragment : BaseFragment<FragmentCrewBoardBinding>(R.layout.fragme
     private val crewBoardViewModel by viewModels<CrewBoardViewModel>()
     private val crewBoardAdapter = CrewBoardAdapter()
     private val args by navArgs<CrewBoardFragmentArgs>()
+    private lateinit var job : Job
 
     private var crewSeq: Int = 0
 
@@ -61,12 +61,11 @@ class CrewBoardFragment : BaseFragment<FragmentCrewBoardBinding>(R.layout.fragme
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun initViewModelCallback(){
-        lifecycleScope.launch {
+        job = lifecycleScope.launch {
             crewBoardViewModel.getCrewBoards(args.crewid,10).collectLatest { pagingData ->
-                crewBoardAdapter.submitData(pagingData)
                 Log.d(TAG, "initViewModelCallback: first")
+                crewBoardAdapter.submitData(pagingData)
             }
         }
 
@@ -80,13 +79,21 @@ class CrewBoardFragment : BaseFragment<FragmentCrewBoardBinding>(R.layout.fragme
 
         crewBoardViewModel.createSuccessMsgEvent.observe(viewLifecycleOwner){
             showToast(it)
+            updateList()
+
             lifecycleScope.launch {
-                crewBoardViewModel.getCrewBoards(args.crewid,10).collectLatest { pagingData ->
-                    crewBoardAdapter.submitData(pagingData)
-                    crewBoardAdapter.notifyDataSetChanged()
-                    binding.recyclerCrewBoard.smoothScrollToPosition(0)
-                    Log.d(TAG, "initViewModelCallback: createsuccessmsg")
-                }
+                delay(300L)
+                binding.recyclerCrewBoard.smoothScrollToPosition(0)
+            }
+        }
+    }
+
+    private fun updateList(){
+        job.cancel()
+        job = lifecycleScope.launch {
+            crewBoardViewModel.getCrewBoards(args.crewid,10).collectLatest { pagingData ->
+                Log.d(TAG, "initViewModelCallback: createsuccessmsg")
+                crewBoardAdapter.submitData(pagingData)
             }
         }
     }
