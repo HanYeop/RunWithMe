@@ -5,7 +5,12 @@
     >
 
     <data>
-
+        <variable
+            name="homeVM"
+            type="com.ssafy.runwithme.view.home.HomeViewModel" />
+        <variable
+            name="totalRank"
+            type="com.ssafy.runwithme.model.response.RankingResponse" />
     </data>
 
     <LinearLayout
@@ -34,7 +39,7 @@
                     android:id="@+id/tv_ranking_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="1"
+                    android:text="@{String.valueOf(totalRank.rankingIndex)}"
                     android:layout_marginStart="16dp"
                     android:fontFamily="@font/noto_sans_bold"
                     android:includeFontPadding="false"
@@ -54,6 +59,7 @@
                     app:layout_constraintStart_toEndOf="@id/tv_ranking_num"
                     app:layout_constraintTop_toTopOf="@id/tv_ranking_num"
                     app:layout_constraintBottom_toBottomOf="@id/tv_ranking_num"
+                    app:rankingProfileImage="@{totalRank.imgSeq}"
                     tools:src="@drawable/img" />
 
                 <TextView
@@ -68,7 +74,8 @@
                     app:layout_constraintStart_toEndOf="@id/image_user_profile"
                     app:layout_constraintTop_toTopOf="@id/image_user_profile"
                     app:layout_constraintBottom_toBottomOf="@id/image_user_profile"
-                    tools:text="김크루" />
+                    tools:text="김크루"
+                    android:text="@{totalRank.userName}"/>
 
                 <TextView
                     android:id="@+id/tv_user_total_amount"
@@ -81,7 +88,8 @@
                     app:layout_constraintTop_toTopOf="@id/tv_user_name"
                     app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
                     app:layout_constraintEnd_toStartOf="@id/tv_user_total_type"
-                    tools:text="144.8" />
+                    tools:text="144.8"
+                    android:text="@{String.valueOf(totalRank.rankingValue)}"/>
 
                 <TextView
                     android:id="@+id/tv_user_total_type"
@@ -94,7 +102,8 @@
                     app:layout_constraintTop_toTopOf="@id/tv_user_name"
                     app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="km" />
+                    tools:text="km"
+                    android:text="@{homeVM.unit}"/>
 
 
 

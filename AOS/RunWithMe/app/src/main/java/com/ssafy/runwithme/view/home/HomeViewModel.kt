@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.view.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.runwithme.base.BaseResponse
@@ -9,6 +10,7 @@ import com.ssafy.runwithme.repository.CrewManagerRepository
 import com.ssafy.runwithme.repository.TotalRankingRepository
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.SingleLiveEvent
+import com.ssafy.runwithme.utils.TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,11 +33,10 @@ class HomeViewModel @Inject constructor(
             = MutableStateFlow(Result.Uninitialized)
     val totalRanking get() = _totalRanking.asStateFlow()
 
-    private val _myRanking: MutableStateFlow<Result<BaseResponse<RankingResponse>>>
-            = MutableStateFlow(Result.Uninitialized)
+    private val _myRanking: MutableStateFlow<RankingResponse> = MutableStateFlow(RankingResponse("", 0, 0, 0, 0))
     val myRanking get() = _myRanking.asStateFlow()
 
-    private val _unit = MutableStateFlow("")
+    private val _unit = MutableStateFlow("km")
     val unit get() = _unit.asStateFlow()
 
     private val _errorMsgEvent = SingleLiveEvent<String>()
@@ -57,13 +58,12 @@ class HomeViewModel @Inject constructor(
         _unit.value = when(type){
             "distance" -> "km"
             "time" -> "분"
-            "point" -> "P"
-            "speed" -> "km/h"
-            else -> "kcal"
+            else -> "P"
         }
 
         viewModelScope.launch(Dispatchers.IO) {
             totalRankingRepository.getTotalRanking(type, size, offset).collectLatest {
+                Log.d(TAG, "getTotalRanking: $it")
                 if(it is Result.Success){
                     _totalRanking.value = it
                 } else if(it is Result.Error){
@@ -76,8 +76,9 @@ class HomeViewModel @Inject constructor(
     fun getMyRanking(type : String) {
         viewModelScope.launch(Dispatchers.IO) {
             totalRankingRepository.getMyRanking(type).collectLatest {
+                Log.d(TAG, "getMyRanking: $it")
                 if(it is Result.Success){
-                    _myRanking.value = it
+                    _myRanking.value = it.data.data
                 } else if(it is Result.Error){
                     _errorMsgEvent.postValue("오류가 발생했습니다.")
                 }

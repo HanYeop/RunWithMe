@@ -113,6 +113,26 @@ object ViewBindingAdapter {
         this.clipToOutline = true
     }
 
+    @BindingAdapter("rankingProfileImage")
+    @JvmStatic
+    fun ImageView.setRankingProfileImage (imageSeq: Int){
+        if(imageSeq == 0){
+            Glide.with(this.context)
+                .load(R.drawable.user_image)
+                .override(R.dimen.ranking_profile_image_size * 2,R.dimen.ranking_profile_image_size * 2)
+                .placeholder(R.drawable.img)
+                .into(this)
+        }
+        else {
+            Glide.with(this.context)
+                .load("${BASE_URL}images/${imageSeq}")
+                .override(R.dimen.ranking_profile_image_size * 2,R.dimen.ranking_profile_image_size * 2)
+                .placeholder(R.drawable.img)
+                .into(this)
+        }
+        this.clipToOutline = true
+    }
+
     @BindingAdapter("myPageProfileImage")
     @JvmStatic
     fun ImageView.setMyPageProfileImage (imageSeq: Int){

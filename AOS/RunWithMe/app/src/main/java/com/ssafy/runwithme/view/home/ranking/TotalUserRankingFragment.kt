@@ -2,7 +2,6 @@ package com.ssafy.runwithme.view.home.ranking
 
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.runwithme.R
@@ -15,18 +14,18 @@ class TotalUserRankingFragment : BaseFragment<FragmentTotalUserRankingBinding>(R
     private val homeViewModel by activityViewModels<HomeViewModel>()
 
     override fun init() {
-        // binding.myRank = homeViewModel.myRanking
+        binding.apply {
+            homeVM = homeViewModel
+            myRank = homeViewModel.myRanking.value
+            recyclerTotalUserRanking.adapter = TotalRankingAdapter(homeViewModel)
+        }
 
         initClickListener()
 
         binding.spinnerTotalUserRanking.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                // 1. 거리 , 2. 시간, 3. 포인트, 4. 평균 속도, 5. 칼로리 소모량
+                // 1. 거리 , 2. 시간, 3. 포인트
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -41,4 +40,5 @@ class TotalUserRankingFragment : BaseFragment<FragmentTotalUserRankingBinding>(R
             }
         }
     }
+
 }

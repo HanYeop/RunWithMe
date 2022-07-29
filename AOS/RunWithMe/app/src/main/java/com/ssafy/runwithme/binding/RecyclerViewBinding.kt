@@ -5,9 +5,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
+import com.ssafy.runwithme.model.response.RankingResponse
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.view.home.HomeMyCurrentCrewAdapter
 import com.ssafy.runwithme.view.home.my_crew.MyCurrentCrewAdapter
+import com.ssafy.runwithme.view.home.ranking.TotalRankingAdapter
 
 object RecyclerViewBinding {
 
@@ -24,6 +26,9 @@ object RecyclerViewBinding {
                     }
                     is MyCurrentCrewAdapter -> {
                         (view.adapter as ListAdapter<Any, *>).submitList(result.data.data as List<MyCurrentCrewResponse>)
+                    }
+                    is TotalRankingAdapter -> {
+                        (view.adapter as ListAdapter<Any, *>).submitList(result.data.data as List<RankingResponse>)
                     }
                     // 같은 형태로 추가하면 됨
                 }
