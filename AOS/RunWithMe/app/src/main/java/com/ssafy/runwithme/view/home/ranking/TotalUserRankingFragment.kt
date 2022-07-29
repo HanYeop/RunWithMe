@@ -16,7 +16,6 @@ class TotalUserRankingFragment : BaseFragment<FragmentTotalUserRankingBinding>(R
     override fun init() {
         binding.apply {
             homeVM = homeViewModel
-            myRank = homeViewModel.myRanking.value
             recyclerTotalUserRanking.adapter = TotalRankingAdapter(homeViewModel)
 
             spinnerTotalUserRanking.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

@@ -7,9 +7,6 @@
         <variable
             name="homeVM"
             type="com.ssafy.runwithme.view.home.HomeViewModel" />
-        <variable
-            name="myRank"
-            type="com.ssafy.runwithme.model.response.RankingResponse" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -175,7 +172,7 @@
                         app:layout_constraintBottom_toBottomOf="@id/tv_my_ranking_name"
                         app:layout_constraintEnd_toStartOf="@id/tv_my_ranking_total_type"
                         unit="@{homeVM.unit}"
-                        rankingValue="@{myRank.rankingValue}" />
+                        rankingValue="@{homeVM.myRanking.rankingValue}" />
 
                     <TextView
                         android:id="@+id/tv_my_ranking_total_type"
