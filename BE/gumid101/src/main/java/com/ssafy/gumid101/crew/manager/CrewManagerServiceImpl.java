@@ -140,6 +140,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 					.crewDateEnd(crewDto.getCrewDateEnd()) //
 					.crewTimeStart(crewDto.getCrewTimeStart()) //
 					.crewTimeEnd(crewDto.getCrewTimeEnd()) //
+					.crewCheckYn("N") //
 					.build();
 		} catch (Exception e) {
 			throw new IllegalParameterException("크루 생성 과정에서 문제가 발생했습니다.");
@@ -307,5 +308,10 @@ public class CrewManagerServiceImpl implements CrewManagerService {
         crewEntity.setCrewCheckYn("Y");
         return true;
     }
+	
+	@Override
+	public List<Long> getFinishAndNonDistributeCrews() throws Exception{
+		return crewManagerRepo.findByCrewCheckYnAndCrewDateEndBefore("N", LocalDateTime.now()).stream().map((entity) -> entity.getCrewSeq()).collect(Collectors.toList());
+	}
 
 }
