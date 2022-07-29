@@ -102,6 +102,8 @@ object RemoteDataModule {
     @Singleton
     fun provideRecommendApi(retrofit: Retrofit): RecommendApi {
         return retrofit.create(RecommendApi::class.java)
+    }
+
     // TotalRanking DI
     @Provides
     @Singleton
