@@ -1,5 +1,6 @@
 package com.ssafy.gumid101.totalranking;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -82,14 +83,15 @@ public class CrewTotalRecordCustomRepositoryImpl implements CrewTotalRecordCusto
 			return getMyRankingPost(userSeq);
 		} else {
 			System.out.println("에러 잡아주세요.TotalRankingRestController 기능의 CrewTotalRecordCustom Repository");
+			return null;
 		}
 
-		String sql = "select subr2.*,user_nickname,t_img.img_seq as img_seq FROM " + "(SELECT "
-				+ "ranking,total_calorie, total_distance, total_longest_distance, total_longest_time, total_record_reg_time, total_time, crew_seq, user_seq "
+		String sql = "select ranking,targetField,subr2.user_seq as user_seq,user_nickname,t_img.img_seq as img_seq FROM " + "(SELECT "
+				+ "ranking,total_calorie, total_distance, total_longest_distance, total_longest_time, total_record_reg_time, total_time, crew_seq, user_seq,targetField "
 				+ "FROM ( "
 				+ String.format(
-						"SELECT ROW_NUMBER() OVER (order by %s DESC,user_seq ASC) as ranking,tct.* FROM t_crew_total_record as tct GROUP BY user_seq ",
-						targetField)
+						"SELECT ROW_NUMBER() OVER (order by %s DESC,user_seq ASC) as ranking,tct.*,sum(%s) as targetField FROM t_crew_total_record as tct GROUP BY user_seq ",
+						targetField,targetField)
 				+ ") as subr " + "where subr.user_seq = ? " + ") as subr2 " 
 						+ "inner join t_user as t_user "
 				+ "on t_user.user_seq = subr2.user_seq "
@@ -102,7 +104,7 @@ public class CrewTotalRecordCustomRepositoryImpl implements CrewTotalRecordCusto
 			myRanking = new RankingDto();
 
 			myRanking.setRankingIndex(((BigInteger) resultMap.get("ranking")).intValue());
-			myRanking.setRankingValue((Integer) resultMap.get(targetField));
+			myRanking.setRankingValue(((BigDecimal) resultMap.get("targetField")).intValue());
 			myRanking.setUserName((String) resultMap.get("user_nickname"));
 			myRanking.setUserSeq((Long) resultMap.get("user_seq"));
 			myRanking.setImgSeq((Long)resultMap.get("img_seq"));
@@ -124,7 +126,7 @@ public class CrewTotalRecordCustomRepositoryImpl implements CrewTotalRecordCusto
 		RankingDto myRanking = new RankingDto();
 		String sql = "WITH sub1 AS( "
 				+ "SELECT ROW_NUMBER() OVER (order by t.user_point desc,user_seq) as ranking,t.* FROM t_user as t "
-				+ ")  " + "SELECT * FROM sub1 WHERE sub1.user_seq = ? ";
+				+ ")  " + "SELECT ranking,user_point,user_nickname,user_seq,img_seq FROM sub1 WHERE sub1.user_seq = ? ";
 
 		Map<String, Object> resultMap = jdbcTemplate.queryForMap(sql, userSeq);
 
