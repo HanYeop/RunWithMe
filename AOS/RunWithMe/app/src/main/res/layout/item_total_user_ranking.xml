@@ -89,7 +89,8 @@
                     app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
                     app:layout_constraintEnd_toStartOf="@id/tv_user_total_type"
                     tools:text="144.8"
-                    android:text="@{String.valueOf(totalRank.rankingValue)}"/>
+                    unit="@{homeVM.unit}"
+                    rankingValue="@{totalRank.rankingValue}" />
 
                 <TextView
                     android:id="@+id/tv_user_total_type"

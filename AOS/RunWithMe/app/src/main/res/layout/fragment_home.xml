@@ -170,7 +170,7 @@
                                 app:layout_constraintEnd_toEndOf="@+id/tv_one_user_name"
                                 app:layout_constraintStart_toStartOf="@+id/tv_one_user_name"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_one_user_name"
-                                android:text="@{homeVM.firstRanking.rankingValue + `km`}"
+                                homeRankingValue="@{homeVM.firstRanking.rankingValue}"
                                 tools:text="99.2km" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -227,7 +227,7 @@
                                 app:layout_constraintEnd_toEndOf="@+id/tv_two_user_name"
                                 app:layout_constraintStart_toStartOf="@+id/tv_two_user_name"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_two_user_name"
-                                android:text="@{homeVM.secRanking.rankingValue + `km`}"
+                                homeRankingValue="@{homeVM.secRanking.rankingValue}"
                                 tools:text="89.2km" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -284,7 +284,7 @@
                                 app:layout_constraintEnd_toEndOf="@+id/tv_three_user_name"
                                 app:layout_constraintStart_toStartOf="@+id/tv_three_user_name"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_three_user_name"
-                                android:text="@{homeVM.thirdRanking.rankingValue + `km`}"
+                                homeRankingValue="@{homeVM.thirdRanking.rankingValue}"
                                 tools:text="69.2km" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>

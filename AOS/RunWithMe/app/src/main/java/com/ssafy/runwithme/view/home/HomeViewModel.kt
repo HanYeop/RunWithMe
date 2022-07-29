@@ -68,12 +68,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getTotalRanking(type : String, size : Int, offset : Int) {
-        _unit.value = when(type){
-            "distance" -> "km"
-            "time" -> "분"
-            "point" -> "P"
-            else -> ""
-        }
+        syncUnit(type)
 
         viewModelScope.launch(Dispatchers.IO) {
             totalRankingRepository.getTotalRanking(type, size, offset).collectLatest {
@@ -99,9 +94,10 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getMyRanking(type : String) {
+        syncUnit(type)
+
         viewModelScope.launch(Dispatchers.IO) {
             totalRankingRepository.getMyRanking(type).collectLatest {
-                Log.d(TAG, "getMyRanking: $it")
                 if(it is Result.Success){
                     _myRanking.value = it.data.data
                 } else if(it is Result.Error){
@@ -111,4 +107,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun syncUnit(type : String){
+        _unit.value = when(type){
+            "distance" -> "km"
+            "time" -> "분"
+            "point" -> "P"
+            else -> ""
+        }
+    }
 }

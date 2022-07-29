@@ -11,6 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.binding.ViewBindingAdapter.setCostFormat
+import com.ssafy.runwithme.binding.ViewBindingAdapter.synUnit
 import com.ssafy.runwithme.utils.BASE_URL
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -221,6 +222,31 @@ object ViewBindingAdapter {
             this.text = "${goalAmount / 1000}km"
         }else{
             this.text = "${goalAmount / 60}분"
+        }
+    }
+
+    @BindingAdapter("unit", "rankingValue")
+    @JvmStatic
+    fun TextView.synUnit(unit : String, rankingValue : Int){
+        this.text = when(unit){
+            "km" -> {
+                val df = DecimalFormat("###0.000")
+                df.format((rankingValue / 1000f))
+            }
+            "분" -> { (rankingValue / 60).toString() }
+            "P" -> { "$rankingValue" }
+            else -> ""
+        }
+    }
+
+    @BindingAdapter("homeRankingValue")
+    @JvmStatic
+    fun TextView.synHomeUnit(rankingValue : Int){
+        if(rankingValue > 0){
+            val df = DecimalFormat("###0.000")
+            this.text = df.format((rankingValue / 1000f)) + "km"
+        } else {
+            this.text = ""
         }
     }
 }
