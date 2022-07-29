@@ -1,12 +1,10 @@
 package com.ssafy.runwithme.api
 
 import com.ssafy.runwithme.base.BaseResponse
-import com.ssafy.runwithme.model.response.MyProfileResponse
-import com.ssafy.runwithme.model.response.MyTotalRecordResponse
 import com.ssafy.runwithme.model.response.RankingResponse
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface TotalRankingApi {
 
