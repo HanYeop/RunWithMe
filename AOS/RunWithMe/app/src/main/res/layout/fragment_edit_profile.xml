@@ -34,7 +34,8 @@
             android:id="@+id/layout_profile_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp"
             android:background="@color/mainColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,12 +46,12 @@
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
                 android:layout_gravity="center"
                 app:myPageProfileImage="@{myPageVM.imgSeq}"
                 android:background="@android:color/transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 tools:src="@drawable/img" />
 
             <ImageView
@@ -68,9 +69,11 @@
                 android:id="@+id/tv_user_name"
                 style="@style/header_text"
                 android:text="@{myPageVM.nickname}"
+                tools:text="감스트"
                 android:textColor="@color/white"
                 android:textSize="@dimen/profile_modify"
                 android:layout_marginStart="28sp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toEndOf="@id/image_user_profile"
                 app:layout_constraintTop_toTopOf="@id/image_user_profile" />
 
@@ -89,6 +92,7 @@
                 android:id="@+id/tv_profile_email_value"
                 style="@style/header_text"
                 android:text="@{myPageVM.email}"
+                tools:text="gamst@gmail.com"
                 android:textColor="@color/white"
                 android:textSize="@dimen/profile_modify"
                 android:layout_marginStart="16dp"

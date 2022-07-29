@@ -18,7 +18,7 @@
             android:id="@+id/tv_join_email"
             style="@style/header_text"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="64dp"
             android:text="이메일"
             android:textSize="@dimen/join_title"
             app:layout_constraintStart_toStartOf="parent"

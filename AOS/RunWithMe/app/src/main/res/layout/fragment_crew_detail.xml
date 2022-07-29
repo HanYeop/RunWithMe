@@ -80,6 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/header_margin"
                     android:layout_marginEnd="@dimen/header_margin"
+                    android:layout_marginTop="16dp"
                     style="@style/header_text"
                     android:textSize="24sp"
                     android:text="@{crewDto.crewName}"
@@ -107,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/header_margin"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginEnd="@dimen/header_margin"
                     android:backgroundTint="#F7F7F7"
                     app:cardCornerRadius="16dp"
@@ -233,7 +234,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp">
+                    android:layout_marginTop="32dp">
 
                     <TextView
                         android:id="@+id/tv_crew_user_ranking"
@@ -444,7 +445,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp">
+                    android:layout_marginTop="32dp">
 
                     <TextView
                         android:id="@+id/tv_crew_board_header"
@@ -480,7 +481,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp">
+                    android:layout_marginTop="32dp">
 
                     <TextView
                         android:id="@+id/tv_crew_record"

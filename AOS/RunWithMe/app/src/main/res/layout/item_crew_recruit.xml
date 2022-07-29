@@ -167,7 +167,7 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/tv_crew_goal_days"
                     app:layout_constraintTop_toBottomOf="@id/tv_crew_start_time"
-                    tools:text="30분씩" />
+                    tools:text="30분" />
 
                 <TextView
                     android:id="@+id/tv_crew_current_user_num"

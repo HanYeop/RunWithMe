@@ -77,7 +77,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp">
+                    android:layout_marginTop="32dp">
 
                     <TextView
                         android:id="@+id/tv_user_total_ranking"

@@ -224,14 +224,14 @@
                 <TextView
                     android:id="@+id/tv_my_record_header"
                     android:layout_marginStart="@dimen/header_margin"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="48dp"
                     style="@style/header_text"
                     android:text="러닝 기록" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     tools:listitem="@layout/item_running_record"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -35,6 +36,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@{board.crewName}"
+                    tools:text="감크루"
                     android:fontFamily="@font/noto_sans_bold"
                     android:textColor="@color/black_medium_emphasis"/>
 
@@ -53,8 +55,11 @@
                 android:id="@+id/tv_my_board_content"
                 style="@style/header_text"
                 android:layout_width="match_parent"
-                android:maxLines="1"
+                android:maxLines="6"
+                android:maxLength="120"
                 android:ellipsize="end"
+                tools:text="안녕하세요.\n반갑습니다.\n저는 감스트입니다."
+                android:layout_marginBottom="8dp"
                 android:text="@{board.crewBoardContent}" />
 
         </LinearLayout>

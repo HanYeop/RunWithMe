@@ -76,6 +76,7 @@
                     android:layout_marginBottom="4dp"
                     app:timeConverter="@{runningRecord.runRecordRunningTime}"
                     android:textSize="18sp"
+                    tools:text="132분"
                     app:layout_constraintBottom_toTopOf="@+id/tv_time_header"
                     app:layout_constraintEnd_toEndOf="@+id/tv_time_header"
                     app:layout_constraintStart_toStartOf="@+id/tv_time_header" />

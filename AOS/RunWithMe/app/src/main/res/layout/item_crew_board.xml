@@ -8,6 +8,9 @@
         <variable
             name="board"
             type="com.ssafy.runwithme.model.response.CrewBoardResponse" />
+        <variable
+            name="userSeq"
+            type="int" />
     </data>
 
     <LinearLayout
