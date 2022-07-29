@@ -11,4 +11,5 @@ import com.ssafy.gumid101.entity.UserEntity;
 
 public interface RunRecordRepository extends JpaRepository<RunRecordEntity, Long>  {
 	List<RunRecordEntity> findByUserEntityAndCrewEntity(UserEntity userEntity, CrewEntity crewEntity);
+	Long countByUserEntityAndCrewEntityAndRunRecordStartTimeBetweenAndRunRecordCompleteYN(UserEntity userEntity, CrewEntity crewEntity, LocalDateTime weeksStart, LocalDateTime weeksEnd, String completeYN);
 }

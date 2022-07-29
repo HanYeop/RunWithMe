@@ -2,6 +2,7 @@ package com.ssafy.gumid101.crew.manager;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -48,14 +49,17 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 
 	@Override
 	public Boolean isUserCrewMember(Long userSeq, Long crewSeq) throws Exception {
-		// 해당 크루가 자기 크루인지 1차 확인
-		try {			
-			userCrewJoinRepo.findByUserEntity_UserSeqAndCrewEntity_CrewSeq(userSeq, crewSeq).get();
-			return true;
-		}
-		catch (Exception e) {
-			return false;
-		}
+	    Optional<UserCrewJoinEntity> ucje = null;
+	    ucje = userCrewJoinRepo.findByUserEntity_UserSeqAndCrewEntity_CrewSeq(userSeq, crewSeq);
+	    if (ucje == null) {
+	        return false;
+	    }
+	    try {
+	        ucje.get();
+	        return true;
+	    } catch (Exception e) {
+	        return false;
+	    }
 	}
 	
 	@Transactional
@@ -256,36 +260,52 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 
 		return crewFileDto;
 	}
-	
-//	@Transactional
-//	public Boolean crewFinishPoint(Long crewSeq) throws Exception {
-//		CrewEntity crewEntity = crewManagerRepo.findById(crewSeq)
-//				.orElseThrow(() -> new CrewNotFoundException("크루 상세 조회 중 , 크루를 특정할 수 없습니다."));
-//		if (crewEntity.getCrewCheckYn() != null && crewEntity.getCrewCheckYn().equals("Y")) {
-//			throw new CrewAlreadyDistributeException("이미 정산이 완료된 크루입니다.");
-//		}
-//		if (crewEntity.getCrewDateEnd().isAfter(LocalDateTime.now())) {
-//			throw new CrewNotFinishedException("종료기간 이전인 크루입니다.");			
-//		}
-//		List<UserCrewJoinEntity> userCrewList = userCrewJoinRepo.findAllByCrewEntity(crewEntity);
-//		if (crewEntity.getCrewCost() == null || crewEntity.getCrewCost() <= 0 || userCrewList.size() == 0) {
-//			crewEntity.setCrewCheckYn("Y");
-//			return true;
-//		}
-//		int[] userSucceedDays = new int[userCrewList.size()]; 
-//		
-//		// 전체 참가비 합계
-//		Long totalPoint = (long) userCrewList.size() * crewEntity.getCrewCost();
-//		int totalSucceedDay = 0;
-//		// 시작과 끝 간격을 1주일로 함
-//		LocalDateTime weeksStart = crewEntity.getCrewDateStart().plusDays(0);
-//		LocalDateTime weeksEnd = crewEntity.getCrewDateStart().plusDays(6).plusHours(23).plusMinutes(59).plusMinutes(59);
-//		while (!weeksEnd.isAfter(crewEntity.getCrewDateEnd())) {
-//			for (UserCrewJoinEntity ucjE : userCrewList) {
-//				
-//			}
-//		}
-//		
-//	}
+
+	@Transactional
+    @Override
+    public Boolean crewFinishPoint(Long crewSeq) throws Exception {
+        CrewEntity crewEntity = crewManagerRepo.findById(crewSeq)
+                .orElseThrow(() -> new CrewNotFoundException("크루 상세 조회 중 , 크루를 특정할 수 없습니다."));
+        if (crewEntity.getCrewCheckYn() != null && crewEntity.getCrewCheckYn().equals("Y")) {
+            throw new CrewAlreadyDistributeException("이미 정산이 완료된 크루입니다.");
+        }
+        if (crewEntity.getCrewDateEnd().isAfter(LocalDateTime.now())) {
+            throw new CrewNotFinishedException("종료기간 이전인 크루입니다.");
+        }
+        List<UserCrewJoinEntity> userCrewList = userCrewJoinRepo.findAllByCrewEntity(crewEntity);
+        // 참가비가 0이거나 크루원 수가 0인 경우는 정산할 필요 없다.
+        if (crewEntity.getCrewCost() == null || crewEntity.getCrewCost() <= 0 || userCrewList.size() == 0) {
+            crewEntity.setCrewCheckYn("Y");
+            return true;
+        }
+        long[] userSucceedDays = new long[userCrewList.size()]; 
+
+        // 전체 참가비 합계
+        Long totalPoint = (long) userCrewList.size() * crewEntity.getCrewCost();
+        long totalSucceedDay = 0;
+        // 시작과 끝 간격을 1주일로 함
+        LocalDateTime weeksStart = crewEntity.getCrewDateStart().plusDays(0);
+        LocalDateTime weeksEnd = crewEntity.getCrewDateStart().plusDays(6).plusHours(23).plusMinutes(59).plusMinutes(59);
+        while (!weeksEnd.isAfter(crewEntity.getCrewDateEnd())) {
+            for (int i = 0; i < userCrewList.size(); i++) {
+                long succeedDays = Math.min(crewEntity.getCrewGoalDays(), runRepo.countByUserEntityAndCrewEntityAndRunRecordStartTimeBetweenAndRunRecordCompleteYN(userCrewList.get(i).getUserEntity(), crewEntity, weeksStart, weeksEnd, "Y"));
+                totalSucceedDay += succeedDays;
+                userSucceedDays[i] += succeedDays;
+            }
+        }
+
+        // 크루원 중 그 누구도 하루도 못 한 경우는 정산해주지 않는다.
+        if (totalSucceedDay <= 0) {
+            crewEntity.setCrewCheckYn("Y");
+            return true;
+        }
+
+        for (int i = 0; i < userCrewList.size(); i++) {
+            // 주어진 조건 내에서 계산결과는 Integer범위에서 안 벗어남. (심지어 괄호 내부계산은 long형이다.) 
+            userCrewList.get(i).getUserEntity().setPoint( (int) (userCrewList.get(i).getUserEntity().getPoint() + totalPoint * userSucceedDays[i] / totalSucceedDay) );
+        }
+        crewEntity.setCrewCheckYn("Y");
+        return true;
+    }
 
 }
