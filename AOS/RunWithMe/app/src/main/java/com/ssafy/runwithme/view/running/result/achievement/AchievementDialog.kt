@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.databinding.DialogAchievementBinding
@@ -30,6 +31,11 @@ class AchievementDialog(context: Context): Dialog(context) {
 
         // 배경 투명하게 바꿔줌
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        binding.apply {
+            val anim = AnimationUtils.loadAnimation(context, R.anim.blink_animation)
+            tvAchievementHeader.startAnimation(anim)
+        }
 
         initClickListener()
     }
