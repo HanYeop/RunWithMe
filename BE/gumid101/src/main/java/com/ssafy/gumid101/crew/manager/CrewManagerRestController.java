@@ -52,6 +52,23 @@ public class CrewManagerRestController {
 		UserDto tokenUser = (UserDto) autentication.getPrincipal();
 		return tokenUser;
 	}
+	
+	
+
+	@ApiOperation(value="자신이 해당 크루 소속인지 조회")
+	@GetMapping("/{crewSeq}/membercheck")
+	public ResponseEntity<?> crewMemberCheck(@PathVariable Long crewSeq) throws Exception{
+		
+		UserDto userDto= loadUserFromToken();
+		
+		Boolean check =  crewManagerService.isUserCrewMember(userDto.getUserSeq(), crewSeq);
+		
+		ResponseFrame<?> res = ResponseFrame.of(check, 0, "자신이 해당 크루원인지 여부가 조회되었습니다.");
+		
+		
+		return new ResponseEntity<>(res,HttpStatus.OK);
+	}
+	
 	/**
 	 * 
 	 * @return
@@ -65,7 +82,7 @@ public class CrewManagerRestController {
 		
 		UserDto userDto= loadUserFromToken();
 		
-		List<?> crewList =  crewManagerService.getMyCurrentCruew(userDto.getUserSeq());
+		List<?> crewList =  crewManagerService.getMyCurrentCrew(userDto.getUserSeq());
 		
 		ResponseFrame<?> res = ResponseFrame.of(crewList, crewList.size(), "현재 진행중, 진행 예정인 나의 현재 크루가 반환되었습니다.");
 		

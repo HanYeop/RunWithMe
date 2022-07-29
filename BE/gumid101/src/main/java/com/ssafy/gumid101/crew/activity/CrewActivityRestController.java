@@ -45,9 +45,9 @@ public class CrewActivityRestController {
 	
 	@ApiOperation(value = "검색 조건에 따라 기록의 목록을 조회한다. (URL의 crewSeq만 적용)")
 	@GetMapping("/{crewSeq_p}/records")
-	public ResponseEntity<?> getCrewRecordList(@PathVariable(name = "crewSeq_p") String crewSeq, @ModelAttribute RecordParamsDto recordParamsDto){
+	public ResponseEntity<?> getCrewRecordList(@PathVariable(name = "crewSeq_p") Long crewSeq, @ModelAttribute RecordParamsDto recordParamsDto){
 //		log.debug("크루 생성 시도 : 이름 {}, 설명 {}, ", crewDto.getCrewName());
-		recordParamsDto.setCrewSeq(Long.parseLong(crewSeq));
+		recordParamsDto.setCrewSeq(crewSeq);
 		ResponseFrame<List<RunRecordDto>> responseMap = new ResponseFrame<>();
 		HttpStatus httpStatus = HttpStatus.OK;
 		

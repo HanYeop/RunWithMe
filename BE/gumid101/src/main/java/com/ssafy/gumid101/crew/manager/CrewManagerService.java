@@ -12,7 +12,7 @@ import com.ssafy.gumid101.res.CrewFileDto;
 public interface CrewManagerService {
 	CrewFileDto createCrew(MultipartFile image, CrewDto crewDto, UserDto tokenUser) throws Exception;
 	
-	List<?> getMyCurrentCruew(Long userSeq) throws Exception;
+	List<?> getMyCurrentCrew(Long userSeq) throws Exception;
 
 	int deleteCrew(long crewSeq, long userSeq)throws Exception;
 
@@ -22,6 +22,8 @@ public interface CrewManagerService {
 
 
 	CrewFileDto getCrewDetail(Long crewId) throws Exception;
+
+	Boolean isUserCrewMember(Long userSeq, Long crewSeq) throws Exception;
 
 	
 }
