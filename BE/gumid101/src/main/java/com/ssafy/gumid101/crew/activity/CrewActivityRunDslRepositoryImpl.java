@@ -1,30 +1,45 @@
 package com.ssafy.gumid101.crew.activity;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.gumid101.dto.CrewTotalRecordDto;
+import com.ssafy.gumid101.dto.RankingParamsDto;
 import com.ssafy.gumid101.dto.RecordParamsDto;
+import com.ssafy.gumid101.dto.RunRecordDto;
+import com.ssafy.gumid101.entity.QCrewTotalRecordEntity;
 import com.ssafy.gumid101.entity.QRunRecordEntity;
 import com.ssafy.gumid101.entity.RunRecordEntity;
+import com.ssafy.gumid101.res.RankingDto;
 
+import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Repository
-public class CrewActivityRunDslRepositoryImpl implements CrewActivityRunDslRepository{
-	
+public class CrewActivityRunDslRepositoryImpl implements CrewActivityRunDslRepository {
+
 	@Autowired
 	JPAQueryFactory factory;
-	
+
 	@Override
-	public List<RunRecordEntity> getRunRecords(RecordParamsDto condition){
-		
+	public List<RunRecordEntity> getRunRecords(RecordParamsDto condition) {
+
 		QRunRecordEntity qRunRecordEntity = QRunRecordEntity.runRecordEntity;
-		
+
 		BooleanBuilder builder = new BooleanBuilder();
-		
+
 		if (condition.getCrewSeq() != null && condition.getCrewSeq() > 0) {
 			builder.and(qRunRecordEntity.crewEntity.crewSeq.eq(condition.getCrewSeq()));
 		}
@@ -37,21 +52,126 @@ public class CrewActivityRunDslRepositoryImpl implements CrewActivityRunDslRepos
 		if (condition.getYear() != null && condition.getYear() != 0) {
 			builder.and(qRunRecordEntity.runRecordRegTime.year().eq(condition.getYear()));
 		}
-		if(condition.getMaxRunRecordSeq() != null && condition.getMaxRunRecordSeq() != 0) {
+		if (condition.getMaxRunRecordSeq() != null && condition.getMaxRunRecordSeq() != 0) {
 			builder.and(qRunRecordEntity.runRecordSeq.lt(condition.getMaxRunRecordSeq()));
 		}
-		
-		JPAQuery<RunRecordEntity> jpaQuery =  factory.selectFrom(qRunRecordEntity).where(builder)
-				.orderBy(qRunRecordEntity.runRecordSeq.desc(),qRunRecordEntity.runRecordRegTime.desc());
-		
-		
-		if(condition.getSize() != null && condition.getSize() >= 0) {
+
+		JPAQuery<RunRecordEntity> jpaQuery = factory.selectFrom(qRunRecordEntity).where(builder)
+				.orderBy(qRunRecordEntity.runRecordSeq.desc(), qRunRecordEntity.runRecordRegTime.desc());
+
+		if (condition.getSize() != null && condition.getSize() >= 0) {
 			jpaQuery.limit(condition.getSize());
 		}
-		
-		//maxRunRecordSeq
-		
+
+		// maxRunRecordSeq
+
 		return jpaQuery.fetch();
+	}
+
+	/**
+	 * 크루내 나의 기록들
+	 */
+	@Override
+	public List<RunRecordDto> selectByCrewAndUserSeqWithOffsetSize(RecordParamsDto recordParamsDto) {
+
+		QRunRecordEntity runRecord = new QRunRecordEntity("runRecord");
+
+		Long userSeq = recordParamsDto.getUserSeq();
+		Long cruewSeq = recordParamsDto.getCrewSeq();
+		Integer size = recordParamsDto.getSize();
+
+		BooleanBuilder builder = new BooleanBuilder();
+		if (size == null ||size == 0) {
+			size = Integer.MAX_VALUE;
+		}
+
+		
+		Long maxUserSeq =(long) Optional.ofNullable(recordParamsDto.getMaxRunRecordSeq()).orElseGet(()->{
+			return 0;
+		});
+		if (maxUserSeq != null && maxUserSeq != 0) {
+			builder.and(runRecord.userEntity.userSeq.lt(maxUserSeq));
+		}
+
+		Integer year = recordParamsDto.getYear();
+		if (year != null && year != 0) {
+			builder.and(runRecord.runRecordRegTime.year().eq(year));
+		}
+		Integer month = recordParamsDto.getMonth();
+		if (month != null && month != 0) {
+			builder.and(runRecord.runRecordRegTime.month().eq(month));
+		}
+
+		List<RunRecordEntity> myRecordInCrews = factory.selectFrom(runRecord)
+				.where(runRecord.userEntity.userSeq.eq(userSeq).and(runRecord.crewEntity.crewSeq.eq(cruewSeq)))
+				.where(builder).orderBy(runRecord.runRecordEndTime.desc(),runRecord.runRecordSeq.desc()).limit(size).fetch();
+
+		List<RunRecordDto> myRecordListInCrew = myRecordInCrews.stream().map((entitiy) -> {
+			return RunRecordDto.of(entitiy);
+		}).collect(Collectors.toList());
+
+		return myRecordListInCrew;
+	}
+
+	/**
+	 * 크루에서의 랭킹/.
+	 */
+
+	@Override
+	public List<RankingDto> selectAllCrewRanking(RankingParamsDto paramDto) {
+
+		QCrewTotalRecordEntity runToalRecord = new QCrewTotalRecordEntity("runTotalRecord"); // 유저-크루 누적기록
+		Long crewSeq = paramDto.getCrewSeq();
+		String type = paramDto.getType();
+
+		NumberPath<Integer> targetField = runToalRecord.totalDistance;
+		if ("distance".equals(type)) {
+
+		} else if ("time".equals(type)) {
+			targetField = runToalRecord.totalTime;
+		} else {
+			log.warn("지원안하는 정렬타입 invoke in : ", CrewActivityRunDslRepositoryImpl.class.getName());
+		}
+
+		List<RankingDto> rankigs = factory.from(runToalRecord)
+				.select(Projections.fields(RankingDto.class, runToalRecord.userEntity.userSeq.as("userSeq"),
+						runToalRecord.userEntity.nickName.as("userName"), targetField.as("rankingValue"),
+						runToalRecord.userEntity.imageFile.imgSeq.as("imgSeq")))
+				.where(runToalRecord.crewEntity.crewSeq.eq(crewSeq))
+				.orderBy(targetField.desc(), runToalRecord.userEntity.userSeq.asc()).fetch();
+
+		for(int i = 0 ; i < rankigs.size();i++) {
+			rankigs.get(i).setRankingIndex(i+1);
+		}
+		
+		return rankigs;
+	}
+
+	/**
+	 * 크루에서 나의 종합 기록
+	 */
+	@Override
+	public CrewTotalRecordDto selectByCrewSeqAnduserSeq(Long crewSeq, Long userSeq) {
+		QCrewTotalRecordEntity runToalRecord = new QCrewTotalRecordEntity("runTotalRecord");
+		// factory.from(runToalRecord)
+		
+		CrewTotalRecordDto myTotalRecordInCrew = null;
+		try {
+			
+		
+		 myTotalRecordInCrew = factory.from(runToalRecord)
+				.select(Projections.fields(CrewTotalRecordDto.class,
+						runToalRecord.totalCalorie.sum().as("totalCalorie"),
+						runToalRecord.totalDistance.sum().as("totalDistance"), runToalRecord.totalTime.as("totalTime"),
+						runToalRecord.totalLongestDistance.max().as("totalLongestDistance"),
+						runToalRecord.totalLongestTime.max().as("totalLongestTime")))
+				.where(runToalRecord.crewEntity.crewSeq.eq(crewSeq).and(runToalRecord.userEntity.userSeq.eq(crewSeq)))
+				.fetchOne();
+		}catch(Exception e) {
+			log.info("크루-유저 키를 찾을 수 없다, 크루에서 유저가 아직 안뛴 경우,");
+			myTotalRecordInCrew = CrewTotalRecordDto.defaultCrewTotalRecordDto();
+		}
+		return myTotalRecordInCrew;
 	}
 
 }

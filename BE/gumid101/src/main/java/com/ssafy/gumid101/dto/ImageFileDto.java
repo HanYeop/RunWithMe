@@ -44,7 +44,7 @@ public class ImageFileDto implements Serializable {
     
     public static ImageFileDto of(ImageFileEntity imageFile) {
     	if(imageFile==null)
-    		return null;
+    		return getNotExist();
         return new ImageFileDtoBuilder()
                 .imgSeq(imageFile.getImgSeq())
                 .imgOriginalName(imageFile.getImgOriginalName())
