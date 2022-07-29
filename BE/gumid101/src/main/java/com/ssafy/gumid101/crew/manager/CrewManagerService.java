@@ -25,5 +25,7 @@ public interface CrewManagerService {
 
 	Boolean isUserCrewMember(Long userSeq, Long crewSeq) throws Exception;
 
+	Boolean crewFinishPoint(Long crewSeq) throws Exception;
+
 	
 }
