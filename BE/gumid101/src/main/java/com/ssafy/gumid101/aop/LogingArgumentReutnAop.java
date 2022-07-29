@@ -26,26 +26,15 @@ public class LogingArgumentReutnAop {
 	@Before(value = "serviceCapturePoint()")
 	public void beforeServiceMethode(JoinPoint joinPoint) {
 		System.out.println("kkk");
-		log.debug("[시작전] 컨트롤러: {} - 메서드 : {}", joinPoint.getTarget(), joinPoint.getSignature().toShortString());
-		Object[] args = joinPoint.getArgs();
+		log.debug("[시작전] 서비스: {} - 메서드 : {}", joinPoint.getTarget(), joinPoint.getSignature().toShortString());
 
-		for (int i = 0; i < args.length; i++) {
-			java.lang.reflect.Field[] fields = joinPoint.getTarget().getClass().getFields();
 
-			if (fields.length > 0) {
-				for (int j = 0; j < fields.length; j++) {
-					log.debug("{} : {}", fields[j].toString(), fields[j].getName());
-				}
-			} else {
 
-				log.debug("{} : {}", args.getClass().getName(), args[i].toString());
-			}
-		}
 	}
 
 	@AfterReturning(value = "serviceCapturePoint()", returning = "returnObj")
 	public void afterSuccessServiceAfter(JoinPoint joinPoint, Object returnObj) {
-		log.debug("[정상적 반환] 컨트롤러: {} - 메서드 : {}", joinPoint.getTarget(), joinPoint.getSignature().toShortString());
+		log.debug("[정상적 반환] 서비스: {} - 메서드 : {}", joinPoint.getTarget(), joinPoint.getSignature().toShortString());
 
 		log.debug("value : {}", returnObj);
 
@@ -53,7 +42,7 @@ public class LogingArgumentReutnAop {
 
 	@AfterThrowing(value = "serviceCapturePoint()", throwing = "exception")
 	public void afterExceptionServiceAfter(JoinPoint joinPoint, Object exception) {
-		log.debug("[예외 발생] 컨트롤러: {} - 메서드 : {}", joinPoint.getTarget(), joinPoint.getSignature().toShortString());
+		log.debug("[예외 발생] 서비스: {} - 메서드 : {}", joinPoint.getTarget(), joinPoint.getSignature().toShortString());
 		log.debug(exception.toString());
 	}
 

@@ -18,8 +18,11 @@ import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.RankingParamsDto;
 import com.ssafy.gumid101.dto.RecordParamsDto;
 import com.ssafy.gumid101.dto.RunRecordDto;
+import com.ssafy.gumid101.entity.QCrewEntity;
 import com.ssafy.gumid101.entity.QCrewTotalRecordEntity;
+import com.ssafy.gumid101.entity.QImageFileEntity;
 import com.ssafy.gumid101.entity.QRunRecordEntity;
+import com.ssafy.gumid101.entity.QUserEntity;
 import com.ssafy.gumid101.entity.RunRecordEntity;
 import com.ssafy.gumid101.res.RankingDto;
 
@@ -37,14 +40,17 @@ public class CrewActivityRunDslRepositoryImpl implements CrewActivityRunDslRepos
 	public List<RunRecordEntity> getRunRecords(RecordParamsDto condition) {
 
 		QRunRecordEntity qRunRecordEntity = QRunRecordEntity.runRecordEntity;
-
+		QUserEntity qUser = qRunRecordEntity.userEntity;
+		QCrewEntity qCrew = qRunRecordEntity.crewEntity;
+		QImageFileEntity qImage = qRunRecordEntity.imageFile;
+		
 		BooleanBuilder builder = new BooleanBuilder();
 
 		if (condition.getCrewSeq() != null && condition.getCrewSeq() > 0) {
-			builder.and(qRunRecordEntity.crewEntity.crewSeq.eq(condition.getCrewSeq()));
+			builder.and(qCrew.crewSeq.eq(condition.getCrewSeq()));
 		}
 		if (condition.getUserSeq() != null && condition.getUserSeq() > 0) {
-			builder.and(qRunRecordEntity.userEntity.userSeq.eq(condition.getUserSeq()));
+			builder.and(qUser.userSeq.eq(condition.getUserSeq()));
 		}
 		if (condition.getMonth() != null && condition.getMonth() != 0) {
 			builder.and(qRunRecordEntity.runRecordRegTime.month().eq(condition.getMonth()));
@@ -56,7 +62,11 @@ public class CrewActivityRunDslRepositoryImpl implements CrewActivityRunDslRepos
 			builder.and(qRunRecordEntity.runRecordSeq.lt(condition.getMaxRunRecordSeq()));
 		}
 
-		JPAQuery<RunRecordEntity> jpaQuery = factory.selectFrom(qRunRecordEntity).where(builder)
+		JPAQuery<RunRecordEntity> jpaQuery = factory.selectFrom(qRunRecordEntity)
+				.innerJoin(qUser)
+				.innerJoin(qCrew)
+				.innerJoin(qImage)
+				.where(builder)
 				.orderBy(qRunRecordEntity.runRecordSeq.desc(), qRunRecordEntity.runRecordRegTime.desc());
 
 		if (condition.getSize() != null && condition.getSize() >= 0) {
@@ -64,8 +74,9 @@ public class CrewActivityRunDslRepositoryImpl implements CrewActivityRunDslRepos
 		}
 
 		// maxRunRecordSeq
-
-		return jpaQuery.fetch();
+		List<RunRecordEntity> results = jpaQuery.fetch();
+		
+		return results;
 	}
 
 	/**

@@ -48,7 +48,7 @@ public class CrewRestContoller {
 	@PostMapping(value= "/{crewId}/records",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<?> recordMyRun(
 			@PathVariable("crewId") Long crewId ,
-			@RequestPart(value="runRecord") String runRecord,
+			@RequestPart(value="runRecord",required = true) String runRecord,
 			@RequestPart MultipartFile imgFile) throws Exception{
 		UserDto userDto =  loadUserFromToken();
 		
