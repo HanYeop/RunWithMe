@@ -62,16 +62,59 @@
                         tools:src="@drawable/img" />
 
                     <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_join_crew"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:text="가입"
                         android:textColor="@color/white"
                         android:fontFamily="@font/noto_sans_bold"
                         android:textSize="16sp"
+                        android:visibility="gone"
                         android:background="@drawable/btn_circle_main_color"
                         app:layout_constraintBottom_toBottomOf="@+id/image_crew_recruit"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/image_crew_recruit" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_resign_crew"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:text="탈퇴"
+                        android:textColor="@color/black_low_emphasis"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:textSize="16sp"
+                        android:background="@drawable/btn_circle_white_color"
+                        app:layout_constraintBottom_toBottomOf="@+id/image_crew_recruit"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/image_crew_recruit" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_running"
+                        android:layout_width="120dp"
+                        android:layout_height="60dp"
+                        android:text="러닝"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:includeFontPadding="false"
+                        style="@style/header_text"
+                        android:textSize="16sp"
+                        android:visibility="gone"
+                        android:background="@drawable/btn_round_main_color"
+                        app:layout_constraintBottom_toBottomOf="@+id/image_crew_recruit"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/image_crew_recruit" />
+
+                    <ImageButton
+                        android:id="@+id/img_btn_start_running"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:background="@drawable/btn_circle_main_color"
+                        android:src="@drawable/run_40"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@+id/image_crew_recruit"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/image_crew_recruit"  />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
