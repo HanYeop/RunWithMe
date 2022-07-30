@@ -5,7 +5,10 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.util.Log
 import android.view.View
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
@@ -16,6 +19,7 @@ import com.ssafy.runwithme.base.BaseActivity
 import com.ssafy.runwithme.databinding.ActivityMainBinding
 import com.ssafy.runwithme.service.RunningService
 import com.ssafy.runwithme.utils.ACTION_SHOW_TRACKING_ACTIVITY
+import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.view.running.RunningActivity
 import dagger.hilt.android.AndroidEntryPoint
 import github.com.st235.lib_expandablebottombar.navigation.ExpandableBottomBarNavigationUI
@@ -109,15 +113,26 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         navController = navHostFragment.navController
         ExpandableBottomBarNavigationUI.setupWithNavController(binding.expandableBottomBar,navController)
 
+        // TODO : 애니메이션 TEST
         navController.addOnDestinationChangedListener { _, destination, _ ->
             // 바텀 네비게이션이 표시되는 Fragment
             if(destination.id == R.id.HomeFragment || destination.id == R.id.CrewRecruitFragment
                 || destination.id == R.id.RecommendFragment || destination.id == R.id.MyPageFragment){
-                binding.expandableBottomBar.visibility = View.VISIBLE
+                if(binding.expandableBottomBar.visibility == View.GONE) {
+                    val animation = AlphaAnimation(0f, 1f)
+                    animation.duration = 500
+                    binding.expandableBottomBar.visibility = View.VISIBLE
+                    binding.expandableBottomBar.animation = animation
+                }
             }
             // 바텀 네비게이션이 표시되지 않는 Fragment
             else{
-                binding.expandableBottomBar.visibility = View.GONE
+                if(binding.expandableBottomBar.visibility == View.VISIBLE) {
+                    val animation = AlphaAnimation(1f, 0f)
+                    animation.duration = 500
+                    binding.expandableBottomBar.visibility = View.GONE
+                    binding.expandableBottomBar.animation = animation
+                }
             }
         }
     }
