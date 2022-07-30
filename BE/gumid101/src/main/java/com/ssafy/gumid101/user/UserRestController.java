@@ -22,6 +22,7 @@ import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.jwt.JwtProperties;
 import com.ssafy.gumid101.jwt.JwtUtilsService;
 import com.ssafy.gumid101.res.ResponseFrame;
+import com.ssafy.gumid101.util.Nickname;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -95,13 +96,21 @@ public class UserRestController {
 
 		userDto.setEmail(tokenUser.getEmail());
 
+		ResponseFrame<Map<String, Object>> responseMap = new ResponseFrame<Map<String, Object>>();
+		
+		HashMap<String, Object> dataMap = new HashMap<String, Object>();
+		
+		HttpStatus httpStatus = HttpStatus.OK;
+
+		if (userDto.getNickName() == null || !Nickname.nickOk(userDto.getNickName())) {
+			responseMap.setData(dataMap);
+			responseMap.setCount(0);
+			responseMap.setSuccess(false);
+			responseMap.setMsg("닉네임을 입력하지 않았거나 규칙을 위반했습니다.");
+			return new ResponseEntity<>(responseMap, httpStatus);
+		}
 		UserDto savedDto = userService.setMyProfile(userDto);
 
-		ResponseFrame<Map<String, Object>> responseMap = new ResponseFrame<Map<String, Object>>();
-
-		HashMap<String, Object> dataMap = new HashMap<String, Object>();
-
-		HttpStatus httpStatus = HttpStatus.OK;
 
 		if (savedDto == null) {
 			httpStatus = HttpStatus.CONFLICT;
@@ -171,5 +180,4 @@ public class UserRestController {
 
 		return new ResponseEntity<>(responseFrame, HttpStatus.BAD_REQUEST);
 	}
-	
 }
