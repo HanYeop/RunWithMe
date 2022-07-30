@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -76,7 +77,7 @@ public class UserEntity {
 	private LocalDateTime regTime;
 
 	@JoinColumn(name = "img_seq")
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	private ImageFileEntity imageFile;
 	
 	@OneToMany(mappedBy = "userEntity")

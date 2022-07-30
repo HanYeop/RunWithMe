@@ -20,6 +20,10 @@ public interface CrewManagerRepository extends JpaRepository<CrewEntity, Long>,C
 	List<CrewEntity> findByCrewCheckYnAndCrewDateEndBefore(String crewCheckYn, LocalDateTime nowTime);
 //	List<CrewEntity> findByCrewCheckYnIsNullAndCrewDateEndBefore(LocalDateTime nowTime);
 
+	//크루의 유저가 몇명인지
+	@Query(value="SELECT distinct c FROM CrewEntity c left join fetch c.userCrewJoinEntitys  where c in :crews")
+	List<CrewEntity>  selectCountCrewUser(List<CrewEntity> crews);
+
 	
 
 	

@@ -2,6 +2,7 @@ package com.ssafy.gumid101.user;
 
 import java.util.List;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.firebase.database.utilities.Validation;
 import com.ssafy.gumid101.crew.activity.CrewActivityService;
 import com.ssafy.gumid101.customexception.ThirdPartyException;
 import com.ssafy.gumid101.dto.CrewTotalRecordDto;
@@ -119,6 +121,7 @@ public class MyActivityRestController {
 		res.setSuccess(userFileDto == null ?  false: true);
 		
 		return new ResponseEntity<>(res,HttpStatus.OK);
+		
 	}
 
 	/**

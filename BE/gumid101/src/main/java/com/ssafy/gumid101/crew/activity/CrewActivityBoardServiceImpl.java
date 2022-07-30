@@ -89,6 +89,9 @@ public class CrewActivityBoardServiceImpl implements CrewActivityBoardService {
 
 		Sort sort = Sort.by(Sort.Direction.DESC, "crewBoardRegTime").and(Sort.by(Sort.Direction.DESC, "crewBoardSeq"));
 
+		if(size == null || size == 0) {
+			size = Integer.MAX_VALUE;
+		}
 		Pageable pageable = PageRequest.of(0, size, sort);
 
 		if (maxCrewBoardSeq == null || maxCrewBoardSeq == 0L) {

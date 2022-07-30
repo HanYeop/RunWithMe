@@ -82,7 +82,7 @@ public class CrewEntity {
 	private String crewCheckYn; // 참가비 분배 완료 여부
 	
 	@JoinColumn(name = "img_seq")
-	@OneToOne(orphanRemoval = true)
+	@OneToOne(orphanRemoval = true,fetch = FetchType.LAZY)
 	private ImageFileEntity imageFile;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
