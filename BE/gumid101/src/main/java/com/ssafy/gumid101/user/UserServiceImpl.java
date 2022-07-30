@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
 
 		UserEntity userEntity = userRepo.findById(userDto.getUserSeq())
 				.orElseThrow(() -> new NotFoundUserException("해당 유저를 찾을 수 없습니다."));
-		if (userDto.getNickName() != null && nickOk(userDto.getNickName())) {
+		if (userDto.getNickName() != null && !nickOk(userDto.getNickName())) {
 			throw new Exception("닉네임 규칙을 위반했습니다.");
 		}
 
