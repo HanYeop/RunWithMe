@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.datasource
 
+import android.util.Log
 import com.ssafy.runwithme.api.MyActivityApi
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.response.MyProfileResponse
@@ -19,7 +20,14 @@ class MyActivityRemoteDataSource @Inject constructor(
 
     fun editMyProfile(profileEditDto: RequestBody, imgFile : MultipartBody.Part?
     ): Flow<BaseResponse<MyProfileResponse>> = flow {
-        emit(myActivityApi.editMyProfile(profileEditDto, imgFile))
+        if(imgFile == null){
+            Log.d("test5", "editMyProfile: 11111111")
+            emit(myActivityApi.editMyProfile(profileEditDto))
+        } else{
+            Log.d("test5", "editMyProfile: 222222")
+
+            emit(myActivityApi.editMyProfile(profileEditDto, imgFile))
+        }
     }
 
     fun getMyTotalRecord(): Flow<BaseResponse<MyTotalRecordResponse>> = flow {

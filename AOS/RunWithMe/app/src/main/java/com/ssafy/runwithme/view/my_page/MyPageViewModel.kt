@@ -72,7 +72,7 @@ class MyPageViewModel @Inject constructor(
         val json = Gson().toJson(profile)
         val profileEditDto = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), json)
 
-        Log.d("test5", "createRunRecord: $json $imgFile ")
+        Log.d("test5", "editMyProfile: $json $imgFile ")
 
         viewModelScope.launch(Dispatchers.IO) {
             myActivityRepository.editMyProfile(profileEditDto, imgFile).collectLatest {
