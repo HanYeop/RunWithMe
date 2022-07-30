@@ -54,6 +54,13 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
     override fun onMapReady(p0: GoogleMap) {
         map = p0
 
+        if(binding.progressBarRecommend.visibility == View.VISIBLE){
+            binding.progressBarRecommend.visibility = View.GONE
+        }
+        if(binding.mapViewUser.visibility == View.INVISIBLE){
+            binding.mapViewUser.visibility = View.VISIBLE
+        }
+
         updateLocation()
 
         recommendViewModel.getRecommends(100.0,30.0,200.0,200.0)
@@ -120,12 +127,6 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
         map!!.moveCamera(
             CameraUpdateFactory.newLatLngZoom(latLng, 14.5f)
         )
-        if(binding.progressBarRecommend.visibility == View.VISIBLE){
-            binding.progressBarRecommend.visibility = View.GONE
-        }
-        if(binding.mapViewUser.visibility == View.INVISIBLE){
-            binding.mapViewUser.visibility = View.VISIBLE
-        }
     }
 
     // 마커 그리기
