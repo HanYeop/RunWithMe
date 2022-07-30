@@ -188,10 +188,10 @@ public class CrewManagerRestController {
 	 * @param password
 	 * @return
 	 */
-	@PostMapping("/crew/{crewSeq}/user")
-	public RequestEntity<?> joinCrew(@PathVariable long crewSeq, @RequestParam String password){
-		return null;//이거 crewController에 있는 듯?
-	}
+//	@PostMapping("/crew/{crewSeq}/user")
+	//public RequestEntity<?> joinCrew(@PathVariable long crewSeq, @RequestParam String password){
+	//	return null;//이거 crewController에 있는 듯?
+	//}
 	
 	/**
 	 * 크루원이 크루 시작전 크루 탈퇴

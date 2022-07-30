@@ -83,7 +83,6 @@ public class UserRestController {
 
 		if(result.hasErrors()) {
 			log.warn(result.getAllErrors().toString()); ;
-			
 		}
 		
 		log.debug("초기 프로필 설정 진입 : 몸무게:{},키 : {}, 닉네임 :{}", userDto.getWeight(), userDto.getHeight(),
@@ -106,7 +105,7 @@ public class UserRestController {
 		if (savedDto == null) {
 			httpStatus = HttpStatus.CONFLICT;
 			dataMap.put(JwtProperties.JWT_ACESS_NAME, "");
-			dataMap.put("user", savedDto);
+			dataMap.put("userSeq", -1);
 			responseMap.setCount(0);
 			responseMap.setSuccess(false);
 			responseMap.setData(dataMap);
@@ -114,7 +113,7 @@ public class UserRestController {
 		} else {
 			String token = jwtUtilService.createToken(savedDto);
 			dataMap.put(JwtProperties.JWT_ACESS_NAME, token);
-			dataMap.put("user", savedDto);
+			dataMap.put("userSeq", savedDto.getUserSeq());
 			responseMap.setData(dataMap);
 			responseMap.setCount(1);
 			responseMap.setSuccess(true);
