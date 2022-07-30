@@ -12,40 +12,49 @@
         android:layout_height="match_parent"
         tools:context=".view.recommend.RecommendFragment">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout_recommend"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabTextAppearance="@style/tab_text"
-            app:tabBackground="@color/white"
-            app:tabIndicatorColor="@color/mainColor"
-            app:tabTextColor="@color/black"
-            app:tabSelectedTextColor="@color/mainColor"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/toolbar_margin"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_admin_recommend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="지도" />
+            <ImageView
+                android:id="@+id/image_logo"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center|left"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/rwm_logo" />
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_user_recommend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="유저 추천" />
+        </com.google.android.material.appbar.MaterialToolbar>
 
-        </com.google.android.material.tabs.TabLayout>
-
-        <FrameLayout
-            android:id="@+id/frame_layout"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/map_view_user"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_margin="8dp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tab_layout_recommend" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar_recommend"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

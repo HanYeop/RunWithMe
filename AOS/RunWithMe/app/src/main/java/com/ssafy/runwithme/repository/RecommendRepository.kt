@@ -3,6 +3,7 @@ package com.ssafy.runwithme.repository
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.datasource.RecommendRemoteDataSource
 import com.ssafy.runwithme.model.dto.TrackBoardDto
+import com.ssafy.runwithme.model.response.RecommendResponse
 import com.ssafy.runwithme.utils.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -19,10 +20,23 @@ class RecommendRepository @Inject constructor(
             if(it.success){
                 emit(Result.Success(it))
             }else if(!it.success){
-                emit(Result.Success(it))
+                emit(Result.Fail(it))
             }
         }
     }.catch { e->
+        emit(Result.Error(e))
+    }
+
+    fun getRecommends(leftLng: Double, lowerLat: Double, rightLng: Double, upperLat: Double): Flow<Result<BaseResponse<List<RecommendResponse>>>> = flow {
+        emit(Result.Loading)
+        recommendRemoteDataSource.getRecommends(leftLng, lowerLat, rightLng, upperLat).collect {
+            if(it.success){
+                emit(Result.Success(it))
+            }else if(!it.success){
+                emit(Result.Fail(it))
+            }
+        }
+    }.catch { e ->
         emit(Result.Error(e))
     }
 }
