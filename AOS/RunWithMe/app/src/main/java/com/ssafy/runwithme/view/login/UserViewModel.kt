@@ -36,6 +36,9 @@ class UserViewModel @Inject constructor(
     private val _errorMsgEvent = SingleLiveEvent<String>()
     val errorMsgEvent get() = _errorMsgEvent
 
+    private val _failMsgEvent = SingleLiveEvent<String>()
+    val failMsgEvent get() = _failMsgEvent
+
     private val _joinMsgEvent = SingleLiveEvent<String>()
     val joinMsgEvent get() = _joinMsgEvent
 
@@ -66,10 +69,13 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             userRepository.joinUser(token, userDto).collectLatest {
                 if(it is Result.Success) {
+                    Log.d(TAG, "joinUser: ${it.data.data.userSeq}")
                     sharedPreferences.edit().putString(USER, it.data.data.userSeq.toString()).apply()
                     sharedPreferences.edit().putString(JWT,it.data.data.jwtToken).apply()
                     _loginEvent.postValue("로그인 완료")
-                }else if (it is Result.Error){
+                }else if(it is Result.Fail){
+
+                } else if (it is Result.Error){
                     _errorMsgEvent.postValue("서버 에러 발생")
                 }
             }

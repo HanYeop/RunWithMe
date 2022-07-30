@@ -85,6 +85,10 @@ class UserJoinFragment : BaseFragment<FragmentUserJoinBinding>(R.layout.fragment
         userViewModel.joinMsgEvent.observe(viewLifecycleOwner){
             showToast(it)
         }
+
+        userViewModel.failMsgEvent.observe(viewLifecycleOwner){
+            showToast(it)
+        }
     }
 
     private fun initClickListener() {
