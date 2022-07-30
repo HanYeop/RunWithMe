@@ -87,7 +87,7 @@ class CrewDetailViewModel @Inject constructor(
 
     fun checkCrewMember(crewSeq: Int){
         viewModelScope.launch (Dispatchers.IO) {
-            crewManagerRepository.checkCrewMemeber(crewSeq).collectLatest {
+            crewManagerRepository.checkCrewMember(crewSeq).collectLatest {
                 if(it is Result.Success){
                     _isCrewMember.value = it.data.data
                 }

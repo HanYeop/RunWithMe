@@ -55,9 +55,9 @@ class CrewManagerRepository @Inject constructor(
         emit(Result.Error(e))
     }
 
-    fun checkCrewMemeber(crewSeq: Int): Flow<Result<BaseResponse<Boolean>>> = flow {
+    fun checkCrewMember(crewSeq: Int): Flow<Result<BaseResponse<Boolean>>> = flow {
         emit(Result.Loading)
-        crewManagerRemoteDataSource.checkCrewMebmer(crewSeq).collect {
+        crewManagerRemoteDataSource.checkCrewMember(crewSeq).collect {
             if(it.success){
                 emit(Result.Success(it))
             }else if(!it.success){

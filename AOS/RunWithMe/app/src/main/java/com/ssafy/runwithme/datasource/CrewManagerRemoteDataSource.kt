@@ -28,7 +28,7 @@ class CrewManagerRemoteDataSource @Inject constructor(
         }
     }
 
-    fun checkCrewMebmer(crewSeq: Int) : Flow<BaseResponse<Boolean>> = flow {
+    fun checkCrewMember(crewSeq: Int) : Flow<BaseResponse<Boolean>> = flow {
         emit(crewManagerApi.checkCrewMember(crewSeq))
     }
 
