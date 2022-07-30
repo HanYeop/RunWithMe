@@ -41,6 +41,9 @@ logging:
       amazonaws:
         util:
           EC2MetadataUtils: error
+      ssafy:
+        gumid101:
+          aop: debug
 server:
   servlet:
     context-path: /api
@@ -66,6 +69,6 @@ spring:
     password: jgalgostudy
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: d101rwm
-    url: jdbc:mysql://mysql-container:13306/commonssafy?serverTimezone=UTC&characterEncoding=UTF-8    
+    url: jdbc:mysql://host.docker.internal:13306/commonssafy?serverTimezone=UTC&characterEncoding=UTF-8    
 
       

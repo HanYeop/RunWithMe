@@ -62,8 +62,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 			response.setStatus(HttpStatus.OK.value());
 			map.put("msg", "정상적 인증으로 토큰을 발급합니다.");
 			map.put("isRegistered",true);
-			map.put("email",null);
-			
+			map.put("email",userDto.getEmail());
+			map.put("userSeq", userDto.getUserSeq());
 		} else {
 			userDto = new UserDto();
 			userDto.setEmail(email);
@@ -72,7 +72,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 			map.put("msg", "초기 프로필 설정이 필요합니다.");
 			map.put("email",userDto.getEmail());
 			map.put("isRegistered",false);
-			
+			map.put("userSeq", -1);
 		}
 		
 		map.put(JwtProperties.JWT_ACESS_NAME, token);

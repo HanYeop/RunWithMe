@@ -9,9 +9,9 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-			<project>
-			
-			</project>
+				<project>
+
+				</project>
 				<deploy.phase>local</deploy.phase>
 			</properties>
 		</profile>
@@ -39,6 +39,12 @@
 		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-aop -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.google.firebase/firebase-admin -->
 		<dependency>
