@@ -13,7 +13,6 @@ import com.ssafy.gumid101.aws.S3FileService;
 import com.ssafy.gumid101.customexception.DuplicateException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.customexception.ThirdPartyException;
-import com.ssafy.gumid101.dto.CrewBoardDto;
 import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.UserDto;
@@ -24,6 +23,7 @@ import com.ssafy.gumid101.imgfile.ImageDirectory;
 import com.ssafy.gumid101.imgfile.ImageFileRepository;
 import com.ssafy.gumid101.res.CrewBoardRes;
 import com.ssafy.gumid101.res.UserFileDto;
+import com.ssafy.gumid101.util.Nickname;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 			// 이미 해당 이메일이 있으면
 			throw new DuplicateException(String.format("%s은 이미 등록된 이메일 입니다.", userDto.getEmail()));
 		}
-		if (userDto.getNickName() != null && nickOk(userDto.getNickName())) {
+		if (!Nickname.nickOk(userDto.getNickName())) {
 			throw new Exception("닉네임 규칙을 위반했습니다.");
 		}
 
@@ -90,9 +90,6 @@ public class UserServiceImpl implements UserService {
 
 		UserEntity userEntity = userRepo.findById(userDto.getUserSeq())
 				.orElseThrow(() -> new NotFoundUserException("해당 유저를 찾을 수 없습니다."));
-		if (userDto.getNickName() != null && nickOk(userDto.getNickName())) {
-			throw new Exception("닉네임 규칙을 위반했습니다.");
-		}
 
 		userEntity.setHeight(userDto.getHeight());
 		userEntity.setWeight(userDto.getWeight());
@@ -174,35 +171,6 @@ public class UserServiceImpl implements UserService {
 		UserEntity user = userRepo.findById(userSeq).orElseThrow(()->new NotFoundUserException("FCM 토큰 설정중, 유저를 특정할 수 없습니다."));
 		user.setFcmToken(null);
 		
-		return true;
-	}
-	
-
-	
-	public boolean nickOk(String nick) {
-		int sizeCount = 0;
-		for (int i = 0; i < nick.length() && sizeCount <= 16; i++) {
-			char c = nick.charAt(i);
-			if ('0' <= c && c <= '9') {
-				sizeCount++;
-			} else if ('a' <= c && c <= 'z') {
-				sizeCount++;
-			} else if ('A' <= c && c <= 'Z') {
-				sizeCount++;
-			} else if ('가' <= c && c <= '힣') {
-				sizeCount += 2;
-			} else if ('ㄱ' <= c && c <= 'ㅎ') {
-				sizeCount += 2;
-			} else {
-				// 허용되지 않는 문자 나온 경우
-				return false;
-			}
-		}
-		if (sizeCount < 4 || sizeCount > 16) {
-			// 사이즈 조건 만족을 하지 못한 경우
-			return false;
-		}
-		// 모든 조건을 만족한 경우
 		return true;
 	}
 }

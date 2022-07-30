@@ -10,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.database.utilities.Validation;
 import com.ssafy.gumid101.crew.activity.CrewActivityService;
 import com.ssafy.gumid101.customexception.ThirdPartyException;
-import com.ssafy.gumid101.dto.CrewBoardDto;
 import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.RecordParamsDto;
@@ -33,6 +31,7 @@ import com.ssafy.gumid101.req.ProfileEditDto;
 import com.ssafy.gumid101.res.CrewBoardRes;
 import com.ssafy.gumid101.res.ResponseFrame;
 import com.ssafy.gumid101.res.UserFileDto;
+import com.ssafy.gumid101.util.Nickname;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -99,8 +98,16 @@ public class MyActivityRestController {
 			@RequestPart(value = "imgFile",required = false) MultipartFile imgFile) throws Exception {
 
 		ProfileEditDto profileEditDto = objectMapper.readValue(profile, ProfileEditDto.class);
-		
-		
+
+		ResponseFrame<UserFileDto> res = new ResponseFrame<>();
+
+		if (!Nickname.nickOk(profileEditDto.getNickName())) {
+			res.setData(null);
+			res.setCount(0);
+			res.setSuccess(false);
+			res.setMsg("닉네임을 입력하지 않았거나 규칙을 위반했습니다.");
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		}
 		UserDto userDto = loadUserFromToken();
 		userDto.setWeight(profileEditDto.getWeight());
 		userDto.setHeight(profileEditDto.getHeight());
@@ -108,7 +115,6 @@ public class MyActivityRestController {
 		
 		UserFileDto userFileDto= userService.editMyProfile(userDto,imgFile);
 		
-		ResponseFrame<UserFileDto> res = new ResponseFrame<>();
 		
 		res.setCount(userFileDto == null ?  0 : 1);
 		res.setData(userFileDto);
