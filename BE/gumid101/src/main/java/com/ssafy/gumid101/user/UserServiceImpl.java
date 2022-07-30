@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
 		userEntity.setHeight(userDto.getHeight());
 		userEntity.setWeight(userDto.getWeight());
 		userEntity.setNickName(userDto.getNickName());
-		userEntity.setPoint(0);
+		
 
 		ImageFileDto imageFileDto = null;
 		ImageFileEntity imageEntity = null;

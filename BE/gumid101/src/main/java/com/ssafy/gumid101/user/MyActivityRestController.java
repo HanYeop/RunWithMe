@@ -35,6 +35,7 @@ import com.ssafy.gumid101.util.Nickname;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -94,10 +95,10 @@ public class MyActivityRestController {
 
 	@ApiOperation(value = "자신의 프로필 수정")
 	@PostMapping(value="/profile",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity<?> editMyProfile(@RequestPart("profile") String profile,
+	public ResponseEntity<?> editMyProfile(@RequestBody ProfileEditDto profile,
 			@RequestPart(value = "imgFile",required = false) MultipartFile imgFile) throws Exception {
 
-		ProfileEditDto profileEditDto = objectMapper.readValue(profile, ProfileEditDto.class);
+		ProfileEditDto profileEditDto = profile;//objectMapper.readValue(profile, ProfileEditDto.class);
 
 		ResponseFrame<UserFileDto> res = new ResponseFrame<>();
 
