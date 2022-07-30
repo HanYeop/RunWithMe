@@ -21,6 +21,7 @@ import com.ssafy.runwithme.databinding.FragmentEditProfileBinding
 import com.ssafy.runwithme.model.dto.ProfileEditDto
 import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.view.my_page.MyPageViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -29,6 +30,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.regex.Pattern
 
+@AndroidEntryPoint
 class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fragment_edit_profile) {
 
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
@@ -133,13 +135,15 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
 
         binding.spinnerEditHeight.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, heightList)
         binding.spinnerEditHeight.setSelection(myPageViewModel.height.value.toInt() - 120) // 초기 값 설정 - 원래 유저 값 가져오기
+        Log.d(TAG, "initSpinner: ${myPageViewModel.height.value.toInt() - 120}")
         binding.spinnerEditHeight.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {}
             override fun onNothingSelected(parent: AdapterView<*>?) { }
         }
 
         binding.spinnerEditWeight.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, weightList)
-        binding.spinnerEditHeight.setSelection(myPageViewModel.weight.value.toInt() - 20) // 초기 값 설정 - 원래 유저 값 가져오기
+        binding.spinnerEditWeight.setSelection(myPageViewModel.weight.value.toInt() - 20) // 초기 값 설정 - 원래 유저 값 가져오기
+        Log.d(TAG, "initSpinner: ${myPageViewModel.weight.value.toInt() - 20}")
         binding.spinnerEditWeight.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {}
             override fun onNothingSelected(parent: AdapterView<*>?) { }
