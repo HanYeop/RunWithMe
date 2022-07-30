@@ -3,18 +3,17 @@ package com.ssafy.runwithme.view.home.my_crew
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentMyCurrentCrewBinding
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
-import com.ssafy.runwithme.utils.*
+import com.ssafy.runwithme.utils.runningStart
 import com.ssafy.runwithme.view.home.HomeViewModel
 import com.ssafy.runwithme.view.running.RunningActivity
+import com.ssafy.runwithme.view.running.RunningViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -23,6 +22,7 @@ class MyCurrentCrewFragment
 
     private val homeViewModel by activityViewModels<HomeViewModel>()
     private lateinit var myCurrentCrewAdapter : MyCurrentCrewAdapter
+    private val runningViewModel by viewModels<RunningViewModel>()
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences
@@ -53,6 +53,7 @@ class MyCurrentCrewFragment
         }
 
         override fun onBtnStartClick(myCurrentCrewResponse: MyCurrentCrewResponse) {
+            runningViewModel.getMyProfile()
             runningStart(sharedPreferences, myCurrentCrewResponse.crewDto.crewSeq, myCurrentCrewResponse.crewDto.crewName
                 ,myCurrentCrewResponse.crewDto.crewGoalType, myCurrentCrewResponse.crewDto.crewGoalAmount)
             startActivity(Intent(requireContext(),RunningActivity::class.java))

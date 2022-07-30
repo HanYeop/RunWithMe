@@ -56,8 +56,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
 
     private var goal = 60 * 1000L
 
-    // TODO : 몸무게
-    private val weight = 70
+    private var weight = 70
     private var caloriesBurned: Int = 0
 
     private lateinit var runningLoadingDialog: RunningLoadingDialog
@@ -66,6 +65,9 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         super.onCreate(savedInstanceState)
 
         POLYLINE_COLOR = resources.getColor(R.color.mainColor)
+
+        weight = sharedPref.getInt(USER_WEIGHT, 70)
+        Log.d(TAG, "onCreate: $weight")
 
         type = sharedPref.getString(RUN_GOAL_TYPE, GOAL_TYPE_TIME)!!
         Log.d(TAG, "onCreate: $type")
