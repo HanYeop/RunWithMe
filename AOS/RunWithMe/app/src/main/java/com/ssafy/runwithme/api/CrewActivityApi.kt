@@ -21,6 +21,7 @@ interface CrewActivityApi {
     @GET("crew-activity/{crewSeq}/boards")
     suspend fun getCrewBoardsTop3(
         @Path("crewSeq") crewSeq: Int,
+        @Query("maxCrewBoardSeq") maxCrewBoardSeq: Int,
         @Query("size") size: Int,
     ): BaseResponse<List<CrewBoardResponse>>
 

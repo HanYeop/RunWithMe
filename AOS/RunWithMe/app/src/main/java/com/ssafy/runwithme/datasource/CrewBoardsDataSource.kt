@@ -15,7 +15,7 @@ class CrewBoardsDataSource @Inject constructor(
 ){
 
     fun getCrewBoardsTop3(crewSeq: Int, size: Int): Flow<BaseResponse<List<CrewBoardResponse>>> = flow {
-        emit(crewActivityApi.getCrewBoardsTop3(crewSeq, size))
+        emit(crewActivityApi.getCrewBoardsTop3(crewSeq, 0, size))
     }
 
     fun createCrewBoard(crewSeq: Int, crewBoardDto: CreateCrewBoardDto): Flow<BaseResponse<CrewBoardResponse>> = flow {
