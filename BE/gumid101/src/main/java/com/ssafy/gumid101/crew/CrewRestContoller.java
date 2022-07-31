@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.req.PasswordDto;
 import com.ssafy.gumid101.res.CrewUserDto;
 import com.ssafy.gumid101.res.ResponseFrame;
 import com.ssafy.gumid101.res.RunRecordResultDto;
@@ -61,12 +62,12 @@ public class CrewRestContoller {
 
 	@ApiOperation(value = "크루가입")
 	@PostMapping("/{crewId}/join")
-	public ResponseEntity<?> jonCrew(@PathVariable(required = true) long crewId, @RequestBody(required = false) String passwrod)
+	public ResponseEntity<?> jonCrew(@PathVariable(required = true) long crewId, @RequestBody(required = false) PasswordDto password)
 			throws Exception {
 
 		UserDto userDto = loadUserFromToken();
 
-		CrewUserDto result = crewService.joinCrew(userDto.getUserSeq(), crewId, passwrod);
+		CrewUserDto result = crewService.joinCrew(userDto.getUserSeq(), crewId, password.getPassword());
 
 		ResponseFrame<CrewUserDto> res = ResponseFrame.of(result, 1, "사용자의 크루 가입 성공");
 
