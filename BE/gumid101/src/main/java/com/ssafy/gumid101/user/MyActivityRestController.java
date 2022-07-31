@@ -91,7 +91,7 @@ public class MyActivityRestController {
 
 	@ApiOperation(value = "자신의 프로필 수정")
 	@PostMapping(value="/profile",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity<?> editMyProfile(@RequestBody ProfileEditDto profile,
+	public ResponseEntity<?> editMyProfile(@RequestPart ProfileEditDto profile,
 			@RequestPart(value = "imgFile",required = false) MultipartFile imgFile) throws Exception {
 
 		ProfileEditDto profileEditDto = profile;//objectMapper.readValue(profile, ProfileEditDto.class);
