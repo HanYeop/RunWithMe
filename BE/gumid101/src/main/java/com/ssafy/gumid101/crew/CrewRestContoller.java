@@ -61,7 +61,7 @@ public class CrewRestContoller {
 
 	@ApiOperation(value = "크루가입")
 	@PostMapping("/{crewId}/join")
-	public ResponseEntity<?> jonCrew(@PathVariable(required = true) long crewId, @RequestBody String passwrod)
+	public ResponseEntity<?> jonCrew(@PathVariable(required = true) long crewId, @RequestBody(required = false) String passwrod)
 			throws Exception {
 
 		UserDto userDto = loadUserFromToken();

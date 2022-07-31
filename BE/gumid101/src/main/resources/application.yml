@@ -45,6 +45,7 @@ logging:
         gumid101:
           aop: debug
           interceptor: debug
+
 server:
   servlet:
     context-path: /api
