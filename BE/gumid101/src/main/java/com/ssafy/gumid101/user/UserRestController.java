@@ -9,7 +9,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -133,7 +132,7 @@ public class UserRestController {
 	}
 	
 	@ApiOperation("fcm 토큰 설정")
-	@PostMapping()
+	@PostMapping("/fcm-token")
 	public ResponseEntity<?> setMyFcmToken(@ApiParam("{fcmToken:\"값\"}") @RequestBody Map<String,String> body)throws Exception{
 		
 		
@@ -146,7 +145,7 @@ public class UserRestController {
 	}
 	
 	@ApiOperation("fcm 토큰 삭제")
-	@DeleteMapping()
+	@DeleteMapping("/fcm-token")
 	public ResponseEntity<?> deleteMyFcmToken() throws Exception{
 		
 		UserDto userDto= loadUserFromToken();
@@ -155,28 +154,15 @@ public class UserRestController {
 		return new ResponseEntity<>(ResponseFrame.of(result, "FCM 토큰이 정상적으로 삭제되었습니다."), HttpStatus.OK);
 	}
 
-	
-	
-	@ExceptionHandler(DuplicateException.class)
-	public ResponseEntity<?> duplicationExceptionHandle(DuplicateException de) {
-		ResponseFrame<String> responseFrame = new ResponseFrame<String>();
-
-		responseFrame.setCount(1);
-		responseFrame.setSuccess(false);
-		responseFrame.setData(de.getMessage());
-
-		return new ResponseEntity<>(responseFrame, HttpStatus.CONFLICT);
+	@DeleteMapping("/exit")
+	public ResponseEntity<?> deleteMyAccount() throws Exception{
+		
+		UserDto userDto =  loadUserFromToken();
+		
+		boolean result = userService.deleteMyAccount(userDto.getUserSeq());
+		
+		String msg = result == true ? "정상적으로 회원탈퇴 되었습니다." :"회원탈퇴를 실패하였습니다. 다시 시도해주세요.";
+		return new ResponseEntity<>(ResponseFrame.of(result,msg), HttpStatus.OK);
 	}
 	
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<?> catchAllException(Exception e)
-	{
-		ResponseFrame<String> responseFrame = new ResponseFrame<String>();
-
-		responseFrame.setCount(0);
-		responseFrame.setSuccess(false);
-		responseFrame.setData(e.getMessage());
-
-		return new ResponseEntity<>(responseFrame, HttpStatus.BAD_REQUEST);
-	}
 }

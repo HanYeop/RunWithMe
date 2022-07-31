@@ -1,7 +1,6 @@
 package com.ssafy.gumid101.req;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
 
 import lombok.Getter;
 import lombok.Setter;

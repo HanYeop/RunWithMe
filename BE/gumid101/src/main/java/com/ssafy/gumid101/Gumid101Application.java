@@ -1,13 +1,13 @@
 package com.ssafy.gumid101;
 
-import java.time.ZoneId;
 import java.util.TimeZone;
 
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
+@EnableBatchProcessing
 @SpringBootApplication
 public class Gumid101Application {
 

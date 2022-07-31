@@ -7,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.gumid101.dto.CrewDto;
 import com.ssafy.gumid101.dto.RecruitmentParamsDto;
 import com.ssafy.gumid101.dto.UserDto;
-import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.res.CrewFileDto;
 
 public interface CrewManagerService {

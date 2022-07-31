@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ssafy.gumid101.crew.manager.CrewManagerRepository;
 import com.ssafy.gumid101.crew.manager.CrewManagerService;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.UserEntity;

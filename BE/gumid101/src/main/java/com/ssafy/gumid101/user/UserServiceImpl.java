@@ -173,4 +173,12 @@ public class UserServiceImpl implements UserService {
 		
 		return true;
 	}
+
+	@Override
+	public boolean deleteMyAccount(Long userSeq) throws Exception {
+		
+		userRepo.deleteById(userSeq);
+		
+		return true;
+	}
 }

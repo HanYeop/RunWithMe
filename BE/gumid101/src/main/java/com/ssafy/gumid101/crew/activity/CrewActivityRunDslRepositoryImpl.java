@@ -1,6 +1,5 @@
 package com.ssafy.gumid101.crew.activity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -26,7 +24,6 @@ import com.ssafy.gumid101.entity.QUserEntity;
 import com.ssafy.gumid101.entity.RunRecordEntity;
 import com.ssafy.gumid101.res.RankingDto;
 
-import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

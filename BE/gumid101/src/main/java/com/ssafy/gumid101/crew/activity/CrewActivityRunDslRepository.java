@@ -1,6 +1,5 @@
 package com.ssafy.gumid101.crew.activity;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import com.ssafy.gumid101.dto.CrewTotalRecordDto;
