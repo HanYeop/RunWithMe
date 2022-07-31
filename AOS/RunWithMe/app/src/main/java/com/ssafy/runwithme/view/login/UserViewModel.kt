@@ -74,7 +74,7 @@ class UserViewModel @Inject constructor(
                     sharedPreferences.edit().putString(JWT,it.data.data.jwtToken).apply()
                     _loginEvent.postValue("로그인 완료")
                 }else if(it is Result.Fail){
-
+                    _failMsgEvent.postValue(it.data.msg)
                 } else if (it is Result.Error){
                     _errorMsgEvent.postValue("서버 에러 발생")
                 }

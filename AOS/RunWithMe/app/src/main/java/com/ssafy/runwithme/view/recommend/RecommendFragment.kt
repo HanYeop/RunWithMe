@@ -18,10 +18,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentRecommendBinding
@@ -48,6 +45,8 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
 
     private var currentMarker: Marker? = null
 
+    private lateinit var visibleRegion: VisibleRegion
+
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     // 처음 여부 (true = 아직 처음)
@@ -57,8 +56,6 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
         map = p0
 
         updateLocation()
-
-        recommendViewModel.getRecommends(100.0,30.0,200.0,200.0)
     }
 
     override fun init() {
@@ -96,7 +93,6 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
         override fun onLocationResult(result: LocationResult) {
             super.onLocationResult(result)
 
-            Log.d("test5", "onLocationResult: $result")
             result.locations.let {
                 if(it.size > 0){
                     if(first) {
@@ -120,6 +116,18 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
                         if(binding.mapViewUser.visibility == View.INVISIBLE){
                             binding.mapViewUser.visibility = View.VISIBLE
                         }
+
+                        visibleRegion = map.projection.visibleRegion
+
+                        recommendViewModel.getRecommends(
+                            visibleRegion.farLeft.longitude,
+                            visibleRegion.nearLeft.latitude,
+                            visibleRegion.nearRight.longitude,
+                            visibleRegion.farRight.latitude)
+                        Log.d("test5", "onLocationResult: ${visibleRegion.farLeft.longitude}")
+                        Log.d("test5", "onLocationResult: ${visibleRegion.nearLeft.latitude}")
+                        Log.d("test5", "onLocationResult: ${visibleRegion.nearRight.longitude}")
+                        Log.d("test5", "onLocationResult: ${visibleRegion.farRight.latitude}")
                     }
                 }
             }
