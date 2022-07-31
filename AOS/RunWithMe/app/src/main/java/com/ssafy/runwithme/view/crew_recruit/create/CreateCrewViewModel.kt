@@ -244,7 +244,7 @@ class CreateCrewViewModel @Inject constructor(
 
     fun setDateEnd(year : Int, month : Int, dayOfMonth : Int){
         val clickDate = LocalDate.of(year, month, dayOfMonth)
-        val endDate = clickDate.plusWeeks(goalWeeks.value.toLong()).minusDays(1)
+        val endDate = clickDate.minusDays(1).plusWeeks(goalWeeks.value.toLong())
         val endDateYear = endDate.year
         val endDateMonthInt = endDate.monthValue
         var endDateMonth = endDateMonthInt.toString()
@@ -260,14 +260,14 @@ class CreateCrewViewModel @Inject constructor(
     }
 
     fun initDate() {
-        val now = LocalDate.now()
+        val now = LocalDate.now().plusDays(1)
         val startDateYear = now.year
         val startDateMonthInt = now.monthValue
         var startDateMonth = startDateMonthInt.toString()
         if(startDateMonthInt < 10){
             startDateMonth = "0" + startDateMonth
         }
-        val startDateDayInt = now.dayOfMonth + 1
+        val startDateDayInt = now.dayOfMonth
         var startDateDay = startDateDayInt.toString()
         if(startDateDayInt < 10){
             startDateDay = "0" + startDateDay
