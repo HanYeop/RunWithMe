@@ -124,8 +124,8 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             binding.apply {
                 tvMainRecord.text = time
                 tvMainRecordHeader.text = "현재 뛴 시간"
-                tvGoal.text = "${sharedPref.getInt(RUN_GOAL_AMOUNT,10)}분"
-                goal = (sharedPref.getInt(RUN_GOAL_AMOUNT,10) * 60000).toLong()
+                tvGoal.text = "${sharedPref.getInt(RUN_GOAL_AMOUNT,10) / 60}분"
+                goal = (sharedPref.getInt(RUN_GOAL_AMOUNT,10) * 1000).toLong()
             }
         }else{
             binding.apply {
