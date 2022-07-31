@@ -427,7 +427,7 @@
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_search_goal_amount_start"
-                            android:layout_width="100dp"
+                            android:layout_width="90dp"
                             android:layout_height="40dp"
                             tools:text="3.0"
                             app:isDistance="@{searchCrewVM.goalTypeDistance}"
@@ -449,7 +449,7 @@
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_search_goal_amount_end"
-                            android:layout_width="100dp"
+                            android:layout_width="90dp"
                             android:layout_height="40dp"
                             tools:text="5.0"
                             android:fontFamily="@font/noto_sans_bold"
@@ -468,7 +468,7 @@
                             android:visibility="invisible"
                             android:textColor="@color/black_high_emphasis"
                             android:fontFamily="@font/noto_sans_bold"
-                            android:layout_marginStart="24dp"/>
+                            android:layout_marginStart="8dp"/>
 
 
                     </LinearLayout>

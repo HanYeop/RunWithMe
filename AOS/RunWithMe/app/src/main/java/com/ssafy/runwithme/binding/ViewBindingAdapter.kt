@@ -275,7 +275,7 @@ object ViewBindingAdapter {
     @BindingAdapter("distanceConverter")
     @JvmStatic
     fun TextView.setDistanceConverter (distance: Int){
-        this.text = "${round(1.0 * distance / 1000 * 10) / 10} km"
+        this.text = "${round(1.0 * distance / 1000.0 * 10) / 10} km"
     }
 
     @BindingAdapter("timeConverter")
@@ -293,7 +293,7 @@ object ViewBindingAdapter {
     @BindingAdapter("speedConverter")
     @JvmStatic
     fun TextView.setSpeedConverter (speed: Double){
-        this.text = "${round(speed * 10) / 10 }km/h"
+        this.text = "${round(speed * 10.0) / 10 }km/h"
     }
 
     @BindingAdapter("myUserSeq", "board")

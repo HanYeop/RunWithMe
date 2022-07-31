@@ -259,27 +259,36 @@ class SearchCrewViewModel : ViewModel(){
 
     fun initDate() {
         val now = LocalDate.now()
+        now.plusDays(1)
         val startDateYearInt = now.year
         val startDateMonthInt = now.monthValue
         var startDateMonth = startDateMonthInt.toString()
         if(startDateMonthInt < 10){
             startDateMonth = "0" + startDateMonth
         }
-        val startDateDayInt = now.dayOfMonth + 1
+        val startDateDayInt = now.dayOfMonth
         var startDateDay = startDateDayInt.toString()
         if(startDateDayInt < 10){
             startDateDay = "0" + startDateDay
         }
 
-        var endYear = startDateYearInt.toString()
-        var endMonth = (startDateMonthInt + 1).toString()
-        if(startDateMonthInt == 12){
-            endMonth = "1"
-            endYear = (startDateYearInt + 1).toString()
+        val end = now.plusWeeks(1)
+
+        val endYear = end.year
+        val endMonthInt = end.monthValue
+        var endMonth = endMonthInt.toString()
+        if(endMonthInt < 10){
+            endMonth = "0" + endMonth
+        }
+
+        val endDayInt = end.dayOfMonth
+        var endDay = endDayInt.toString()
+        if(endDayInt < 10){
+            endDay = "0" + endDay
         }
 
         _dateStart.value = "$startDateYearInt-${startDateMonth}-$startDateDay"
-        _dateEnd.value = "$endYear-${endMonth}-$startDateDay"
+        _dateEnd.value = "$endYear-${endMonth}-$endDay"
     }
 
 
