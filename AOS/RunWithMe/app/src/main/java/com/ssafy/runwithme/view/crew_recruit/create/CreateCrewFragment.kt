@@ -357,7 +357,7 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
 
     @Throws(IOException::class)
     private fun createFileFromBitmap(bitmap: Bitmap): File {
-        val newFile = File(requireActivity().filesDir, "test")
+        val newFile = File(requireActivity().filesDir, "crew_${System.currentTimeMillis()}")
         val fileOutputStream = FileOutputStream(newFile)
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
         fileOutputStream.close()
