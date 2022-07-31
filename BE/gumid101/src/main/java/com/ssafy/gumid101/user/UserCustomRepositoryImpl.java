@@ -102,7 +102,9 @@ public class UserCustomRepositoryImpl implements UserCustomRepository{
 	
 	@Override
 	public CrewTotalRecordDto getMyTotalRecord(UserEntity userEntity) throws Exception{
+		
 		QCrewTotalRecordEntity qCrewTotalRecordEntity = QCrewTotalRecordEntity.crewTotalRecordEntity;
+		
 		BooleanBuilder builder = new BooleanBuilder();
 		
 		return jpqQueryFactory

@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	@Override
 	public UserDto setMyProfile(UserDto userDto) throws Exception {
-
 		if (0 != userRepo.countByEmail(userDto.getEmail())) {
 			// 이미 해당 이메일이 있으면
 			throw new DuplicateException(String.format("%s은 이미 등록된 이메일 입니다.", userDto.getEmail()));
@@ -49,10 +48,8 @@ public class UserServiceImpl implements UserService {
 		if (!Nickname.nickOk(userDto.getNickName())) {
 			throw new IllegalParameterException("닉네임 규칙을 위반했습니다.");
 		}
-
 		UserEntity userEntity = UserEntity.builder().email(userDto.getEmail()).nickName(userDto.getNickName())
 				.weight(userDto.getWeight()).height(userDto.getHeight()).role(Role.USER).build();
-
 		try {
 			userRepo.save(userEntity);
 		} catch (Exception e) {
