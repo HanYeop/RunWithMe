@@ -53,6 +53,9 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
             showToast(it)
             findNavController().popBackStack()
         }
+        myPageViewModel.errorMsgEvent.observe(viewLifecycleOwner){
+            showToast(it)
+        }
     }
 
     private fun initClickListener() {
