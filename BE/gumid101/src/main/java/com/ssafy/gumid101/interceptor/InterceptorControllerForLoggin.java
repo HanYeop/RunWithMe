@@ -25,7 +25,7 @@ public class InterceptorControllerForLoggin implements HandlerInterceptor {
 			ip = request.getRemoteAddr();
 		}
 		
-		log.debug("[인터셉터] 클라이언트 : {} - 요청 url :({}) {}", ip,request.getMethod() ,request.getRequestURL()); 
+		log.debug("[인터셉터 - 컨트롤러] 클라이언트 : {} - 요청 url :({}) {}", ip,request.getMethod() ,request.getRequestURL()); 
 		
 		
 		return true; //로깅용 이니깐 무조건
@@ -34,6 +34,6 @@ public class InterceptorControllerForLoggin implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			@Nullable ModelAndView modelAndView) throws Exception {
-		log.debug("반환 -"); 
+		log.debug("[인터셉터 - 컨트롤러]"); 
 	}
 }
