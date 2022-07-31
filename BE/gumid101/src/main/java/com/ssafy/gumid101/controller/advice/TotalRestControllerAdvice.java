@@ -1,9 +1,12 @@
 package com.ssafy.gumid101.controller.advice;
 
 import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.ssafy.gumid101.customexception.CrewNotFoundException;
 import com.ssafy.gumid101.customexception.CrewPermissonDeniedException;
@@ -14,17 +17,17 @@ import com.ssafy.gumid101.customexception.PasswrodNotMatchException;
 import com.ssafy.gumid101.customexception.ThirdPartyException;
 import com.ssafy.gumid101.res.ResponseFrame;
 
-@org.springframework.web.bind.annotation.RestControllerAdvice
-public class RestControllerAdvice {
+@RestControllerAdvice
+public class TotalRestControllerAdvice {
 
-	@ExceptionHandler(NotFoundUserException.class)
+	@ExceptionHandler({NotFoundUserException.class})
 	public ResponseEntity<?> userNofoundControll(NotFoundUserException nue) {
 
 		return new ResponseEntity<>(ResponseFrame.of(false, nue.getMessage()), HttpStatus.OK);
 	}
 
 	@ExceptionHandler(CrewPermissonDeniedException.class)
-	public ResponseEntity<?> crewPermisionDnieHandler(NotFoundUserException nue) {
+	public ResponseEntity<?> crewPermisionDnieHandler(CrewPermissonDeniedException nue) {
 
 		return new ResponseEntity<>(ResponseFrame.of(false, nue.getMessage()), HttpStatus.OK);
 	}
@@ -80,7 +83,7 @@ public class RestControllerAdvice {
 	}
 
 	@ExceptionHandler(CrewNotFoundException.class)
-	public ResponseEntity<?> crewSeqNotFoundHandler(UsernameNotFoundException e) {
+	public ResponseEntity<?> crewSeqNotFoundHandler(CrewNotFoundException e) {
 
 		return new ResponseEntity<>(ResponseFrame.of(false, e.getMessage()), HttpStatus.OK);
 
