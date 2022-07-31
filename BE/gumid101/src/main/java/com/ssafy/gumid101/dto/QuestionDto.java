@@ -2,6 +2,8 @@ package com.ssafy.gumid101.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+
 import com.ssafy.gumid101.customercenter.QuestStatus;
 import com.ssafy.gumid101.entity.QuestionEntity;
 

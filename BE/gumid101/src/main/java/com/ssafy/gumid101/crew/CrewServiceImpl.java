@@ -197,7 +197,7 @@ public class CrewServiceImpl implements CrewService {
 	private List<AchievementDto> getNewCompleteAchiveMent(UserEntity userEntity, CrewTotalRecordEntity userCrewTotalEntity, RunRecordEntity runRecordEntity) {
 
 		
-//		Integer runCount = runRecordRepo.findByUserEntity(userEntity).size();
+		Long runCount = runRecordRepo.countByUserEntity(userEntity);
 		
 		List<AchievementEntity> nonAchieveMents =  achiveRepo.findNotAchivement(userEntity);
 		List<AchievementEntity> achieveList = new ArrayList<>();
@@ -223,11 +223,11 @@ public class CrewServiceImpl implements CrewService {
 					achieveList.add(nonAchieve);
 				}
 			}
-//			else if (nonAchieve.getAchieveType().equals(AchieveType.RUNCOUNT)) {
-//				if (nonAchieve.getAchiveValue() <= runCount + 1) {
-//					achieveList.add(nonAchieve);
-//				}
-//			}
+			else if (nonAchieve.getAchieveType().equals(AchieveType.RUNCOUNT)) {
+				if (nonAchieve.getAchiveValue() <= runCount) {
+					achieveList.add(nonAchieve);
+				}
+			}
 		}
 		return achieveList.stream().map((entity) -> AchievementDto.of(entity)).collect(Collectors.toList());
 	}

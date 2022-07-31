@@ -37,6 +37,7 @@ public class UserDto implements Serializable {
 	@ApiParam(value = "사용자 키")
 	private Integer height;
 
+	
 	@ApiParam(value = "사용자 몸무게")
 	private Integer weight;
 

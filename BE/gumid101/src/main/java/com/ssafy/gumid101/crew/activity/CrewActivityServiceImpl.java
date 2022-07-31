@@ -47,7 +47,7 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 	
 	@Override
 	public List<RunRecordDto> getCrewRecordList(RecordParamsDto recordParamsDto) {
-
+//2022-07-29 ### N+1 문제 발생
 		List<RunRecordDto> runRecordList = crewRunRepo.getRunRecords(recordParamsDto).stream().map((entity) -> {
 			return RunRecordDto.of(entity);
 		}).collect(Collectors.toList());
