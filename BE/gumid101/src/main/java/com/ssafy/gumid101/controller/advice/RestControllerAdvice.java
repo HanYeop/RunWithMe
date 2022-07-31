@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.ssafy.gumid101.customexception.CrewNotFoundException;
 import com.ssafy.gumid101.customexception.CrewPermissonDeniedException;
 import com.ssafy.gumid101.customexception.DuplicateException;
+import com.ssafy.gumid101.customexception.IllegalParameterException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.customexception.PasswrodNotMatchException;
 import com.ssafy.gumid101.customexception.ThirdPartyException;
@@ -19,15 +20,27 @@ public class RestControllerAdvice {
 	@ExceptionHandler(NotFoundUserException.class)
 	public ResponseEntity<?> userNofoundControll(NotFoundUserException nue) {
 
-		return new ResponseEntity<>(ResponseFrame.of(false, nue.getMessage()), HttpStatus.FORBIDDEN);
+		return new ResponseEntity<>(ResponseFrame.of(false, nue.getMessage()), HttpStatus.OK);
 	}
 
 	@ExceptionHandler(CrewPermissonDeniedException.class)
 	public ResponseEntity<?> crewPermisionDnieHandler(NotFoundUserException nue) {
 
-		return new ResponseEntity<>(ResponseFrame.of(false, nue.getMessage()), HttpStatus.FORBIDDEN);
+		return new ResponseEntity<>(ResponseFrame.of(false, nue.getMessage()), HttpStatus.OK);
 	}
 
+	
+	@ExceptionHandler(IllegalParameterException.class)
+	public ResponseEntity<?> catchAllException(IllegalParameterException e) {
+		ResponseFrame<String> responseFrame = new ResponseFrame<String>();
+
+		responseFrame.setCount(0);
+		responseFrame.setSuccess(false);
+		responseFrame.setData(e.getMessage());
+
+		return new ResponseEntity<>(responseFrame, HttpStatus.OK);
+	}
+	
 	/**
 	 * 우리 자체의 오류가 아니라 , S3를 사용하면서 난 오류이다.
 	 * 
@@ -43,7 +56,7 @@ public class RestControllerAdvice {
 		res.setData(null);
 		res.setSuccess(false);
 
-		return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(res, HttpStatus.OK);
 
 	}
 
@@ -55,38 +68,36 @@ public class RestControllerAdvice {
 		responseFrame.setSuccess(false);
 		responseFrame.setData(de.getMessage());
 
-		return new ResponseEntity<>(responseFrame, HttpStatus.CONFLICT);
+		return new ResponseEntity<>(responseFrame, HttpStatus.OK);
 	}
 
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<?> catchAllException(Exception e) {
-		ResponseFrame<String> responseFrame = new ResponseFrame<String>();
 
-		responseFrame.setCount(0);
-		responseFrame.setSuccess(false);
-		responseFrame.setData(e.getMessage());
-
-		return new ResponseEntity<>(responseFrame, HttpStatus.BAD_REQUEST);
-	}
-	
 	
 
 	@ExceptionHandler(UsernameNotFoundException.class)
 	public ResponseEntity<?> userSeqNotFoundHandler(UsernameNotFoundException e) {
-		return new ResponseEntity<>(ResponseFrame.of(false, e.getMessage()), HttpStatus.FORBIDDEN);
+		return new ResponseEntity<>(ResponseFrame.of(false, e.getMessage()), HttpStatus.OK);
 	}
 
 	@ExceptionHandler(CrewNotFoundException.class)
 	public ResponseEntity<?> crewSeqNotFoundHandler(UsernameNotFoundException e) {
 
-		return new ResponseEntity<>(ResponseFrame.of(false, e.getMessage()), HttpStatus.FORBIDDEN);
+		return new ResponseEntity<>(ResponseFrame.of(false, e.getMessage()), HttpStatus.OK);
 
 	}
 
 	@ExceptionHandler(PasswrodNotMatchException.class)
 	public ResponseEntity<?> crewSeqNotFoundHandler(PasswrodNotMatchException e) {
 
-		return new ResponseEntity<>(ResponseFrame.of(false, e.getMessage()), HttpStatus.FORBIDDEN);
+		return new ResponseEntity<>(ResponseFrame.of(false, e.getMessage()), HttpStatus.OK);
 
 	}
+	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<?> crewSeqNotFoundHandler(Exception e) {
+
+		return new ResponseEntity<>(ResponseFrame.of(false,"처리되지 않은 에러"), HttpStatus.OK);
+
+	}
+	
 }

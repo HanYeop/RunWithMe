@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.aws.S3FileService;
 import com.ssafy.gumid101.customexception.DuplicateException;
+import com.ssafy.gumid101.customexception.IllegalParameterException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.customexception.ThirdPartyException;
 import com.ssafy.gumid101.dto.CrewTotalRecordDto;
@@ -44,6 +45,9 @@ public class UserServiceImpl implements UserService {
 		if (0 != userRepo.countByEmail(userDto.getEmail())) {
 			// 이미 해당 이메일이 있으면
 			throw new DuplicateException(String.format("%s은 이미 등록된 이메일 입니다.", userDto.getEmail()));
+		}
+		if (!Nickname.nickOk(userDto.getNickName())) {
+			throw new IllegalParameterException("닉네임 규칙을 위반했습니다.");
 		}
 
 		UserEntity userEntity = UserEntity.builder().email(userDto.getEmail()).nickName(userDto.getNickName())
