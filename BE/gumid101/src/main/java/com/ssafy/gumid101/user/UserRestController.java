@@ -100,7 +100,7 @@ public class UserRestController {
 		
 		HttpStatus httpStatus = HttpStatus.OK;
 
-		if (userDto.getNickName() == null || !Nickname.nickOk(userDto.getNickName())) {
+		if (!Nickname.nickOk(userDto.getNickName())) {
 			responseMap.setData(dataMap);
 			responseMap.setCount(0);
 			responseMap.setSuccess(false);
@@ -111,7 +111,7 @@ public class UserRestController {
 
 
 		if (savedDto == null) {
-			httpStatus = HttpStatus.CONFLICT;
+			httpStatus = HttpStatus.OK;
 			dataMap.put(JwtProperties.JWT_ACESS_NAME, "");
 			dataMap.put("userSeq", -1);
 			responseMap.setCount(0);
