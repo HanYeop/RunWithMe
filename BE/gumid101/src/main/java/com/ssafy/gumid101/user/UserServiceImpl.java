@@ -45,9 +45,6 @@ public class UserServiceImpl implements UserService {
 			// 이미 해당 이메일이 있으면
 			throw new DuplicateException(String.format("%s은 이미 등록된 이메일 입니다.", userDto.getEmail()));
 		}
-		if (!Nickname.nickOk(userDto.getNickName())) {
-			throw new Exception("닉네임 규칙을 위반했습니다.");
-		}
 
 		UserEntity userEntity = UserEntity.builder().email(userDto.getEmail()).nickName(userDto.getNickName())
 				.weight(userDto.getWeight()).height(userDto.getHeight()).role(Role.USER).build();
