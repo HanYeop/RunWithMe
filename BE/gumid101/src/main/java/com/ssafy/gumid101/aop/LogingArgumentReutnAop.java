@@ -1,7 +1,5 @@
 package com.ssafy.gumid101.aop;
 
-import java.lang.reflect.Field;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;

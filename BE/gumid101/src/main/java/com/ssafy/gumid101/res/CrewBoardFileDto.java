@@ -1,10 +1,7 @@
 package com.ssafy.gumid101.res;
 
-import java.time.LocalDateTime;
-
 import com.ssafy.gumid101.dto.ImageFileDto;
 
-import io.swagger.annotations.ApiParam;
 import lombok.Builder;
 import lombok.Data;
 

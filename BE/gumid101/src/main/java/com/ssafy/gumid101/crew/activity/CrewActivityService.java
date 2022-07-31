@@ -2,14 +2,10 @@ package com.ssafy.gumid101.crew.activity;
 
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import com.ssafy.gumid101.dto.CrewBoardDto;
 import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.RankingParamsDto;
 import com.ssafy.gumid101.dto.RecordParamsDto;
 import com.ssafy.gumid101.dto.RunRecordDto;
-import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.res.RankingDto;
 
 public interface CrewActivityService {
