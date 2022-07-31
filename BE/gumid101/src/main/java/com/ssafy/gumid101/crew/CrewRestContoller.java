@@ -60,13 +60,13 @@ public class CrewRestContoller {
 	}
 
 	@ApiOperation(value = "크루가입")
-	@PostMapping("/{crewId}/join")
-	public ResponseEntity<?> jonCrew(@PathVariable(required = true) long crewId, @RequestBody(required = false) String passwrod)
+	@PostMapping("/{crewSeq}/join")
+	public ResponseEntity<?> jonCrew(@PathVariable(required = true) long crewSeq, @RequestBody(required = false) String password)
 			throws Exception {
 
 		UserDto userDto = loadUserFromToken();
 
-		CrewUserDto result = crewService.joinCrew(userDto.getUserSeq(), crewId, passwrod);
+		CrewUserDto result = crewService.joinCrew(userDto.getUserSeq(), crewId, password);
 
 		ResponseFrame<CrewUserDto> res = ResponseFrame.of(result, 1, "사용자의 크루 가입 성공");
 
