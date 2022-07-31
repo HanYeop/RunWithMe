@@ -58,17 +58,7 @@ public class RestControllerAdvice {
 		return new ResponseEntity<>(responseFrame, HttpStatus.CONFLICT);
 	}
 
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<?> catchAllException(Exception e) {
-		ResponseFrame<String> responseFrame = new ResponseFrame<String>();
 
-		responseFrame.setCount(0);
-		responseFrame.setSuccess(false);
-		responseFrame.setData(e.getMessage());
-
-		return new ResponseEntity<>(responseFrame, HttpStatus.BAD_REQUEST);
-	}
-	
 	
 
 	@ExceptionHandler(UsernameNotFoundException.class)
@@ -89,4 +79,17 @@ public class RestControllerAdvice {
 		return new ResponseEntity<>(ResponseFrame.of(false, e.getMessage()), HttpStatus.FORBIDDEN);
 
 	}
+	
+	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<?> catchAllException(Exception e) {
+		ResponseFrame<String> responseFrame = new ResponseFrame<String>();
+
+		responseFrame.setCount(0);
+		responseFrame.setSuccess(false);
+		responseFrame.setData(e.getMessage());
+
+		return new ResponseEntity<>(responseFrame, HttpStatus.BAD_REQUEST);
+	}
+	
 }
