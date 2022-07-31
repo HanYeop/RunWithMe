@@ -17,7 +17,7 @@ class ApplicationClass: Application() {
         appContext = this
         KakaoSdk.init(this,getString(R.string.kakao_app_key))
 
-        NaverIdLoginSDK.initialize(this, getString(R.string.naver_client_id_key),
-            getString(R.string.naver_secret_key), getString(R.string.app_name))
+//        NaverIdLoginSDK.initialize(this, getString(R.string.naver_client_id_key),
+//            getString(R.string.naver_secret_key), getString(R.string.app_name))
     }
 }
