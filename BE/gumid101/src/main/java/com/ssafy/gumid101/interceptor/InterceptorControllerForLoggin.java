@@ -1,7 +1,5 @@
 package com.ssafy.gumid101.interceptor;
 
-import java.util.Enumeration;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
