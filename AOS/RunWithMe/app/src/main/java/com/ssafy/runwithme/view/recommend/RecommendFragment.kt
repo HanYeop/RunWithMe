@@ -28,7 +28,6 @@ import com.ssafy.runwithme.databinding.FragmentRecommendBinding
 import com.ssafy.runwithme.utils.FASTEST_LOCATION_UPDATE_INTERVAL
 import com.ssafy.runwithme.utils.LOCATION_UPDATE_INTERVAL
 import com.ssafy.runwithme.utils.TrackingUtility
-import com.ssafy.runwithme.view.my_page.tab.my_board.MyBoardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -51,15 +50,11 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
 
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
+    // 처음 여부 (true = 아직 처음)
+    private var first: Boolean = true
+
     override fun onMapReady(p0: GoogleMap) {
         map = p0
-
-        if(binding.progressBarRecommend.visibility == View.VISIBLE){
-            binding.progressBarRecommend.visibility = View.GONE
-        }
-        if(binding.mapViewUser.visibility == View.INVISIBLE){
-            binding.mapViewUser.visibility = View.VISIBLE
-        }
 
         updateLocation()
 
@@ -101,26 +96,37 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
         override fun onLocationResult(result: LocationResult) {
             super.onLocationResult(result)
 
+            Log.d("test5", "onLocationResult: $result")
             result.locations.let {
                 if(it.size > 0){
-                    // 화면 전환 시 해제
-                    if(context != null) {
+                    if(first) {
                         val location = it[it.size - 1]
                         currentPosition = LatLng(location.latitude, location.longitude)
                         var markerTitle = "내 위치"
-//                        var markerSnippet = getCurrentAddress(currentPosition)
+                        var markerSnippet = getCurrentAddress(currentPosition)
 
                         myLocation.apply {
                             latitude = location.latitude; longitude = location.longitude
                         }
 
-//                        currentMarker = drawMarker(currentPosition, markerTitle, markerSnippet)
+                        currentMarker = drawMarker(currentPosition, markerTitle, markerSnippet)
                         moveCamera(currentPosition)
+
+                        first = false
+
+                        if(binding.progressBarRecommend.visibility == View.VISIBLE){
+                            binding.progressBarRecommend.visibility = View.GONE
+                        }
+                        if(binding.mapViewUser.visibility == View.INVISIBLE){
+                            binding.mapViewUser.visibility = View.VISIBLE
+                        }
                     }
                 }
             }
         }
     }
+
+
 
     // 지도 카메라 움직이기
     private fun moveCamera(latLng: LatLng) {
@@ -179,5 +185,10 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
             val address = addresses[0]
             address.getAddressLine(0).toString()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
     }
 }
