@@ -65,6 +65,7 @@ public class RecommendRestController {
 			responseFrame.setCount(0);
 			responseFrame.setSuccess(false);
 			responseFrame.setMsg(e.getMessage());
+			return new ResponseEntity<>(responseFrame, httpStatus);
 		}
 		
 		if (trackBoardFileDtoList != null) {
