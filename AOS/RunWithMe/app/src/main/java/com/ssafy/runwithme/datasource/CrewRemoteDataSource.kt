@@ -1,7 +1,10 @@
 package com.ssafy.runwithme.datasource
 
+import android.util.Log
 import com.ssafy.runwithme.api.CrewApi
 import com.ssafy.runwithme.base.BaseResponse
+import com.ssafy.runwithme.model.dto.CrewDto
+import com.ssafy.runwithme.model.dto.PasswordDto
 import com.ssafy.runwithme.model.response.CreateRunRecordResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,5 +18,13 @@ class CrewRemoteDataSource @Inject constructor(
     fun createRunRecords(crewId: Int, imgFile: MultipartBody.Part, runRecordDto: RequestBody
     ): Flow<BaseResponse<CreateRunRecordResponse>> = flow {
         emit(crewApi.createRunRecords(crewId, runRecordDto, imgFile))
+    }
+
+    fun joinCrew(crewId: Int, password: PasswordDto?): Flow<BaseResponse<CrewDto>> = flow {
+        if(password != null){
+            emit(crewApi.joinCrew(crewId, password))
+        }else{
+            emit(crewApi.joinCrew(crewId))
+        }
     }
 }

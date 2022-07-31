@@ -2,6 +2,8 @@ package com.ssafy.runwithme.repository
 
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.datasource.CrewRemoteDataSource
+import com.ssafy.runwithme.model.dto.CrewDto
+import com.ssafy.runwithme.model.dto.PasswordDto
 import com.ssafy.runwithme.model.response.CreateRunRecordResponse
 import com.ssafy.runwithme.utils.Result
 import kotlinx.coroutines.flow.Flow
@@ -20,6 +22,21 @@ class CrewRepository @Inject constructor(
         crewRemoteDataSource.createRunRecords(crewId, imgFile, runRecordDto).collect {
             if(it.success){
                 emit(Result.Success(it))
+            }
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
+
+    fun joinCrew(crewId: Int, password: PasswordDto?): Flow<Result<BaseResponse<CrewDto>>> = flow {
+        emit(Result.Loading)
+        crewRemoteDataSource.joinCrew(crewId, password).collect {
+            if(it.success){
+                emit(Result.Success(it))
+            }else if(!it.success){
+                emit(Result.Fail(it))
+            }else{
+                emit(Result.Empty)
             }
         }
     }.catch { e ->

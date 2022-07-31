@@ -1,6 +1,7 @@
 package com.ssafy.runwithme.view.crew_detail
 
 import android.util.Log
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -22,8 +23,8 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
     private lateinit var crewDto: CrewDto
     private lateinit var imageFileDto: ImageFileDto
     private val crewDetailViewModel by viewModels<CrewDetailViewModel>()
-    private lateinit var crewRunRecordAdapter : CrewDetailRunRecordTop3Adapter
-    private lateinit var crewBoardsAdapter : CrewDetailBoardsTop3Adapter
+    private lateinit var crewRunRecordAdapter: CrewDetailRunRecordTop3Adapter
+    private lateinit var crewBoardsAdapter: CrewDetailBoardsTop3Adapter
 
     override fun init() {
         crewRunRecordAdapter = CrewDetailRunRecordTop3Adapter(crewRunRecordListener)
@@ -44,7 +45,7 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
         initViewModelCallback()
     }
 
-    private fun initClickListener(){
+    private fun initClickListener() {
         binding.apply {
             toolbar.setNavigationOnClickListener {
                 findNavController().popBackStack()
@@ -58,23 +59,35 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
             }
 
             tvBoardMore.setOnClickListener {
-                val action = CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewBoardFragment(crewDto!!.crewSeq)
+                val action =
+                    CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewBoardFragment(crewDto!!.crewSeq)
                 findNavController().navigate(action)
             }
 
             tvRankingMore.setOnClickListener {
                 findNavController().navigate(R.id.action_crewDetailFragment_to_crewUserRankingFragment)
             }
+
+            btnJoinCrew.setOnClickListener {
+                crewDetailViewModel.joinCrew(crewDto!!.crewSeq, null)
+            }
         }
     }
 
-    private fun initViewModelCallback(){
+    private fun initViewModelCallback() {
         crewDetailViewModel.getRunRecordsTop3(crewDto.crewSeq.toString(), 3)
 
         crewDetailViewModel.getCrewBoardsTop3(crewDto.crewSeq, 3)
 
         crewDetailViewModel.checkCrewMember(crewDto.crewSeq)
 
+        crewDetailViewModel.successMsgEvent.observe(viewLifecycleOwner) {
+            showToast(it)
+            binding.apply {
+                btnJoinCrew.visibility = View.GONE
+                btnResignCrew.visibility = View.VISIBLE
+            }
+        }
 
         lifecycleScope.launch {
             crewDetailViewModel.crewRunRecordList.collectLatest {
@@ -88,21 +101,25 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
             }
         }
 
-        crewDetailViewModel.errorMsgEvent.observe(viewLifecycleOwner){
+        crewDetailViewModel.errorMsgEvent.observe(viewLifecycleOwner) {
             showToast(it)
         }
     }
 
     private val crewRunRecordListener: CrewRunRecordListener = object : CrewRunRecordListener {
         override fun onItemClick(crewSeq: Int) {
-            val action = CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewUserRunRecordFragment(crewSeq)
+            val action =
+                CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewUserRunRecordFragment(
+                    crewSeq
+                )
             findNavController().navigate(action)
         }
     }
 
     private val crewBoardsListener: CrewBoardsListener = object : CrewBoardsListener {
         override fun onItemClick(crewSeq: Int) {
-            val action = CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewBoardFragment(crewSeq)
+            val action =
+                CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewBoardFragment(crewSeq)
             findNavController().navigate(action)
         }
     }
