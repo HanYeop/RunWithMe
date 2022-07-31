@@ -44,7 +44,7 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
     private fun initClickListener(){
         binding.apply {
             // TEST
-            tvLogin.setOnClickListener {
+            imgLogo.setOnClickListener {
                 startActivity(Intent(requireContext(),MainActivity::class.java))
                 requireActivity().finish()
             }
