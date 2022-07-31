@@ -10,12 +10,10 @@ import javax.transaction.Transactional;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.crew.RunRecordRepository;
 import com.ssafy.gumid101.crew.UserCrewJoinRepository;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
-import com.ssafy.gumid101.dto.CrewBoardDto;
 import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.RankingParamsDto;
 import com.ssafy.gumid101.dto.RecordParamsDto;

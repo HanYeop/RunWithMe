@@ -2,13 +2,11 @@ package com.ssafy.gumid101.user;
 
 import java.util.List;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,9 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.firebase.database.utilities.Validation;
 import com.ssafy.gumid101.crew.activity.CrewActivityService;
-import com.ssafy.gumid101.customexception.ThirdPartyException;
 import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.RecordParamsDto;
@@ -250,21 +246,5 @@ public class MyActivityRestController {
 		return new ResponseEntity<>(responseFrame, httpStatus);
 	}
 
-	/**
-	 * 우리 자체의 오류가 아니라 , S3를 사용하면서 난 오류이다.
-	 * @param e
-	 * @return
-	 */
-	@ExceptionHandler(ThirdPartyException.class)
-	public ResponseEntity<?> thirdParthExceptionHandle(ThirdPartyException e){
-		
-		ResponseFrame<?> res = new ResponseFrame<>();
-		
-		res.setCount(0);
-		res.setData(null);
-		res.setSuccess(false);
-		
-		return new ResponseEntity<>(res,HttpStatus.INTERNAL_SERVER_ERROR);
-		
-	}
+
 }
