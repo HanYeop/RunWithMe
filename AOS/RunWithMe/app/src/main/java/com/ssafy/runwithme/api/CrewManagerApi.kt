@@ -14,7 +14,7 @@ interface CrewManagerApi {
 
     @Multipart
     @POST("crew-manager/crew")
-    suspend fun createCrew(@Part("crewDto") crewDto: RequestBody, @Part img: MultipartBody.Part?): BaseResponse<CreateCrewResponse>
+    suspend fun createCrew(@Part("crewDto") crewDto: RequestBody, @Part imgFile: MultipartBody.Part?): BaseResponse<CreateCrewResponse>
 
     @Multipart
     @POST("crew-manager/crew")
