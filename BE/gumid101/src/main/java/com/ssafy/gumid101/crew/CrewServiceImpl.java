@@ -75,12 +75,16 @@ public class CrewServiceImpl implements CrewService {
 		}
 		user.setPoint(user.getPoint() - crew.getCrewCost());
 
+		
 		// 패스워드 체크
 		if (Strings.hasLength(crew.getCrewPassword())) {
-			if (crew.getCrewPassword().compareTo(password) != 0) {
+			if ( password == null|| crew.getCrewPassword().compareTo(password) != 0) {
 				throw new PasswrodNotMatchException("크루 패스워드 불일치");
 			}
 		}
+		
+		//이미 가입 뭐시기
+		
 
 		UserCrewJoinEntity ucjEntity = UserCrewJoinEntity.builder().build();
 		ucjEntity.setCrewEntity(crew);

@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,6 @@ import com.ssafy.gumid101.res.RunRecordResultDto;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @Api(tags = "크루 컨트롤러")
@@ -61,8 +61,8 @@ public class CrewRestContoller {
 	}
 
 	@ApiOperation(value = "크루가입")
-	@PostMapping("/{crewId}/join")
-	public ResponseEntity<?> jonCrew(@PathVariable(required = true) long crewId, @RequestBody(required = false) PasswordDto password)
+	@PostMapping(value="/{crewId}/join",consumes = {MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<?> jonCrew(@PathVariable(required = true) long crewId, @RequestBody PasswordDto password)
 			throws Exception {
 
 		UserDto userDto = loadUserFromToken();
