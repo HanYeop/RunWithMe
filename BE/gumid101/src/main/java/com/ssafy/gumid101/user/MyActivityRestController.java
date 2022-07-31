@@ -85,7 +85,6 @@ public class MyActivityRestController {
 		resFrame.setSuccess(resUserDto == null ? false : true);
 		resFrame.setMsg("회원의 정보를 반환합니다.");
 		resFrame.setData(resUserDto);
-
 		return new ResponseEntity<>(resFrame, resUserDto != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
 	}
 

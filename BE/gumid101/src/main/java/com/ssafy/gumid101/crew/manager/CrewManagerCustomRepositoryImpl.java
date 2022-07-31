@@ -53,7 +53,7 @@ public class CrewManagerCustomRepositoryImpl implements CrewManagerCustomReposit
 
 		// 검색 조건에 따라 + 시작 안한 크루만 + 페이징
 
-		OrderSpecifier<LocalDateTime> order1 = crewEntity.crewDateStart.asc(); // 기본정렬
+		OrderSpecifier<LocalDateTime> order1 = crewEntity.crewDateStart.desc(); // 기본정렬
 		OrderSpecifier<Long> order2 = crewEntity.crewSeq.desc();
 		// 2022-07-28 정렬 기능생김
 		if (paramsDto.getSortType() == CrewSortType.REG_RECENT) {
