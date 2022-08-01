@@ -3,6 +3,7 @@ package com.ssafy.gumid101.crew;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -34,6 +35,7 @@ import com.ssafy.gumid101.entity.UserCrewJoinEntity;
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.imgfile.ImageDirectory;
 import com.ssafy.gumid101.imgfile.ImageFileRepository;
+import com.ssafy.gumid101.req.PasswordDto;
 import com.ssafy.gumid101.res.CrewUserDto;
 import com.ssafy.gumid101.res.RunRecordResultDto;
 import com.ssafy.gumid101.user.UserRepository;
@@ -59,7 +61,7 @@ public class CrewServiceImpl implements CrewService {
 	
 	@Transactional
 	@Override
-	public CrewUserDto joinCrew(Long userSeq, Long crewSeq, String password) throws Exception {
+	public CrewUserDto joinCrew(Long userSeq, Long crewSeq, Optional<PasswordDto> passwordDto) throws Exception {
 
 		CrewEntity crew = crewManagerRepo.findById(crewSeq)
 				.orElseThrow(() -> new CrewNotFoundException("크루 가입 중, 크루를 특정할 수 없습니다."));
@@ -81,7 +83,10 @@ public class CrewServiceImpl implements CrewService {
 		}
 		user.setPoint(user.getPoint() - crew.getCrewCost());
 
-		
+		String password = null;
+		if(passwordDto.isPresent()) {
+			password = passwordDto.get().getPassword();
+		}
 		// 패스워드 체크
 		if (Strings.hasLength(crew.getCrewPassword())) {
 			if ( password == null|| crew.getCrewPassword().compareTo(password) != 0) {
