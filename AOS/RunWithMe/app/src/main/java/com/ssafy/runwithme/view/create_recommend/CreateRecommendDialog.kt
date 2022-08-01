@@ -22,7 +22,7 @@ class CreateRecommendDialog(context: Context, private val listener: CreateRecomm
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_create_recommend, null, false)
         setContentView(binding.root)
 
-        context.dialogResize(this,0.8f,0.5f)
+        context.dialogResize(this,0.8f,0.7f)
 
         // 배경 투명하게 바꿔줌
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
