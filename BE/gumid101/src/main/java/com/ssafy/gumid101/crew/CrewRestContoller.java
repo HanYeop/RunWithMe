@@ -1,5 +1,7 @@
 package com.ssafy.gumid101.crew;
 
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -61,13 +63,14 @@ public class CrewRestContoller {
 	}
 
 	@ApiOperation(value = "크루가입")
-	@PostMapping(value="/{crewId}/join",consumes = {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<?> jonCrew(@PathVariable(required = true) long crewId, @RequestBody PasswordDto password)
+	@PostMapping(value="/{crewId}/join")
+	public ResponseEntity<?> jonCrew(@PathVariable(required = true) long crewId, @RequestBody(required = false) Optional<PasswordDto>  password)
 			throws Exception {
 
 		UserDto userDto = loadUserFromToken();
 
-		CrewUserDto result = crewService.joinCrew(userDto.getUserSeq(), crewId, password.getPassword());
+		
+		CrewUserDto result = crewService.joinCrew(userDto.getUserSeq(), crewId, password);
 
 		ResponseFrame<CrewUserDto> res = ResponseFrame.of(result, 1, "사용자의 크루 가입 성공");
 
