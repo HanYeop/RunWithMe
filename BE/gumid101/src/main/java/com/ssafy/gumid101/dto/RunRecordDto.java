@@ -61,6 +61,15 @@ public class RunRecordDto implements Serializable {
 	
 	@ApiParam(value = "목표달성 여부")
 	private String runRecordRunningCompleteYN;
+  //  - 크루 이름
+ //   - 유저 이름
+  //  - 유저 시퀀스
+	private String userName;
+	private Long userSeq;
+	private String crewName;
+	private Long crewSeq;
+	
+	
 	
 	public static RunRecordDto of(RunRecordEntity runRecord) {
 		
@@ -79,6 +88,10 @@ public class RunRecordDto implements Serializable {
 				.runRecordRunningLng(runRecord.getRunRecordLng())
 				.runRecordRunningCompleteYN(runRecord.getRunRecordCompleteYN())
 				.runImageSeq(runRecord.getImageFile() == null ? 0 : runRecord.getImageFile().getImgSeq())
+				.userSeq(runRecord.getUserEntity().getUserSeq())
+				.userName(runRecord.getUserEntity().getNickName())
+				.crewName(runRecord.getCrewEntity().getCrewName())
+				.crewSeq(runRecord.getCrewEntity().getCrewSeq())
 				.build();
 	}
 }
