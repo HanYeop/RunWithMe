@@ -22,8 +22,10 @@ import com.google.android.gms.maps.model.*
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentRecommendBinding
+import com.ssafy.runwithme.model.response.RecommendResponse
 import com.ssafy.runwithme.utils.FASTEST_LOCATION_UPDATE_INTERVAL
 import com.ssafy.runwithme.utils.LOCATION_UPDATE_INTERVAL
+import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.utils.TrackingUtility
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -64,12 +66,23 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
         
         initViewModelCallBack()
     }
-    
+
     private fun initViewModelCallBack(){
         lifecycleScope.launch { 
             recommendViewModel.recommendList.collectLatest {
-                Log.d("test5", "initViewModelCallBack: $it")
+                recommendDraw(it)
             }
+        }
+    }
+
+    // 추천 장소 마커 찍기
+    private fun recommendDraw(list: List<RecommendResponse>){
+        for(i in list){
+            val latLng = LatLng(i.runRecordDto.runRecordRunningLat, i.runRecordDto.runRecordRunningLng)
+            val title = i.runRecordDto.runRecordEndTime
+            var markerSnippet = getCurrentAddress(latLng)
+
+            drawMarker(latLng, title, markerSnippet)
         }
     }
 
@@ -105,7 +118,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
                             latitude = location.latitude; longitude = location.longitude
                         }
 
-                        currentMarker = drawMarker(currentPosition, markerTitle, markerSnippet)
+                        currentMarker = currentLocationDrawMarker(currentPosition, markerTitle, markerSnippet)
                         moveCamera(currentPosition)
 
                         first = false
@@ -134,8 +147,6 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
         }
     }
 
-
-
     // 지도 카메라 움직이기
     private fun moveCamera(latLng: LatLng) {
         map!!.moveCamera(
@@ -143,8 +154,8 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
         )
     }
 
-    // 마커 그리기
-    private fun drawMarker(latLng: LatLng, markerTitle: String?, markerSnippet: String?): Marker? {
+    // 유저 현재 위치 마커 그리기
+    private fun currentLocationDrawMarker(latLng: LatLng, markerTitle: String?, markerSnippet: String?): Marker? {
         val markerOptions = MarkerOptions().apply {
             position(latLng)
             title(markerTitle)
@@ -159,6 +170,30 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
                             requireContext().theme
                         ) as BitmapDrawable).bitmap,
                         50, 75, false
+                    )
+                )
+            )
+        }
+        
+        return map!!.addMarker(markerOptions)
+    }
+
+    // 마커 그리기
+    private fun drawMarker(latLng: LatLng, markerTitle: String?, markerSnippet: String?): Marker? {
+        val markerOptions = MarkerOptions().apply {
+            position(latLng)
+            title(markerTitle)
+            snippet(markerSnippet)
+            draggable(true)
+            icon(
+                BitmapDescriptorFactory.fromBitmap(
+                    Bitmap.createScaledBitmap(
+                        (ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.user_location,
+                            requireContext().theme
+                        ) as BitmapDrawable).bitmap,
+                        150, 150, false
                     )
                 )
             )
@@ -179,15 +214,15 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
             )
         } catch (ioException: IOException) {
             //네트워크 문제
-            Toast.makeText(requireContext(), "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show()
+//            Toast.makeText(requireContext(), "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show()
             return "지오코더 사용불가"
         } catch (illegalArgumentException: IllegalArgumentException) {
-            Toast.makeText(requireContext(), "잘못된 GPS 좌표", Toast.LENGTH_LONG).show()
+//            Toast.makeText(requireContext(), "잘못된 GPS 좌표", Toast.LENGTH_LONG).show()
             return "잘못된 GPS 좌표"
         }
 
         return if (addresses == null || addresses.isEmpty()) {
-            Toast.makeText(requireContext(), "주소 발견 불가", Toast.LENGTH_LONG).show()
+//            Toast.makeText(requireContext(), "주소 발견 불가", Toast.LENGTH_LONG).show()
             "주소 발견 불가"
         } else {
             val address = addresses[0]
