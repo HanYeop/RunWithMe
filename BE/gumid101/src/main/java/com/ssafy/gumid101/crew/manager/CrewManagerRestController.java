@@ -116,6 +116,7 @@ public class CrewManagerRestController {
 	public ResponseEntity<?> createCrew(@RequestPart("crewDto") String crewDto,
 			@RequestPart(name = "imgFile", required = false) MultipartFile image) throws Exception {
 
+		log.debug(crewDto);
 		UserDto managerDto = loadUserFromToken();
 		HttpStatus httpStatus = HttpStatus.OK;
 		ResponseFrame<CrewFileDto> responseMap = new ResponseFrame<>();

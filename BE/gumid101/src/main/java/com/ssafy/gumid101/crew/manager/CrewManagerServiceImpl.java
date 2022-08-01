@@ -105,12 +105,14 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 
 		ImageFileDto savedFileDto = null;
 		CrewEntity crewEntity;
+		
 		if (crewDto.getCrewName() == null || crewDto.getCrewGoalAmount() == null || crewDto.getCrewGoalType() == null
 				|| crewDto.getCrewGoalDays() == null || crewDto.getCrewDateStart() == null
 				|| crewDto.getCrewDateEnd() == null || crewDto.getCrewTimeStart() == null
 				|| crewDto.getCrewTimeEnd() == null || crewDto.getCrewMaxMember() == null) {
 			throw new IllegalParameterException("필수 입력 정보에 누락이 있습니다.");
 		}
+		
 		if (crewDto.getCrewDescription() == null) {
 			crewDto.setCrewDescription("");
 		}
