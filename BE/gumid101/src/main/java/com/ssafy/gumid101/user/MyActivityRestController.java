@@ -136,10 +136,11 @@ public class MyActivityRestController {
 		try {
 			myTotalRecord = userService.getMyTotalRecord(userDto.getUserSeq());
 		}catch (Exception e) {
-			httpStatus = HttpStatus.CONFLICT;
+			httpStatus = HttpStatus.OK;
 			responseFrame.setCount(0);
 			responseFrame.setSuccess(false);
 			responseFrame.setMsg(e.getMessage());
+			return new ResponseEntity<>(responseFrame, httpStatus);
 		}
 		
 		if (myTotalRecord != null) {
