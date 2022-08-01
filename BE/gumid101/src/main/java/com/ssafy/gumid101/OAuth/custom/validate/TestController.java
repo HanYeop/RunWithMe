@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ssafy.gumid101.achievement.AchievementRepository;
@@ -22,6 +23,7 @@ import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.AchievementEntity;
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.jwt.JwtUtilsService;
+import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.res.ResponseFrame;
 import com.ssafy.gumid101.user.UserRepository;
 
@@ -47,6 +49,8 @@ public class TestController {
 	private CrewManagerService cmServ;
 	@Autowired
 	private JwtUtilsService jwtUtilSevice;
+	@Autowired
+	private RedisService redisServ;
 	
 
 	@ApiOperation(value="크루 분배하기")
@@ -95,6 +99,15 @@ public class TestController {
 		return new ResponseEntity<>(new ResponseFrame<>(true, AchievementDto.of(achievementEntity), 1, "업적추우가"), HttpStatus.OK);
 	}
 	
+	@ResponseBody
+	@ApiOperation(value="레디스 테스트")
+	@PostMapping("/test/redistest")
+	public ResponseEntity<?> getRedisStringValue(@RequestParam String key){
+		redisServ.getRedisStringValue(key, 15);
+		
+		return new ResponseEntity<>(new ResponseFrame<>(true, null, 1, "레디스테스트"), HttpStatus.OK);
+	}
+	
 	
 	@PostMapping("/test")
 	public String tset(@ModelAttribute AK a) throws GeneralSecurityException, IOException {
@@ -111,5 +124,7 @@ public class TestController {
 		
 		return jwtUtilSevice.createToken(UserDto.of(  userRepo.findById(userId).orElse(null)));
 	}
+	
+	
 	
 }

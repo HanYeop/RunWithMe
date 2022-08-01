@@ -72,5 +72,14 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: d101rwm
     url: jdbc:mysql://host.docker.internal:13306/commonssafy?serverTimezone=UTC&characterEncoding=UTF-8    
-
-      
+---
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    jedis:
+      pool:
+        max-idle: 8
+        min-idle: 0
+        max-active: 8
+        max-wait: -1
