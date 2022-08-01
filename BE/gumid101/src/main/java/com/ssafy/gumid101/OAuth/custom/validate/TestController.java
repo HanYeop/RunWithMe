@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ssafy.gumid101.crew.manager.CrewManagerService;
@@ -20,6 +21,7 @@ import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.jwt.JwtUtilsService;
 import com.ssafy.gumid101.res.ResponseFrame;
+import com.ssafy.gumid101.user.Role;
 import com.ssafy.gumid101.user.UserRepository;
 
 import io.swagger.annotations.ApiOperation;
@@ -75,6 +77,21 @@ public class TestController {
 		return new ResponseEntity<>(map,org.springframework.http.HttpStatus.OK);
 	}
 	
+	
+	
+	@ResponseBody
+	@PostMapping("/test/register/temp")
+	public ResponseEntity<?> register(@RequestParam String email){
+			
+		UserEntity user = UserEntity.builder().email(email)
+				.role(Role.TEMP).build();
+
+		String token = jwtUtilSevice.createToken(UserDto.of(user));
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("msg", "개발자용 토큰발급");
+		map.put("j-token-develope",token);
+		return new ResponseEntity<>(map,org.springframework.http.HttpStatus.OK);
+	}
 	
 	@PostMapping("/test")
 	public String tset(@ModelAttribute AK a) throws GeneralSecurityException, IOException {

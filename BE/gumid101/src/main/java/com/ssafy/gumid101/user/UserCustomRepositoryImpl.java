@@ -118,7 +118,7 @@ public class UserCustomRepositoryImpl implements UserCustomRepository{
 					)
 				)
 				.from(qCrewTotalRecordEntity)
-				.where(QCrewTotalRecordEntity.crewTotalRecordEntity.userEntity.userSeq.eq(userEntity.getUserSeq()))
+				.where(qCrewTotalRecordEntity.userEntity.eq(userEntity))
 				.fetchOne();
 	}
 
