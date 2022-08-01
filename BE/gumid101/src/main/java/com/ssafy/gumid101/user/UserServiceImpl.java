@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
 		UserEntity userEntity = UserEntity.builder().email(userDto.getEmail()).nickName(userDto.getNickName())
 				.weight(userDto.getWeight()).height(userDto.getHeight()).role(Role.USER).build();
 		try {
+			userEntity.setPoint(100000);
 			userRepo.save(userEntity);
 		} catch (Exception e) {
 			throw new Exception("초기 프로필 설정 중 오류가 발생하였습니다.");
@@ -143,7 +144,8 @@ public class UserServiceImpl implements UserService {
 				.orElseThrow(() -> new NotFoundUserException("해당 유저를 찾을 수 없습니다."));
 
 		CrewTotalRecordDto crewTotalRecordDto = userRepo.getMyTotalRecord(userEntity);
-		if (crewTotalRecordDto.getTotalTime() == null || crewTotalRecordDto.getTotalTime() == 0) {
+		
+		if (crewTotalRecordDto == null ||crewTotalRecordDto.getTotalTime() == null || crewTotalRecordDto.getTotalTime() == 0) {
 			return CrewTotalRecordDto.builder().totalAvgSpeed(0.0).totalCalorie(0.0).totalDistance(0)
 					.totalLongestDistance(0).totalLongestTime(0).totalTime(0).build();
 		} else {

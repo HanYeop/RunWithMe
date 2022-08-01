@@ -67,6 +67,8 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager)
 			throws Exception {
 		
+		
+		
 		http.cors().disable();// cors 문제 무시
 		http.httpBasic().disable(); // 헤더에 username,password 로그인 사용 불가
 		http.csrf().disable(); // csrf 보안 사용 안함
