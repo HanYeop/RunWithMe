@@ -229,7 +229,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 
 		int result = 0;
 
-		if (LocalDateTime.now().isAfter(crew.getCrewDateStart())) {
+		if (LocalDateTime.now().isBefore(crew.getCrewDateStart())) {
 
 			user.setPoint(user.getPoint() + crew.getCrewCost()); // 탈퇴 포인트 환급
 			result = userCrewJoinRepo.deleteByUserAndCrew(user, crew);// 유저와 크루 참가 관계 삭제
