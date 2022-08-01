@@ -14,6 +14,7 @@ import com.ssafy.gumid101.achievement.AchieveType;
 import com.ssafy.gumid101.achievement.AchievementRepository;
 import com.ssafy.gumid101.aws.S3FileService;
 import com.ssafy.gumid101.crew.manager.CrewManagerRepository;
+import com.ssafy.gumid101.crew.manager.CrewManagerService;
 import com.ssafy.gumid101.customexception.CrewNotFoundException;
 import com.ssafy.gumid101.customexception.CrewPermissonDeniedException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
@@ -47,6 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CrewServiceImpl implements CrewService {
 
 	private final CrewManagerRepository crewManagerRepo;
+	private final CrewManagerService crewManagerServ;
 	private final UserCrewJoinRepository ucJoinRepo;
 	private final UserRepository userRepo;
 	private final UserCrewRunRecordRepository userCrewTotalRunRepo;// (유저,크루) 누적
@@ -61,6 +63,10 @@ public class CrewServiceImpl implements CrewService {
 
 		CrewEntity crew = crewManagerRepo.findById(crewSeq)
 				.orElseThrow(() -> new CrewNotFoundException("크루 가입 중, 크루를 특정할 수 없습니다."));
+		
+		if (crewManagerServ.isUserCrewMember(userSeq, crewSeq)) {
+			throw new CrewPermissonDeniedException("이미 해당 크루원입니다.");
+		}
 
 		// 인원수 체크
 		if (ucJoinRepo.findAllByCrewEntity(crew).size() >= crew.getCrewMaxMember()) {
