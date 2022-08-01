@@ -35,7 +35,7 @@ import java.util.*
 
 @AndroidEntryPoint
 class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragment_recommend),
-    OnMapReadyCallback {
+    OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private val recommendViewModel by viewModels<RecommendViewModel>()
 
@@ -49,7 +49,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
 
     private lateinit var visibleRegion: VisibleRegion
 
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     // 처음 여부 (true = 아직 처음)
     private var first: Boolean = true
@@ -58,6 +58,17 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
         map = p0
 
         updateLocation()
+
+        map.setOnMarkerClickListener(this)
+    }
+
+    override fun onMarkerClick(p0: Marker): Boolean {
+        binding.apply {
+            cardInfo.visibility = View.VISIBLE
+            tvTitle.text = p0.title
+            recommend = p0.tag as RecommendResponse
+        }
+        return true
     }
 
     override fun init() {
@@ -82,7 +93,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
             val title = i.runRecordDto.runRecordEndTime
             var markerSnippet = getCurrentAddress(latLng)
 
-            drawMarker(latLng, title, markerSnippet)
+            drawMarker(latLng, title, markerSnippet, i)
         }
     }
 
@@ -149,7 +160,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
 
     // 지도 카메라 움직이기
     private fun moveCamera(latLng: LatLng) {
-        map!!.moveCamera(
+        map.moveCamera(
             CameraUpdateFactory.newLatLngZoom(latLng, 14.5f)
         )
     }
@@ -174,12 +185,12 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
                 )
             )
         }
-        
-        return map!!.addMarker(markerOptions)
+
+        return map.addMarker(markerOptions)
     }
 
     // 마커 그리기
-    private fun drawMarker(latLng: LatLng, markerTitle: String?, markerSnippet: String?): Marker? {
+    private fun drawMarker(latLng: LatLng, markerTitle: String?, markerSnippet: String?, data: RecommendResponse): Marker? {
         val markerOptions = MarkerOptions().apply {
             position(latLng)
             title(markerTitle)
@@ -198,7 +209,10 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
                 )
             )
         }
-        return map!!.addMarker(markerOptions)
+
+        val marker = map.addMarker(markerOptions)
+        marker.tag = data
+        return marker
     }
 
     // 위도, 경도를 주소로 변환
