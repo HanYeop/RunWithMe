@@ -305,4 +305,16 @@ object ViewBindingAdapter {
             this.visibility = View.GONE
         }
     }
+
+    @BindingAdapter("envirPoint")
+    @JvmStatic
+    fun TextView.setEnvirPoint(point: Int){
+        this.text = "러닝 환경 : $point"
+    }
+
+    @BindingAdapter("hardPoint")
+    @JvmStatic
+    fun TextView.setHardPoint(point: Int){
+        this.text = "러닝 난이도 : $point"
+    }
 }
