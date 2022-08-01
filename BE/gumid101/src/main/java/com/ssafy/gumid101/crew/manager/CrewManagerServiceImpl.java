@@ -105,12 +105,14 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 
 		ImageFileDto savedFileDto = null;
 		CrewEntity crewEntity;
+		
 		if (crewDto.getCrewName() == null || crewDto.getCrewGoalAmount() == null || crewDto.getCrewGoalType() == null
 				|| crewDto.getCrewGoalDays() == null || crewDto.getCrewDateStart() == null
 				|| crewDto.getCrewDateEnd() == null || crewDto.getCrewTimeStart() == null
 				|| crewDto.getCrewTimeEnd() == null || crewDto.getCrewMaxMember() == null) {
 			throw new IllegalParameterException("필수 입력 정보에 누락이 있습니다.");
 		}
+		
 		if (crewDto.getCrewDescription() == null) {
 			crewDto.setCrewDescription("");
 		}
@@ -227,7 +229,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 
 		int result = 0;
 
-		if (LocalDateTime.now().isAfter(crew.getCrewDateStart())) {
+		if (LocalDateTime.now().isBefore(crew.getCrewDateStart())) {
 
 			user.setPoint(user.getPoint() + crew.getCrewCost()); // 탈퇴 포인트 환급
 			result = userCrewJoinRepo.deleteByUserAndCrew(user, crew);// 유저와 크루 참가 관계 삭제
