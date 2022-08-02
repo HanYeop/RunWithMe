@@ -107,7 +107,7 @@
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:background="@drawable/btn_round_main_color"
-            android:text="공유"
+            android:text="추천"
             android:textColor="@color/white"
             android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
