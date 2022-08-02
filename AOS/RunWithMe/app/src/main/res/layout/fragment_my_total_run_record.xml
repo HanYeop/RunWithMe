@@ -299,24 +299,12 @@
                                 android:layout_height="wrap_content"
                                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                                 android:orientation="vertical"
-                                android:nestedScrollingEnabled="false" />
+                                android:nestedScrollingEnabled="false"
+                                tools:listitem="@layout/item_running_record"/>
                         </LinearLayout>
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-
-                <TextView
-                    android:id="@+id/tv_date_record_header"
-                    style="@style/header_text"
-                    android:layout_marginStart="@dimen/header_margin"
-                    android:layout_marginTop="20dp"
-                    android:text="2020/01/01" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_date_record"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:listitem="@layout/item_running_record" />
 
             </LinearLayout>
 
