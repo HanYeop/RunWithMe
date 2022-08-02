@@ -78,6 +78,13 @@ class MyPageViewModel @Inject constructor(
             myActivityRepository.editMyProfile(profileEditDto, imgFile).collectLatest {
                 if(it is Result.Success){
                     _editMsgEvent.postValue("프로필 수정에 성공했습니다.")
+                } else if(it is Result.Fail){
+                    if(it.data.msg == "처리되지 않은 에러"){
+                        _errorMsgEvent.postValue("이미 사용중인 닉네임입니다.")
+                    }
+                    else{
+                        _errorMsgEvent.postValue(it.data.msg)
+                    }
                 } else if(it is Result.Error) {
                     _errorMsgEvent.postValue("프로필 수정에 실패했습니다.")
                 }
