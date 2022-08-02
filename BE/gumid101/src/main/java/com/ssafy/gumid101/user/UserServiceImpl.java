@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.aws.S3FileService;
+import com.ssafy.gumid101.customexception.CustomException;
 import com.ssafy.gumid101.customexception.DuplicateException;
 import com.ssafy.gumid101.customexception.IllegalParameterException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
@@ -54,7 +55,7 @@ public class UserServiceImpl implements UserService {
 			userEntity.setPoint(100000);
 			userRepo.save(userEntity);
 		} catch (Exception e) {
-			throw new Exception("초기 프로필 설정 중 오류가 발생하였습니다.");
+			throw new CustomException("초기 프로필 설정 중 오류가 발생하였습니다.");
 		}
 
 		return UserDto.of(userEntity);

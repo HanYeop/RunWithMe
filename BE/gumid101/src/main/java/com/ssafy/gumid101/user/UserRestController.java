@@ -137,7 +137,7 @@ public class UserRestController {
 		
 		
 		UserDto userDto= loadUserFromToken();
-		
+		log.info(body.get("fcmToken"));
 		boolean result =  userService.setUserFcmToken(userDto.getUserSeq(),body.get("fcmToken"));
 		
 

@@ -21,6 +21,7 @@ import com.ssafy.gumid101.customexception.CrewNotFoundException;
 import com.ssafy.gumid101.customexception.CrewPermissonDeniedException;
 import com.ssafy.gumid101.customexception.IllegalParameterException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
+import com.ssafy.gumid101.customexception.ThirdPartyException;
 import com.ssafy.gumid101.dto.CrewDto;
 import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.RecruitmentParamsDto;
@@ -164,7 +165,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 				imageRepo.save(imageEntity);
 				crewEntity.setImageFile(imageEntity);
 			} catch (Exception e) {
-				throw new Exception("이미지 저장에 실패했습니다.");
+				throw new ThirdPartyException("이미지 저장에 실패했습니다.");
 			}
 		}
 		if (savedFileDto == null) {
@@ -275,6 +276,8 @@ public class CrewManagerServiceImpl implements CrewManagerService {
     public Boolean crewFinishPoint(Long crewSeq) throws Exception {
         CrewEntity crewEntity = crewManagerRepo.findById(crewSeq)
                 .orElseThrow(() -> new CrewNotFoundException("크루 상세 조회 중 , 크루를 특정할 수 없습니다."));
+        
+        
         if (crewEntity.getCrewCheckYn() != null && crewEntity.getCrewCheckYn().equals("Y")) {
             throw new CrewAlreadyDistributeException("이미 정산이 완료된 크루입니다.");
         }

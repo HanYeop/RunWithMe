@@ -18,6 +18,7 @@ import com.ssafy.gumid101.crew.manager.CrewManagerRepository;
 import com.ssafy.gumid101.crew.manager.CrewManagerService;
 import com.ssafy.gumid101.customexception.CrewNotFoundException;
 import com.ssafy.gumid101.customexception.CrewPermissonDeniedException;
+import com.ssafy.gumid101.customexception.IllegalParameterException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.customexception.PasswrodNotMatchException;
 import com.ssafy.gumid101.dto.AchievementDto;
@@ -119,7 +120,7 @@ public class CrewServiceImpl implements CrewService {
 		// TODO Auto-generated method stub
 
 		if (runRecordDto.getRunRecordRunningTime() == null || runRecordDto.getRunRecordRunningTime() == 0) {
-			throw new Exception("달린 시간이 0인 기록은 저장할 수 없습니다.");
+			throw new IllegalParameterException("달린 시간이 0인 기록은 저장할 수 없습니다.");
 		}
 		 UserEntity userEntity =  userRepo.findById(userSeq).orElseThrow(()->new NotFoundUserException("러닝 완료 중, 유저를 특정할 수 없습니다."));
 		CrewEntity crewEntity =  crewManagerRepo.findById(crewId).orElseThrow(()->new CrewNotFoundException("러닝 완료 중 , 크루를 특정할 수 없습니다."));

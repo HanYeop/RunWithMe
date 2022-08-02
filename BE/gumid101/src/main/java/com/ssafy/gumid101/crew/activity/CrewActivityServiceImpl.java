@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.gumid101.crew.RunRecordRepository;
 import com.ssafy.gumid101.crew.UserCrewJoinRepository;
+import com.ssafy.gumid101.customexception.CrewPermissonDeniedException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.RankingParamsDto;
@@ -68,16 +69,16 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 		LocalDateTime nowDateTime = LocalDateTime.now();
 		LocalTime nowTime = LocalTime.now();
 		if (ucjEntity.getCrewEntity().getCrewDateStart().isAfter(nowDateTime) || ucjEntity.getCrewEntity().getCrewDateEnd().isBefore(nowDateTime)) {
-			throw new Exception("크루 활동 기간이 아닙니다.");
+			throw new CrewPermissonDeniedException("크루 활동 기간이 아닙니다.");
 		}
 		if (ucjEntity.getCrewEntity().getCrewTimeStart().isAfter(nowTime) || ucjEntity.getCrewEntity().getCrewTimeEnd().isBefore(nowTime)) {
-			throw new Exception("크루 활동 시간이 아닙니다.");
+			throw new CrewPermissonDeniedException("크루 활동 시간이 아닙니다.");
 		}
 		List<RunRecordEntity> myToday = null;
 		try{
 			 myToday = runRepo.findByUserEntityAndCrewEntity(ucjEntity.getUserEntity(), ucjEntity.getCrewEntity());
 		} catch (Exception e) {
-			throw new Exception("기록 조회에 실패했습니다.");
+			throw new CrewPermissonDeniedException("기록 조회에 실패했습니다.");
 		}
 		if (myToday != null && myToday.size() > 0){
 			return false;
