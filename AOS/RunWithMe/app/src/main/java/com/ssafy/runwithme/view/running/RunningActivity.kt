@@ -9,7 +9,6 @@ import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLngBounds
@@ -27,7 +26,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.round
@@ -64,7 +62,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        POLYLINE_COLOR = resources.getColor(R.color.mainColor)
+        POLYLINE_COLOR = resources.getColor(R.color.main_purple)
 
         weight = sharedPref.getInt(USER_WEIGHT, 70)
         Log.d(TAG, "onCreate: $weight")
@@ -203,7 +201,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             changeTimeText(formattedTime)
 
             // 프로그래스바 진행도 변경
-            if(it > 0 && type == GOAL_TYPE_TIME) binding.progressBar.progress = (it / (goal / 100)).toInt()
+            if(it > 0 && type == GOAL_TYPE_TIME) binding.arcProgress.progress = if ((it / (goal / 100)).toInt() >= 100) 100 else (it / (goal / 100)).toInt()
         }
     }
 
@@ -233,8 +231,9 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             sumDistance += result[0]
 
             // 프로그래스바 진행도 변경
-            if(sumDistance > 0 && type == GOAL_TYPE_DISTANCE)
-                binding.progressBar.progress = (sumDistance / (goal / 100) ).toInt()
+            if(sumDistance > 0 && type == GOAL_TYPE_DISTANCE){
+                binding.arcProgress.progress = if ((sumDistance / (goal / 100)).toInt() >= 100) 100 else (sumDistance / (goal / 100)).toInt()
+            }
 
             Log.d(TAG, "addLatestPolyline: ${(sumDistance / (goal / 100) ).toInt()} $sumDistance $goal")
         }
@@ -319,14 +318,14 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             tvTabGoal.setOnClickListener {
                 layoutMap.visibility = View.INVISIBLE
                 layoutGoal.visibility = View.VISIBLE
-                tvTabGoal.setTextColor(resources.getColor(R.color.mainColor))
-                tvTabMap.setTextColor(resources.getColor(R.color.black_high_emphasis))
+                tvTabGoal.setTextColor(resources.getColor(R.color.main_purple))
+                tvTabMap.setTextColor(resources.getColor(R.color.black))
             }
             tvTabMap.setOnClickListener {
                 layoutMap.visibility = View.VISIBLE
                 layoutGoal.visibility = View.INVISIBLE
-                tvTabGoal.setTextColor(resources.getColor(R.color.black_high_emphasis))
-                tvTabMap.setTextColor(resources.getColor(R.color.mainColor))
+                tvTabGoal.setTextColor(resources.getColor(R.color.black))
+                tvTabMap.setTextColor(resources.getColor(R.color.main_purple))
             }
         }
     }
