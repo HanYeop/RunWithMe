@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.req.PasswordDto;
 import com.ssafy.gumid101.res.CrewUserDto;
 import com.ssafy.gumid101.res.ResponseFrame;
@@ -35,6 +36,7 @@ public class CrewRestContoller {
 
 	private final CrewService crewService;
 	private final ObjectMapper objectMapper;
+	private final RedisService redisServ;
 
 	private UserDto loadUserFromToken() {
 		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
@@ -48,7 +50,9 @@ public class CrewRestContoller {
 			@PathVariable("crewId") Long crewId ,
 			@RequestPart(value="runRecord",required = true) String runRecord,
 			@RequestPart MultipartFile imgFile) throws Exception{
+		
 		UserDto userDto =  loadUserFromToken();
+		redisServ.getIsUseable(userDto.getUserSeq().toString() + "recordMyRun", 10);
 		
 		Long userSeq = userDto.getUserSeq();
 		
@@ -64,10 +68,11 @@ public class CrewRestContoller {
 
 	@ApiOperation(value = "크루가입")
 	@PostMapping(value="/{crewId}/join")
-	public ResponseEntity<?> jonCrew(@PathVariable(required = true) long crewId, @RequestBody(required = false) Optional<PasswordDto>  password)
+	public ResponseEntity<?> joinCrew(@PathVariable(required = true) long crewId, @RequestBody(required = false) Optional<PasswordDto>  password)
 			throws Exception {
 
 		UserDto userDto = loadUserFromToken();
+		redisServ.getIsUseable(userDto.getUserSeq().toString() + "joinCrew", 10);
 
 		
 		CrewUserDto result = crewService.joinCrew(userDto.getUserSeq(), crewId, password);

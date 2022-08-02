@@ -1,6 +1,7 @@
 package com.ssafy.gumid101.recommend;
 
 import java.util.List;
+
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.gumid101.crew.RunRecordRepository;
 import com.ssafy.gumid101.customexception.CustomException;
+import com.ssafy.gumid101.customexception.DuplicateException;
 import com.ssafy.gumid101.customexception.IllegalParameterException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.dto.ImageFileDto;
@@ -65,8 +67,16 @@ public class RecommendServiceImpl implements RecommendService{
 				.orElseThrow(() -> new NotFoundUserException("해당 기록을 찾을 수 없습니다."));
 		
 		if (userSeq == null || userSeq != runRecordEntity.getUserEntity().getUserSeq()) {
-			throw new IllegalParameterException("본인의 기록만 업로드할 수 있습니다.");
+			
+
+			throw new NotFoundUserException("본인의 기록만 업로드할 수 있습니다.");
 		}
+		
+		
+		if (recommendRepo.findByRunRecordEntity(runRecordEntity).isPresent()) {
+			throw new DuplicateException("이미 등록한 기록입니다.");
+		}
+		
 		if (hardPoint != null && (hardPoint < 1 || 5 <= hardPoint)) {
 			throw new IllegalParameterException("난이도 별점은 기록하지 않거나, 1점 ~ 5점이여야합니다.");
 		}
@@ -79,11 +89,9 @@ public class RecommendServiceImpl implements RecommendService{
 				.trackBoardHardPoint(hardPoint)
 				.runRecordEntity(runRecordEntity)
 				.build();
-		try {
-			recommendRepo.save(trackBoardEntity);
-		} catch(Exception e) {
-			throw new CustomException("저장에 실패했습니다.");
-		}
+
+		
+		recommendRepo.save(trackBoardEntity);
 		return TrackBoardDto.of(trackBoardEntity);
 	}
 	
