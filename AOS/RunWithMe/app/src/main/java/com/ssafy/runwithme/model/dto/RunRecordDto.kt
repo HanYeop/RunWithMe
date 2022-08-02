@@ -13,5 +13,9 @@ data class RunRecordDto(
     @SerializedName("runRecordRunningCalorie") val runRecordRunningCalorie: Int,
     @SerializedName("runRecordRunningLat") val runRecordRunningLat: Double,
     @SerializedName("runRecordRunningLng") val runRecordRunningLng: Double,
-    @SerializedName("runRecordRunningCompleteYN") val runRecordRunningCompleteYN: String
+    @SerializedName("runRecordRunningCompleteYN") val runRecordRunningCompleteYN: String,
+    @SerializedName("userName") val userName: String = "",
+    @SerializedName("userSeq") val userSeq: Int = 0,
+    @SerializedName("crewName") val crewName: String = "",
+    @SerializedName("crewSeq") val crewSeq: Int = 0,
 )

@@ -90,7 +90,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
     private fun recommendDraw(list: List<RecommendResponse>){
         for(i in list){
             val latLng = LatLng(i.runRecordDto.runRecordRunningLat, i.runRecordDto.runRecordRunningLng)
-            val title = i.runRecordDto.runRecordEndTime
+            val title = "${i.runRecordDto.userName} 님의 추천 경로"
             var markerSnippet = getCurrentAddress(latLng)
 
             drawMarker(latLng, title, markerSnippet, i)
@@ -148,10 +148,6 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
                             visibleRegion.nearLeft.latitude,
                             visibleRegion.nearRight.longitude,
                             visibleRegion.farRight.latitude)
-                        Log.d("test5", "onLocationResult: ${visibleRegion.farLeft.longitude}")
-                        Log.d("test5", "onLocationResult: ${visibleRegion.nearLeft.latitude}")
-                        Log.d("test5", "onLocationResult: ${visibleRegion.nearRight.longitude}")
-                        Log.d("test5", "onLocationResult: ${visibleRegion.farRight.latitude}")
                     }
                 }
             }
