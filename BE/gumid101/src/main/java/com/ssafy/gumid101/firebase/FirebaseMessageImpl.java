@@ -11,6 +11,10 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -56,11 +60,52 @@ public class FirebaseMessageImpl implements FirebaseMessage{
 
 	public void sendMessageTo(List<FcmMessage.Message> fcmMesageList) throws IOException {
 		
+		int successCount = 0;
+		int failtCount = 0;
+		
+		ExecutorService executorService = Executors.newFixedThreadPool(10); //쓰레드 10개 사용하겠다.
+		//출처: https://ynzu-dev.tistory.com/entry/JAVA-비동기-처리-방법-Thread [기록:티스토리]
+		
+		List<Future<Integer>> futureList = new ArrayList<Future<Integer>>() ;
+		
 		for(FcmMessage.Message message : fcmMesageList) {
-			sendMessageTo(message.getToken(), message.getNotification());
+			
+			if(message.getToken() != null) {
+				
+				Future<Integer> future = executorService.submit(()->{
+					try {
+						sendMessageTo(message.getToken(), message.getNotification());
+					} catch (IOException e) {
+						log.info("알림 전송 중 실패 - %s",e.getMessage());
+						
+						return 0;
+					}	
+					return 1;
+				});
+
+				futureList.add(future);
+			}else {
+				log.debug("입력 요소 중 토큰 NULL");
+				failtCount++;
+			}
 		}
 		
+		for(Future<Integer> future : futureList) {
+			try {
+				int result = future.get();
+				if(result == 1) {
+					successCount++;
+				}else if(result == 0) {
+					failtCount++;
+				}
+			} catch (Exception e) {
+				log.info(e.getMessage());
+			}
+		}
+		
+		log.info("총 %d 개의 알림 전송 - 성공 : %d 실패:%d",fcmMesageList.size(),successCount,failtCount);
 	}
+	
 	public void sendMessageTo(String targetToken,FcmMessage.Notification notification) throws IOException {
 		sendMessageTo(targetToken,notification.getTitle(),notification.getBody());
 	}
