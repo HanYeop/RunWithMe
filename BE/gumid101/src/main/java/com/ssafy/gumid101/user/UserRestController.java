@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.gumid101.customexception.DuplicateException;
+import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.jwt.JwtProperties;
 import com.ssafy.gumid101.jwt.JwtUtilsService;
 import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.res.ResponseFrame;
+import com.ssafy.gumid101.res.UserFileDto;
 import com.ssafy.gumid101.util.Nickname;
 
 import io.swagger.annotations.Api;
@@ -132,6 +134,20 @@ public class UserRestController {
 		}
 
 		return new ResponseEntity<>(responseMap, httpStatus);
+	}
+	
+	@ApiOperation(value = "다른 유저 회원 정보 조회 (일단 만들어놓고 추후 협의로 어떤정보 줄지 결정)")
+	@GetMapping("/profile/{userNickName}")
+	public ResponseEntity<?> getUserProfile(@PathVariable String userNickName) throws Exception {
+
+		UserFileDto resUserDto = userService.getUserProfileByNickname(userNickName);
+		
+		ResponseFrame<UserFileDto> resFrame = new ResponseFrame<UserFileDto>();
+		resFrame.setCount(resUserDto == null ? 0 : 1);
+		resFrame.setSuccess(resUserDto == null ? false : true);
+		resFrame.setMsg("회원의 정보를 반환합니다.");
+		resFrame.setData(resUserDto);
+		return new ResponseEntity<>(resFrame, resUserDto != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
 	}
 	
 	@ApiOperation("fcm 토큰 설정")
