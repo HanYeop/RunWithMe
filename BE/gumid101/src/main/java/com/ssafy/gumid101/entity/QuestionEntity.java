@@ -18,7 +18,7 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.ssafy.gumid101.customercenter.QuestStatus;
+import com.ssafy.gumid101.customercenter.QuestionStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,7 +46,7 @@ public class QuestionEntity {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, name = "question_status")
-	private QuestStatus questionStatus;
+	private QuestionStatus questionStatus;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_seq")
