@@ -17,8 +17,11 @@
             android:id="@+id/action_HomeFragment_to_totalUserRankingFragment"
             app:destination="@id/totalUserRankingFragment" />
         <action
-            android:id="@+id/action_HomeFragment_to_crewDetailFragment"
-            app:destination="@id/crewDetailFragment" />
+            android:id="@+id/action_HomeFragment_to_CrewRecruitFragment"
+            app:destination="@id/CrewRecruitFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_RecommendFragment"
+            app:destination="@id/RecommendFragment" />
     </fragment>
     <fragment
         android:id="@+id/CrewRecruitFragment"

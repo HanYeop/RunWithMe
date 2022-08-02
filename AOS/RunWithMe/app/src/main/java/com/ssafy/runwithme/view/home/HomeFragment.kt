@@ -2,7 +2,6 @@ package com.ssafy.runwithme.view.home
 
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -31,7 +30,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         binding.apply {
             homeVM = homeViewModel
-            recyclerMyCrewHorizon.adapter = homeMyCurrentCrewAdapter
+            // recyclerMyCrewHorizon.adapter = homeMyCurrentCrewAdapter
         }
 
         homeViewModel.getMyCurrentCrew()
@@ -45,11 +44,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun initClickListener(){
         binding.apply {
-            tvCrewMore.setOnClickListener { // 받은 데이터 그대로 이동
+            cardShowJoinCrew.setOnClickListener { // 크루 가입으로 이동
+                findNavController().navigate(R.id.action_HomeFragment_to_CrewRecruitFragment)
+            }
+            btnShowMyCrew.setOnClickListener { // 받은 데이터 그대로 이동
                 findNavController().navigate(R.id.action_HomeFragment_to_myCurrentCrewFragment)
             }
-            tvRankingMore.setOnClickListener {
+            cardShowTotalRank.setOnClickListener {
                 findNavController().navigate(R.id.action_HomeFragment_to_totalUserRankingFragment)
+            }
+            cardShowRecommend.setOnClickListener {
+                findNavController().navigate(R.id.action_HomeFragment_to_RecommendFragment)
             }
         }
     }
@@ -62,8 +67,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val listener : HomeMyCurrentCrewListener = object : HomeMyCurrentCrewListener {
         override fun onItemClick(myCurrentCrewResponse: MyCurrentCrewResponse) {
-            val action = HomeFragmentDirections.actionHomeFragmentToCrewDetailFragment(myCurrentCrewResponse.crewDto, myCurrentCrewResponse.imageFileDto)
-            findNavController().navigate(action)
+//            val action = HomeFragmentDirections.actionHomeFragmentToCrewDetailFragment(myCurrentCrewResponse.crewDto, myCurrentCrewResponse.imageFileDto)
+//            findNavController().navigate(action)
         }
 
         override fun onBtnStartClick(myCurrentCrewResponse: MyCurrentCrewResponse) {
