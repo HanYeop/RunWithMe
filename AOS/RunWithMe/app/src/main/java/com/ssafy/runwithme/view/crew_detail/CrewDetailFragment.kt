@@ -1,17 +1,23 @@
 package com.ssafy.runwithme.view.crew_detail
 
-import android.util.Log
+import android.graphics.Color
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.github.mikephil.charting.components.Description
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentCrewDetailBinding
 import com.ssafy.runwithme.model.dto.CrewDto
 import com.ssafy.runwithme.model.dto.ImageFileDto
-import com.ssafy.runwithme.utils.TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -23,15 +29,12 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
     private lateinit var crewDto: CrewDto
     private lateinit var imageFileDto: ImageFileDto
     private val crewDetailViewModel by viewModels<CrewDetailViewModel>()
-    private lateinit var crewRunRecordAdapter: CrewDetailRunRecordTop3Adapter
-    private lateinit var crewBoardsAdapter: CrewDetailBoardsTop3Adapter
 
     override fun init() {
-        crewRunRecordAdapter = CrewDetailRunRecordTop3Adapter(crewRunRecordListener)
-        crewBoardsAdapter = CrewDetailBoardsTop3Adapter(crewBoardsListener)
+
         binding.apply {
-            recyclerCrewRecord.adapter = crewRunRecordAdapter
-            recyclerCrewBoard.adapter = crewBoardsAdapter
+            crewDetailVM = crewDetailViewModel
+
         }
 
         initClickListener()
@@ -43,6 +46,101 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
         binding.imageFileDto = imageFileDto
 
         initViewModelCallback()
+
+        initBarChart()
+        setData()
+    }
+
+    private fun initBarChart() {
+        // 차트 회색 배경 설정 (default = false)
+        binding.apply {
+            chartMyRecord.setDrawGridBackground(false)
+            // 막대 그림자 설정 (default = false)
+            chartMyRecord.setDrawBarShadow(false)
+            // 차트 테두리 설정 (default = false)
+            chartMyRecord.setDrawBorders(true)
+
+            //핀치 줌
+            chartMyRecord.setPinchZoom(true)
+
+            val description = Description()
+            // 오른쪽 하단 모서리 설명 레이블 텍스트 표시 (default = false)
+            description.isEnabled = false
+            chartMyRecord.description = description
+
+            // X, Y 바의 애니메이션 효과
+            chartMyRecord.animateY(1000)
+            chartMyRecord.animateX(1000)
+
+            // 바텀 좌표 값
+            val xAxis: XAxis = chartMyRecord.xAxis
+            // x축 위치 설정
+            xAxis.position = XAxis.XAxisPosition.BOTTOM
+            // 그리드 선 수평 거리 설정
+            xAxis.granularity = 1f
+            // x축 텍스트 컬러 설정
+            xAxis.textColor = Color.BLACK
+            // x축 선 설정 (default = true)
+            xAxis.setDrawAxisLine(false)
+            // 격자선 설정 (default = true)
+            xAxis.setDrawGridLines(false)
+
+            val leftAxis: YAxis = chartMyRecord.axisLeft
+            // 좌측 선 설정 (default = true)
+            leftAxis.setDrawAxisLine(false)
+            // 좌측 텍스트 컬러 설정
+            leftAxis.textColor = Color.BLACK
+
+            val rightAxis: YAxis = chartMyRecord.axisRight
+            // 우측 선 설정 (default = true)
+            rightAxis.setDrawAxisLine(false)
+            // 우측 텍스트 컬러 설정
+            rightAxis.textColor = Color.WHITE
+
+            // 바차트의 타이틀
+            val legend: Legend = chartMyRecord.legend
+            // 범례 모양 설정 (default = 정사각형)
+            legend.form = Legend.LegendForm.LINE
+            // 타이틀 텍스트 사이즈 설정
+            legend.textSize = 20f
+            // 타이틀 텍스트 컬러 설정
+            legend.textColor = Color.BLACK
+            // 범례 위치 설정
+            legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+            legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+            // 범례 방향 설정
+            legend.orientation = Legend.LegendOrientation.HORIZONTAL
+            // 차트 내부 범례 위치하게 함 (default = false)
+            legend.setDrawInside(false)
+        }
+
+    }
+
+    private fun setData() {
+        binding.apply {
+            // Zoom In / Out 가능 여부 설정
+            chartMyRecord.setScaleEnabled(true)
+
+            val valueList = ArrayList<BarEntry>()
+            val title = "거리"
+
+            // 임의 데이터
+            for (i in 0 until 20) {
+                valueList.add(BarEntry(i.toFloat(), i * 100f))
+            }
+
+            val barDataSet = BarDataSet(valueList, title)
+            // 바 색상 설정 (ColorTemplate.LIBERTY_COLORS)
+            barDataSet.setColors(
+                R.color.main_purple
+            )
+//            barDataSet.isHighlightEnabled = false
+
+            val data = BarData(barDataSet)
+            chartMyRecord.data = data
+            chartMyRecord.invalidate()
+        }
+
     }
 
     private fun initClickListener() {
@@ -50,22 +148,25 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
             toolbar.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
-            tvMyRecordMore.setOnClickListener {
-                findNavController().navigate(R.id.action_crewDetailFragment_to_crewMyRunRecordFragment)
+            cardviewMyRecord.setOnClickListener {
+                val action = CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewMyRunRecordFragment(crewDto!!.crewSeq)
+                findNavController().navigate(action)
             }
 
-            tvRankingMore.setOnClickListener {
-                findNavController().navigate(R.id.action_crewDetailFragment_to_crewUserRankingFragment)
+            layoutRanking.setOnClickListener {
+                val action = CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewUserRankingFragment(crewDto!!.crewSeq)
+                findNavController().navigate(action)
             }
 
-            tvBoardMore.setOnClickListener {
+            layoutBoard.setOnClickListener {
                 val action =
                     CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewBoardFragment(crewDto!!.crewSeq)
                 findNavController().navigate(action)
             }
 
-            tvRankingMore.setOnClickListener {
-                findNavController().navigate(R.id.action_crewDetailFragment_to_crewUserRankingFragment)
+            layoutRecord.setOnClickListener {
+                val action = CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewUserRunRecordFragment(crewDto!!.crewSeq)
+                findNavController().navigate(action)
             }
 
             btnJoinCrew.setOnClickListener {
@@ -75,9 +176,7 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
     }
 
     private fun initViewModelCallback() {
-        crewDetailViewModel.getRunRecordsTop3(crewDto.crewSeq.toString(), 3)
-
-        crewDetailViewModel.getCrewBoardsTop3(crewDto.crewSeq, 3)
+        crewDetailViewModel.getState(crewDto.crewDateStart, crewDto.crewDateEnd)
 
         crewDetailViewModel.checkCrewMember(crewDto.crewSeq)
 
@@ -89,38 +188,12 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
             }
         }
 
-        lifecycleScope.launch {
-            crewDetailViewModel.crewRunRecordList.collectLatest {
-                crewRunRecordAdapter.submitList(it)
-            }
-        }
-
-        lifecycleScope.launch {
-            crewDetailViewModel.crewBoardsList.collectLatest {
-                crewBoardsAdapter.submitList(it)
-            }
-        }
-
         crewDetailViewModel.errorMsgEvent.observe(viewLifecycleOwner) {
             showToast(it)
         }
+
+
+
     }
 
-    private val crewRunRecordListener: CrewRunRecordListener = object : CrewRunRecordListener {
-        override fun onItemClick(crewSeq: Int) {
-            val action =
-                CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewUserRunRecordFragment(
-                    crewSeq
-                )
-            findNavController().navigate(action)
-        }
-    }
-
-    private val crewBoardsListener: CrewBoardsListener = object : CrewBoardsListener {
-        override fun onItemClick(crewSeq: Int) {
-            val action =
-                CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewBoardFragment(crewSeq)
-            findNavController().navigate(action)
-        }
-    }
 }
