@@ -19,7 +19,7 @@ public class RedisServiceImpl implements RedisService{
 	private final StringRedisTemplate stringRedisTemplate;
 	
 	@Override
-	public Boolean getRedisStringValue(String key, Integer delayTime) throws Exception {
+	public Boolean getIsUseable(String key, Integer delayTime) throws Exception {
 		ValueOperations<String, String> stringValueOperations = stringRedisTemplate.opsForValue();
 		if (stringValueOperations.get(key) == null) {
 //			System.out.println("null이었음!");

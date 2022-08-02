@@ -1,6 +1,6 @@
 fire_base:
-  api_url: "API.URL"
-  firebase_config_path: "예시json" 
-  scoped: "예시"
+  api_url: "https://fcm.googleapis.com/v1/projects/runwithme-357006/messages:send"
+  firebase_config_path: "firebase/runwithme-357006-firebase-adminsdk-y9y1r-0f6323cdc2.json"
+  scoped: "https://www.googleapis.com/auth/cloud-platform"
   
-# https://fcm.googleapis.com/v1/projects/{프로젝트 ID}/messages:send
+# https://fcm.googleapis.com/v1/projects/runwithme-357006/messages:send

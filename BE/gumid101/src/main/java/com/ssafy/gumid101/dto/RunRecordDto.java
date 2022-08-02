@@ -64,9 +64,13 @@ public class RunRecordDto implements Serializable {
   //  - 크루 이름
  //   - 유저 이름
   //  - 유저 시퀀스
+	@ApiParam(value="유저이름")
 	private String userName;
+	@ApiParam(value="유저 SEQ")
 	private Long userSeq;
+	@ApiParam(value="크루 이름")
 	private String crewName;
+	@ApiParam(value="크루 SEQ")
 	private Long crewSeq;
 	
 	

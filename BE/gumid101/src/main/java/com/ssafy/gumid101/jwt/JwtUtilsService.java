@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.gumid101.dto.UserDto;
@@ -16,7 +17,7 @@ import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-@Service
+@Component
 public class JwtUtilsService {
 
 	

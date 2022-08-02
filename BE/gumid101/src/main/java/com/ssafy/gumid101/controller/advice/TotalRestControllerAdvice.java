@@ -98,7 +98,7 @@ public class TotalRestControllerAdvice {
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> crewSeqNotFoundHandler(Exception e) {
 
-		return new ResponseEntity<>(ResponseFrame.of(false,"처리되지 않은 에러"), HttpStatus.OK);
+		return new ResponseEntity<>(ResponseFrame.of(false,"처리되지 않은 에러 -"+ e.getMessage()), HttpStatus.OK);
 
 	}
 	

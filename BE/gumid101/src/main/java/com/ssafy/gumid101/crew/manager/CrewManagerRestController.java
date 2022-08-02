@@ -23,6 +23,7 @@ import com.ssafy.gumid101.dto.CrewDto;
 import com.ssafy.gumid101.dto.RecruitmentParamsDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.jwt.JwtUtilsService;
+import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.res.CrewFileDto;
 import com.ssafy.gumid101.res.ResponseFrame;
 
@@ -41,6 +42,7 @@ public class CrewManagerRestController {
 	private final JwtUtilsService jwtUtilService;
 	private final CrewManagerService crewManagerService;
 	private final ObjectMapper objectMapper;
+	private final RedisService redisServ;
 
 	private UserDto loadUserFromToken() {
 		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
@@ -118,6 +120,7 @@ public class CrewManagerRestController {
 
 		log.debug(crewDto);
 		UserDto managerDto = loadUserFromToken();
+		redisServ.getIsUseable(managerDto.getUserSeq().toString() + "createCrew", 10);
 		HttpStatus httpStatus = HttpStatus.OK;
 		ResponseFrame<CrewFileDto> responseMap = new ResponseFrame<>();
 

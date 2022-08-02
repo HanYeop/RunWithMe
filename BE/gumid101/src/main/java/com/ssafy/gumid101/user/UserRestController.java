@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.gumid101.customexception.DuplicateException;
+import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.jwt.JwtProperties;
 import com.ssafy.gumid101.jwt.JwtUtilsService;
+import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.res.ResponseFrame;
+import com.ssafy.gumid101.res.UserFileDto;
 import com.ssafy.gumid101.util.Nickname;
 
 import io.swagger.annotations.Api;
@@ -39,6 +42,7 @@ public class UserRestController {
 
 	private final JwtUtilsService jwtUtilService;
 	private final UserService userService;
+	private final RedisService redisServ;
 	
 	private UserDto loadUserFromToken() {
 		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
@@ -84,6 +88,7 @@ public class UserRestController {
 		if(result.hasErrors()) {
 			log.warn(result.getAllErrors().toString()); ;
 		}
+		redisServ.getIsUseable(userDto.getEmail() + "setProfile", 10);
 		
 		log.debug("초기 프로필 설정 진입 : 몸무게:{},키 : {}, 닉네임 :{}", userDto.getWeight(), userDto.getHeight(),
 				userDto.getNickName());
@@ -131,13 +136,27 @@ public class UserRestController {
 		return new ResponseEntity<>(responseMap, httpStatus);
 	}
 	
+	@ApiOperation(value = "다른 유저 회원 정보 조회 (일단 만들어놓고 추후 협의로 어떤정보 줄지 결정)")
+	@GetMapping("/profile/{userNickName}")
+	public ResponseEntity<?> getUserProfile(@PathVariable String userNickName) throws Exception {
+
+		UserFileDto resUserDto = userService.getUserProfileByNickname(userNickName);
+		
+		ResponseFrame<UserFileDto> resFrame = new ResponseFrame<UserFileDto>();
+		resFrame.setCount(resUserDto == null ? 0 : 1);
+		resFrame.setSuccess(resUserDto == null ? false : true);
+		resFrame.setMsg("회원의 정보를 반환합니다.");
+		resFrame.setData(resUserDto);
+		return new ResponseEntity<>(resFrame, resUserDto != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+	}
+	
 	@ApiOperation("fcm 토큰 설정")
 	@PostMapping("/fcm-token")
 	public ResponseEntity<?> setMyFcmToken(@ApiParam("{fcmToken:\"값\"}") @RequestBody Map<String,String> body)throws Exception{
 		
 		
 		UserDto userDto= loadUserFromToken();
-		
+		log.info(body.get("fcmToken"));
 		boolean result =  userService.setUserFcmToken(userDto.getUserSeq(),body.get("fcmToken"));
 		
 

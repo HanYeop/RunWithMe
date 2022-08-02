@@ -9,6 +9,9 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
+  batch: 
+    jdbc:
+      initialize-schema: always
   mail:
     host: smtp.gmail.com
     username: skj2393@gmail.com
@@ -42,9 +45,7 @@ logging:
         util:
           EC2MetadataUtils: error
       ssafy:
-        gumid101:
-          aop: debug
-          interceptor: debug
+        gumid101: debug
 
 server:
   servlet:
