@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.achievement.AchieveType;
+import com.ssafy.gumid101.achievement.AchievementCompleteRepository;
 import com.ssafy.gumid101.achievement.AchievementRepository;
 import com.ssafy.gumid101.aws.S3FileService;
 import com.ssafy.gumid101.crew.manager.CrewManagerRepository;
@@ -26,6 +27,7 @@ import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.entity.AchievementCompleteEntity;
 import com.ssafy.gumid101.entity.AchievementEntity;
 import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.CrewTotalRecordEntity;
@@ -58,6 +60,7 @@ public class CrewServiceImpl implements CrewService {
 	private final S3FileService s3FileService;
 	private final ImageFileRepository imageRepo;
 	private final AchievementRepository achiveRepo;
+	private final AchievementCompleteRepository accRepo;
 	
 	@Transactional
 	@Override
@@ -218,32 +221,38 @@ public class CrewServiceImpl implements CrewService {
 		List<AchievementEntity> achieveList = new ArrayList<>();
 		//achiveMentType
 		for(AchievementEntity nonAchieve : nonAchieveMents) {
-			if (nonAchieve.getAchieveType().equals(AchieveType.DISTANCE)) {
+			if (nonAchieve.getAchieveType().equals(AchieveType.DISTANCE.getType())) {
 				if (nonAchieve.getAchiveValue() <= runRecordEntity.getRunRecordRunningDistance()) {
 					achieveList.add(nonAchieve);
 				}
 			}
-			else if (nonAchieve.getAchieveType().equals(AchieveType.TIME)) {
+			else if (nonAchieve.getAchieveType().equals(AchieveType.TIME.getType())) {
 				if (nonAchieve.getAchiveValue() <= runRecordEntity.getRunRecordRunningTime()) {
 					achieveList.add(nonAchieve);
 				}
 			}
-			else if (nonAchieve.getAchieveType().equals(AchieveType.TOTALDISTANCE)) {
+			else if (nonAchieve.getAchieveType().equals(AchieveType.TOTALDISTANCE.getType())) {
 				if (nonAchieve.getAchiveValue() <= userCrewTotalEntity.getTotalDistance()) {
 					achieveList.add(nonAchieve);
 				}
 			}
-			else if (nonAchieve.getAchieveType().equals(AchieveType.TOTALTIME)) {
+			else if (nonAchieve.getAchieveType().equals(AchieveType.TOTALTIME.getType())) {
 				if (nonAchieve.getAchiveValue() <= userCrewTotalEntity.getTotalTime()) {
 					achieveList.add(nonAchieve);
 				}
 			}
-			else if (nonAchieve.getAchieveType().equals(AchieveType.RUNCOUNT)) {
+			else if (nonAchieve.getAchieveType().equals(AchieveType.RUNCOUNT.getType())) {
 				if (nonAchieve.getAchiveValue() <= runCount) {
 					achieveList.add(nonAchieve);
 				}
 			}
 		}
+		accRepo.saveAll(achieveList.stream().map((entity) -> AchievementCompleteEntity.builder()
+				.achieveCompleteRegTime(LocalDateTime.now())
+				.achieveEntity(entity)
+				.userEntity(userEntity)
+				.build())
+				.collect(Collectors.toList()));
 		return achieveList.stream().map((entity) -> AchievementDto.of(entity)).collect(Collectors.toList());
 	}
 
