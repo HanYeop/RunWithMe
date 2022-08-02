@@ -20,7 +20,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JwtUtilsService {
 
-	
     /**
      * 토큰에서 username 찾기
      *
