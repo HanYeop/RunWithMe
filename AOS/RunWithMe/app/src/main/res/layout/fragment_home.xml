@@ -210,7 +210,6 @@
                             android:textColor="@color/main_black"
                             android:textSize="18sp"
                             android:fontFamily="@font/noto_sans_bold"
-                            android:includeFontPadding="false"
                             android:layout_marginTop="12dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"/>
