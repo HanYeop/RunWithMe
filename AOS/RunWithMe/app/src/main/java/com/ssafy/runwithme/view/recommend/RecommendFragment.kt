@@ -7,10 +7,12 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -42,8 +44,6 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
 
     private var myLocation = Location("MyLocation")
 
-    private var currentMarker: Marker? = null
-
     private lateinit var visibleRegion: VisibleRegion
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -74,12 +74,25 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
         mapFragment.getMapAsync(this)
         
         initViewModelCallBack()
+
+        initClickListener()
+    }
+
+    private fun initClickListener(){
+        binding.apply {
+            toolbar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
     }
 
     private fun initViewModelCallBack(){
         lifecycleScope.launch { 
             recommendViewModel.recommendList.collectLatest {
                 recommendDraw(it)
+                Log.d("test5", "initViewModelCallBack: $it ${it.size}")
+                binding.tvTitleNum.text = it.size.toString()
+                Log.d("test5", "initViewModelCallBack: ${it.size}")
             }
         }
     }

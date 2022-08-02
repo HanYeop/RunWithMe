@@ -116,8 +116,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         // TODO : 애니메이션 TEST
         navController.addOnDestinationChangedListener { _, destination, _ ->
             // 바텀 네비게이션이 표시되는 Fragment
-            if(destination.id == R.id.HomeFragment || destination.id == R.id.CrewRecruitFragment
-                || destination.id == R.id.RecommendFragment || destination.id == R.id.MyPageFragment){
+            if(destination.id == R.id.HomeFragment || destination.id == R.id.MyPageFragment){
                 if(binding.expandableBottomBar.visibility == View.GONE) {
                     val animation = AlphaAnimation(0f, 1f)
                     animation.duration = 500

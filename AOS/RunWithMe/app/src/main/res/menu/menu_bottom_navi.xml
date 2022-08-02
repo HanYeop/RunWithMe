@@ -6,18 +6,6 @@
         app:exb_color="@color/mainColor"
         android:enabled="true"/>
 
-    <item android:id="@+id/CrewRecruitFragment"
-        android:icon="@drawable/left_crew_recruit"
-        android:title="@string/menu_crew_recruit"
-        app:exb_color="@color/mainColor"
-        android:enabled="true" />
-
-    <item android:id="@+id/RecommendFragment"
-        android:icon="@drawable/left_recommend"
-        android:title="@string/menu_recommend"
-        app:exb_color="@color/mainColor"
-        android:enabled="true" />
-
     <item android:id="@+id/MyPageFragment"
         android:icon="@drawable/left_my_page"
         android:title="@string/menu_my_page"
