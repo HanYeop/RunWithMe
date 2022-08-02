@@ -26,6 +26,14 @@
         <service
             android:name=".service.RunningService"
             android:foregroundServiceType="location" />
+        <service
+            android:name=".service.MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".view.running.RunningActivity"
@@ -65,6 +73,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/api_key" />
+
     </application>
 
 </manifest>

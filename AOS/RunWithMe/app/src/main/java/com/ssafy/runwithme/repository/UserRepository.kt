@@ -2,6 +2,7 @@ package com.ssafy.runwithme.repository
 
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.datasource.UserRemoteDataSource
+import com.ssafy.runwithme.model.dto.FcmTokenDto
 import com.ssafy.runwithme.model.dto.UserDto
 import com.ssafy.runwithme.model.response.JoinResponse
 import com.ssafy.runwithme.utils.Result
@@ -18,6 +19,21 @@ class UserRepository @Inject constructor(
     fun joinUser(token: String, userDto: UserDto): Flow<Result<BaseResponse<JoinResponse>>> = flow {
         emit(Result.Loading)
         userRemoteDataSource.joinUser(token, userDto).collect {
+            if(it.success){
+                emit(Result.Success(it))
+            }else if(!it.success){
+                emit(Result.Fail(it))
+            }else{
+                emit(Result.Empty)
+            }
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
+
+    fun fcmToken(fcmTokenDto: FcmTokenDto): Flow<Result<BaseResponse<String>>> = flow {
+        emit(Result.Loading)
+        userRemoteDataSource.fcmToken(fcmTokenDto).collect {
             if(it.success){
                 emit(Result.Success(it))
             }else if(!it.success){

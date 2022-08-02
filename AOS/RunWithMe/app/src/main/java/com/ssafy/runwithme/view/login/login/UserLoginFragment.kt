@@ -15,6 +15,7 @@ import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -25,6 +26,7 @@ import com.ssafy.runwithme.MainActivity
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentUserLoginBinding
+import com.ssafy.runwithme.model.dto.FcmTokenDto
 import com.ssafy.runwithme.view.login.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -67,7 +69,16 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
         }
         userViewModel.loginEvent.observe(viewLifecycleOwner){
             showToast(it)
-            startActivity(Intent(requireContext(),MainActivity::class.java))
+            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                if(!task.isSuccessful){
+                    return@addOnCompleteListener
+                }else{
+                    userViewModel.fcmToken(FcmTokenDto(task.result))
+                }
+            }
+        }
+        userViewModel.fcmEvent.observe(viewLifecycleOwner){
+            startActivity(Intent(requireContext(), MainActivity::class.java))
             requireActivity().finish()
         }
         userViewModel.errorMsgEvent.observe(viewLifecycleOwner){

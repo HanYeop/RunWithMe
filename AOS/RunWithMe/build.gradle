@@ -8,6 +8,9 @@ buildscript {
 
         // Dagger Hilt
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.41'
+
+        // Firebase
+        classpath 'com.google.gms:google-services:4.3.13'
     }
 }
 
