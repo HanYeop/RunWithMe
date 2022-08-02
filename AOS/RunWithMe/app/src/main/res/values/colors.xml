@@ -18,4 +18,15 @@
 
     <color name="red">#E91E63</color>
 
+
+
+    <color name="main_purple">#873EF1</color>
+
+    <color name="main_black">#2D2D2D</color>
+
+    <color name="main_grey">#666666</color>
+
+    <color name="main_border_grey">#F2F2F2</color>
+
+
 </resources>
