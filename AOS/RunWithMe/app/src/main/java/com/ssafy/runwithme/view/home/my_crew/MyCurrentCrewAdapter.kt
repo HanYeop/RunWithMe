@@ -16,9 +16,6 @@ class MyCurrentCrewAdapter(private val listener: MyCurrentCrewListener) : ListAd
             binding.root.setOnClickListener {
                 listener.onItemClick(getItem(adapterPosition))
             }
-            binding.imgBtnStartRunning.setOnClickListener {
-                listener.onBtnStartClick(getItem(adapterPosition))
-            }
         }
         fun bind(myCurrentCrew: MyCurrentCrewResponse){
             binding.myCurrentCrewResponse = myCurrentCrew
