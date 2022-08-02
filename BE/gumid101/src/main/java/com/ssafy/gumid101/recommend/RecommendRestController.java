@@ -23,12 +23,14 @@ import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.res.ResponseFrame;
 import com.ssafy.gumid101.res.TrackBoardFileDto;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/recommend")
+@Api(tags = "장소 추천 게시판")
 public class RecommendRestController {
 	private final RecommendService recommendService;
 	private final RedisService redisServ;
@@ -96,6 +98,7 @@ public class RecommendRestController {
 			responseFrame.setCount(0);
 			responseFrame.setSuccess(false);
 			responseFrame.setMsg(e.getMessage());
+			return new ResponseEntity<>(responseFrame, httpStatus);
 		}
 		
 		if (trackBoardDto != null) {
