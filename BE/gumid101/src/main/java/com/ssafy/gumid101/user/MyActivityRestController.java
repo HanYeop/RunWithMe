@@ -23,6 +23,7 @@ import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.RecordParamsDto;
 import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.req.ProfileEditDto;
 import com.ssafy.gumid101.res.CrewBoardRes;
 import com.ssafy.gumid101.res.ResponseFrame;
@@ -43,6 +44,7 @@ public class MyActivityRestController {
 	private final UserService userService;
 	private final CrewActivityService runService;
 	private final ObjectMapper objectMapper; 
+	private final RedisService redisServ;
 	/**
 	 * 토큰으로 부터 유저 DTO 로드
 	 * 
@@ -92,7 +94,10 @@ public class MyActivityRestController {
 	@PostMapping(value="/profile",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<?> editMyProfile(@RequestPart ProfileEditDto profile,
 			@RequestPart(value = "imgFile",required = false) MultipartFile imgFile) throws Exception {
+		UserDto userDto = loadUserFromToken();
 
+		redisServ.getIsUseable(userDto.getUserSeq().toString() + "editProfile", 10);
+		
 		ProfileEditDto profileEditDto = profile;//objectMapper.readValue(profile, ProfileEditDto.class);
 
 		ResponseFrame<UserFileDto> res = new ResponseFrame<>();
@@ -104,7 +109,6 @@ public class MyActivityRestController {
 			res.setMsg("닉네임을 입력하지 않았거나 규칙을 위반했습니다.");
 			return new ResponseEntity<>(res, HttpStatus.OK);
 		}
-		UserDto userDto = loadUserFromToken();
 		userDto.setWeight(profileEditDto.getWeight());
 		userDto.setHeight(profileEditDto.getHeight());
 		userDto.setNickName(profileEditDto.getNickName());

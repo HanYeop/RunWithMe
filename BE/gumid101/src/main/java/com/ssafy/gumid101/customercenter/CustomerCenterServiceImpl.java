@@ -1,11 +1,14 @@
 package com.ssafy.gumid101.customercenter;
 
+import org.springframework.stereotype.Service;
+
 import com.ssafy.gumid101.dto.QuestionDto;
 import com.ssafy.gumid101.dto.ReportDto;
 import com.ssafy.gumid101.entity.QuestionEntity;
 import com.ssafy.gumid101.entity.ReportEntity;
 import com.ssafy.gumid101.entity.UserEntity;
 
+@Service
 public class CustomerCenterServiceImpl implements CustomerCenterService {
 
 	ReportRepository reportRepository;

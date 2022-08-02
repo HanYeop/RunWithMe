@@ -15,17 +15,23 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.gumid101.dto.QuestionDto;
 import com.ssafy.gumid101.dto.ReportDto;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.res.ResponseFrame;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
 
+@Api(tags = "고객센터")
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/customer-center")
 public class CustomerCenterRestController {
 
-	CustomerCenterService customerCenterService;
+	private final CustomerCenterService customerCenterService;
+	private final RedisService redisServ;
 
 	private UserDto loadUserFromToken() {
 		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
@@ -43,6 +49,8 @@ public class CustomerCenterRestController {
 		}
 
 		UserDto userDto = loadUserFromToken();
+		
+		redisServ.getIsUseable(userDto.getUserSeq().toString() + "question" + questionDto.getQuestionContent(), 10);
 
 		QuestionDto questionResultDto = customerCenterService.postQuestion(questionDto, userDto.getUserSeq());
 
@@ -57,6 +65,8 @@ public class CustomerCenterRestController {
 			@ApiParam("신고 이유") @RequestParam(required = false) String report_content) throws Exception {
 
 		UserDto userDto = loadUserFromToken();
+		
+		redisServ.getIsUseable(userDto.getUserSeq().toString() + "report" +  boardSeq, 10);
 
 		ReportDto result = customerCenterService.postReport(boardSeq, report_content, userDto.getUserSeq());
 
