@@ -30,6 +30,7 @@ public interface UserCrewJoinRepository extends JpaRepository<UserCrewJoinEntity
 	int deleteByUserAndCrew(UserEntity user, CrewEntity crew);
 
 	Optional<UserCrewJoinEntity> findByUserEntity_UserSeqAndCrewEntity_CrewSeq(Long userSeq, Long crewSeq);
+	Optional<UserCrewJoinEntity> findByUserEntityAndCrewEntity(UserEntity userEntity, CrewEntity crewEntity);
 
 	List<UserCrewJoinEntity> findAllByCrewEntity(CrewEntity crew);
 
