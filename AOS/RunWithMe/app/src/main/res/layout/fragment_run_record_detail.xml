@@ -12,217 +12,206 @@
         android:layout_height="match_parent"
         tools:context=".view.run_record_detail.RunRecordDetailFragment">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/toolbar_margin"
-            android:layout_marginTop="@dimen/toolbar_margin"
-            android:layout_marginEnd="@dimen/toolbar_margin"
-            android:background="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
-
-            <TextView
-                android:id="@+id/text"
-                style="@style/toolbar_text"
-                android:text="러닝 상세 정보" />
-
-        </com.google.android.material.appbar.MaterialToolbar>
-
         <TextView
-            android:id="@+id/tv_record_name"
-            style="@style/header_text"
-            android:layout_marginTop="10dp"
-            android:text="2020년 1월 1일 러닝 기록"
+            android:id="@+id/tv_running_result_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:text="2022년 1월 1일 러닝"
+            android:textColor="@color/main_black"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/img_result"
-            android:layout_width="300dp"
+            android:layout_width="0dp"
             android:layout_height="300dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/image_round"
+            android:clipToOutline="true"
             android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_record_name"
-            app:srcCompat="@drawable/img" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_crew_name"
+            tools:srcCompat="@color/main_black" />
 
         <TextView
             android:id="@+id/tv_crew_name"
-            style="@style/header_text"
-            android:layout_marginTop="8dp"
-            android:text="김크루"
-            app:layout_constraintEnd_toEndOf="@+id/img_result"
-            app:layout_constraintTop_toBottomOf="@+id/img_result" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_info"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/header_margin"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="@dimen/header_margin"
-            android:backgroundTint="#F7F7F7"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_crew_name">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_card_info"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/tv_distance_header"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="8dp"
-                    android:text="이동 거리"
-                    android:textColor="@color/black_medium_emphasis"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_calorie_header"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="spread_inside"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_distance" />
-
-                <TextView
-                    android:id="@+id/tv_distance"
-                    style="@style/header_text"
-                    android:layout_marginTop="16dp"
-                    android:text="0.3km"
-                    android:textColor="@color/black_high_emphasis"
-                    android:textSize="26sp"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_distance_header"
-                    app:layout_constraintStart_toStartOf="@+id/tv_distance_header"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_calorie_header"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="48dp"
-                    android:text="칼로리"
-                    android:textColor="@color/black_medium_emphasis"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/tv_distance_header"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_calorie" />
-
-                <TextView
-                    android:id="@+id/tv_calorie"
-                    style="@style/header_text"
-                    android:layout_marginTop="16dp"
-                    android:text="14 kcal"
-                    android:textColor="@color/black_high_emphasis"
-                    android:textSize="26sp"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_calorie_header"
-                    app:layout_constraintStart_toStartOf="@+id/tv_calorie_header"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_time_header"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="소요 시간"
-                    android:textColor="@color/black_medium_emphasis"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_speed_header"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="spread_inside"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_time"
-                    style="@style/header_text"
-                    android:layout_marginBottom="8dp"
-                    android:text="07 : 27"
-                    android:textColor="@color/black_high_emphasis"
-                    android:textSize="26sp"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_time_header"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_time_header"
-                    app:layout_constraintStart_toStartOf="@+id/tv_time_header"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_distance_header" />
-
-                <TextView
-                    android:id="@+id/tv_speed_header"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="평균 속도"
-                    android:textColor="@color/black_medium_emphasis"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/tv_time_header" />
-
-                <TextView
-                    android:id="@+id/tv_speed"
-                    style="@style/header_text"
-                    android:layout_marginBottom="8dp"
-                    android:text="8.3km/h"
-                    android:textColor="@color/black_high_emphasis"
-                    android:textSize="26sp"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_speed_header"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_speed_header"
-                    app:layout_constraintStart_toStartOf="@+id/tv_speed_header"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_calorie_header" />
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:text="김크루"
+            android:textColor="@color/main_purple"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_running_result_name"
+            app:layout_constraintStart_toStartOf="@+id/tv_running_result_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_running_result_name" />
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/tv_distance_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:text="이동 거리"
+            android:textColor="@color/main_grey"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_time"
+            app:layout_constraintEnd_toEndOf="@+id/tv_time_header"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="@+id/tv_time_header" />
+
+        <TextView
+            android:id="@+id/tv_distance"
+            style="@style/header_text"
+            android:layout_marginBottom="8dp"
+            android:text="0.3km"
+            android:textColor="@color/black"
+            android:textSize="26sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_distance_header"
+            app:layout_constraintEnd_toEndOf="@+id/tv_distance_header"
+            app:layout_constraintStart_toStartOf="@+id/tv_distance_header" />
+
+        <TextView
+            android:id="@+id/tv_calorie_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:text="칼로리"
+            android:textColor="@color/main_grey"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_speed"
+            app:layout_constraintEnd_toEndOf="@+id/tv_speed_header"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/tv_speed_header" />
+
+        <TextView
+            android:id="@+id/tv_calorie"
+            style="@style/header_text"
+            android:layout_marginBottom="8dp"
+            android:text="14 kcal"
+            android:textColor="@color/black"
+            android:textSize="26sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_calorie_header"
+            app:layout_constraintEnd_toEndOf="@+id/tv_calorie_header"
+            app:layout_constraintStart_toStartOf="@+id/tv_calorie_header" />
+
+        <TextView
+            android:id="@+id/tv_time_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:text="소요 시간"
+            android:textColor="@color/main_grey"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_recommend"
+            app:layout_constraintEnd_toEndOf="@+id/btn_recommend"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="@+id/btn_recommend" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            style="@style/header_text"
+            android:layout_marginBottom="8dp"
+            android:text="07 : 27"
+            android:textColor="@color/black"
+            android:textSize="26sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_time_header"
+            app:layout_constraintEnd_toEndOf="@+id/tv_time_header"
+            app:layout_constraintStart_toStartOf="@+id/tv_time_header" />
+
+        <TextView
+            android:id="@+id/tv_speed_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:text="평균 속도"
+            android:textColor="@color/main_grey"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_ok"
+            app:layout_constraintEnd_toEndOf="@+id/btn_ok"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/btn_ok" />
+
+        <TextView
+            android:id="@+id/tv_speed"
+            style="@style/header_text"
+            android:layout_marginBottom="8dp"
+            android:text="8.3km/h"
+            android:textColor="@color/black"
+            android:textSize="26sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_speed_header"
+            app:layout_constraintEnd_toEndOf="@+id/tv_speed_header"
+            app:layout_constraintStart_toStartOf="@+id/tv_speed_header" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_ok"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/btn_round_main_color"
             android:fontFamily="@font/noto_sans_bold"
-            android:includeFontPadding="false"
             android:text="확인"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn_recommend"
-            app:layout_constraintStart_toStartOf="@+id/card_info" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_recommend" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_recommend"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/btn_round_main_color"
             android:fontFamily="@font/noto_sans_bold"
-            android:includeFontPadding="false"
-            android:text="공유"
+            android:text="추천"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/card_info"
+            app:layout_constraintEnd_toStartOf="@+id/btn_ok"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btn_ok" />
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_time_start_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:drawableStart="@drawable/timer_24"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:text="06:05 - 06:25"
+            android:textColor="@color/main_grey"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/img_result"
+            app:layout_constraintTop_toBottomOf="@+id/img_result" />
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/run_24"
+            android:drawablePadding="4dp"
+            android:text="도날드 트럼프"
+            android:textColor="@color/main_grey"
+            app:layout_constraintEnd_toEndOf="@+id/img_result"
+            app:layout_constraintTop_toTopOf="@+id/tv_time_start_end" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
