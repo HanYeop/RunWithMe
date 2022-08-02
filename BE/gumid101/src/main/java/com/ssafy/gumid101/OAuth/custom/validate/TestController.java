@@ -102,7 +102,7 @@ public class TestController {
 	@ResponseBody
 	@ApiOperation(value="레디스 테스트")
 	@PostMapping("/test/redistest")
-	public ResponseEntity<?> getRedisStringValue(@RequestParam String key){
+	public ResponseEntity<?> getRedisStringValue(@RequestParam String key) throws Exception{
 		redisServ.getRedisStringValue(key, 15);
 		
 		return new ResponseEntity<>(new ResponseFrame<>(true, null, 1, "레디스테스트"), HttpStatus.OK);

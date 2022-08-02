@@ -6,6 +6,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.gumid101.customexception.RequestAlreadyProcessingException;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +19,7 @@ public class RedisServiceImpl implements RedisService{
 	private final StringRedisTemplate stringRedisTemplate;
 	
 	@Override
-	public Boolean getRedisStringValue(String key, Integer delayTime) {
+	public Boolean getRedisStringValue(String key, Integer delayTime) throws Exception {
 		ValueOperations<String, String> stringValueOperations = stringRedisTemplate.opsForValue();
 		if (stringValueOperations.get(key) == null) {
 //			System.out.println("null이었음!");
@@ -26,7 +28,7 @@ public class RedisServiceImpl implements RedisService{
 		}
 		else {
 //			System.out.println("아직남아있음");
-			return false;
+			throw new RequestAlreadyProcessingException("연속으로 실행할 수 없는 명령입니다.");
 		}
 	}
 	
