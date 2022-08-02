@@ -7,9 +7,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Looper
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -25,7 +23,6 @@ import com.ssafy.runwithme.databinding.FragmentRecommendBinding
 import com.ssafy.runwithme.model.response.RecommendResponse
 import com.ssafy.runwithme.utils.FASTEST_LOCATION_UPDATE_INTERVAL
 import com.ssafy.runwithme.utils.LOCATION_UPDATE_INTERVAL
-import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.utils.TrackingUtility
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -67,6 +64,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
             cardInfo.visibility = View.VISIBLE
             tvTitle.text = p0.title
             recommend = p0.tag as RecommendResponse
+            p0.showInfoWindow()
         }
         return true
     }
@@ -122,14 +120,11 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
                     if(first) {
                         val location = it[it.size - 1]
                         currentPosition = LatLng(location.latitude, location.longitude)
-                        var markerTitle = "내 위치"
-                        var markerSnippet = getCurrentAddress(currentPosition)
 
                         myLocation.apply {
                             latitude = location.latitude; longitude = location.longitude
                         }
 
-                        currentMarker = currentLocationDrawMarker(currentPosition, markerTitle, markerSnippet)
                         moveCamera(currentPosition)
 
                         first = false
@@ -159,30 +154,6 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
         map.moveCamera(
             CameraUpdateFactory.newLatLngZoom(latLng, 14.5f)
         )
-    }
-
-    // 유저 현재 위치 마커 그리기
-    private fun currentLocationDrawMarker(latLng: LatLng, markerTitle: String?, markerSnippet: String?): Marker? {
-        val markerOptions = MarkerOptions().apply {
-            position(latLng)
-            title(markerTitle)
-            snippet(markerSnippet)
-            draggable(true)
-            icon(
-                BitmapDescriptorFactory.fromBitmap(
-                    Bitmap.createScaledBitmap(
-                        (ResourcesCompat.getDrawable(
-                            resources,
-                            R.drawable.ic_marker,
-                            requireContext().theme
-                        ) as BitmapDrawable).bitmap,
-                        50, 75, false
-                    )
-                )
-            )
-        }
-
-        return map.addMarker(markerOptions)
     }
 
     // 마커 그리기
