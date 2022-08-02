@@ -22,22 +22,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" >
 
-                <TextView
-                    android:id="@+id/tv_my_total_record_header"
-                    style="@style/header_text"
-                    android:layout_marginStart="@dimen/header_margin"
-                    android:layout_marginTop="20dp"
-                    android:text="누적 기록" />
-
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/header_margin"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="@dimen/header_margin"
-                    android:backgroundTint="#F7F7F7"
-                    app:cardCornerRadius="16dp"
+                    android:layout_margin="16dp"
+                    android:backgroundTint="@color/white"
+                    app:cardCornerRadius="6dp"
                     app:cardElevation="4dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,13 +39,22 @@
                         android:padding="8dp">
 
                         <TextView
+                            android:id="@+id/tv_my_total_record_header"
+                            style="@style/header_text"
+                            android:text="누적 기록"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
                             android:id="@+id/tv_distance_header"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="40dp"
                             android:layout_marginTop="8dp"
                             android:text="총 거리"
-                            android:textColor="@color/black_medium_emphasis"
+                            android:textColor="@color/main_grey"
                             android:textSize="16sp"
                             app:layout_constraintEnd_toStartOf="@+id/tv_calorie_header"
                             app:layout_constraintHorizontal_bias="0.5"
@@ -65,13 +65,15 @@
                         <TextView
                             android:id="@+id/tv_distance"
                             style="@style/header_text"
-                            android:layout_marginTop="16dp"
                             android:text="@{totalRunVM.distance + `km`}"
+                            tools:text="16.555km"
                             android:textColor="@color/black_high_emphasis"
-                            android:textSize="26sp"
+                            android:textSize="24sp"
+                            android:layout_marginTop="16dp"
                             app:layout_constraintEnd_toEndOf="@+id/tv_distance_header"
                             app:layout_constraintStart_toStartOf="@+id/tv_distance_header"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toBottomOf="@+id/tv_my_total_record_header"
+                             />
 
                         <TextView
                             android:id="@+id/tv_calorie_header"
@@ -80,7 +82,7 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="48dp"
                             android:text="총 칼로리"
-                            android:textColor="@color/black_medium_emphasis"
+                            android:textColor="@color/main_grey"
                             android:textSize="16sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
@@ -90,21 +92,23 @@
                         <TextView
                             android:id="@+id/tv_calorie"
                             style="@style/header_text"
-                            android:layout_marginTop="16dp"
                             android:text="@{totalRunVM.calorie + `kcal`}"
+                            tools:text="1600kcal"
                             android:textColor="@color/black_high_emphasis"
-                            android:textSize="26sp"
+                            android:textSize="24sp"
+                            android:layout_marginTop="16dp"
                             app:layout_constraintEnd_toEndOf="@+id/tv_calorie_header"
                             app:layout_constraintStart_toStartOf="@+id/tv_calorie_header"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toBottomOf="@+id/tv_my_total_record_header" />
 
                         <TextView
                             android:id="@+id/tv_time"
                             style="@style/header_text"
                             android:layout_marginTop="8dp"
                             android:text="@{totalRunVM.timeMin + ` : ` + totalRunVM.timeSec}"
+                            tools:text="15 : 55"
                             android:textColor="@color/black_high_emphasis"
-                            android:textSize="26sp"
+                            android:textSize="24sp"
                             app:layout_constraintEnd_toEndOf="@+id/tv_time_header"
                             app:layout_constraintStart_toStartOf="@+id/tv_time_header"
                             app:layout_constraintTop_toBottomOf="@+id/tv_distance_header" />
@@ -116,7 +120,7 @@
                             android:layout_marginStart="40dp"
                             android:layout_marginTop="8dp"
                             android:text="총 시간"
-                            android:textColor="@color/black_medium_emphasis"
+                            android:textColor="@color/main_grey"
                             android:textSize="16sp"
                             app:layout_constraintEnd_toStartOf="@+id/tv_speed_header"
                             app:layout_constraintHorizontal_bias="0.5"
@@ -131,7 +135,7 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="48dp"
                             android:text="평균 속도"
-                            android:textColor="@color/black_medium_emphasis"
+                            android:textColor="@color/main_grey"
                             android:textSize="16sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
@@ -143,8 +147,9 @@
                             style="@style/header_text"
                             android:layout_marginTop="8dp"
                             android:text="@{totalRunVM.speed + `km/h`}"
+                            tools:text="8.8km/h"
                             android:textColor="@color/black_high_emphasis"
-                            android:textSize="26sp"
+                            android:textSize="24sp"
                             app:layout_constraintEnd_toEndOf="@+id/tv_speed_header"
                             app:layout_constraintStart_toStartOf="@+id/tv_speed_header"
                             app:layout_constraintTop_toBottomOf="@+id/tv_calorie_header" />
@@ -155,8 +160,9 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
                             android:text="@{totalRunVM.longestTimeMin + ` : ` + totalRunVM.longestTimeSec}"
+                            tools:text="6 : 50"
                             android:textColor="@color/black_high_emphasis"
-                            android:textSize="26sp"
+                            android:textSize="24sp"
                             app:layout_constraintBottom_toTopOf="@+id/tv_longest_time_header"
                             app:layout_constraintEnd_toEndOf="@+id/tv_longest_time_header"
                             app:layout_constraintStart_toStartOf="@+id/tv_longest_time_header"
@@ -169,7 +175,7 @@
                             android:layout_marginStart="32dp"
                             android:layout_marginBottom="16dp"
                             android:text="최장 시간"
-                            android:textColor="@color/black_medium_emphasis"
+                            android:textColor="@color/main_grey"
                             android:textSize="16sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -181,8 +187,9 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
                             android:text="@{totalRunVM.longestDistance + `km`}"
+                            tools:text="10.888km/h"
                             android:textColor="@color/black_high_emphasis"
-                            android:textSize="26sp"
+                            android:textSize="24sp"
                             app:layout_constraintBottom_toTopOf="@+id/tv_longest_distance_header"
                             app:layout_constraintEnd_toEndOf="@+id/tv_longest_distance_header"
                             app:layout_constraintStart_toStartOf="@+id/tv_longest_distance_header"
@@ -195,7 +202,7 @@
                             android:layout_marginEnd="48dp"
                             android:layout_marginBottom="16dp"
                             android:text="최장 거리"
-                            android:textColor="@color/black_medium_emphasis"
+                            android:textColor="@color/main_grey"
                             android:textSize="16sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"

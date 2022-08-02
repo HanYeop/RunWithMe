@@ -70,7 +70,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="8dp"
-                        android:background="@color/mainColor"
+                        android:background="@color/main_purple"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -92,6 +92,7 @@
                             android:id="@+id/tv_user_name"
                             style="@style/header_text"
                             android:text="@{myPageVM.nickname}"
+                            tools:text="도널드 트럼프"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             android:layout_marginStart="28dp"
@@ -102,6 +103,7 @@
                             android:id="@+id/tv_user_height"
                             style="@style/header_text"
                             android:text="@{myPageVM.height + `cm  /` }"
+                            tools:text="190cm / "
                             android:textSize="16sp"
                             android:textColor="@color/white"
                             android:layout_marginTop="16dp"
@@ -111,6 +113,7 @@
                             android:id="@+id/tv_user_weight"
                             style="@style/header_text"
                             android:text="@{myPageVM.weight + `kg`}"
+                            tools:text="80kg"
                             android:textColor="@color/white"
                             android:textSize="16sp"
                             android:layout_marginStart="8dp"
@@ -131,6 +134,7 @@
                             android:id="@+id/tv_user_point_value"
                             style="@style/header_text"
                             android:text="@{myPageVM.point + `P`}"
+                            tools:text="15000P"
                             android:textColor="@color/white"
                             android:textSize="16sp"
                             app:layout_constraintEnd_toEndOf="@+id/tv_user_point"
@@ -160,9 +164,9 @@
                 android:layout_height="wrap_content"
                 app:tabTextAppearance="@style/tab_text"
                 app:tabBackground="@color/white"
-                app:tabIndicatorColor="@color/mainColor"
-                app:tabTextColor="@color/black"
-                app:tabSelectedTextColor="@color/mainColor">
+                app:tabIndicatorColor="@color/main_purple"
+                app:tabTextColor="@color/main_grey"
+                app:tabSelectedTextColor="@color/main_purple">
 
                 <com.google.android.material.tabs.TabItem
                     android:id="@+id/tab_my_record"
