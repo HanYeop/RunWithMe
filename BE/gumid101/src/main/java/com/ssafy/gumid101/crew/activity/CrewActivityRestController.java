@@ -29,6 +29,7 @@ import com.ssafy.gumid101.dto.RankingParamsDto;
 import com.ssafy.gumid101.dto.RecordParamsDto;
 import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.res.CrewBoardFileDto;
 import com.ssafy.gumid101.res.RankingDto;
 import com.ssafy.gumid101.res.ResponseFrame;
@@ -45,6 +46,7 @@ public class CrewActivityRestController {
 
 	private final CrewActivityService crewActivityService;
 	private final CrewActivityBoardService crewActivityBoardService;
+	private final RedisService redisServ;
 
 	public RequestEntity<?> getCrewRecord() {
 		return null;
@@ -134,14 +136,15 @@ public class CrewActivityRestController {
 	}
 
 	@PostMapping(value = "/{crewSeq}/board",consumes = {MediaType.APPLICATION_JSON_VALUE})
-	@ApiOperation("크루 게시판 글 작성e")
+	@ApiOperation("크루 게시판 글 작성")
 	public ResponseEntity<?> writeCrewBoards(
 			@PathVariable(name = "crewSeq") Long crewSeq,
 			@RequestBody CrewBoardDto crewBoardDto/*,
-			@RequestPart(name = "imgFile", required = false) MultipartFile imageFile*/) {
+			@RequestPart(name = "imgFile", required = false) MultipartFile imageFile*/) throws Exception {
 		
 		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDto writerUser = (UserDto) autentication.getPrincipal();
+		redisServ.getIsUseable(writerUser.getUserSeq().toString() + "writeCrewBoards", 5);
 
 		ResponseFrame<CrewBoardFileDto> responseFrame = new ResponseFrame<>();
 		HttpStatus httpStatus = HttpStatus.OK;

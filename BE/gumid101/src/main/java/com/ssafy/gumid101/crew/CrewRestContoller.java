@@ -50,9 +50,9 @@ public class CrewRestContoller {
 			@PathVariable("crewId") Long crewId ,
 			@RequestPart(value="runRecord",required = true) String runRecord,
 			@RequestPart MultipartFile imgFile) throws Exception{
-		redisServ.getRedisStringValue(runRecord, 30);
 		
 		UserDto userDto =  loadUserFromToken();
+		redisServ.getIsUseable(userDto.getUserSeq().toString() + "recordMyRun", 10);
 		
 		Long userSeq = userDto.getUserSeq();
 		
@@ -68,10 +68,11 @@ public class CrewRestContoller {
 
 	@ApiOperation(value = "크루가입")
 	@PostMapping(value="/{crewId}/join")
-	public ResponseEntity<?> jonCrew(@PathVariable(required = true) long crewId, @RequestBody(required = false) Optional<PasswordDto>  password)
+	public ResponseEntity<?> joinCrew(@PathVariable(required = true) long crewId, @RequestBody(required = false) Optional<PasswordDto>  password)
 			throws Exception {
 
 		UserDto userDto = loadUserFromToken();
+		redisServ.getIsUseable(userDto.getUserSeq().toString() + "joinCrew", 10);
 
 		
 		CrewUserDto result = crewService.joinCrew(userDto.getUserSeq(), crewId, password);

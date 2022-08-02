@@ -20,6 +20,7 @@ import com.ssafy.gumid101.customexception.DuplicateException;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.jwt.JwtProperties;
 import com.ssafy.gumid101.jwt.JwtUtilsService;
+import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.res.ResponseFrame;
 import com.ssafy.gumid101.util.Nickname;
 
@@ -39,6 +40,7 @@ public class UserRestController {
 
 	private final JwtUtilsService jwtUtilService;
 	private final UserService userService;
+	private final RedisService redisServ;
 	
 	private UserDto loadUserFromToken() {
 		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
@@ -84,6 +86,7 @@ public class UserRestController {
 		if(result.hasErrors()) {
 			log.warn(result.getAllErrors().toString()); ;
 		}
+		redisServ.getIsUseable(userDto.getEmail() + "setProfile", 10);
 		
 		log.debug("초기 프로필 설정 진입 : 몸무게:{},키 : {}, 닉네임 :{}", userDto.getWeight(), userDto.getHeight(),
 				userDto.getNickName());
