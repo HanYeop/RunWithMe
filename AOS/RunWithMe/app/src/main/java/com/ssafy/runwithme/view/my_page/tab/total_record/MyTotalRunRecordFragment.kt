@@ -93,7 +93,7 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
                 secView.background = null
 
                 if (day.owner == DayOwner.THIS_MONTH) {
-                    textView.setTextColorRes(R.color.main_grey)
+                    textView.setTextColorRes(R.color.black_high_emphasis)
                     layout.setBackgroundResource(if (selectedDate == day.date) R.drawable.calendar_selected_bg else 0)
 
                     // val flights = flights[day.date]
@@ -106,7 +106,7 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
 //                        }
 //                    }
                 } else {
-                    textView.setTextColorRes(R.color.main_grey)
+                    textView.setTextColorRes(R.color.light_grey)
                     layout.background = null
                 }
             }
@@ -145,19 +145,18 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
             }
         }
 
-        // 이미지로 전환 필요 없음
+        // 다음 달
         binding.imageNextMonth.setOnClickListener {
             binding.calendar.findFirstVisibleMonth()?.let {
                 binding.calendar.smoothScrollToMonth(it.yearMonth.next)
             }
         }
-
+        // 이전 달
         binding.imagePreviousMonth.setOnClickListener {
             binding.calendar.findFirstVisibleMonth()?.let {
                 binding.calendar.smoothScrollToMonth(it.yearMonth.previous)
             }
         }
-
     }
 
 }
