@@ -8,6 +8,8 @@ const val JWT = "JWT-AUTHENTICATION"
 
 const val USER = "user_seq"
 const val USER_WEIGHT = "user_weight"
+const val USER_NAME = "run_user_name"
+
 
 const val TAG = "test5"
 

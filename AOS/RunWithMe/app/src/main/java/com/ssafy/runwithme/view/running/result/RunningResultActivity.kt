@@ -77,9 +77,8 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
             tvDistance.text = "${TrackingUtility.getFormattedDistance(RunningActivity.runRecordRunningDistance)}Km"
             tvRunningResultName.text = timeNameFormatter(System.currentTimeMillis())
             tvCrewName.text = sharedPreferences.getString(RUN_RECORD_CREW_NAME,"크루")
-            Log.d(TAG, "initResult: ${timeFormatter(sharedPreferences.getLong(RUN_RECORD_START_TIME,0))}")
-            Log.d(TAG, "initResult: ${sharedPreferences.getInt(RUN_RECORD_CREW_ID,0)}")
-            Log.d(TAG, "initResult: ${RunningActivity.runRecordRunningLat} ${RunningActivity.runRecordRunningLng}")
+            tvTimeStartEnd.text = startEndFormatter(sharedPreferences.getLong(RUN_RECORD_START_TIME, 0L), RunningActivity.runRecordEndTime)
+            tvUserName.text = sharedPreferences.getString(USER_NAME,"이름")
         }
     }
 

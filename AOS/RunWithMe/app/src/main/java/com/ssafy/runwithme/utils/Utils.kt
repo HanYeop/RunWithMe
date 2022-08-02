@@ -66,3 +66,11 @@ fun runningStart(sharedPreferences: SharedPreferences, crewId: Int, crewName: St
     sharedPreferences.edit().putInt(RUN_GOAL_AMOUNT, goalAmount).apply()
 }
 
+// 러닝 결과 시간 표기 포매터
+fun startEndFormatter(startTime: Long, endTime: Long): String {
+    val dateFormat = SimpleDateFormat("HH:mm")
+    val start = dateFormat.format(startTime)
+    val end = dateFormat.format(endTime)
+    return "$start - $end"
+}
+

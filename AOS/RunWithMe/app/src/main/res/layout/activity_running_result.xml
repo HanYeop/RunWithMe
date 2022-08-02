@@ -196,7 +196,7 @@
             android:drawableStart="@drawable/timer_24"
             android:drawablePadding="4dp"
             android:gravity="center"
-            android:text="06:05 AM - 06:25 AM"
+            android:text="06:05 - 06:25"
             android:textColor="@color/main_grey"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/img_result"

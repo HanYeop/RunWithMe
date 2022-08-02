@@ -7,8 +7,7 @@ import com.google.gson.Gson
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.repository.CrewRepository
 import com.ssafy.runwithme.repository.MyActivityRepository
-import com.ssafy.runwithme.utils.Result
-import com.ssafy.runwithme.utils.USER_WEIGHT
+import com.ssafy.runwithme.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -46,6 +45,7 @@ class RunningViewModel @Inject constructor(
             myActivityRepository.getMyProfile().collectLatest {
                 if(it is Result.Success){
                     sharedPreferences.edit().putInt(USER_WEIGHT,it.data.data.userDto.weight).apply()
+                    sharedPreferences.edit().putString(USER_NAME, it.data.data.userDto.nickName).apply()
                 } else if(it is Result.Error){
 
                 }
