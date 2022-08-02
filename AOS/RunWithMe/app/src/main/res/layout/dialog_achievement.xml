@@ -34,7 +34,10 @@
 
         <TextView
             android:id="@+id/tv_achievement_header"
-            style="@style/header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans_bold"
+            android:textSize="20sp"
             android:layout_margin="16dp"
             android:text="업적 달성!"
             android:textColor="@color/mainColor"
@@ -43,7 +46,10 @@
 
         <TextView
             android:id="@+id/tv_achievement_title"
-            style="@style/header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans_bold"
+            android:textColor="@color/main_black"
             android:layout_marginTop="8dp"
             android:text="첫 러닝"
             android:textSize="16sp"
@@ -55,8 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:fontFamily="@font/noto_sans_regular"
-            android:includeFontPadding="false"
+            android:textColor="@color/main_grey"
             android:text="처음으로 러닝을 완주하기"
             app:layout_constraintStart_toStartOf="@+id/tv_achievement_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_achievement_title" />
@@ -69,7 +74,6 @@
             android:layout_marginBottom="8dp"
             android:background="@drawable/btn_round_main_color"
             android:fontFamily="@font/noto_sans_bold"
-            android:includeFontPadding="false"
             android:text="확인"
             android:textColor="@color/white"
             android:textSize="16sp"
