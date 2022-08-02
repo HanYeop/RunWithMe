@@ -44,7 +44,9 @@ class MyActivityRepository @Inject constructor(
             Log.d(TAG, "받아온 결과 : $it")
             if(it.success){
                 emit(Result.Success(it))
-            }else {
+            }else if(!it.success){
+                emit(Result.Fail(it))
+            }else{
                 emit(Result.Empty)
             }
         }

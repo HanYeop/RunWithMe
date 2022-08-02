@@ -9,7 +9,9 @@ import android.content.Intent
 import android.location.Location
 import android.os.Build
 import android.os.Looper
+import android.speech.tts.TextToSpeech
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
@@ -26,7 +28,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 typealias Polyline = MutableList<LatLng>
 typealias Polylines = MutableList<Polyline>
@@ -34,6 +38,8 @@ typealias Polylines = MutableList<Polyline>
 private const val TAG = "test5"
 @AndroidEntryPoint
 class RunningService : LifecycleService() {
+
+    private var tts: TextToSpeech? = null
 
     // 서비스 종료 여부
     private var serviceKilled = false
@@ -66,6 +72,29 @@ class RunningService : LifecycleService() {
         var isFirstRun = false // 처음 실행 여부 (false = 실행되지않음)
     }
 
+    private fun initTextToSpeech() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Toast.makeText(this, "음성 안내를 지원하지 않는 버전입니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        tts = TextToSpeech(this) {
+            if (it == TextToSpeech.SUCCESS) {
+                val result = tts?.setLanguage(Locale.KOREAN)
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Toast.makeText(this, "음성 안내를 지원하지 않는 언어입니다.", Toast.LENGTH_SHORT).show()
+                    return@TextToSpeech
+                }
+//                Toast.makeText(this, "TTS 세팅이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+            } else {
+//                Toast.makeText(this, "TTS 세팅 실패", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun ttsSpeak(strTTS: String){
+        tts?.speak(strTTS, TextToSpeech.QUEUE_FLUSH, null, null)
+    }
+
     // 초기화
     private fun postInitialValues() {
         isTracking.postValue(false)
@@ -78,6 +107,8 @@ class RunningService : LifecycleService() {
         super.onCreate()
         currentNotificationBuilder = baseNotificationBuilder
         postInitialValues()
+
+        initTextToSpeech()
 
         // 위치 추적 상태가 되면 업데이트 호출
         isTracking.observe(this){
@@ -219,14 +250,20 @@ class RunningService : LifecycleService() {
                         Log.d(TAG, "시작함 ")
                         startForegroundService()
                         isFirstRun = true
+                        CoroutineScope(Dispatchers.Main).launch {
+                            delay(1000)
+                            ttsSpeak("러닝을 시작합니다.")
+                        }
                     }else{
                         Log.d(TAG, "실행중 ")
                         startTimer()
+                        ttsSpeak("러닝을 다시 시작합니다.")
                     }
                 }
                 // 중지 되었을 때
                 ACTION_PAUSE_SERVICE ->{
                     Log.d(TAG, "중지 ")
+                    ttsSpeak("러닝이 일시 중지되었습니다.")
                     pauseService()
                 }
                 // 종료 되었을 때
@@ -242,6 +279,10 @@ class RunningService : LifecycleService() {
             }
         }
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    private fun timerTTS(){
+        ttsSpeak("테스트 중입니다. 안녕하세요")
     }
 
     // 서비스 정지
