@@ -13,103 +13,93 @@
             type="com.ssafy.runwithme.model.response.RankingResponse" />
     </data>
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="center">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_crew_recruit"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginStart="16dp"
-            android:backgroundTint="#F7F7F7"
-            android:layout_marginEnd="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="16dp">
+            <TextView
+                android:id="@+id/tv_ranking_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(totalRank.rankingIndex)}"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/noto_sans_bold"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                tools:text="1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_card_crew_recruit"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_user_profile"
+                android:layout_width="@dimen/ranking_profile_image_size"
+                android:layout_height="@dimen/ranking_profile_image_size"
                 android:layout_gravity="center"
-                android:padding="8dp">
+                android:layout_marginStart="16dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintStart_toEndOf="@id/tv_ranking_num"
+                app:layout_constraintTop_toTopOf="@id/tv_ranking_num"
+                app:layout_constraintBottom_toBottomOf="@id/tv_ranking_num"
+                app:rankingProfileImage="@{totalRank.imgSeq}"
+                tools:src="@color/black" />
 
-                <TextView
-                    android:id="@+id/tv_ranking_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(totalRank.rankingIndex)}"
-                    android:layout_marginStart="16dp"
-                    android:fontFamily="@font/noto_sans_bold"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/black_high_emphasis"
-                    android:textSize="32sp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/noto_sans_bold"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@id/image_user_profile"
+                app:layout_constraintTop_toTopOf="@id/image_user_profile"
+                app:layout_constraintBottom_toBottomOf="@id/image_user_profile"
+                tools:text="김크루"
+                android:text="@{totalRank.userName}"/>
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/image_user_profile"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="16dp"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintStart_toEndOf="@id/tv_ranking_num"
-                    app:layout_constraintTop_toTopOf="@id/tv_ranking_num"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_ranking_num"
-                    app:rankingProfileImage="@{totalRank.imgSeq}"
-                    tools:src="@drawable/img" />
+            <TextView
+                android:id="@+id/tv_user_total_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/noto_sans_bold"
+                android:textColor="@color/main_grey"
+                app:layout_constraintTop_toTopOf="@id/tv_user_name"
+                app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
+                app:layout_constraintEnd_toStartOf="@id/tv_user_total_type"
+                tools:text="144.8"
+                unit="@{homeVM.unit}"
+                rankingValue="@{totalRank.rankingValue}" />
 
-                <TextView
-                    android:id="@+id/tv_user_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:fontFamily="@font/noto_sans_bold"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/black_high_emphasis"
-                    android:textSize="24sp"
-                    app:layout_constraintStart_toEndOf="@id/image_user_profile"
-                    app:layout_constraintTop_toTopOf="@id/image_user_profile"
-                    app:layout_constraintBottom_toBottomOf="@id/image_user_profile"
-                    tools:text="김크루"
-                    android:text="@{totalRank.userName}"/>
+            <TextView
+                android:id="@+id/tv_user_total_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/noto_sans_bold"
+                android:textColor="@color/main_grey"
+                app:layout_constraintTop_toTopOf="@id/tv_user_name"
+                app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="km"
+                android:text="@{homeVM.unit}"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/tv_user_total_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:fontFamily="@font/noto_sans_bold"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/black_medium_emphasis"
-                    app:layout_constraintTop_toTopOf="@id/tv_user_name"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
-                    app:layout_constraintEnd_toStartOf="@id/tv_user_total_type"
-                    tools:text="144.8"
-                    unit="@{homeVM.unit}"
-                    rankingValue="@{totalRank.rankingValue}" />
-
-                <TextView
-                    android:id="@+id/tv_user_total_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:fontFamily="@font/noto_sans_bold"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/black_medium_emphasis"
-                    app:layout_constraintTop_toTopOf="@id/tv_user_name"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="km"
-                    android:text="@{homeVM.unit}"/>
-
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/main_border_grey" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

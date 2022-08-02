@@ -12,11 +12,13 @@ import com.ssafy.runwithme.view.home.HomeViewModel
 class TotalUserRankingFragment : BaseFragment<FragmentTotalUserRankingBinding>(R.layout.fragment_total_user_ranking) {
 
     private val homeViewModel by activityViewModels<HomeViewModel>()
+    private lateinit var totalRankingAdapter: TotalRankingAdapter
 
     override fun init() {
         binding.apply {
             homeVM = homeViewModel
-            recyclerTotalUserRanking.adapter = TotalRankingAdapter(homeViewModel)
+            totalRankingAdapter = TotalRankingAdapter(homeViewModel)
+            recyclerTotalUserRanking.adapter = totalRankingAdapter
 
             spinnerTotalUserRanking.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long
@@ -29,6 +31,7 @@ class TotalUserRankingFragment : BaseFragment<FragmentTotalUserRankingBinding>(R
                     }
                     homeViewModel.getTotalRanking(type, 100, 0)
                     homeViewModel.getMyRanking(type)
+                    totalRankingAdapter.notifyDataSetChanged()
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
