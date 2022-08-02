@@ -331,4 +331,63 @@ object ViewBindingAdapter {
         }
         this.clipToOutline = true
     }
+
+    @BindingAdapter("goalTypeConverter")
+    @JvmStatic
+    fun TextView.setGoalTypeConverter(goalType: String){
+        if(goalType == "distance"){
+            this.text = "거리"
+        }else{
+            this.text = "시간"
+        }
+    }
+
+    @BindingAdapter("isCrewMember", "crewState")
+    @JvmStatic
+    fun AppCompatButton.setCrewState(isCrewMember: Boolean, crewState: String){
+
+        if(this.id == R.id.btn_join_crew){
+
+        }else if(this.id == R.id.btn_resign_crew){
+
+        }else if(this.id == R.id.btn_running){
+
+        }
+
+        if(isCrewMember){
+
+            if(crewState == "await"){
+                if(this.id == R.id.btn_join_crew){
+                    this.visibility = View.GONE
+                }else if(this.id == R.id.btn_resign_crew){
+                    this.visibility = View.VISIBLE
+                }else if(this.id == R.id.btn_running){
+                    this.visibility = View.GONE
+                }
+
+            }else if(crewState == "start"){
+                if(this.id == R.id.btn_join_crew){
+                    this.visibility = View.GONE
+                }else if(this.id == R.id.btn_resign_crew){
+                    this.visibility = View.GONE
+                }else if(this.id == R.id.btn_running){
+                    this.visibility = View.VISIBLE
+                }
+
+            }else{
+                this.visibility = View.GONE
+            }
+
+        }else{
+            if(this.id == R.id.btn_join_crew){
+                this.visibility = View.VISIBLE
+            }else if(this.id == R.id.btn_resign_crew){
+                this.visibility = View.GONE
+            }else if(this.id == R.id.btn_running){
+                this.visibility = View.GONE
+            }
+
+        }
+
+    }
 }
