@@ -117,4 +117,7 @@ dependencies {
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:30.3.1')
     implementation 'com.google.firebase:firebase-messaging-ktx:23.0.6'
+
+    // Progressbar
+    implementation 'com.github.lzyzsd:circleprogress:1.2.0'
 }
