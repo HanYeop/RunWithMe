@@ -1,6 +1,7 @@
 package com.ssafy.gumid101.user;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -82,6 +83,22 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return new UserFileDto(userDto,imgDto);
+	}
+	
+	@Override
+	public UserFileDto getUserProfileByNickname(String nickname) throws Exception {
+
+		UserEntity user = userRepo.findByNickNameAndUserState(nickname, "N")
+				.orElseThrow(() -> new NotFoundUserException("닉네임이 일치하는 사용자가 없습니다."));
+		ImageFileDto imgDto = ImageFileDto.of(user.getImageFile());
+		return new UserFileDto(UserDto.builder()
+				.nickName(nickname)
+				.email(user.getEmail())
+				.height(user.getHeight())
+				.weight(user.getWeight())
+				.point(user.getPoint())
+				.build()
+				, imgDto);
 	}
 
 	@Transactional
