@@ -50,7 +50,7 @@ public class CustomerCenterRestController {
 
 		UserDto userDto = loadUserFromToken();
 		
-		redisServ.getIsUseable(userDto.getUserSeq().toString() + "question" + questionDto.getQuestionContent(), 10);
+		redisServ.getIsUseable(userDto.getUserSeq().toString() + "writeQuestion" + questionDto.getQuestionContent(), 10);
 
 		QuestionDto questionResultDto = customerCenterService.postQuestion(questionDto, userDto.getUserSeq());
 
@@ -66,7 +66,7 @@ public class CustomerCenterRestController {
 
 		UserDto userDto = loadUserFromToken();
 		
-		redisServ.getIsUseable(userDto.getUserSeq().toString() + "report" +  boardSeq, 10);
+		redisServ.getIsUseable(userDto.getUserSeq().toString() + "reportCrewBoard" +  boardSeq, 10);
 
 		ReportDto result = customerCenterService.postReport(boardSeq, report_content, userDto.getUserSeq());
 

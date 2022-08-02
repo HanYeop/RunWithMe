@@ -2,6 +2,7 @@ package com.ssafy.gumid101.dto;
 
 import java.io.Serializable;
 
+import com.ssafy.gumid101.customercenter.ReportStatus;
 import com.ssafy.gumid101.entity.ReportEntity;
 
 import io.swagger.annotations.ApiParam;
@@ -27,7 +28,7 @@ public class ReportDto implements Serializable {
 	private String reportContent;
 
 	@ApiParam(value = "신고 처리 상태")
-	private String reportStatus;
+	private ReportStatus reportStatus;
 
 	@ApiParam(value = "신고한 글 번호")
 	private Long reportCrewBoardSeq;

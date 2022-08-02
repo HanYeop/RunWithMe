@@ -7,6 +7,6 @@ public interface CustomerCenterService {
 
 	QuestionDto postQuestion(QuestionDto questionDto, Long userSeq) throws Exception;
 
-	ReportDto postReport(long boardSeq, String report_content, Long userSeq) throws Exception;
+	ReportDto postReport(Long boardSeq, String reportContent, Long userSeq) throws Exception;
 
 }
