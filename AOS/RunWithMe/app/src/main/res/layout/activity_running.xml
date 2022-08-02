@@ -27,17 +27,24 @@
 
             <TextView
                 android:id="@+id/tv_tab_goal"
-                style="@style/header_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/noto_sans_bold"
+                android:includeFontPadding="false"
                 android:gravity="center"
                 android:text="목표"
-                android:textColor="@color/mainColor"
+                android:textColor="@color/main_purple"
                 android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/tv_tab_map"
-                style="@style/header_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/noto_sans_bold"
+                android:includeFontPadding="false"
+                android:textColor="@color/black"
                 android:gravity="center"
                 android:text="지도"
                 android:textSize="24sp" />
@@ -56,9 +63,13 @@
 
             <TextView
                 android:id="@+id/tv_crew_name"
-                style="@style/header_text"
-                android:layout_marginTop="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/noto_sans_bold"
                 android:text="크루 이름 입니다."
+                android:textColor="@color/black"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -68,10 +79,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/header_margin"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="@dimen/header_margin"
-                android:backgroundTint="#F7F7F7"
-                app:cardCornerRadius="16dp"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="6dp"
                 app:cardElevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +102,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="현재 뛴 시간"
-                        android:textColor="@color/black_medium_emphasis"
+                        android:textColor="@color/main_grey"
                         android:textSize="18sp"
                         app:layout_constraintEnd_toEndOf="@+id/tv_main_record"
                         app:layout_constraintStart_toStartOf="@+id/tv_main_record"
@@ -99,11 +110,12 @@
 
                     <TextView
                         android:id="@+id/tv_main_record"
-                        style="@style/header_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:fontFamily="@font/noto_sans_bold"
                         android:text="00 : 00"
+                        android:textColor="@color/black"
                         android:textSize="50sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
@@ -112,58 +124,60 @@
 
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/animation_view"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        app:layout_constraintEnd_toStartOf="@+id/progress_bar"
-                        app:layout_constraintStart_toStartOf="@+id/progress_bar"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="30dp"
+                        app:layout_constraintEnd_toEndOf="@+id/arc_progress"
+                        app:layout_constraintStart_toStartOf="@+id/arc_progress"
                         app:layout_constraintTop_toBottomOf="@+id/tv_main_record_header"
                         app:lottie_autoPlay="true"
                         app:lottie_fileName="running.json"
                         app:lottie_loop="true" />
 
-                    <ProgressBar
-                        android:id="@+id/progress_bar"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:max="100"
-                        android:progress="0"
-                        android:progressTint="@color/mainColor"
-                        android:scaleY="4"
+                    <com.github.lzyzsd.circleprogress.ArcProgress
+                        android:id="@+id/arc_progress"
+                        android:layout_width="230dp"
+                        android:layout_height="230dp"
+                        android:layout_marginTop="16dp"
+                        app:arc_angle="270"
+                        app:arc_finished_color="@color/main_purple"
+                        app:arc_max="100"
+                        app:arc_stroke_width="20dp"
+                        app:arc_text_color="@color/main_purple"
+                        app:arc_text_size="30sp"
+                        app:arc_unfinished_color="@color/light_grey"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/animation_view" />
-
-                    <ImageView
-                        android:id="@+id/image_flag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toTopOf="@+id/progress_bar"
-                        app:layout_constraintEnd_toEndOf="@+id/progress_bar"
-                        app:layout_constraintStart_toEndOf="@+id/progress_bar"
-                        app:srcCompat="@drawable/flag" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_main_record_header"
+                        tools:arc_progress="30" />
 
                     <TextView
                         android:id="@+id/tv_goal_header"
-                        style="@style/header_text"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:includeFontPadding="false"
                         android:text="목표"
-                        android:textSize="28sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
                         app:layout_constraintEnd_toStartOf="@+id/tv_goal"
                         app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
+                        app:layout_constraintTop_toBottomOf="@+id/animation_view" />
 
                     <TextView
                         android:id="@+id/tv_goal"
-                        style="@style/header_text"
-                        android:layout_marginEnd="16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:includeFontPadding="false"
                         android:text="1분"
-                        android:textSize="28sp"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_goal_header"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
@@ -180,8 +194,8 @@
                 android:layout_marginStart="@dimen/header_margin"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="@dimen/header_margin"
-                android:backgroundTint="#F7F7F7"
-                app:cardCornerRadius="16dp"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="6dp"
                 app:cardElevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -201,7 +215,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
                         android:text="이동 거리"
-                        android:textColor="@color/black_medium_emphasis"
+                        android:textColor="@color/main_grey"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/tv_sub_record"
@@ -215,7 +229,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
                         android:text="칼로리"
-                        android:textColor="@color/black_medium_emphasis"
+                        android:textColor="@color/main_grey"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/tv_calorie"
@@ -224,22 +238,26 @@
 
                     <TextView
                         android:id="@+id/tv_sub_record"
-                        style="@style/header_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:textColor="@color/black"
                         android:text="0.0km"
-                        android:textColor="@color/black_high_emphasis"
                         android:textSize="30sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/tv_calorie"
-                        style="@style/header_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:text="14 kcal"
-                        android:textColor="@color/black_high_emphasis"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:textColor="@color/black"
                         android:textSize="30sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -253,8 +271,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:visibility="invisible"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/img_pause"
+            tools:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -273,23 +291,27 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <ImageView
+        <ImageButton
             android:id="@+id/img_stop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="40dp"
+            android:background="@drawable/btn_circle_white_color"
+            android:backgroundTint="#00000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/img_start"
             app:srcCompat="@drawable/stop_60" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/img_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
+            android:background="@drawable/btn_circle_white_color"
+            android:backgroundTint="#00000000"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -298,10 +320,12 @@
             app:srcCompat="@drawable/pause_60"
             tools:visibility="visible" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/img_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/btn_circle_white_color"
+            android:backgroundTint="#00000000"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="40dp"
             app:layout_constraintBottom_toBottomOf="parent"

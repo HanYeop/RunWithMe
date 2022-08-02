@@ -1,7 +1,7 @@
 package com.ssafy.runwithme.utils
 
 // 본인 주소
-//const val BASE_URL = "http://192.168.25.17:8080/api/"
+//const val BASE_URL = "http://192.168.100.73:8080/api/"
 const val BASE_URL = "http://i7d101.p.ssafy.io:8080/api/"
 
 const val JWT = "JWT-AUTHENTICATION"
@@ -27,6 +27,11 @@ const val ACTION_SHOW_TRACKING_ACTIVITY = "ACTION_SHOW_TRACKING_ACTIVITY"
 const val NOTIFICATION_CHANNEL_ID = "tracking_channel"
 const val NOTIFICATION_CHANNEL_NAME = "Tracking"
 const val NOTIFICATION_ID = 1 // 채널 ID는 0이면 안됨
+
+
+const val FCM_CHANNEL_ID = "FCM_channel"
+const val FCM_CHANNEL_NAME = "FCM"
+const val FCM_ID = 2 // 채널 ID는 0이면 안됨
 
 /**
  * Tracking 옵션
