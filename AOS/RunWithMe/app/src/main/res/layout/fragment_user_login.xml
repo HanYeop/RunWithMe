@@ -14,17 +14,6 @@
         android:layout_height="match_parent"
         tools:context=".view.login.login.UserLoginFragment">
 
-<!--        <TextView-->
-<!--            android:id="@+id/tv_login"-->
-<!--            style="@style/header_text"-->
-<!--            android:layout_marginTop="120dp"-->
-<!--            android:text="로고 들어갈 자리\n(TEST : 누르면 메인 페이지로)"-->
-<!--            android:textSize="24sp"-->
-<!--            android:visibility="gone"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
         <ImageView
             android:id="@+id/img_login_back"
             android:layout_width="match_parent"

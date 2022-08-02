@@ -48,13 +48,13 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
                 startActivity(Intent(requireContext(),MainActivity::class.java))
                 requireActivity().finish()
             }
-            imgBtnLoginGoogle.setOnClickListener {
+            cardLoginGoogle.setOnClickListener {
                 googleSignIn()
             }
-            imgBtnLoginNaver.setOnClickListener {
+            cardLoginNaver.setOnClickListener {
                 naverSignIn()
             }
-            imgBtnLoginKakao.setOnClickListener {
+            cardLoginKakao.setOnClickListener {
                 kakaoSignIn()
             }
         }
