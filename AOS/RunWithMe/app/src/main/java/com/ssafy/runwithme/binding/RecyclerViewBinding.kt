@@ -7,7 +7,6 @@ import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 import com.ssafy.runwithme.model.response.RankingResponse
 import com.ssafy.runwithme.utils.Result
-import com.ssafy.runwithme.view.home.HomeMyCurrentCrewAdapter
 import com.ssafy.runwithme.view.home.my_crew.MyCurrentCrewAdapter
 import com.ssafy.runwithme.view.home.ranking.TotalRankingAdapter
 
@@ -20,10 +19,6 @@ object RecyclerViewBinding {
         if (result is Result.Success) {
             if(result.data is BaseResponse<*>) {
                 when (view.adapter) {
-                    is HomeMyCurrentCrewAdapter -> {
-                        (view.adapter as ListAdapter<Any, *>).submitList(result.data.data as List<MyCurrentCrewResponse>)
-
-                    }
                     is MyCurrentCrewAdapter -> {
                         (view.adapter as ListAdapter<Any, *>).submitList(result.data.data as List<MyCurrentCrewResponse>)
                     }

@@ -130,7 +130,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_width="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="도널드 트럼프"
+                                    tools:text="도널드 트럼프"
+                                    android:text="@{homeVM.nickname}"
                                     android:textColor="@color/main_black"
                                     android:textSize="18sp"
                                     android:fontFamily="@font/noto_sans_bold"
@@ -140,7 +141,8 @@
                                 <TextView
                                     android:layout_height="wrap_content"
                                     android:layout_width="wrap_content"
-                                    android:text="15000P"
+                                    tools:text="15000P"
+                                    android:text="@{homeVM.point + `P`}"
                                     android:fontFamily="@font/noto_sans_regular"
                                     android:textColor="@color/main_grey"
                                     android:layout_marginTop="8dp"
@@ -153,6 +155,7 @@
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:gravity="right"
+                                app:homePageProfileImage ="@{homeVM.imgSeq}"
                                 android:layout_marginTop="16dp"
                                 android:background="@android:color/transparent"
                                 tools:src="@drawable/img" />
@@ -161,6 +164,7 @@
 
 
                         <LinearLayout
+                            android:id="@+id/layout_my_crew"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"

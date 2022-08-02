@@ -7,6 +7,7 @@ import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 import com.ssafy.runwithme.model.response.RankingResponse
 import com.ssafy.runwithme.repository.CrewManagerRepository
+import com.ssafy.runwithme.repository.MyActivityRepository
 import com.ssafy.runwithme.repository.TotalRankingRepository
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.SingleLiveEvent
@@ -22,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val crewManagerRepository: CrewManagerRepository,
-    private val totalRankingRepository: TotalRankingRepository
+    private val totalRankingRepository: TotalRankingRepository,
+    private val myActivityRepository: MyActivityRepository
 ) : ViewModel(){
 
     private val _myCurrentCrewList: MutableStateFlow<Result<BaseResponse<List<MyCurrentCrewResponse>>>>
@@ -54,6 +56,15 @@ class HomeViewModel @Inject constructor(
 
     private val _errorMsgEvent = SingleLiveEvent<String>()
     val errorMsgEvent get() = _errorMsgEvent
+
+    private val _imgSeq = MutableStateFlow(0)
+    val imgSeq get() = _imgSeq.asStateFlow()
+
+    private val _nickName = MutableStateFlow("")
+    val nickname get() = _nickName.asStateFlow()
+
+    private val _point = MutableStateFlow("")
+    val point get() = _point.asStateFlow()
 
     fun getMyCurrentCrew(){
         viewModelScope.launch(Dispatchers.IO) {
@@ -102,6 +113,20 @@ class HomeViewModel @Inject constructor(
                     _myRanking.value = it.data.data
                 } else if(it is Result.Error){
                     _errorMsgEvent.postValue("내 랭킹 불러오기 중 오류가 발생했습니다.")
+                }
+            }
+        }
+    }
+
+    fun getMyProfile(){
+        viewModelScope.launch(Dispatchers.IO) {
+            myActivityRepository.getMyProfile().collectLatest {
+                if(it is Result.Success){
+                    _imgSeq.value = it.data.data.imageFileDto.imgSeq
+                    _nickName.value = it.data.data.userDto.nickName
+                    _point.value = it.data.data.userDto.point.toString()
+                } else if(it is Result.Error){
+                    _errorMsgEvent.postValue("프로필 정보를 불러오는 중 오류가 발생했습니다.")
                 }
             }
         }

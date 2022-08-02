@@ -311,4 +311,24 @@ object ViewBindingAdapter {
     fun com.willy.ratingbar.ScaleRatingBar.setHardPoint(point: Int){
         this.rating = point.toFloat()
     }
+
+    @BindingAdapter("homePageProfileImage")
+    @JvmStatic
+    fun ImageView.setHomePageProfileImage (imageSeq: Int){
+        if(imageSeq == 0){
+            Glide.with(this.context)
+                .load(R.drawable.user_image)
+                .override(60 * 2,60 * 2)
+                .placeholder(R.drawable.img)
+                .into(this)
+        }
+        else {
+            Glide.with(this.context)
+                .load("${BASE_URL}images/${imageSeq}")
+                .override(60 * 2,60 * 2)
+                .placeholder(R.drawable.img)
+                .into(this)
+        }
+        this.clipToOutline = true
+    }
 }

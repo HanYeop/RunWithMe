@@ -33,6 +33,9 @@ class MyCurrentCrewFragment
             homeVM = homeViewModel
             recyclerMyCurrentCrew.adapter = myCurrentCrewAdapter
         }
+
+        homeViewModel.getMyCurrentCrew()
+
         initClickListener()
 
         initViewModelCallBack()
