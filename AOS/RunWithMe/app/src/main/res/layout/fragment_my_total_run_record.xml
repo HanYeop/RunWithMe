@@ -211,25 +211,100 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
-                <CalendarView
-                    android:id="@+id/calendarView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="16dp" />
-
-                <TextView
-                    android:id="@+id/tv_date_record_header"
-                    style="@style/header_text"
-                    android:layout_marginStart="@dimen/header_margin"
-                    android:layout_marginTop="20dp"
-                    android:text="2020/01/01" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_date_record"
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:listitem="@layout/item_running_record" />
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:backgroundTint="@color/white"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.appbar.AppBarLayout
+                            android:id="@+id/app_bar_calendar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/main_blue_green">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="14dp">
+
+                                <ImageView
+                                    android:id="@+id/image_previous_month"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_marginEnd="22dp"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    app:tint="@color/white"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:srcCompat="@drawable/ic_baseline_keyboard_arrow_left_24" />
+
+                                <TextView
+                                    android:id="@+id/tv_year_month"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/noto_sans_bold"
+                                    android:textColor="@color/white"
+                                    android:textSize="20dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toStartOf="@id/image_next_month"
+                                    app:layout_constraintStart_toEndOf="@id/image_previous_month"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="2022년 8월" />
+
+                                <ImageView
+                                    android:id="@+id/image_next_month"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    app:tint="@color/white"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </com.google.android.material.appbar.AppBarLayout>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="4dp">
+
+                            <com.kizitonwose.calendarview.CalendarView
+                                android:id="@+id/calendar"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:cv_dayViewResource="@layout/my_calendar_day"
+                                app:cv_monthHeaderResource="@layout/my_calendar_header"
+                                app:cv_orientation="horizontal"
+                                app:cv_outDateStyle="endOfGrid"
+                                app:cv_scrollMode="paged" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_calendar"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                android:orientation="vertical"
+                                android:nestedScrollingEnabled="false"
+                                tools:listitem="@layout/item_running_record"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
             </LinearLayout>
 
