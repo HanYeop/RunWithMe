@@ -9,10 +9,12 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import com.google.firebase.messaging.FirebaseMessaging
 import com.ssafy.runwithme.MainActivity
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentUserJoinBinding
+import com.ssafy.runwithme.model.dto.FcmTokenDto
 import com.ssafy.runwithme.model.dto.UserDto
 import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.view.login.UserViewModel
@@ -76,6 +78,15 @@ class UserJoinFragment : BaseFragment<FragmentUserJoinBinding>(R.layout.fragment
     private fun initViewModelCallback(){
         userViewModel.loginEvent.observe(viewLifecycleOwner){
             showToast(it)
+            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                if(!task.isSuccessful){
+                    return@addOnCompleteListener
+                }else{
+                    userViewModel.fcmToken(FcmTokenDto(task.result))
+                }
+            }
+        }
+        userViewModel.fcmEvent.observe(viewLifecycleOwner){
             startActivity(Intent(requireContext(), MainActivity::class.java))
             requireActivity().finish()
         }
@@ -85,7 +96,6 @@ class UserJoinFragment : BaseFragment<FragmentUserJoinBinding>(R.layout.fragment
         userViewModel.joinMsgEvent.observe(viewLifecycleOwner){
             showToast(it)
         }
-
         userViewModel.failMsgEvent.observe(viewLifecycleOwner){
             showToast(it)
         }
