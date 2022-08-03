@@ -6,6 +6,8 @@ import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.RankingParamsDto;
 import com.ssafy.gumid101.dto.RecordParamsDto;
 import com.ssafy.gumid101.dto.RunRecordDto;
+import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.res.GraphRecordDto;
 import com.ssafy.gumid101.res.RankingDto;
 
 public interface CrewActivityService {
@@ -15,4 +17,5 @@ public interface CrewActivityService {
 	List<RunRecordDto> getMyCrewRecordsByParam(RecordParamsDto recordParamsDto)throws Exception;
 	List<RankingDto> getCrewRankingByParam(RankingParamsDto rankingParamsDto)throws Exception;
 	CrewTotalRecordDto getMyCrewTotalRecord(long crewSeq, Long userSeq)throws Exception;
+	List<GraphRecordDto> getCrewMyGraphData(UserDto userDto, Long crewSeq, String goalType) throws Exception;
 }

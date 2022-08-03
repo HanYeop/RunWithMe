@@ -26,18 +26,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.net.HttpHeaders;
+import com.ssafy.gumid101.customexception.FCMTokenUnValidException;
 import com.ssafy.gumid101.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@RequiredArgsConstructor
-@Service
-class FireBaseMessageBridgeService {
-	private final FirebaseMessage firebaseMessage;
-	private final UserRepository userRepo;
 
-}
 
 @Slf4j
 @RequiredArgsConstructor
@@ -115,11 +110,12 @@ public class FirebaseMessageImpl implements FirebaseMessage {
 		log.info("총 {} 개의 알림 전송 - 성공 : {} 실패:{}", fcmMesageList.size(), successCount, failtCount);
 	}
 
-	public void sendMessageTo(String targetToken, FcmMessage.Notification notification) throws IOException {
+	public void sendMessageTo(String targetToken, FcmMessage.Notification notification) throws IOException, FCMTokenUnValidException 
+	{
 		sendMessageTo(targetToken, notification.getTitle(), notification.getBody());
 	}
 
-	public void sendMessageTo(String targetToken, String title, String body) throws IOException {
+	public void sendMessageTo(String targetToken, String title, String body) throws IOException, FCMTokenUnValidException {
 		String message = makeMessage(targetToken, title, body);
 
 		URL url = new URL(API_URL);
@@ -143,10 +139,28 @@ public class FirebaseMessageImpl implements FirebaseMessage {
 		}
 
 		int responseCode = conn.getResponseCode();
+		
 		if(responseCode == 400 || responseCode ==404) {
 			//구글 FCM DOC에 이 경우 토큰이 만료됬거나 오류라고 함
+			StringBuilder sb = new StringBuilder();
+			try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getErrorStream()))) {
+				
+				String buffer = null;
+				log.info("FCM이 응답한 메세지를 출력합니다.");
+				log.info("응답 : {}", responseCode);
+				
+				while ((buffer = br.readLine()) != null) {
+					sb.append(buffer);
+				}
+				
+				
+			} catch (Exception e) {
 			
+			}
+			
+			throw new FCMTokenUnValidException(String.format("토큰 부적합 :  %s", targetToken),sb.toString());
 		}
+		
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
 			String buffer = null;
 			log.info("FCM이 응답한 메세지를 출력합니다.");

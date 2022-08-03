@@ -60,6 +60,7 @@ public class TestController {
 	
 
 
+	@Autowired
 	private AchievementRepository achRepo;
 	@Autowired
 	private RedisService redisServ;

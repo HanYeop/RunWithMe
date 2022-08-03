@@ -1,7 +1,6 @@
 package com.ssafy.gumid101.crew.activity;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -18,10 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.dto.CrewBoardDto;
 import com.ssafy.gumid101.dto.CrewTotalRecordDto;
@@ -31,6 +27,7 @@ import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.res.CrewBoardFileDto;
+import com.ssafy.gumid101.res.GraphRecordDto;
 import com.ssafy.gumid101.res.RankingDto;
 import com.ssafy.gumid101.res.ResponseFrame;
 
@@ -117,6 +114,17 @@ public class CrewActivityRestController {
 
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
+	
+	@ApiOperation("크루내 내 그래프 데이터 받아오기(주의 : 크루의 자기 기록이 하루에 1개 또는 0개 있어야합니다. 같은 날 2개 이상 있으면 오류납니다.")
+	@GetMapping("/{crewSeq}/mygraphdata/{goalType}")
+	public ResponseEntity<?> getCrewMyGraphData(@PathVariable Long crewSeq, @PathVariable String goalType) throws Exception {
+		UserDto userDto = loadUserFromToken();
+		
+		List<GraphRecordDto> datas = crewActivityService.getCrewMyGraphData(userDto, crewSeq, goalType);
+		
+		return new ResponseEntity<>(ResponseFrame.of(datas, datas.size(), "크루 내 내 그래프 데이터를 받아옵니다."), HttpStatus.OK);
+	}
+	
 
 	@ApiOperation("크루내 내 통합 누적 기록 보기(미구현)")
 	@GetMapping("/{crewSeq}/my-total")
