@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.binding
 
+import CrewUserRankingAdapter
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -28,6 +29,9 @@ object RecyclerViewBinding {
                     }
                     is RunningListAdapter -> {
                         (view.adapter as ListAdapter<Any, *>).submitList(result.data.data as List<MyCurrentCrewResponse>)
+                    }
+                    is CrewUserRankingAdapter -> {
+                        (view.adapter as ListAdapter<Any, *>).submitList(result.data.data as List<RankingResponse>)
                     }
                     // 같은 형태로 추가하면 됨
                 }

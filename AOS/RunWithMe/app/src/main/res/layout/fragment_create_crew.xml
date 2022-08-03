@@ -431,8 +431,8 @@
 
                 <TextView
                     android:id="@+id/tv_max"
-                    android:layout_width="22dp"
-                    android:layout_height="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/noto_sans_bold"
                     android:includeFontPadding="false"

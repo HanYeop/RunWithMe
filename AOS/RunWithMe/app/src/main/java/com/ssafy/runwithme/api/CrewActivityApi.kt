@@ -5,6 +5,7 @@ import com.ssafy.runwithme.model.dto.CreateCrewBoardDto
 import com.ssafy.runwithme.model.dto.CrewBoardDto
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.response.CrewBoardResponse
+import com.ssafy.runwithme.model.response.RankingResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -43,4 +44,10 @@ interface CrewActivityApi {
 
     @DELETE("crew-activity/{crewSeq}/boards/{boardSeq}")
     suspend fun deleteCrewBoard(@Path("crewSeq") crewSeq: Int, @Path("boardSeq") boardSeq: Int) : BaseResponse<Boolean>
+
+    @GET("crew-activity/{crewSeq}/ranking")
+    suspend fun getCrewRanking(
+        @Path("crewSeq") crewSeq: Int,
+        @Query("type") rankingType : String
+    ) : BaseResponse<List<RankingResponse>>
 }

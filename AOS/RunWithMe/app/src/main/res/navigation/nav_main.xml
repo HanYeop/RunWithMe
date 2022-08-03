@@ -130,8 +130,8 @@
         android:label="CrewUserRankingFragment"
         tools:layout="@layout/fragment_crew_user_ranking">
         <argument
-            android:name="crewid"
-            app:argType="integer" />
+            android:name="crewdto"
+            app:argType="com.ssafy.runwithme.model.dto.CrewDto" />
     </fragment>
     <fragment
         android:id="@+id/crewBoardFragment"

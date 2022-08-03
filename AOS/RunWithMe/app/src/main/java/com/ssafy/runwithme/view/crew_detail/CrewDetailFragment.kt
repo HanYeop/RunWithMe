@@ -154,7 +154,7 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
             }
 
             layoutRanking.setOnClickListener {
-                val action = CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewUserRankingFragment(crewDto!!.crewSeq)
+                val action = CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewUserRankingFragment(crewDto!!)
                 findNavController().navigate(action)
             }
 

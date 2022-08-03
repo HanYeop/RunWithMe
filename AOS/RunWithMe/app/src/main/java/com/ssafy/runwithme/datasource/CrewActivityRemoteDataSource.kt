@@ -6,16 +6,17 @@ import com.ssafy.runwithme.model.dto.CreateCrewBoardDto
 import com.ssafy.runwithme.model.dto.CrewBoardDto
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.response.CrewBoardResponse
+import com.ssafy.runwithme.model.response.RankingResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class CrewBoardsDataSource @Inject constructor(
+class CrewActivityRemoteDataSource @Inject constructor(
     private val crewActivityApi: CrewActivityApi
 ){
 
-    fun getCrewBoardsTop3(crewSeq: Int, size: Int): Flow<BaseResponse<List<CrewBoardResponse>>> = flow {
-        emit(crewActivityApi.getCrewBoardsTop3(crewSeq, 0, size))
+    fun getCrewRanking(crewSeq: Int, type: String) : Flow<BaseResponse<List<RankingResponse>>> = flow {
+        emit(crewActivityApi.getCrewRanking(crewSeq, type))
     }
 
     fun createCrewBoard(crewSeq: Int, crewBoardDto: CreateCrewBoardDto): Flow<BaseResponse<CrewBoardResponse>> = flow {

@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="crewUserRankingVM"
+            type="com.ssafy.runwithme.view.crew_detail.ranking.CrewUserRankingViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,7 +54,7 @@
             android:layout_height="32dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:entries="@array/sort_options"
+            android:entries="@array/sort_options_in_crew"
             app:layout_constraintStart_toEndOf="@id/tv_sort_option"
             app:layout_constraintTop_toTopOf="@id/tv_sort_option"
             app:layout_constraintBottom_toBottomOf="@id/tv_sort_option"
@@ -66,7 +68,8 @@
             android:layout_marginBottom="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
-            tools:listitem="@layout/item_total_user_ranking"
+            tools:listitem="@layout/item_crew_ranking"
+            submitList="@{crewUserRankingVM.crewRanking}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/spinner_crew_ranking"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,106 +89,89 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_cardview"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginBottom="8dp"
+            android:paddingTop="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_my_ranking"
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
+            <TextView
+                android:id="@+id/tv_crew_ranking_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(crewUserRankingVM.myRanking.rankingIndex)}"
+                tools:text="1"
                 android:layout_marginStart="16dp"
-                android:backgroundTint="@color/light_grey"
+                android:fontFamily="@font/noto_sans_bold"
+                android:includeFontPadding="false"
+                android:textColor="@color/black_high_emphasis"
+                android:textSize="24sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_crew_ranking_profile"
+                android:layout_width="@dimen/ranking_profile_image_size"
+                android:layout_height="@dimen/ranking_profile_image_size"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="@id/tv_crew_ranking_num"
+                app:layout_constraintStart_toEndOf="@id/tv_crew_ranking_num"
+                app:layout_constraintTop_toTopOf="@id/tv_crew_ranking_num"
+                app:rankingProfileImage="@{crewUserRankingVM.myRanking.imgSeq}"
+                tools:src="@drawable/img" />
+
+            <TextView
+                android:id="@+id/tv_crew_ranking_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/noto_sans_bold"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@id/image_crew_ranking_profile"
+                app:layout_constraintTop_toTopOf="@id/image_crew_ranking_profile"
+                app:layout_constraintBottom_toBottomOf="@id/image_crew_ranking_profile"
+                tools:text="나"
+                android:text="@{crewUserRankingVM.myRanking.userName}"/>
+
+            <TextView
+                android:id="@+id/tv_crew_ranking_total_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp">
+                android:fontFamily="@font/noto_sans_bold"
+                android:textColor="@color/main_grey"
+                app:layout_constraintTop_toTopOf="@id/tv_crew_ranking_name"
+                app:layout_constraintBottom_toBottomOf="@id/tv_crew_ranking_name"
+                app:layout_constraintEnd_toStartOf="@id/tv_crew_ranking_total_type"
+                tools:text = "144.8"
+                app:unit="@{crewUserRankingVM.goalType}"
+                app:rankingValue="@{crewUserRankingVM.myRanking.rankingValue}" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_card_my_ranking"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:padding="8dp">
+            <TextView
+                android:id="@+id/tv_crew_ranking_total_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/noto_sans_bold"
+                android:textColor="@color/main_grey"
+                app:layout_constraintTop_toTopOf="@id/tv_crew_ranking_total_amount"
+                app:layout_constraintBottom_toBottomOf="@id/tv_crew_ranking_total_amount"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@{crewUserRankingVM.goalType}"
+                tools:text="km"/>
 
-                    <TextView
-                        android:id="@+id/tv_my_ranking_num"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="1"
-                        android:layout_marginStart="16dp"
-                        android:fontFamily="@font/noto_sans_bold"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/black_high_emphasis"
-                        android:textSize="32sp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/image_my_ranking_profile"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:background="@android:color/transparent"
-                        app:layout_constraintStart_toEndOf="@id/tv_my_ranking_num"
-                        app:layout_constraintTop_toTopOf="@id/tv_my_ranking_num"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_my_ranking_num"
-                        tools:src="@drawable/img" />
-
-                    <TextView
-                        android:id="@+id/tv_my_ranking_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:fontFamily="@font/noto_sans_bold"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/black_high_emphasis"
-                        android:textSize="24sp"
-                        app:layout_constraintStart_toEndOf="@id/image_my_ranking_profile"
-                        app:layout_constraintTop_toTopOf="@id/image_my_ranking_profile"
-                        app:layout_constraintBottom_toBottomOf="@id/image_my_ranking_profile"
-                        tools:text="나" />
-
-                    <TextView
-                        android:id="@+id/tv_my_ranking_total_amount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:fontFamily="@font/noto_sans_bold"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/black_medium_emphasis"
-                        app:layout_constraintTop_toTopOf="@id/tv_my_ranking_name"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_my_ranking_name"
-                        app:layout_constraintEnd_toStartOf="@id/tv_my_ranking_total_type"
-                        android:text="144.8" />
-
-                    <TextView
-                        android:id="@+id/tv_my_ranking_total_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:fontFamily="@font/noto_sans_bold"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/black_medium_emphasis"
-                        app:layout_constraintTop_toTopOf="@id/tv_my_ranking_name"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_my_ranking_name"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:text="km" />
-
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
