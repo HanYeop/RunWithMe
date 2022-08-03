@@ -26,19 +26,11 @@
             tools:text="24" />
 
         <View
-            android:id="@+id/view_run_record_first"
+            android:id="@+id/view_run_day"
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="16dp"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="18dp"
-            android:background="@color/main_purple" />
-
-        <View
-            android:id="@+id/view_run_record_second"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="4dp"
             android:background="@color/main_purple" />
 
     </FrameLayout>
