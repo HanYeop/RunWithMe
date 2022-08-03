@@ -110,4 +110,11 @@ object RemoteDataModule {
     fun provideTotalRankingApi(retrofit: Retrofit): TotalRankingApi {
         return retrofit.create(TotalRankingApi::class.java)
     }
+
+    // AchieveApi DI
+    @Provides
+    @Singleton
+    fun provideAchieveApi(retrofit: Retrofit): AchieveApi {
+        return retrofit.create(AchieveApi::class.java)
+    }
 }

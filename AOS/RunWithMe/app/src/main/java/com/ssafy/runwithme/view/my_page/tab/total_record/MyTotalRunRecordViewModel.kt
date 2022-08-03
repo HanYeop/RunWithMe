@@ -59,7 +59,6 @@ class MyTotalRunRecordViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             myActivityRepository.getMyRunRecord().collectLatest {
                 if(it is Result.Success){
-                    Log.d(TAG, "getMyRunRecord: $it")
                     _monthRunRecordList.value = it
                 }
                 else if(it is Result.Error) {
