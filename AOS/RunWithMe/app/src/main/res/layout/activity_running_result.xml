@@ -39,16 +39,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_crew_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_user_name"
             tools:srcCompat="@color/main_black" />
 
         <TextView
-            android:id="@+id/tv_crew_name"
+            android:id="@+id/tv_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/noto_sans_bold"
-            android:text="김크루"
+            tools:text="도날드 트럼프"
             android:textColor="@color/main_purple"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/tv_running_result_name"
@@ -202,12 +202,12 @@
             app:layout_constraintTop_toBottomOf="@+id/img_result" />
 
         <TextView
-            android:id="@+id/tv_user_name"
+            android:id="@+id/tv_crew_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/run_24"
             android:drawablePadding="4dp"
-            android:text="도날드 트럼프"
+            android:text="손 크루"
             android:textColor="@color/main_grey"
             app:layout_constraintEnd_toEndOf="@+id/img_result"
             app:layout_constraintTop_toTopOf="@+id/tv_time_start_end" />
