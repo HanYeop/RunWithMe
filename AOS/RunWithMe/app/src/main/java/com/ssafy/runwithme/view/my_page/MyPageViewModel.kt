@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.ssafy.runwithme.model.dto.ProfileEditDto
 import com.ssafy.runwithme.repository.MyActivityRepository
+import com.ssafy.runwithme.repository.UserRepository
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.SingleLiveEvent
 import com.ssafy.runwithme.utils.TAG
@@ -23,7 +24,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
-    private val myActivityRepository: MyActivityRepository
+    private val myActivityRepository: MyActivityRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val _imgSeq = MutableStateFlow(0)
@@ -49,6 +51,9 @@ class MyPageViewModel @Inject constructor(
 
     private val _editMsgEvent = SingleLiveEvent<String>()
     val editMsgEvent get() = _editMsgEvent
+
+    private val _logoutEvent = SingleLiveEvent<String>()
+    val logoutEvent get() = _logoutEvent
 
     fun getMyProfile(){
         viewModelScope.launch(Dispatchers.IO) {
@@ -87,6 +92,17 @@ class MyPageViewModel @Inject constructor(
                     }
                 } else if(it is Result.Error) {
                     _errorMsgEvent.postValue("프로필 수정에 실패했습니다.")
+                }
+            }
+        }
+    }
+
+    fun deleteFcmToken(){
+        viewModelScope.launch(Dispatchers.IO) {
+            userRepository.deleteFcmToken().collectLatest {
+                Log.d(TAG, "deleteFcmToken: $it")
+                if(it is Result.Success){
+                    _logoutEvent.postValue("로그아웃 완료")
                 }
             }
         }

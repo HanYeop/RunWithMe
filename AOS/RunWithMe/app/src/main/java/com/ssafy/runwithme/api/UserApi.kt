@@ -6,6 +6,7 @@ import com.ssafy.runwithme.model.dto.UserDto
 import com.ssafy.runwithme.model.response.JoinResponse
 import com.ssafy.runwithme.utils.JWT
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Header
 import retrofit2.http.POST
 
@@ -21,4 +22,7 @@ interface UserApi {
     suspend fun fcmToken(
         @Body fcmTokenDto: FcmTokenDto
     ): BaseResponse<String>
+
+    @DELETE("user/fcm-token")
+    suspend fun deleteFcmToken(): BaseResponse<String>
 }

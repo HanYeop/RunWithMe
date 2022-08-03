@@ -45,4 +45,19 @@ class UserRepository @Inject constructor(
     }.catch { e ->
         emit(Result.Error(e))
     }
+
+    fun deleteFcmToken(): Flow<Result<BaseResponse<String>>> = flow {
+        emit(Result.Loading)
+        userRemoteDataSource.deleteFcmToken().collect {
+            if(it.success){
+                emit(Result.Success(it))
+            }else if(!it.success){
+                emit(Result.Fail(it))
+            }else{
+                emit(Result.Empty)
+            }
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
 }

@@ -20,4 +20,8 @@ class UserRemoteDataSource @Inject constructor(
     fun fcmToken(fcmTokenDto: FcmTokenDto): Flow<BaseResponse<String>> = flow {
         emit(userApi.fcmToken(fcmTokenDto))
     }
+
+    fun deleteFcmToken(): Flow<BaseResponse<String>> = flow {
+        emit(userApi.deleteFcmToken())
+    }
 }
