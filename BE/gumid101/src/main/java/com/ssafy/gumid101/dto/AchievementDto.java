@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ssafy.gumid101.achievement.AchieveType;
 import com.ssafy.gumid101.entity.AchievementEntity;
 
 import io.swagger.annotations.ApiParam;
@@ -33,7 +34,7 @@ public class AchievementDto implements Serializable {
 
 	//
 	@ApiParam(value = "업적 형식")
-	private String achieveType;
+	private AchieveType achieveType;
 
 	@ApiParam(value = "업적 목표값")
 	private Double achieveValue;

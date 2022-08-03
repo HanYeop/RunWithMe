@@ -238,27 +238,27 @@ public class CrewServiceImpl implements CrewService {
 		List<AchievementEntity> achieveList = new ArrayList<>();
 		//achiveMentType
 		for(AchievementEntity nonAchieve : nonAchieveMents) {
-			if (nonAchieve.getAchieveType().equals(AchieveType.DISTANCE.getType())) {
+			if (nonAchieve.getAchieveType() == AchieveType.DISTANCE) {
 				if (nonAchieve.getAchiveValue() <= runRecordEntity.getRunRecordRunningDistance()) {
 					achieveList.add(nonAchieve);
 				}
 			}
-			else if (nonAchieve.getAchieveType().equals(AchieveType.TIME.getType())) {
+			else if (nonAchieve.getAchieveType() == AchieveType.TIME) {
 				if (nonAchieve.getAchiveValue() <= runRecordEntity.getRunRecordRunningTime()) {
 					achieveList.add(nonAchieve);
 				}
 			}
-			else if (nonAchieve.getAchieveType().equals(AchieveType.TOTALDISTANCE.getType())) {
+			else if (nonAchieve.getAchieveType() == AchieveType.TOTALDISTANCE) {
 				if (nonAchieve.getAchiveValue() <= userCrewTotalEntity.getTotalDistance()) {
 					achieveList.add(nonAchieve);
 				}
 			}
-			else if (nonAchieve.getAchieveType().equals(AchieveType.TOTALTIME.getType())) {
+			else if (nonAchieve.getAchieveType() == AchieveType.TOTALTIME) {
 				if (nonAchieve.getAchiveValue() <= userCrewTotalEntity.getTotalTime()) {
 					achieveList.add(nonAchieve);
 				}
 			}
-			else if (nonAchieve.getAchieveType().equals(AchieveType.RUNCOUNT.getType())) {
+			else if (nonAchieve.getAchieveType() == AchieveType.RUNCOUNT) {
 				if (nonAchieve.getAchiveValue() <= runCount) {
 					achieveList.add(nonAchieve);
 				}
