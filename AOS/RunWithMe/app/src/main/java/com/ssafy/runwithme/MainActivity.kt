@@ -5,24 +5,21 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.util.Log
 import android.view.View
 import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.ssafy.runwithme.base.BaseActivity
 import com.ssafy.runwithme.databinding.ActivityMainBinding
 import com.ssafy.runwithme.service.RunningService
 import com.ssafy.runwithme.utils.ACTION_SHOW_TRACKING_ACTIVITY
-import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.view.running.RunningActivity
 import dagger.hilt.android.AndroidEntryPoint
-import github.com.st235.lib_expandablebottombar.navigation.ExpandableBottomBarNavigationUI
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -111,7 +108,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private fun initNavigation() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
         navController = navHostFragment.navController
-        ExpandableBottomBarNavigationUI.setupWithNavController(binding.expandableBottomBar,navController)
+        binding.expandableBottomBar.apply {
+            setupWithNavController(navController)
+            background = null
+        }
 
         // TODO : 애니메이션 TEST
         navController.addOnDestinationChangedListener { _, destination, _ ->

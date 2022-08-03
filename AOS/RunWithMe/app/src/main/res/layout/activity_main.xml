@@ -7,37 +7,51 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        android:layout_height="match_parent">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container_view"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/bottom_navi_size"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_main"
-            app:layout_constraintBottom_toTopOf="@+id/expandable_bottom_bar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:navGraph="@navigation/nav_main" />
 
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottom_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:fabCradleMargin="5dp"
+            app:fabCradleRoundedCornerRadius="10dp">
 
-        <github.com.st235.lib_expandablebottombar.ExpandableBottomBar
+        <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/expandable_bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottom_navi_size"
             android:layout_gravity="bottom"
-            app:exb_items="@menu/menu_bottom_navi"
-            app:exb_notificationBadgeTextColor="@color/black"
-            app:layout_behavior="github.com.st235.lib_expandablebottombar.behavior.ExpandableBottomBarScrollableBehavior"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@android:color/transparent"
+            app:menu="@menu/menu_bottom_navi" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:maxImageSize="50dp"
+            app:tint="@color/white"
+            android:backgroundTint="@color/main_purple"
+            app:layout_anchor="@id/bottom_app_bar"
+            app:srcCompat="@drawable/run" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

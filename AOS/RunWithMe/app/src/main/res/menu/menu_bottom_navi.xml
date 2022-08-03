@@ -3,12 +3,15 @@
     <item android:id="@+id/HomeFragment"
         android:icon="@drawable/left_home"
         android:title="@string/menu_home"
-        app:exb_color="@color/mainColor"
         android:enabled="true"/>
+
+    <item android:id="@+id/blank"
+        android:title=""
+        android:enabled="false"/>
 
     <item android:id="@+id/MyPageFragment"
         android:icon="@drawable/left_my_page"
         android:title="@string/menu_my_page"
-        app:exb_color="@color/mainColor"
         android:enabled="true" />
+
 </menu>
