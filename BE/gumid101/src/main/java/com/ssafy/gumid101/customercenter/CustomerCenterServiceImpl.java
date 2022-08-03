@@ -183,18 +183,28 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 			lastPageIndex = 1;
 		}
 		int startPageIndex = ((currentPage-1)/pageNaviSize)*pageNaviSize +1;
+		int endPageIndex = startPageIndex + pageNaviSize -1;
+		int nextPageIndex = endPageIndex + 1;
+		int prevPageIndex = startPageIndex -1 ;
+		
+		if(endPageIndex > lastPageIndex) {
+			endPageIndex = lastPageIndex;
+		}
+		if(startPageIndex < 1) {
+			startPageIndex = 1;
+		}
 		
 		PagingParameter pagingParameter = new PagingParameter();
 		
 		pagingParameter.setCurrentPageIndex(currentPage);
 		pagingParameter.setLastPageIndex(lastPageIndex);
 		
-		pagingParameter.setEndPageIndex(0);
-		pagingParameter.setNextPageIndex(0);
+		pagingParameter.setEndPageIndex(endPageIndex);
+		pagingParameter.setNextPageIndex();
 		pagingParameter.setCurrentPageIndex(currentPage);		
 		pagingParameter.setPageNavSize(pageNaviSize);
 		pagingParameter.setPrevPageIndex(0);
-		pagingParameter.setStartPageIndex(0);
+		pagingParameter.setStartPageIndex(startPageIndex);
 	}
 
 }

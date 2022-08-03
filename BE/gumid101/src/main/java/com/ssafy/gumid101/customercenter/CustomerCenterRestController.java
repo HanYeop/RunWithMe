@@ -3,6 +3,8 @@ package com.ssafy.gumid101.customercenter;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.constraints.Min;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -27,6 +29,7 @@ import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.req.QuestionReqDto;
 import com.ssafy.gumid101.req.QuestionSelectParameter;
+import com.ssafy.gumid101.req.ReportSelectReqDto;
 import com.ssafy.gumid101.res.ResponseFrame;
 
 import io.swagger.annotations.Api;
@@ -56,7 +59,10 @@ public class CustomerCenterRestController {
 	// 신고글 조회
 	@ApiOperation("신고글 조회 (관리자)")
 	@GetMapping("/manager/reports")
-	public ResponseEntity<?> getReports() throws Exception{
+	public ResponseEntity<?> getReports(@RequestBody ReportSelectReqDto params) throws Exception{
+
+		customerCenterService.selectReportsByParam(params);
+		
 		
 		return null;
 	}

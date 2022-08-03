@@ -1,23 +1,18 @@
 package com.ssafy.gumid101.crew.manager;
 
 import java.time.LocalDateTime;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.validation.constraints.Min;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.gumid101.crew.CrewGoalType;
-import com.ssafy.gumid101.customercenter.ReportStatus;
 import com.ssafy.gumid101.dto.CrewDto;
 import com.ssafy.gumid101.dto.CrewSortType;
 import com.ssafy.gumid101.dto.ImageFileDto;
@@ -25,10 +20,8 @@ import com.ssafy.gumid101.dto.RecruitmentParamsDto;
 import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.ImageFileEntity;
 import com.ssafy.gumid101.entity.QCrewEntity;
-import com.ssafy.gumid101.entity.QReportEntity;
-import com.ssafy.gumid101.req.ReportSelectReqDto;
 import com.ssafy.gumid101.res.CrewFileDto;
-import com.ssafy.gumid101.res.ReportResDto;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
