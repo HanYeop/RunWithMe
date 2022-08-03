@@ -8,6 +8,7 @@ import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.datasource.MyActivityRemoteDataSource
 import com.ssafy.runwithme.datasource.paging.GetMyBoardsPagingSource
 import com.ssafy.runwithme.model.response.MyProfileResponse
+import com.ssafy.runwithme.model.response.MyRunRecordResponse
 import com.ssafy.runwithme.model.response.MyTotalBoardsResponse
 import com.ssafy.runwithme.model.response.MyTotalRecordResponse
 import com.ssafy.runwithme.utils.Result
@@ -24,6 +25,20 @@ class MyActivityRepository @Inject constructor(
     private val myActivityRemoteDataSource: MyActivityRemoteDataSource,
     private val myActivityApi: MyActivityApi
 ){
+    fun getMyRunRecord(month : Int, year : Int) : Flow<Result<BaseResponse<List<MyRunRecordResponse>>>> = flow {
+        emit(Result.Loading)
+        myActivityRemoteDataSource.getMyRunRecord(month, year).collect {
+            if(it.success){
+                emit(Result.Success(it))
+            } else {
+                emit(Result.Empty)
+            }
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
+
+
     fun getMyProfile(): Flow<Result<BaseResponse<MyProfileResponse>>> = flow {
         emit(Result.Loading)
         myActivityRemoteDataSource.getMyProfile().collect {
