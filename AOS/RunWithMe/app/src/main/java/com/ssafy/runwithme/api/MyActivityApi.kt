@@ -13,8 +13,8 @@ interface MyActivityApi {
 
     @GET("my-activity/activity")
     suspend fun getMyRunRecord(
-        @Query("month") month : Int,
-        @Query("year") year : Int
+        // @Query("month") month : Int,
+        // @Query("year") year : Int
     ) : BaseResponse<List<RunRecordDto>>
 
     @GET("my-activity/boards")

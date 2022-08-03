@@ -24,9 +24,9 @@ class MyActivityRepository @Inject constructor(
     private val myActivityRemoteDataSource: MyActivityRemoteDataSource,
     private val myActivityApi: MyActivityApi
 ){
-    fun getMyRunRecord(month : Int, year : Int) : Flow<Result<BaseResponse<List<RunRecordDto>>>> = flow {
+    fun getMyRunRecord() : Flow<Result<BaseResponse<List<RunRecordDto>>>> = flow {
         emit(Result.Loading)
-        myActivityRemoteDataSource.getMyRunRecord(month, year).collect {
+        myActivityRemoteDataSource.getMyRunRecord().collect {
             if(it.success){
                 emit(Result.Success(it))
             } else {

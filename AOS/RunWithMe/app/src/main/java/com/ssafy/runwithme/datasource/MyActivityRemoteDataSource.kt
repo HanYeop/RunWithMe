@@ -15,8 +15,8 @@ import javax.inject.Inject
 class MyActivityRemoteDataSource @Inject constructor(
     private val myActivityApi: MyActivityApi
 ){
-    fun getMyRunRecord(month : Int, year : Int) : Flow<BaseResponse<List<RunRecordDto>>> = flow{
-        emit(myActivityApi.getMyRunRecord(month, year))
+    fun getMyRunRecord() : Flow<BaseResponse<List<RunRecordDto>>> = flow{
+        emit(myActivityApi.getMyRunRecord())
     }
 
     fun getMyProfile(): Flow<BaseResponse<MyProfileResponse>> = flow {

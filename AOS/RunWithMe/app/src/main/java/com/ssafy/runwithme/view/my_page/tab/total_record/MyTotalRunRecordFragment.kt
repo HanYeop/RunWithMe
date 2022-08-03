@@ -29,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
@@ -38,35 +39,50 @@ import java.util.*
 class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R.layout.fragment_my_total_run_record) {
 
     private val myTotalRunRecordViewModel by viewModels<MyTotalRunRecordViewModel>()
-    private lateinit var monthRunRecordList : List<RunRecordDto>
+
+    private lateinit var totalRunRecordList : List<RunRecordDto>
+    private lateinit var dayRecord : Map<LocalDate, List<RunRecordDto>>
+    private val myTotalRunRecordAdapter = MyTotalRunRecordAdapter()
 
     private var selectedDate: LocalDate? = null
     private val monthTitleFormatter = DateTimeFormatter.ofPattern("MMMM")
-    private var month : Int = LocalDate.now().monthValue
-    private var year : Int = LocalDate.now().year
+    private var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+
+    // private var month : Int = LocalDate.now().monthValue
+    // private var year : Int = LocalDate.now().year
 
     override fun init() {
         myTotalRunRecordViewModel.getMyTotalRecord()
         binding.totalRunVM = myTotalRunRecordViewModel
 
-        Log.d(TAG, "init: $month $year")
-        myTotalRunRecordViewModel.getMyRunRecord(month, year)
+        myTotalRunRecordViewModel.getMyRunRecord()
 
-        initCalendar()
+        binding.recyclerCalendar.apply {
+            adapter = myTotalRunRecordAdapter
+            addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
+        }
 
         initViewModelCallBack()
+
+        // initCalendar()
     }
 
     private fun initViewModelCallBack(){
         myTotalRunRecordViewModel.errorMsgEvent.observe(viewLifecycleOwner){
             showToast(it)
         }
+
         lifecycleScope.launch {
             myTotalRunRecordViewModel.monthRunRecordList.collectLatest {
                 if(it is Result.Success){
-                    monthRunRecordList = it.data.data
-                    Log.d(TAG, "initCalendar: $monthRunRecordList")
-                    AA()
+                    totalRunRecordList = it.data.data
+
+                    dayRecord = totalRunRecordList.groupBy {
+                        val date : LocalDateTime = LocalDateTime.parse(it.runRecordStartTime, formatter)
+                        date.toLocalDate()
+                    }
+                    Log.d(TAG, "initCalendar: $dayRecord")
+                    initCalendar()
                 }
             }
         }
@@ -79,10 +95,6 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
 
     // 캘린더 처음부터 그리기
     private fun initCalendar(){
-        binding.recyclerCalendar.apply {
-            addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
-        }
-
         val daysOfWeek = daysOfWeekFromLocale()
         val currentMonth = YearMonth.now()
         binding.calendar.setup(currentMonth.minusMonths(10), currentMonth.plusMonths(10), daysOfWeek.first())
@@ -100,7 +112,7 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
                             val binding = this@MyTotalRunRecordFragment.binding
                             binding.calendar.notifyDateChanged(day.date)
                             oldDate?.let { binding.calendar.notifyDateChanged(it) }
-                            // updateAdapterForDate(day.date)
+                            updateAdapterForDate(day.date)
                         }
                     }
                 }
@@ -121,15 +133,10 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
                     textView.setTextColorRes(R.color.black_high_emphasis)
                     layout.setBackgroundResource(if (selectedDate == day.date) R.drawable.calendar_selected_bg else 0)
 
-                    // val flights = flights[day.date]
-//                    if (flights != null) {
-//                        if (flights.count() == 1) {
-//                            flightBottomView.setBackgroundColor(view.context.getColorCompat(flights[0].color))
-//                        } else {
-//                            flightTopView.setBackgroundColor(view.context.getColorCompat(flights[0].color))
-//                            flightBottomView.setBackgroundColor(view.context.getColorCompat(flights[1].color))
-//                        }
-//                    }
+                    val dayRecord = dayRecord[day.date]
+                    if (dayRecord == null) {
+                        runView.background = null
+                    }
                 } else {
                     textView.setTextColorRes(R.color.light_grey)
                     layout.background = null
@@ -167,7 +174,7 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
                 // Clear selection if we scroll to a new month.
                 selectedDate = null
                 binding.calendar.notifyDateChanged(it)
-                // updateAdapterForDate(null)
+                updateAdapterForDate(null)
             }
         }
 
@@ -184,6 +191,12 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
                 binding.calendar.smoothScrollToMonth(it.yearMonth.previous)
             }
         }
+    }
+
+    private fun updateAdapterForDate(date: LocalDate?) {
+        myTotalRunRecordAdapter.dayRecord.clear()
+        myTotalRunRecordAdapter.dayRecord.addAll(dayRecord[date].orEmpty())
+        myTotalRunRecordAdapter.notifyDataSetChanged()
     }
 
 }

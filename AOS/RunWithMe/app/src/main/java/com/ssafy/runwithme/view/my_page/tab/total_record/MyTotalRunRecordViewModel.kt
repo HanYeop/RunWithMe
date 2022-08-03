@@ -55,9 +55,9 @@ class MyTotalRunRecordViewModel @Inject constructor(
     val errorMsgEvent get() = _errorMsgEvent
 
 
-    fun getMyRunRecord(month : Int, year : Int){
+    fun getMyRunRecord(){
         viewModelScope.launch(Dispatchers.IO) {
-            myActivityRepository.getMyRunRecord(month, year).collectLatest {
+            myActivityRepository.getMyRunRecord().collectLatest {
                 if(it is Result.Success){
                     Log.d(TAG, "getMyRunRecord: $it")
                     _monthRunRecordList.value = it
