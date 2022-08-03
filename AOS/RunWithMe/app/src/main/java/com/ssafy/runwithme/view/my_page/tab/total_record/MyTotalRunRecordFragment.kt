@@ -1,55 +1,83 @@
 package com.ssafy.runwithme.view.my_page.tab.total_record
 
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import androidx.core.view.children
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.ssafy.runwithme.R
-import com.ssafy.runwithme.base.BaseFragment
-import com.ssafy.runwithme.databinding.FragmentMyTotalRunRecordBinding
-import dagger.hilt.android.AndroidEntryPoint
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.CalendarMonth
 import com.kizitonwose.calendarview.model.DayOwner
 import com.kizitonwose.calendarview.ui.DayBinder
 import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
 import com.kizitonwose.calendarview.ui.ViewContainer
+import com.kizitonwose.calendarview.utils.next
+import com.kizitonwose.calendarview.utils.previous
+import com.ssafy.runwithme.R
+import com.ssafy.runwithme.base.BaseFragment
+import com.ssafy.runwithme.databinding.FragmentMyTotalRunRecordBinding
 import com.ssafy.runwithme.databinding.MyCalendarDayBinding
 import com.ssafy.runwithme.databinding.MyCalendarHeaderBinding
+import com.ssafy.runwithme.model.response.MyRunRecordResponse
+import com.ssafy.runwithme.utils.Result
+import com.ssafy.runwithme.utils.TAG
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.*
-import androidx.core.view.children
-import com.kizitonwose.calendarview.utils.next
-import com.kizitonwose.calendarview.utils.previous
 
 @AndroidEntryPoint
 class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R.layout.fragment_my_total_run_record) {
 
     private val myTotalRunRecordViewModel by viewModels<MyTotalRunRecordViewModel>()
+    private lateinit var monthRunRecordList : List<MyRunRecordResponse>
+
     private var selectedDate: LocalDate? = null
     private val monthTitleFormatter = DateTimeFormatter.ofPattern("MMMM")
+    private var month : Int = LocalDate.now().monthValue
+    private var year : Int = LocalDate.now().year
 
     override fun init() {
         myTotalRunRecordViewModel.getMyTotalRecord()
         binding.totalRunVM = myTotalRunRecordViewModel
 
-        initViewModelCallBack()
+        Log.d(TAG, "init: $month $year")
+        myTotalRunRecordViewModel.getMyRunRecord(month, year)
 
         initCalendar()
+
+        initViewModelCallBack()
     }
 
     private fun initViewModelCallBack(){
         myTotalRunRecordViewModel.errorMsgEvent.observe(viewLifecycleOwner){
             showToast(it)
         }
+        lifecycleScope.launch {
+            myTotalRunRecordViewModel.monthRunRecordList.collectLatest {
+                if(it is Result.Success){
+                    monthRunRecordList = it.data.data
+                    Log.d(TAG, "initCalendar: ${monthRunRecordList}")
+                    AA()
+                }
+            }
+        }
     }
 
+    // 캘린더에 러닝 기록이 있는 날 색칠하기
+    private fun AA(){
+
+    }
+
+    // 캘린더 처음부터 그리기
     private fun initCalendar(){
         binding.recyclerCalendar.apply {
             addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
@@ -147,6 +175,7 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
 
         // 다음 달
         binding.imageNextMonth.setOnClickListener {
+            // TODO : 호출
             binding.calendar.findFirstVisibleMonth()?.let {
                 binding.calendar.smoothScrollToMonth(it.yearMonth.next)
             }

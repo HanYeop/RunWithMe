@@ -3,7 +3,9 @@ package com.ssafy.runwithme.view.my_page.tab.total_record
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ssafy.runwithme.model.response.MyTotalRecordResponse
+import com.ssafy.runwithme.base.BaseResponse
+import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
+import com.ssafy.runwithme.model.response.MyRunRecordResponse
 import com.ssafy.runwithme.repository.MyActivityRepository
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.SingleLiveEvent
@@ -21,6 +23,10 @@ import javax.inject.Inject
 class MyTotalRunRecordViewModel @Inject constructor(
     private val myActivityRepository: MyActivityRepository
 ) : ViewModel() {
+
+    private val _monthRunRecordList: MutableStateFlow<Result<BaseResponse<List<MyRunRecordResponse>>>>
+            = MutableStateFlow(Result.Uninitialized)
+    val monthRunRecordList get() = _monthRunRecordList.asStateFlow()
 
     private val _timeMin = MutableStateFlow("")
     val timeMin get() = _timeMin.asStateFlow()
@@ -49,11 +55,25 @@ class MyTotalRunRecordViewModel @Inject constructor(
     private val _errorMsgEvent = SingleLiveEvent<String>()
     val errorMsgEvent get() = _errorMsgEvent
 
+
+    fun getMyRunRecord(month : Int, year : Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            myActivityRepository.getMyRunRecord(month, year).collectLatest {
+                if(it is Result.Success){
+                    Log.d(TAG, "getMyRunRecord: $it")
+                    _monthRunRecordList.value = it
+                }
+                else if(it is Result.Error) {
+                    _errorMsgEvent.postValue("나의 월별 기록을 불러오는 중 오류가 발생했습니다.")
+                }
+            }
+        }
+    }
+
     fun getMyTotalRecord(){
         viewModelScope.launch(Dispatchers.IO) {
             myActivityRepository.getMyTotalRecord().collectLatest {
                 if(it is Result.Success){
-                    Log.d(TAG, "getMyTotalRecord: $it")
                     var min = it.data.data.totalTime / 60
                     var sec = it.data.data.totalTime % 60
                     _timeMin.value = min.toString()
