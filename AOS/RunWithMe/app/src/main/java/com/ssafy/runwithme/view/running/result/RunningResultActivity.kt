@@ -67,11 +67,6 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
                 runRecordSeq = it
             }
         }
-        lifecycleScope.launch {
-            runningViewModel.runImageSeq.collectLatest {
-                runImageSeq = it
-            }
-        }
     }
 
     private fun initResult(){
@@ -132,7 +127,7 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
                 finish()
             }
             btnRecommend.setOnClickListener {
-                CreateRecommendDialog(this@RunningResultActivity, createRecommendListener, runImageSeq).show()
+                CreateRecommendDialog(this@RunningResultActivity, createRecommendListener).show()
             }
         }
     }

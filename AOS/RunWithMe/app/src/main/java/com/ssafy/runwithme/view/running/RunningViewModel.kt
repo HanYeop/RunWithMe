@@ -36,9 +36,6 @@ class RunningViewModel @Inject constructor(
     private val _runRecordSeq = MutableStateFlow(0)
     val runRecordSeq get() = _runRecordSeq.asStateFlow()
 
-    private val _runImageSeq = MutableStateFlow(0)
-    val runImageSeq get() = _runImageSeq.asStateFlow()
-
     private val _runningCrewList: MutableStateFlow<Result<BaseResponse<List<MyCurrentCrewResponse>>>>
             = MutableStateFlow(Result.Uninitialized)
     val runningCrewList get() = _runningCrewList.asStateFlow()
@@ -54,7 +51,6 @@ class RunningViewModel @Inject constructor(
             crewRepository.createRunRecords(crewId, imgFile, run).collectLatest {
                 if(it is Result.Success){
                     _runRecordSeq.value = it.data.data.runRecordDto.runRecordSeq
-                    _runImageSeq.value = it.data.data.runRecordDto.runImageSeq
                 }
             }
         }
