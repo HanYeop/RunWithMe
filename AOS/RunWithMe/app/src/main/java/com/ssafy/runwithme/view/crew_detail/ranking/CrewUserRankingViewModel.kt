@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.view.crew_detail.ranking
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,6 +12,7 @@ import com.ssafy.runwithme.repository.TotalRankingRepository
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.SingleLiveEvent
 import com.ssafy.runwithme.utils.TAG
+import com.ssafy.runwithme.utils.USER
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CrewUserRankingViewModel @Inject constructor(
     private val crewActivityRepository: CrewActivityRepository,
-    private val totalRankingRepository: TotalRankingRepository,
+    private val sharedPreferences: SharedPreferences,
     private val myActivityRepository: MyActivityRepository
 ) : ViewModel() {
 
@@ -49,6 +51,8 @@ class CrewUserRankingViewModel @Inject constructor(
     private val _point = MutableStateFlow("")
     val point get() = _point.asStateFlow()
 
+    private val userSeq: Int = sharedPreferences.getString(USER, "0")!!.toInt()
+
 
     fun getCrewRanking(crewSeq: Int, type : String) {
         syncUnit(type)
@@ -57,23 +61,19 @@ class CrewUserRankingViewModel @Inject constructor(
             crewActivityRepository.getCrewRanking(crewSeq, type).collectLatest {
                 if(it is Result.Success){
                     _crewRanking.value = it
+                    getMyRanking(it.data.data)
                     Log.d(TAG, "getCrewRanking: $it")
                 } else if(it is Result.Error){
-                    _errorMsgEvent.postValue("전체 랭킹 불러오기 중 오류가 발생했습니다.")
+                    _errorMsgEvent.postValue("크루원 랭킹 불러오기 중 오류가 발생했습니다.")
                 }
             }
         }
     }
 
-    fun getMyRanking(type : String) {
-        syncUnit(type)
-        viewModelScope.launch(Dispatchers.IO) {
-            totalRankingRepository.getMyRanking(type).collectLatest {
-                if(it is Result.Success){
-                    _myRanking.value = it.data.data
-                } else if(it is Result.Error){
-                    _errorMsgEvent.postValue("내 랭킹 불러오기 중 오류가 발생했습니다.")
-                }
+    fun getMyRanking(rankingResponseList : List<RankingResponse>) {
+        for (rankingResponse in rankingResponseList) {
+            if(rankingResponse.userSeq == userSeq){
+                _myRanking.value = rankingResponse
             }
         }
     }
