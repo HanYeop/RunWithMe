@@ -9,6 +9,7 @@ import android.view.View
 import android.view.animation.AlphaAnimation
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.view.marginBottom
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -131,8 +132,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 if(binding.expandableBottomBar.visibility == View.GONE) {
                     val animation = AlphaAnimation(0f, 1f)
                     animation.duration = 500
-                    binding.expandableBottomBar.visibility = View.VISIBLE
-                    binding.expandableBottomBar.animation = animation
+
+                    binding.apply {
+                        expandableBottomBar.visibility = View.VISIBLE
+                        expandableBottomBar.animation = animation
+                        bottomAppBar.visibility = View.VISIBLE
+                        bottomAppBar.animation = animation
+                        floatingActionButton.visibility = View.VISIBLE
+                        floatingActionButton.animation = animation
+                        view.visibility = View.VISIBLE
+                        view.animation = animation
+                    }
                 }
             }
             // 바텀 네비게이션이 표시되지 않는 Fragment
@@ -140,8 +150,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 if(binding.expandableBottomBar.visibility == View.VISIBLE) {
                     val animation = AlphaAnimation(1f, 0f)
                     animation.duration = 500
-                    binding.expandableBottomBar.visibility = View.GONE
-                    binding.expandableBottomBar.animation = animation
+
+                    binding.apply {
+                        expandableBottomBar.visibility = View.GONE
+                        expandableBottomBar.animation = animation
+                        bottomAppBar.visibility = View.GONE
+                        bottomAppBar.animation = animation
+                        floatingActionButton.visibility = View.GONE
+                        floatingActionButton.animation = animation
+                        view.visibility = View.GONE
+                        view.animation = animation
+                    }
                 }
             }
         }
