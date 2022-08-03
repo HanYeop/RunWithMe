@@ -176,7 +176,6 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
 
         // 다음 달
         binding.imageNextMonth.setOnClickListener {
-            // TODO : 호출
             binding.calendar.findFirstVisibleMonth()?.let {
                 binding.calendar.smoothScrollToMonth(it.yearMonth.next)
             }

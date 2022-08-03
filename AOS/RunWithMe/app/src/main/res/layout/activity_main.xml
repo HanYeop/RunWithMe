@@ -71,6 +71,7 @@
             app:maxImageSize="50dp"
             app:tint="@color/white"
             android:backgroundTint="@color/main_purple"
+            app:backgroundTint="@color/main_purple"
             app:layout_anchor="@id/bottom_app_bar"
             app:srcCompat="@drawable/run" />
 
