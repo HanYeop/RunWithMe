@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/header_margin"
             android:layout_marginEnd="@dimen/header_margin"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="24dp"
             android:backgroundTint="@color/white"
             app:cardCornerRadius="6dp"
             app:cardElevation="4dp"
@@ -83,8 +83,8 @@
 
                 <ImageView
                     android:id="@+id/img_run_record"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
                     android:background="@drawable/image_round"
                     android:clipToOutline="true"
                     android:scaleType="fitXY"
@@ -130,13 +130,13 @@
                     android:id="@+id/tv_envir_point"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/main_black"
+                    android:layout_marginBottom="28dp"
                     android:fontFamily="@font/noto_sans_bold"
-                    android:layout_marginBottom="16dp"
+                    android:text="러닝 환경"
+                    android:textColor="@color/main_black"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/tv_hard_point"
-                    android:text="러닝 환경" />
+                    app:layout_constraintStart_toStartOf="@+id/tv_hard_point" />
 
                 <com.willy.ratingbar.ScaleRatingBar
                     android:id="@+id/rating_environment"
