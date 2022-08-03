@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,7 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 		return tokenUser;
 	}
 	
+	
 	@Override
 	public List<RunRecordDto> getCrewRecordList(RecordParamsDto recordParamsDto) {
 //2022-07-29 ### N+1 문제 발생
@@ -62,6 +64,7 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 		
 		return runRecordList;
 	}
+	
 	
 	@Override
 	public List<RunRecordDto> getMyRecordList(RecordParamsDto recordParamsDto) {

@@ -20,7 +20,9 @@ public class RedisServiceImpl implements RedisService{
 	
 	@Override
 	public Boolean getIsUseable(String key, Integer delayTime) throws Exception {
+		
 		ValueOperations<String, String> stringValueOperations = stringRedisTemplate.opsForValue();
+		
 		if (stringValueOperations.get(key) == null) {
 //			System.out.println("null이었음!");
 			stringValueOperations.set(key, "yet", delayTime, TimeUnit.SECONDS);

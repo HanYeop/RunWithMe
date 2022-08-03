@@ -153,7 +153,7 @@ public class CrewActivityRestController {
 		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDto writerUser = (UserDto) autentication.getPrincipal();
 		redisServ.getIsUseable(writerUser.getUserSeq().toString() + "writeCrewBoards", 5);
-
+		
 		ResponseFrame<CrewBoardFileDto> responseFrame = new ResponseFrame<>();
 		HttpStatus httpStatus = HttpStatus.OK;
 

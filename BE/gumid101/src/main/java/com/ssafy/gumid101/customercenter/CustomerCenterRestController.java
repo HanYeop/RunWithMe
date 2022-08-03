@@ -1,5 +1,7 @@
 package com.ssafy.gumid101.customercenter;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -22,6 +24,7 @@ import com.ssafy.gumid101.dto.ReportDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.req.QuestionReqDto;
+import com.ssafy.gumid101.req.QuestionSelectParameter;
 import com.ssafy.gumid101.res.ResponseFrame;
 
 import io.swagger.annotations.Api;
@@ -50,13 +53,12 @@ public class CustomerCenterRestController {
 	// 질문 글 조회
 	@ApiOperation("질문 글 조회 (관리자)")
 	@GetMapping("/manager/questions")
-	public ResponseEntity<?> getQuestions(QuestionReqDto params) throws Exception {
+	public ResponseEntity<?> getQuestions(QuestionSelectParameter params) throws Exception {
 
-		 customerCenterService.selectQuestion(params);
+		Map<String,Object> resultMap = customerCenterService.selectQuestion(params);
 		
-		
-		
-		return new ResponseEntity<>(null, HttpStatus.OK);
+		ResponseFrame<Map<String,Object> > res = ResponseFrame.of(resultMap, 0, "질문글과 페이징 정보를 반환합니다.");
+		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 	
 	// 질문글 답변
