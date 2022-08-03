@@ -1,6 +1,5 @@
 package com.ssafy.runwithme.view.my_page.tab.total_record
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.runwithme.base.BaseResponse
@@ -8,7 +7,6 @@ import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.repository.MyActivityRepository
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.SingleLiveEvent
-import com.ssafy.runwithme.utils.TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,8 +28,8 @@ class MyTotalRunRecordViewModel @Inject constructor(
     private val _timeMin = MutableStateFlow("")
     val timeMin get() = _timeMin.asStateFlow()
 
-    private val _timeSec = MutableStateFlow("")
-    val timeSec get() = _timeSec.asStateFlow()
+    private val _timeHour = MutableStateFlow("")
+    val timeSec get() = _timeHour.asStateFlow()
 
     private val _distance = MutableStateFlow("")
     val distance get() = _distance.asStateFlow()
@@ -39,8 +37,8 @@ class MyTotalRunRecordViewModel @Inject constructor(
     private val _longestTimeMin = MutableStateFlow("")
     val longestTimeMin get() = _longestTimeMin.asStateFlow()
 
-    private val _longestTimeSec = MutableStateFlow("")
-    val longestTimeSec get() = _longestTimeSec.asStateFlow()
+    private val _longestTimeHour = MutableStateFlow("")
+    val longestTimeSec get() = _longestTimeHour.asStateFlow()
 
     private val _longestDistance = MutableStateFlow("")
     val longestDistance get() = _longestDistance.asStateFlow()
@@ -72,18 +70,18 @@ class MyTotalRunRecordViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             myActivityRepository.getMyTotalRecord().collectLatest {
                 if(it is Result.Success){
+                    var hour = it.data.data.totalTime / 3600
                     var min = it.data.data.totalTime / 60
-                    var sec = it.data.data.totalTime % 60
+                    _timeHour.value = hour.toString()
                     _timeMin.value = min.toString()
-                    _timeSec.value = sec.toString()
 
-                    val df = DecimalFormat("###0.000")
+                    val df = DecimalFormat("###0.0")
                     _distance.value = df.format((it.data.data.totalDistance / 1000f))
 
+                    hour = it.data.data.totalLongestDistance / 3600
                     min = it.data.data.totalLongestTime / 60
-                    sec = it.data.data.totalLongestDistance % 60
+                    _longestTimeHour.value = hour.toString()
                     _longestTimeMin.value = min.toString()
-                    _longestTimeSec.value = sec.toString()
 
                     _longestDistance.value = df.format((it.data.data.totalLongestDistance / 1000f)).toString()
 
