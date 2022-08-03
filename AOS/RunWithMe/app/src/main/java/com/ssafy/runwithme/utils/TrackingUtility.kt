@@ -47,7 +47,7 @@ class TrackingUtility {
 
         // 거리 표시 형식
         fun getFormattedDistance(dis: Float): String {
-            val df = DecimalFormat("###0.000")
+            val df = DecimalFormat("###0.00")
             return df.format((dis / 1000f))
         }
     }
