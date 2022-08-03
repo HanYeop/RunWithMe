@@ -19,17 +19,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.gumid101.dto.LatLngParamsDto;
 import com.ssafy.gumid101.dto.TrackBoardDto;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.res.ResponseFrame;
 import com.ssafy.gumid101.res.TrackBoardFileDto;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/recommend")
+@Api(tags = "장소 추천 게시판")
 public class RecommendRestController {
 	private final RecommendService recommendService;
+	private final RedisService redisServ;
 
 	/**
 	 * 토큰으로 부터 유저 DTO 로드
@@ -65,6 +69,7 @@ public class RecommendRestController {
 			responseFrame.setCount(0);
 			responseFrame.setSuccess(false);
 			responseFrame.setMsg(e.getMessage());
+			return new ResponseEntity<>(responseFrame, httpStatus);
 		}
 		
 		if (trackBoardFileDtoList != null) {
@@ -78,8 +83,9 @@ public class RecommendRestController {
 	
 	@ApiOperation(value = "장소 추천 게시판에 자신의 기록을 등록함 (난이도, 주변환경 별점은 없거나 0 ~ 5의 정수)")
 	@PostMapping("/board")
-	public ResponseEntity<?> writeRecommend(@RequestParam Long run_record_seq, @RequestParam(required = true) Integer hard_point, @RequestParam(required = true) Integer environment_point){
+	public ResponseEntity<?> writeRecommend(@RequestParam Long run_record_seq, @RequestParam(required = true) Integer hard_point, @RequestParam(required = true) Integer environment_point) throws Exception{
 		UserDto userDto = loadUserFromToken();
+		redisServ.getIsUseable(run_record_seq + "recommend", 10);
 		
 		HttpStatus httpStatus = HttpStatus.OK;
 		
@@ -92,6 +98,7 @@ public class RecommendRestController {
 			responseFrame.setCount(0);
 			responseFrame.setSuccess(false);
 			responseFrame.setMsg(e.getMessage());
+			return new ResponseEntity<>(responseFrame, httpStatus);
 		}
 		
 		if (trackBoardDto != null) {

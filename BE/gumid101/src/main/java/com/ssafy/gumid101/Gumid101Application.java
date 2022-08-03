@@ -1,21 +1,26 @@
 package com.ssafy.gumid101;
 
-import java.time.ZoneId;
 import java.util.TimeZone;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
+@EnableBatchProcessing
 @SpringBootApplication
 public class Gumid101Application {
 
+	@PostConstruct
 	public void setTimeZone() {
 		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
 	}
-	public static void main(String[] args) {
-		System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
 
+	public static void main(String[] args) {
+
+		System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
 		SpringApplication.run(Gumid101Application.class, args);
 	}
 

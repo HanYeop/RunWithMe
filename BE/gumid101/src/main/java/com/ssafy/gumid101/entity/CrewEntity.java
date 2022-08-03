@@ -74,12 +74,15 @@ public class CrewEntity {
 	
 	@Column(nullable = true, name="crew_cost")
 	private Integer crewCost; //크루 참가비
-	
+
 	@Column(nullable = false, name="crew_max_member")
 	private Integer crewMaxMember; //참가인원
 	
+	@Column(nullable = true, name="crew_check_yn")
+	private String crewCheckYn; // 참가비 분배 완료 여부
+	
 	@JoinColumn(name = "img_seq")
-	@OneToOne(orphanRemoval = true)
+	@OneToOne(orphanRemoval = true,fetch = FetchType.LAZY)
 	private ImageFileEntity imageFile;
 	
 	@ManyToOne(fetch = FetchType.EAGER)

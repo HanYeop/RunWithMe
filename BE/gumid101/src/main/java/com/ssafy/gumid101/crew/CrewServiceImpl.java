@@ -3,6 +3,7 @@ package com.ssafy.gumid101.crew;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,11 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.achievement.AchieveType;
+import com.ssafy.gumid101.achievement.AchievementCompleteRepository;
 import com.ssafy.gumid101.achievement.AchievementRepository;
 import com.ssafy.gumid101.aws.S3FileService;
 import com.ssafy.gumid101.crew.manager.CrewManagerRepository;
+import com.ssafy.gumid101.crew.manager.CrewManagerService;
 import com.ssafy.gumid101.customexception.CrewNotFoundException;
 import com.ssafy.gumid101.customexception.CrewPermissonDeniedException;
+import com.ssafy.gumid101.customexception.IllegalParameterException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.customexception.PasswrodNotMatchException;
 import com.ssafy.gumid101.dto.AchievementDto;
@@ -24,6 +28,7 @@ import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.entity.AchievementCompleteEntity;
 import com.ssafy.gumid101.entity.AchievementEntity;
 import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.CrewTotalRecordEntity;
@@ -33,6 +38,7 @@ import com.ssafy.gumid101.entity.UserCrewJoinEntity;
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.imgfile.ImageDirectory;
 import com.ssafy.gumid101.imgfile.ImageFileRepository;
+import com.ssafy.gumid101.req.PasswordDto;
 import com.ssafy.gumid101.res.CrewUserDto;
 import com.ssafy.gumid101.res.RunRecordResultDto;
 import com.ssafy.gumid101.user.UserRepository;
@@ -47,6 +53,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CrewServiceImpl implements CrewService {
 
 	private final CrewManagerRepository crewManagerRepo;
+	private final CrewManagerService crewManagerServ;
 	private final UserCrewJoinRepository ucJoinRepo;
 	private final UserRepository userRepo;
 	private final UserCrewRunRecordRepository userCrewTotalRunRepo;// (유저,크루) 누적
@@ -54,13 +61,18 @@ public class CrewServiceImpl implements CrewService {
 	private final S3FileService s3FileService;
 	private final ImageFileRepository imageRepo;
 	private final AchievementRepository achiveRepo;
+	private final AchievementCompleteRepository accRepo;
 	
 	@Transactional
 	@Override
-	public CrewUserDto joinCrew(Long userSeq, Long crewSeq, String password) throws Exception {
+	public CrewUserDto joinCrew(Long userSeq, Long crewSeq, Optional<PasswordDto> passwordDto) throws Exception {
 
 		CrewEntity crew = crewManagerRepo.findById(crewSeq)
 				.orElseThrow(() -> new CrewNotFoundException("크루 가입 중, 크루를 특정할 수 없습니다."));
+		
+		if (crewManagerServ.isUserCrewMember(userSeq, crewSeq)) {
+			throw new CrewPermissonDeniedException("이미 해당 크루원입니다.");
+		}
 
 		// 인원수 체크
 		if (ucJoinRepo.findAllByCrewEntity(crew).size() >= crew.getCrewMaxMember()) {
@@ -75,12 +87,19 @@ public class CrewServiceImpl implements CrewService {
 		}
 		user.setPoint(user.getPoint() - crew.getCrewCost());
 
+		String password = null;
+		if(passwordDto.isPresent()) {
+			password = passwordDto.get().getPassword();
+		}
 		// 패스워드 체크
 		if (Strings.hasLength(crew.getCrewPassword())) {
-			if (crew.getCrewPassword().compareTo(password) != 0) {
+			if ( password == null|| crew.getCrewPassword().compareTo(password) != 0) {
 				throw new PasswrodNotMatchException("크루 패스워드 불일치");
 			}
 		}
+		
+		//이미 가입 뭐시기
+		
 
 		UserCrewJoinEntity ucjEntity = UserCrewJoinEntity.builder().build();
 		ucjEntity.setCrewEntity(crew);
@@ -101,14 +120,30 @@ public class CrewServiceImpl implements CrewService {
 	@Transactional
 	@Override
 	public RunRecordResultDto insertUserRunRecordAsCrew(Long userSeq, Long crewId, RunRecordDto runRecordDto, MultipartFile imgFile) throws Exception {
-		// TODO Auto-generated method stub
-
-		if (runRecordDto.getRunRecordRunningTime() == null || runRecordDto.getRunRecordRunningTime() == 0) {
-			throw new Exception("달린 시간이 0인 기록은 저장할 수 없습니다.");
+		if (imgFile == null) {
+			throw new IllegalParameterException("저장할 경로 사진이 필요합니다.");
 		}
-		 UserEntity userEntity =  userRepo.findById(userSeq).orElseThrow(()->new NotFoundUserException("러닝 완료 중, 유저를 특정할 수 없습니다."));
+		if (runRecordDto.getRunRecordRunningTime() == null || runRecordDto.getRunRecordRunningTime() == 0) {
+			throw new IllegalParameterException("달린 시간이 0인 기록은 저장할 수 없습니다.");
+		}
+		UserEntity userEntity =  userRepo.findById(userSeq).orElseThrow(()->new NotFoundUserException("러닝 완료 중, 유저를 특정할 수 없습니다."));
 		CrewEntity crewEntity =  crewManagerRepo.findById(crewId).orElseThrow(()->new CrewNotFoundException("러닝 완료 중 , 크루를 특정할 수 없습니다."));
-		
+
+		if (crewEntity.getCrewDateStart().isAfter(runRecordDto.getRunRecordStartTime()) || crewEntity.getCrewDateEnd().isBefore(runRecordDto.getRunRecordStartTime())) {
+			throw new CrewPermissonDeniedException("크루 활동 기간이 아닐 때의 기록입니다.");
+		}
+		if (crewEntity.getCrewTimeStart().isAfter(runRecordDto.getRunRecordStartTime().toLocalTime()) || crewEntity.getCrewTimeEnd().isBefore(runRecordDto.getRunRecordStartTime().toLocalTime())) {
+			throw new CrewPermissonDeniedException("크루 활동 시간이 아닐 때의 기록입니다.");
+		}
+		List<RunRecordEntity> myToday = null;
+		try{
+			 myToday = runRecordRepo.findByUserEntityAndCrewEntityAndRunRecordStartTimeBetween(userEntity, crewEntity, runRecordDto.getRunRecordStartTime().withHour(0).withMinute(0).withSecond(0), runRecordDto.getRunRecordStartTime().withHour(23).withMinute(59).withSecond(59));
+		} catch (Exception e) {
+			throw new CrewPermissonDeniedException("기록 조회에 실패했습니다.");
+		}
+		if (myToday != null && myToday.size() > 0){
+			throw new CrewPermissonDeniedException("이미 오늘자 기록이 존재합니다.");
+		}
 		// 1.크루 런레코드 테이블에 저장
 		// runRecordRepo
 		RunRecordEntity runRecord = RunRecordEntity.builder()
@@ -197,38 +232,44 @@ public class CrewServiceImpl implements CrewService {
 	private List<AchievementDto> getNewCompleteAchiveMent(UserEntity userEntity, CrewTotalRecordEntity userCrewTotalEntity, RunRecordEntity runRecordEntity) {
 
 		
-//		Integer runCount = runRecordRepo.findByUserEntity(userEntity).size();
+		Long runCount = runRecordRepo.countByUserEntity(userEntity);
 		
 		List<AchievementEntity> nonAchieveMents =  achiveRepo.findNotAchivement(userEntity);
 		List<AchievementEntity> achieveList = new ArrayList<>();
 		//achiveMentType
 		for(AchievementEntity nonAchieve : nonAchieveMents) {
-			if (nonAchieve.getAchieveType().equals(AchieveType.DISTANCE)) {
+			if (nonAchieve.getAchieveType().equals(AchieveType.DISTANCE.getType())) {
 				if (nonAchieve.getAchiveValue() <= runRecordEntity.getRunRecordRunningDistance()) {
 					achieveList.add(nonAchieve);
 				}
 			}
-			else if (nonAchieve.getAchieveType().equals(AchieveType.TIME)) {
+			else if (nonAchieve.getAchieveType().equals(AchieveType.TIME.getType())) {
 				if (nonAchieve.getAchiveValue() <= runRecordEntity.getRunRecordRunningTime()) {
 					achieveList.add(nonAchieve);
 				}
 			}
-			else if (nonAchieve.getAchieveType().equals(AchieveType.TOTALDISTANCE)) {
+			else if (nonAchieve.getAchieveType().equals(AchieveType.TOTALDISTANCE.getType())) {
 				if (nonAchieve.getAchiveValue() <= userCrewTotalEntity.getTotalDistance()) {
 					achieveList.add(nonAchieve);
 				}
 			}
-			else if (nonAchieve.getAchieveType().equals(AchieveType.TOTALTIME)) {
+			else if (nonAchieve.getAchieveType().equals(AchieveType.TOTALTIME.getType())) {
 				if (nonAchieve.getAchiveValue() <= userCrewTotalEntity.getTotalTime()) {
 					achieveList.add(nonAchieve);
 				}
 			}
-//			else if (nonAchieve.getAchieveType().equals(AchieveType.RUNCOUNT)) {
-//				if (nonAchieve.getAchiveValue() <= runCount + 1) {
-//					achieveList.add(nonAchieve);
-//				}
-//			}
+			else if (nonAchieve.getAchieveType().equals(AchieveType.RUNCOUNT.getType())) {
+				if (nonAchieve.getAchiveValue() <= runCount) {
+					achieveList.add(nonAchieve);
+				}
+			}
 		}
+		accRepo.saveAll(achieveList.stream().map((entity) -> AchievementCompleteEntity.builder()
+				.achieveCompleteRegTime(LocalDateTime.now())
+				.achieveEntity(entity)
+				.userEntity(userEntity)
+				.build())
+				.collect(Collectors.toList()));
 		return achieveList.stream().map((entity) -> AchievementDto.of(entity)).collect(Collectors.toList());
 	}
 

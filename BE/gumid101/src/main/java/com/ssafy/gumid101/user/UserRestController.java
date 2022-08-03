@@ -9,7 +9,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,10 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.gumid101.customexception.DuplicateException;
+import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.jwt.JwtProperties;
 import com.ssafy.gumid101.jwt.JwtUtilsService;
+import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.res.ResponseFrame;
+import com.ssafy.gumid101.res.UserFileDto;
+import com.ssafy.gumid101.util.Nickname;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,6 +42,7 @@ public class UserRestController {
 
 	private final JwtUtilsService jwtUtilService;
 	private final UserService userService;
+	private final RedisService redisServ;
 	
 	private UserDto loadUserFromToken() {
 		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
@@ -83,8 +87,8 @@ public class UserRestController {
 
 		if(result.hasErrors()) {
 			log.warn(result.getAllErrors().toString()); ;
-			
 		}
+		redisServ.getIsUseable(userDto.getEmail() + "setProfile", 10);
 		
 		log.debug("초기 프로필 설정 진입 : 몸무게:{},키 : {}, 닉네임 :{}", userDto.getWeight(), userDto.getHeight(),
 				userDto.getNickName());
@@ -95,18 +99,26 @@ public class UserRestController {
 
 		userDto.setEmail(tokenUser.getEmail());
 
-		UserDto savedDto = userService.setMyProfile(userDto);
-
 		ResponseFrame<Map<String, Object>> responseMap = new ResponseFrame<Map<String, Object>>();
-
+		
 		HashMap<String, Object> dataMap = new HashMap<String, Object>();
-
+		
 		HttpStatus httpStatus = HttpStatus.OK;
 
+		if (!Nickname.nickOk(userDto.getNickName())) {
+			responseMap.setData(dataMap);
+			responseMap.setCount(0);
+			responseMap.setSuccess(false);
+			responseMap.setMsg("닉네임을 입력하지 않았거나 규칙을 위반했습니다.");
+			return new ResponseEntity<>(responseMap, httpStatus);
+		}
+		UserDto savedDto = userService.setMyProfile(userDto);
+
+
 		if (savedDto == null) {
-			httpStatus = HttpStatus.CONFLICT;
+			httpStatus = HttpStatus.OK;
 			dataMap.put(JwtProperties.JWT_ACESS_NAME, "");
-			dataMap.put("user", savedDto);
+			dataMap.put("userSeq", -1);
 			responseMap.setCount(0);
 			responseMap.setSuccess(false);
 			responseMap.setData(dataMap);
@@ -114,7 +126,7 @@ public class UserRestController {
 		} else {
 			String token = jwtUtilService.createToken(savedDto);
 			dataMap.put(JwtProperties.JWT_ACESS_NAME, token);
-			dataMap.put("user", savedDto);
+			dataMap.put("userSeq", savedDto.getUserSeq());
 			responseMap.setData(dataMap);
 			responseMap.setCount(1);
 			responseMap.setSuccess(true);
@@ -124,13 +136,27 @@ public class UserRestController {
 		return new ResponseEntity<>(responseMap, httpStatus);
 	}
 	
+	@ApiOperation(value = "다른 유저 회원 정보 조회 (일단 만들어놓고 추후 협의로 어떤정보 줄지 결정)")
+	@GetMapping("/profile/{userNickName}")
+	public ResponseEntity<?> getUserProfile(@PathVariable String userNickName) throws Exception {
+
+		UserFileDto resUserDto = userService.getUserProfileByNickname(userNickName);
+		
+		ResponseFrame<UserFileDto> resFrame = new ResponseFrame<UserFileDto>();
+		resFrame.setCount(resUserDto == null ? 0 : 1);
+		resFrame.setSuccess(resUserDto == null ? false : true);
+		resFrame.setMsg("회원의 정보를 반환합니다.");
+		resFrame.setData(resUserDto);
+		return new ResponseEntity<>(resFrame, resUserDto != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+	}
+	
 	@ApiOperation("fcm 토큰 설정")
-	@PostMapping()
+	@PostMapping("/fcm-token")
 	public ResponseEntity<?> setMyFcmToken(@ApiParam("{fcmToken:\"값\"}") @RequestBody Map<String,String> body)throws Exception{
 		
 		
 		UserDto userDto= loadUserFromToken();
-		
+		log.info(body.get("fcmToken"));
 		boolean result =  userService.setUserFcmToken(userDto.getUserSeq(),body.get("fcmToken"));
 		
 
@@ -138,7 +164,7 @@ public class UserRestController {
 	}
 	
 	@ApiOperation("fcm 토큰 삭제")
-	@DeleteMapping()
+	@DeleteMapping("/fcm-token")
 	public ResponseEntity<?> deleteMyFcmToken() throws Exception{
 		
 		UserDto userDto= loadUserFromToken();
@@ -147,29 +173,15 @@ public class UserRestController {
 		return new ResponseEntity<>(ResponseFrame.of(result, "FCM 토큰이 정상적으로 삭제되었습니다."), HttpStatus.OK);
 	}
 
-	
-	
-	@ExceptionHandler(DuplicateException.class)
-	public ResponseEntity<?> duplicationExceptionHandle(DuplicateException de) {
-		ResponseFrame<String> responseFrame = new ResponseFrame<String>();
-
-		responseFrame.setCount(1);
-		responseFrame.setSuccess(false);
-		responseFrame.setData(de.getMessage());
-
-		return new ResponseEntity<>(responseFrame, HttpStatus.CONFLICT);
-	}
-	
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<?> catchAllException(Exception e)
-	{
-		ResponseFrame<String> responseFrame = new ResponseFrame<String>();
-
-		responseFrame.setCount(0);
-		responseFrame.setSuccess(false);
-		responseFrame.setData(e.getMessage());
-
-		return new ResponseEntity<>(responseFrame, HttpStatus.BAD_REQUEST);
+	@DeleteMapping("/exit")
+	public ResponseEntity<?> deleteMyAccount() throws Exception{
+		
+		UserDto userDto =  loadUserFromToken();
+		
+		boolean result = userService.deleteMyAccount(userDto.getUserSeq());
+		
+		String msg = result == true ? "정상적으로 회원탈퇴 되었습니다." :"회원탈퇴를 실패하였습니다. 다시 시도해주세요.";
+		return new ResponseEntity<>(ResponseFrame.of(result,msg), HttpStatus.OK);
 	}
 	
 }

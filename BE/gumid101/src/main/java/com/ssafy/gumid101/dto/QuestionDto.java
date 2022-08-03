@@ -2,7 +2,7 @@ package com.ssafy.gumid101.dto;
 
 import java.io.Serializable;
 
-import com.ssafy.gumid101.customercenter.QuestStatus;
+import com.ssafy.gumid101.customercenter.QuestionStatus;
 import com.ssafy.gumid101.entity.QuestionEntity;
 
 import io.swagger.annotations.ApiParam;
@@ -28,14 +28,17 @@ public class QuestionDto implements Serializable {
 	@ApiParam(value = "질문 내용")
 	private String questionContent;
 	
+	@ApiParam(value="질문 제목")
+	private String questionTitle;
 	
 	@ApiParam(value = "질문 처리상황")
-	private QuestStatus questionStatus;
+	private QuestionStatus questionStatus;
 	
 	public static QuestionDto of(QuestionEntity question) {
 		if(question == null)
 			return null;
 		return new QuestionDtoBuilder()
+				.questionTitle(question.getQuestionTitle())
 				.questionSeq(question.getQuestionSeq())
 				.questionContent(question.getQuestionContent())
 				.questionStatus(question.getQuestionStatus())

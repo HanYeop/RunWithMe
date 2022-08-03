@@ -1,13 +1,11 @@
 package com.ssafy.gumid101.totalranking;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.types.Projections;
@@ -55,14 +53,13 @@ public class CrewTotalRecordCustomRepositoryImpl implements CrewTotalRecordCusto
 		}
 
 		List<RankingDto> rankings = jpaQueryFactory.from(crewTotal)
-				
+
 				.select(Projections.fields(RankingDto.class, userEntity.nickName.as("userName"),
-						userEntity.userSeq.as("userSeq"), typeField.as("rankingValue"),imgEntity.imgSeq.coalesce(0L).as("imgSeq")))
-				.leftJoin(crewTotal.userEntity,userEntity)
-				.leftJoin(userEntity.imageFile,imgEntity)
-				.groupBy(userEntity.userSeq).orderBy(typeField.desc(),userEntity.userSeq.asc())
-				.offset(offset).limit(offset + size)
-				.fetch();
+						userEntity.userSeq.as("userSeq"), typeField.as("rankingValue"),
+						imgEntity.imgSeq.coalesce(0L).as("imgSeq")))
+				.leftJoin(crewTotal.userEntity, userEntity).leftJoin(userEntity.imageFile, imgEntity)
+				.groupBy(userEntity.userSeq).orderBy(typeField.desc(), userEntity.userSeq.asc()).offset(offset)
+				.limit(offset + size).fetch();
 
 		for (int i = offset.intValue(); i < rankings.size() + offset.intValue(); i++) {
 			rankings.get(i).setRankingIndex(i + 1);
@@ -82,19 +79,15 @@ public class CrewTotalRecordCustomRepositoryImpl implements CrewTotalRecordCusto
 			return getMyRankingPost(userSeq);
 		} else {
 			System.out.println("에러 잡아주세요.TotalRankingRestController 기능의 CrewTotalRecordCustom Repository");
+			return null;
 		}
 
-		String sql = "select subr2.*,user_nickname,t_img.img_seq as img_seq FROM " + "(SELECT "
-				+ "ranking,total_calorie, total_distance, total_longest_distance, total_longest_time, total_record_reg_time, total_time, crew_seq, user_seq "
-				+ "FROM ( "
-				+ String.format(
-						"SELECT ROW_NUMBER() OVER (order by %s DESC,user_seq ASC) as ranking,tct.* FROM t_crew_total_record as tct GROUP BY user_seq ",
-						targetField)
-				+ ") as subr " + "where subr.user_seq = ? " + ") as subr2 " 
-						+ "inner join t_user as t_user "
-				+ "on t_user.user_seq = subr2.user_seq "
-				+ "inner join t_img " + 
-				"on t_img.img_seq = t_user.img_seq ";
+		String sql = "select ranking,targetField,subr2.user_seq as user_seq,user_nickname,t_user.img_seq as img_seq FROM  "
+				+ "(SELECT ranking, user_seq,targetField " + "FROM ( "
+				+ String.format("	SELECT ROW_NUMBER() OVER (order by sum(%s) DESC,user_seq ASC) as ranking,user_seq,sum(%s) as targetField FROM",targetField,targetField )
+				+ "	t_crew_total_record as tct GROUP BY user_seq "
+				+ ") as subr   where subr.user_seq =  ?" + "    ) as subr2 " + "   inner join t_user "
+				+ "	on t_user.user_seq = subr2.user_seq ;";
 
 		try {
 			Map<String, Object> resultMap = jdbcTemplate.queryForMap(sql, userSeq);
@@ -102,12 +95,15 @@ public class CrewTotalRecordCustomRepositoryImpl implements CrewTotalRecordCusto
 			myRanking = new RankingDto();
 
 			myRanking.setRankingIndex(((BigInteger) resultMap.get("ranking")).intValue());
-			myRanking.setRankingValue((Integer) resultMap.get(targetField));
+			myRanking.setRankingValue(((BigDecimal) resultMap.get("targetField")).intValue());
 			myRanking.setUserName((String) resultMap.get("user_nickname"));
 			myRanking.setUserSeq((Long) resultMap.get("user_seq"));
-			myRanking.setImgSeq((Long)resultMap.get("img_seq"));
-		}catch (Exception e) {
-			log.info("전체 랭킹 조회,거리,시간 조회 쿼리에서의 익셉션 : "+e.getMessage());
+			myRanking.setImgSeq((Long) resultMap.get("img_seq"));
+			if(myRanking.getImgSeq() == null) {
+				myRanking.setImgSeq(0L);
+			}
+		} catch (Exception e) {
+			log.info("전체 랭킹 조회,거리,시간 조회 쿼리에서의 익셉션 : " + e.getMessage());
 			myRanking = new RankingDto();
 			myRanking.setRankingIndex(0);
 			myRanking.setRankingValue(0);
@@ -116,7 +112,6 @@ public class CrewTotalRecordCustomRepositoryImpl implements CrewTotalRecordCusto
 			myRanking.setImgSeq(0L);
 		}
 
-		
 		return myRanking;
 	}
 
@@ -124,7 +119,7 @@ public class CrewTotalRecordCustomRepositoryImpl implements CrewTotalRecordCusto
 		RankingDto myRanking = new RankingDto();
 		String sql = "WITH sub1 AS( "
 				+ "SELECT ROW_NUMBER() OVER (order by t.user_point desc,user_seq) as ranking,t.* FROM t_user as t "
-				+ ")  " + "SELECT * FROM sub1 WHERE sub1.user_seq = ? ";
+				+ ")  " + "SELECT ranking,user_point,user_nickname,user_seq,img_seq FROM sub1 WHERE sub1.user_seq = ? ";
 
 		Map<String, Object> resultMap = jdbcTemplate.queryForMap(sql, userSeq);
 
@@ -132,7 +127,7 @@ public class CrewTotalRecordCustomRepositoryImpl implements CrewTotalRecordCusto
 		myRanking.setRankingValue((Integer) resultMap.get("user_point"));
 		myRanking.setUserName((String) resultMap.get("user_nickname"));
 		myRanking.setUserSeq((Long) resultMap.get("user_seq"));
-		myRanking.setImgSeq((Long)resultMap.get("img_seq"));
+		myRanking.setImgSeq((Long) resultMap.get("img_seq"));
 		return myRanking;
 	}
 }

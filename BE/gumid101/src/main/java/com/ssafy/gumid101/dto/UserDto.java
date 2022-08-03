@@ -27,7 +27,6 @@ public class UserDto implements Serializable {
 	private Long userSeq;
 
 
-	@Pattern(regexp = "[a-zA-Z1-9가-힣ㄱ-ㅎ]{4,20}",message = "닉네임(4~20) 특수문자 불가")
 	@ApiParam(value = "사용자 닉네임")
 	private String nickName;
 
@@ -37,6 +36,7 @@ public class UserDto implements Serializable {
 	@ApiParam(value = "사용자 키")
 	private Integer height;
 
+	
 	@ApiParam(value = "사용자 몸무게")
 	private Integer weight;
 

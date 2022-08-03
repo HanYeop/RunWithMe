@@ -16,6 +16,13 @@ public interface CrewManagerRepository extends JpaRepository<CrewEntity, Long>,C
 	
 	@Query(value = "SELECT ce FROM UserCrewJoinEntity ucj INNER JOIN ucj.crewEntity ce where ucj.userEntity =:userEntity AND ce.crewDateEnd >= :now")
 	List<CrewEntity> findByUserSeqActive(UserEntity userEntity,LocalDateTime now);
+	
+	List<CrewEntity> findByCrewCheckYnAndCrewDateEndBefore(String crewCheckYn, LocalDateTime nowTime);
+//	List<CrewEntity> findByCrewCheckYnIsNullAndCrewDateEndBefore(LocalDateTime nowTime);
+
+	//크루의 유저가 몇명인지
+	@Query(value="SELECT distinct c FROM CrewEntity c left join fetch c.userCrewJoinEntitys  where c in :crews")
+	List<CrewEntity>  selectCountCrewUser(List<CrewEntity> crews);
 
 	
 

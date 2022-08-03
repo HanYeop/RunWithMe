@@ -7,9 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,20 +18,21 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gumid101.crew.activity.CrewActivityService;
-import com.ssafy.gumid101.customexception.ThirdPartyException;
-import com.ssafy.gumid101.dto.CrewBoardDto;
 import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.RecordParamsDto;
 import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.req.ProfileEditDto;
 import com.ssafy.gumid101.res.CrewBoardRes;
 import com.ssafy.gumid101.res.ResponseFrame;
 import com.ssafy.gumid101.res.UserFileDto;
+import com.ssafy.gumid101.util.Nickname;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -45,6 +44,7 @@ public class MyActivityRestController {
 	private final UserService userService;
 	private final CrewActivityService runService;
 	private final ObjectMapper objectMapper; 
+	private final RedisService redisServ;
 	/**
 	 * 토큰으로 부터 유저 DTO 로드
 	 * 
@@ -87,31 +87,41 @@ public class MyActivityRestController {
 		resFrame.setSuccess(resUserDto == null ? false : true);
 		resFrame.setMsg("회원의 정보를 반환합니다.");
 		resFrame.setData(resUserDto);
-
 		return new ResponseEntity<>(resFrame, resUserDto != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
 	}
 
 	@ApiOperation(value = "자신의 프로필 수정")
 	@PostMapping(value="/profile",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity<?> editMyProfile(@RequestPart("profile") String profile,
+	public ResponseEntity<?> editMyProfile( @RequestPart ProfileEditDto profile,
 			@RequestPart(value = "imgFile",required = false) MultipartFile imgFile) throws Exception {
-
-		ProfileEditDto profileEditDto = objectMapper.readValue(profile, ProfileEditDto.class);
-		
 		UserDto userDto = loadUserFromToken();
+
+		redisServ.getIsUseable(userDto.getUserSeq().toString() + "editProfile", 10);
+		
+		ProfileEditDto profileEditDto = profile;//objectMapper.readValue(profile, ProfileEditDto.class);
+
+		ResponseFrame<UserFileDto> res = new ResponseFrame<>();
+
+		if (!Nickname.nickOk(profileEditDto.getNickName())) {
+			res.setData(null);
+			res.setCount(0);
+			res.setSuccess(false);
+			res.setMsg("닉네임을 입력하지 않았거나 규칙을 위반했습니다.");
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		}
 		userDto.setWeight(profileEditDto.getWeight());
 		userDto.setHeight(profileEditDto.getHeight());
 		userDto.setNickName(profileEditDto.getNickName());
 		
 		UserFileDto userFileDto= userService.editMyProfile(userDto,imgFile);
 		
-		ResponseFrame<UserFileDto> res = new ResponseFrame<>();
 		
 		res.setCount(userFileDto == null ?  0 : 1);
 		res.setData(userFileDto);
 		res.setSuccess(userFileDto == null ?  false: true);
 		
 		return new ResponseEntity<>(res,HttpStatus.OK);
+		
 	}
 
 	/**
@@ -130,10 +140,11 @@ public class MyActivityRestController {
 		try {
 			myTotalRecord = userService.getMyTotalRecord(userDto.getUserSeq());
 		}catch (Exception e) {
-			httpStatus = HttpStatus.CONFLICT;
+			httpStatus = HttpStatus.OK;
 			responseFrame.setCount(0);
 			responseFrame.setSuccess(false);
 			responseFrame.setMsg(e.getMessage());
+			return new ResponseEntity<>(responseFrame, httpStatus);
 		}
 		
 		if (myTotalRecord != null) {
@@ -239,21 +250,5 @@ public class MyActivityRestController {
 		return new ResponseEntity<>(responseFrame, httpStatus);
 	}
 
-	/**
-	 * 우리 자체의 오류가 아니라 , S3를 사용하면서 난 오류이다.
-	 * @param e
-	 * @return
-	 */
-	@ExceptionHandler(ThirdPartyException.class)
-	public ResponseEntity<?> thirdParthExceptionHandle(ThirdPartyException e){
-		
-		ResponseFrame<?> res = new ResponseFrame<>();
-		
-		res.setCount(0);
-		res.setData(null);
-		res.setSuccess(false);
-		
-		return new ResponseEntity<>(res,HttpStatus.INTERNAL_SERVER_ERROR);
-		
-	}
+
 }

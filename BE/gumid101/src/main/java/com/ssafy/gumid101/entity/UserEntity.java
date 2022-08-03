@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +19,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -36,6 +39,16 @@ import lombok.Setter;
 @Getter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@SQLDelete(sql = "update t_user set user_delete_yn = 'Y', "
+		+ "user weight = 0, "
+		+ "img_seq = null, "
+		+ "user_height = 0, "
+		+ "user_fcm_token = null, "
+		+ "user_email = null, "
+		+ "user_nickname = null, "
+		+ "user_point =0, "
+		+ "where user_seq = ?")
+@Where(clause = "user_delete_yn = 'N'")
 @Table(name = "t_user", uniqueConstraints = {
 		@UniqueConstraint(name = "nickname_unique_contraint", columnNames = { "user_nickname" }) })
 @NoArgsConstructor
@@ -76,7 +89,7 @@ public class UserEntity {
 	private LocalDateTime regTime;
 
 	@JoinColumn(name = "img_seq")
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	private ImageFileEntity imageFile;
 	
 	@OneToMany(mappedBy = "userEntity")

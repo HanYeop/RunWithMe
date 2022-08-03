@@ -1,32 +1,31 @@
 package com.ssafy.gumid101.crew;
 
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.gumid101.customexception.CrewNotFoundException;
-import com.ssafy.gumid101.customexception.PasswrodNotMatchException;
 import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.redis.RedisService;
+import com.ssafy.gumid101.req.PasswordDto;
 import com.ssafy.gumid101.res.CrewUserDto;
 import com.ssafy.gumid101.res.ResponseFrame;
 import com.ssafy.gumid101.res.RunRecordResultDto;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @Api(tags = "크루 컨트롤러")
@@ -37,6 +36,7 @@ public class CrewRestContoller {
 
 	private final CrewService crewService;
 	private final ObjectMapper objectMapper;
+	private final RedisService redisServ;
 
 	private UserDto loadUserFromToken() {
 		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
@@ -48,9 +48,11 @@ public class CrewRestContoller {
 	@PostMapping(value= "/{crewId}/records",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<?> recordMyRun(
 			@PathVariable("crewId") Long crewId ,
-			@RequestPart(value="runRecord") String runRecord,
+			@RequestPart(value="runRecord",required = true) String runRecord,
 			@RequestPart MultipartFile imgFile) throws Exception{
+		
 		UserDto userDto =  loadUserFromToken();
+		redisServ.getIsUseable(userDto.getUserSeq().toString() + "recordMyRun", 10);
 		
 		Long userSeq = userDto.getUserSeq();
 		
@@ -65,35 +67,19 @@ public class CrewRestContoller {
 	}
 
 	@ApiOperation(value = "크루가입")
-	@PostMapping("/{crewId}/join")
-	public ResponseEntity<?> jonCrew(@PathVariable(required = true) long crewId, @RequestBody String passwrod)
+	@PostMapping(value="/{crewId}/join")
+	public ResponseEntity<?> joinCrew(@PathVariable(required = true) long crewId, @RequestBody(required = false) Optional<PasswordDto>  password)
 			throws Exception {
 
 		UserDto userDto = loadUserFromToken();
+		redisServ.getIsUseable(userDto.getUserSeq().toString() + "joinCrew", 10);
 
-		CrewUserDto result = crewService.joinCrew(userDto.getUserSeq(), crewId, passwrod);
+		
+		CrewUserDto result = crewService.joinCrew(userDto.getUserSeq(), crewId, password);
 
 		ResponseFrame<CrewUserDto> res = ResponseFrame.of(result, 1, "사용자의 크루 가입 성공");
 
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 
-	@ExceptionHandler(UsernameNotFoundException.class)
-	public ResponseEntity<?> userSeqNotFoundHandler(UsernameNotFoundException e) {
-		return new ResponseEntity<>(ResponseFrame.of(false, e.getMessage()), HttpStatus.FORBIDDEN);
-	}
-
-	@ExceptionHandler(CrewNotFoundException.class)
-	public ResponseEntity<?> crewSeqNotFoundHandler(UsernameNotFoundException e) {
-
-		return new ResponseEntity<>(ResponseFrame.of(false, e.getMessage()), HttpStatus.FORBIDDEN);
-
-	}
-
-	@ExceptionHandler(PasswrodNotMatchException.class)
-	public ResponseEntity<?> crewSeqNotFoundHandler(PasswrodNotMatchException e) {
-
-		return new ResponseEntity<>(ResponseFrame.of(false, e.getMessage()), HttpStatus.FORBIDDEN);
-
-	}
 }

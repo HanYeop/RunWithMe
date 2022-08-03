@@ -9,6 +9,9 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
+  batch: 
+    jdbc:
+      initialize-schema: always
   mail:
     host: smtp.gmail.com
     username: skj2393@gmail.com
@@ -27,8 +30,8 @@ spring:
   datasource:
     password: ssafy
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ssafy
-    url: jdbc:mysql://localhost:3306/commonssafy?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    url: jdbc:mysql://localhost:3306/commonssafy?characterEncoding=UTF-8
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
@@ -41,11 +44,13 @@ logging:
       amazonaws:
         util:
           EC2MetadataUtils: error
+      ssafy:
+        gumid101: debug
+
 server:
   servlet:
     context-path: /api
   port: '8080'
-
 
 ---
 spring:
@@ -56,7 +61,16 @@ spring:
     password: ssafy
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    url: jdbc:mysql://localhost:3306/commonssafy?serverTimezone=UTC&characterEncoding=UTF-8    
+    url: jdbc:mysql://localhost:3306/commonssafy?characterEncoding=UTF-8
+  redis:
+    host: localhost
+    port: 6379
+    lettuce:
+      pool:
+        max-idle: 8
+        min-idle: 0
+        max-active: 8
+        max-wait: -1
 ---  
 spring:
   config:
@@ -66,6 +80,13 @@ spring:
     password: jgalgostudy
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: d101rwm
-    url: jdbc:mysql://mysql-container:13306/commonssafy?serverTimezone=UTC&characterEncoding=UTF-8    
-
-      
+    url: jdbc:mysql://host.docker.internal:13306/commonssafy?characterEncoding=UTF-8
+  redis:
+    host: redis
+    port: 6379
+    lettuce:
+      pool:
+        max-idle: 8
+        min-idle: 0
+        max-active: 8
+        max-wait: -1

@@ -42,14 +42,26 @@ public class CrewTotalRecordDto implements Serializable {
 	@ApiParam(value = "전체 소모 칼로리 (Kcal)")
 	private Double totalCalorie;
 	
+	public static CrewTotalRecordDto defaultCrewTotalRecordDto() {
+		return CrewTotalRecordDto.builder()
+				.totalAvgSpeed(0d)
+				.totalCalorie(0d)
+				.totalDistance(0)
+				.totalLongestDistance(0)
+				.totalLongestTime(0)
+				.totalRecordSeq(0L)
+				.totalTime(0).build();
+	}
+	
 	public static CrewTotalRecordDto of(CrewTotalRecordEntity crewTotalRecord) {
 		if(crewTotalRecord == null)
-			return null;
+			return defaultCrewTotalRecordDto();
 		return new CrewTotalRecordDtoBuilder()
 				.totalRecordSeq(crewTotalRecord.getTotalRecoredSeq())
 				.totalCalorie(crewTotalRecord.getTotalCalorie())
 				.totalDistance(crewTotalRecord.getTotalDistance())
 				.totalTime(crewTotalRecord.getTotalTime())
+				.totalAvgSpeed(crewTotalRecord.getTotalTime() == null || crewTotalRecord.getTotalTime() == 0 ? 0 : 3.6 * crewTotalRecord.getTotalDistance() / crewTotalRecord.getTotalTime())
 				.totalLongestTime(crewTotalRecord.getTotalLongestTime())
 				.totalLongestDistance(crewTotalRecord.getTotalLongestDistance())
 				.build();

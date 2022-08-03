@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ssafy.gumid101.dto.CrewBoardDto;
 import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.res.CrewBoardRes;
@@ -30,7 +29,9 @@ public interface UserService {
 	 */
 	int checkDupNickname(String nickname) throws Exception;
 
-	UserFileDto getUserProfileById(Long id)throws Exception;
+	UserFileDto getUserProfileById(Long id) throws Exception;
+	
+	UserFileDto getUserProfileByNickname(String nickname) throws Exception;
 
 	UserFileDto editMyProfile(UserDto userDto, MultipartFile imgFile)throws Exception;
 
@@ -41,6 +42,8 @@ public interface UserService {
 	boolean setUserFcmToken(Long userSeq, String string)throws Exception;
 
 	boolean deleteUserFcmToken(Long userSeq) throws Exception;
+
+	boolean deleteMyAccount(Long userSeq)throws Exception;
 
 
 

@@ -58,6 +58,7 @@ public class TotalRankingRestController {
 		return new ResponseEntity<>(res,HttpStatus.OK);
 		
 	}
+	
 	@ApiOperation("내 랭킹 가져오기,입력 값 타입 {distance,time,point}")
 	@RequestMapping(path = "my/{type}",method = RequestMethod.GET)
 	public ResponseEntity<?> getTotalRanking(@ApiParam("distance,time,point") @PathVariable(value = "type" ) String rankingType) throws Exception{

@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.gumid101.aws.S3FileService;
 import com.ssafy.gumid101.crew.manager.CrewManagerRepository;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
+import com.ssafy.gumid101.customexception.ThirdPartyException;
 import com.ssafy.gumid101.dto.CrewBoardDto;
 import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.UserDto;
@@ -66,7 +67,7 @@ public class CrewActivityBoardServiceImpl implements CrewActivityBoardService {
 						.build();
 				imageRepo.save(imageEntity);
 			} catch (Exception e) {
-				throw e;
+				throw new ThirdPartyException(e.getMessage()) ;
 //				throw new Exception("이미지 저장에 실패했습니다.");
 			}
 		}
@@ -89,6 +90,9 @@ public class CrewActivityBoardServiceImpl implements CrewActivityBoardService {
 
 		Sort sort = Sort.by(Sort.Direction.DESC, "crewBoardRegTime").and(Sort.by(Sort.Direction.DESC, "crewBoardSeq"));
 
+		if(size == null || size == 0) {
+			size = Integer.MAX_VALUE;
+		}
 		Pageable pageable = PageRequest.of(0, size, sort);
 
 		if (maxCrewBoardSeq == null || maxCrewBoardSeq == 0L) {

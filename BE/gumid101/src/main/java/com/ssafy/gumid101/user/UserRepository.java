@@ -15,6 +15,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>, UserCus
 
 	int countByEmail(@Param("email") String email);
 
+	Optional<UserEntity> findByNickNameAndUserState(@Param("nickName") String nickname, @Param("user_state") String delete_yn);
+
 	int countByNickName(@Param("nickName") String nickname);
 
 	@Lock(LockModeType.PESSIMISTIC_WRITE)

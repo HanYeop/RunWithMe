@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +19,7 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.ssafy.gumid101.customercenter.QuestStatus;
+import com.ssafy.gumid101.customercenter.QuestionStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,15 +41,19 @@ public class QuestionEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "question_seq")
 	private Long questionSeq;
-
+	
+	@Column(nullable = false, name = "question_title")
+	private String questionTitle;
+	
 	@Column(nullable = false, name = "question_content")
 	private String questionContent;
 	
+
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, name = "question_status")
-	private QuestStatus questionStatus;
+	private QuestionStatus questionStatus;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_seq")
 	private UserEntity userEntity;
 	

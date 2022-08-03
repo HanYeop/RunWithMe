@@ -31,7 +31,7 @@ public class TotalRankingServiceImpl implements TotalRankingService {
 		
 		return rankingList;
 	}
-
+//크루이름 유저이름 , 유저 SEQ, 크루 SEQ
 	/**
 	 * 자기 랭킹 뿌려줌
 	 */

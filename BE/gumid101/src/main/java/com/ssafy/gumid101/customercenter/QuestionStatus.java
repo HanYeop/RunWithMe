@@ -1,5 +1,5 @@
 package com.ssafy.gumid101.customercenter;
 
-public enum QuestStatus {
+public enum QuestionStatus {
 	WAITING,PROCESSING,COMPLETE
 }

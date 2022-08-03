@@ -1,15 +1,17 @@
 package com.ssafy.gumid101.config;
 
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.convert.converter.Converter;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.format.FormatterRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.ssafy.gumid101.interceptor.InterceptorControllerForLoggin;
+
+@EnableAspectJAutoProxy
 @Configuration
 @EnableJpaAuditing
-public class SpringConfig {
+public class SpringConfig  implements WebMvcConfigurer{
 
 //	//ObjectMapper 는 쓰레드 세이프하다. 하위버전에서 락으로 인해 성능이슈가 있었으나 해결됨
 //	@Bean 
@@ -17,4 +19,10 @@ public class SpringConfig {
 //		return new ObjectMapper();
 //	}
 	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+
+		registry.addInterceptor(new InterceptorControllerForLoggin())
+		.addPathPatterns("/**");
+	}
 }

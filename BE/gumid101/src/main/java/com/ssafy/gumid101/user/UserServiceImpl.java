@@ -1,6 +1,7 @@
 package com.ssafy.gumid101.user;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -10,10 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.aws.S3FileService;
+import com.ssafy.gumid101.customexception.CustomException;
 import com.ssafy.gumid101.customexception.DuplicateException;
+import com.ssafy.gumid101.customexception.IllegalParameterException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.customexception.ThirdPartyException;
-import com.ssafy.gumid101.dto.CrewBoardDto;
 import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.dto.UserDto;
@@ -24,6 +26,7 @@ import com.ssafy.gumid101.imgfile.ImageDirectory;
 import com.ssafy.gumid101.imgfile.ImageFileRepository;
 import com.ssafy.gumid101.res.CrewBoardRes;
 import com.ssafy.gumid101.res.UserFileDto;
+import com.ssafy.gumid101.util.Nickname;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,22 +43,20 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	@Override
 	public UserDto setMyProfile(UserDto userDto) throws Exception {
-
 		if (0 != userRepo.countByEmail(userDto.getEmail())) {
 			// 이미 해당 이메일이 있으면
 			throw new DuplicateException(String.format("%s은 이미 등록된 이메일 입니다.", userDto.getEmail()));
 		}
-		if (userDto.getNickName() != null && nickOk(userDto.getNickName())) {
-			throw new Exception("닉네임 규칙을 위반했습니다.");
+		if (!Nickname.nickOk(userDto.getNickName())) {
+			throw new IllegalParameterException("닉네임 규칙을 위반했습니다.");
 		}
-
 		UserEntity userEntity = UserEntity.builder().email(userDto.getEmail()).nickName(userDto.getNickName())
 				.weight(userDto.getWeight()).height(userDto.getHeight()).role(Role.USER).build();
-
 		try {
+			userEntity.setPoint(100000);
 			userRepo.save(userEntity);
 		} catch (Exception e) {
-			throw new Exception("초기 프로필 설정 중 오류가 발생하였습니다.");
+			throw new CustomException("초기 프로필 설정 중 오류가 발생하였습니다.");
 		}
 
 		return UserDto.of(userEntity);
@@ -83,6 +84,22 @@ public class UserServiceImpl implements UserService {
 
 		return new UserFileDto(userDto,imgDto);
 	}
+	
+	@Override
+	public UserFileDto getUserProfileByNickname(String nickname) throws Exception {
+
+		UserEntity user = userRepo.findByNickNameAndUserState(nickname, "N")
+				.orElseThrow(() -> new NotFoundUserException("닉네임이 일치하는 사용자가 없습니다."));
+		ImageFileDto imgDto = ImageFileDto.of(user.getImageFile());
+		return new UserFileDto(UserDto.builder()
+				.nickName(nickname)
+				.email(user.getEmail())
+				.height(user.getHeight())
+				.weight(user.getWeight())
+				.point(user.getPoint())
+				.build()
+				, imgDto);
+	}
 
 	@Transactional
 	@Override
@@ -90,14 +107,11 @@ public class UserServiceImpl implements UserService {
 
 		UserEntity userEntity = userRepo.findById(userDto.getUserSeq())
 				.orElseThrow(() -> new NotFoundUserException("해당 유저를 찾을 수 없습니다."));
-		if (userDto.getNickName() != null && nickOk(userDto.getNickName())) {
-			throw new Exception("닉네임 규칙을 위반했습니다.");
-		}
 
 		userEntity.setHeight(userDto.getHeight());
 		userEntity.setWeight(userDto.getWeight());
 		userEntity.setNickName(userDto.getNickName());
-		userEntity.setPoint(0);
+		
 
 		ImageFileDto imageFileDto = null;
 		ImageFileEntity imageEntity = null;
@@ -148,7 +162,8 @@ public class UserServiceImpl implements UserService {
 				.orElseThrow(() -> new NotFoundUserException("해당 유저를 찾을 수 없습니다."));
 
 		CrewTotalRecordDto crewTotalRecordDto = userRepo.getMyTotalRecord(userEntity);
-		if (crewTotalRecordDto.getTotalTime() == null || crewTotalRecordDto.getTotalTime() == 0) {
+		
+		if (crewTotalRecordDto == null ||crewTotalRecordDto.getTotalTime() == null || crewTotalRecordDto.getTotalTime() == 0) {
 			return CrewTotalRecordDto.builder().totalAvgSpeed(0.0).totalCalorie(0.0).totalDistance(0)
 					.totalLongestDistance(0).totalLongestTime(0).totalTime(0).build();
 		} else {
@@ -176,33 +191,12 @@ public class UserServiceImpl implements UserService {
 		
 		return true;
 	}
-	
 
-	
-	public boolean nickOk(String nick) {
-		int sizeCount = 0;
-		for (int i = 0; i < nick.length() && sizeCount <= 16; i++) {
-			char c = nick.charAt(i);
-			if ('0' <= c && c <= '9') {
-				sizeCount++;
-			} else if ('a' <= c && c <= 'z') {
-				sizeCount++;
-			} else if ('A' <= c && c <= 'Z') {
-				sizeCount++;
-			} else if ('가' <= c && c <= '힣') {
-				sizeCount += 2;
-			} else if ('ㄱ' <= c && c <= 'ㅎ') {
-				sizeCount += 2;
-			} else {
-				// 허용되지 않는 문자 나온 경우
-				return false;
-			}
-		}
-		if (sizeCount < 4 || sizeCount > 16) {
-			// 사이즈 조건 만족을 하지 못한 경우
-			return false;
-		}
-		// 모든 조건을 만족한 경우
+	@Override
+	public boolean deleteMyAccount(Long userSeq) throws Exception {
+		
+		userRepo.deleteById(userSeq);
+		
 		return true;
 	}
 }
