@@ -515,6 +515,8 @@
                     android:textSize="16sp"
                     android:layout_gravity="bottom"
                     android:background="@color/main_purple"
+                    isCrewMember="@{crewDetailVM.isCrewMember}"
+                    crewState="@{crewDetailVM.crewState}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -530,6 +532,8 @@
                     android:background="@color/main_grey"
                     android:visibility="gone"
                     android:layout_gravity="bottom"
+                    isCrewMember="@{crewDetailVM.isCrewMember}"
+                    crewState="@{crewDetailVM.crewState}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -547,6 +551,8 @@
                     android:visibility="gone"
                     android:layout_gravity="bottom"
                     android:background="@color/main_purple"
+                    isCrewMember="@{crewDetailVM.isCrewMember}"
+                    crewState="@{crewDetailVM.crewState}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"  />

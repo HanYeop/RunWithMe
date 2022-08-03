@@ -1,7 +1,10 @@
 package com.ssafy.runwithme.model.dto
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class RunRecordDto(
     @SerializedName("runRecordSeq") val runRecordSeq: Int,
     @SerializedName("runImageSeq") val runImageSeq: Int,
@@ -18,4 +21,5 @@ data class RunRecordDto(
     @SerializedName("userSeq") val userSeq: Int = 0,
     @SerializedName("crewName") val crewName: String = "",
     @SerializedName("crewSeq") val crewSeq: Int = 0,
-)
+) : Parcelable
+

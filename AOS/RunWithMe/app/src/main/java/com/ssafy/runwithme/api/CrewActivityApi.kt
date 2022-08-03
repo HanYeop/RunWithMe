@@ -19,23 +19,10 @@ interface CrewActivityApi {
         @Query("size") size: Int,
     ): BaseResponse<List<CrewBoardResponse>>
 
-    @GET("crew-activity/{crewSeq}/boards")
-    suspend fun getCrewBoardsTop3(
-        @Path("crewSeq") crewSeq: Int,
-        @Query("maxCrewBoardSeq") maxCrewBoardSeq: Int,
-        @Query("size") size: Int,
-    ): BaseResponse<List<CrewBoardResponse>>
-
     @GET("crew-activity/{crewSeq_p}/records")
     suspend fun getCrewRecords(
-        @Path("crewSeq_p") crewSeq: String,
+        @Path("crewSeq_p") crewSeq: Int,
         @Query("maxRunRecordSeq") maxRunRecordSeq: Int,
-        @Query("size") size: Int
-    ) : BaseResponse<List<RunRecordDto>>
-
-    @GET("crew-activity/{crewSeq_p}/records")
-    suspend fun getCrewRecordsTop3(
-        @Path("crewSeq_p") crewSeq: String,
         @Query("size") size: Int
     ) : BaseResponse<List<RunRecordDto>>
 

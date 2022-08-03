@@ -34,7 +34,7 @@ class CrewActivityRepository @Inject constructor(
         ).flow
 
 
-    fun getCrewRecords(crewSeq: String, size: Int) =
+    fun getCrewRecords(crewSeq: Int, size: Int) =
         Pager(
             config = PagingConfig(
                 pageSize = size * 2,

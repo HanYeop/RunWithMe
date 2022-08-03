@@ -36,7 +36,6 @@ class CrewUserRankingFragment : BaseFragment<FragmentCrewUserRankingBinding>(R.l
                         else -> ""
                     }
                     crewUserRankingViewModel.getCrewRanking(crewDto.crewSeq, type)
-                    crewUserRankingViewModel.getMyRanking(type)
                     adapter.notifyDataSetChanged()
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {}

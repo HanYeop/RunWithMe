@@ -11,7 +11,7 @@ import java.io.IOException
 
 class GetCrewRecordsPagingSource (
     private val crewActivityApi: CrewActivityApi,
-    private val crewSeq: String,
+    private val crewSeq: Int,
     private val size: Int
 ): PagingSource<Int, RunRecordDto>() {
 

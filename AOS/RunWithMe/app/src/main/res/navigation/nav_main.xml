@@ -123,6 +123,9 @@
         <argument
             android:name="crewid"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_crewUserRunRecordFragment_to_runRecordDetailFragment"
+            app:destination="@id/runRecordDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/crewUserRankingFragment"
@@ -216,7 +219,11 @@
         android:id="@+id/runRecordDetailFragment"
         android:name="com.ssafy.runwithme.view.run_record_detail.RunRecordDetailFragment"
         android:label="RunRecordDetailFragment"
-        tools:layout="@layout/fragment_run_record_detail"/>
+        tools:layout="@layout/fragment_run_record_detail">
+        <argument
+            android:name="runrecorddto"
+            app:argType="com.ssafy.runwithme.model.dto.RunRecordDto" />
+    </fragment>
     <fragment
         android:id="@+id/othersFragment"
         android:name="com.ssafy.runwithme.view.my_page.others.OthersFragment"
