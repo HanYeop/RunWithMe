@@ -22,7 +22,7 @@ import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentMyTotalRunRecordBinding
 import com.ssafy.runwithme.databinding.MyCalendarDayBinding
 import com.ssafy.runwithme.databinding.MyCalendarHeaderBinding
-import com.ssafy.runwithme.model.response.MyRunRecordResponse
+import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.TAG
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +38,7 @@ import java.util.*
 class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R.layout.fragment_my_total_run_record) {
 
     private val myTotalRunRecordViewModel by viewModels<MyTotalRunRecordViewModel>()
-    private lateinit var monthRunRecordList : List<MyRunRecordResponse>
+    private lateinit var monthRunRecordList : List<RunRecordDto>
 
     private var selectedDate: LocalDate? = null
     private val monthTitleFormatter = DateTimeFormatter.ofPattern("MMMM")
@@ -65,7 +65,7 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
             myTotalRunRecordViewModel.monthRunRecordList.collectLatest {
                 if(it is Result.Success){
                     monthRunRecordList = it.data.data
-                    Log.d(TAG, "initCalendar: ${monthRunRecordList}")
+                    Log.d(TAG, "initCalendar: $monthRunRecordList")
                     AA()
                 }
             }
@@ -115,10 +115,7 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
                 val layout = container.binding.layoutCalendarDay
                 textView.text = day.date.dayOfMonth.toString()
 
-                val firstView = container.binding.viewRunRecordFirst
-                val secView = container.binding.viewRunRecordSecond
-                firstView.background = null
-                secView.background = null
+                val runView = container.binding.viewRunDay
 
                 if (day.owner == DayOwner.THIS_MONTH) {
                     textView.setTextColorRes(R.color.black_high_emphasis)
@@ -136,6 +133,7 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
                 } else {
                     textView.setTextColorRes(R.color.light_grey)
                     layout.background = null
+                    runView.background = null
                 }
             }
         }

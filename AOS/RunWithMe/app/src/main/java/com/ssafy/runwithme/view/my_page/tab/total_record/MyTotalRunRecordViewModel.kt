@@ -4,8 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.runwithme.base.BaseResponse
-import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
-import com.ssafy.runwithme.model.response.MyRunRecordResponse
+import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.repository.MyActivityRepository
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.SingleLiveEvent
@@ -24,7 +23,7 @@ class MyTotalRunRecordViewModel @Inject constructor(
     private val myActivityRepository: MyActivityRepository
 ) : ViewModel() {
 
-    private val _monthRunRecordList: MutableStateFlow<Result<BaseResponse<List<MyRunRecordResponse>>>>
+    private val _monthRunRecordList: MutableStateFlow<Result<BaseResponse<List<RunRecordDto>>>>
             = MutableStateFlow(Result.Uninitialized)
     val monthRunRecordList get() = _monthRunRecordList.asStateFlow()
 

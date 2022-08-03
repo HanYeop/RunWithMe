@@ -1,8 +1,8 @@
 package com.ssafy.runwithme.api
 
 import com.ssafy.runwithme.base.BaseResponse
+import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.response.MyProfileResponse
-import com.ssafy.runwithme.model.response.MyRunRecordResponse
 import com.ssafy.runwithme.model.response.MyTotalBoardsResponse
 import com.ssafy.runwithme.model.response.MyTotalRecordResponse
 import okhttp3.MultipartBody
@@ -15,7 +15,7 @@ interface MyActivityApi {
     suspend fun getMyRunRecord(
         @Query("month") month : Int,
         @Query("year") year : Int
-    ) : BaseResponse<List<MyRunRecordResponse>>
+    ) : BaseResponse<List<RunRecordDto>>
 
     @GET("my-activity/boards")
     suspend fun getMyBoards(
