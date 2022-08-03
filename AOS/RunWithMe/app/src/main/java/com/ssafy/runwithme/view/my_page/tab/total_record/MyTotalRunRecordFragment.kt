@@ -63,8 +63,6 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
         }
 
         initViewModelCallBack()
-
-        // initCalendar()
     }
 
     private fun initViewModelCallBack(){
@@ -89,9 +87,7 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
     }
 
     // 캘린더에 러닝 기록이 있는 날 색칠하기
-    private fun AA(){
-
-    }
+    // private fun changeMonth(){}
 
     // 캘린더 처음부터 그리기
     private fun initCalendar(){
@@ -128,19 +124,19 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
                 textView.text = day.date.dayOfMonth.toString()
 
                 val runView = container.binding.viewRunDay
+                runView.background = null
 
                 if (day.owner == DayOwner.THIS_MONTH) {
                     textView.setTextColorRes(R.color.black_high_emphasis)
                     layout.setBackgroundResource(if (selectedDate == day.date) R.drawable.calendar_selected_bg else 0)
 
                     val dayRecord = dayRecord[day.date]
-                    if (dayRecord == null) {
-                        runView.background = null
+                    if (dayRecord != null) {
+                        runView.setBackgroundColor(R.color.main_purple)
                     }
                 } else {
                     textView.setTextColorRes(R.color.light_grey)
                     layout.background = null
-                    runView.background = null
                 }
             }
         }
