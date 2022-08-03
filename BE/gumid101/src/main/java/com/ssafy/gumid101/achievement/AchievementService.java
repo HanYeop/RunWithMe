@@ -11,4 +11,6 @@ public interface AchievementService{
 
 	List<AchievementDto> getAchieveList() throws Exception;
 
+	void checkAchievement(String acName, AchieveType acType, Double acValue);
+
 }
