@@ -19,6 +19,7 @@ import com.ssafy.runwithme.databinding.ActivityMainBinding
 import com.ssafy.runwithme.service.RunningService
 import com.ssafy.runwithme.utils.ACTION_SHOW_TRACKING_ACTIVITY
 import com.ssafy.runwithme.view.running.RunningActivity
+import com.ssafy.runwithme.view.running.list.RunningListActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +37,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         initNavigation()
 
         runningCheck()
+
+        initClickListener()
+    }
+
+    private fun initClickListener(){
+        binding.apply {
+            floatingActionButton.setOnClickListener {
+                startActivity(Intent(this@MainActivity, RunningListActivity::class.java))
+            }
+        }
     }
 
 

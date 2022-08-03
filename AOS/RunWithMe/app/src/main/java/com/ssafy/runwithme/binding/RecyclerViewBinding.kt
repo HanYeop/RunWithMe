@@ -9,6 +9,7 @@ import com.ssafy.runwithme.model.response.RankingResponse
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.view.home.my_crew.MyCurrentCrewAdapter
 import com.ssafy.runwithme.view.home.ranking.TotalRankingAdapter
+import com.ssafy.runwithme.view.running.list.RunningListAdapter
 
 object RecyclerViewBinding {
 
@@ -24,6 +25,9 @@ object RecyclerViewBinding {
                     }
                     is TotalRankingAdapter -> {
                         (view.adapter as ListAdapter<Any, *>).submitList(result.data.data as List<RankingResponse>)
+                    }
+                    is RunningListAdapter -> {
+                        (view.adapter as ListAdapter<Any, *>).submitList(result.data.data as List<MyCurrentCrewResponse>)
                     }
                     // 같은 형태로 추가하면 됨
                 }
