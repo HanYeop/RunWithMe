@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.view.my_page.tab.total_record
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
@@ -117,6 +118,7 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
 
         binding.calendar.dayBinder = object : DayBinder<DayViewContainer> {
             override fun create(view: View) = DayViewContainer(view)
+            @SuppressLint("ResourceAsColor")
             override fun bind(container: DayViewContainer, day: CalendarDay) {
                 container.day = day
                 val textView = container.binding.tvCalendarDay
