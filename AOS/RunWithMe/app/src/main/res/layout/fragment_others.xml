@@ -10,127 +10,104 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:context=".view.my_page.others.OthersFragment"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".view.my_page.others.OthersFragment">
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/toolbar_margin"
+            android:layout_marginStart="@dimen/toolbar_margin"
+            android:layout_marginEnd="@dimen/toolbar_margin"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:layout_marginTop="@dimen/toolbar_margin"
-                android:layout_marginStart="@dimen/toolbar_margin"
-                android:layout_marginEnd="@dimen/toolbar_margin"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
+            <TextView
+                android:id="@+id/text"
+                style="@style/toolbar_text"
+                android:text="더 보기"/>
+        </com.google.android.material.appbar.MaterialToolbar>
 
-                <TextView
-                    android:id="@+id/text"
-                    style="@style/toolbar_text"
-                    android:text="더 보기"/>
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_layout_type"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="16sp"
+            android:textColor="@color/main_black"
+            android:fontFamily="@font/noto_sans_bold"
+            android:layout_marginTop="12dp"
+            app:track="@drawable/switch_track_selector"
+            android:thumb="@drawable/switch_thumb"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:text="알림켜기" />
 
-            </com.google.android.material.appbar.MaterialToolbar>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_notice"
-                style="@style/header_text"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                android:text="알림 켜기"
-                android:textSize="@dimen/other_title" />
-
-            <Switch
-                android:id="@+id/switch_notice"
-                android:layout_marginTop="24dp"
-                android:layout_marginRight="24dp"
-                android:trackTint="@color/mainColor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
+            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+            android:textSize="16sp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:textColor="@color/main_black"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:text="문의하기"/>
 
         <TextView
-            android:id="@+id/tv_question"
-            style="@style/header_text"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:text="문의하기 QnA"
-            android:textSize="@dimen/other_title" />
-
-        <TextView
-            android:id="@+id/tv_privacy_paper"
-            style="@style/header_text"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:text="개인정보 처리 방침"
-            android:textSize="@dimen/other_title" />
-
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_app_version"
-                style="@style/header_text"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                android:text="서비스 버전"
-                android:textSize="@dimen/other_title" />
-
-            <TextView
-                android:id="@+id/tv_app_version_value"
-                style="@style/header_text"
-                android:gravity="right"
-                android:layout_width="match_parent"
-                android:layout_marginTop="24dp"
-                android:layout_marginRight="24dp"
-                android:text="1.0"
-                android:textSize="@dimen/other_title" />
-
-        </LinearLayout>
+            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+            android:textSize="16sp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:textColor="@color/main_black"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:text="개인정보 처리방침"/>
 
         <TextView
-            android:id="@+id/tv_user_delete"
-            style="@style/header_text"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:text="회원 탈퇴"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+            android:textSize="16sp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:textColor="@color/main_black"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:text="서비스 버전"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+            android:textSize="16sp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:textColor="@color/main_black"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:text="회원 탈퇴"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+            android:textSize="16sp"
+            android:fontFamily="@font/noto_sans_bold"
             android:textColor="@color/red"
-            android:textSize="@dimen/other_title" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="bottom">
-            <TextView
-                android:id="@+id/tv_logout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="로그아웃"
-                android:textSize="16sp"
-                android:layout_marginBottom="8dp"
-                android:textColor="@color/black_high_emphasis"
-                android:fontFamily="@font/noto_sans_bold"
-                android:gravity="center"/>
-        </LinearLayout>
-
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:text="로그아웃"/>
     </LinearLayout>
 </layout>
