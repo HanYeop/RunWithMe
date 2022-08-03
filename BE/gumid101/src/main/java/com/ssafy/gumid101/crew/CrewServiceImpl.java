@@ -120,14 +120,30 @@ public class CrewServiceImpl implements CrewService {
 	@Transactional
 	@Override
 	public RunRecordResultDto insertUserRunRecordAsCrew(Long userSeq, Long crewId, RunRecordDto runRecordDto, MultipartFile imgFile) throws Exception {
-		// TODO Auto-generated method stub
-
+		if (imgFile == null) {
+			throw new IllegalParameterException("저장할 경로 사진이 필요합니다.");
+		}
 		if (runRecordDto.getRunRecordRunningTime() == null || runRecordDto.getRunRecordRunningTime() == 0) {
 			throw new IllegalParameterException("달린 시간이 0인 기록은 저장할 수 없습니다.");
 		}
-		 UserEntity userEntity =  userRepo.findById(userSeq).orElseThrow(()->new NotFoundUserException("러닝 완료 중, 유저를 특정할 수 없습니다."));
+		UserEntity userEntity =  userRepo.findById(userSeq).orElseThrow(()->new NotFoundUserException("러닝 완료 중, 유저를 특정할 수 없습니다."));
 		CrewEntity crewEntity =  crewManagerRepo.findById(crewId).orElseThrow(()->new CrewNotFoundException("러닝 완료 중 , 크루를 특정할 수 없습니다."));
-		
+
+		if (crewEntity.getCrewDateStart().isAfter(runRecordDto.getRunRecordStartTime()) || crewEntity.getCrewDateEnd().isBefore(runRecordDto.getRunRecordStartTime())) {
+			throw new CrewPermissonDeniedException("크루 활동 기간이 아닐 때의 기록입니다.");
+		}
+		if (crewEntity.getCrewTimeStart().isAfter(runRecordDto.getRunRecordStartTime().toLocalTime()) || crewEntity.getCrewTimeEnd().isBefore(runRecordDto.getRunRecordStartTime().toLocalTime())) {
+			throw new CrewPermissonDeniedException("크루 활동 시간이 아닐 때의 기록입니다.");
+		}
+		List<RunRecordEntity> myToday = null;
+		try{
+			 myToday = runRecordRepo.findByUserEntityAndCrewEntityAndRunRecordStartTimeBetween(userEntity, crewEntity, runRecordDto.getRunRecordStartTime().withHour(0).withMinute(0).withSecond(0), runRecordDto.getRunRecordStartTime().withHour(23).withMinute(59).withSecond(59));
+		} catch (Exception e) {
+			throw new CrewPermissonDeniedException("기록 조회에 실패했습니다.");
+		}
+		if (myToday != null && myToday.size() > 0){
+			throw new CrewPermissonDeniedException("이미 오늘자 기록이 존재합니다.");
+		}
 		// 1.크루 런레코드 테이블에 저장
 		// runRecordRepo
 		RunRecordEntity runRecord = RunRecordEntity.builder()
