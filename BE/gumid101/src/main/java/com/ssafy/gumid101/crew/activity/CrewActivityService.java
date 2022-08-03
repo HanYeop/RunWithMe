@@ -16,6 +16,6 @@ public interface CrewActivityService {
 	Boolean getRunabletoday(Long userSeq, Long crewSeq) throws Exception;
 	List<RunRecordDto> getMyCrewRecordsByParam(RecordParamsDto recordParamsDto)throws Exception;
 	List<RankingDto> getCrewRankingByParam(RankingParamsDto rankingParamsDto)throws Exception;
-	CrewTotalRecordDto getMyCrewTotalRecord(long crewSeq, Long userSeq)throws Exception;
+	CrewTotalRecordDto getMyCrewTotalRecord(Long userSeq, Long crewSeq) throws Exception;
 	List<GraphRecordDto> getCrewMyGraphData(UserDto userDto, Long crewSeq, String goalType) throws Exception;
 }
