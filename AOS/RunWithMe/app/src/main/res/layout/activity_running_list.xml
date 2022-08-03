@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="runningVM"
-            type="com.ssafy.runwithme.view.running.RunningViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

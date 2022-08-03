@@ -1,16 +1,16 @@
 package com.ssafy.runwithme.view.running.list
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.*
@@ -23,20 +23,20 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseActivity
 import com.ssafy.runwithme.databinding.ActivityRunningListBinding
-import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
-import com.ssafy.runwithme.utils.*
-import com.ssafy.runwithme.view.running.RunningActivity
-import com.ssafy.runwithme.view.running.RunningViewModel
+import com.ssafy.runwithme.utils.FASTEST_LOCATION_UPDATE_INTERVAL
+import com.ssafy.runwithme.utils.LOCATION_UPDATE_INTERVAL
+import com.ssafy.runwithme.utils.TAG
+import com.ssafy.runwithme.utils.TrackingUtility
+import com.ssafy.runwithme.view.running.list.sheet.RunningBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.IOException
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class RunningListActivity : BaseActivity<ActivityRunningListBinding>(R.layout.activity_running_list){
-
-    private val runningViewModel by viewModels<RunningViewModel>()
-    private lateinit var runningListAdapter: RunningListAdapter
 
     // 처음 여부 (true = 아직 처음)
     private var first: Boolean = true
@@ -57,10 +57,12 @@ class RunningListActivity : BaseActivity<ActivityRunningListBinding>(R.layout.ac
             // 맵 불러오기
             mapViewRunningList.getMapAsync {
                 map = it
+//                it.mapType = 1
+//                it.setMapStyle(MapStyleOptions())
                 updateLocation()
 
                 lifecycleScope.launch {
-                    delay(1500)
+                    delay(1200)
                     if (binding.progressBarRunningList.visibility == View.VISIBLE) {
                         binding.progressBarRunningList.visibility = View.GONE
                     }
@@ -73,18 +75,7 @@ class RunningListActivity : BaseActivity<ActivityRunningListBinding>(R.layout.ac
     }
 
     override fun init() {
-        runningListAdapter = RunningListAdapter(listener)
-
-        binding.apply {
-            runningVM = runningViewModel
-//            recyclerRunningCrewList.adapter = runningListAdapter
-        }
-
         initClickListener()
-
-        initViewModelCallBack()
-
-//        runningViewModel.getMyCurrentCrew()
     }
 
     // 위치 정보 요청하기
@@ -100,16 +91,6 @@ class RunningListActivity : BaseActivity<ActivityRunningListBinding>(R.layout.ac
             Log.d(TAG, "updateLocation: ")
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
             fusedLocationProviderClient.requestLocationUpdates(request, locationCallback, Looper.getMainLooper())
-        }
-    }
-
-    val listener = object : RunningListListener{
-        override fun onItemClick(myCurrentCrewResponse: MyCurrentCrewResponse) {
-            runningViewModel.getMyProfile()
-            runningStart(sharedPreferences, myCurrentCrewResponse.crewDto.crewSeq, myCurrentCrewResponse.crewDto.crewName
-                ,myCurrentCrewResponse.crewDto.crewGoalType, myCurrentCrewResponse.crewDto.crewGoalAmount)
-            startActivity(Intent(this@RunningListActivity, RunningActivity::class.java))
-            finish()
         }
     }
 
@@ -129,12 +110,43 @@ class RunningListActivity : BaseActivity<ActivityRunningListBinding>(R.layout.ac
 
                         moveCamera(currentPosition)
 
-                        drawMarker(currentPosition,"내 위치", "테스트")
+                        val snippet = getCurrentAddress(currentPosition)
+
+                        drawMarker(currentPosition,"현재 위치", snippet)
 
                         first = false
                     }
                 }
             }
+        }
+    }
+
+    // 위도, 경도를 주소로 변환
+    fun getCurrentAddress(latLng: LatLng): String {
+        //지오코더: GPS를 주소로 변환
+        val geocoder = Geocoder(this, Locale.getDefault())
+        val addresses: List<Address>?
+        try {
+            addresses = geocoder.getFromLocation(
+                latLng.latitude,
+                latLng.longitude,
+                1
+            )
+        } catch (ioException: IOException) {
+            //네트워크 문제
+//            Toast.makeText(requireContext(), "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show()
+            return "지오코더 사용불가"
+        } catch (illegalArgumentException: IllegalArgumentException) {
+//            Toast.makeText(requireContext(), "잘못된 GPS 좌표", Toast.LENGTH_LONG).show()
+            return "잘못된 GPS 좌표"
+        }
+
+        return if (addresses == null || addresses.isEmpty()) {
+//            Toast.makeText(requireContext(), "주소 발견 불가", Toast.LENGTH_LONG).show()
+            "주소 발견 불가"
+        } else {
+            val address = addresses[0]
+            address.getAddressLine(0).toString()
         }
     }
 
@@ -164,21 +176,16 @@ class RunningListActivity : BaseActivity<ActivityRunningListBinding>(R.layout.ac
     // 지도 카메라 움직이기
     private fun moveCamera(latLng: LatLng) {
         map?.moveCamera(
-            CameraUpdateFactory.newLatLngZoom(latLng, 14.5f)
+            CameraUpdateFactory.newLatLngZoom(latLng, 16f)
         )
     }
 
     private fun initClickListener(){
         binding.apply {
             animationStartBtn.setOnClickListener {
-
+                val dialog = RunningBottomSheet(this@RunningListActivity, sharedPreferences)
+                dialog.show(supportFragmentManager,dialog.tag)
             }
-        }
-    }
-
-    private fun initViewModelCallBack(){
-        runningViewModel.errorMsgEvent.observe(this){
-            showToast(it)
         }
     }
 
