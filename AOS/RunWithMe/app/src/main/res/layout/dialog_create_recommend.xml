@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
+        <variable
+            name="imageSeq"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,9 +18,14 @@
 
         <ImageView
             android:id="@+id/img_run_record"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            android:layout_width="@dimen/create_recommend_image_size"
+            android:layout_height="@dimen/create_recommend_image_size"
             android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/image_round"
+            android:clipToOutline="true"
+            android:scaleType="fitXY"
+            app:createRecommendImage="@{imageSeq}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,19 +46,22 @@
             android:id="@+id/rating_hard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:padding="8dp"
             app:layout_constraintEnd_toEndOf="@+id/tv_hard_point_header"
             app:layout_constraintStart_toStartOf="@+id/tv_hard_point_header"
-            app:layout_constraintTop_toBottomOf="@+id/tv_hard_point_header"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
             app:srb_clickable="true"
             app:srb_isIndicator="false"
-            app:srb_numStars="5"
             app:srb_minimumStars="1"
+            app:srb_numStars="5"
             app:srb_rating="1"
             app:srb_scrollable="true"
+            app:srb_starHeight="24dp"
             app:srb_starPadding="2dp"
-            app:srb_stepSize="1" />
+            app:srb_starWidth="24dp"
+            app:srb_stepSize="1">
+
+        </com.willy.ratingbar.ScaleRatingBar>
 
         <TextView
             android:id="@+id/tv_environment_point_header"
@@ -69,18 +80,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="@+id/tv_environment_point_header"
             app:layout_constraintStart_toStartOf="@+id/tv_environment_point_header"
-            app:layout_constraintTop_toBottomOf="@+id/tv_environment_point_header"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
             app:srb_clickable="true"
             app:srb_isIndicator="false"
-            app:srb_numStars="5"
             app:srb_minimumStars="1"
+            app:srb_numStars="5"
             app:srb_rating="1"
             app:srb_scrollable="true"
+            app:srb_starHeight="24dp"
             app:srb_starPadding="2dp"
-            app:srb_stepSize="1" />
+            app:srb_starWidth="24dp"
+            app:srb_stepSize="1">
+
+        </com.willy.ratingbar.ScaleRatingBar>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_cancel"
@@ -115,6 +129,27 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/btn_cancel"
             app:layout_constraintTop_toBottomOf="@+id/rating_environment" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/main_grey"
+            android:text="러닝 난이도는 어땠나요?"
+            app:layout_constraintEnd_toEndOf="@+id/tv_hard_point_header"
+            app:layout_constraintStart_toStartOf="@+id/tv_hard_point_header"
+            app:layout_constraintTop_toBottomOf="@+id/tv_hard_point_header" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="러닝 환경은 어땠나요?"
+            app:layout_constraintEnd_toEndOf="@+id/tv_environment_point_header"
+            app:layout_constraintStart_toStartOf="@+id/tv_environment_point_header"
+            app:layout_constraintTop_toBottomOf="@+id/tv_environment_point_header" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

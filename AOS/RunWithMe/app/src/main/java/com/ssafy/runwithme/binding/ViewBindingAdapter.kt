@@ -378,4 +378,23 @@ object ViewBindingAdapter {
             }
         }
     }
+
+    @BindingAdapter("createRecommendImage")
+    @JvmStatic
+    fun ImageView.setCreateRecommendImage (imageSeq: Int){
+        if(imageSeq == 0){
+            Glide.with(this.context)
+                .load(R.drawable.running_record)
+                .override(R.dimen.create_recommend_image_size * 2,R.dimen.create_recommend_image_size * 2)
+                .placeholder(R.drawable.img)
+                .into(this)
+        }
+        else {
+            Glide.with(this.context)
+                .load("${BASE_URL}images/${imageSeq}")
+                .override(R.dimen.create_recommend_image_size * 2,R.dimen.create_recommend_image_size * 2)
+                .placeholder(R.drawable.img)
+                .into(this)
+        }
+    }
 }

@@ -37,6 +37,7 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
     private val recommendViewModel by viewModels<RecommendViewModel>()
 
     private var runRecordSeq = 0
+    private var runImageSeq = 0
     @Inject
     lateinit var sharedPreferences: SharedPreferences
     
@@ -64,6 +65,11 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
         lifecycleScope.launch {
             runningViewModel.runRecordSeq.collectLatest {
                 runRecordSeq = it
+            }
+        }
+        lifecycleScope.launch {
+            runningViewModel.runImageSeq.collectLatest {
+                runImageSeq = it
             }
         }
     }
@@ -126,7 +132,7 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
                 finish()
             }
             btnRecommend.setOnClickListener {
-                CreateRecommendDialog(this@RunningResultActivity, createRecommendListener).show()
+                CreateRecommendDialog(this@RunningResultActivity, createRecommendListener, runImageSeq).show()
             }
         }
     }

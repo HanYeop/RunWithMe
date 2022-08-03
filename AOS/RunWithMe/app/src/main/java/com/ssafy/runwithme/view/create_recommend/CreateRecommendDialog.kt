@@ -11,7 +11,8 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.databinding.DialogCreateRecommendBinding
 
 
-class CreateRecommendDialog(context: Context, private val listener: CreateRecommendListener): Dialog(context) {
+class CreateRecommendDialog(context: Context, private val listener: CreateRecommendListener,
+        private val imageSeq: Int): Dialog(context) {
 
     private lateinit var binding: DialogCreateRecommendBinding
 
@@ -20,6 +21,8 @@ class CreateRecommendDialog(context: Context, private val listener: CreateRecomm
 
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_create_recommend, null, false)
         setContentView(binding.root)
+
+        binding.imageSeq = imageSeq
 
         // 배경 투명하게 바꿔줌
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
