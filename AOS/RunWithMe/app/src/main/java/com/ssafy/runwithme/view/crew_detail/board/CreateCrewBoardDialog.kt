@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.databinding.DialogCreateBoardBinding
@@ -44,8 +45,12 @@ class CreateCrewBoardDialog(context: Context, private val listener : CreateCrewB
             btnRecommend.setOnClickListener {
                 val content = etBoardContent.text.toString()
                 Log.d(TAG, "initClickListener: content: $content")
-                listener.onItemClick(content)
-                dismiss()
+                if(content.isEmpty()){
+                    Toast.makeText(context, "내용을 입력하셔야 합니다.", Toast.LENGTH_SHORT).show()
+                } else {
+                    listener.onItemClick(content)
+                    dismiss()
+                }
             }
             btnCancel.setOnClickListener { dismiss() }
         }
