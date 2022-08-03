@@ -39,18 +39,6 @@ class HomeViewModel @Inject constructor(
         = MutableStateFlow(RankingResponse("", 0, 0, -1, 0))
     val myRanking get() = _myRanking.asStateFlow()
 
-    private val _firstRanking: MutableStateFlow<RankingResponse>
-            = MutableStateFlow(RankingResponse("", 0, 0, -1, 0))
-    val firstRanking get() = _firstRanking.asStateFlow()
-
-    private val _secRanking: MutableStateFlow<RankingResponse>
-            = MutableStateFlow(RankingResponse("", 0, 0, -1, 0))
-    val secRanking get() = _secRanking.asStateFlow()
-
-    private val _thirdRanking: MutableStateFlow<RankingResponse>
-            = MutableStateFlow(RankingResponse("", 0, 0, -1, 0))
-    val thirdRanking get() = _thirdRanking.asStateFlow()
-
     private val _unit = MutableStateFlow("km")
     val unit get() = _unit.asStateFlow()
 
@@ -85,17 +73,6 @@ class HomeViewModel @Inject constructor(
             totalRankingRepository.getTotalRanking(type, size, offset).collectLatest {
                 Log.d(TAG, "getTotalRanking: $it")
                 if(it is Result.Success){
-                    if(type.equals("distance")){
-                        var len = it.data.data.size
-                        for(i : Int in 0 until len){
-                            when(i){
-                                0 -> _firstRanking.value = it.data.data[i]
-                                1 -> _secRanking.value = it.data.data[i]
-                                2 -> _thirdRanking.value = it.data.data[i]
-                                else -> break
-                            }
-                        }
-                    }
                     _totalRanking.value = it
                 } else if(it is Result.Error){
                     _errorMsgEvent.postValue("전체 랭킹 불러오기 중 오류가 발생했습니다.")
