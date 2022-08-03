@@ -53,7 +53,7 @@ class CrewDetailViewModel @Inject constructor(
     val errorMsgEvent get() = _errorMsgEvent
 
 
-    fun getState(start: String, end: String) {
+    fun setState(start: String, end: String) {
         val today = Calendar.getInstance()
         val sf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
 
