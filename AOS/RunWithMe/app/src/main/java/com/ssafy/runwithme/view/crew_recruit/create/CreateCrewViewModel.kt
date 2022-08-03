@@ -77,6 +77,7 @@ class CreateCrewViewModel @Inject constructor(
     val goalDays get() = _goalDays.asStateFlow()
 
     private var passwd : String = ""
+    var isSettingPasswd: Boolean = false
 
 
     fun createCrew(imgFile : MultipartBody.Part?) {
@@ -91,9 +92,27 @@ class CreateCrewViewModel @Inject constructor(
         }
 
         var pass : String? = null
-        if(!passwd.equals("")){
-            pass = passwd
+        if(isSettingPasswd) {
+            if(passwd.length < 4){
+                _failMsgEvent.postValue("비밀번호는 4자리 입니다.")
+                return
+            }
+
+            if (!passwd.equals("")) {
+                pass = passwd
+            }
         }
+
+        if(crewName.value == "" || crewName.value.length < 2){
+            _failMsgEvent.postValue("크루명은 2 ~ 8 자 입니다.")
+            return
+        }
+
+        if(crewDescription.value == ""){
+            _failMsgEvent.postValue("크루 설명을 입력해주세요.")
+            return
+        }
+
 
 //        val crew = CrewDto(0, crewName.value, crewDescription.value,
 //                        goalDays.value.toInt(), goalType, goalAmount,
@@ -105,7 +124,7 @@ class CreateCrewViewModel @Inject constructor(
             goalDays.value.toInt(), goalType, goalAmount,
             dateStart.value + " 00:00:00", dateEnd.value + " 23:59:59",
             timeStart.value + ":00", timeEnd.value + ":00", pass,
-            0, 1, maxMember.value.toInt(), "", 0)
+            cost.value.toInt(), 1, maxMember.value.toInt(), "", 0)
 
         val json = Gson().toJson(crew)
         val crewDto = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), json)

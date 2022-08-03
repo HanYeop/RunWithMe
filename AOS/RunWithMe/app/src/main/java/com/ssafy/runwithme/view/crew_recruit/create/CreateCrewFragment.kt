@@ -132,6 +132,7 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
                                 btnCreateCrewPasswd.visibility = View.GONE
                                 tvPasswd.visibility = View.GONE
                                 createCrewViewModel.setPasswd("")
+                                createCrewViewModel.isSettingPasswd = false
                             }
                         }
 
@@ -139,6 +140,7 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
                             binding.apply {
                                 btnCreateCrewPasswd.visibility = View.VISIBLE
                                 tvPasswd.visibility = View.VISIBLE
+                                createCrewViewModel.isSettingPasswd = true
                             }
                         }
                     }
