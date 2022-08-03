@@ -60,99 +60,98 @@
             android:id="@+id/tv_distance_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_marginTop="8dp"
             android:text="이동 거리"
             android:textColor="@color/main_grey"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_time"
             app:layout_constraintEnd_toEndOf="@+id/tv_time_header"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="@+id/tv_time_header" />
+            app:layout_constraintStart_toStartOf="@+id/tv_time_header"
+            app:layout_constraintTop_toBottomOf="@+id/tv_distance" />
 
         <TextView
             android:id="@+id/tv_distance"
             style="@style/header_text"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="40dp"
             android:text="0.3km"
             android:textColor="@color/black"
             android:textSize="26sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_distance_header"
             app:layout_constraintEnd_toEndOf="@+id/tv_distance_header"
-            app:layout_constraintStart_toStartOf="@+id/tv_distance_header" />
+            app:layout_constraintStart_toStartOf="@+id/tv_distance_header"
+            app:layout_constraintTop_toBottomOf="@+id/tv_time_start_end" />
 
         <TextView
             android:id="@+id/tv_calorie_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_marginTop="8dp"
             android:text="칼로리"
             android:textColor="@color/main_grey"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_speed"
             app:layout_constraintEnd_toEndOf="@+id/tv_speed_header"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/tv_speed_header" />
+            app:layout_constraintStart_toStartOf="@+id/tv_speed_header"
+            app:layout_constraintTop_toBottomOf="@+id/tv_calorie" />
 
         <TextView
             android:id="@+id/tv_calorie"
             style="@style/header_text"
-            android:layout_marginBottom="8dp"
             android:text="14 kcal"
             android:textColor="@color/black"
             android:textSize="26sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_calorie_header"
             app:layout_constraintEnd_toEndOf="@+id/tv_calorie_header"
-            app:layout_constraintStart_toStartOf="@+id/tv_calorie_header" />
+            app:layout_constraintStart_toStartOf="@+id/tv_calorie_header"
+            app:layout_constraintTop_toTopOf="@+id/tv_distance" />
 
         <TextView
             android:id="@+id/tv_time_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
+            android:layout_marginTop="8dp"
             android:text="소요 시간"
             android:textColor="@color/main_grey"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/btn_recommend"
             app:layout_constraintEnd_toEndOf="@+id/btn_recommend"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="@+id/btn_recommend" />
+            app:layout_constraintStart_toStartOf="@+id/btn_recommend"
+            app:layout_constraintTop_toBottomOf="@+id/tv_time" />
 
         <TextView
             android:id="@+id/tv_time"
             style="@style/header_text"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="32dp"
             android:text="07 : 27"
             android:textColor="@color/black"
             android:textSize="26sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_time_header"
             app:layout_constraintEnd_toEndOf="@+id/tv_time_header"
-            app:layout_constraintStart_toStartOf="@+id/tv_time_header" />
+            app:layout_constraintStart_toStartOf="@+id/tv_time_header"
+            app:layout_constraintTop_toBottomOf="@+id/tv_distance_header" />
 
         <TextView
             android:id="@+id/tv_speed_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
+            android:layout_marginTop="8dp"
             android:text="평균 속도"
             android:textColor="@color/main_grey"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/btn_ok"
             app:layout_constraintEnd_toEndOf="@+id/btn_ok"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/btn_ok" />
+            app:layout_constraintStart_toStartOf="@+id/btn_ok"
+            app:layout_constraintTop_toBottomOf="@+id/tv_speed" />
 
         <TextView
             android:id="@+id/tv_speed"
             style="@style/header_text"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="32dp"
             android:text="8.3km/h"
             android:textColor="@color/black"
             android:textSize="26sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_speed_header"
             app:layout_constraintEnd_toEndOf="@+id/tv_speed_header"
-            app:layout_constraintStart_toStartOf="@+id/tv_speed_header" />
+            app:layout_constraintStart_toStartOf="@+id/tv_speed_header"
+            app:layout_constraintTop_toBottomOf="@+id/tv_calorie_header" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_ok"
