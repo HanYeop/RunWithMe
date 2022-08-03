@@ -9,6 +9,7 @@ import com.ssafy.gumid101.dto.QuestionDto;
 import com.ssafy.gumid101.dto.ReportDto;
 import com.ssafy.gumid101.req.QuestionReqDto;
 import com.ssafy.gumid101.req.QuestionSelectParameter;
+import com.ssafy.gumid101.req.ReportSelectReqDto;
 
 public interface CustomerCenterService {
 
@@ -25,6 +26,8 @@ public interface CustomerCenterService {
 	int answerQuestion(Long seq, QuestionReqDto questionReqDto, MultipartFile[] files)throws Exception;
 
 	public Map<String, Object> selectQuestion(QuestionSelectParameter params);
+
+	void selectReportsByParam(ReportSelectReqDto params);
 
 
 }

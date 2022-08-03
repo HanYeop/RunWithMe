@@ -1,5 +1,6 @@
 package com.ssafy.gumid101.customercenter;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,13 +50,27 @@ public class CustomerCenterRestController {
 		return tokenUser;
 	}
 
+	//신고글 스테이트 바꾸기
+	//질문글 스테이트 바꾸기
+	
 	// 신고글 조회
+	@ApiOperation("신고글 조회 (관리자)")
+	@GetMapping("/manager/reports")
+	public ResponseEntity<?> getReports() throws Exception{
+		
+		return null;
+	}
 	
 	// 질문 글 조회
 	@ApiOperation("질문 글 조회 (관리자)")
 	@GetMapping("/manager/questions")
-	public ResponseEntity<?> getQuestions(QuestionSelectParameter params) throws Exception {
+	public ResponseEntity<?> getQuestions(QuestionSelectParameter params,BindingResult bindingResult) throws Exception {
 
+		if(bindingResult.hasErrors()) {
+			List<ObjectError> errors = bindingResult.getAllErrors();
+			throw new IllegalParameterException(errors.get(0).getDefaultMessage());
+		}
+		
 		Map<String,Object> resultMap = customerCenterService.selectQuestion(params);
 		
 		ResponseFrame<Map<String,Object> > res = ResponseFrame.of(resultMap, 0, "질문글과 페이징 정보를 반환합니다.");
@@ -168,13 +184,14 @@ public class CustomerCenterRestController {
 	@ApiOperation("게시글 신고(미구현)")
 	@PostMapping("/report/board/{boardSeq}")
 	public ResponseEntity<?> reportCrewBoard(@ApiParam("신고글 아이디") @PathVariable long boardSeq,
-			@ApiParam("신고 이유") @RequestParam(required = false) String report_content) throws Exception {
+			@ApiParam("신고 이유") @RequestBody(required = false) String reportContent) throws Exception {
+
 
 		UserDto userDto = loadUserFromToken();
 
 		redisServ.getIsUseable(userDto.getUserSeq().toString() + "reportCrewBoard" + boardSeq, 10);
 
-		ReportDto result = customerCenterService.postReport(boardSeq, report_content, userDto.getUserSeq());
+		ReportDto result = customerCenterService.postReport(boardSeq, reportContent, userDto.getUserSeq());
 
 		ResponseFrame<ReportDto> res = ResponseFrame.of(result, 1, "신고가 등록되었습니다.");
 

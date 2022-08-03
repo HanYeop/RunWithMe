@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.constraints.Min;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,8 +22,10 @@ import com.ssafy.gumid101.entity.ReportEntity;
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.req.QuestionReqDto;
 import com.ssafy.gumid101.req.QuestionSelectParameter;
+import com.ssafy.gumid101.req.ReportSelectReqDto;
 import com.ssafy.gumid101.res.PagingParameter;
 import com.ssafy.gumid101.res.QuestionResDto;
+import com.ssafy.gumid101.res.ReportResDto;
 import com.ssafy.gumid101.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -123,44 +127,74 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 
 	@Override
 	public Map<String, Object> selectQuestion(QuestionSelectParameter params) {
-		
+
 		List<QuestionResDto> questionList = questionRepository.selectQuestionByParam(params);
 		long itemTotalCount = questionRepository.selectCountQuestionByParam(params);
-		
+
 		PagingParameter pagingParameter = new PagingParameter();
-		//전체 갯수 , 페이지 당 갯수 -1
+		// 전체 갯수 , 페이지 당 갯수 -1
 		int pageNavSize = params.getPageNaviSize();
 		int pageCurrent = params.getCurrentPage();
 		int pageItemSize = params.getPageItemSize();
-		
-		int lastPageIndex = (int)((itemTotalCount -1) / pageItemSize) +1;
-		if(lastPageIndex <= 0) {
+
+		int lastPageIndex = (int) ((itemTotalCount - 1) / pageItemSize) + 1;
+		if (lastPageIndex <= 0) {
 			lastPageIndex = 1;
 		}
-		
-		int startPageIndex =(int) ((pageCurrent-1) / pageNavSize) + 1;
-		int endPageIndex =  (int) startPageIndex + pageNavSize -1;
-		int prevPageIndex = startPageIndex < 1 ?  1: startPageIndex-1;
-		int nextPageIndex =  endPageIndex >= lastPageIndex ? lastPageIndex : endPageIndex+1;
-		if(endPageIndex> lastPageIndex) {
-			endPageIndex =lastPageIndex;
+
+		int startPageIndex = (int) ((pageCurrent - 1) / pageNavSize) * pageNavSize + 1;
+		int endPageIndex = (int) startPageIndex + pageNavSize - 1;
+		int prevPageIndex = startPageIndex < 1 ? 1 : startPageIndex - 1;
+		int nextPageIndex = endPageIndex >= lastPageIndex ? lastPageIndex : endPageIndex + 1;
+		if (endPageIndex > lastPageIndex) {
+			endPageIndex = lastPageIndex;
 		}
-		if(startPageIndex < 1) {
+		if (startPageIndex < 1) {
 			startPageIndex = 1;
 		}
-		
-		pagingParameter.setCurrentPageIndex(pageCurrent); //현재 페이지
+
+		pagingParameter.setCurrentPageIndex(pageCurrent); // 현재 페이지
 		pagingParameter.setEndPageIndex(endPageIndex);
 		pagingParameter.setNextPageIndex(endPageIndex);
 		pagingParameter.setPageNavSize(pageNavSize);
 		pagingParameter.setPrevPageIndex(prevPageIndex);
 		pagingParameter.setStartPageIndex(startPageIndex);
-		
+
 		Map<String, Object> map = new HashMap<>();
 		map.put("qustions", questionList);
 		map.put("pageinfo", pagingParameter);
 		return map;
+
+	}
+
+	@Override
+	public void selectReportsByParam(ReportSelectReqDto params) {
+
+		List<ReportResDto> reportList = reportRepository.selectReportsByParam(params);
+		long count = reportRepository.selectCountReportsByParam(params);
+
+		int pageItemSize = params.getPageItemSize();
+		int currentPage = params.getCurrentPage();
+		int pageNaviSize = params.getPageNaviSize();
+
+		int lastPageIndex = (int) (((count - 1)/ pageItemSize) +1);
 		
+		if(lastPageIndex <= 0) {
+			lastPageIndex = 1;
+		}
+		int startPageIndex = ((currentPage-1)/pageNaviSize)*pageNaviSize +1;
+		
+		PagingParameter pagingParameter = new PagingParameter();
+		
+		pagingParameter.setCurrentPageIndex(currentPage);
+		pagingParameter.setLastPageIndex(lastPageIndex);
+		
+		pagingParameter.setEndPageIndex(0);
+		pagingParameter.setNextPageIndex(0);
+		pagingParameter.setCurrentPageIndex(currentPage);		
+		pagingParameter.setPageNavSize(pageNaviSize);
+		pagingParameter.setPrevPageIndex(0);
+		pagingParameter.setStartPageIndex(0);
 	}
 
 }
