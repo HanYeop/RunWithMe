@@ -126,18 +126,17 @@ public class CrewActivityRestController {
 	}
 	
 
-	@ApiOperation("크루내 내 통합 누적 기록 보기(미구현)")
+	@ApiOperation("크루내 내 통합 누적 기록 보기")
 	@GetMapping("/{crewSeq}/my-total")
-	public ResponseEntity<?> getCrewMyTotalRecords(@PathVariable long crewSeq) throws Exception {
+	public ResponseEntity<?> getCrewMyTotalRecords(@PathVariable Long crewSeq) throws Exception {
 
-		CrewTotalRecordDto myTotalRecord = crewActivityService.getMyCrewTotalRecord(crewSeq,
-				loadUserFromToken().getUserSeq());
+		CrewTotalRecordDto myTotalRecord = crewActivityService.getMyCrewTotalRecord(loadUserFromToken().getUserSeq(), crewSeq);
 
 		if (myTotalRecord == null) {
 			myTotalRecord = CrewTotalRecordDto.defaultCrewTotalRecordDto();
 		}
 
-		ResponseFrame<CrewTotalRecordDto> res = ResponseFrame.of(myTotalRecord, 1, "크루 내 랭킹을 반환합니다.");
+		ResponseFrame<CrewTotalRecordDto> res = ResponseFrame.of(myTotalRecord, 1, "크루 내 나의 누적 기록을 반환합니다.");
 
 		return new ResponseEntity<>(res, HttpStatus.OK);
 
