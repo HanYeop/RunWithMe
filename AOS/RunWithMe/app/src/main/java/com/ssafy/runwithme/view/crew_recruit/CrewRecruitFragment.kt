@@ -39,6 +39,10 @@ class CrewRecruitFragment : BaseFragment<FragmentCrewRecruitBinding>(R.layout.fr
             imgBtnSearch.setOnClickListener {
                 findNavController().navigate(R.id.action_CrewRecruitFragment_to_searchCrewFragment)
             }
+
+            toolbar.setOnClickListener {
+                findNavController().popBackStack()
+            }
         }
     }
 

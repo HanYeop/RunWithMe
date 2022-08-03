@@ -104,7 +104,7 @@
                     android:maxLength="66"
                     android:maxLines="3"
                     android:padding="5dp"
-                    android:text="@{crewCreateVM.crewDescription}"
+                    android:text="@={crewCreateVM.crewDescription}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/img_create_crew"
@@ -303,9 +303,9 @@
                     android:id="@+id/layout_passwd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:paddingBottom="24dp"
+                    android:layout_marginTop="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/view_2">
 
@@ -363,8 +363,9 @@
                         android:includeFontPadding="true"
                         android:text="비밀번호 설정"
                         android:textColor="@color/black_high_emphasis"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/img_passwd" />
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -380,6 +381,7 @@
                         android:maxLines="1"
                         android:text="****"
                         android:textColor="@color/black_low_emphasis"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@id/tv_passwd"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/tv_passwd"
@@ -395,10 +397,10 @@
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="36dp"
                     android:background="@color/main_grey"
-                    app:layout_constraintBottom_toTopOf="@id/layout_passwd"
+                    app:layout_constraintBottom_toTopOf="@id/tv_create_crew_max_member"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_create_crew_max_member"/>
+                    app:layout_constraintTop_toBottomOf="@id/layout_passwd"/>
 
 
                 <TextView
