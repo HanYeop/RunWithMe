@@ -2,6 +2,7 @@ package com.ssafy.gumid101.customercenter;
 
 import java.util.Map;
 
+import org.springframework.http.RequestEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.dto.CrewBoardDto;
@@ -27,7 +28,11 @@ public interface CustomerCenterService {
 
 	public Map<String, Object> selectQuestion(QuestionSelectParameter params);
 
-	void selectReportsByParam(ReportSelectReqDto params);
+	Map<String, Object> selectReportsByParam(ReportSelectReqDto params);
+
+	int updateReportsStatus(Long reportId, ReportStatus status);
+
+	int updateQustionStatus(Long questionSeq, QuestionStatus valueOf);
 
 
 }

@@ -3,9 +3,11 @@ package com.ssafy.gumid101.customercenter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.constraints.Min;
 
+import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +19,7 @@ import com.ssafy.gumid101.dto.CrewBoardDto;
 import com.ssafy.gumid101.dto.QuestionDto;
 import com.ssafy.gumid101.dto.ReportDto;
 import com.ssafy.gumid101.entity.CrewBoardEntity;
+import com.ssafy.gumid101.entity.QUserEntity;
 import com.ssafy.gumid101.entity.QuestionEntity;
 import com.ssafy.gumid101.entity.ReportEntity;
 import com.ssafy.gumid101.entity.UserEntity;
@@ -168,7 +171,7 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 	}
 
 	@Override
-	public void selectReportsByParam(ReportSelectReqDto params) {
+	public Map<String, Object> selectReportsByParam(ReportSelectReqDto params) {
 
 		List<ReportResDto> reportList = reportRepository.selectReportsByParam(params);
 		long count = reportRepository.selectCountReportsByParam(params);
@@ -177,34 +180,67 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 		int currentPage = params.getCurrentPage();
 		int pageNaviSize = params.getPageNaviSize();
 
-		int lastPageIndex = (int) (((count - 1)/ pageItemSize) +1);
-		
-		if(lastPageIndex <= 0) {
+		int lastPageIndex = (int) (((count - 1) / pageItemSize) + 1);
+
+		if (lastPageIndex <= 0) {
 			lastPageIndex = 1;
 		}
-		int startPageIndex = ((currentPage-1)/pageNaviSize)*pageNaviSize +1;
-		int endPageIndex = startPageIndex + pageNaviSize -1;
+		int startPageIndex = ((currentPage - 1) / pageNaviSize) * pageNaviSize + 1;
+		int endPageIndex = startPageIndex + pageNaviSize - 1;
 		int nextPageIndex = endPageIndex + 1;
-		int prevPageIndex = startPageIndex -1 ;
-		
-		if(endPageIndex > lastPageIndex) {
+		int prevPageIndex = startPageIndex - 1;
+
+		if (endPageIndex > lastPageIndex) {
 			endPageIndex = lastPageIndex;
 		}
-		if(startPageIndex < 1) {
+		if (startPageIndex < 1) {
 			startPageIndex = 1;
 		}
-		
+
+		nextPageIndex = endPageIndex >= lastPageIndex ? endPageIndex : nextPageIndex;
+		prevPageIndex = prevPageIndex <= 1 ? 1 : prevPageIndex;
+
 		PagingParameter pagingParameter = new PagingParameter();
-		
+
 		pagingParameter.setCurrentPageIndex(currentPage);
 		pagingParameter.setLastPageIndex(lastPageIndex);
-		
+
 		pagingParameter.setEndPageIndex(endPageIndex);
-		pagingParameter.setNextPageIndex();
-		pagingParameter.setCurrentPageIndex(currentPage);		
+		pagingParameter.setNextPageIndex(nextPageIndex);
+		pagingParameter.setCurrentPageIndex(currentPage);
 		pagingParameter.setPageNavSize(pageNaviSize);
-		pagingParameter.setPrevPageIndex(0);
+		pagingParameter.setPrevPageIndex(prevPageIndex);
 		pagingParameter.setStartPageIndex(startPageIndex);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("reports", reportList);
+		map.put("pageinfo", pagingParameter);
+		return map;
+		
 	}
+
+	@Override
+	public int updateReportsStatus(Long reportId, ReportStatus status) {
+		
+		Optional<ReportEntity> report = reportRepository.findById(reportId);
+		if(!report.isPresent()) {
+			return 0;
+		}
+		report.get().setReportStatus(status);
+		return 1;
+	}
+
+	@Override
+	public int updateQustionStatus(Long questionSeq, QuestionStatus status) {
+		Optional<QuestionEntity> question = questionRepository.findById(questionSeq);
+		
+		if(!question.isPresent()) {
+			return 0;
+		}
+		
+		question.get().setQuestionStatus(status);
+		return 1;
+	}
+
 
 }
