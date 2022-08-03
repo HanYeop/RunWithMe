@@ -31,6 +31,7 @@ class RunningBottomSheet(context: Context, private val sharedPreferences: Shared
 
     private val runningViewModel by viewModels<RunningViewModel>()
     private lateinit var runningListAdapter: RunningListAdapter
+    private lateinit var myCurrentInfo : MyCurrentCrewResponse
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return BottomSheetDialog(requireContext(), R.style.AppBottomSheetDialogTheme)
@@ -70,15 +71,19 @@ class RunningBottomSheet(context: Context, private val sharedPreferences: Shared
         runningViewModel.errorMsgEvent.observe(this){
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
+
+        runningViewModel.startRunEvent.observe(this){
+            runningStart(sharedPreferences, myCurrentInfo.crewDto.crewSeq, myCurrentInfo.crewDto.crewName
+                ,myCurrentInfo.crewDto.crewGoalType, myCurrentInfo.crewDto.crewGoalAmount)
+            startActivity(Intent(context, RunningActivity::class.java))
+            dismiss()
+        }
     }
 
     val listener = object : RunningListListener {
         override fun onItemClick(myCurrentCrewResponse: MyCurrentCrewResponse) {
+            myCurrentInfo = myCurrentCrewResponse
             runningViewModel.getMyProfile()
-            runningStart(sharedPreferences, myCurrentCrewResponse.crewDto.crewSeq, myCurrentCrewResponse.crewDto.crewName
-                ,myCurrentCrewResponse.crewDto.crewGoalType, myCurrentCrewResponse.crewDto.crewGoalAmount)
-            startActivity(Intent(context, RunningActivity::class.java))
-            dismiss()
         }
     }
 

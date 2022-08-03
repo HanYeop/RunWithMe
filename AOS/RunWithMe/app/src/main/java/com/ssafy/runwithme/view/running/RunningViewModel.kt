@@ -43,6 +43,9 @@ class RunningViewModel @Inject constructor(
     private val _errorMsgEvent = SingleLiveEvent<String>()
     val errorMsgEvent get() = _errorMsgEvent
 
+    private val _startRunEvent = SingleLiveEvent<String>()
+    val startRunEvent get() = _startRunEvent
+
     fun createRunRecord(crewId: Int, imgFile: MultipartBody.Part, runRecordDto: RunRecordDto){
         val json = Gson().toJson(runRecordDto)
         val run = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), json)
@@ -62,6 +65,7 @@ class RunningViewModel @Inject constructor(
                 if(it is Result.Success){
                     sharedPreferences.edit().putInt(USER_WEIGHT,it.data.data.userDto.weight).apply()
                     sharedPreferences.edit().putString(USER_NAME, it.data.data.userDto.nickName).apply()
+                    _startRunEvent.postValue("러닝 시작")
                 } else if(it is Result.Error){
 
                 }
