@@ -333,7 +333,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
     // 뒤로가기 버튼 눌렀을 때
     override fun onBackPressed() {
         var builder = AlertDialog.Builder(this)
-        builder.setTitle("달리기를 취소할까요?")
+        builder.setTitle("달리기를 종료할까요?")
             .setPositiveButton("네"){ _,_ ->
                 // TODO : 달리기 종료시킴
                 stopRun()

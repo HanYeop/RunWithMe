@@ -269,6 +269,7 @@ class RunningService : LifecycleService() {
                 // 종료 되었을 때
                 ACTION_STOP_SERVICE ->{
                     Log.d(TAG, "종료 ")
+                    ttsSpeak("러닝이 종료되었습니다.")
                     killService()
                 }
                 // 처음 화면 켰을 때

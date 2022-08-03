@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.NumberPicker
 import androidx.databinding.DataBindingUtil
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.databinding.DialogStartTimeBinding
@@ -39,6 +40,9 @@ class StartTimeDialog(context: Context, private val listener : StartTimeDialogLi
             numberpickerMinute.minValue = 0
             numberpickerMinute.maxValue = 5
             numberpickerMinute.displayedValues = startTimeValues
+
+            numberpickerMinute.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
+            numberpickerHour.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
 
             numberpickerMinute.wrapSelectorWheel = false
         }

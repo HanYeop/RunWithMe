@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.NumberPicker
 import androidx.databinding.DataBindingUtil
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.databinding.DialogPurposeTimeBinding
@@ -42,6 +43,8 @@ class PurposeTimeDialog (context: Context, private val listener : PurposeTimeDia
             numberpickerTime.displayedValues = timeValues
             //순환 안되게 막기
             numberpickerTime.wrapSelectorWheel = false
+
+            numberpickerTime.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
         }
 
         context.dialogResize(this, 0.9f, 0.5f)
