@@ -41,10 +41,14 @@ public class QuestionEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "question_seq")
 	private Long questionSeq;
-
+	
+	@Column(nullable = false, name = "question_title")
+	private String questionTitle;
+	
 	@Column(nullable = false, name = "question_content")
 	private String questionContent;
 	
+
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, name = "question_status")
 	private QuestionStatus questionStatus;
