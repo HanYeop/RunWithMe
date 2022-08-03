@@ -16,9 +16,8 @@
         android:layout_marginStart="@dimen/header_margin"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="@dimen/header_margin"
-        android:backgroundTint="#F7F7F7"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp">
+        app:cardCornerRadius="6dp"
+        app:cardElevation="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"

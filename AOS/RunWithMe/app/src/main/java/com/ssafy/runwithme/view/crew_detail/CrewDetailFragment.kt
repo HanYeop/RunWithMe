@@ -176,7 +176,7 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
     }
 
     private fun initViewModelCallback() {
-        crewDetailViewModel.setState(crewDto.crewDateStart, crewDto.crewDateEnd)
+        crewDetailViewModel.setState(crewDto.crewDateStart, crewDto.crewDateEnd, crewDto.crewTimeStart, crewDto.crewTimeEnd)
 
         crewDetailViewModel.checkCrewMember(crewDto.crewSeq)
 

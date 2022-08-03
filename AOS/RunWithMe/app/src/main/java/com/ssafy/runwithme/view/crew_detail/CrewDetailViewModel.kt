@@ -1,6 +1,8 @@
 package com.ssafy.runwithme.view.crew_detail
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.runwithme.model.dto.*
@@ -17,6 +19,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.*
 import javax.inject.Inject
 
@@ -32,14 +37,8 @@ class CrewDetailViewModel @Inject constructor(
 
     private val _crewState: MutableStateFlow<String> = MutableStateFlow("await")
     val crewState get() = _crewState.asStateFlow()
+    // await : 시작 전, start : 시작, end : 끝난 후, 러닝 시간 아닌 경우
 
-    // await : 시작 전, start : 시작, end : 끝난 후
-    private val _checkCrewMemberDto: MutableStateFlow<CheckCrewMemberDto> = MutableStateFlow(
-        CheckCrewMemberDto(false, "")
-    )
-    val checkCrewMemberDto get() = _checkCrewMemberDto.asStateFlow()
-
-//    private val _crewState: MutableStateFlow<>
 
     private val _successMsgEvent = SingleLiveEvent<String>()
     val successMsgEvent get() = _successMsgEvent
@@ -48,28 +47,40 @@ class CrewDetailViewModel @Inject constructor(
     val errorMsgEvent get() = _errorMsgEvent
 
 
-    fun setState(start: String, end: String) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun setState(start: String, end: String, timeStart: String, timeEnd: String) {
         val today = Calendar.getInstance()
-        val sf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+        val sf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
         var startDate = sf.parse(start)
         var endDate = sf.parse(end)
 
+
+        val sfTime = SimpleDateFormat("HH:mm:ss")
+
+        var startTime = sfTime.parse(timeStart)
+        var endTime = sfTime.parse(timeEnd)
+
+        val now = System.currentTimeMillis()
+        val date = Date(now)
+
         if(today.time.time - startDate.time > 0){
             if(today.time.time - endDate.time > 0){
-                _checkCrewMemberDto.value.crewState = "end"
                 _crewState.value = "end"
             }else{
-                _checkCrewMemberDto.value.crewState = "start"
-                _crewState.value = "start"
+
+
+                if(date.time >= startTime.time && date.time <= endTime.time){
+                    _crewState.value = "start"
+                }else {
+                    _crewState.value = "end"
+                }
             }
 
         }else{
-            _checkCrewMemberDto.value.crewState = "await"
             _crewState.value = "await"
         }
 
-        Log.d(TAG, "getState: startDate : $startDate, endDate : $endDate, state : ${_checkCrewMemberDto.value}")
 
     }
 
@@ -78,9 +89,7 @@ class CrewDetailViewModel @Inject constructor(
         viewModelScope.launch (Dispatchers.IO) {
             crewManagerRepository.checkCrewMember(crewSeq).collectLatest {
                 if(it is Result.Success){
-                    _checkCrewMemberDto.value.isCrewMember = it.data.data
                     _isCrewMember.value = it.data.data
-                    Log.d(TAG, "checkCrewMember: crewSeq : $crewSeq, isCrewMember : ${_checkCrewMemberDto.value.isCrewMember}")
                 }
             }
         }
