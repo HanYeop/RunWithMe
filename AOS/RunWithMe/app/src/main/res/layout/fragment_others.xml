@@ -30,10 +30,10 @@
         </com.google.android.material.appbar.MaterialToolbar>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switch_layout_type"
+            android:id="@+id/switch_alert"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:textSize="16sp"
+            android:textSize="17sp"
             android:textColor="@color/main_black"
             android:fontFamily="@font/noto_sans_bold"
             android:layout_marginTop="12dp"
@@ -46,10 +46,11 @@
             android:text="알림켜기" />
 
         <TextView
+            android:id="@+id/tv_question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
-            android:textSize="16sp"
+            android:textSize="17sp"
             android:fontFamily="@font/noto_sans_bold"
             android:textColor="@color/main_black"
             android:paddingStart="20dp"
@@ -59,10 +60,11 @@
             android:text="문의하기"/>
 
         <TextView
+            android:id="@+id/tv_terms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
-            android:textSize="16sp"
+            android:textSize="17sp"
             android:fontFamily="@font/noto_sans_bold"
             android:textColor="@color/main_black"
             android:paddingStart="20dp"
@@ -72,10 +74,11 @@
             android:text="개인정보 처리방침"/>
 
         <TextView
+            android:id="@+id/tv_version"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
-            android:textSize="16sp"
+            android:textSize="17sp"
             android:fontFamily="@font/noto_sans_bold"
             android:textColor="@color/main_black"
             android:paddingStart="20dp"
@@ -85,10 +88,11 @@
             android:text="서비스 버전"/>
 
         <TextView
+            android:id="@+id/tv_resign"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
-            android:textSize="16sp"
+            android:textSize="17sp"
             android:fontFamily="@font/noto_sans_bold"
             android:textColor="@color/main_black"
             android:paddingStart="20dp"
@@ -98,10 +102,11 @@
             android:text="회원 탈퇴"/>
 
         <TextView
+            android:id="@+id/tv_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
-            android:textSize="16sp"
+            android:textSize="17sp"
             android:fontFamily="@font/noto_sans_bold"
             android:textColor="@color/red"
             android:paddingStart="20dp"

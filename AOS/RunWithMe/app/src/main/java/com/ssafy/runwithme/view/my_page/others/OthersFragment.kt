@@ -22,6 +22,11 @@ class OthersFragment : BaseFragment<FragmentOthersBinding>(R.layout.fragment_oth
                 i.data = Uri.parse("http://pf.kakao.com/_xbxnlqxj")
                 startActivity(i)
             }
+            tvTerms.setOnClickListener {
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse("https://hanyeop.github.io/RunWithMe-terms/")
+                startActivity(i)
+            }
         }
     }
 }
