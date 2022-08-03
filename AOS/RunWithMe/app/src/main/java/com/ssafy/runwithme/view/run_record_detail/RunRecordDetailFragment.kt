@@ -49,7 +49,7 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
             tvSpeed.text = "${round(runRecordDto!!.runRecordRunningAvgSpeed * 10.0) / 10} km/h"
             tvCalorie.text = "${runRecordDto!!.runRecordRunningCalorie} kcal"
             tvTime.text = "${(runRecordDto!!.runRecordRunningTime / 60)} : $second"
-            tvDistance.text = "${round(1.0 * runRecordDto!!.runRecordRunningDistance / 1000.0 * 10) / 10} km"
+            tvDistance.text = "${round(1.0 * runRecordDto!!.runRecordRunningDistance / 1000.0 * 100) / 100} km"
             tvRunningResultName.text = "${start[0]}년 ${start[1]}월 ${start[2]}일 러닝"
             tvCrewName.text = runRecordDto!!.crewName
             tvTimeStartEnd.text = "${start[3]}:${start[4]}-${end[3]}:${end[4]}"

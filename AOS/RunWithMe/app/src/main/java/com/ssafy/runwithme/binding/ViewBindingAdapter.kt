@@ -275,7 +275,7 @@ object ViewBindingAdapter {
     @BindingAdapter("distanceConverter")
     @JvmStatic
     fun TextView.setDistanceConverter (distance: Int){
-        this.text = "${round(1.0 * distance / 1000.0 * 10) / 10}"
+        this.text = "${round(1.0 * distance / 1000.0 * 100) / 100}"
     }
 
     @BindingAdapter("timeConverter")
