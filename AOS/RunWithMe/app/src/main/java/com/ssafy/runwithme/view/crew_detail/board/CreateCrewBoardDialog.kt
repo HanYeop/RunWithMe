@@ -47,6 +47,7 @@ class CreateCrewBoardDialog(context: Context, private val listener : CreateCrewB
                 listener.onItemClick(content)
                 dismiss()
             }
+            btnCancel.setOnClickListener { dismiss() }
         }
     }
 }
