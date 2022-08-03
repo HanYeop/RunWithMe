@@ -48,16 +48,31 @@
                 app:lottie_loop="true" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ProgressBar
+
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/progress_bar_running_list"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="running.json"
+            app:lottie_loop="true" />
+
+        <!--        <ProgressBar-->
+        <!--            android:id="@+id/progress_bar_running_list"-->
+        <!--            style="?android:attr/progressBarStyle"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintHorizontal_bias="0.5"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
