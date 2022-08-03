@@ -57,6 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="감스트"
+                    android:text="@{myRunRecord.userName}"
                     android:textColor="@color/main_black"
                     android:fontFamily="@font/noto_sans_bold"
                     android:includeFontPadding="false"
@@ -70,7 +71,7 @@
                     android:id="@+id/tv_duration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{myRunRecord.runRecordEndTime}"
+                    android:text="@{myRunRecord.runRecordStartTime}"
                     tools:text="2022-08-02 11:23:32"
                     app:layout_constraintStart_toStartOf="@id/tv_name"
                     app:layout_constraintTop_toBottomOf="@id/tv_name"/>
@@ -91,6 +92,7 @@
                     android:layout_height="wrap_content"
                     android:text="Km"
                     android:layout_marginStart="4dp"
+                    app:layout_constraintEnd_toEndOf="@id/tv_distance"
                     app:layout_constraintStart_toStartOf="@id/tv_distance"
                     app:layout_constraintTop_toBottomOf="@id/tv_distance"/>
 
@@ -112,6 +114,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:text="분"
+                    app:layout_constraintEnd_toEndOf="@id/tv_time"
                     app:layout_constraintTop_toBottomOf="@id/tv_time"
                     app:layout_constraintStart_toStartOf="@id/tv_time"/>
 
@@ -131,6 +134,7 @@
                     android:layout_height="wrap_content"
                     android:text="kcal"
                     android:layout_marginStart="4dp"
+                    app:layout_constraintEnd_toEndOf="@id/tv_calorie"
                     app:layout_constraintStart_toStartOf="@id/tv_calorie"
                     app:layout_constraintTop_toBottomOf="@id/tv_calorie"/>
 
@@ -150,6 +154,7 @@
                     android:layout_height="wrap_content"
                     android:text="km/h"
                     android:layout_marginStart="4dp"
+                    app:layout_constraintEnd_toEndOf="@id/tv_speed"
                     app:layout_constraintTop_toBottomOf="@id/tv_speed"
                     app:layout_constraintStart_toStartOf="@id/tv_speed"/>
 

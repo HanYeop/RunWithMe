@@ -53,12 +53,16 @@
                 android:id="@+id/edit_search_crew_name"
                 android:layout_width="0dp"
                 android:layout_height="32dp"
+                android:layout_marginHorizontal="16dp"
                 android:background="@drawable/edit_text_round"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:maxLines="1"
+                android:fontFamily="@font/noto_sans_bold"
+                android:gravity="center"
+                android:includeFontPadding="false"
                 android:maxLength="8"
+                android:maxLines="1"
+                android:textColor="@color/main_black"
                 android:text="@={searchCrewVM.crewName}"
+                tools:text="감크루"
                 app:layout_constraintStart_toEndOf="@id/tv_search_crew_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_search_crew_name"
@@ -70,9 +74,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginTop="32dp"
-                android:backgroundTint="#F7F7F7"
-                app:cardCornerRadius="16dp"
+                android:layout_marginTop="48dp"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="6dp"
                 app:cardElevation="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -91,6 +95,7 @@
                         android:id="@+id/checkbox_crew_duration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:buttonTint="@color/main_purple"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tv_search_crew_duration"
                         app:layout_constraintBottom_toBottomOf="@id/tv_search_crew_duration"/>
@@ -114,8 +119,8 @@
                         android:text="@{searchCrewVM.dateStart}"
                         android:alpha="0.5"
                         android:enabled="false"
-                        android:background="@drawable/btn_round_lightgrey"
-                        android:layout_marginStart="16dp"
+                        android:background="@drawable/btn_round_white_grey_border"
+                        android:elevation="2dp"                        android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         app:layout_constraintStart_toEndOf="@id/tv_search_crew_duration"
                         app:layout_constraintTop_toTopOf="parent"
@@ -143,8 +148,8 @@
                         android:text="@{searchCrewVM.dateEnd}"
                         android:alpha="0.5"
                         android:enabled="false"
-                        android:background="@drawable/btn_round_lightgrey"
-                        app:layout_constraintEnd_toStartOf="@id/img_btn_search_end_calendar"
+                        android:background="@drawable/btn_round_white_grey_border"
+                        android:elevation="2dp"                        app:layout_constraintEnd_toStartOf="@id/img_btn_search_end_calendar"
                         app:layout_constraintStart_toEndOf="@id/tv_search_crew_duration"
                         app:layout_constraintTop_toBottomOf="@id/text_view"
                         tools:text="2022.09.01" />
@@ -174,6 +179,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:buttonTint="@color/main_purple"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/btn_search_end_duration"/>
 
@@ -197,8 +203,8 @@
                         android:layout_marginStart="8dp"
                         android:alpha="0.5"
                         android:enabled="false"
-                        android:background="@drawable/btn_round_lightgrey"
-                        app:layout_constraintTop_toTopOf="@id/tv_crew_running_start_time"
+                        android:background="@drawable/btn_round_white_grey_border"
+                        android:elevation="2dp"                        app:layout_constraintTop_toTopOf="@id/tv_crew_running_start_time"
                         app:layout_constraintEnd_toStartOf="@id/text_view2"
                         app:layout_constraintBottom_toBottomOf="@id/tv_crew_running_start_time"
                         app:layout_constraintStart_toEndOf="@id/tv_crew_running_start_time"/>
@@ -225,8 +231,8 @@
                         android:layout_marginEnd="8dp"
                         android:alpha="0.5"
                         android:enabled="false"
-                        android:background="@drawable/btn_round_lightgrey"
-                        app:layout_constraintTop_toTopOf="@id/btn_crew_running_start_time"
+                        android:background="@drawable/btn_round_white_grey_border"
+                        android:elevation="2dp"                        app:layout_constraintTop_toTopOf="@id/btn_crew_running_start_time"
                         app:layout_constraintBottom_toBottomOf="@id/btn_crew_running_start_time"
                         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -242,9 +248,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginTop="32dp"
-                android:backgroundTint="#F7F7F7"
-                app:cardCornerRadius="16dp"
+                android:layout_marginTop="48dp"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="6dp"
                 app:cardElevation="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -263,6 +269,7 @@
                         android:id="@+id/checkbox_crew_cost"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:buttonTint="@color/main_purple"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -284,8 +291,8 @@
                         android:layout_height="40dp"
                         tools:text="5,000"
                         app:costFormat="@{searchCrewVM.minCost}"
-                        android:background="@drawable/btn_round_lightgrey"
-                        android:layout_marginStart="16dp"
+                        android:background="@drawable/btn_round_white_grey_border"
+                        android:elevation="2dp"                        android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:alpha="0.5"
                         android:enabled="false"
@@ -317,8 +324,8 @@
                         android:alpha="0.5"
                         android:enabled="false"
                         app:costFormat="@{searchCrewVM.maxCost}"
-                        android:background="@drawable/btn_round_lightgrey"
-                        app:layout_constraintEnd_toStartOf="@id/tv_p"
+                        android:background="@drawable/btn_round_white_grey_border"
+                        android:elevation="2dp"                        app:layout_constraintEnd_toStartOf="@id/tv_p"
                         app:layout_constraintTop_toTopOf="@id/text_view3"
                         app:layout_constraintBottom_toBottomOf="@id/text_view3"
                         app:layout_constraintStart_toEndOf="@id/text_view3"
@@ -349,9 +356,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginTop="32dp"
-                android:backgroundTint="#F7F7F7"
-                app:cardCornerRadius="16dp"
+                android:layout_marginTop="48dp"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="6dp"
                 app:cardElevation="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -362,7 +369,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:padding="8dp">
+                    android:padding="4dp">
 
                     <LinearLayout
                         android:id="@+id/layout_radio_group"
@@ -375,7 +382,8 @@
                             android:id="@+id/checkbox_crew_purpose"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"/>
+                            android:layout_marginStart="8dp"
+                            android:buttonTint="@color/main_purple" />
 
                         <RadioGroup
                             android:id="@+id/radio_group_purpose"
@@ -423,6 +431,7 @@
                             android:layout_height="wrap_content"
                             android:alpha="0.5"
                             android:enabled="false"
+                            android:buttonTint="@color/main_purple"
                             android:layout_marginStart="8dp"/>
 
                         <androidx.appcompat.widget.AppCompatButton
@@ -436,7 +445,8 @@
                             android:fontFamily="@font/noto_sans_bold"
                             android:alpha="0.5"
                             android:enabled="false"
-                            android:background="@drawable/btn_round_lightgrey"/>
+                            android:background="@drawable/btn_round_white_grey_border"
+                            android:elevation="2dp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -458,7 +468,8 @@
                             app:isDistance="@{searchCrewVM.goalTypeDistance}"
                             app:distance="@{searchCrewVM.maxDistance}"
                             app:time="@{searchCrewVM.maxTime}"
-                            android:background="@drawable/btn_round_lightgrey"/>
+                            android:background="@drawable/btn_round_white_grey_border"
+                            android:elevation="2dp"/>
 
                         <TextView
                             android:id="@+id/tv_goal_type"
@@ -484,6 +495,7 @@
                             android:id="@+id/checkbox_search_goal_dyas"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:buttonTint="@color/main_purple"
                             android:layout_marginStart="8dp"/>
 
                         <TextView
@@ -504,7 +516,8 @@
                             android:layout_marginStart="32dp"
                             android:alpha="0.5"
                             android:enabled="false"
-                            android:background="@drawable/btn_round_lightgrey"/>
+                            android:background="@drawable/btn_round_white_grey_border"
+                            android:elevation="2dp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -523,7 +536,8 @@
                             android:layout_marginStart="16dp"
                             android:alpha="0.5"
                             android:enabled="false"
-                            android:background="@drawable/btn_round_lightgrey"/>
+                            android:background="@drawable/btn_round_white_grey_border"
+                            android:elevation="2dp"/>
 
 
                         <TextView
@@ -552,7 +566,8 @@
                 android:textColor="@color/white"
                 android:fontFamily="@font/noto_sans_bold"
                 android:background="@drawable/btn_round_main_color"
-                android:layout_margin="16dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
                 app:layout_constraintTop_toBottomOf="@id/card_crew_search_purpose"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

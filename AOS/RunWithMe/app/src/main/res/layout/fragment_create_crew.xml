@@ -72,7 +72,7 @@
                     android:maxLength="8"
                     android:maxLines="1"
                     android:text="@={crewCreateVM.crewName}"
-                    android:textColor="@color/black_high_emphasis"
+                    android:textColor="@color/main_black"
                     app:layout_constraintBottom_toBottomOf="@id/tv_create_crew_name"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tv_create_crew_name"
