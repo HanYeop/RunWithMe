@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.ssafy.runwithme.BuildConfig
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentOthersBinding
@@ -22,6 +23,9 @@ class OthersFragment : BaseFragment<FragmentOthersBinding>(R.layout.fragment_oth
     private val myPageViewModel by viewModels<MyPageViewModel>()
 
     override fun init() {
+        binding.apply {
+            tvVersionContent.text = BuildConfig.VERSION_NAME
+        }
         initClickListener()
 
         initViewModelCallBack()
