@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.NumberPicker
 import androidx.databinding.DataBindingUtil
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.databinding.DialogGoalDaysBinding
@@ -31,6 +32,7 @@ class GoalDaysDialog(context: Context, private val listener : GoalDaysDialogList
             numberpickerGoalDays.minValue = minValue
             numberpickerGoalDays.maxValue = 7
             numberpickerGoalDays.wrapSelectorWheel = false
+            numberpickerGoalDays.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
         }
 
         context.dialogResize(this, 0.8f, 0.5f)

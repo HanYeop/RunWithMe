@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.NumberPicker
 import androidx.databinding.DataBindingUtil
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.databinding.DialogPurposeDistanceBinding
@@ -33,6 +34,7 @@ class PurposeDistanceDialog(context: Context, private val listener : PurposeDist
 //            numberpickerGoalAmount.displayedValues = goal_amount_values
             //순환 안되게 막기
             numberpickerDistance.wrapSelectorWheel = false
+            numberpickerDistance.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
         }
 
         context.dialogResize(this, 0.8f, 0.5f)

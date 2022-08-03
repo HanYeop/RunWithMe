@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.NumberPicker
 import androidx.databinding.DataBindingUtil
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.databinding.DialogEndTimeBinding
@@ -39,6 +40,10 @@ class EndTimeDialog (context: Context, private val listener : EndTimeDialogListe
             numberpickerMinute.minValue = 0
             numberpickerMinute.maxValue = 1
             numberpickerMinute.displayedValues = endMinuteValues
+
+            numberpickerMinute.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
+            numberpickerHour.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
+
 
             numberpickerMinute.wrapSelectorWheel = false
         }

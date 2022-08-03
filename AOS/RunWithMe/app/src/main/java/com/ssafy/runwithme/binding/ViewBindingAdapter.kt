@@ -275,25 +275,25 @@ object ViewBindingAdapter {
     @BindingAdapter("distanceConverter")
     @JvmStatic
     fun TextView.setDistanceConverter (distance: Int){
-        this.text = "${round(1.0 * distance / 1000.0 * 10) / 10} km"
+        this.text = "${round(1.0 * distance / 1000.0 * 10) / 10}"
     }
 
     @BindingAdapter("timeConverter")
     @JvmStatic
     fun TextView.setTimeConverter (time: Int){
-        this.text = "${time / 60} 분"
+        this.text = "${time / 60}"
     }
 
     @BindingAdapter("calorieConverter")
     @JvmStatic
     fun TextView.setCalorieConverter (calorie: Int){
-        this.text = "$calorie kcal"
+        this.text = "$calorie"
     }
 
     @BindingAdapter("speedConverter")
     @JvmStatic
     fun TextView.setSpeedConverter (speed: Double){
-        this.text = "${round(speed * 10.0) / 10 }km/h"
+        this.text = "${round(speed * 10.0) / 10 }"
     }
 
     @BindingAdapter("myUserSeq", "board")
