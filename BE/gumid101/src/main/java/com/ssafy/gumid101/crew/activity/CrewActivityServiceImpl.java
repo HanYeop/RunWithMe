@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.gumid101.crew.RunRecordRepository;
+import com.ssafy.gumid101.crew.TotalRunRecordRepository;
 import com.ssafy.gumid101.crew.UserCrewJoinRepository;
 import com.ssafy.gumid101.crew.manager.CrewManagerRepository;
 import com.ssafy.gumid101.customexception.CrewPermissonDeniedException;
@@ -24,6 +25,7 @@ import com.ssafy.gumid101.dto.RecordParamsDto;
 import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.CrewEntity;
+import com.ssafy.gumid101.entity.CrewTotalRecordEntity;
 import com.ssafy.gumid101.entity.RunRecordEntity;
 import com.ssafy.gumid101.entity.UserCrewJoinEntity;
 import com.ssafy.gumid101.entity.UserEntity;
@@ -44,6 +46,7 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 	private final CrewActivityBoardRepository boardRepo;
 	private final UserCrewJoinRepository ucRepo;
 	private final RunRecordRepository runRepo;
+	private final TotalRunRecordRepository totalRepo;
 	private final UserRepository userRepo;
 	private final CrewManagerRepository crewManageRepo;
 
@@ -52,6 +55,7 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 		UserDto tokenUser = (UserDto) autentication.getPrincipal();
 		return tokenUser;
 	}
+	
 	
 	@Override
 	public List<RunRecordDto> getCrewRecordList(RecordParamsDto recordParamsDto) {
@@ -62,6 +66,7 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 		
 		return runRecordList;
 	}
+	
 	
 	@Override
 	public List<RunRecordDto> getMyRecordList(RecordParamsDto recordParamsDto) {
@@ -85,7 +90,7 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 		}
 		List<RunRecordEntity> myToday = null;
 		try{
-			 myToday = runRepo.findByUserEntityAndCrewEntity(ucjEntity.getUserEntity(), ucjEntity.getCrewEntity());
+			 myToday = runRepo.findByUserEntityAndCrewEntityAndRunRecordStartTimeBetween(ucjEntity.getUserEntity(), ucjEntity.getCrewEntity(), nowDateTime.withHour(0).withMinute(0).withSecond(0), nowDateTime.withHour(23).withMinute(59).withSecond(59));
 		} catch (Exception e) {
 			throw new CrewPermissonDeniedException("기록 조회에 실패했습니다.");
 		}
@@ -209,9 +214,15 @@ public class CrewActivityServiceImpl implements CrewActivityService{
  * 해당 크루 내 누적기록 반환
  */
 	@Override
-	public CrewTotalRecordDto getMyCrewTotalRecord(long crewSeq, Long userSeq) throws Exception {
-		CrewTotalRecordDto myTotalInCrew = crewRunRepo.selectByCrewSeqAnduserSeq(crewSeq,userSeq);
-		return myTotalInCrew;
+	public CrewTotalRecordDto getMyCrewTotalRecord(Long userSeq, Long crewSeq) throws Exception {
+		UserEntity userEntity = userRepo.findById(userSeq)
+				.orElseThrow(() -> new NotFoundUserException("해당하는 유저가 없습니다."));
+		CrewEntity crewEntity = crewManageRepo.findById(crewSeq)
+				.orElseThrow(() -> new NotFoundUserException("해당하는 크루가 없습니다."));
+		CrewTotalRecordEntity myCrewTotal = totalRepo.findByUserEntityAndCrewEntity(userEntity, crewEntity).orElseThrow(() ->
+				new NotFoundUserException("해당 크루에서 뛴 기록이 없습니다."));
+		
+		return CrewTotalRecordDto.of(myCrewTotal);
 	}
 
 }

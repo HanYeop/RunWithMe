@@ -1,11 +1,16 @@
 package com.ssafy.gumid101.customercenter;
 
+import java.util.Map;
+
+import org.springframework.http.RequestEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.dto.CrewBoardDto;
 import com.ssafy.gumid101.dto.QuestionDto;
 import com.ssafy.gumid101.dto.ReportDto;
 import com.ssafy.gumid101.req.QuestionReqDto;
+import com.ssafy.gumid101.req.QuestionSelectParameter;
+import com.ssafy.gumid101.req.ReportSelectReqDto;
 
 public interface CustomerCenterService {
 
@@ -21,7 +26,13 @@ public interface CustomerCenterService {
 
 	int answerQuestion(Long seq, QuestionReqDto questionReqDto, MultipartFile[] files)throws Exception;
 
-	void selectQuestion(QuestionReqDto params);
+	public Map<String, Object> selectQuestion(QuestionSelectParameter params);
+
+	Map<String, Object> selectReportsByParam(ReportSelectReqDto params);
+
+	int updateReportsStatus(Long reportId, ReportStatus status);
+
+	int updateQustionStatus(Long questionSeq, QuestionStatus valueOf);
 
 
 }

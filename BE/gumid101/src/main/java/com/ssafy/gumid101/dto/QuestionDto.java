@@ -28,6 +28,8 @@ public class QuestionDto implements Serializable {
 	@ApiParam(value = "질문 내용")
 	private String questionContent;
 	
+	@ApiParam(value="질문 제목")
+	private String questionTitle;
 	
 	@ApiParam(value = "질문 처리상황")
 	private QuestionStatus questionStatus;
@@ -36,6 +38,7 @@ public class QuestionDto implements Serializable {
 		if(question == null)
 			return null;
 		return new QuestionDtoBuilder()
+				.questionTitle(question.getQuestionTitle())
 				.questionSeq(question.getQuestionSeq())
 				.questionContent(question.getQuestionContent())
 				.questionStatus(question.getQuestionStatus())

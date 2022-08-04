@@ -20,7 +20,7 @@ public class FcmMessage {
 	@Getter
 	public static class Message {
 		private Notification notification;
-		private String token = "";
+		private String token ;
 	}
 
 	@Builder

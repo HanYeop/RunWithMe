@@ -1,11 +1,19 @@
 package com.ssafy.gumid101.req;
 
-public class QuestionSelectParameter {
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import com.ssafy.gumid101.customercenter.QuestionStatus;
+
+public class QuestionSelectParameter extends PagingParameter{
 
 	private String title;
 	private String questionSeq;
 	private DateOder dateOrder;
+	private QuestionStatus status;
+
 	
+
 	public QuestionSelectParameter() {
 		
 	}
@@ -33,6 +41,16 @@ public class QuestionSelectParameter {
 	public void setDateOrder(DateOder dateOrder) {
 		this.dateOrder = dateOrder;
 	}
+
+	public QuestionStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(QuestionStatus status) {
+		this.status = status;
+	}
+
+
 	
 	
 	

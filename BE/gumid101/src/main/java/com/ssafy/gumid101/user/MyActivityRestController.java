@@ -250,5 +250,15 @@ public class MyActivityRestController {
 		return new ResponseEntity<>(responseFrame, httpStatus);
 	}
 
-
+	@ApiOperation("크루 내 달성한 기록들의 갯수를 가져오기")
+	@GetMapping("/crew/{crewSeq}/succes-record/count")
+	public ResponseEntity<?> getSuccesRecordCount(@PathVariable Long crewSeq) {
+		UserDto userDto = loadUserFromToken();
+		
+		
+		//userService.getCountSuccesRecordsInCrew(userDto.getUserSeq(),crewSeq);
+		
+		return null;
+	}
+	
 }

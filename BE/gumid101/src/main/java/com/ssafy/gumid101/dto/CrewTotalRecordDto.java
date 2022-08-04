@@ -61,6 +61,7 @@ public class CrewTotalRecordDto implements Serializable {
 				.totalCalorie(crewTotalRecord.getTotalCalorie())
 				.totalDistance(crewTotalRecord.getTotalDistance())
 				.totalTime(crewTotalRecord.getTotalTime())
+				.totalAvgSpeed(crewTotalRecord.getTotalTime() == null || crewTotalRecord.getTotalTime() == 0 ? 0 : 3.6 * crewTotalRecord.getTotalDistance() / crewTotalRecord.getTotalTime())
 				.totalLongestTime(crewTotalRecord.getTotalLongestTime())
 				.totalLongestDistance(crewTotalRecord.getTotalLongestDistance())
 				.build();
