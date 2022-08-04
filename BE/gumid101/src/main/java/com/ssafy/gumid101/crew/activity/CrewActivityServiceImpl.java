@@ -219,8 +219,7 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 				.orElseThrow(() -> new NotFoundUserException("해당하는 유저가 없습니다."));
 		CrewEntity crewEntity = crewManageRepo.findById(crewSeq)
 				.orElseThrow(() -> new NotFoundUserException("해당하는 크루가 없습니다."));
-		CrewTotalRecordEntity myCrewTotal = totalRepo.findByUserEntityAndCrewEntity(userEntity, crewEntity).orElseThrow(() ->
-				new NotFoundUserException("해당 크루에서 뛴 기록이 없습니다."));
+		CrewTotalRecordEntity myCrewTotal = totalRepo.findByUserEntityAndCrewEntity(userEntity, crewEntity).orElse(new CrewTotalRecordEntity());
 		
 		return CrewTotalRecordDto.of(myCrewTotal);
 	}
