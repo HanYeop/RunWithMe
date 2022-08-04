@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.dto.*
+import com.ssafy.runwithme.model.response.CrewMyTotalRecordDataResponse
 import com.ssafy.runwithme.model.response.MyGraphDataResponse
 import com.ssafy.runwithme.repository.CrewActivityRepository
 import com.ssafy.runwithme.repository.CrewManagerRepository
@@ -32,7 +33,7 @@ class CrewDetailViewModel @Inject constructor(
     private val crewActivityRepository: CrewActivityRepository,
     private val crewManagerRepository: CrewManagerRepository,
     private val crewRepository: CrewRepository
-) : ViewModel(){
+) : ViewModel() {
 
     private val _isCrewMember: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isCrewMember get() = _isCrewMember.asStateFlow()
@@ -41,8 +42,15 @@ class CrewDetailViewModel @Inject constructor(
     val crewState get() = _crewState.asStateFlow()
     // await : 시작 전, start : 시작, end : 끝난 후, 러닝 시간 아닌 경우
 
-    private val _myGraphData: MutableStateFlow<Result<BaseResponse<List<MyGraphDataResponse>>>> = MutableStateFlow(Result.Uninitialized)
+    private val _myGraphData: MutableStateFlow<Result<BaseResponse<List<MyGraphDataResponse>>>> =
+        MutableStateFlow(Result.Uninitialized)
     val myGraphData get() = _myGraphData.asStateFlow()
+
+    private val _myTotalRecordData: MutableStateFlow<CrewMyTotalRecordDataResponse> =
+        MutableStateFlow(
+            CrewMyTotalRecordDataResponse(0, 0)
+        )
+    val myTotalRecordData get() = _myTotalRecordData.asStateFlow()
 
     private val _successMsgEvent = SingleLiveEvent<String>()
     val successMsgEvent get() = _successMsgEvent
@@ -67,20 +75,20 @@ class CrewDetailViewModel @Inject constructor(
         val now = System.currentTimeMillis()
         val date = Date(now)
 
-        if(today.time.time - startDate.time > 0){
-            if(today.time.time - endDate.time > 0){
+        if (today.time.time - startDate.time > 0) {
+            if (today.time.time - endDate.time > 0) {
                 _crewState.value = "end"
-            }else{
+            } else {
 
 
-                if(date.time >= startTime.time && date.time <= endTime.time){
+                if (date.time >= startTime.time && date.time <= endTime.time) {
                     _crewState.value = "start"
-                }else {
+                } else {
                     _crewState.value = "end"
                 }
             }
 
-        }else{
+        } else {
             _crewState.value = "await"
         }
 
@@ -88,44 +96,62 @@ class CrewDetailViewModel @Inject constructor(
     }
 
 
-    fun checkCrewMember(crewSeq: Int){
-        viewModelScope.launch (Dispatchers.IO) {
+    fun checkCrewMember(crewSeq: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
             crewManagerRepository.checkCrewMember(crewSeq).collectLatest {
-                if(it is Result.Success){
+                if (it is Result.Success) {
                     _isCrewMember.value = it.data.data
                 }
             }
         }
     }
 
-    fun joinCrew(crewId: Int, password: String?){
-        var passwordDto : PasswordDto? = null
-        if(password != null){
+    fun joinCrew(crewId: Int, password: String?) {
+        var passwordDto: PasswordDto? = null
+        if (password != null) {
             passwordDto = PasswordDto(password)
         }
         Log.d(TAG, "joinCrew: password : $passwordDto")
-        viewModelScope.launch (Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             crewRepository.joinCrew(crewId, passwordDto).collectLatest {
                 Log.d(TAG, "joinCrew: $it")
-                if(it is Result.Success){
+                if (it is Result.Success) {
                     _successMsgEvent.postValue("가입 완료했습니다.")
-                }else if(it is Result.Fail){
+                } else if (it is Result.Fail) {
                     _errorMsgEvent.postValue(it.data.msg)
-                }else if(it is Result.Error){
+                } else if (it is Result.Error) {
+                    Log.d(TAG, "joinCrew: ")
                     _errorMsgEvent.postValue("서버 에러 입니다.")
                 }
             }
         }
     }
 
-    fun getMyGraphData(crewSeq: Int, goalType: String){
-        viewModelScope.launch (Dispatchers.IO){
+    fun getMyGraphData(crewSeq: Int, goalType: String) {
+        viewModelScope.launch(Dispatchers.IO) {
             crewActivityRepository.getMyGraphData(crewSeq, goalType).collectLatest {
-                if(it is Result.Success){
+                if (it is Result.Success) {
                     _myGraphData.value = it
-                }else if(it is Result.Fail){
+                } else if (it is Result.Fail) {
                     _errorMsgEvent.postValue(it.data.msg)
-                }else if(it is Result.Error){
+                } else if (it is Result.Error) {
+                    Log.d(TAG, "getMyGraphData: ")
+                    _errorMsgEvent.postValue("서버 에러 입니다.")
+                }
+            }
+        }
+    }
+
+    fun getTotalRecordData(crewSeq: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            crewActivityRepository.getMyTotalRecordData(crewSeq).collectLatest {
+                if (it is Result.Success) {
+                    _myTotalRecordData.value = it.data.data
+                } else if (it is Result.Fail) {
+
+                } else if (it is Result.Empty) {
+
+                } else if(it is Result.Error) {
                     _errorMsgEvent.postValue("서버 에러 입니다.")
                 }
             }

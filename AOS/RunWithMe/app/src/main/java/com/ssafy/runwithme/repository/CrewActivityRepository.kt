@@ -1,6 +1,7 @@
 package com.ssafy.runwithme.repository
 
 import android.service.notification.NotificationListenerService
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.ssafy.runwithme.api.CrewActivityApi
@@ -11,9 +12,11 @@ import com.ssafy.runwithme.datasource.paging.GetCrewRecordsPagingSource
 import com.ssafy.runwithme.model.dto.CreateCrewBoardDto
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.response.CrewBoardResponse
+import com.ssafy.runwithme.model.response.CrewMyTotalRecordDataResponse
 import com.ssafy.runwithme.model.response.MyGraphDataResponse
 import com.ssafy.runwithme.model.response.RankingResponse
 import com.ssafy.runwithme.utils.Result
+import com.ssafy.runwithme.utils.TAG
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -100,6 +103,23 @@ class CrewActivityRepository @Inject constructor(
             }
         }
     }.catch { e ->
+        emit(Result.Error(e))
+    }
+
+    fun getMyTotalRecordData(crewSeq: Int): Flow<Result<BaseResponse<CrewMyTotalRecordDataResponse>>> = flow {
+        emit(Result.Loading)
+        crewActivityRemoteDataSource.getMyTotalRecordData(crewSeq).collect {
+            Log.d(TAG, "getMyTotalRecordData: repository , $it")
+            if(it.success){
+                emit(Result.Success(it))
+            }else if(!it.success){
+                emit(Result.Fail(it))
+            }else{
+                emit(Result.Empty)
+            }
+        }
+    }.catch { e ->
+        Log.d(TAG, "getMyTotalRecordData:repos, $e")
         emit(Result.Error(e))
     }
 

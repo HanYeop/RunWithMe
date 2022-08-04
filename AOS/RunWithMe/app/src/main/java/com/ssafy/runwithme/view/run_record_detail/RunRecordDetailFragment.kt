@@ -10,6 +10,8 @@ import com.ssafy.runwithme.utils.*
 import com.ssafy.runwithme.view.running.RunningActivity
 import java.lang.Math.round
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.time.Duration.Companion.hours
 
 class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.layout.fragment_run_record_detail) {
 
@@ -40,19 +42,27 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
         if(secondInt < 10){
             second = "0" + second
         }
+
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val start = dateFormat.format(runRecordDto!!.runRecordStartTime)
-        val end = dateFormat.format(runRecordDto!!.runRecordEndTime)
+        val start = dateFormat.parse(runRecordDto!!.runRecordStartTime)
+        val end = dateFormat.parse(runRecordDto!!.runRecordEndTime)
+
+        val startCalendar = Calendar.getInstance()
+        val endCalendar = Calendar.getInstance()
+        startCalendar.time = start
+        endCalendar.time = end
 
         binding.apply {
-            imgResult.setImageBitmap(RunningActivity.image)
+            imgResult.imageFormatter(runRecordDto!!.runImageSeq)
             tvSpeed.text = "${round(runRecordDto!!.runRecordRunningAvgSpeed * 10.0) / 10} km/h"
             tvCalorie.text = "${runRecordDto!!.runRecordRunningCalorie} kcal"
             tvTime.text = "${(runRecordDto!!.runRecordRunningTime / 60)} : $second"
             tvDistance.text = "${round(1.0 * runRecordDto!!.runRecordRunningDistance / 1000.0 * 100) / 100} km"
-            tvRunningResultName.text = "${start[0]}년 ${start[1]}월 ${start[2]}일 러닝"
+//            tvRunningResultName.text = "${start[0]}년 ${start[1]}월 ${start[2]}일 러닝"
+            tvRunningResultName.text = "${startCalendar.get(Calendar.YEAR)}년 ${startCalendar.get(Calendar.MONTH) + 1}월 ${startCalendar.get(Calendar.DAY_OF_MONTH)}일 러닝"
             tvCrewName.text = runRecordDto!!.crewName
-            tvTimeStartEnd.text = "${start[3]}:${start[4]}-${end[3]}:${end[4]}"
+            tvTimeStartEnd.text = "${startCalendar.get(Calendar.HOUR_OF_DAY)}:${startCalendar.get(Calendar.MINUTE)}-${endCalendar.get(Calendar.HOUR_OF_DAY)}:${endCalendar.get(Calendar.MINUTE)}"
+//            tvTimeStartEnd.text = "${start[3]}:${start[4]}-${end[3]}:${end[4]}"
             tvUserName.text = runRecordDto!!.userName
         }
     }

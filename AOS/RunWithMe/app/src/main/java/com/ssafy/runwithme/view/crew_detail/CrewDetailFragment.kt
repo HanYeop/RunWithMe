@@ -159,6 +159,8 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
 
         crewDetailViewModel.getMyGraphData(crewDto.crewSeq, crewDto.crewGoalType)
 
+        crewDetailViewModel.getTotalRecordData(crewDto.crewSeq)
+
         crewDetailViewModel.successMsgEvent.observe(viewLifecycleOwner) {
             showToast(it)
             binding.apply {
@@ -247,7 +249,6 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
 
     inner class MyAxisFormatter(val dateList: ArrayList<String>) : ValueFormatter() {
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-            Log.d(TAG, "getAxisLabel: ${dateList.getOrNull(value.toInt()) ?: value.toString()}")
             return dateList.getOrNull(value.toInt()) ?: value.toString()
         }
     }

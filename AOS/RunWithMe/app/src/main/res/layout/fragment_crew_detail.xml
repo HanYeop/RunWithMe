@@ -315,6 +315,7 @@
                                         android:layout_marginEnd="8dp"
                                         android:textColor="@color/main_grey"
                                         android:textSize="16sp"
+                                        distanceConverter="@{crewDetailVM.myTotalRecordData.totalDistance}"
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintTop_toTopOf="@id/tv_total_distance_text"
                                         tools:text="5.7km" />
@@ -337,6 +338,7 @@
                                         android:layout_marginEnd="8dp"
                                         android:textColor="@color/main_grey"
                                         android:textSize="16sp"
+                                        timeConverter="@{crewDetailVM.myTotalRecordData.totalTime}"
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintTop_toTopOf="@id/tv_total_time_text"
                                         tools:text="58분" />

@@ -5,7 +5,12 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Point
 import android.os.Build
+import android.view.View
 import android.view.WindowManager
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.ssafy.runwithme.R
+import com.ssafy.runwithme.binding.ViewBindingAdapter.setRecordImage
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -72,5 +77,11 @@ fun startEndFormatter(startTime: Long, endTime: Long): String {
     val start = dateFormat.format(startTime)
     val end = dateFormat.format(endTime)
     return "$start - $end"
+}
+
+fun ImageView.imageFormatter(imageSeq: Int){
+    Glide.with(this.context).load("${BASE_URL}images/${imageSeq}")
+        .placeholder(R.drawable.img)
+        .into(this)
 }
 
