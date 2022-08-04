@@ -43,6 +43,6 @@ interface CrewManagerApi {
     suspend fun deleteCrew(@Path("crewSeq") crewSeq: Int) : BaseResponse<Boolean>
 
     @DELETE("crew-manager/crew/{crewSeq}/user")
-    suspend fun resignCrew(@Path("crewSeq") crewSeq: Int) : BaseResponse<Boolean>
+    suspend fun resignCrew(@Path("crewSeq") crewSeq: Int) : BaseResponse<Int>
 
 }

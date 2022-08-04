@@ -47,7 +47,7 @@ class CrewMyRunRecordFragment : BaseFragment<FragmentCrewMyRunRecordBinding>(R.l
     private val crewMyRunRecordViewModel by viewModels<CrewMyRunRecordViewModel>()
     private lateinit var totalRunRecordList : List<RunRecordDto>
     private lateinit var dayRecord : Map<LocalDate, List<RunRecordDto>>
-    private val crewMyRunRecordAdapter = CrewMyRunRecordAdapter()
+    private lateinit var crewMyRunRecordAdapter : CrewMyRunRecordAdapter
 
     private val navArgs by navArgs<CrewMyRunRecordFragmentArgs>()
 
@@ -67,6 +67,7 @@ class CrewMyRunRecordFragment : BaseFragment<FragmentCrewMyRunRecordBinding>(R.l
         binding.crewMyRunRecordVM = crewMyRunRecordViewModel
 
         crewMyRunRecordViewModel.getMyRunRecord(crewSeq)
+        crewMyRunRecordAdapter = CrewMyRunRecordAdapter(crewMyRunRecordListener)
 
         binding.recyclerCalendar.apply {
             adapter = crewMyRunRecordAdapter
@@ -211,8 +212,13 @@ class CrewMyRunRecordFragment : BaseFragment<FragmentCrewMyRunRecordBinding>(R.l
     }
 
     private fun updateAdapterForDate(date: LocalDate?) {
-        crewMyRunRecordAdapter.dayRecord.clear()
-        crewMyRunRecordAdapter.dayRecord.addAll(dayRecord[date].orEmpty())
-        crewMyRunRecordAdapter.notifyDataSetChanged()
+        crewMyRunRecordAdapter.submitList(dayRecord[date].orEmpty())
+    }
+
+    private val crewMyRunRecordListener : CrewMyRunRecordListener = object : CrewMyRunRecordListener {
+        override fun onItemClick(runRecordDto: RunRecordDto) {
+            val action = CrewMyRunRecordFragmentDirections.actionCrewMyRunRecordFragmentToRunRecordDetailFragment(runRecordDto)
+            findNavController().navigate(action)
+        }
     }
 }

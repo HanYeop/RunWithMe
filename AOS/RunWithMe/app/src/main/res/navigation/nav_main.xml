@@ -120,6 +120,9 @@
         <argument
             android:name="mytotalrecorddata"
             app:argType="com.ssafy.runwithme.model.response.CrewMyTotalRecordDataResponse" />
+        <action
+            android:id="@+id/action_crewMyRunRecordFragment_to_runRecordDetailFragment"
+            app:destination="@id/runRecordDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/crewUserRunRecordFragment"
