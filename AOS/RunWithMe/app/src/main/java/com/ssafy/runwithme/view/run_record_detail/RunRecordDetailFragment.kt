@@ -2,6 +2,8 @@ package com.ssafy.runwithme.view.run_record_detail
 
 import android.content.SharedPreferences
 import android.view.View
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ssafy.runwithme.R
@@ -9,8 +11,13 @@ import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentRunRecordDetailBinding
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.utils.*
+import com.ssafy.runwithme.view.create_recommend.CreateRecommendDialog
+import com.ssafy.runwithme.view.create_recommend.CreateRecommendListener
 import com.ssafy.runwithme.view.running.RunningActivity
+import com.ssafy.runwithme.view.running.result.achievement.AchievementDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.lang.Math.round
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,6 +32,7 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
     private val args by navArgs<RunRecordDetailFragmentArgs>()
     private var runRecordDto : RunRecordDto? = null
     private var userSeq : Int = 0
+    private val runRecordDetailViewModel by viewModels<RunRecordDetailViewModel>()
 
     override fun init() {
 
@@ -35,6 +43,8 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
         initViewVisible()
 
         initClickListener()
+
+        initViewModelCallBack()
 
         initResult()
     }
@@ -52,6 +62,25 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
             btnOk.setOnClickListener {
                 findNavController().popBackStack()
             }
+            btnRecommend.setOnClickListener {
+                CreateRecommendDialog(requireContext(), createRecommendListener).show()
+            }
+        }
+    }
+
+    private fun initViewModelCallBack(){
+        runRecordDetailViewModel.successMsgEvent.observe(this){
+            showToast(it)
+            findNavController().popBackStack()
+        }
+        runRecordDetailViewModel.errorMsgEvent.observe(this){
+            showToast(it)
+        }
+    }
+
+    private val createRecommendListener = object: CreateRecommendListener {
+        override fun onBtnOkClicked(environmentPoint: Int, hardPoint: Int) {
+            runRecordDetailViewModel.createRecommend(environmentPoint, hardPoint, runRecordDto!!.runRecordSeq)
         }
     }
 
