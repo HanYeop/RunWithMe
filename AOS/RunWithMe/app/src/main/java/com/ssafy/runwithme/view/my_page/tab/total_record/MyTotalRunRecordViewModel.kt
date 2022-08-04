@@ -29,7 +29,7 @@ class MyTotalRunRecordViewModel @Inject constructor(
     val timeMin get() = _timeMin.asStateFlow()
 
     private val _timeHour = MutableStateFlow("")
-    val timeSec get() = _timeHour.asStateFlow()
+    val timeHour get() = _timeHour.asStateFlow()
 
     private val _distance = MutableStateFlow("")
     val distance get() = _distance.asStateFlow()
