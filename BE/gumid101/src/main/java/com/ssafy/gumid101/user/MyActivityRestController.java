@@ -32,7 +32,6 @@ import com.ssafy.gumid101.util.Nickname;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -128,32 +127,13 @@ public class MyActivityRestController {
 	 * 기록 하나하나가 아닌 누적 수치를 반환
 	 * 
 	 * @return
+	 * @throws Exception 
 	 */
 	@GetMapping("/total-activity")
-	public ResponseEntity<?> getMyTotalRecord() {
+	public ResponseEntity<?> getMyTotalRecord() throws Exception {
 		UserDto userDto = loadUserFromToken();
-		
-		HttpStatus httpStatus = HttpStatus.OK;
-		
-		ResponseFrame<CrewTotalRecordDto> responseFrame = new ResponseFrame<>();
-		CrewTotalRecordDto myTotalRecord = null;
-		try {
-			myTotalRecord = userService.getMyTotalRecord(userDto.getUserSeq());
-		}catch (Exception e) {
-			httpStatus = HttpStatus.OK;
-			responseFrame.setCount(0);
-			responseFrame.setSuccess(false);
-			responseFrame.setMsg(e.getMessage());
-			return new ResponseEntity<>(responseFrame, httpStatus);
-		}
-		
-		if (myTotalRecord != null) {
-			responseFrame.setCount(1);
-			responseFrame.setSuccess(true);
-			responseFrame.setMsg("자신 누적 기록 조회에 성공했습니다.");
-		}
-		responseFrame.setData(myTotalRecord);
-		return new ResponseEntity<>(responseFrame, httpStatus);
+		CrewTotalRecordDto myTotalRecord = userService.getMyTotalRecord(userDto.getUserSeq());
+		return new ResponseEntity<>(new ResponseFrame<>(true, myTotalRecord, 1, "자신 누적 기록 조회에 성공했습니다."), HttpStatus.OK);
 	}
 
 	/**
