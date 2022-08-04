@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="myRunRecord"
+            type="com.ssafy.runwithme.model.entity.RunRecordEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:paddingVertical="8dp"
+        >
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_crew"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginHorizontal="16dp"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_card_crew"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/img_run_record"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:scaleType="fitXY"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/image_round"
+                    android:clipToOutline="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/img" />
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="연습 크루"
+                    android:textColor="@color/main_black"
+                    android:fontFamily="@font/noto_sans_bold"
+                    android:includeFontPadding="false"
+                    android:textSize="20sp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@id/img_run_record"
+                    app:layout_constraintTop_toTopOf="@id/img_run_record"/>
+
+                <TextView
+                    android:id="@+id/tv_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{myRunRecord.startTime}"
+                    tools:text="2022-08-02 11:23:32"
+                    app:layout_constraintStart_toStartOf="@id/tv_name"
+                    app:layout_constraintTop_toBottomOf="@id/tv_name"/>
+
+                <TextView
+                    android:id="@+id/tv_distance"
+                    style="@style/header_text"
+                    app:distanceConverter="@{myRunRecord.runningDistance}"
+                    tools:text="13.3"
+                    android:textSize="18sp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toStartOf="@id/tv_time"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/img_run_record"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Km"
+                    android:layout_marginStart="4dp"
+                    app:layout_constraintEnd_toEndOf="@id/tv_distance"
+                    app:layout_constraintStart_toStartOf="@id/tv_distance"
+                    app:layout_constraintTop_toBottomOf="@id/tv_distance"/>
+
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    style="@style/header_text"
+                    android:layout_marginBottom="4dp"
+                    app:timeConverter="@{myRunRecord.runningTime}"
+                    android:textSize="18sp"
+                    tools:text="132"
+                    app:layout_constraintEnd_toStartOf="@id/tv_calorie"
+                    app:layout_constraintStart_toEndOf="@id/tv_distance"
+                    app:layout_constraintTop_toTopOf="@id/tv_distance"/>
+
+                <TextView
+                    android:id="@+id/tv_time_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="분"
+                    app:layout_constraintEnd_toEndOf="@id/tv_time"
+                    app:layout_constraintTop_toBottomOf="@id/tv_time"
+                    app:layout_constraintStart_toStartOf="@id/tv_time"/>
+
+                <TextView
+                    android:id="@+id/tv_calorie"
+                    style="@style/header_text"
+                    tools:text="140"
+                    calorieConverter="@{myRunRecord.calorie}"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@id/tv_speed"
+                    app:layout_constraintStart_toEndOf="@id/tv_time"
+                    app:layout_constraintTop_toTopOf="@id/tv_time"/>
+
+                <TextView
+                    android:id="@+id/tv_calorie_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="kcal"
+                    android:layout_marginStart="4dp"
+                    app:layout_constraintEnd_toEndOf="@id/tv_calorie"
+                    app:layout_constraintStart_toStartOf="@id/tv_calorie"
+                    app:layout_constraintTop_toBottomOf="@id/tv_calorie"/>
+
+                <TextView
+                    android:id="@+id/tv_speed"
+                    style="@style/header_text"
+                    tools:text="8.3"
+                    app:speedConverter="@{myRunRecord.avgSpeed}"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toEndOf="@id/tv_calorie"
+                    app:layout_constraintTop_toTopOf="@id/tv_calorie"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_speed_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="km/h"
+                    android:layout_marginStart="4dp"
+                    app:layout_constraintEnd_toEndOf="@id/tv_speed"
+                    app:layout_constraintTop_toBottomOf="@id/tv_speed"
+                    app:layout_constraintStart_toStartOf="@id/tv_speed"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

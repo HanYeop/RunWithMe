@@ -220,6 +220,20 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <TextView
+                    android:id="@+id/tv_practice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/noto_sans_bold"
+                    android:textColor="@color/main_black"
+                    android:paddingStart="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="내 연습 기록보기"/>
+
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
