@@ -4,6 +4,7 @@ import com.ssafy.runwithme.api.CrewActivityApi
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.dto.CreateCrewBoardDto
 import com.ssafy.runwithme.model.response.CrewBoardResponse
+import com.ssafy.runwithme.model.response.MyGraphDataResponse
 import com.ssafy.runwithme.model.response.RankingResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -23,6 +24,10 @@ class CrewActivityRemoteDataSource @Inject constructor(
 
     fun deleteCrewBoard(crewSeq: Int, boardSeq: Int): Flow<BaseResponse<Boolean>> = flow {
         emit(crewActivityApi.deleteCrewBoard(crewSeq, boardSeq))
+    }
+
+    fun getMyGraphData(crewSeq: Int, goalType: String): Flow<BaseResponse<List<MyGraphDataResponse>>> = flow {
+        emit(crewActivityApi.getMyGraphData(crewSeq, goalType))
     }
 
 }

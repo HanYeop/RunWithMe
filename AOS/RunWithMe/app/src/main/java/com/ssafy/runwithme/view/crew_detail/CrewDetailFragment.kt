@@ -1,26 +1,30 @@
 package com.ssafy.runwithme.view.crew_detail
 
 import android.graphics.Color
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.github.mikephil.charting.components.Description
-import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.components.*
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentCrewDetailBinding
 import com.ssafy.runwithme.model.dto.CrewDto
 import com.ssafy.runwithme.model.dto.ImageFileDto
+import com.ssafy.runwithme.model.response.MyGraphDataResponse
+import com.ssafy.runwithme.utils.Result
+import com.ssafy.runwithme.utils.TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.lang.Math.round
 
 @AndroidEntryPoint
 class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.fragment_crew_detail) {
@@ -48,7 +52,6 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
         initViewModelCallback()
 
         initBarChart()
-        setData()
     }
 
     private fun initBarChart() {
@@ -116,32 +119,6 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
 
     }
 
-    private fun setData() {
-        binding.apply {
-            // Zoom In / Out 가능 여부 설정
-            chartMyRecord.setScaleEnabled(true)
-
-            val valueList = ArrayList<BarEntry>()
-            val title = "거리"
-
-            // 임의 데이터
-            for (i in 0 until 20) {
-                valueList.add(BarEntry(i.toFloat(), i * 100f))
-            }
-
-            val barDataSet = BarDataSet(valueList, title)
-            // 바 색상 설정 (ColorTemplate.LIBERTY_COLORS)
-            barDataSet.setColors(
-                R.color.main_purple
-            )
-//            barDataSet.isHighlightEnabled = false
-
-            val data = BarData(barDataSet)
-            chartMyRecord.data = data
-            chartMyRecord.invalidate()
-        }
-
-    }
 
     private fun initClickListener() {
         binding.apply {
@@ -180,6 +157,8 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
 
         crewDetailViewModel.checkCrewMember(crewDto.crewSeq)
 
+        crewDetailViewModel.getMyGraphData(crewDto.crewSeq, crewDto.crewGoalType)
+
         crewDetailViewModel.successMsgEvent.observe(viewLifecycleOwner) {
             showToast(it)
             binding.apply {
@@ -192,8 +171,85 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
             showToast(it)
         }
 
+        lifecycleScope.launch {
+            crewDetailViewModel.myGraphData.collectLatest {
+                if(it is Result.Success){
+                    setData(it.data.data)
+                }
+            }
+        }
+
+    }
+
+    private fun setData(myGraphDataList : List<MyGraphDataResponse>) {
+        binding.apply {
+            // Zoom In / Out 가능 여부 설정
+            chartMyRecord.setScaleEnabled(true)
+
+            val distanceList = arrayListOf<Double>()
+            val timeList = arrayListOf<Int>()
+            val dateList = arrayListOf<String>()
+
+            val type = crewDto!!.crewGoalType
+
+            var title = "거리"
+            if(type == "time"){
+                title = "시간"
+            }
+
+            Log.d(TAG, "setData: $myGraphDataList")
+            
+            for(myGraphData in myGraphDataList){
+                if(type == "time"){
+                    timeList.add(myGraphData.amount / 60)
+                }else{
+                    distanceList.add(round(1.0 * myGraphData.amount / 1000.0 * 100)/ 100.0)
+                }
+
+                dateList.add("${myGraphData.month}-${myGraphData.day}")
+            }
+
+            val entries = arrayListOf<BarEntry>()
+
+            if(type == "time"){
+                for(i in 0..(timeList.size - 1)){
+                    entries.add(BarEntry(1F * i, 1F * timeList.get(i)))
+                }
+            }else{
+                for(i in 0..(distanceList.size - 1)){
+                    entries.add(BarEntry(1F * i, distanceList.get(i).toFloat()))
+                }
+            }
 
 
+            val barDataSet = BarDataSet(entries, title)
+            // 바 색상 설정 (ColorTemplate.LIBERTY_COLORS)
+            barDataSet.setColors(
+                R.color.main_purple
+            )
+//            barDataSet.isHighlightEnabled = false
+
+
+            val data = BarData(barDataSet)
+            Log.d(TAG, "setData: dateList : $dateList")
+            chartMyRecord.xAxis.valueFormatter = MyAxisFormatter(dateList)
+            //chartMyRecord.xAxis.valueFormatter = IndexAxisValueFormatter(dateList)
+            chartMyRecord.data = data
+            chartMyRecord.invalidate()
+
+            chartMyRecord.axisLeft.run {
+                axisMinimum = 0F
+            }
+
+        }
+
+    }
+
+    inner class MyAxisFormatter(val dateList: ArrayList<String>) : ValueFormatter() {
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+            Log.d(TAG, "getAxisLabel: ${dateList.getOrNull(value.toInt()) ?: value.toString()}")
+            return dateList.getOrNull(value.toInt()) ?: value.toString()
+        }
     }
 
 }

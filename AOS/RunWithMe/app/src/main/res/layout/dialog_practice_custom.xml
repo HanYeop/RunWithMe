@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_round"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <LinearLayout
+            android:id="@+id/layout_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RadioGroup
+                android:id="@+id/radio_group_purpose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/noto_sans_bold"
+                    android:text="목표"
+                    android:textColor="@color/main_black"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/radio_btn_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:enabled="true"
+                    android:fontFamily="@font/noto_sans_bold"
+                    android:gravity="center"
+                    android:text="시간" />
+
+                <RadioButton
+                    android:id="@+id/radio_btn_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:enabled="true"
+                    android:fontFamily="@font/noto_sans_bold"
+                    android:gravity="center"
+                    android:text="거리" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:text="연습 결과는 누적 기록에 포함되지 않습니다."
+            android:textColor="@color/main_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_goal_amount" />
+
+        <TextView
+            android:id="@+id/tv_goal_amount"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/text_round"
+            android:fontFamily="@font/noto_sans_bold"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="30"
+            android:textColor="@color/main_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_goal_type"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/btn_down"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_radio_group" />
+
+        <TextView
+            android:id="@+id/tv_goal_type"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="분"
+            android:textColor="@color/main_black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_goal_amount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tv_goal_amount"
+            app:layout_constraintTop_toTopOf="@+id/tv_goal_amount" />
+
+        <ImageButton
+            android:id="@+id/btn_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:background="#00000000"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_goal_amount"
+            app:layout_constraintStart_toEndOf="@+id/tv_goal_type"
+            app:layout_constraintTop_toTopOf="@+id/tv_goal_amount"
+            app:srcCompat="@drawable/up_32" />
+
+        <ImageButton
+            android:id="@+id/btn_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:background="#00000000"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_goal_amount"
+            app:layout_constraintEnd_toStartOf="@+id/tv_goal_amount"
+            app:layout_constraintTop_toTopOf="@+id/tv_goal_amount"
+            app:srcCompat="@drawable/down_32" />
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/btn_round_main_color"
+            android:fontFamily="@font/noto_sans_bold"
+            android:text="시작"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_cancel"
+            app:layout_constraintTop_toTopOf="@+id/btn_cancel" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/btn_round_main_color"
+            android:fontFamily="@font/noto_sans_bold"
+            android:text="취소"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@+id/btn_ok"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_alert" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

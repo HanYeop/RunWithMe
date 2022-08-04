@@ -11,6 +11,7 @@ import com.ssafy.runwithme.datasource.paging.GetCrewRecordsPagingSource
 import com.ssafy.runwithme.model.dto.CreateCrewBoardDto
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.response.CrewBoardResponse
+import com.ssafy.runwithme.model.response.MyGraphDataResponse
 import com.ssafy.runwithme.model.response.RankingResponse
 import com.ssafy.runwithme.utils.Result
 import kotlinx.coroutines.flow.Flow
@@ -75,6 +76,21 @@ class CrewActivityRepository @Inject constructor(
     fun getCrewRanking(crewSeq: Int, type: String): Flow<Result<BaseResponse<List<RankingResponse>>>> = flow {
         emit(Result.Loading)
         crewActivityRemoteDataSource.getCrewRanking(crewSeq, type).collect {
+            if(it.success){
+                emit(Result.Success(it))
+            }else if(!it.success){
+                emit(Result.Fail(it))
+            }else{
+                emit(Result.Empty)
+            }
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
+
+    fun getMyGraphData(crewSeq: Int, goalType: String): Flow<Result<BaseResponse<List<MyGraphDataResponse>>>> = flow {
+        emit(Result.Loading)
+        crewActivityRemoteDataSource.getMyGraphData(crewSeq, goalType).collect {
             if(it.success){
                 emit(Result.Success(it))
             }else if(!it.success){

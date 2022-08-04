@@ -10,9 +10,10 @@ import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.databinding.DialogAchievementBinding
+import com.ssafy.runwithme.model.dto.AchievementDto
 import com.ssafy.runwithme.utils.dialogResize
 
-class AchievementDialog(context: Context): Dialog(context) {
+class AchievementDialog(context: Context, private val achievementDto: AchievementDto): Dialog(context) {
 
     private lateinit var binding: DialogAchievementBinding
 
@@ -35,6 +36,7 @@ class AchievementDialog(context: Context): Dialog(context) {
         binding.apply {
             val anim = AnimationUtils.loadAnimation(context, R.anim.blink_animation)
             tvAchievementHeader.startAnimation(anim)
+            achievement = achievementDto
         }
 
         initClickListener()

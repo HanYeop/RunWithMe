@@ -4,7 +4,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
+        <variable
+            name="achievement"
+            type="com.ssafy.runwithme.model.dto.AchievementDto" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,7 +53,8 @@
             android:fontFamily="@font/noto_sans_bold"
             android:textColor="@color/main_black"
             android:layout_marginTop="8dp"
-            android:text="첫 러닝"
+            android:text="@{achievement.achieveName}"
+            tools:text = "첫 러닝"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/tv_achievement_header"
             app:layout_constraintTop_toBottomOf="@+id/tv_achievement_header" />
@@ -62,14 +65,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textColor="@color/main_grey"
-            android:text="처음으로 러닝을 완주하기"
+            app:achievementContent="@{achievement.achieveName}"
+            tools:text="처음으로 첫 러닝 완주하기"
             app:layout_constraintStart_toStartOf="@+id/tv_achievement_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_achievement_title" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_ok"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/btn_round_main_color"

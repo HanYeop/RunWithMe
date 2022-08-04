@@ -22,6 +22,10 @@ class CrewRepository @Inject constructor(
         crewRemoteDataSource.createRunRecords(crewId, imgFile, runRecordDto).collect {
             if(it.success){
                 emit(Result.Success(it))
+            }else if(!it.success){
+                emit(Result.Fail(it))
+            }else{
+                emit(Result.Empty)
             }
         }
     }.catch { e ->
