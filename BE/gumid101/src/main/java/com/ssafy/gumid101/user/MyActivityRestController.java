@@ -32,7 +32,6 @@ import com.ssafy.gumid101.util.Nickname;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -128,32 +127,13 @@ public class MyActivityRestController {
 	 * 기록 하나하나가 아닌 누적 수치를 반환
 	 * 
 	 * @return
+	 * @throws Exception 
 	 */
 	@GetMapping("/total-activity")
-	public ResponseEntity<?> getMyTotalRecord() {
+	public ResponseEntity<?> getMyTotalRecord() throws Exception {
 		UserDto userDto = loadUserFromToken();
-		
-		HttpStatus httpStatus = HttpStatus.OK;
-		
-		ResponseFrame<CrewTotalRecordDto> responseFrame = new ResponseFrame<>();
-		CrewTotalRecordDto myTotalRecord = null;
-		try {
-			myTotalRecord = userService.getMyTotalRecord(userDto.getUserSeq());
-		}catch (Exception e) {
-			httpStatus = HttpStatus.OK;
-			responseFrame.setCount(0);
-			responseFrame.setSuccess(false);
-			responseFrame.setMsg(e.getMessage());
-			return new ResponseEntity<>(responseFrame, httpStatus);
-		}
-		
-		if (myTotalRecord != null) {
-			responseFrame.setCount(1);
-			responseFrame.setSuccess(true);
-			responseFrame.setMsg("자신 누적 기록 조회에 성공했습니다.");
-		}
-		responseFrame.setData(myTotalRecord);
-		return new ResponseEntity<>(responseFrame, httpStatus);
+		CrewTotalRecordDto myTotalRecord = userService.getMyTotalRecord(userDto.getUserSeq());
+		return new ResponseEntity<>(new ResponseFrame<>(true, myTotalRecord, 1, "자신 누적 기록 조회에 성공했습니다."), HttpStatus.OK);
 	}
 
 	/**
@@ -221,34 +201,24 @@ public class MyActivityRestController {
 	
 	@ApiOperation(value = "자신이 오늘 크루에서 뛴 기록이 있는지 조회 (연습크루는 나중에 생각합시다.)")
 	@GetMapping("/runabletoday/{crewSeq}")
-	public ResponseEntity<?> getRunabletoday(@PathVariable Long crewSeq) {
+	public ResponseEntity<?> getRunabletoday(@PathVariable Long crewSeq) throws Exception {
 		// crewSeq가 연습크루일 경우 : true 반환
 		
 		UserDto userDto = loadUserFromToken();
 		
-		HttpStatus httpStatus = HttpStatus.OK;
-		
-		ResponseFrame<Boolean> responseFrame = new ResponseFrame<>();
-		Boolean todayRecord = null;
-		try {
-			
-			todayRecord = runService.getRunabletoday(userDto.getUserSeq(), crewSeq);
-			
-		}catch (Exception e) {
-			httpStatus = HttpStatus.CONFLICT;
-			responseFrame.setCount(0);
-			responseFrame.setSuccess(false);
-			responseFrame.setMsg(e.getMessage());
-		}
-		
-		if (todayRecord != null) {
-			responseFrame.setCount(1);
-			responseFrame.setSuccess(true);
-			responseFrame.setMsg("뛸 수 있는 여부 반환 완료.");
-		}
-		responseFrame.setData(todayRecord);
-		return new ResponseEntity<>(responseFrame, httpStatus);
+		Boolean todayRecord = runService.getRunabletoday(userDto.getUserSeq(), crewSeq);
+		return new ResponseEntity<>(new ResponseFrame<Boolean>(true, todayRecord, 1, "러닝을 할 수 있습니다."), HttpStatus.OK);
 	}
 
-
+	@ApiOperation("크루 내 달성한 기록들의 갯수를 가져오기")
+	@GetMapping("/crew/{crewSeq}/succes-record/count")
+	public ResponseEntity<?> getSuccesRecordCount(@PathVariable Long crewSeq) {
+		UserDto userDto = loadUserFromToken();
+		
+		
+		//userService.getCountSuccesRecordsInCrew(userDto.getUserSeq(),crewSeq);
+		
+		return null;
+	}
+	
 }

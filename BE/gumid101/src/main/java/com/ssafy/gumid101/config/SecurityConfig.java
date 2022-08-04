@@ -25,6 +25,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gumid101.OAuth.CustomOAuth2UserService;
 import com.ssafy.gumid101.OAuth.CustomOAuthLoginValidateFilter;
 import com.ssafy.gumid101.OAuth.OAuth2SuccessHandler;
+import com.ssafy.gumid101.OAuth.custom.validate.GoogleTokenValidate;
+import com.ssafy.gumid101.OAuth.custom.validate.KaKaoTokenValiate;
+import com.ssafy.gumid101.OAuth.custom.validate.NaverTokenValidate;
 import com.ssafy.gumid101.jwt.JwtAuthFilter;
 import com.ssafy.gumid101.jwt.JwtUtilsService;
 import com.ssafy.gumid101.user.Role;
@@ -43,6 +46,10 @@ public class SecurityConfig {
 	private final CustomOAuth2UserService oAuth2UserService;
 	private final OAuth2SuccessHandler successHandler;
 
+	private final GoogleTokenValidate googleTokenValidate;
+	private final NaverTokenValidate naverTokenValidate;
+	private final KaKaoTokenValiate kakaoTokenValidate;
+
 	// 패스워드 암호화에 사용
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -58,17 +65,15 @@ public class SecurityConfig {
 
 	@Bean
 	public WebSecurityCustomizer WebSecurityCustomizer() {
-		return (web)-> web.ignoring().antMatchers("/test","/test/**","/images/**","/swagger-ui/**","/swagger-resources/**","/v2/api-docs");
-	
+		return (web) -> web.ignoring().antMatchers("/test", "/test/**", "/images/**", "/swagger-ui/**",
+				"/swagger-resources/**", "/v2/api-docs");
+
 	}
 
-	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager)
 			throws Exception {
-		
-		
-		
+
 		http.cors().disable();// cors 문제 무시
 		http.httpBasic().disable(); // 헤더에 username,password 로그인 사용 불가
 		http.csrf().disable(); // csrf 보안 사용 안함
@@ -76,33 +81,31 @@ public class SecurityConfig {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 스프링 시큐리티 컨텍스트 홀더 세션 사용 안함
 
 		// oath 사용한다고 설정,
-		//http.oauth2Login().successHandler(successHandler).userInfoEndpoint()
-		//		.userService(oAuth2UserService);
+		// http.oauth2Login().successHandler(successHandler).userInfoEndpoint()
+		// .userService(oAuth2UserService);
 
-		
 		http.addFilterBefore(new JwtAuthFilter(jwtUtilService, userRepo, mapper),
 				UsernamePasswordAuthenticationFilter.class);
-		
-		http.addFilterBefore(new CustomOAuthLoginValidateFilter( successHandler),JwtAuthFilter.class);
-		
+
+		http.addFilterBefore(new CustomOAuthLoginValidateFilter(googleTokenValidate, naverTokenValidate,
+				kakaoTokenValidate, successHandler), JwtAuthFilter.class);
+
 		http.authorizeHttpRequests((authz) -> {
-			
+
 			authz.antMatchers("/user/profile").hasRole(Role.TEMP.toString());
 			authz.antMatchers("/**").hasRole(Role.USER.toString());
 		});
 		http.exceptionHandling().accessDeniedHandler(new AccessDeniedHandler() {
-			
+
 			@Override
 			public void handle(HttpServletRequest request, HttpServletResponse response,
 					AccessDeniedException accessDeniedException) throws IOException, ServletException {
-			
-				response.getWriter().println(String.format("%s -- %s", "실패",accessDeniedException.getMessage()));
-				
+
+				response.getWriter().println(String.format("%s -- %s", "실패", accessDeniedException.getMessage()));
+
 			}
 		});
-		//어뗀티 케이션 디나이 핸들러는 따로 처리하고 있음
-		
-		
+		// 어뗀티 케이션 디나이 핸들러는 따로 처리하고 있음
 
 		return http.build();
 	}

@@ -29,5 +29,7 @@ public interface CrewManagerService {
 
 	List<Long> getFinishAndNonDistributeCrews() throws Exception;
 
+	Object getMyEndCrew(Long userSeq);
+
 	
 }

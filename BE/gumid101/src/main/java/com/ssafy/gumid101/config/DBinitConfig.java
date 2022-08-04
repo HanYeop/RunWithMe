@@ -20,15 +20,15 @@ public class DBinitConfig {
 		acServ.checkAchievement("첫 러닝", AchieveType.RUNCOUNT, 1.0);
 		acServ.checkAchievement("10 러닝", AchieveType.RUNCOUNT, 10.0);
 		acServ.checkAchievement("100 러닝", AchieveType.RUNCOUNT, 100.0);
-		acServ.checkAchievement("1000 러닝", AchieveType.RUNCOUNT, 1000.0);
-		acServ.checkAchievement("10h", AchieveType.TOTALTIME, 10.0);
-		acServ.checkAchievement("100h", AchieveType.TOTALTIME, 100.0);
-		acServ.checkAchievement("1000h", AchieveType.TOTALTIME, 1000.0);
-		acServ.checkAchievement("10000h", AchieveType.TOTALTIME, 10000.0);
-		acServ.checkAchievement("10km", AchieveType.TOTALDISTANCE, 10.0);
-		acServ.checkAchievement("100km", AchieveType.TOTALDISTANCE, 100.0);
-		acServ.checkAchievement("1000km", AchieveType.TOTALDISTANCE, 1000.0);
-		acServ.checkAchievement("10000km", AchieveType.TOTALDISTANCE, 10000.0);
+		acServ.checkAchievement("1000 러닝", AchieveType.RUNCOUNT, 1_000.0);
+		acServ.checkAchievement("10h", AchieveType.TOTALTIME, 36_000.0);
+		acServ.checkAchievement("100h", AchieveType.TOTALTIME, 360_000.0);
+		acServ.checkAchievement("1000h", AchieveType.TOTALTIME, 3_600_000.0);
+		acServ.checkAchievement("10000h", AchieveType.TOTALTIME, 36_000_000.0);
+		acServ.checkAchievement("10km", AchieveType.TOTALDISTANCE, 10_000.0);
+		acServ.checkAchievement("100km", AchieveType.TOTALDISTANCE, 100_000.0);
+		acServ.checkAchievement("1000km", AchieveType.TOTALDISTANCE, 1_000_000.0);
+		acServ.checkAchievement("10000km", AchieveType.TOTALDISTANCE, 10_000_000.0);
 	}
 
 }

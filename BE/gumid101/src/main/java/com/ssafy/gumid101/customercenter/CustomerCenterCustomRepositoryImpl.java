@@ -7,11 +7,14 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.gumid101.entity.QQuestionEntity;
+import com.ssafy.gumid101.entity.QReportEntity;
 import com.ssafy.gumid101.entity.QUserEntity;
 import com.ssafy.gumid101.req.DateOder;
 import com.ssafy.gumid101.req.QuestionReqDto;
 import com.ssafy.gumid101.req.QuestionSelectParameter;
+import com.ssafy.gumid101.req.ReportSelectReqDto;
 import com.ssafy.gumid101.res.QuestionResDto;
+import com.ssafy.gumid101.res.ReportResDto;
 
 import io.jsonwebtoken.lang.Strings;
 import lombok.RequiredArgsConstructor;
@@ -93,6 +96,43 @@ public class CustomerCenterCustomRepositoryImpl implements CustomerCenterCustomR
 
 		Long result = jpaQueryFactory.from(question).select(Projections.fields(Long.class, question.count()))
 				.where(builder).fetchOne();
+
+		return result;
+	}
+	
+	
+	public List<ReportResDto> selectReportsByParam(ReportSelectReqDto params) {
+
+		QReportEntity report = new QReportEntity("r");
+
+		if(params.getStatus() == null) {
+			params.setStatus(ReportStatus.WAITING);
+		}
+		
+		List<ReportResDto>  reportList = jpaQueryFactory.from(report).select(Projections.fields(ReportResDto.class, report.reportSeq.as("reportSeq"),
+				report.reportContent.as("reportContent"), report.reportStatus.as("reportState"),
+				report.reportCrewBoardSeq.as("crewBoardSeq"), report.userReporterEntity.userSeq.as("reporterUserSeq"),
+				report.userReporterEntity.nickName.as("reporterNickName"),
+				report.userTargetEntity.userSeq.as("targetUserSeq"),
+				report.userTargetEntity.nickName.as("targetNincName"), report.reportRegTime.as("regTime")))
+		.where( report.reportStatus.eq(params.getStatus()))
+		.orderBy(report.reportSeq.desc()).offset(params.getPageItemSize() * (params.getCurrentPage() -1)).limit(params.getPageNaviSize())
+		.fetch();
+
+		return reportList;
+		
+	}
+
+	@Override
+	public Long selectCountReportsByParam(ReportSelectReqDto params) {
+		QReportEntity report = new QReportEntity("r");
+		if(params.getStatus() == null) {
+			params.setStatus(ReportStatus.WAITING);
+		}
+
+
+		Long result = jpaQueryFactory.from(report).select(Projections.fields(Long.class, report.count()))
+				.where(report.reportStatus.eq(params.getStatus())).fetchOne();
 
 		return result;
 	}

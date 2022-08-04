@@ -3,6 +3,7 @@ package com.ssafy.gumid101.OAuth.custom.validate;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -10,10 +11,14 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.RequiredArgsConstructor;
+@RequiredArgsConstructor
+@Component
 public class KaKaoTokenValiate implements CustomTokenValidator{
 	
 	@Value("${spring.security.oauth2.client.registration.kakao.client-id}")
@@ -26,6 +31,7 @@ public class KaKaoTokenValiate implements CustomTokenValidator{
 	@Value("${spring.security.oauth2.client.provider.kakao.user-info-uri}")
 	private String USER_INFO_URL;
 	
+	private final ObjectMapper mapper;
 	
 	@Override
 	public Map<String, Object> validate(String idTokenString) throws GeneralSecurityException, IOException {
@@ -51,9 +57,21 @@ public class KaKaoTokenValiate implements CustomTokenValidator{
 	            profileHttpEntity,
 	            String.class
 	    );
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("kk", profileResponse.getBody());
-		return map;
+		
+	    
+		String body = profileResponse.getBody();
+		
+		Map<String,Object> map =  mapper.<HashMap>readValue(body, HashMap.class);
+		
+		
+		LinkedHashMap<String,Object> hashMap = (LinkedHashMap<String, Object>) map.get("kakao_account");
+		
+		System.out.println(map.get("kakao_account").getClass().toString());
+		
+		
+		 System.out.println(map);
+		 
+		return hashMap;
 		
 	}
 	
