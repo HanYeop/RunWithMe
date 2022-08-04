@@ -35,7 +35,7 @@ class CrewDetailViewModel @Inject constructor(
     private val crewRepository: CrewRepository
 ) : ViewModel() {
 
-    private val _isCrewMember: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    private val _isCrewMember: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val isCrewMember get() = _isCrewMember.asStateFlow()
 
     private val _crewState: MutableStateFlow<String> = MutableStateFlow("await")
@@ -58,6 +58,9 @@ class CrewDetailViewModel @Inject constructor(
     private val _errorMsgEvent = SingleLiveEvent<String>()
     val errorMsgEvent get() = _errorMsgEvent
 
+    private val _isCrewManager: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isCrewManager get() = _isCrewManager.asStateFlow()
+
 
     fun setState(start: String, end: String, timeStart: String, timeEnd: String) {
         val today = Calendar.getInstance()
@@ -67,25 +70,38 @@ class CrewDetailViewModel @Inject constructor(
         var endDate = sf.parse(end)
 
 
-        val sfTime = SimpleDateFormat("HH:mm:ss")
+        val sfTime = SimpleDateFormat("HH:mm:ss", Locale.KOREA)
 
         var startTime = sfTime.parse(timeStart)
         var endTime = sfTime.parse(timeEnd)
 
         val now = System.currentTimeMillis()
         val date = Date(now)
+        val nowString = sfTime.format(date)
+        val nowTime = sfTime.parse(nowString)
+
+        val startCalendar = Calendar.getInstance()
+        startCalendar.time = startTime
+
+        val endCalendar = Calendar.getInstance()
+        endCalendar.time = endTime
 
         if (today.time.time - startDate.time > 0) {
             if (today.time.time - endDate.time > 0) {
                 _crewState.value = "end"
             } else {
 
-
-                if (date.time >= startTime.time && date.time <= endTime.time) {
+                if (nowTime.time >= startTime.time && nowTime.time<= endTime.time) {
                     _crewState.value = "start"
                 } else {
                     _crewState.value = "end"
                 }
+
+//                if (date.time >= startTime.time && date.time <= endTime.time) {
+//                    _crewState.value = "start"
+//                } else {
+//                    _crewState.value = "end"
+//                }
             }
 
         } else {
@@ -104,6 +120,11 @@ class CrewDetailViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun checkCrewManager(isCrewManager : Boolean){
+        Log.d(TAG, "checkCrewManager: $isCrewManager")
+        _isCrewManager.value = isCrewManager
     }
 
     fun joinCrew(crewId: Int, password: String?) {
@@ -147,12 +168,36 @@ class CrewDetailViewModel @Inject constructor(
             crewActivityRepository.getMyTotalRecordData(crewSeq).collectLatest {
                 if (it is Result.Success) {
                     _myTotalRecordData.value = it.data.data
-                } else if (it is Result.Fail) {
-
-                } else if (it is Result.Empty) {
-
                 } else if(it is Result.Error) {
                     _errorMsgEvent.postValue("서버 에러 입니다.")
+                }
+            }
+        }
+    }
+
+    fun resignCrew(crewSeq: Int){
+        viewModelScope.launch (Dispatchers.IO){
+            crewManagerRepository.resignCrew(crewSeq).collectLatest {
+                if (it is Result.Success){
+                    _successMsgEvent.postValue("탈퇴되었습니다.")
+                }else if(it is Result.Error){
+                    _errorMsgEvent.postValue("서버 에러 입니다.")
+                }else if(it is Result.Fail){
+                    _errorMsgEvent.postValue("탈퇴 되지 않았습니다.")
+                }
+            }
+        }
+    }
+
+    fun deleteCrew(crewSeq: Int){
+        viewModelScope.launch (Dispatchers.IO){
+            crewManagerRepository.deleteCrew(crewSeq).collectLatest {
+                if (it is Result.Success){
+                    _successMsgEvent.postValue("해체되었습니다.")
+                }else if(it is Result.Error){
+                    _errorMsgEvent.postValue("서버 에러 입니다.")
+                }else if(it is Result.Fail){
+                    _errorMsgEvent.postValue("해체 되지 않았습니다.")
                 }
             }
         }
