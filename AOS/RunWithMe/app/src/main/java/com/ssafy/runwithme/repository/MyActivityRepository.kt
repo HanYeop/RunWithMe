@@ -29,6 +29,8 @@ class MyActivityRepository @Inject constructor(
         myActivityRemoteDataSource.getMyRunRecord().collect {
             if(it.success){
                 emit(Result.Success(it))
+            } else if (!it.success){
+                emit(Result.Fail(it))
             } else {
                 emit(Result.Empty)
             }
@@ -43,7 +45,9 @@ class MyActivityRepository @Inject constructor(
         myActivityRemoteDataSource.getMyProfile().collect {
             if(it.success){
                 emit(Result.Success(it))
-            }else {
+            } else if (!it.success){
+                emit(Result.Fail(it))
+            } else {
                 emit(Result.Empty)
             }
         }
@@ -73,7 +77,9 @@ class MyActivityRepository @Inject constructor(
         myActivityRemoteDataSource.getMyTotalRecord().collect {
             if(it.success){
                 emit(Result.Success(it))
-            }else {
+            } else if (!it.success){
+                emit(Result.Fail(it))
+            } else {
                 emit(Result.Empty)
             }
         }

@@ -22,7 +22,9 @@ class TotalRankingRepository @Inject constructor(
         totalRankingRemoteDataSource.getTotalRanking(type, size, offset).collect {
             if(it.success){
                 emit(Result.Success(it))
-            }else{
+            } else if (!it.success){
+                emit(Result.Fail(it))
+            } else {
                 emit(Result.Empty)
             }
         }
@@ -35,7 +37,9 @@ class TotalRankingRepository @Inject constructor(
         totalRankingRemoteDataSource.getMyRanking(type).collect {
             if(it.success){
                 emit(Result.Success(it))
-            }else{
+            } else if (!it.success){
+                emit(Result.Fail(it))
+            } else {
                 emit(Result.Empty)
             }
         }

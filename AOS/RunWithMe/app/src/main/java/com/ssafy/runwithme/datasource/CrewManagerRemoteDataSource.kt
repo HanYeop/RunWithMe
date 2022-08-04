@@ -20,6 +20,10 @@ class CrewManagerRemoteDataSource @Inject constructor(
         emit(crewManagerApi.getMyCurrentCrew())
     }
 
+    fun getMyEndCrew() : Flow<BaseResponse<List<MyCurrentCrewResponse>>> = flow {
+        emit(crewManagerApi.getMyEndCrew())
+    }
+
     fun createCrew(crewDto: RequestBody, imgFile: MultipartBody.Part?): Flow<BaseResponse<CreateCrewResponse>> = flow {
         if(imgFile == null){
             emit(crewManagerApi.createCrew(crewDto))

@@ -29,10 +29,27 @@ class CrewManagerRepository @Inject constructor(
     fun getMyCurrentCrew(): Flow<Result<BaseResponse<List<MyCurrentCrewResponse>>>> = flow {
         emit(Result.Loading)
         crewManagerRemoteDataSource.getMyCurrentCrew().collect {
-            if(it.data.isEmpty()){
-                emit(Result.Empty)
-            }else if(it.success){
+            if(it.success){
                 emit(Result.Success(it))
+            } else if (!it.success){
+                emit(Result.Fail(it))
+            } else {
+                emit(Result.Empty)
+            }
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
+
+    fun getMyEndCrew() : Flow<Result<BaseResponse<List<MyCurrentCrewResponse>>>> = flow<Result<BaseResponse<List<MyCurrentCrewResponse>>>> {
+        emit(Result.Loading)
+        crewManagerRemoteDataSource.getMyEndCrew().collect {
+            if(it.success){
+                emit(Result.Success(it))
+            } else if (!it.success){
+                emit(Result.Fail(it))
+            } else {
+                emit(Result.Empty)
             }
         }
     }.catch { e ->

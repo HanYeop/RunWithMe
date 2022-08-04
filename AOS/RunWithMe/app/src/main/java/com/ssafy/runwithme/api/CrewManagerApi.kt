@@ -12,6 +12,9 @@ interface CrewManagerApi {
     @GET("crew-manager/my-current-crew")
     suspend fun getMyCurrentCrew(): BaseResponse<List<MyCurrentCrewResponse>>
 
+    @GET("crew-manager/my-end-crew")
+    suspend fun getMyEndCrew(): BaseResponse<List<MyCurrentCrewResponse>>
+
     @Multipart
     @POST("crew-manager/crew")
     suspend fun createCrew(@Part("crewDto") crewDto: RequestBody, @Part imgFile: MultipartBody.Part?): BaseResponse<CreateCrewResponse>
