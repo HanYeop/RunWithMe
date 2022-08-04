@@ -1,5 +1,7 @@
 package com.ssafy.runwithme.view.run_record_detail
 
+import android.content.SharedPreferences
+import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ssafy.runwithme.R
@@ -8,23 +10,41 @@ import com.ssafy.runwithme.databinding.FragmentRunRecordDetailBinding
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.utils.*
 import com.ssafy.runwithme.view.running.RunningActivity
+import dagger.hilt.android.AndroidEntryPoint
 import java.lang.Math.round
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 import kotlin.time.Duration.Companion.hours
 
+@AndroidEntryPoint
 class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.layout.fragment_run_record_detail) {
 
+    @Inject
+    lateinit var sharedPref: SharedPreferences
     private val args by navArgs<RunRecordDetailFragmentArgs>()
     private var runRecordDto : RunRecordDto? = null
+    private var userSeq : Int = 0
 
     override fun init() {
 
         runRecordDto = args.runrecorddto
 
+        userSeq = sharedPref.getString(USER, "0")!!.toInt()
+
+        initViewVisible()
+
         initClickListener()
 
         initResult()
+    }
+
+    private fun initViewVisible(){
+        if(userSeq != runRecordDto!!.userSeq){
+            binding.apply {
+                btnRecommend.visibility = View.GONE
+            }
+        }
     }
 
     private fun initClickListener() {
@@ -54,10 +74,10 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
 
         binding.apply {
             imgResult.imageFormatter(runRecordDto!!.runImageSeq)
-            tvSpeed.text = "${round(runRecordDto!!.runRecordRunningAvgSpeed * 10.0) / 10} km/h"
+            tvSpeed.text = "${round(runRecordDto!!.runRecordRunningAvgSpeed * 10.0) / 10.0} km/h"
             tvCalorie.text = "${runRecordDto!!.runRecordRunningCalorie} kcal"
             tvTime.text = "${(runRecordDto!!.runRecordRunningTime / 60)} : $second"
-            tvDistance.text = "${round(1.0 * runRecordDto!!.runRecordRunningDistance / 1000.0 * 100) / 100} km"
+            tvDistance.text = "${round(1.0 * runRecordDto!!.runRecordRunningDistance / 1000.0 * 100.0) / 100.0} km"
 //            tvRunningResultName.text = "${start[0]}년 ${start[1]}월 ${start[2]}일 러닝"
             tvRunningResultName.text = "${startCalendar.get(Calendar.YEAR)}년 ${startCalendar.get(Calendar.MONTH) + 1}월 ${startCalendar.get(Calendar.DAY_OF_MONTH)}일 러닝"
             tvCrewName.text = runRecordDto!!.crewName

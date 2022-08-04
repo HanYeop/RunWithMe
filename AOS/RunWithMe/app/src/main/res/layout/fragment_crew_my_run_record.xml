@@ -33,14 +33,6 @@
                 style="@style/toolbar_text"
                 android:text="크루 내 나의 기록" />
 
-            <ImageButton
-                android:id="@+id/img_btn_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_baseline_search_24"
-                android:backgroundTint="@color/white"
-                android:layout_gravity="right"/>
 
         </com.google.android.material.appbar.MaterialToolbar>
 
