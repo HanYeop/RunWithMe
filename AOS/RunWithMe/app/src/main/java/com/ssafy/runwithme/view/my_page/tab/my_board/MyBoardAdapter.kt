@@ -6,12 +6,21 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.runwithme.databinding.ItemMyBoardBinding
-import com.ssafy.runwithme.model.response.MyTotalBoardsResponse
+import com.ssafy.runwithme.model.dto.CrewBoardDto
 
-class MyBoardAdapter : PagingDataAdapter<MyTotalBoardsResponse, MyBoardAdapter.ViewHolder>(diffUtil) {
+class MyBoardAdapter(private val deleteDialogListener: DeleteDialogListener) : PagingDataAdapter<CrewBoardDto, MyBoardAdapter.ViewHolder>(diffUtil) {
 
     inner class ViewHolder(private val binding: ItemMyBoardBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(board: MyTotalBoardsResponse) {
+
+        init {
+            binding.apply {
+                imageDeleteMyBoard.setOnClickListener {
+                    deleteDialogListener.onItemClick(getItem(adapterPosition)!!.crewBoardSeq)
+                }
+            }
+        }
+
+        fun bind(board: CrewBoardDto) {
             binding.board = board
             binding.executePendingBindings()
         }
@@ -31,14 +40,11 @@ class MyBoardAdapter : PagingDataAdapter<MyTotalBoardsResponse, MyBoardAdapter.V
     }
 
     companion object {
-        private val diffUtil = object : DiffUtil.ItemCallback<MyTotalBoardsResponse>() {
-            override fun areItemsTheSame(oldItem: MyTotalBoardsResponse, newItem: MyTotalBoardsResponse) =
+        private val diffUtil = object : DiffUtil.ItemCallback<CrewBoardDto>() {
+            override fun areItemsTheSame(oldItem: CrewBoardDto, newItem: CrewBoardDto) =
                 oldItem.crewBoardSeq == newItem.crewBoardSeq
 
-            override fun areContentsTheSame(
-                oldItem: MyTotalBoardsResponse,
-                newItem: MyTotalBoardsResponse
-            ) =
+            override fun areContentsTheSame(oldItem: CrewBoardDto, newItem: CrewBoardDto) =
                 oldItem.crewBoardContent == newItem.crewBoardContent
         }
     }

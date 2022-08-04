@@ -4,17 +4,17 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.ssafy.runwithme.api.MyActivityApi
-import com.ssafy.runwithme.model.response.MyTotalBoardsResponse
+import com.ssafy.runwithme.model.dto.CrewBoardDto
 import retrofit2.HttpException
 import java.io.IOException
 
 class GetMyBoardsPagingSource (
     private val myActivityApi: MyActivityApi,
     private val size: Int
-): PagingSource<Int, MyTotalBoardsResponse>() {
+): PagingSource<Int, CrewBoardDto>() {
 
     // 데이터 로드
-    override suspend fun load(params: LoadParams<Int>): PagingSource.LoadResult<Int, MyTotalBoardsResponse> {
+    override suspend fun load(params: LoadParams<Int>): PagingSource.LoadResult<Int, CrewBoardDto> {
         // LoadParams : 로드할 키와 항목 수 , LoadResult : 로드 작업의 결과
         return try {
 
@@ -58,7 +58,7 @@ class GetMyBoardsPagingSource (
     }
 
     // 데이터가 새로고침되거나 첫 로드 후 무효화되었을 때 키를 반환하여 load()로 전달
-    override fun getRefreshKey(state: PagingState<Int, MyTotalBoardsResponse>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, CrewBoardDto>): Int? {
         TODO("Not yet implemented")
     }
 }
