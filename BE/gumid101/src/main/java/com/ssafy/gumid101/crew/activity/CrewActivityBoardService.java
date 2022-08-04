@@ -14,7 +14,7 @@ public interface CrewActivityBoardService {
 			throws Exception;
 
 
-	boolean deleteCrewBoard(Long crewSeq, Long boardSeq) throws Exception;
+	boolean deleteCrewBoard(Long boardSeq) throws Exception;
 
 	List<CrewBoardFileDto> getCrewBoards(Long crewSeq, Integer size,Long maxCrewBoardSeq) throws Exception;
 

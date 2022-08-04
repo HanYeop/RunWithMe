@@ -116,12 +116,8 @@ public class CrewActivityBoardServiceImpl implements CrewActivityBoardService {
 	}
 
 	@Override
-	public boolean deleteCrewBoard(Long crewSeq, Long boardSeq) throws Exception {
-		CrewBoardEntity boardEntity = boardRepo.findById(boardSeq)
-				.orElseThrow(() -> new NotFoundUserException("해당 글 찾을 수 없습니다."));
-		if (crewSeq == null || crewSeq != boardEntity.getCrewEntity().getCrewSeq()) {
-			throw new NotFoundUserException("크루 정보가 일치하지 않습니다.");
-		}
+	public boolean deleteCrewBoard(Long boardSeq) throws Exception {
+
 		try {
 			boardRepo.deleteById(boardSeq);
 			return true;

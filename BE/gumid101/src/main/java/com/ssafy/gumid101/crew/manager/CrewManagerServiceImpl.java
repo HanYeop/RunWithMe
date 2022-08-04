@@ -346,4 +346,11 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		return crewManagerRepo.findByCrewCheckYnAndCrewDateEndBefore("N", LocalDateTime.now()).stream().map((entity) -> entity.getCrewSeq()).collect(Collectors.toList());
 	}
 
+	@Override
+	public Object getMyEndCrew(Long userSeq) {
+		// TODO Auto-generated method stub
+		
+		return null;
+	}
+
 }

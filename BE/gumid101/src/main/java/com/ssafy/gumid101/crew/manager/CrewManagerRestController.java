@@ -84,6 +84,9 @@ public class CrewManagerRestController {
 	@ApiOperation("내 끝난 크루를 조회 why? 업적 조회할 떄,")
 	@GetMapping("/my-end-crew")
 	public RequestEntity<?> getMyEndCrew() {
+		UserDto userDto = loadUserFromToken();
+		
+		crewManagerService.getMyEndCrew(userDto .getUserSeq());
 		return null;
 	}
 

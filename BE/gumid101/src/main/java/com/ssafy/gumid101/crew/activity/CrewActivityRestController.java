@@ -203,13 +203,15 @@ public class CrewActivityRestController {
 	}
 
 	@ApiOperation("크루 내 게시글 삭제")
-	@DeleteMapping("/{crewSeq}/boards/{boardSeq}")
-	public ResponseEntity<?> deleteCrewBoards(@PathVariable Long crewSeq, @PathVariable Long boardSeq) {
+	@DeleteMapping("/crew/boards/{boardSeq}")
+	public ResponseEntity<?> deleteCrewBoards(@PathVariable Long boardSeq) {
+		
 		Boolean deleteSuccess = null;
 		HttpStatus httpStatus = HttpStatus.OK;
 		ResponseFrame<Boolean> responseFrame = new ResponseFrame<>();
+		
 		try {
-			deleteSuccess = crewActivityBoardService.deleteCrewBoard(crewSeq, boardSeq);
+			deleteSuccess = crewActivityBoardService.deleteCrewBoard(boardSeq);
 		} catch (Exception e) {
 			httpStatus = HttpStatus.OK;
 			responseFrame.setCount(0);
