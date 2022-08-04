@@ -2,14 +2,14 @@ package com.ssafy.runwithme.view.running.result
 
 import android.content.SharedPreferences
 import android.graphics.Bitmap
-import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.google.gson.annotations.SerializedName
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseActivity
 import com.ssafy.runwithme.databinding.ActivityRunningResultBinding
 import com.ssafy.runwithme.model.dto.RunRecordDto
+import com.ssafy.runwithme.model.entity.RunRecordEntity
 import com.ssafy.runwithme.utils.*
 import com.ssafy.runwithme.utils.TrackingUtility.Companion.getFormattedStopWatchTime
 import com.ssafy.runwithme.view.create_recommend.CreateRecommendDialog
@@ -37,7 +37,6 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
     private val recommendViewModel by viewModels<RecommendViewModel>()
 
     private var runRecordSeq = 0
-    private var runImageSeq = 0
     @Inject
     lateinit var sharedPreferences: SharedPreferences
     
@@ -46,7 +45,12 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
 
         initResult()
 
-        callApi()
+        // 연습크루는 api 호출 x
+        if(sharedPreferences.getInt(RUN_RECORD_CREW_ID,0) == 0){
+            callLocal()
+        } else{
+            callApi()
+        }
 
         initViewModelCallBack()
     }
@@ -94,6 +98,24 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
         fileOutputStream.close()
         return newFile
+    }
+
+    private fun callLocal(){
+        binding.apply {
+            btnRecommend.visibility = View.INVISIBLE
+        }
+        runningViewModel.insertRun(
+            RunRecordEntity(
+                seq = 0,
+                image = RunningActivity.image,
+                startTime = timeFormatter(sharedPreferences.getLong(RUN_RECORD_START_TIME, 0L)),
+                endTime = timeFormatter(RunningActivity.runRecordEndTime),
+                runningTime = (RunningActivity.runRecordRunningTime / 1000).toInt(),
+                runningDistance = (RunningActivity.runRecordRunningDistance).toInt(),
+                avgSpeed = (RunningActivity.runRecordRunningAvgSpeed).toDouble(),
+                calorie = (RunningActivity.runRecordRunningCalorie)
+            )
+        )
     }
 
 

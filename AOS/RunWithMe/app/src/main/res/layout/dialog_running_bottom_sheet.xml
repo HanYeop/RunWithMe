@@ -15,19 +15,129 @@
         android:paddingTop="20dp"
         android:gravity="center"
         android:orientation="vertical">
-
         <View
             android:layout_width="50dp"
             android:layout_height="4dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/dialog_top" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_running_list"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            submitList="@{runningVM.runningCrewList}"
-            tools:listitem="@layout/item_my_current_crew"/>
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_running_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                submitList="@{runningVM.runningCrewList}"
+                tools:listitem="@layout/item_my_current_crew"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_card_crew"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <ImageView
+                        android:id="@+id/image_crew_recruit"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/image_round"
+                        android:clipToOutline="true"
+                        android:scaleType="fitXY"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:src="@drawable/crew_image"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_crew_start_duration"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="2022/08/04 ~"
+                        android:textColor="@color/main_grey"
+                        android:textSize="10sp"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintStart_toEndOf="@id/image_crew_recruit"
+                        app:layout_constraintTop_toTopOf="@id/image_crew_recruit" />
+
+                    <TextView
+                        android:id="@+id/tv_crew_name_recruit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:includeFontPadding="false"
+                        android:text="연습크루"
+                        android:textColor="@color/main_purple"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toEndOf="@id/image_crew_recruit"
+                        app:layout_constraintTop_toBottomOf="@id/tv_crew_start_duration" />
+
+
+                    <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="시작 시간"
+                        android:textColor="@color/main_grey"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintStart_toStartOf="@id/tv_crew_name_recruit"
+                        app:layout_constraintTop_toBottomOf="@id/tv_crew_name_recruit"/>
+
+
+                    <TextView
+                        android:id="@+id/tv_crew_start_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/main_black"
+                        android:textSize="16sp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_time"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_time"
+                        android:text="00:00 ~ 24:00" />
+
+                    <TextView
+                        android:id="@+id/tv_goal_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="목표"
+                        android:textColor="@color/main_grey"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintStart_toStartOf="@id/tv_time"
+                        app:layout_constraintTop_toBottomOf="@id/tv_time"/>
+
+
+                    <TextView
+                        android:id="@+id/tv_crew_goal_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/main_black"
+                        android:textSize="16sp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_goal_amount"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_goal_amount"
+                        android:text="없음" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 </layout>

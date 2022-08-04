@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +17,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.databinding.DialogRunningBottomSheetBinding
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
+import com.ssafy.runwithme.utils.GOAL_TYPE_TIME
 import com.ssafy.runwithme.utils.runningStart
 import com.ssafy.runwithme.view.running.RunningActivity
 import com.ssafy.runwithme.view.running.RunningViewModel
 import com.ssafy.runwithme.view.running.list.RunningListAdapter
 import com.ssafy.runwithme.view.running.list.RunningListListener
+import com.ssafy.runwithme.view.running.list.sheet.custom.PracticeCustomDialog
+import com.ssafy.runwithme.view.running.list.sheet.custom.PracticeCustomListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -69,13 +73,13 @@ class RunningBottomSheet(context: Context, private val sharedPreferences: Shared
 
     private fun initViewModelCallBack(){
         runningViewModel.errorMsgEvent.observe(this){
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
 
         runningViewModel.startRunEvent.observe(this){
             runningStart(sharedPreferences, myCurrentInfo.crewDto.crewSeq, myCurrentInfo.crewDto.crewName
                 ,myCurrentInfo.crewDto.crewGoalType, myCurrentInfo.crewDto.crewGoalAmount)
-            startActivity(Intent(context, RunningActivity::class.java))
+            startActivity(Intent(requireContext(), RunningActivity::class.java))
             dismiss()
         }
     }
@@ -89,7 +93,17 @@ class RunningBottomSheet(context: Context, private val sharedPreferences: Shared
 
     private fun initClickListener(){
         binding.apply {
+            layoutCardCrew.setOnClickListener {
+                PracticeCustomDialog(requireContext(), practiceListener).show()
+            }
+        }
+    }
 
+    private val practiceListener = object : PracticeCustomListener{
+        override fun onItemClick(type: String, amount: Int) {
+            runningStart(sharedPreferences, 0, "연습크루", type, amount)
+            startActivity(Intent(context, RunningActivity::class.java))
+            dismiss()
         }
     }
 
