@@ -5,7 +5,9 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.dto.*
+import com.ssafy.runwithme.model.response.MyGraphDataResponse
 import com.ssafy.runwithme.repository.CrewActivityRepository
 import com.ssafy.runwithme.repository.CrewManagerRepository
 import com.ssafy.runwithme.repository.CrewRepository
@@ -39,6 +41,8 @@ class CrewDetailViewModel @Inject constructor(
     val crewState get() = _crewState.asStateFlow()
     // await : 시작 전, start : 시작, end : 끝난 후, 러닝 시간 아닌 경우
 
+    private val _myGraphData: MutableStateFlow<Result<BaseResponse<List<MyGraphDataResponse>>>> = MutableStateFlow(Result.Uninitialized)
+    val myGraphData get() = _myGraphData.asStateFlow()
 
     private val _successMsgEvent = SingleLiveEvent<String>()
     val successMsgEvent get() = _successMsgEvent
@@ -47,7 +51,6 @@ class CrewDetailViewModel @Inject constructor(
     val errorMsgEvent get() = _errorMsgEvent
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun setState(start: String, end: String, timeStart: String, timeEnd: String) {
         val today = Calendar.getInstance()
         val sf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -106,6 +109,20 @@ class CrewDetailViewModel @Inject constructor(
                 Log.d(TAG, "joinCrew: $it")
                 if(it is Result.Success){
                     _successMsgEvent.postValue("가입 완료했습니다.")
+                }else if(it is Result.Fail){
+                    _errorMsgEvent.postValue(it.data.msg)
+                }else if(it is Result.Error){
+                    _errorMsgEvent.postValue("서버 에러 입니다.")
+                }
+            }
+        }
+    }
+
+    fun getMyGraphData(crewSeq: Int, goalType: String){
+        viewModelScope.launch (Dispatchers.IO){
+            crewActivityRepository.getMyGraphData(crewSeq, goalType).collectLatest {
+                if(it is Result.Success){
+                    _myGraphData.value = it
                 }else if(it is Result.Fail){
                     _errorMsgEvent.postValue(it.data.msg)
                 }else if(it is Result.Error){

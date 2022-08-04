@@ -5,6 +5,7 @@ import com.ssafy.runwithme.model.dto.CreateCrewBoardDto
 import com.ssafy.runwithme.model.dto.CrewBoardDto
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.response.CrewBoardResponse
+import com.ssafy.runwithme.model.response.MyGraphDataResponse
 import com.ssafy.runwithme.model.response.RankingResponse
 import retrofit2.Response
 import retrofit2.http.*
@@ -37,4 +38,7 @@ interface CrewActivityApi {
         @Path("crewSeq") crewSeq: Int,
         @Query("type") rankingType : String
     ) : BaseResponse<List<RankingResponse>>
+
+    @GET("crew-activity/{crewSeq}/mygraphdata/{goalType}")
+    suspend fun getMyGraphData(@Path("crewSeq") crewSeq: Int, @Path("goalType") goalType: String) : BaseResponse<List<MyGraphDataResponse>>
 }
