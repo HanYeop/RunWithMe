@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.http.Path
 import javax.inject.Inject
 
 class MyActivityRemoteDataSource @Inject constructor(
@@ -37,5 +38,9 @@ class MyActivityRemoteDataSource @Inject constructor(
 
     fun getMyTotalRecord(): Flow<BaseResponse<MyTotalRecordResponse>> = flow {
         emit(myActivityApi.getMyTotalRecord())
+    }
+
+    fun runAbleToday(crewSeq: Int): Flow<BaseResponse<String>> = flow {
+        emit(myActivityApi.runAbleToday(crewSeq))
     }
 }

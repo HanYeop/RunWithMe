@@ -41,4 +41,9 @@ interface MyActivityApi {
     suspend fun editMyProfile(
         @Part("profile") profileEditDto : RequestBody,
     ) : BaseResponse<MyProfileResponse>
+
+    @GET("my-activity/runabletoday/{crewSeq}")
+    suspend fun runAbleToday(
+        @Path("crewSeq") crewSeq: Int
+    ): BaseResponse<String>
 }

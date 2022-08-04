@@ -134,7 +134,7 @@
             app:layout_constraintTop_toTopOf="@+id/tv_goal_amount"
             app:srcCompat="@drawable/down_32" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_ok"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
@@ -149,7 +149,7 @@
             app:layout_constraintStart_toEndOf="@+id/btn_cancel"
             app:layout_constraintTop_toTopOf="@+id/btn_cancel" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
