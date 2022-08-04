@@ -20,7 +20,10 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.OAuthLoginCallback
+import com.navercorp.nid.profile.NidProfileCallback
+import com.navercorp.nid.profile.data.NidProfileResponse
 import com.ssafy.runwithme.MainActivity
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
@@ -191,12 +194,22 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
         }
     }
 
+
     private fun naverSignIn(){
         val oauthLoginCallback = object : OAuthLoginCallback {
             override fun onSuccess() {
-                // 네이버 로그인 인증이 성공했을 때 수행할 코드 추가
-                Log.d(TAG, "onSuccess: ${NaverIdLoginSDK.getAccessToken()}")
-                userViewModel.naverLogin(NaverIdLoginSDK.getAccessToken()!!)
+                NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
+                    override fun onSuccess(result: NidProfileResponse) {
+                        val email = result.profile?.email.toString()
+                        Log.d(TAG, "onSuccess: ${result.profile}")
+                        Log.d(TAG, "onSuccess: $email")
+
+                        Log.d(TAG, "onSuccess: ${NaverIdLoginSDK.getAccessToken()!!}")
+                        userViewModel.naverLogin(NaverIdLoginSDK.getAccessToken()!!)
+                    }
+                    override fun onError(errorCode: Int, message: String) {}
+                    override fun onFailure(httpStatus: Int, message: String) {}
+                })
             }
 
             override fun onFailure(httpStatus: Int, message: String) {
@@ -204,6 +217,7 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
                 val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
                 showToast("errorCode:$errorCode, errorDesc:$errorDescription")
             }
+
             override fun onError(errorCode: Int, message: String) {
                 onFailure(errorCode, message)
             }
