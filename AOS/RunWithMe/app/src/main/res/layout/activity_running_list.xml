@@ -28,11 +28,12 @@
                 android:id="@+id/map_view_running_list"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_two" />
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animation_start_btn"
@@ -46,6 +47,33 @@
                 app:lottie_autoPlay="true"
                 app:lottie_fileName="start_button.json"
                 app:lottie_loop="true" />
+
+            <TextView
+                android:id="@+id/tv_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                android:fontFamily="@font/noto_sans_bold"
+                android:gravity="center"
+                android:text="안녕하세요!"
+                android:textColor="@color/main_black"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:drawableEnd="@drawable/left_fire"
+                android:fontFamily="@font/noto_sans_bold"
+                android:gravity="center"
+                android:text="오늘도 달려볼까요?"
+                android:textColor="@color/main_black"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="@+id/tv_one"
+                app:layout_constraintTop_toBottomOf="@+id/tv_one" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
