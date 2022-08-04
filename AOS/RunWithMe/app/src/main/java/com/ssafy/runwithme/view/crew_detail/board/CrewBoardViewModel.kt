@@ -11,6 +11,7 @@ import com.ssafy.runwithme.model.dto.CrewBoardDto
 import com.ssafy.runwithme.model.dto.ImageFileDto
 import com.ssafy.runwithme.model.response.CrewBoardResponse
 import com.ssafy.runwithme.repository.CrewActivityRepository
+import com.ssafy.runwithme.repository.CustomerCenterRepository
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.SingleLiveEvent
 import com.ssafy.runwithme.utils.TAG
@@ -27,6 +28,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CrewBoardViewModel @Inject constructor(
     private val crewActivityRepository: CrewActivityRepository,
+    private val customerCenterRepository: CustomerCenterRepository,
     private val sharedPreferences: SharedPreferences
     ) : ViewModel(){
 
@@ -83,6 +85,17 @@ class CrewBoardViewModel @Inject constructor(
     }
 
     fun reportCrewBoard(content : String, boardSeq: Int){
-        Log.d(TAG, "reportCrewBoard: $content , 여기까지 들어왔습니다")
+        viewModelScope.launch (Dispatchers.IO){
+            customerCenterRepository.reportBoard(boardSeq, content).collectLatest {
+                Log.d(TAG, "reportCrewBoard: $it")
+                if(it is Result.Success){
+                    _successMsgEvent.postValue("신고를 완료했습니다.")
+                }else if(it is Result.Error){
+                    _errorMsgEvent.postValue("신고 중 오류가 발생했습니다.")
+                }else if(it is Result.Fail){
+                    _failMsgEvent.postValue(it.data.msg)
+                }
+            }
+        }
     }
 }

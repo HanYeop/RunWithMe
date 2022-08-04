@@ -117,4 +117,11 @@ object RemoteDataModule {
     fun provideAchieveApi(retrofit: Retrofit): AchieveApi {
         return retrofit.create(AchieveApi::class.java)
     }
+
+    // CustomerCenterApi DI
+    @Provides
+    @Singleton
+    fun provideCustomerCenterApi(retrofit: Retrofit): CustomerCenterApi {
+        return retrofit.create(CustomerCenterApi::class.java)
+    }
 }

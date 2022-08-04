@@ -42,7 +42,6 @@ class ReportCrewBoardDialog(context:Context, private val boardSeq : Int, private
                     Toast.makeText(context, "내용을 입력하셔야 합니다.", Toast.LENGTH_SHORT).show()
                 } else {
                     listener.onItemClick(content, boardSeq)
-                    Toast.makeText(context, "신고가 완료되었습니다.", Toast.LENGTH_SHORT).show()
                     dismiss()
                 }
             }
