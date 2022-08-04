@@ -45,6 +45,7 @@
                     android:background="@drawable/image_round"
                     android:clipToOutline="true"
                     android:scaleType="fitXY"
+                    app:practiceImage="@{myRunRecord.image}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/img" />

@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.binding
 
+import android.graphics.Bitmap
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -450,5 +451,15 @@ object ViewBindingAdapter {
             text = "$hourInt 시 " + text
         }
         this.text = text
+    }
+
+    @BindingAdapter("practiceImage")
+    @JvmStatic
+    fun ImageView.setCreateRecommendImage (img: Bitmap){
+        Glide.with(this.context)
+            .load(img)
+            .override(60 * 2,60 * 2)
+            .placeholder(R.drawable.img)
+            .into(this)
     }
 }
