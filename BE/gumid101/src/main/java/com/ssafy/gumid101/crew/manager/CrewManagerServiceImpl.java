@@ -350,6 +350,12 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 	public Object getMyEndCrew(Long userSeq) {
 		// TODO Auto-generated method stub
 		
+		//사용자가 러닝 했던 끝난 크루의 seq를 가져온다. 
+		List<Long> myEndedCrewSeq = userCrewJoinRepo.selectByUserSeqAndCrewDateEndBeforeNow(userSeq);
+		
+		
+		
+		
 		return null;
 	}
 
