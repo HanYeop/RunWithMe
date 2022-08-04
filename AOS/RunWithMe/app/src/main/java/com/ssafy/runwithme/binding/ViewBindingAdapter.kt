@@ -11,7 +11,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.binding.ViewBindingAdapter.setCostFormat
-import com.ssafy.runwithme.binding.ViewBindingAdapter.setTotalTimeConverter
 import com.ssafy.runwithme.binding.ViewBindingAdapter.synUnit
 import com.ssafy.runwithme.model.dto.CrewBoardDto
 import com.ssafy.runwithme.utils.BASE_URL
@@ -282,23 +281,7 @@ object ViewBindingAdapter {
     @BindingAdapter("timeConverter")
     @JvmStatic
     fun TextView.setTimeConverter (time: Int){
-
-        var second = time % 3600
-
-        var text = "$second 초"
-
-
-        var minuteInt = time / 60
-        if(minuteInt != 0){
-            text = "$minuteInt 분" + text
-        }
-
-
-        var hourInt = (time / 3600)
-        if(hourInt != 0){
-            text = "$hourInt 시 " + text
-        }
-        this.text = text
+        this.text = "${time / 60}"
     }
 
     @BindingAdapter("calorieConverter")
