@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,9 +21,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gumid101.dto.CrewDto;
 import com.ssafy.gumid101.dto.RecruitmentParamsDto;
 import com.ssafy.gumid101.dto.UserDto;
-import com.ssafy.gumid101.jwt.JwtUtilsService;
 import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.res.CrewFileDto;
+import com.ssafy.gumid101.res.EndCrewFileDto;
 import com.ssafy.gumid101.res.ResponseFrame;
 
 import io.swagger.annotations.Api;
@@ -83,11 +82,11 @@ public class CrewManagerRestController {
 
 	@ApiOperation("내 끝난 크루를 조회 why? 업적 조회할 떄,")
 	@GetMapping("/my-end-crew")
-	public RequestEntity<?> getMyEndCrew() {
+	public ResponseEntity<?> getMyEndCrew() {
 		UserDto userDto = loadUserFromToken();
 		
-		crewManagerService.getMyEndCrew(userDto .getUserSeq());
-		return null;
+		List<EndCrewFileDto> results = crewManagerService.getMyEndCrew(userDto.getUserSeq());
+		return new ResponseEntity<>(new ResponseFrame<>(true, results, results.size(), "나의 추억 조회가 완료되었습니다."), HttpStatus.OK);
 	}
 
 	/**
