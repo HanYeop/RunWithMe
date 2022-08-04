@@ -10,6 +10,8 @@ import com.ssafy.runwithme.utils.SingleLiveEvent
 import com.ssafy.runwithme.utils.TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,11 +25,19 @@ class AchievementViewModel @Inject constructor(
     private val _errorMsgEvent = SingleLiveEvent<String>()
     val errorMsgEvent get() = _errorMsgEvent
 
+    private val _achieveList = MutableStateFlow(arrayListOf<String>())
+    val achieveList = _achieveList.asStateFlow()
+
     fun getMyAchieve(){
         viewModelScope.launch(Dispatchers.IO) {
             achieveRepository.getMyAchieve().collectLatest {
                 if(it is Result.Success){
-                    Log.d(TAG, "여기 들어왔어요 getMyAchieve: $it")
+                    val tmpList = arrayListOf<String>()
+                    for(i in it.data.data){
+                        Log.d(TAG, "getMyAchieve: ${i.achievementDto.achieveType.lowercase() + i.achievementDto.achieveValue.toInt().toString()}")
+                        tmpList.add(i.achievementDto.achieveType.lowercase() + i.achievementDto.achieveValue.toInt().toString())
+                    }
+                    _achieveList.value = tmpList
                 }
                 else if(it is Result.Error){
                     _errorMsgEvent.postValue("업적 목록을 불러오는 중 오류가 발생했습니다.")

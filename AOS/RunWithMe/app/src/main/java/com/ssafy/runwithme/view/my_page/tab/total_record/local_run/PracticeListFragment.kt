@@ -2,6 +2,7 @@ package com.ssafy.runwithme.view.my_page.tab.total_record.local_run
 
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentPracticeListBinding
@@ -22,6 +23,16 @@ class PracticeListFragment : BaseFragment<FragmentPracticeListBinding>(R.layout.
         runningViewModel.getAllRunsSortedByDate()
 
         initViewModelCallBack()
+
+        initClickListener()
+    }
+
+    private fun initClickListener(){
+        binding.apply {
+            toolbar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
     }
 
     private fun initViewModelCallBack(){

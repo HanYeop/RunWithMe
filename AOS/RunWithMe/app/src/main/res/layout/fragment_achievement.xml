@@ -34,7 +34,7 @@
                     android:layout_height="80dp"
                     android:scaleType="fitXY"
                     android:alpha="0.2"
-                    android:src="@drawable/achieve_running_first" />
+                    android:src="@drawable/runcount1" />
                 <ImageView
                     android:id="@+id/image_achieve_num_ten"
                     android:layout_width="0dp"
@@ -42,7 +42,7 @@
                     android:layout_height="80dp"
                     android:scaleType="fitXY"
                     android:alpha="0.2"
-                    android:src="@drawable/achieve_running_ten" />
+                    android:src="@drawable/runcount10" />
                 <ImageView
                     android:id="@+id/image_achieve_num_hundred"
                     android:layout_width="0dp"
@@ -50,7 +50,7 @@
                     android:layout_height="80dp"
                     android:scaleType="fitXY"
                     android:alpha="0.2"
-                    android:src="@drawable/achieve_running_hundred" />
+                    android:src="@drawable/runcount100" />
                 <ImageView
                     android:id="@+id/image_achieve_num_thousand"
                     android:layout_width="0dp"
@@ -58,7 +58,7 @@
                     android:layout_height="80dp"
                     android:scaleType="fitXY"
                     android:alpha="0.2"
-                    android:src="@drawable/achieve_running_thousand" />
+                    android:src="@drawable/runcount1000" />
             </LinearLayout>
 
             <LinearLayout
@@ -109,7 +109,7 @@
                     android:layout_height="80dp"
                     android:scaleType="centerInside"
                     android:alpha="0.2"
-                    android:src="@drawable/achieve_time_ten" />
+                    android:src="@drawable/totaltime36000" />
                 <ImageView
                     android:id="@+id/image_achieve_time_hundred"
                     android:layout_width="0dp"
@@ -117,7 +117,7 @@
                     android:layout_height="80dp"
                     android:scaleType="centerInside"
                     android:alpha="0.2"
-                    android:src="@drawable/achieve_time_hundred" />
+                    android:src="@drawable/totaltime360000" />
                 <ImageView
                     android:id="@+id/image_achieve_time_thousand"
                     android:layout_width="0dp"
@@ -125,7 +125,7 @@
                     android:layout_height="80dp"
                     android:scaleType="centerInside"
                     android:alpha="0.2"
-                    android:src="@drawable/achieve_time_thousand"/>
+                    android:src="@drawable/totaltime3600000"/>
                 <ImageView
                     android:id="@+id/image_achieve_time_ten_thousand"
                     android:layout_width="0dp"
@@ -133,7 +133,7 @@
                     android:layout_height="80dp"
                     android:scaleType="centerInside"
                     android:alpha="0.2"
-                    android:src="@drawable/achieve_time_ten_thousand" />
+                    android:src="@drawable/totaltime36000000" />
             </LinearLayout>
 
             <LinearLayout
@@ -187,7 +187,7 @@
                     android:layout_height="80dp"
                     android:scaleType="fitCenter"
                     android:alpha="0.2"
-                    android:src="@drawable/achieve_distance_ten" />
+                    android:src="@drawable/totaldistance10000" />
                 <ImageView
                     android:id="@+id/image_achieve_distance_hundred"
                     android:layout_width="0dp"
@@ -195,7 +195,7 @@
                     android:layout_height="80dp"
                     android:scaleType="fitCenter"
                     android:alpha="0.2"
-                    android:src="@drawable/achieve_distance_hundred" />
+                    android:src="@drawable/totaldistance100000" />
                 <ImageView
                     android:id="@+id/image_achieve_distance_thousand"
                     android:layout_width="0dp"
@@ -203,7 +203,7 @@
                     android:layout_height="80dp"
                     android:scaleType="fitCenter"
                     android:alpha="0.2"
-                    android:src="@drawable/achieve_distance_thousand" />
+                    android:src="@drawable/totaldistance1000000" />
                 <ImageView
                     android:id="@+id/image_achieve_distance_ten_thousand"
                     android:layout_width="0dp"
@@ -211,7 +211,7 @@
                     android:layout_height="80dp"
                     android:scaleType="fitCenter"
                     android:alpha="0.2"
-                    android:src="@drawable/achieve_distance_ten_thousand" />
+                    android:src="@drawable/totaldistance10000000" />
             </LinearLayout>
 
 

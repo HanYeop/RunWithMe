@@ -68,7 +68,17 @@ const val RUN_GOAL_AMOUNT = "run_goal_amount"
 const val GOAL_TYPE_TIME = "time"
 const val GOAL_TYPE_DISTANCE = "distance"
 
-/**
- * 러닝 진행 페이지에서 저장할 값들
- * => 이미지, 달리기 종료시간, 평균 속도, 소비 칼로리, 목표달성 여부(??), 달린 거리, 시작점 위도, 시작점 경도, 달린 시간,
- */
+val achieve_list = listOf(
+    "runcount1",
+    "runcount10",
+    "runcount100",
+    "runcount1000",
+    "totaltime36000",
+    "totaltime360000",
+    "totaltime3600000",
+    "totaltime36000000",
+    "totaldistance10000",
+    "totaldistance100000",
+    "totaldistance1000000",
+    "totaldistance10000000",
+)
