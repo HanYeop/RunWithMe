@@ -5,13 +5,8 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.ssafy.runwithme.databinding.ItemCrewBoardBinding
 import com.ssafy.runwithme.databinding.ItemRunningRecordBinding
-import com.ssafy.runwithme.model.dto.MyUserDto
 import com.ssafy.runwithme.model.dto.RunRecordDto
-import com.ssafy.runwithme.model.response.CrewBoardResponse
-import com.ssafy.runwithme.view.crew_detail.board.CrewBoardAdapter
-import com.ssafy.runwithme.view.crew_detail.board.CrewBoardDeleteListener
 
 class CrewUserRunRecordAdapter (private val listener: CrewUserRunRecordListener) : PagingDataAdapter<RunRecordDto, CrewUserRunRecordAdapter.ViewHolder>(diffUtil) {
 

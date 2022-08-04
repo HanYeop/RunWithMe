@@ -9,7 +9,7 @@ import com.ssafy.runwithme.databinding.ItemCrewBoardBinding
 import com.ssafy.runwithme.model.dto.MyUserDto
 import com.ssafy.runwithme.model.response.CrewBoardResponse
 
-class CrewBoardAdapter(private val deleteListener: CrewBoardDeleteListener, private val userSeq: Int) : PagingDataAdapter<CrewBoardResponse, CrewBoardAdapter.ViewHolder>(diffUtil) {
+class CrewBoardAdapter(private val crewBoardListener: CrewBoardListener, private val userSeq: Int) : PagingDataAdapter<CrewBoardResponse, CrewBoardAdapter.ViewHolder>(diffUtil) {
 
     inner class ViewHolder(private val binding: ItemCrewBoardBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -17,7 +17,10 @@ class CrewBoardAdapter(private val deleteListener: CrewBoardDeleteListener, priv
         init {
             binding.apply {
                 imgDelete.setOnClickListener {
-                    deleteListener.onItemClick(getItem(adapterPosition)!!)
+                    crewBoardListener.onDeleteClick(getItem(adapterPosition)!!)
+                }
+                imgReport.setOnClickListener {
+                    crewBoardListener.onReportClick(getItem(adapterPosition)!!.crewBoardDto.crewBoardSeq)
                 }
             }
         }

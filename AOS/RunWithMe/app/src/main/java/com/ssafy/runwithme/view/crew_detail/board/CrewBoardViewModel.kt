@@ -1,6 +1,7 @@
 package com.ssafy.runwithme.view.crew_detail.board
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -12,6 +13,7 @@ import com.ssafy.runwithme.model.response.CrewBoardResponse
 import com.ssafy.runwithme.repository.CrewActivityRepository
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.SingleLiveEvent
+import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.utils.USER
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -80,7 +82,7 @@ class CrewBoardViewModel @Inject constructor(
         }
     }
 
-
-
-
+    fun reportCrewBoard(content : String, boardSeq: Int){
+        Log.d(TAG, "reportCrewBoard: $content , 여기까지 들어왔습니다")
+    }
 }

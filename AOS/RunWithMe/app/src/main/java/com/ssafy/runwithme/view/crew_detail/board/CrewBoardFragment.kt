@@ -29,7 +29,7 @@ class CrewBoardFragment : BaseFragment<FragmentCrewBoardBinding>(R.layout.fragme
 
     override fun init() {
         Log.d(TAG, "init: userSeq: ${crewBoardViewModel.getUserSeq()}")
-        crewBoardAdapter = CrewBoardAdapter(deleteCrewBoardListener, crewBoardViewModel.getUserSeq())
+        crewBoardAdapter = CrewBoardAdapter(crewBoardListener, crewBoardViewModel.getUserSeq())
         binding.apply {
             recyclerCrewBoard.adapter = crewBoardAdapter
         }
@@ -64,9 +64,20 @@ class CrewBoardFragment : BaseFragment<FragmentCrewBoardBinding>(R.layout.fragme
         }
     }
 
-    private val deleteCrewBoardListener : CrewBoardDeleteListener = object : CrewBoardDeleteListener {
-        override fun onItemClick(crewBoardResponse: CrewBoardResponse) {
+    private val crewBoardListener : CrewBoardListener = object : CrewBoardListener {
+        override fun onDeleteClick(crewBoardResponse: CrewBoardResponse) {
             crewBoardViewModel.deleteCrewBoard(crewSeq, crewBoardResponse.crewBoardDto.crewBoardSeq)
+        }
+
+        override fun onReportClick(boardSeq: Int) {
+            val dialog = ReportCrewBoardDialog(requireContext(), boardSeq, reportDialogListener)
+            dialog.show()
+        }
+    }
+
+    private val reportDialogListener : ReportBoardListener = object : ReportBoardListener {
+        override fun onItemClick(content: String, boardSeq: Int) {
+            crewBoardViewModel.reportCrewBoard(content, boardSeq)
         }
     }
 
