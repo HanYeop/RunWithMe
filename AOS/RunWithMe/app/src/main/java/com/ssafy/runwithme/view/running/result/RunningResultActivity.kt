@@ -49,9 +49,6 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
         callApi()
 
         initViewModelCallBack()
-
-        // TODO : TEST
-        AchievementDialog(this).show()
     }
 
     private fun initViewModelCallBack(){
@@ -65,6 +62,13 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
         lifecycleScope.launch {
             runningViewModel.runRecordSeq.collectLatest {
                 runRecordSeq = it
+            }
+        }
+        lifecycleScope.launch {
+            runningViewModel.achievementsList.collectLatest {
+                for(i in it){
+                    AchievementDialog(this@RunningResultActivity, i).show()
+                }
             }
         }
     }

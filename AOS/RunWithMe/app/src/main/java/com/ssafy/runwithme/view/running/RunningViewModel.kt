@@ -1,10 +1,12 @@
 package com.ssafy.runwithme.view.running
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.ssafy.runwithme.base.BaseResponse
+import com.ssafy.runwithme.model.dto.AchievementDto
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 import com.ssafy.runwithme.repository.CrewManagerRepository
@@ -40,6 +42,10 @@ class RunningViewModel @Inject constructor(
             = MutableStateFlow(Result.Uninitialized)
     val runningCrewList get() = _runningCrewList.asStateFlow()
 
+    private val _achievementsList: MutableStateFlow<List<AchievementDto>>
+            = MutableStateFlow(listOf())
+    val achievementsList get() = _achievementsList.asStateFlow()
+
     private val _errorMsgEvent = SingleLiveEvent<String>()
     val errorMsgEvent get() = _errorMsgEvent
 
@@ -52,8 +58,14 @@ class RunningViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             crewRepository.createRunRecords(crewId, imgFile, run).collectLatest {
+                Log.d("test5", "createRunRecord: $it")
+
                 if(it is Result.Success){
                     _runRecordSeq.value = it.data.data.runRecordDto.runRecordSeq
+                    // 업적 달성 여부
+                    if(it.data.data.achievements.isNotEmpty()){
+                        _achievementsList.value = it.data.data.achievements
+                    }
                 }
             }
         }

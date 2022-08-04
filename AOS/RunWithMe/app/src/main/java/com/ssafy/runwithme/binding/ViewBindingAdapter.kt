@@ -397,4 +397,10 @@ object ViewBindingAdapter {
                 .into(this)
         }
     }
+
+    @BindingAdapter("achievementContent")
+    @JvmStatic
+    fun TextView.setAchievementContent(name: String){
+        this.text = "처음으로 $name 완주하기"
+    }
 }
