@@ -138,7 +138,7 @@ class CrewManagerRepository @Inject constructor(
         emit(Result.Error(e))
     }
 
-    fun resignCrew(crewSeq: Int): Flow<Result<BaseResponse<Boolean>>> = flow {
+    fun resignCrew(crewSeq: Int): Flow<Result<BaseResponse<Int>>> = flow {
         emit(Result.Loading)
         crewManagerRemoteDataSource.resignCrew(crewSeq).collect {
             if(it.success){
