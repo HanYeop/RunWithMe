@@ -126,7 +126,7 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
                 findNavController().popBackStack()
             }
             cardviewMyRecord.setOnClickListener {
-                val action = CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewMyRunRecordFragment(crewDto!!.crewSeq)
+                val action = CrewDetailFragmentDirections.actionCrewDetailFragmentToCrewMyRunRecordFragment(crewDto!!.crewSeq, crewDetailVM!!.myTotalRecordData.value)
                 findNavController().navigate(action)
             }
 

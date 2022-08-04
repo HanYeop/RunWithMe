@@ -109,7 +109,6 @@ class CrewActivityRepository @Inject constructor(
     fun getMyTotalRecordData(crewSeq: Int): Flow<Result<BaseResponse<CrewMyTotalRecordDataResponse>>> = flow {
         emit(Result.Loading)
         crewActivityRemoteDataSource.getMyTotalRecordData(crewSeq).collect {
-            Log.d(TAG, "getMyTotalRecordData: repository , $it")
             if(it.success){
                 emit(Result.Success(it))
             }else if(!it.success){
@@ -119,7 +118,21 @@ class CrewActivityRepository @Inject constructor(
             }
         }
     }.catch { e ->
-        Log.d(TAG, "getMyTotalRecordData:repos, $e")
+        emit(Result.Error(e))
+    }
+
+    fun getMyRunRecord(crewSeq: Int): Flow<Result<BaseResponse<List<RunRecordDto>>>> = flow {
+        emit(Result.Loading)
+        crewActivityRemoteDataSource.getMyRunrecord(crewSeq).collect {
+            if(it.success){
+                emit(Result.Success(it))
+            }else if(!it.success){
+                emit(Result.Fail(it))
+            }else{
+                emit(Result.Empty)
+            }
+        }
+    }.catch { e ->
         emit(Result.Error(e))
     }
 

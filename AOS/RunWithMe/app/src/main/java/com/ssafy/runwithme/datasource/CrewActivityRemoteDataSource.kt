@@ -3,6 +3,7 @@ package com.ssafy.runwithme.datasource
 import com.ssafy.runwithme.api.CrewActivityApi
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.dto.CreateCrewBoardDto
+import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.response.CrewBoardResponse
 import com.ssafy.runwithme.model.response.CrewMyTotalRecordDataResponse
 import com.ssafy.runwithme.model.response.MyGraphDataResponse
@@ -33,6 +34,10 @@ class CrewActivityRemoteDataSource @Inject constructor(
 
     fun getMyTotalRecordData(crewSeq: Int): Flow<BaseResponse<CrewMyTotalRecordDataResponse>> = flow {
         emit(crewActivityApi.getMyTotalRecordData(crewSeq))
+    }
+
+    fun getMyRunrecord(crewSeq: Int) : Flow<BaseResponse<List<RunRecordDto>>> = flow {
+        emit(crewActivityApi.getMyRunrecord(crewSeq))
     }
 
 }

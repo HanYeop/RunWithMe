@@ -33,10 +33,9 @@
         </com.google.android.material.appbar.MaterialToolbar>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_crew_run_record"
+            android:id="@+id/recycler_user_record"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

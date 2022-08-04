@@ -48,7 +48,7 @@ class CrewDetailViewModel @Inject constructor(
 
     private val _myTotalRecordData: MutableStateFlow<CrewMyTotalRecordDataResponse> =
         MutableStateFlow(
-            CrewMyTotalRecordDataResponse(0, 0)
+            CrewMyTotalRecordDataResponse(0, 0, 0.0, 0.0)
         )
     val myTotalRecordData get() = _myTotalRecordData.asStateFlow()
 

@@ -45,4 +45,8 @@ interface CrewActivityApi {
 
     @GET("crew-activity/{crewSeq}/my-total")
     suspend fun getMyTotalRecordData(@Path("crewSeq") crewSeq: Int) : BaseResponse<CrewMyTotalRecordDataResponse>
+
+    @GET("crew-activity/{crewSeq}/my")
+    suspend fun getMyRunrecord(@Path("crewSeq") crewSeq: Int) : BaseResponse<List<RunRecordDto>>
+
 }

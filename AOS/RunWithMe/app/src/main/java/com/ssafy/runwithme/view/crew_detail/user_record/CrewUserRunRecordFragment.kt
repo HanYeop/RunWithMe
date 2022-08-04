@@ -23,7 +23,7 @@ class CrewUserRunRecordFragment : BaseFragment<FragmentCrewUserRunRecordBinding>
     override fun init() {
         crewUserRunRecordAdapter = CrewUserRunRecordAdapter(listener)
         binding.apply {
-            recyclerCrewRunRecord.adapter = crewUserRunRecordAdapter
+            recyclerUserRecord.adapter = crewUserRunRecordAdapter
         }
 
         crewSeq = args.crewid

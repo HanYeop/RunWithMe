@@ -1,4 +1,4 @@
-package com.ssafy.runwithme.view.my_page.tab.total_record
+package com.ssafy.runwithme.view.crew_detail.my_record
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import com.ssafy.runwithme.databinding.ItemMyRunningRecordBinding
 import com.ssafy.runwithme.databinding.ItemRunningRecordBinding
 import com.ssafy.runwithme.model.dto.RunRecordDto
 
-class MyTotalRunRecordAdapter : RecyclerView.Adapter<MyTotalRunRecordAdapter.ViewHolder>(){
+class CrewMyRunRecordAdapter : RecyclerView.Adapter<CrewMyRunRecordAdapter.ViewHolder>(){
 
     inner class ViewHolder(val binding: ItemMyRunningRecordBinding): RecyclerView.ViewHolder(binding.root){
 

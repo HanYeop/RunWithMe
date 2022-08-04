@@ -114,6 +114,9 @@
         <argument
             android:name="crewid"
             app:argType="integer" />
+        <argument
+            android:name="mytotalrecorddata"
+            app:argType="com.ssafy.runwithme.model.response.CrewMyTotalRecordDataResponse" />
     </fragment>
     <fragment
         android:id="@+id/crewUserRunRecordFragment"

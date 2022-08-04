@@ -1,9 +1,12 @@
-package com.ssafy.runwithme.view.my_page.tab.total_record
+package com.ssafy.runwithme.view.crew_detail.my_record
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.dto.RunRecordDto
+import com.ssafy.runwithme.model.response.CreateRunRecordResponse
+import com.ssafy.runwithme.model.response.CrewMyTotalRecordDataResponse
+import com.ssafy.runwithme.repository.CrewActivityRepository
 import com.ssafy.runwithme.repository.MyActivityRepository
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.SingleLiveEvent
@@ -17,8 +20,8 @@ import java.text.DecimalFormat
 import javax.inject.Inject
 
 @HiltViewModel
-class MyTotalRunRecordViewModel @Inject constructor(
-    private val myActivityRepository: MyActivityRepository
+class CrewMyRunRecordViewModel @Inject constructor(
+    private val crewActivityRepository: CrewActivityRepository
 ) : ViewModel() {
 
     private val _monthRunRecordList: MutableStateFlow<Result<BaseResponse<List<RunRecordDto>>>>
@@ -53,9 +56,9 @@ class MyTotalRunRecordViewModel @Inject constructor(
     val errorMsgEvent get() = _errorMsgEvent
 
 
-    fun getMyRunRecord(){
+    fun getMyRunRecord(crewSeq: Int){
         viewModelScope.launch(Dispatchers.IO) {
-            myActivityRepository.getMyRunRecord().collectLatest {
+            crewActivityRepository.getMyRunRecord(crewSeq).collectLatest {
                 if(it is Result.Success){
                     _monthRunRecordList.value = it
                 }
@@ -66,35 +69,19 @@ class MyTotalRunRecordViewModel @Inject constructor(
         }
     }
 
-    fun getMyTotalRecord(){
-        viewModelScope.launch(Dispatchers.IO) {
-            myActivityRepository.getMyTotalRecord().collectLatest {
-                if(it is Result.Success){
-                    var hour = it.data.data.totalTime / 3600
-                    var min = it.data.data.totalTime / 60
-
-                    _timeMin.value = min.toString()
-                    if(min < 10){
-                        _timeMin.value = "0" + _timeMin.value
-                    }
-                    _timeHour.value = hour.toString()
-
-                    val df = DecimalFormat("###0.0")
-                    _distance.value = df.format((it.data.data.totalDistance / 1000f))
-
-                    hour = it.data.data.totalLongestDistance / 3600
-                    min = it.data.data.totalLongestTime / 60
-                    _longestTimeHour.value = hour.toString()
-                    _longestTimeMin.value = min.toString()
-
-                    _longestDistance.value = df.format((it.data.data.totalLongestDistance / 1000f)).toString()
-
-                    _speed.value = String.format("%.1f", it.data.data.totalAvgSpeed)
-                    _calorie.value = it.data.data.totalCalorie.toInt().toString()
-                } else if(it is Result.Error){
-                    _errorMsgEvent.postValue("누적 기록을 불러오는 중 오류가 발생했습니다.")
-                }
-            }
+    fun getMyTotalRecord(crewMyTotalRecordDataResponse: CrewMyTotalRecordDataResponse){
+        var hour = crewMyTotalRecordDataResponse.totalTime / 3600
+        var min = crewMyTotalRecordDataResponse.totalTime / 60
+        _timeHour.value = hour.toString()
+        _timeMin.value = min.toString()
+        if(min < 10){
+            _timeMin.value = "0" + _timeMin.value
         }
+        val df = DecimalFormat("###0.0")
+        _distance.value = df.format((crewMyTotalRecordDataResponse.totalDistance / 1000f))
+
+        _speed.value = String.format("%.1f", crewMyTotalRecordDataResponse.totalAvgSpeed)
+        _calorie.value = crewMyTotalRecordDataResponse.totalCalorie.toInt().toString()
+
     }
 }
