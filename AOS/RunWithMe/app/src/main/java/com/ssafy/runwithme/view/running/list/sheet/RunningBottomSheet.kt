@@ -79,6 +79,10 @@ class RunningBottomSheet(context: Context, private val sharedPreferences: Shared
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
 
+        runningViewModel.runAbleEvent.observe(this){
+            runningViewModel.getMyProfile()
+        }
+
         runningViewModel.startRunEvent.observe(this){
             runningStart(sharedPreferences, myCurrentInfo.crewDto.crewSeq, myCurrentInfo.crewDto.crewName
                 ,myCurrentInfo.crewDto.crewGoalType, myCurrentInfo.crewDto.crewGoalAmount)
@@ -93,10 +97,12 @@ class RunningBottomSheet(context: Context, private val sharedPreferences: Shared
         }
     }
 
+    // 실제 크루
     val listener = object : RunningListListener {
         override fun onItemClick(myCurrentCrewResponse: MyCurrentCrewResponse) {
             myCurrentInfo = myCurrentCrewResponse
-            runningViewModel.getMyProfile()
+            Log.d("test5", "onItemClick: ${myCurrentCrewResponse.crewDto.crewSeq}")
+            runningViewModel.runAbleToday(myCurrentCrewResponse.crewDto.crewSeq)
         }
     }
 
@@ -108,6 +114,7 @@ class RunningBottomSheet(context: Context, private val sharedPreferences: Shared
         }
     }
 
+    // 연습
     private val practiceListener = object : PracticeCustomListener{
         override fun onItemClick(type: String, amount: Int) {
             runningStart(sharedPreferences, 0, "연습크루", type, amount)

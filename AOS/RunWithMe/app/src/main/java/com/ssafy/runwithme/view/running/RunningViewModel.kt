@@ -54,6 +54,9 @@ class RunningViewModel @Inject constructor(
     private val _errorMsgEvent = SingleLiveEvent<String>()
     val errorMsgEvent get() = _errorMsgEvent
 
+    private val _runAbleEvent = SingleLiveEvent<String>()
+    val runAbleEvent get() = _runAbleEvent
+
     private val _startRunEvent = SingleLiveEvent<String>()
     val startRunEvent get() = _startRunEvent
 
@@ -75,6 +78,19 @@ class RunningViewModel @Inject constructor(
                     if(it.data.data.achievements.isNotEmpty()){
                         _achievementsList.value = it.data.data.achievements
                     }
+                }
+            }
+        }
+    }
+
+    fun runAbleToday(crewSeq: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            myActivityRepository.runAbleToday(crewSeq).collectLatest {
+                Log.d("test5", "runAbleToday: $it")
+                if(it is Result.Success){
+                    _runAbleEvent.postValue("러닝 가능")
+                } else if(it is Result.Fail){
+                    _errorMsgEvent.postValue(it.data.msg)
                 }
             }
         }
@@ -120,16 +136,20 @@ class RunningViewModel @Inject constructor(
                                 Log.d("test5", "getMyCurrentCrew1: $i")
 //                                _crewState.value = "end"
                             } else {
+                                // 뛸 수 있는 크루
                                 if (date.time >= startTime.time && date.time <= endTime.time) {
                                     Log.d("test5", "getMyCurrentCrew2: $i")
                                     tmpList.add(i)
                                 } else {
 //                                    _crewState.value = "end"
+//                                    tmpList.add(i)
+
                                     Log.d("test5", "getMyCurrentCrew3: $i")
                                 }
                             }
                         } else {
                             Log.d("test5", "getMyCurrentCrew4: $i")
+//                            tmpList.add(i)
 //                            _crewState.value = "await"
                         }
                     }
