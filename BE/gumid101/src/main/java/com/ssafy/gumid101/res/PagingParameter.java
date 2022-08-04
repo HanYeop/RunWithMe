@@ -13,4 +13,5 @@ public class PagingParameter {
 	private int endPageIndex;
 	private int nextPageIndex;
 	private int pageNavSize;
+	private int lastPageIndex;
 }
