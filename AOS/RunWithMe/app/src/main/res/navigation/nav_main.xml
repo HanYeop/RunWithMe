@@ -67,6 +67,9 @@
         <action
             android:id="@+id/action_MyPageFragment_to_crewDetailFragment"
             app:destination="@id/crewDetailFragment" />
+        <action
+            android:id="@+id/action_MyPageFragment_to_practiceListFragment"
+            app:destination="@id/practiceListFragment" />
     </fragment>
     <fragment
         android:id="@+id/myCurrentCrewFragment"
@@ -246,4 +249,9 @@
             android:id="@+id/action_myTotalRunRecordFragment_to_runRecordDetailFragment"
             app:destination="@id/runRecordDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/practiceListFragment"
+        android:name="com.ssafy.runwithme.view.my_page.tab.total_record.local_run.PracticeListFragment"
+        android:label="PracticeListFragment"
+        tools:layout="@layout/fragment_practice_list"/>
 </navigation>

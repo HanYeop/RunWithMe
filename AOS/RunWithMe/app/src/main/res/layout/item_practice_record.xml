@@ -7,7 +7,7 @@
     <data>
         <variable
             name="myRunRecord"
-            type="com.ssafy.runwithme.model.dto.RunRecordDto" />
+            type="com.ssafy.runwithme.model.entity.RunRecordEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,8 +15,6 @@
         android:layout_height="170dp"
         android:paddingVertical="8dp"
         >
-
-
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_crew"
@@ -47,9 +45,9 @@
                     android:background="@drawable/image_round"
                     android:clipToOutline="true"
                     android:scaleType="fitXY"
+                    app:practiceImage="@{myRunRecord.image}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:runRecordImage="@{myRunRecord.runImageSeq}"
                     app:srcCompat="@drawable/img" />
 
                 <TextView
@@ -60,18 +58,17 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/noto_sans_bold"
                     android:includeFontPadding="false"
-                    android:text="@{myRunRecord.userName}"
+                    android:text="연습 크루"
                     android:textColor="@color/main_black"
                     android:textSize="20sp"
                     app:layout_constraintStart_toEndOf="@id/img_run_record"
-                    app:layout_constraintTop_toTopOf="@id/img_run_record"
-                    tools:text="감스트" />
+                    app:layout_constraintTop_toTopOf="@id/img_run_record" />
 
                 <TextView
                     android:id="@+id/tv_duration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{myRunRecord.runRecordStartTime}"
+                    android:text="@{myRunRecord.startTime}"
                     app:layout_constraintStart_toStartOf="@id/tv_name"
                     app:layout_constraintTop_toBottomOf="@id/tv_name"
                     tools:text="2022-08-02 11:23:32" />
@@ -81,14 +78,14 @@
                     style="@style/header_text"
                     android:layout_marginTop="8dp"
                     android:textSize="18sp"
-                    app:distanceConverter="@{myRunRecord.runRecordRunningDistance}"
-                    app:layout_constraintEnd_toEndOf="@+id/textView3"
-                    app:layout_constraintStart_toStartOf="@+id/textView3"
+                    app:distanceConverter="@{myRunRecord.runningDistance}"
+                    app:layout_constraintEnd_toEndOf="@+id/textView4"
+                    app:layout_constraintStart_toStartOf="@+id/textView4"
                     app:layout_constraintTop_toBottomOf="@id/img_run_record"
                     tools:text="13.3" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
@@ -106,7 +103,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/tv_time_header"
                     app:layout_constraintStart_toStartOf="@+id/tv_time_header"
                     app:layout_constraintTop_toTopOf="@id/tv_distance"
-                    app:timeConverter="@{myRunRecord.runRecordRunningTime}"
+                    app:timeConverter="@{myRunRecord.runningTime}"
                     tools:text="132" />
 
                 <TextView
@@ -114,15 +111,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="분"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView3"
                     app:layout_constraintEnd_toStartOf="@+id/tv_calorie_header"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/textView3" />
+                    app:layout_constraintStart_toEndOf="@+id/textView4"
+                    app:layout_constraintTop_toTopOf="@+id/textView4" />
 
                 <TextView
                     android:id="@+id/tv_calorie"
                     style="@style/header_text"
-                    calorieConverter="@{myRunRecord.runRecordRunningCalorie}"
+                    calorieConverter="@{myRunRecord.calorie}"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="@+id/tv_calorie_header"
                     app:layout_constraintStart_toStartOf="@+id/tv_calorie_header"
@@ -134,10 +131,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="kcal"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_time_header"
                     app:layout_constraintEnd_toStartOf="@+id/tv_speed_header"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/tv_time_header" />
+                    app:layout_constraintStart_toEndOf="@+id/tv_time_header"
+                    app:layout_constraintTop_toTopOf="@+id/tv_time_header" />
 
                 <TextView
                     android:id="@+id/tv_speed"
@@ -146,7 +143,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/tv_speed_header"
                     app:layout_constraintStart_toStartOf="@+id/tv_speed_header"
                     app:layout_constraintTop_toTopOf="@id/tv_calorie"
-                    app:speedConverter="@{myRunRecord.runRecordRunningAvgSpeed}"
+                    app:speedConverter="@{myRunRecord.avgSpeed}"
                     tools:text="8.3" />
 
                 <TextView
@@ -154,10 +151,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="km/h"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_calorie_header"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/tv_calorie_header" />
+                    app:layout_constraintStart_toEndOf="@+id/tv_calorie_header"
+                    app:layout_constraintTop_toTopOf="@+id/tv_calorie_header" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

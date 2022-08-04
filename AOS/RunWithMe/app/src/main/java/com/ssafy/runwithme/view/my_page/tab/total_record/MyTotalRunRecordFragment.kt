@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.core.view.children
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.kizitonwose.calendarview.model.CalendarDay
@@ -64,6 +65,16 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
         }
 
         initViewModelCallBack()
+
+        initClickListener()
+    }
+
+    private fun initClickListener(){
+        binding.apply {
+            tvPractice.setOnClickListener {
+                findNavController().navigate(R.id.action_MyPageFragment_to_practiceListFragment)
+            }
+        }
     }
 
     private fun initViewModelCallBack(){
