@@ -69,7 +69,7 @@
                         android:id="@+id/layout_profile_top"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="8dp"
+                        android:paddingBottom="12dp"
                         android:background="@color/main_purple"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
