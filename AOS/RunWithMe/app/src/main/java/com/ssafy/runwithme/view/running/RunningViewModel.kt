@@ -123,34 +123,36 @@ class RunningViewModel @Inject constructor(
                         var endDate = sf.parse(i.crewDto.crewDateEnd)
 
 
-                        val sfTime = SimpleDateFormat("HH:mm:ss")
+                        val sfTime = SimpleDateFormat("HH:mm:ss", Locale.KOREA)
 
                         var startTime = sfTime.parse(i.crewDto.crewTimeStart)
                         var endTime = sfTime.parse(i.crewDto.crewTimeEnd)
 
                         val now = System.currentTimeMillis()
                         val date = Date(now)
+                        val nowString = sfTime.format(date)
+                        val nowTime = sfTime.parse(nowString)
+
+                        val startCalendar = Calendar.getInstance()
+                        startCalendar.time = startTime
+
+                        val endCalendar = Calendar.getInstance()
+                        endCalendar.time = endTime
 
                         if (today.time.time - startDate.time > 0) {
                             if (today.time.time - endDate.time > 0) {
-                                Log.d("test5", "getMyCurrentCrew1: $i")
-//                                _crewState.value = "end"
+                                Log.d("test5", "getMyCurrentCrew_end: $i")
                             } else {
                                 // 뛸 수 있는 크루
-                                if (date.time >= startTime.time && date.time <= endTime.time) {
-                                    Log.d("test5", "getMyCurrentCrew2: $i")
+                                if (nowTime.time >= startTime.time && nowTime.time <= endTime.time) {
+                                    Log.d("test5", "getMyCurrentCrew_start: $i")
                                     tmpList.add(i)
                                 } else {
-//                                    _crewState.value = "end"
-//                                    tmpList.add(i)
-
-                                    Log.d("test5", "getMyCurrentCrew3: $i")
+                                    Log.d("test5", "getMyCurrentCrew_end: $i")
                                 }
                             }
                         } else {
-                            Log.d("test5", "getMyCurrentCrew4: $i")
-//                            tmpList.add(i)
-//                            _crewState.value = "await"
+                            Log.d("test5", "getMyCurrentCrew_await: $i")
                         }
                     }
                     _runningCrewList.value = tmpList
