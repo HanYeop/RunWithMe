@@ -97,7 +97,7 @@ class MyActivityRepository @Inject constructor(
             pagingSourceFactory = { GetMyBoardsPagingSource(myActivityApi, size) }
         ).flow
 
-    fun runAbleToday(crewSeq: Int): Flow<Result<BaseResponse<String>>> = flow {
+    fun runAbleToday(crewSeq: Int): Flow<Result<BaseResponse<Boolean>>> = flow {
         emit(Result.Loading)
         myActivityRemoteDataSource.runAbleToday(crewSeq).collect {
             if(it.success){

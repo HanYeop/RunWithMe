@@ -122,6 +122,35 @@ class CrewManagerRepository @Inject constructor(
                 goalMinDay = goalMinDay, goalMaxDay = goalMaxDay, purposeType = purposeType)}
         ).flow
 
+    fun deleteCrew(crewSeq: Int): Flow<Result<BaseResponse<Boolean>>> = flow {
+        emit(Result.Loading)
+        crewManagerRemoteDataSource.deleteCrew(crewSeq).collect {
+            if(it.success){
+                emit(Result.Success(it))
+            }else if(!it.success){
+                emit(Result.Fail(it))
+            }
+            else{
+                emit(Result.Empty)
+            }
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
 
-
+    fun resignCrew(crewSeq: Int): Flow<Result<BaseResponse<Boolean>>> = flow {
+        emit(Result.Loading)
+        crewManagerRemoteDataSource.resignCrew(crewSeq).collect {
+            if(it.success){
+                emit(Result.Success(it))
+            }else if(!it.success){
+                emit(Result.Fail(it))
+            }
+            else{
+                emit(Result.Empty)
+            }
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
 }

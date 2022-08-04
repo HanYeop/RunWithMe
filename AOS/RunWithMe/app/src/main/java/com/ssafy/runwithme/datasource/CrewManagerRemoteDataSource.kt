@@ -36,4 +36,12 @@ class CrewManagerRemoteDataSource @Inject constructor(
         emit(crewManagerApi.checkCrewMember(crewSeq))
     }
 
+    fun deleteCrew(crewSeq: Int): Flow<BaseResponse<Boolean>> = flow {
+        emit(crewManagerApi.deleteCrew(crewSeq))
+    }
+
+    fun resignCrew(crewSeq: Int): Flow<BaseResponse<Boolean>> = flow {
+        emit(crewManagerApi.resignCrew(crewSeq))
+    }
+
 }
