@@ -24,8 +24,8 @@ class CrewActivityRemoteDataSource @Inject constructor(
         emit(crewActivityApi.createCrewBoard(crewSeq, crewBoardDto))
     }
 
-    fun deleteCrewBoard(crewSeq: Int, boardSeq: Int): Flow<BaseResponse<Boolean>> = flow {
-        emit(crewActivityApi.deleteCrewBoard(crewSeq, boardSeq))
+    fun deleteCrewBoard(boardSeq: Int): Flow<BaseResponse<Boolean>> = flow {
+        emit(crewActivityApi.deleteCrewBoard(boardSeq))
     }
 
     fun getMyGraphData(crewSeq: Int, goalType: String): Flow<BaseResponse<List<MyGraphDataResponse>>> = flow {

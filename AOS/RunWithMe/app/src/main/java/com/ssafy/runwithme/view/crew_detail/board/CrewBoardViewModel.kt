@@ -70,9 +70,9 @@ class CrewBoardViewModel @Inject constructor(
         }
     }
 
-    fun deleteCrewBoard(crewSeq: Int, boardSeq: Int){
+    fun deleteCrewBoard(boardSeq: Int){
         viewModelScope.launch (Dispatchers.IO){
-            crewActivityRepository.deleteCrewBoard(crewSeq, boardSeq).collectLatest {
+            crewActivityRepository.deleteCrewBoard(boardSeq).collectLatest {
                 if(it is Result.Success){
                     _successMsgEvent.postValue("삭제 완료했습니다.")
                 }else if(it is Result.Error){
@@ -87,7 +87,6 @@ class CrewBoardViewModel @Inject constructor(
     fun reportCrewBoard(content : String, boardSeq: Int){
         viewModelScope.launch (Dispatchers.IO){
             customerCenterRepository.reportBoard(boardSeq, content).collectLatest {
-                Log.d(TAG, "reportCrewBoard: $it")
                 if(it is Result.Success){
                     _successMsgEvent.postValue("신고를 완료했습니다.")
                 }else if(it is Result.Error){
@@ -98,4 +97,5 @@ class CrewBoardViewModel @Inject constructor(
             }
         }
     }
+
 }
