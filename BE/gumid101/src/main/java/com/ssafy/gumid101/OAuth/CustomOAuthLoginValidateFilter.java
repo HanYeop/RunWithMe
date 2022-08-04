@@ -34,12 +34,13 @@ import lombok.extern.slf4j.Slf4j;
 public class CustomOAuthLoginValidateFilter extends GenericFilterBean {
 
 	private final AntPathMatcher pathMatcher = new AntPathMatcher();
-	private final GoogleTokenValidate googleTokenValidate = new GoogleTokenValidate();
-    private final NaverTokenValidate naverTokenValidate = new NaverTokenValidate();
-    private final KaKaoTokenValiate kakaoTokenValidate = new KaKaoTokenValiate();
+	private final GoogleTokenValidate googleTokenValidate;
+    private final NaverTokenValidate naverTokenValidate ;
+    private final KaKaoTokenValiate kakaoTokenValidate;
     
 	private final SimpleUrlAuthenticationSuccessHandler successHandler;
 
+	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
@@ -85,6 +86,8 @@ public class CustomOAuthLoginValidateFilter extends GenericFilterBean {
 			
 		
 		switch (registrationId) {
+		
+		//여기서 하는 역할은 클라이언트가 준 토큰을 통하여 , 이메일을 받아 이메일 채워진 맵을 반환하면 되는 것이다.
 		case "google":
 			userMap = googleTokenValidate.validate(idToken);
 
