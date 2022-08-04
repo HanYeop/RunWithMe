@@ -200,7 +200,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 				.orElseThrow(() -> new CrewNotFoundException("크루 삭제중,크루를 특정할 수 없습니다."));
 
 		if (crew.getManagerEntity().getUserSeq().longValue() == userSeq) {
-			if (LocalDateTime.now().isAfter(crew.getCrewDateStart())) {
+			if (LocalDateTime.now().isBefore(crew.getCrewDateStart())) {
 
 				int refundcount = userCrewJoinRepo.pointRefunds(crew, crew.getCrewCost());
 				//
