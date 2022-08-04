@@ -6,7 +6,7 @@
     <data>
         <variable
             name="board"
-            type="com.ssafy.runwithme.model.response.MyTotalBoardsResponse" />
+            type="com.ssafy.runwithme.model.dto.CrewBoardDto" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -40,13 +40,14 @@
                     android:textColor="@color/black_medium_emphasis"/>
 
                 <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:id="@+id/image_delete_my_board"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:gravity="right"
                     android:layout_marginTop="8dp"
                     android:scaleType="fitXY"
                     app:tint="@color/black_low_emphasis"
-                    android:src="@drawable/delete"/>
+                    android:src="@drawable/ic_baseline_delete_24"/>
 
             </LinearLayout>
 
