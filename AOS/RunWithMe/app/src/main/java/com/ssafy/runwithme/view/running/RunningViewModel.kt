@@ -88,7 +88,13 @@ class RunningViewModel @Inject constructor(
             myActivityRepository.runAbleToday(crewSeq).collectLatest {
                 Log.d("test5", "runAbleToday: $it")
                 if(it is Result.Success){
-                    _runAbleEvent.postValue("러닝 가능")
+                    if(it.data.data) {
+                        _runAbleEvent.postValue("러닝 가능")
+                    }
+                    // TODO : TEST (빼야함)
+                    else{
+                        _errorMsgEvent.postValue(it.data.msg)
+                    }
                 } else if(it is Result.Fail){
                     _errorMsgEvent.postValue(it.data.msg)
                 }
