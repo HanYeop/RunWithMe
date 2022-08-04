@@ -27,9 +27,6 @@ object RecyclerViewBinding {
                     is TotalRankingAdapter -> {
                         (view.adapter as ListAdapter<Any, *>).submitList(result.data.data as List<RankingResponse>)
                     }
-                    is RunningListAdapter -> {
-                        (view.adapter as ListAdapter<Any, *>).submitList(result.data.data as List<MyCurrentCrewResponse>)
-                    }
                     is CrewUserRankingAdapter -> {
                         (view.adapter as ListAdapter<Any, *>).submitList(result.data.data as List<RankingResponse>)
                     }

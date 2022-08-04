@@ -27,6 +27,8 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,8 +43,8 @@ class RunningViewModel @Inject constructor(
     private val _runRecordSeq = MutableStateFlow(0)
     val runRecordSeq get() = _runRecordSeq.asStateFlow()
 
-    private val _runningCrewList: MutableStateFlow<Result<BaseResponse<List<MyCurrentCrewResponse>>>>
-            = MutableStateFlow(Result.Uninitialized)
+    private val _runningCrewList: MutableStateFlow<List<MyCurrentCrewResponse>>
+            = MutableStateFlow(listOf())
     val runningCrewList get() = _runningCrewList.asStateFlow()
 
     private val _achievementsList: MutableStateFlow<List<AchievementDto>>
@@ -96,7 +98,42 @@ class RunningViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             crewManagerRepository.getMyCurrentCrew().collectLatest{
                 if(it is Result.Success){
-                    _runningCrewList.value = it
+                    val tmpList = arrayListOf<MyCurrentCrewResponse>()
+                    for(i in it.data.data) {
+                        val today = Calendar.getInstance()
+                        val sf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+                        var startDate = sf.parse(i.crewDto.crewDateStart)
+                        var endDate = sf.parse(i.crewDto.crewDateEnd)
+
+
+                        val sfTime = SimpleDateFormat("HH:mm:ss")
+
+                        var startTime = sfTime.parse(i.crewDto.crewTimeStart)
+                        var endTime = sfTime.parse(i.crewDto.crewTimeEnd)
+
+                        val now = System.currentTimeMillis()
+                        val date = Date(now)
+
+                        if (today.time.time - startDate.time > 0) {
+                            if (today.time.time - endDate.time > 0) {
+                                Log.d("test5", "getMyCurrentCrew1: $i")
+//                                _crewState.value = "end"
+                            } else {
+                                if (date.time >= startTime.time && date.time <= endTime.time) {
+                                    Log.d("test5", "getMyCurrentCrew2: $i")
+                                    tmpList.add(i)
+                                } else {
+//                                    _crewState.value = "end"
+                                    Log.d("test5", "getMyCurrentCrew3: $i")
+                                }
+                            }
+                        } else {
+                            Log.d("test5", "getMyCurrentCrew4: $i")
+//                            _crewState.value = "await"
+                        }
+                    }
+                    _runningCrewList.value = tmpList
                 }else if(it is Result.Error){
                     _errorMsgEvent.postValue("내 크루 불러오기 중 오류가 발생했습니다.")
                 }

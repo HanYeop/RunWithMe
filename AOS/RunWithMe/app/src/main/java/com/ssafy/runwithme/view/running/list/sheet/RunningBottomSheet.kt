@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ssafy.runwithme.R
@@ -26,6 +27,8 @@ import com.ssafy.runwithme.view.running.list.RunningListListener
 import com.ssafy.runwithme.view.running.list.sheet.custom.PracticeCustomDialog
 import com.ssafy.runwithme.view.running.list.sheet.custom.PracticeCustomListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RunningBottomSheet(context: Context, private val sharedPreferences: SharedPreferences): BottomSheetDialogFragment() {
@@ -81,6 +84,12 @@ class RunningBottomSheet(context: Context, private val sharedPreferences: Shared
                 ,myCurrentInfo.crewDto.crewGoalType, myCurrentInfo.crewDto.crewGoalAmount)
             startActivity(Intent(requireContext(), RunningActivity::class.java))
             dismiss()
+        }
+
+        lifecycleScope.launch {
+            runningViewModel.runningCrewList.collectLatest {
+                runningListAdapter.submitList(it)
+            }
         }
     }
 
