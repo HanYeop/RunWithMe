@@ -27,6 +27,7 @@ import com.ssafy.runwithme.databinding.MyCalendarHeaderBinding
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.TAG
+import com.ssafy.runwithme.view.my_page.MyPageFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -44,7 +45,7 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
 
     private lateinit var totalRunRecordList : List<RunRecordDto>
     private lateinit var dayRecord : Map<LocalDate, List<RunRecordDto>>
-    private val myTotalRunRecordAdapter = MyTotalRunRecordAdapter()
+    private lateinit var myTotalRunRecordAdapter : MyTotalRunRecordAdapter
 
     private var selectedDate: LocalDate? = null
     private val monthTitleFormatter = DateTimeFormatter.ofPattern("MMMM")
@@ -58,6 +59,8 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
         binding.totalRunVM = myTotalRunRecordViewModel
 
         myTotalRunRecordViewModel.getMyRunRecord()
+
+        myTotalRunRecordAdapter = MyTotalRunRecordAdapter(myTotalRunRecordListener)
 
         binding.recyclerCalendar.apply {
             adapter = myTotalRunRecordAdapter
@@ -202,9 +205,14 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
     }
 
     private fun updateAdapterForDate(date: LocalDate?) {
-        myTotalRunRecordAdapter.dayRecord.clear()
-        myTotalRunRecordAdapter.dayRecord.addAll(dayRecord[date].orEmpty())
-        myTotalRunRecordAdapter.notifyDataSetChanged()
+        myTotalRunRecordAdapter.submitList(dayRecord[date].orEmpty())
+    }
+
+    private val myTotalRunRecordListener : MyTotalRunRecordListener = object : MyTotalRunRecordListener {
+        override fun onItemClick(runRecordDto: RunRecordDto) {
+            val action = MyPageFragmentDirections.actionMyPageFragmentToRunRecordDetailFragment(runRecordDto)
+            findNavController().navigate(action)
+        }
     }
 
 }

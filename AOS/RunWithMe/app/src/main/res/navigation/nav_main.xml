@@ -247,11 +247,7 @@
         android:id="@+id/myTotalRunRecordFragment"
         android:name="com.ssafy.runwithme.view.my_page.tab.total_record.MyTotalRunRecordFragment"
         android:label="MyTotalRunRecordFragment"
-        tools:layout="@layout/fragment_my_total_run_record">
-        <action
-            android:id="@+id/action_myTotalRunRecordFragment_to_runRecordDetailFragment"
-            app:destination="@id/runRecordDetailFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_my_total_run_record"/>
     <fragment
         android:id="@+id/practiceListFragment"
         android:name="com.ssafy.runwithme.view.my_page.tab.total_record.local_run.PracticeListFragment"
