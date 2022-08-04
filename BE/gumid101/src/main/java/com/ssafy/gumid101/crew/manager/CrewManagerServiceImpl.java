@@ -346,13 +346,22 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		return crewManagerRepo.findByCrewCheckYnAndCrewDateEndBefore("N", LocalDateTime.now()).stream().map((entity) -> entity.getCrewSeq()).collect(Collectors.toList());
 	}
 
+	@Transactional
 	@Override
 	public Object getMyEndCrew(Long userSeq) {
 		// TODO Auto-generated method stub
 		
 		//사용자가 러닝 했던 끝난 크루의 seq를 가져온다. 
-		List<Long> myEndedCrewSeq = userCrewJoinRepo.selectByUserSeqAndCrewDateEndBeforeNow(userSeq);
+		List<CrewEntity> myEndedCrewSeq = userCrewJoinRepo.selectByUserSeqAndCrewDateEndBeforeNow(userSeq);
 		
+		// 끝 난 크루의 crewSeq를 가져와서, 
+		for (CrewEntity crew : myEndedCrewSeq) {
+			
+			List<RunRecordEntity> runRecords = runRepo.findByUserEntity_userSeqAndCrewEntity_crewSeq(userSeq, crew.getCrewSeq());
+			
+			System.out.println(runRecords);
+			//for(LocalDateTime startDate =  )
+		}
 		
 		
 		
