@@ -177,6 +177,8 @@ public class CrewActivityRunDslRepositoryImpl implements CrewActivityRunDslRepos
 				.fetchOne();
 		}catch(Exception e) {
 			log.info("크루-유저 키를 찾을 수 없다, 크루에서 유저가 아직 안뛴 경우,");
+		}
+		if(myTotalRecordInCrew == null) {
 			myTotalRecordInCrew = CrewTotalRecordDto.defaultCrewTotalRecordDto();
 		}
 		return myTotalRecordInCrew;

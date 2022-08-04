@@ -39,7 +39,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CrewManagerRestController {
 
-	private final JwtUtilsService jwtUtilService;
 	private final CrewManagerService crewManagerService;
 	private final ObjectMapper objectMapper;
 	private final RedisService redisServ;
