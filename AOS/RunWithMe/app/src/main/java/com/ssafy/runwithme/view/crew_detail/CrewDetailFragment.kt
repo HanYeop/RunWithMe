@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.view.crew_detail
 
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.util.Log
 import android.view.View
@@ -21,18 +22,23 @@ import com.ssafy.runwithme.model.dto.ImageFileDto
 import com.ssafy.runwithme.model.response.MyGraphDataResponse
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.TAG
+import com.ssafy.runwithme.utils.USER
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.lang.Math.round
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.fragment_crew_detail) {
 
+    @Inject
+    lateinit var sharedPref: SharedPreferences
     private val args by navArgs<CrewDetailFragmentArgs>()
     private lateinit var crewDto: CrewDto
     private lateinit var imageFileDto: ImageFileDto
     private val crewDetailViewModel by viewModels<CrewDetailViewModel>()
+    private var mySeq: Int = 0
 
     override fun init() {
 
@@ -43,6 +49,7 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
 
         initClickListener()
 
+        mySeq = sharedPref.getString(USER, "0")!!.toInt()
         crewDto = args.crewdto
         imageFileDto = args.imagefiledto
 
@@ -149,6 +156,14 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
             btnJoinCrew.setOnClickListener {
                 crewDetailViewModel.joinCrew(crewDto!!.crewSeq, null)
             }
+
+            btnResignCrew.setOnClickListener {
+                if(crewDetailViewModel.isCrewManager.value){
+                    crewDetailViewModel.deleteCrew(crewDto!!.crewSeq)
+                }else{
+                    crewDetailViewModel.resignCrew(crewDto!!.crewSeq)
+                }
+            }
         }
     }
 
@@ -160,6 +175,8 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
         crewDetailViewModel.getMyGraphData(crewDto.crewSeq, crewDto.crewGoalType)
 
         crewDetailViewModel.getTotalRecordData(crewDto.crewSeq)
+
+        crewDetailViewModel.checkCrewManager(crewDto.crewManagerSeq == mySeq)
 
         crewDetailViewModel.successMsgEvent.observe(viewLifecycleOwner) {
             showToast(it)

@@ -11,6 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.binding.ViewBindingAdapter.setCostFormat
+import com.ssafy.runwithme.binding.ViewBindingAdapter.setTotalTimeConverter
 import com.ssafy.runwithme.binding.ViewBindingAdapter.synUnit
 import com.ssafy.runwithme.model.dto.CrewBoardDto
 import com.ssafy.runwithme.utils.BASE_URL
@@ -275,13 +276,29 @@ object ViewBindingAdapter {
     @BindingAdapter("distanceConverter")
     @JvmStatic
     fun TextView.setDistanceConverter (distance: Int){
-        this.text = "${round(1.0 * distance / 1000.0 * 100) / 100}"
+        this.text = "${round(1.0 * distance / 1000.0 * 100.0) / 100.0}"
     }
 
     @BindingAdapter("timeConverter")
     @JvmStatic
     fun TextView.setTimeConverter (time: Int){
-        this.text = "${time / 60}"
+
+        var second = time % 3600
+
+        var text = "$second 초"
+
+
+        var minuteInt = time / 60
+        if(minuteInt != 0){
+            text = "$minuteInt 분" + text
+        }
+
+
+        var hourInt = (time / 3600)
+        if(hourInt != 0){
+            text = "$hourInt 시 " + text
+        }
+        this.text = text
     }
 
     @BindingAdapter("calorieConverter")
@@ -293,7 +310,7 @@ object ViewBindingAdapter {
     @BindingAdapter("speedConverter")
     @JvmStatic
     fun TextView.setSpeedConverter (speed: Double){
-        this.text = "${round(speed * 10.0) / 10 }"
+        this.text = "${round(speed * 10.0) / 10.0 }"
     }
 
     @BindingAdapter("myUserSeq", "board")
@@ -379,6 +396,35 @@ object ViewBindingAdapter {
         }
     }
 
+    @BindingAdapter("isCrewMember", "crewState", "isCrewManager")
+    @JvmStatic
+    fun AppCompatButton.setCrewState(isCrewMember: Boolean, crewState: String, isCrewManager: Boolean){
+        if(isCrewMember){
+            if(crewState == "await"){
+                this.visibility = View.VISIBLE
+
+                if(isCrewManager){
+                    this.text = "해체"
+                }else{
+                    this.text = "탈퇴"
+                }
+
+            }else if(crewState == "start"){
+                if(this.id == R.id.btn_resign_crew){
+                    this.visibility = View.GONE
+                }
+
+            }else{
+                this.visibility = View.GONE
+            }
+
+        }else{
+           if(this.id == R.id.btn_resign_crew){
+                this.visibility = View.GONE
+            }
+        }
+    }
+
     @BindingAdapter("createRecommendImage")
     @JvmStatic
     fun ImageView.setCreateRecommendImage (imageSeq: Int){
@@ -402,5 +448,24 @@ object ViewBindingAdapter {
     @JvmStatic
     fun TextView.setAchievementContent(name: String){
         this.text = "처음으로 $name 완주하기"
+    }
+
+    @BindingAdapter("totalDistanceConverter")
+    @JvmStatic
+    fun TextView.setTotalDistanceConverter (distance: Int){
+        this.text = "${round(1.0 * distance / 1000.0 * 100.0) / 100.0} km"
+    }
+
+    @BindingAdapter("totalTimeConverter")
+    @JvmStatic
+    fun TextView.setTotalTimeConverter (time: Int){
+        var minute = (time / 60).toString()
+
+        var hourInt = (time / 3600)
+        var text = "$minute 분"
+        if(hourInt != 0){
+            text = "$hourInt 시 " + text
+        }
+        this.text = text
     }
 }
