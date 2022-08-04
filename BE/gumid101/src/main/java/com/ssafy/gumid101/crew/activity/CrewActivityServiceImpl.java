@@ -95,7 +95,7 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 			throw new CrewPermissonDeniedException("기록 조회에 실패했습니다.");
 		}
 		if (myToday != null && myToday.size() > 0){
-			return false;
+			throw new CrewPermissonDeniedException("오늘 이미 달린 기록이 존재합니다.");
 		}
 		return true;
 	}

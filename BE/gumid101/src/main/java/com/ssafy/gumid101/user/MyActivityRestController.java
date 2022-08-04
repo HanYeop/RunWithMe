@@ -206,11 +206,8 @@ public class MyActivityRestController {
 		
 		UserDto userDto = loadUserFromToken();
 		
-		HttpStatus httpStatus = HttpStatus.OK;
-		
-		ResponseFrame<Boolean> responseFrame = new ResponseFrame<>();
 		Boolean todayRecord = runService.getRunabletoday(userDto.getUserSeq(), crewSeq);
-		return new ResponseEntity<>(new ResponseFrame<Boolean>(true, todayRecord, 1, "뛸 수 있는 여부 반환 완료."), HttpStatus.OK);
+		return new ResponseEntity<>(new ResponseFrame<Boolean>(true, todayRecord, 1, "러닝을 할 수 있습니다."), HttpStatus.OK);
 	}
 
 	@ApiOperation("크루 내 달성한 기록들의 갯수를 가져오기")
