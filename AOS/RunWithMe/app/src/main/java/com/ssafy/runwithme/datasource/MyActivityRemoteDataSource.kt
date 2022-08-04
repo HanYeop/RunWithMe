@@ -40,7 +40,7 @@ class MyActivityRemoteDataSource @Inject constructor(
         emit(myActivityApi.getMyTotalRecord())
     }
 
-    fun runAbleToday(crewSeq: Int): Flow<BaseResponse<String>> = flow {
+    fun runAbleToday(crewSeq: Int): Flow<BaseResponse<Boolean>> = flow {
         emit(myActivityApi.runAbleToday(crewSeq))
     }
 }

@@ -45,5 +45,5 @@ interface MyActivityApi {
     @GET("my-activity/runabletoday/{crewSeq}")
     suspend fun runAbleToday(
         @Path("crewSeq") crewSeq: Int
-    ): BaseResponse<String>
+    ): BaseResponse<Boolean>
 }
