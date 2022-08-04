@@ -27,7 +27,7 @@
                     style="@style/header_text"
                     android:text="누적 기록"
                     android:textColor="@color/black_high_emphasis"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:layout_marginTop="32dp"
                     android:layout_marginStart="24dp" />
 
@@ -67,15 +67,15 @@
                                 android:id="@+id/tv_distances"
                                 style="@style/header_text"
                                 android:text="@{totalRunVM.distance + `km`}"
-                                android:textColor="@color/main_blue_green"
-                                android:textSize="20sp"
+                                android:textColor="@color/black_high_emphasis"
+                                android:textSize="22sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_distance_headers"
                                 tools:text="16.5km" />
                             <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:src="@drawable/google"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:src="@drawable/distances"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -120,7 +120,7 @@
                             <ImageView
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:src="@drawable/google"
+                                android:src="@drawable/speeds"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -163,9 +163,9 @@
                                 app:layout_constraintTop_toBottomOf="@+id/tv_kcal_headers"
                                 tools:text="1600kcal" />
                             <ImageView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:src="@drawable/google"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/calorie"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -202,15 +202,16 @@
                                 android:id="@+id/tv_times"
                                 style="@style/header_text"
                                 android:text="@{totalRunVM.timeHour + ` : ` + totalRunVM.timeMin}"
-                                android:textColor="@color/main_blue_green"
-                                android:textSize="20sp"
+                                android:textColor="@color/black_high_emphasis"
+                                android:textSize="22sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_time_headers"
                                 tools:text="15 : 55" />
                             <ImageView
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
-                                android:src="@drawable/google"
+                                android:src="@drawable/times"
+                                app:tint="@color/main_grey"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent" />
 
