@@ -132,6 +132,9 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
             } else if (token != null) {
                 Log.e(TAG, "카카오3")
                 Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
+
+                userViewModel.kakaoLogin(token.accessToken)
+
                 // 사용자 정보 요청 (기본)
                 UserApiClient.instance.me { user, error ->
                     if (error != null) {
@@ -179,6 +182,8 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
                         }
                     }
                     Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
+
+                    userViewModel.kakaoLogin(token.accessToken)
                 }
             }
         } else {
@@ -191,6 +196,7 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
             override fun onSuccess() {
                 // 네이버 로그인 인증이 성공했을 때 수행할 코드 추가
                 Log.d(TAG, "onSuccess: ${NaverIdLoginSDK.getAccessToken()}")
+                userViewModel.naverLogin(NaverIdLoginSDK.getAccessToken()!!)
             }
 
             override fun onFailure(httpStatus: Int, message: String) {
