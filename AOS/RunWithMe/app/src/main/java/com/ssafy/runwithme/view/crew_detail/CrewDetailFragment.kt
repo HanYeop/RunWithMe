@@ -1,9 +1,11 @@
 package com.ssafy.runwithme.view.crew_detail
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -23,6 +25,9 @@ import com.ssafy.runwithme.model.response.MyGraphDataResponse
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.utils.USER
+import com.ssafy.runwithme.utils.runningStart
+import com.ssafy.runwithme.view.running.RunningActivity
+import com.ssafy.runwithme.view.running.RunningViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -38,6 +43,7 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
     private lateinit var crewDto: CrewDto
     private lateinit var imageFileDto: ImageFileDto
     private val crewDetailViewModel by viewModels<CrewDetailViewModel>()
+    private val runningViewModel by viewModels<RunningViewModel>()
     private var mySeq: Int = 0
 
     override fun init() {
@@ -166,7 +172,14 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
                 findNavController().popBackStack()
                 findNavController().popBackStack()
             }
+
+            btnRunning.setOnClickListener {
+                runningViewModel.runAbleToday(crewDto!!.crewSeq)
+            }
         }
+    }
+
+    private fun btnRunningClick(){
     }
 
     private fun initViewModelCallback() {
@@ -262,6 +275,22 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
                 axisMinimum = 0F
             }
 
+        }
+
+        runningViewModel.errorMsgEvent.observe(this){
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        }
+
+        runningViewModel.runAbleEvent.observe(this){
+            runningViewModel.getMyProfile()
+        }
+
+        runningViewModel.startRunEvent.observe(this){
+            runningStart(sharedPref, crewDto.crewSeq, crewDto.crewName
+                ,crewDto.crewGoalType, crewDto.crewGoalAmount)
+            findNavController().popBackStack()
+            findNavController().popBackStack()
+            startActivity(Intent(requireContext(), RunningActivity::class.java))
         }
 
     }
