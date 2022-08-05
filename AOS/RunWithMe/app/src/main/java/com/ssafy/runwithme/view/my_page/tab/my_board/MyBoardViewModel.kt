@@ -33,7 +33,7 @@ class MyBoardViewModel @Inject constructor(
 
 
     fun getMyBoards(size: Int) : Flow<PagingData<CrewBoardDto>> {
-        return myActivityRepository.getMyBoards(size).cachedIn(viewModelScope)
+        return myActivityRepository.getMyBoards(size)
     }
 
     fun deleteCrewBoard(boardSeq: Int){
