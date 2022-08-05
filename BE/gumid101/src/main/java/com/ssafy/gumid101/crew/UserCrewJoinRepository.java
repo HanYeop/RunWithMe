@@ -16,6 +16,7 @@ import com.ssafy.gumid101.entity.UserEntity;
 @Repository
 public interface UserCrewJoinRepository extends JpaRepository<UserCrewJoinEntity, Long>{
 
+	@Modifying
 	@Query(value = "DELETE FROM UserCrewJoinEntity ucj WHERE ucj.crewEntity = :crewSeq")
 	int deleteAllBycrewSeq(@Param("crewSeq")CrewEntity crewSeq);
 
@@ -36,6 +37,9 @@ public interface UserCrewJoinRepository extends JpaRepository<UserCrewJoinEntity
 
 	@Query("SELECT count(*) FROM UserCrewJoinEntity ucj where ucj.crewEntity.crewSeq = :crewSeq")
 	int findCountCrewUser(Long crewSeq);
+
+	@Query("SELECT c FROM UserCrewJoinEntity ucj JOIN ucj.crewEntity c WHERE ucj.userEntity.userSeq = :userSeqParam ")
+	List<CrewEntity> selectByUserSeqAndCrewDateEndBeforeNow(@Param("userSeqParam") Long userSeq);
 	
 	
 }

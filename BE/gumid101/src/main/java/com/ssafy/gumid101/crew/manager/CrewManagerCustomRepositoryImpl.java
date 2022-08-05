@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.gumid101.crew.CrewGoalType;
@@ -20,6 +21,7 @@ import com.ssafy.gumid101.dto.RecruitmentParamsDto;
 import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.ImageFileEntity;
 import com.ssafy.gumid101.entity.QCrewEntity;
+import com.ssafy.gumid101.entity.QUserCrewJoinEntity;
 import com.ssafy.gumid101.res.CrewFileDto;
 
 import lombok.RequiredArgsConstructor;
@@ -184,6 +186,8 @@ public class CrewManagerCustomRepositoryImpl implements CrewManagerCustomReposit
 
 		return builder;
 	}
+	
+	
 
 
 }

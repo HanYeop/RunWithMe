@@ -85,7 +85,7 @@ public class CrewEntity {
 	@OneToOne(orphanRemoval = true,fetch = FetchType.LAZY)
 	private ImageFileEntity imageFile;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_seq")
 	private UserEntity managerEntity;
 	

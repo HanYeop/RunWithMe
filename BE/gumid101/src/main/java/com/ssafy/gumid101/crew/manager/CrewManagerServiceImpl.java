@@ -1,6 +1,8 @@
 package com.ssafy.gumid101.crew.manager;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +36,7 @@ import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.imgfile.ImageDirectory;
 import com.ssafy.gumid101.imgfile.ImageFileRepository;
 import com.ssafy.gumid101.res.CrewFileDto;
+import com.ssafy.gumid101.res.EndCrewFileDto;
 import com.ssafy.gumid101.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -346,11 +349,59 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		return crewManagerRepo.findByCrewCheckYnAndCrewDateEndBefore("N", LocalDateTime.now()).stream().map((entity) -> entity.getCrewSeq()).collect(Collectors.toList());
 	}
 
+	@Transactional
 	@Override
-	public Object getMyEndCrew(Long userSeq) {
+	public List<EndCrewFileDto> getMyEndCrew(Long userSeq) {
 		// TODO Auto-generated method stub
 		
-		return null;
+		//사용자가 러닝 했던 끝난 크루의 seq를 가져온다. 
+		List<CrewEntity> myEndedCrewEntity = userCrewJoinRepo.selectByUserSeqAndCrewDateEndBeforeNow(userSeq);
+		
+		List<EndCrewFileDto> endCrewFileDtoList = new ArrayList<>();
+		
+		// 끝 난 크루의 crewSeq를 가져와서, 
+		for (CrewEntity crew : myEndedCrewEntity) {
+			
+			List<RunRecordEntity> runRecords = runRepo.findByUserEntity_userSeqAndCrewEntity_crewSeq(userSeq, crew.getCrewSeq());
+			Integer totalGoals = (int) ChronoUnit.WEEKS.between(crew.getCrewDateStart(), crew.getCrewDateEnd().plusSeconds(1l)) * crew.getCrewGoalDays();
+			Integer myGoals = 0;
+			// 그냥 복사 목적
+			LocalDateTime weekSpliter = crew.getCrewDateStart().plusDays(0L);
+			int recordIdx = 0;
+			while(recordIdx < runRecords.size() && weekSpliter.isBefore(crew.getCrewDateEnd())) {
+				Integer weekGoals = 0;
+				// 복사 목적
+				LocalDateTime daySpliter = weekSpliter;
+				weekSpliter = weekSpliter.plusDays(7L);
+				
+				for(int i = 0; recordIdx < runRecords.size() && i < 7; i++) {
+					daySpliter = daySpliter.plusDays(1L);
+					if (runRecords.get(recordIdx).getRunRecordStartTime().isBefore(daySpliter)) {
+						if (weekGoals < crew.getCrewGoalDays()) {
+							weekGoals++;
+							myGoals++;
+						}
+						recordIdx++;
+					}
+				}
+			}
+			CrewDto cdto = CrewDto.of(crew);
+			cdto.setCrewPassword(null);
+			cdto.setCrewManagerNickName(crew.getManagerEntity().getNickName());
+			cdto.setCrewManagerSeq(crew.getManagerEntity().getUserSeq());
+			endCrewFileDtoList.add(EndCrewFileDto.builder()
+					.crewDto(cdto)
+					.imageFileDto(ImageFileDto.of(crew.getImageFile()))
+					.processInfo(EndCrewFileDto.ProcessInfo.builder()
+							.totalGoals(totalGoals)
+							.myGoals(myGoals)
+							.build())
+					.build());
+		}
+		
+		
+		
+		return endCrewFileDtoList;
 	}
 
 }
