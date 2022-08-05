@@ -1,8 +1,6 @@
 package com.ssafy.runwithme.utils
 
-// 본인 주소
-//const val BASE_URL = "http://192.168.100.73:8080/api/"
-const val BASE_URL = "http://i7d101.p.ssafy.io:8080/api/"
+const val BASE_URL = "https://i7d101.p.ssafy.io:443/api/"
 
 const val JWT = "JWT-AUTHENTICATION"
 
