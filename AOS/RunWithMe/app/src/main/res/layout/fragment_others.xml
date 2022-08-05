@@ -100,6 +100,7 @@
                 android:layout_weight="1"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <!--
         <TextView
             android:id="@+id/tv_resign"
             android:layout_width="match_parent"
@@ -113,6 +114,7 @@
             android:paddingEnd="10dp"
             android:paddingBottom="10dp"
             android:text="회원 탈퇴"/>
+            -->
 
         <TextView
             android:id="@+id/tv_logout"

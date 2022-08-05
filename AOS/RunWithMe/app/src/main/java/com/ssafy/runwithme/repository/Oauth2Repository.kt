@@ -19,6 +19,7 @@ class Oauth2Repository @Inject constructor(
             emit(Result.Success(it))
         }
     }.catch { e ->
+        Log.d("test5", "googleLogin: $e")
         emit(Result.Error(e))
     }
 

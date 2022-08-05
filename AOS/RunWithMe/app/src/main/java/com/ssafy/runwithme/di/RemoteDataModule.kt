@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.di
 
+import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ssafy.runwithme.api.*
@@ -8,16 +9,50 @@ import com.ssafy.runwithme.utils.XAccessTokenInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+import javax.net.ssl.HostnameVerifier
+import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.SSLSocketFactory
+import javax.net.ssl.TrustManagerFactory
+import javax.net.ssl.X509TrustManager
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RemoteDataModule {
+
+    // TrustManagerFactory DI
+    @Provides
+    @Singleton
+    fun provideTrustManagerFactory(@ApplicationContext context : Context): TrustManagerFactory{
+        return ApplicationClass.getTrustManagerFactory(context)
+    }
+
+    // SSLSocketFactory DI
+    @Provides
+    @Singleton
+    fun provideSSLSocketFactory(tmf: TrustManagerFactory): SSLSocketFactory{
+        return tmf.let {
+            ApplicationClass.getSSLSocketFactory(it)
+        }
+    }
+
+    // HostnameVerifier DI
+    @Provides
+    @Singleton
+    fun provideHostnameVerifier(): HostnameVerifier{
+        var VERIFY_DOMAIN = "i7d101.p.ssafy.io"
+        return HostnameVerifier { _, session ->
+            HttpsURLConnection.getDefaultHostnameVerifier().run {
+                verify(VERIFY_DOMAIN, session)
+            }
+        }
+    }
 
     // HttpLoggingInterceptor DI
     @Provides
@@ -29,11 +64,12 @@ object RemoteDataModule {
     // OkHttpClient DI
     @Provides
     @Singleton
-    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor
-    ,xAccessTokenInterceptor: XAccessTokenInterceptor): OkHttpClient {
+    fun provideOkHttpClient(xAccessTokenInterceptor: XAccessTokenInterceptor, tmf: TrustManagerFactory,
+    sslSocket: SSLSocketFactory, hostnameVerifier: HostnameVerifier): OkHttpClient {
         return OkHttpClient.Builder()
+            .hostnameVerifier(hostnameVerifier)
+            .sslSocketFactory(sslSocket, tmf.trustManagers?.get(0) as X509TrustManager)
             .addNetworkInterceptor(xAccessTokenInterceptor)
-//            .addInterceptor(httpLoggingInterceptor)
             .build()
     }
 
