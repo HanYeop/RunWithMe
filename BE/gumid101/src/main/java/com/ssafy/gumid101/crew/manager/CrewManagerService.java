@@ -8,6 +8,7 @@ import com.ssafy.gumid101.dto.CrewDto;
 import com.ssafy.gumid101.dto.RecruitmentParamsDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.res.CrewFileDto;
+import com.ssafy.gumid101.res.EndCrewFileDto;
 
 public interface CrewManagerService {
 	CrewFileDto createCrew(MultipartFile image, CrewDto crewDto, UserDto tokenUser) throws Exception;
@@ -29,7 +30,7 @@ public interface CrewManagerService {
 
 	List<Long> getFinishAndNonDistributeCrews() throws Exception;
 
-	Object getMyEndCrew(Long userSeq);
+	List<EndCrewFileDto> getMyEndCrew(Long userSeq);
 
 	
 }
