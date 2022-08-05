@@ -8,17 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.runwithme.databinding.ItemMyCrewHistoryBinding
 import com.ssafy.runwithme.model.dto.EndCrewFileDto
 
-class EndCrewAdapter() : ListAdapter<EndCrewFileDto, EndCrewAdapter.ViewHolder>(diffUtil) {
+class EndCrewAdapter(private val listener: EndCrewListener) : ListAdapter<EndCrewFileDto, EndCrewAdapter.ViewHolder>(diffUtil) {
 
     inner class ViewHolder(private val binding: ItemMyCrewHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
-//        init {
-//            binding.apply {
-//                imageDeleteMyBoard.setOnClickListener {
-//                    deleteDialogListener.onItemClick(getItem(adapterPosition)!!.crewBoardSeq)
-//                }
-//            }
-//        }
+        init {
+            binding.apply {
+                cardMyCrewHistory.setOnClickListener {
+                    listener.onItemClick(getItem(adapterPosition)!!.crewDto, getItem(adapterPosition)!!.imageFileDto)
+                }
+            }
+        }
 
         fun bind(endCrew: EndCrewFileDto) {
             binding.endCrew = endCrew

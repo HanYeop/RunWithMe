@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.runwithme.base.BaseResponse
-import com.ssafy.runwithme.model.dto.CrewDto
 import com.ssafy.runwithme.model.dto.EndCrewFileDto
 import com.ssafy.runwithme.repository.AchieveRepository
 import com.ssafy.runwithme.repository.CrewManagerRepository

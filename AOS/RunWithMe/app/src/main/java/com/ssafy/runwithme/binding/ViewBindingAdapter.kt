@@ -506,7 +506,6 @@ object ViewBindingAdapter {
             progress = ((myGoal.toDouble() / totalGoal.toDouble()) * 100).toInt()
         }
         // 100 달성의 경우 색변경
-        progress = 100
         if(progress == 100){
             var color = resources.getColor(R.color.mainColor)
             this.progressTintList = ColorStateList.valueOf(color)
