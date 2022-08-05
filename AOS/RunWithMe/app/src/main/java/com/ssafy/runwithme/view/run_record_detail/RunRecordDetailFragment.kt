@@ -13,6 +13,7 @@ import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.utils.*
 import com.ssafy.runwithme.view.create_recommend.CreateRecommendDialog
 import com.ssafy.runwithme.view.create_recommend.CreateRecommendListener
+import com.ssafy.runwithme.view.loading.LoadingDialog
 import com.ssafy.runwithme.view.running.RunningActivity
 import com.ssafy.runwithme.view.running.result.achievement.AchievementDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,10 +34,13 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
     private var runRecordDto : RunRecordDto? = null
     private var userSeq : Int = 0
     private val runRecordDetailViewModel by viewModels<RunRecordDetailViewModel>()
+    private lateinit var loadingDialog : LoadingDialog
 
     override fun init() {
 
         runRecordDto = args.runrecorddto
+
+        loadingDialog = LoadingDialog(requireContext())
 
         userSeq = sharedPref.getString(USER, "0")!!.toInt()
 
@@ -70,6 +74,7 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
 
     private fun initViewModelCallBack(){
         runRecordDetailViewModel.successMsgEvent.observe(this){
+            loadingDialog.dismiss()
             showToast(it)
             findNavController().popBackStack()
         }
@@ -81,6 +86,7 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
     private val createRecommendListener = object: CreateRecommendListener {
         override fun onBtnOkClicked(environmentPoint: Int, hardPoint: Int) {
             runRecordDetailViewModel.createRecommend(environmentPoint, hardPoint, runRecordDto!!.runRecordSeq)
+            loadingDialog.show()
         }
     }
 
