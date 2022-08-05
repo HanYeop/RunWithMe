@@ -1,9 +1,11 @@
 package com.ssafy.runwithme.binding
 
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.BindingAdapter
@@ -15,6 +17,7 @@ import com.ssafy.runwithme.binding.ViewBindingAdapter.setCostFormat
 import com.ssafy.runwithme.binding.ViewBindingAdapter.synUnit
 import com.ssafy.runwithme.model.dto.CrewBoardDto
 import com.ssafy.runwithme.utils.BASE_URL
+import com.ssafy.runwithme.utils.TAG
 import java.lang.Math.round
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -475,5 +478,40 @@ object ViewBindingAdapter {
             .override(120 * 2,120 * 2)
             .placeholder(R.drawable.img)
             .into(this)
+    }
+
+    @BindingAdapter("myGoal", "totalGoal")
+    @JvmStatic
+    fun TextView.setProgress (myGoal: Int, totalGoal : Int){
+        var progress : Int = 0
+
+        if(myGoal != 0){
+            progress = ((myGoal.toDouble() / totalGoal.toDouble()) * 100).toInt()
+        }
+        // 100 달성의 경우 색변경
+        if(progress == 100){
+            var color = resources.getColor(R.color.mainColor)
+            this.setTextColor(color)
+        }
+
+        this.text = "$progress%"
+    }
+
+    @BindingAdapter("myGoal", "totalGoal")
+    @JvmStatic
+    fun ProgressBar.setProgress (myGoal: Int, totalGoal : Int){
+        var progress : Int = 0
+
+        if(myGoal != 0){
+            progress = ((myGoal.toDouble() / totalGoal.toDouble()) * 100).toInt()
+        }
+        // 100 달성의 경우 색변경
+        progress = 100
+        if(progress == 100){
+            var color = resources.getColor(R.color.mainColor)
+            this.progressTintList = ColorStateList.valueOf(color)
+        }
+
+        this.progress = progress
     }
 }

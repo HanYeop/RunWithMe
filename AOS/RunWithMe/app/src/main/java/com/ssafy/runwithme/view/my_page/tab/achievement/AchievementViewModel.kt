@@ -3,6 +3,9 @@ package com.ssafy.runwithme.view.my_page.tab.achievement
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.runwithme.base.BaseResponse
+import com.ssafy.runwithme.model.dto.CrewDto
+import com.ssafy.runwithme.model.dto.EndCrewFileDto
 import com.ssafy.runwithme.repository.AchieveRepository
 import com.ssafy.runwithme.repository.CrewManagerRepository
 import com.ssafy.runwithme.utils.Result
@@ -21,6 +24,10 @@ class AchievementViewModel @Inject constructor(
     private val achieveRepository: AchieveRepository,
     private val crewManagerRepository: CrewManagerRepository
 ) : ViewModel() {
+
+    private val _endCrewFileDto : MutableStateFlow<Result<BaseResponse<List<EndCrewFileDto>>>>
+        = MutableStateFlow(Result.Uninitialized)
+    val endCrewFileDto get() = _endCrewFileDto
 
     private val _errorMsgEvent = SingleLiveEvent<String>()
     val errorMsgEvent get() = _errorMsgEvent
@@ -50,6 +57,7 @@ class AchievementViewModel @Inject constructor(
         viewModelScope.launch {
             crewManagerRepository.getMyEndCrew().collectLatest {
                 if(it is Result.Success){
+                    _endCrewFileDto.value = it
                     Log.d(TAG, "getMyEndCrew: $it")
                 } else if(it is Result.Error){
                     _errorMsgEvent.postValue("종료된 크루목록을 불러오는 중 오류가 발생했습니다.")

@@ -15,9 +15,14 @@ import kotlinx.coroutines.launch
 class AchievementFragment : BaseFragment<FragmentAchievementBinding>(R.layout.fragment_achievement) {
 
     private val achievementViewModel by viewModels<AchievementViewModel>()
+    private lateinit var endCrewAdapter: EndCrewAdapter
 
     override fun init() {
         initViewModelCallBack()
+
+        binding.achieveVM = achievementViewModel
+        endCrewAdapter = EndCrewAdapter()
+        binding.recyclerMyCrewHistory.adapter = endCrewAdapter
 
         achievementViewModel.getMyAchieve()
 
