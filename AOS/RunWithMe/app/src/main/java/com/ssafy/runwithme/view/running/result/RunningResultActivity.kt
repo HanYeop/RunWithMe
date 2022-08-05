@@ -14,6 +14,7 @@ import com.ssafy.runwithme.utils.*
 import com.ssafy.runwithme.utils.TrackingUtility.Companion.getFormattedStopWatchTime
 import com.ssafy.runwithme.view.create_recommend.CreateRecommendDialog
 import com.ssafy.runwithme.view.create_recommend.CreateRecommendListener
+import com.ssafy.runwithme.view.loading.LoadingDialog
 import com.ssafy.runwithme.view.recommend.RecommendViewModel
 import com.ssafy.runwithme.view.running.RunningActivity
 import com.ssafy.runwithme.view.running.RunningViewModel
@@ -39,11 +40,15 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
     private var runRecordSeq = 0
     @Inject
     lateinit var sharedPreferences: SharedPreferences
+
+    private lateinit var loadingDialog : LoadingDialog
     
     override fun init() {
         initClickListener()
 
         initResult()
+
+        loadingDialog = LoadingDialog(this)
 
         // 연습크루는 api 호출 x
         if(sharedPreferences.getInt(RUN_RECORD_CREW_ID,0) == 0){
@@ -57,6 +62,7 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
 
     private fun initViewModelCallBack(){
         recommendViewModel.successMsgEvent.observe(this){
+            loadingDialog.dismiss()
             showToast(it)
             finish()
         }
@@ -95,7 +101,7 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
     private fun createFileFromBitmap(bitmap: Bitmap): File? {
         val newFile = File(this.filesDir, "record_${System.currentTimeMillis()}")
         val fileOutputStream = FileOutputStream(newFile)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 40, fileOutputStream)
         fileOutputStream.close()
         return newFile
     }
@@ -161,6 +167,7 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
     private val createRecommendListener = object: CreateRecommendListener {
         override fun onBtnOkClicked(environmentPoint: Int, hardPoint: Int) {
             recommendViewModel.createRecommend(environmentPoint, hardPoint, runRecordSeq)
+            loadingDialog.show()
         }
     }
 }

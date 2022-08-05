@@ -163,6 +163,8 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
                 }else{
                     crewDetailViewModel.resignCrew(crewDto!!.crewSeq)
                 }
+                findNavController().popBackStack()
+                findNavController().popBackStack()
             }
         }
     }

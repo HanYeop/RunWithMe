@@ -20,6 +20,7 @@ import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentEditProfileBinding
 import com.ssafy.runwithme.model.dto.ProfileEditDto
 import com.ssafy.runwithme.utils.TAG
+import com.ssafy.runwithme.view.loading.LoadingDialog
 import com.ssafy.runwithme.view.my_page.MyPageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -35,9 +36,12 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
 
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
     private var imgFile : MultipartBody.Part? = null
+    private lateinit var loadingDialog : LoadingDialog
 
     override fun init() {
         binding.myPageVM = myPageViewModel
+
+        loadingDialog = LoadingDialog(requireContext())
 
         initSpinner() // 키와 몸무게 스피너 값 넣기
 
@@ -50,6 +54,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
 
     private fun initViewModelCallback(){
         myPageViewModel.editMsgEvent.observe(viewLifecycleOwner){
+            loadingDialog.dismiss()
             showToast(it)
             findNavController().popBackStack()
         }
@@ -80,6 +85,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
                         ),
                         imgFile
                     )
+                    loadingDialog.show()
                 }
             }
         }
@@ -127,7 +133,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
     private fun createFileFromBitmap(bitmap: Bitmap): File? {
         val newFile = File(requireActivity().filesDir, "profile_${System.currentTimeMillis()}")
         val fileOutputStream = FileOutputStream(newFile)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 40, fileOutputStream)
         fileOutputStream.close()
         return newFile
     }
