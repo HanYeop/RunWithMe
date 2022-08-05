@@ -102,7 +102,7 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
 
     private fun callLocal(){
         binding.apply {
-            btnRecommend.visibility = View.INVISIBLE
+            btnRecommend.visibility = View.GONE
         }
         runningViewModel.insertRun(
             RunRecordEntity(
