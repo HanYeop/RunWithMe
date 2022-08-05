@@ -266,7 +266,6 @@
                 android:id="@+id/recycler_my_crew_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/mainColor"
                 tools:listitem="@layout/item_my_crew_history" />
 
         </LinearLayout>

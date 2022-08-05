@@ -20,6 +20,8 @@ class AchievementFragment : BaseFragment<FragmentAchievementBinding>(R.layout.fr
         initViewModelCallBack()
 
         achievementViewModel.getMyAchieve()
+
+        achievementViewModel.getMyEndCrew()
     }
 
     private fun initViewModelCallBack(){
@@ -70,5 +72,10 @@ class AchievementFragment : BaseFragment<FragmentAchievementBinding>(R.layout.fr
                 }
             }
         }
+
+        achievementViewModel.errorMsgEvent.observe(viewLifecycleOwner){
+            showToast(it)
+        }
     }
+
 }

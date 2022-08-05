@@ -3,6 +3,7 @@ package com.ssafy.runwithme.datasource
 import com.ssafy.runwithme.api.CrewManagerApi
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.dto.CrewDto
+import com.ssafy.runwithme.model.dto.EndCrewFileDto
 import com.ssafy.runwithme.model.response.CreateCrewResponse
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 import kotlinx.coroutines.flow.Flow
@@ -20,7 +21,7 @@ class CrewManagerRemoteDataSource @Inject constructor(
         emit(crewManagerApi.getMyCurrentCrew())
     }
 
-    fun getMyEndCrew() : Flow<BaseResponse<List<MyCurrentCrewResponse>>> = flow {
+    fun getMyEndCrew() : Flow<BaseResponse<List<EndCrewFileDto>>> = flow {
         emit(crewManagerApi.getMyEndCrew())
     }
 

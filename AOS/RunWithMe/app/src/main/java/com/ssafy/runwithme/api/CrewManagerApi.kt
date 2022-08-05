@@ -1,8 +1,10 @@
 package com.ssafy.runwithme.api
 
 import com.ssafy.runwithme.base.BaseResponse
-import com.ssafy.runwithme.model.dto.CrewDto
-import com.ssafy.runwithme.model.response.*
+import com.ssafy.runwithme.model.dto.EndCrewFileDto
+import com.ssafy.runwithme.model.response.CreateCrewResponse
+import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
+import com.ssafy.runwithme.model.response.RecruitCrewResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -13,7 +15,7 @@ interface CrewManagerApi {
     suspend fun getMyCurrentCrew(): BaseResponse<List<MyCurrentCrewResponse>>
 
     @GET("crew-manager/my-end-crew")
-    suspend fun getMyEndCrew(): BaseResponse<List<MyCurrentCrewResponse>>
+    suspend fun getMyEndCrew(): BaseResponse<List<EndCrewFileDto>>
 
     @Multipart
     @POST("crew-manager/crew")

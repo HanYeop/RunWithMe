@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="achieveVM"
+            type="com.ssafy.runwithme.view.my_page.tab.achievement.AchievementViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -12,10 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/header_margin"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="@dimen/header_margin"
+        android:layout_marginTop="18dp"
         android:backgroundTint="#F7F7F7"
-        app:cardCornerRadius="16dp"
+        app:cardCornerRadius="8dp"
         app:cardElevation="4dp">
 
         <LinearLayout
@@ -25,40 +27,65 @@
             android:layout_marginHorizontal="12dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="구미 SSAFY 크루"
-                android:fontFamily="@font/noto_sans_bold"
-                android:textColor="@color/black_high_emphasis"/>
-
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
+
                 <TextView
+                    android:id="@+id/tv_my_crew_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="구미 SSAFY 크루"
+                    android:fontFamily="@font/noto_sans_bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/black_high_emphasis"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_goal_achieve"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="목표 달성율"
-                    android:textSize="10sp"
-                    android:fontFamily="@font/noto_sans_bold"
-                    android:textColor="@color/black_high_emphasis"/>
+                    android:textSize="12sp"
+                    android:textColor="@color/black_high_emphasis"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tv_my_crew_name"/>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     tools:text="80%"
-                    android:textSize="10sp"
+                    android:textSize="16sp"
                     android:fontFamily="@font/noto_sans_bold"
-                    android:textColor="@color/black_high_emphasis"/>
-            </LinearLayout>
+                    android:textColor="@color/main_blue_green"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_goal_achieve"/>
+
+                <ImageView
+                    android:id="@+id/image_my_crew"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/image_round"
+                    android:clipToOutline="true"
+                    android:scaleType="fitXY"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:src="@color/main_black" />
+                    <!-- app:crewHorizonImage="@{achieveVM.imageFileDto.imgSeq}" -->
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ProgressBar
                 android:id="@+id/progress_bar_crew_history"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:max="100"
                 android:progressTint="@color/mainColor"
                 android:scaleY="2"
@@ -70,6 +97,7 @@
                 android:gravity="right"
                 android:text="상세 보기"
                 android:textSize="10sp"
+                android:layout_marginTop="4dp"
                 android:fontFamily="@font/noto_sans_bold"
                 android:textColor="@color/black_high_emphasis"/>
 

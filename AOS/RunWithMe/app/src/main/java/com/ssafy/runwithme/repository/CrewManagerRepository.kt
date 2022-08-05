@@ -10,6 +10,7 @@ import com.ssafy.runwithme.datasource.paging.GetCrewBoardsPagingSource
 import com.ssafy.runwithme.datasource.paging.GetRecruitCrewPagingSource
 import com.ssafy.runwithme.datasource.paging.GetSearchResultCrewPagingSource
 import com.ssafy.runwithme.model.dto.CrewDto
+import com.ssafy.runwithme.model.dto.EndCrewFileDto
 import com.ssafy.runwithme.model.response.CreateCrewResponse
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 import com.ssafy.runwithme.utils.Result
@@ -41,7 +42,7 @@ class CrewManagerRepository @Inject constructor(
         emit(Result.Error(e))
     }
 
-    fun getMyEndCrew() : Flow<Result<BaseResponse<List<MyCurrentCrewResponse>>>> = flow<Result<BaseResponse<List<MyCurrentCrewResponse>>>> {
+    fun getMyEndCrew() : Flow<Result<BaseResponse<List<EndCrewFileDto>>>> = flow<Result<BaseResponse<List<EndCrewFileDto>>>> {
         emit(Result.Loading)
         crewManagerRemoteDataSource.getMyEndCrew().collect {
             if(it.success){

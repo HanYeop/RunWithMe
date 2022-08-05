@@ -50,7 +50,7 @@ class AchievementViewModel @Inject constructor(
         viewModelScope.launch {
             crewManagerRepository.getMyEndCrew().collectLatest {
                 if(it is Result.Success){
-                    Log.d(TAG, "여기 들어왔어요 getMyEndCrew: $it")
+                    Log.d(TAG, "getMyEndCrew: $it")
                 } else if(it is Result.Error){
                     _errorMsgEvent.postValue("종료된 크루목록을 불러오는 중 오류가 발생했습니다.")
                 }
