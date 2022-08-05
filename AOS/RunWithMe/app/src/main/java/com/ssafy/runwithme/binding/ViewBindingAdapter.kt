@@ -462,4 +462,18 @@ object ViewBindingAdapter {
             .placeholder(R.drawable.img)
             .into(this)
     }
+
+    @BindingAdapter("achievementImageType", "achievementImageValue")
+    @JvmStatic
+    fun ImageView.setAchievementImage (type: String, value: Double){
+        val img = type.lowercase() + value.toInt().toString()
+        val packageName = "com.ssafy.runwithme"
+        val resId = this.resources.getIdentifier(img, "drawable", packageName)
+
+        Glide.with(this.context)
+            .load(resId)
+            .override(120 * 2,120 * 2)
+            .placeholder(R.drawable.img)
+            .into(this)
+    }
 }
