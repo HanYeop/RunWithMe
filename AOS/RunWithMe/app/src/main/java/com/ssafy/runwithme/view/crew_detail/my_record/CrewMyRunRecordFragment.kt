@@ -5,6 +5,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -147,15 +148,21 @@ class CrewMyRunRecordFragment : BaseFragment<FragmentCrewMyRunRecordBinding>(R.l
                 textView.text = day.date.dayOfMonth.toString()
 
                 val runView = container.binding.viewRunDay
-                runView.background = null
 
                 if (day.owner == DayOwner.THIS_MONTH) {
                     textView.setTextColorRes(R.color.black_high_emphasis)
                     layout.setBackgroundResource(if (selectedDate == day.date) R.drawable.calendar_selected_bg else 0)
 
                     val dayRecord = dayRecord[day.date]
-                    if (dayRecord != null) {
-                        runView.setBackgroundColor(R.color.main_purple)
+                    if (dayRecord != null) { // 러닝 기록이 있는 날은 색칠
+                        runView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.main_blue_green))
+                        // 러닝 중에서 1번이라도 목표 달성했을 시 색변경
+                        for(item in dayRecord){
+                            if(item.runRecordRunningCompleteYN == "Y"){
+                                runView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.main_purple))
+                                break
+                            }
+                        }
                     }
                 } else {
                     textView.setTextColorRes(R.color.light_grey)
