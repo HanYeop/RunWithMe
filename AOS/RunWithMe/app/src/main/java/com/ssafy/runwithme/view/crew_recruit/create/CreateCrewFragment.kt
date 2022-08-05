@@ -19,6 +19,7 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentCreateCrewBinding
 import com.ssafy.runwithme.view.crew_recruit.*
+import com.ssafy.runwithme.view.loading.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -36,7 +37,11 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
     private val createCrewViewModel by viewModels<CreateCrewViewModel>()
     private var imgFile : MultipartBody.Part? = null
 
+    private lateinit var loadingDialog: LoadingDialog
+
     override fun init() {
+
+        loadingDialog = LoadingDialog(requireContext())
 
         binding.apply {
             crewCreateVM = createCrewViewModel
@@ -68,6 +73,7 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
 
             btnCreate.setOnClickListener {
                 createCrewViewModel.createCrew(imgFile)
+                loadingDialog.show()
             }
 
             btnCreateCrewGoalWeeks.setOnClickListener {
@@ -322,6 +328,7 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
         }
 
         createCrewViewModel.successMsgEvent.observe(viewLifecycleOwner) {
+            loadingDialog.dismiss()
             showToast(it)
             findNavController().popBackStack()
         }
@@ -361,7 +368,7 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
     private fun createFileFromBitmap(bitmap: Bitmap): File {
         val newFile = File(requireActivity().filesDir, "crew_${System.currentTimeMillis()}")
         val fileOutputStream = FileOutputStream(newFile)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 40, fileOutputStream)
         fileOutputStream.close()
         return newFile
     }
