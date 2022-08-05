@@ -49,7 +49,7 @@ object ServiceModule {
     ) = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
         .setAutoCancel(false)
         .setOngoing(true)
-        .setSmallIcon(R.drawable.img)
+        .setSmallIcon(R.drawable.rwm_logo)
         .setContentTitle("달리기 기록을 측정중입니다.")
         .setContentText("00:00:00")
         .setContentIntent(pendingIntent)
