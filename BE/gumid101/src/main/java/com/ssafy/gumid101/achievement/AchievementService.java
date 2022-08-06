@@ -3,11 +3,11 @@ package com.ssafy.gumid101.achievement;
 import java.util.List;
 
 import com.ssafy.gumid101.dto.AchievementDto;
-import com.ssafy.gumid101.res.MyAchieveCompleteDto;
+import com.ssafy.gumid101.res.AchieveCompleteDto;
 
 public interface AchievementService{
 
-	List<MyAchieveCompleteDto> getUserAchievement(Long userSeq) throws Exception;
+	List<AchieveCompleteDto> getUserAchievement(Long userSeq) throws Exception;
 
 	List<AchievementDto> getAchieveList() throws Exception;
 

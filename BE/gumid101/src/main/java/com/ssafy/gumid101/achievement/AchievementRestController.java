@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.gumid101.dto.AchievementDto;
 import com.ssafy.gumid101.dto.UserDto;
-import com.ssafy.gumid101.res.MyAchieveCompleteDto;
+import com.ssafy.gumid101.res.AchieveCompleteDto;
 import com.ssafy.gumid101.res.ResponseFrame;
 
 import io.swagger.annotations.Api;
@@ -69,10 +69,10 @@ public class AchievementRestController {
 
 		UserDto userDto = loadUserFromToken();
 		HttpStatus httpStatus = HttpStatus.OK;
-		ResponseFrame<List<MyAchieveCompleteDto>> responseMap = new ResponseFrame<>();
+		ResponseFrame<List<AchieveCompleteDto>> responseMap = new ResponseFrame<>();
 		
 		
-		List<MyAchieveCompleteDto> achieveDtoList = null;
+		List<AchieveCompleteDto> achieveDtoList = null;
 		try {
 			achieveDtoList = achievementService.getUserAchievement(userDto.getUserSeq());
 		}catch (Exception e) {
