@@ -27,10 +27,11 @@
             android:paddingBottom="16dp">
             <TextView
                 android:id="@+id/tv_ranking_num"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@{String.valueOf(crewRank.rankingIndex)}"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:fontFamily="@font/noto_sans_bold"
                 android:textColor="@color/black"
                 android:textSize="24sp"
