@@ -1,5 +1,7 @@
 package com.ssafy.gumid101.crew;
 
+import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -7,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.gumid101.dto.CoordinateDto;
+import com.ssafy.gumid101.dto.RecordCoordinateDto;
 import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.redis.RedisService;
@@ -66,6 +71,7 @@ public class CrewRestContoller {
 		return new ResponseEntity<>(res,HttpStatus.OK);
 	}
 
+	
 	@ApiOperation(value = "크루가입")
 	@PostMapping(value="/{crewId}/join")
 	public ResponseEntity<?> joinCrew(@PathVariable(required = true) long crewId, @RequestBody(required = false) Optional<PasswordDto>  password)
@@ -82,4 +88,31 @@ public class CrewRestContoller {
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 
+	
+
+	@PostMapping(value="/records/{recordseq}/cooldinate")
+	@ApiOperation("런레코드에 좌표값을 등록한다.")
+	public ResponseEntity<?>  recordAddCooldinate(@PathVariable("recordseq") Long recordSeq,@RequestBody List<CoordinateDto> coordinates) throws Exception{
+		
+		int result = crewService.setRecordCooldinate(recordSeq,coordinates);
+		
+		boolean success =  result == 1 ? true: false;
+		
+		
+		ResponseFrame<Integer> res = ResponseFrame.of(result, result, String.format("런레코드 등록이 %s하였습니다.", success ? "성공":"실패"));
+		
+		
+		return new ResponseEntity<>(res,HttpStatus.OK);
+	}
+	@ApiOperation("런레코드의 좌표값을 가져온다.")
+	@GetMapping(value = "/records/{recordseq}/cooldinate")
+	public ResponseEntity<?>  recordAddCooldinate(@PathVariable("recordseq") Long recordSeq) throws Exception{
+		
+		List<RecordCoordinateDto> coordinateDtoList  = crewService.getCoordinateByRunRecordSeq(recordSeq);
+
+		ResponseFrame<List<RecordCoordinateDto>> res = ResponseFrame.of(coordinateDtoList, coordinateDtoList.size(), String.format("런레코드 SEQ : %d 에 해당하는 좌표들을 반환합니다.", recordSeq));
+		
+		
+		return new ResponseEntity<>(res,HttpStatus.OK);
+	}
 }

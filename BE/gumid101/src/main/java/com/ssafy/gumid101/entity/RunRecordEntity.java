@@ -1,6 +1,7 @@
 package com.ssafy.gumid101.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -74,7 +76,11 @@ public class RunRecordEntity {
 	@JoinColumn(name = "crew_seq")
 	private CrewEntity crewEntity;
 	
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "runRecord")
+	private List<RecordCoordinateEnitity> coordinate;
+	
 	@Column(nullable = false, name = "run_record_reg_time")
 	@CreatedDate
 	private LocalDateTime runRecordRegTime;
+
 }

@@ -7,11 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.ssafy.gumid101.dto.CoordinateDto;
 import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.RunRecordEntity;
 import com.ssafy.gumid101.entity.UserEntity;
 
-public interface RunRecordRepository extends JpaRepository<RunRecordEntity, Long>  {
+public interface RunRecordRepository extends JpaRepository<RunRecordEntity, Long>,RunRecordCustomRepository {
 	List<RunRecordEntity> findByUserEntityAndCrewEntityAndRunRecordStartTimeBetween(UserEntity userEntity, CrewEntity crewEntity, LocalDateTime start, LocalDateTime end);
 	List<RunRecordEntity> findByUserEntityAndCrewEntity(UserEntity userEntity, CrewEntity crewEntity);
 	
@@ -21,4 +22,5 @@ public interface RunRecordRepository extends JpaRepository<RunRecordEntity, Long
 	Long countByUserEntityAndCrewEntityAndRunRecordStartTimeBetweenAndRunRecordCompleteYN(UserEntity userEntity, CrewEntity crewEntity, LocalDateTime weeksStart, LocalDateTime weeksEnd, String completeYN);
 	Long countByUserEntity(UserEntity userEntity);
 	List<RunRecordEntity> findByCrewEntityAndRunRecordCompleteYNOrderByRunRecordStartTime(CrewEntity crewEntity, String runRecordCompleteYN);
+
 }
