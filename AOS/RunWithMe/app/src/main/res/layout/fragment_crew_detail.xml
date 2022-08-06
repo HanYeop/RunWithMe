@@ -389,45 +389,6 @@
                             android:background="@color/main_border_grey"/>
 
                         <LinearLayout
-                            android:id="@+id/layout_ranking"
-                            android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/view">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_weight="10"
-                                android:fontFamily="@font/noto_sans_bold"
-                                android:text="크루원 랭킹 "
-                                android:textColor="@color/main_black"
-                                android:textSize="18sp" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="8dp"
-                                android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
-                                app:tint="@color/main_black" />
-
-                        </LinearLayout>
-
-                        <View
-                            android:id="@+id/view_1"
-                            android:layout_width="0dp"
-                            android:layout_height="1dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/layout_ranking"
-                            app:layout_constraintBottom_toTopOf="@id/layout_board"
-                            android:background="@color/main_border_grey"/>
-
-                        <LinearLayout
                             android:id="@+id/layout_board"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
@@ -435,7 +396,7 @@
                             android:orientation="horizontal"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/view_1">
+                            app:layout_constraintTop_toBottomOf="@id/view">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -457,12 +418,51 @@
                         </LinearLayout>
 
                         <View
-                            android:id="@+id/view_2"
+                            android:id="@+id/view_1"
                             android:layout_width="0dp"
                             android:layout_height="1dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/layout_board"
+                            app:layout_constraintBottom_toTopOf="@id/layout_ranking"
+                            android:background="@color/main_border_grey"/>
+
+                        <LinearLayout
+                            android:id="@+id/layout_ranking"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/view_1">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_weight="10"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:text="크루원 랭킹"
+                                android:textColor="@color/main_black"
+                                android:textSize="18sp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                                app:tint="@color/main_black" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:id="@+id/view_2"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/layout_ranking"
                             app:layout_constraintBottom_toTopOf="@id/layout_record"
                             android:background="@color/main_border_grey"/>
 
