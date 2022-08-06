@@ -17,6 +17,9 @@ import com.ssafy.runwithme.view.loading.LoadingDialog
 import com.ssafy.runwithme.view.running.RunningActivity
 import com.ssafy.runwithme.view.running.result.achievement.AchievementDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.lang.Math.round
@@ -86,7 +89,18 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
     private val createRecommendListener = object: CreateRecommendListener {
         override fun onBtnOkClicked(environmentPoint: Int, hardPoint: Int) {
             runRecordDetailViewModel.createRecommend(environmentPoint, hardPoint, runRecordDto!!.runRecordSeq)
-            loadingDialog.show()
+            loading()
+        }
+    }
+
+    private fun loading(){
+        loadingDialog.show()
+        // 로딩이 진행되지 않았을 경우
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(2000)
+            if(loadingDialog.isShowing){
+                loadingDialog.dismiss()
+            }
         }
     }
 
