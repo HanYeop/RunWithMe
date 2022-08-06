@@ -329,6 +329,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             runRecordRunningLat = pathPoints.first()[0].latitude
             runRecordRunningLng = pathPoints.first()[0].longitude
             runRecordRunningTime = currentTimeInMillis
+            runPathPoints = pathPoints
 
             dialog.show()
             delay(1000)
@@ -402,5 +403,6 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         var runRecordRunningLat: Double = 0.0
         var runRecordRunningLng: Double = 0.0
         var runRecordRunningTime: Long = 0
+        var runPathPoints: List<Polyline> = listOf()
     }
 }

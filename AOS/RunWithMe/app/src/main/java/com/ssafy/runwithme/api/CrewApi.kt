@@ -1,6 +1,7 @@
 package com.ssafy.runwithme.api
 
 import com.ssafy.runwithme.base.BaseResponse
+import com.ssafy.runwithme.model.dto.CoordinateDto
 import com.ssafy.runwithme.model.dto.CrewDto
 import com.ssafy.runwithme.model.dto.PasswordDto
 import com.ssafy.runwithme.model.response.CreateRunRecordResponse
@@ -23,7 +24,9 @@ interface CrewApi {
     @POST("crew/{crewId}/join")
     suspend fun joinCrew(@Path("crewId") crewId: Int, @Body password : PasswordDto) : BaseResponse<CrewDto>
 
-    @POST("crew/{crewId}/join")
-    suspend fun joinCrew(@Path("crewId") crewId: Int, @Query("password") password : String) : BaseResponse<CrewDto>
-
+    @POST("crew/records/{recordseq}/coordinate")
+    suspend fun createCoordinates(
+        @Path("recordseq") recordSeq: Int,
+        @Body coordinates: List<CoordinateDto>
+    ): BaseResponse<String>
 }

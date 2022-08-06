@@ -5,8 +5,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
-import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.dto.AchievementDto
+import com.ssafy.runwithme.model.dto.CoordinateDto
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.entity.RunRecordEntity
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
@@ -82,6 +82,18 @@ class RunningViewModel @Inject constructor(
             }
         }
     }
+
+    fun createCoordinates(recordSeq: Int, coordinates: List<CoordinateDto>){
+        viewModelScope.launch(Dispatchers.IO) {
+            crewRepository.createCoordinates(recordSeq, coordinates).collectLatest {
+                Log.d("test5", "createCoordinates: $it")
+                if(it is Result.Success){
+
+                }
+            }
+        }
+    }
+
 
     fun runAbleToday(crewSeq: Int){
         viewModelScope.launch(Dispatchers.IO) {

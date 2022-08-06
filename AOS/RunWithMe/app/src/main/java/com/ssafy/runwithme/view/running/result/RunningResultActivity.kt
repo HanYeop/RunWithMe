@@ -2,12 +2,14 @@ package com.ssafy.runwithme.view.running.result
 
 import android.content.SharedPreferences
 import android.graphics.Bitmap
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseActivity
 import com.ssafy.runwithme.databinding.ActivityRunningResultBinding
+import com.ssafy.runwithme.model.dto.CoordinateDto
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.entity.RunRecordEntity
 import com.ssafy.runwithme.utils.*
@@ -72,6 +74,7 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
         lifecycleScope.launch {
             runningViewModel.runRecordSeq.collectLatest {
                 runRecordSeq = it
+                sendLatLng()
             }
         }
         lifecycleScope.launch {
@@ -81,6 +84,16 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
                 }
             }
         }
+    }
+
+    private fun sendLatLng(){
+        val list = arrayListOf<CoordinateDto>()
+        for(i in RunningActivity.runPathPoints){
+            for(j in i){
+                list.add(CoordinateDto(j.latitude, j.longitude))
+            }
+        }
+        runningViewModel.createCoordinates(runRecordSeq, list)
     }
 
     private fun initResult(){
@@ -94,6 +107,7 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
             tvCrewName.text = sharedPreferences.getString(RUN_RECORD_CREW_NAME,"크루")
             tvTimeStartEnd.text = startEndFormatter(sharedPreferences.getLong(RUN_RECORD_START_TIME, 0L), RunningActivity.runRecordEndTime)
             tvUserName.text = sharedPreferences.getString(USER_NAME,"이름")
+            Log.d(TAG, "initResult: ${RunningActivity.runPathPoints}")
         }
     }
 

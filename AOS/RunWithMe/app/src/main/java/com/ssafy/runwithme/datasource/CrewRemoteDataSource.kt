@@ -1,8 +1,8 @@
 package com.ssafy.runwithme.datasource
 
-import android.util.Log
 import com.ssafy.runwithme.api.CrewApi
 import com.ssafy.runwithme.base.BaseResponse
+import com.ssafy.runwithme.model.dto.CoordinateDto
 import com.ssafy.runwithme.model.dto.CrewDto
 import com.ssafy.runwithme.model.dto.PasswordDto
 import com.ssafy.runwithme.model.response.CreateRunRecordResponse
@@ -26,5 +26,9 @@ class CrewRemoteDataSource @Inject constructor(
         }else{
             emit(crewApi.joinCrew(crewId))
         }
+    }
+
+    fun createCoordinates(recordSeq: Int, coordinates: List<CoordinateDto>): Flow<BaseResponse<String>> = flow {
+        emit(crewApi.createCoordinates(recordSeq, coordinates))
     }
 }

@@ -2,6 +2,7 @@ package com.ssafy.runwithme.repository
 
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.datasource.CrewRemoteDataSource
+import com.ssafy.runwithme.model.dto.CoordinateDto
 import com.ssafy.runwithme.model.dto.CrewDto
 import com.ssafy.runwithme.model.dto.PasswordDto
 import com.ssafy.runwithme.model.response.CreateRunRecordResponse
@@ -35,6 +36,21 @@ class CrewRepository @Inject constructor(
     fun joinCrew(crewId: Int, password: PasswordDto?): Flow<Result<BaseResponse<CrewDto>>> = flow {
         emit(Result.Loading)
         crewRemoteDataSource.joinCrew(crewId, password).collect {
+            if(it.success){
+                emit(Result.Success(it))
+            }else if(!it.success){
+                emit(Result.Fail(it))
+            }else{
+                emit(Result.Empty)
+            }
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
+
+    fun createCoordinates(recordSeq: Int, coordinates: List<CoordinateDto>): Flow<Result<BaseResponse<String>>> = flow {
+        emit(Result.Loading)
+        crewRemoteDataSource.createCoordinates(recordSeq, coordinates).collect {
             if(it.success){
                 emit(Result.Success(it))
             }else if(!it.success){
