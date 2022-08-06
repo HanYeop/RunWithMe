@@ -76,7 +76,7 @@
                         android:layout_marginStart="16dp"
                         android:fontFamily="@font/noto_sans_bold"
                         android:includeFontPadding="false"
-                        android:text="연습크루"
+                        android:text="연습 러닝"
                         android:textColor="@color/main_purple"
                         android:textSize="20sp"
                         app:layout_constraintStart_toEndOf="@id/image_crew_recruit"

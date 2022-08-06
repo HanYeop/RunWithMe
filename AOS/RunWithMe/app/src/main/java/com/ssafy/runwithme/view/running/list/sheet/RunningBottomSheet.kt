@@ -113,7 +113,7 @@ class RunningBottomSheet(context: Context, private val sharedPreferences: Shared
     // 연습
     private val practiceListener = object : PracticeCustomListener{
         override fun onItemClick(type: String, amount: Int) {
-            runningStart(sharedPreferences, 0, "연습크루", type, amount)
+            runningStart(sharedPreferences, 0, "연습 러닝", type, amount)
             startActivity(Intent(context, RunningActivity::class.java))
             dismiss()
         }
