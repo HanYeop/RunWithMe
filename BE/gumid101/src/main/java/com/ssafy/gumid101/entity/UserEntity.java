@@ -40,13 +40,13 @@ import lombok.Setter;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @SQLDelete(sql = "update t_user set user_delete_yn = 'Y', "
-		+ "user weight = 0, "
+		+ "user_weight = 0, "
 		+ "img_seq = null, "
 		+ "user_height = 0, "
 		+ "user_fcm_token = null, "
 		+ "user_email = null, "
 		+ "user_nickname = null, "
-		+ "user_point =0, "
+		+ "user_point =0 "
 		+ "where user_seq = ?")
 @Where(clause = "user_delete_yn = 'N'")
 @Table(name = "t_user", uniqueConstraints = {
@@ -62,7 +62,7 @@ public class UserEntity {
 	@Column(nullable = true, name = "user_nickname")
 	private String nickName;
 
-	@Column(nullable = false, name = "user_email")
+	@Column(nullable = true, name = "user_email")
 	private String email;
 
 	@Column(nullable = true, name = "user_height")
@@ -109,15 +109,17 @@ public class UserEntity {
 	
 	@OneToMany(mappedBy = "userReporterEntity")
 	private List<ReportEntity> reportEntitys;
-	
+
 	@OneToMany(mappedBy = "userEntity")
 	private List<QuestionEntity> questionEntitys;
+	
+	@OneToMany(mappedBy = "userEntity")
+	private List<ScrapEntity> scrapEntitys;
 	
 	
 
 	@PrePersist
 	public void setting() {
-		this.point = 0;
 		this.userState = "N";
 		this.role = Role.USER;
 	}

@@ -30,7 +30,7 @@ public class RedisServiceImpl implements RedisService{
 		}
 		else {
 //			System.out.println("아직남아있음");
-			throw new RequestAlreadyProcessingException("연속으로 실행할 수 없는 명령입니다.");
+			throw new RequestAlreadyProcessingException("잠시 후 다시 시도해주세요.");
 		}
 	}
 	

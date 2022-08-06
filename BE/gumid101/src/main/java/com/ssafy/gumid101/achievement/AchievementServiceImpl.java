@@ -12,7 +12,7 @@ import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.dto.AchievementDto;
 import com.ssafy.gumid101.entity.AchievementEntity;
 import com.ssafy.gumid101.entity.UserEntity;
-import com.ssafy.gumid101.res.MyAchieveCompleteDto;
+import com.ssafy.gumid101.res.AchieveCompleteDto;
 import com.ssafy.gumid101.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -36,12 +36,12 @@ public class AchievementServiceImpl implements AchievementService {
 	}
 
 	@Override
-	public List<MyAchieveCompleteDto> getUserAchievement(Long userSeq) throws Exception{
+	public List<AchieveCompleteDto> getUserAchievement(Long userSeq) throws Exception{
 		UserEntity user = userRepo.findById(userSeq).orElseThrow(() -> {
 			return new NotFoundUserException("유저 정보가 올바르지 않습니다.");
 		});
 		return completeRepo.findByUserSeq(user.getUserSeq()).stream().map((entity) -> {
-			return new MyAchieveCompleteDto(AchievementDto.of(entity.getAchieveEntity()), entity.getAchieveCompleteRegTime());
+			return new AchieveCompleteDto(AchievementDto.of(entity.getAchieveEntity()), entity.getAchieveCompleteRegTime());
 		}).collect(Collectors.toList());
 	}
 	

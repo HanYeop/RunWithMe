@@ -1,11 +1,18 @@
 package com.ssafy.gumid101.crew;
 
+import java.math.BigInteger;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.io.WKTReader;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,9 +30,11 @@ import com.ssafy.gumid101.customexception.IllegalParameterException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.customexception.PasswrodNotMatchException;
 import com.ssafy.gumid101.dto.AchievementDto;
+import com.ssafy.gumid101.dto.CoordinateDto;
 import com.ssafy.gumid101.dto.CrewDto;
 import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.ImageFileDto;
+import com.ssafy.gumid101.dto.RecordCoordinateDto;
 import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.AchievementCompleteEntity;
@@ -33,6 +42,7 @@ import com.ssafy.gumid101.entity.AchievementEntity;
 import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.CrewTotalRecordEntity;
 import com.ssafy.gumid101.entity.ImageFileEntity;
+import com.ssafy.gumid101.entity.RecordCoordinateEnitity;
 import com.ssafy.gumid101.entity.RunRecordEntity;
 import com.ssafy.gumid101.entity.UserCrewJoinEntity;
 import com.ssafy.gumid101.entity.UserEntity;
@@ -62,14 +72,15 @@ public class CrewServiceImpl implements CrewService {
 	private final ImageFileRepository imageRepo;
 	private final AchievementRepository achiveRepo;
 	private final AchievementCompleteRepository accRepo;
-	
+
+
 	@Transactional
 	@Override
 	public CrewUserDto joinCrew(Long userSeq, Long crewSeq, Optional<PasswordDto> passwordDto) throws Exception {
 
 		CrewEntity crew = crewManagerRepo.findById(crewSeq)
 				.orElseThrow(() -> new CrewNotFoundException("크루 가입 중, 크루를 특정할 수 없습니다."));
-		
+
 		if (crewManagerServ.isUserCrewMember(userSeq, crewSeq)) {
 			throw new CrewPermissonDeniedException("이미 해당 크루원입니다.");
 		}
@@ -88,18 +99,17 @@ public class CrewServiceImpl implements CrewService {
 		user.setPoint(user.getPoint() - crew.getCrewCost());
 
 		String password = null;
-		if(passwordDto.isPresent()) {
+		if (passwordDto.isPresent()) {
 			password = passwordDto.get().getPassword();
 		}
 		// 패스워드 체크
 		if (Strings.hasLength(crew.getCrewPassword())) {
-			if ( password == null|| crew.getCrewPassword().compareTo(password) != 0) {
+			if (password == null || crew.getCrewPassword().compareTo(password) != 0) {
 				throw new PasswrodNotMatchException("크루 패스워드 불일치");
 			}
 		}
-		
-		//이미 가입 뭐시기
-		
+
+		// 이미 가입 뭐시기
 
 		UserCrewJoinEntity ucjEntity = UserCrewJoinEntity.builder().build();
 		ucjEntity.setCrewEntity(crew);
@@ -109,9 +119,9 @@ public class CrewServiceImpl implements CrewService {
 
 		UserDto userDto = UserDto.of(ucjEntity.getUserEntity());
 		CrewDto crewDto = CrewDto.of(ucjEntity.getCrewEntity());
-		
+
 		crewDto.setCrewMemberCount(ucJoinRepo.findCountCrewUser(crewSeq));
-		
+
 		CrewUserDto crewUserDto = new CrewUserDto(crewDto, userDto, ucjEntity.getCrewUserRegTime());
 
 		return crewUserDto;
@@ -119,159 +129,188 @@ public class CrewServiceImpl implements CrewService {
 
 	@Transactional
 	@Override
-	public RunRecordResultDto insertUserRunRecordAsCrew(Long userSeq, Long crewId, RunRecordDto runRecordDto, MultipartFile imgFile) throws Exception {
+	public RunRecordResultDto insertUserRunRecordAsCrew(Long userSeq, Long crewId, RunRecordDto runRecordDto,
+			MultipartFile imgFile) throws Exception {
 		if (imgFile == null) {
 			throw new IllegalParameterException("저장할 경로 사진이 필요합니다.");
 		}
 		if (runRecordDto.getRunRecordRunningTime() == null || runRecordDto.getRunRecordRunningTime() == 0) {
 			throw new IllegalParameterException("달린 시간이 0인 기록은 저장할 수 없습니다.");
 		}
-		UserEntity userEntity =  userRepo.findById(userSeq).orElseThrow(()->new NotFoundUserException("러닝 완료 중, 유저를 특정할 수 없습니다."));
-		CrewEntity crewEntity =  crewManagerRepo.findById(crewId).orElseThrow(()->new CrewNotFoundException("러닝 완료 중 , 크루를 특정할 수 없습니다."));
+		UserEntity userEntity = userRepo.findById(userSeq)
+				.orElseThrow(() -> new NotFoundUserException("러닝 완료 중, 유저를 특정할 수 없습니다."));
+		CrewEntity crewEntity = crewManagerRepo.findById(crewId)
+				.orElseThrow(() -> new CrewNotFoundException("러닝 완료 중 , 크루를 특정할 수 없습니다."));
 
-		if (crewEntity.getCrewDateStart().isAfter(runRecordDto.getRunRecordStartTime()) || crewEntity.getCrewDateEnd().isBefore(runRecordDto.getRunRecordStartTime())) {
+		if (crewEntity.getCrewDateStart().isAfter(runRecordDto.getRunRecordStartTime())
+				|| crewEntity.getCrewDateEnd().isBefore(runRecordDto.getRunRecordStartTime())) {
 			throw new CrewPermissonDeniedException("크루 활동 기간이 아닐 때의 기록입니다.");
 		}
-		if (crewEntity.getCrewTimeStart().isAfter(runRecordDto.getRunRecordStartTime().toLocalTime()) || crewEntity.getCrewTimeEnd().isBefore(runRecordDto.getRunRecordStartTime().toLocalTime())) {
+		if (crewEntity.getCrewTimeStart().isAfter(runRecordDto.getRunRecordStartTime().toLocalTime())
+				|| crewEntity.getCrewTimeEnd().isBefore(runRecordDto.getRunRecordStartTime().toLocalTime())) {
 			throw new CrewPermissonDeniedException("크루 활동 시간이 아닐 때의 기록입니다.");
 		}
 		List<RunRecordEntity> myToday = null;
-		try{
-			 myToday = runRecordRepo.findByUserEntityAndCrewEntityAndRunRecordStartTimeBetween(userEntity, crewEntity, runRecordDto.getRunRecordStartTime().withHour(0).withMinute(0).withSecond(0), runRecordDto.getRunRecordStartTime().withHour(23).withMinute(59).withSecond(59));
+		try {
+			myToday = runRecordRepo.findByUserEntityAndCrewEntityAndRunRecordStartTimeBetween(userEntity, crewEntity,
+					runRecordDto.getRunRecordStartTime().withHour(0).withMinute(0).withSecond(0),
+					runRecordDto.getRunRecordStartTime().withHour(23).withMinute(59).withSecond(59));
 		} catch (Exception e) {
 			throw new CrewPermissonDeniedException("기록 조회에 실패했습니다.");
 		}
-		if (myToday != null && myToday.size() > 0){
+		if (myToday != null && myToday.size() > 0) {
 			throw new CrewPermissonDeniedException("이미 오늘자 기록이 존재합니다.");
 		}
 		// 1.크루 런레코드 테이블에 저장
 		// runRecordRepo
-		RunRecordEntity runRecord = RunRecordEntity.builder()
-		.runRecordStartTime(runRecordDto.getRunRecordStartTime())
-		.runRecordEndTime(runRecordDto.getRunRecordEndTime())
-		.runRecordRunningTime(runRecordDto.getRunRecordRunningTime())
-		.runRecordRunningDistance(runRecordDto.getRunRecordRunningDistance())
-		.runRecordCalorie(runRecordDto.getRunRecordRunningCalorie())
-		.runRecordLat(runRecordDto.getRunRecordRunningLat())
-		.runRecordLng(runRecordDto.getRunRecordRunningLng())
-		.runRecordRegTime(LocalDateTime.now()).build();
+		RunRecordEntity runRecord = RunRecordEntity.builder().runRecordStartTime(runRecordDto.getRunRecordStartTime())
+				.runRecordEndTime(runRecordDto.getRunRecordEndTime())
+				.runRecordRunningTime(runRecordDto.getRunRecordRunningTime())
+				.runRecordRunningDistance(runRecordDto.getRunRecordRunningDistance())
+				.runRecordCalorie(runRecordDto.getRunRecordRunningCalorie())
+				.runRecordLat(runRecordDto.getRunRecordRunningLat()).runRecordLng(runRecordDto.getRunRecordRunningLng())
+				.runRecordRegTime(LocalDateTime.now()).build();
 		// 입력에 혹시모를 null 들어오는지 체크해야함.
-		if (crewEntity.getCrewGoalType().equals("distance")){
-			if (crewEntity.getCrewGoalAmount() <= runRecord.getRunRecordRunningDistance()){
+		if (crewEntity.getCrewGoalType().equals("distance")) {
+			if (crewEntity.getCrewGoalAmount() <= runRecord.getRunRecordRunningDistance()) {
 				runRecord.setRunRecordCompleteYN("Y");
-			}
-			else{
+			} else {
 				runRecord.setRunRecordCompleteYN("N");
 			}
-		}
-		else{
-			if (crewEntity.getCrewGoalAmount() <= runRecord.getRunRecordRunningTime()){
+		} else {
+			if (crewEntity.getCrewGoalAmount() <= runRecord.getRunRecordRunningTime()) {
 				runRecord.setRunRecordCompleteYN("Y");
-			}
-			else{
+			} else {
 				runRecord.setRunRecordCompleteYN("N");
 			}
 		}
 
-		//기본 속성들 다 넣어주고
-		
-		//이미지가 없을 리 없음 ..
-		ImageFileDto imageDto =  s3FileService.upload(imgFile, ImageDirectory.RUN_RECORD.getPath());
+		// 기본 속성들 다 넣어주고
 
-		ImageFileEntity image = ImageFileEntity.builder()
-				.imgOriginalName(imageDto.getImgOriginalName())
-				.imgSavedName(imageDto.getImgSavedName())
-				.imgSavedPath(imageDto.getImgSavedPath())
-				.build();
-		imageRepo.save(image); //이미지 저장하고
+		// 이미지가 없을 리 없음 ..
+		ImageFileDto imageDto = s3FileService.upload(imgFile, ImageDirectory.RUN_RECORD.getPath());
+
+		ImageFileEntity image = ImageFileEntity.builder().imgOriginalName(imageDto.getImgOriginalName())
+				.imgSavedName(imageDto.getImgSavedName()).imgSavedPath(imageDto.getImgSavedPath()).build();
+		imageRepo.save(image); // 이미지 저장하고
 		//
-		runRecordRepo.save(runRecord); //퍼시스턴스 영역에 등록
-		//등록한 후에 관계 설정
+		runRecordRepo.save(runRecord); // 퍼시스턴스 영역에 등록
+		// 등록한 후에 관계 설정
 		runRecord.setImageFile(image);
 		runRecord.setUserEntity(userEntity);
 		runRecord.setCrewEntity(crewEntity);
-		
-		
-		
-		
-		//.runRecordCompleteYN()
-		//		.build();
+
+		// .runRecordCompleteYN()
+		// .build();
 		// 2.크루 런레코드 누적 테이블을 갱신하고.
 
-		CrewTotalRecordEntity  userCrewTotalEntity =null;
+		CrewTotalRecordEntity userCrewTotalEntity = null;
 		try {
-			
-		}catch(Exception e) {
+
+		} catch (Exception e) {
 			log.warn("크루-유저 누적 기록 뭔가 이상한다. 무결성 침해가 우려된다.");
 		}
-		
-		//베타락을 얻어온다.
-		 userCrewTotalEntity = userCrewTotalRunRepo.findWithLockByUserEntityAndCrewEntity(userEntity,crewEntity);
-		if(userCrewTotalEntity== null) {
+
+		// 베타락을 얻어온다.
+		userCrewTotalEntity = userCrewTotalRunRepo.findWithLockByUserEntityAndCrewEntity(userEntity, crewEntity);
+		if (userCrewTotalEntity == null) {
 			userCrewTotalEntity = new CrewTotalRecordEntity();
 			userCrewTotalEntity.setCrewEntity(crewEntity);
 			userCrewTotalEntity.setUserEntity(userEntity);
 			userCrewTotalRunRepo.save(userCrewTotalEntity);
-		}else {
-			userCrewTotalEntity.setTotalLongestDistance(  Math.max(userCrewTotalEntity.getTotalLongestDistance() ,runRecordDto.getRunRecordRunningDistance()));
-			userCrewTotalEntity.setTotalLongestTime(Math.max(userCrewTotalEntity.getTotalLongestTime(), runRecordDto.getRunRecordRunningTime()));
-			userCrewTotalEntity.setTotalTime(userCrewTotalEntity.getTotalTime() + runRecordDto.getRunRecordRunningTime());
-			userCrewTotalEntity.setTotalDistance(userCrewTotalEntity.getTotalDistance() + runRecordDto.getRunRecordRunningDistance());
-			userCrewTotalEntity.setTotalCalorie(userCrewTotalEntity.getTotalCalorie() + runRecord.getRunRecordCalorie());
+		} else {
+			userCrewTotalEntity.setTotalLongestDistance(Math.max(userCrewTotalEntity.getTotalLongestDistance(),
+					runRecordDto.getRunRecordRunningDistance()));
+			userCrewTotalEntity.setTotalLongestTime(
+					Math.max(userCrewTotalEntity.getTotalLongestTime(), runRecordDto.getRunRecordRunningTime()));
+			userCrewTotalEntity
+					.setTotalTime(userCrewTotalEntity.getTotalTime() + runRecordDto.getRunRecordRunningTime());
+			userCrewTotalEntity.setTotalDistance(
+					userCrewTotalEntity.getTotalDistance() + runRecordDto.getRunRecordRunningDistance());
+			userCrewTotalEntity
+					.setTotalCalorie(userCrewTotalEntity.getTotalCalorie() + runRecord.getRunRecordCalorie());
 		}
 
 		CrewTotalRecordDto userCrewDto = CrewTotalRecordDto.of(userCrewTotalEntity);
-		userCrewDto.setTotalAvgSpeed(3.6 * userCrewTotalEntity.getTotalDistance().doubleValue() / (userCrewTotalEntity.getTotalTime() == 0 ? Long.MAX_VALUE : userCrewTotalEntity.getTotalTime()));
-		
-		List<AchievementDto> newCompleteDtoList =   getNewCompleteAchiveMent(userEntity, userCrewTotalEntity, runRecord);
+		userCrewDto.setTotalAvgSpeed(3.6 * userCrewTotalEntity.getTotalDistance().doubleValue()
+				/ (userCrewTotalEntity.getTotalTime() == 0 ? Long.MAX_VALUE : userCrewTotalEntity.getTotalTime()));
+
+		List<AchievementDto> newCompleteDtoList = getNewCompleteAchiveMent(userEntity, userCrewTotalEntity, runRecord);
 		// 3.업적 로직 계산
 
-		return new RunRecordResultDto(RunRecordDto.of(runRecord),newCompleteDtoList);
+		return new RunRecordResultDto(RunRecordDto.of(runRecord), newCompleteDtoList);
 	}
 
-	private List<AchievementDto> getNewCompleteAchiveMent(UserEntity userEntity, CrewTotalRecordEntity userCrewTotalEntity, RunRecordEntity runRecordEntity) {
+	private List<AchievementDto> getNewCompleteAchiveMent(UserEntity userEntity,
+			CrewTotalRecordEntity userCrewTotalEntity, RunRecordEntity runRecordEntity) {
 
-		
 		Long runCount = runRecordRepo.countByUserEntity(userEntity);
-		
-		List<AchievementEntity> nonAchieveMents =  achiveRepo.findNotAchivement(userEntity);
+
+		List<AchievementEntity> nonAchieveMents = achiveRepo.findNotAchivement(userEntity);
 		List<AchievementEntity> achieveList = new ArrayList<>();
-		//achiveMentType
-		for(AchievementEntity nonAchieve : nonAchieveMents) {
+		// achiveMentType
+		for (AchievementEntity nonAchieve : nonAchieveMents) {
 			if (nonAchieve.getAchieveType() == AchieveType.DISTANCE) {
 				if (nonAchieve.getAchiveValue() <= runRecordEntity.getRunRecordRunningDistance()) {
 					achieveList.add(nonAchieve);
 				}
-			}
-			else if (nonAchieve.getAchieveType() == AchieveType.TIME) {
+			} else if (nonAchieve.getAchieveType() == AchieveType.TIME) {
 				if (nonAchieve.getAchiveValue() <= runRecordEntity.getRunRecordRunningTime()) {
 					achieveList.add(nonAchieve);
 				}
-			}
-			else if (nonAchieve.getAchieveType() == AchieveType.TOTALDISTANCE) {
+			} else if (nonAchieve.getAchieveType() == AchieveType.TOTALDISTANCE) {
 				if (nonAchieve.getAchiveValue() <= userCrewTotalEntity.getTotalDistance()) {
 					achieveList.add(nonAchieve);
 				}
-			}
-			else if (nonAchieve.getAchieveType() == AchieveType.TOTALTIME) {
+			} else if (nonAchieve.getAchieveType() == AchieveType.TOTALTIME) {
 				if (nonAchieve.getAchiveValue() <= userCrewTotalEntity.getTotalTime()) {
 					achieveList.add(nonAchieve);
 				}
-			}
-			else if (nonAchieve.getAchieveType() == AchieveType.RUNCOUNT) {
+			} else if (nonAchieve.getAchieveType() == AchieveType.RUNCOUNT) {
 				if (nonAchieve.getAchiveValue() <= runCount) {
 					achieveList.add(nonAchieve);
 				}
 			}
 		}
 		accRepo.saveAll(achieveList.stream().map((entity) -> AchievementCompleteEntity.builder()
-				.achieveCompleteRegTime(LocalDateTime.now())
-				.achieveEntity(entity)
-				.userEntity(userEntity)
-				.build())
+				.achieveCompleteRegTime(LocalDateTime.now()).achieveEntity(entity).userEntity(userEntity).build())
 				.collect(Collectors.toList()));
 		return achieveList.stream().map((entity) -> AchievementDto.of(entity)).collect(Collectors.toList());
 	}
 
+	@Transactional
+	@Override
+	public int setRecordCooldinate(Long recordSeq, List<CoordinateDto> coordinates) throws Exception {
+
+		int[] results = runRecordRepo.coordinatesInsertBatch(recordSeq, coordinates);
+
+		int success = 0;
+		int fail = 0;
+		for (int i = 0; i < results.length; i++) {
+			if (results[i] == -2) {
+				success++;
+			} else {
+				fail++;
+			}
+		}
+
+		log.debug("좌표 뱃치 INSERT 중 - 성공 : {}  - 실패 : {}", success, fail);
+
+		if (results.length == success) {
+			return 1;
+		} else {
+			return 0;
+		}
+
+	}
 	
+	
+	@Transactional
+	@Override
+	public List<RecordCoordinateDto>  getCoordinateByRunRecordSeq(Long recordSeq) throws Exception {
+
+		return runRecordRepo.getCoordinateByRunRecordSeq(recordSeq);
+	}
+	
+
 }
