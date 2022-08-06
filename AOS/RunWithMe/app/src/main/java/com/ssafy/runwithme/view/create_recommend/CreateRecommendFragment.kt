@@ -29,13 +29,13 @@ import java.io.IOException
 class CreateRecommendFragment : BaseFragment<FragmentCreateRecommendBinding>(R.layout.fragment_create_recommend) {
 
     private val recommendViewModel by activityViewModels<RecommendViewModel>()
-    private val args by navArgs<CreateRecommendFragmentArgs>()
+//    private val args by navArgs<CreateRecommendFragmentArgs>()
 
     private var imgFile : MultipartBody.Part? = null
     private var runRecordSeq = 0
 
     override fun init() {
-        runRecordSeq = args.runRecordSeq
+//        runRecordSeq = args.runRecordSeq
 
         initClickListener()
     }

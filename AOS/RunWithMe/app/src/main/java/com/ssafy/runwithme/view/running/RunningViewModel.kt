@@ -57,6 +57,9 @@ class RunningViewModel @Inject constructor(
     private val _runAbleEvent = SingleLiveEvent<String>()
     val runAbleEvent get() = _runAbleEvent
 
+    private val _coordinateSuccess = SingleLiveEvent<String>()
+    val coordinateSuccess get() = _coordinateSuccess
+
     private val _localRunList: MutableStateFlow<List<RunRecordEntity>>
             = MutableStateFlow(listOf())
     val localRunList get() = _localRunList.asStateFlow()
@@ -74,6 +77,7 @@ class RunningViewModel @Inject constructor(
 
                 if(it is Result.Success){
                     _runRecordSeq.value = it.data.data.runRecordDto.runRecordSeq
+                    _coordinateSuccess.postValue("경로 전송 성공")
                     // 업적 달성 여부
                     if(it.data.data.achievements.isNotEmpty()){
                         _achievementsList.value = it.data.data.achievements

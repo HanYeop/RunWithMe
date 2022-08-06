@@ -3,30 +3,24 @@ package com.ssafy.runwithme.view.run_record_detail
 import android.content.SharedPreferences
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentRunRecordDetailBinding
 import com.ssafy.runwithme.model.dto.RunRecordDto
-import com.ssafy.runwithme.utils.*
-import com.ssafy.runwithme.view.create_recommend.CreateRecommendDialog
+import com.ssafy.runwithme.utils.USER
 import com.ssafy.runwithme.view.create_recommend.CreateRecommendListener
 import com.ssafy.runwithme.view.loading.LoadingDialog
-import com.ssafy.runwithme.view.running.RunningActivity
-import com.ssafy.runwithme.view.running.result.achievement.AchievementDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.lang.Math.round
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.hours
 
 @AndroidEntryPoint
 class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.layout.fragment_run_record_detail) {
@@ -70,7 +64,7 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
                 findNavController().popBackStack()
             }
             btnRecommend.setOnClickListener {
-                CreateRecommendDialog(requireContext(), createRecommendListener).show()
+//                CreateRecommendDialog(requireContext(), createRecommendListener).show()
             }
         }
     }

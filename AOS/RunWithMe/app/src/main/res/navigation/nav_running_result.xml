@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_running_result"
+    app:startDestination="@id/runningResultFragment"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <fragment
+        android:id="@+id/runningResultFragment"
+        android:name="com.ssafy.runwithme.view.running.result.RunningResultFragment"
+        android:label="RunningResultFragment"
+        tools:layout="@layout/fragment_running_result">
+        <action
+            android:id="@+id/action_runningResultFragment_to_runningRouteFragment"
+            app:destination="@id/runningRouteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/runningRouteFragment"
+        android:name="com.ssafy.runwithme.view.route_detail.RunningRouteFragment"
+        android:label="fragment_running_route"
+        tools:layout="@layout/fragment_running_route" />
+</navigation>
