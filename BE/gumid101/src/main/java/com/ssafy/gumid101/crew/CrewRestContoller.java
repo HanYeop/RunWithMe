@@ -44,11 +44,11 @@ public class CrewRestContoller {
 		return tokenUser;
 	}
 
-	@ApiOperation("런 레코드 등록(구현중)")
+	@ApiOperation("런 레코드 등록")
 	@PostMapping(value= "/{crewId}/records",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<?> recordMyRun(
 			@PathVariable("crewId") Long crewId ,
-			@RequestPart(value="runRecord",required = true) String runRecord,
+			@RequestPart(value="runRecord",required = true) RunRecordDto runRecord,
 			@RequestPart MultipartFile imgFile) throws Exception{
 		
 		UserDto userDto =  loadUserFromToken();
@@ -56,7 +56,7 @@ public class CrewRestContoller {
 		
 		Long userSeq = userDto.getUserSeq();
 		
-		RunRecordDto runRecordDto = objectMapper.readValue(runRecord, RunRecordDto.class);
+		RunRecordDto runRecordDto =runRecord;
 		
 		RunRecordResultDto runRecordResult = crewService.insertUserRunRecordAsCrew(userSeq,crewId,runRecordDto,imgFile);
 		
