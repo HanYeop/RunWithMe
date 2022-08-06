@@ -186,7 +186,7 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
         }
 
         binding.calendar.monthScrollListener = { month ->
-            val title = "${monthTitleFormatter.format(month.yearMonth)} ${month.yearMonth.year}"
+            val title = "${month.yearMonth.year}년 ${monthTitleFormatter.format(month.yearMonth)}"
             binding.tvYearMonth.text = title
 
             selectedDate?.let {
