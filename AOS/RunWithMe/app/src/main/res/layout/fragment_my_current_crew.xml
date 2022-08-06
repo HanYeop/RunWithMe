@@ -31,7 +31,7 @@
             <TextView
                 android:id="@+id/text"
                 style="@style/toolbar_text"
-                android:text="내 크루 목록" />
+                android:text="내 챌린지 크루 목록" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 

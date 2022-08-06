@@ -257,7 +257,7 @@
             <TextView
                 android:id="@+id/tv_crew_history"
                 style="@style/header_text"
-                android:text="지난 크루"
+                android:text="종료된 챌린지 크루"
                 android:textColor="@color/black_high_emphasis"
                 android:textSize="20sp"
                 android:layout_marginTop="48dp"

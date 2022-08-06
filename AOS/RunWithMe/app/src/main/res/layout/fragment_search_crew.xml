@@ -36,7 +36,7 @@
                 <TextView
                     android:id="@+id/text"
                     style="@style/toolbar_text"
-                    android:text="크루 검색하기"/>
+                    android:text="챌린지 크루 검색"/>
 
             </com.google.android.material.appbar.MaterialToolbar>
 
@@ -187,7 +187,7 @@
                         android:id="@+id/tv_crew_running_start_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="러닝 시작 기간"
+                        android:text="러닝 시작 시간"
                         android:textColor="@color/black_high_emphasis"
                         android:fontFamily="@font/noto_sans_bold"
                         app:layout_constraintStart_toEndOf="@id/checkbox_crew_running_start_time"

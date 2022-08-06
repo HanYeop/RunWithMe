@@ -31,7 +31,7 @@
             <TextView
                 android:id="@+id/text"
                 style="@style/toolbar_text"
-                android:text="랭킹" />
+                android:text="크루원 랭킹" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 

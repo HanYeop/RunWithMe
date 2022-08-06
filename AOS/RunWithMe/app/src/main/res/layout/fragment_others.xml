@@ -57,7 +57,7 @@
             android:paddingTop="10dp"
             android:paddingEnd="10dp"
             android:paddingBottom="10dp"
-            android:text="문의하기"/>
+            android:text="고객센터 문의"/>
 
         <TextView
             android:id="@+id/tv_terms"

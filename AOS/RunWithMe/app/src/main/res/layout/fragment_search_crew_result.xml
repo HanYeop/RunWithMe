@@ -38,7 +38,7 @@
             style="@style/header_text"
             android:layout_marginStart="@dimen/header_margin"
             android:layout_marginTop="@dimen/header_margin"
-            android:text="검색 리스트"
+            android:text="챌린지 크루 목록"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
 

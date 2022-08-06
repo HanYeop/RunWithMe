@@ -65,7 +65,7 @@
                         <TextView
                             android:id="@+id/text"
                             style="@style/toolbar_text"
-                            android:text="크루 상세" />
+                            android:text="챌린지 크루 정보" />
                     </com.google.android.material.appbar.MaterialToolbar>
 
                 </LinearLayout>
@@ -97,6 +97,7 @@
                             app:crewDetailImage="@{imageFileDto.imgSeq}"
                             android:background="@drawable/image_round"
                             android:clipToOutline="true"
+                            android:layout_marginTop="16dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -187,7 +188,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="38dp"
-                            android:text="기간"
+                            android:text="챌린지 기간"
                             android:textColor="@color/main_grey"
                             android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
@@ -215,7 +216,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="시작 시간"
+                            android:text="러닝 시작 시간"
                             android:textColor="@color/main_grey"
                             android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="@id/tv_duration"
@@ -243,7 +244,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="목표"
+                            android:text="러닝 목표"
                             android:textColor="@color/main_grey"
                             android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="@id/tv_time"
@@ -302,7 +303,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="8dp"
-                                        android:text="총 뛴 거리"
+                                        android:text="누적 거리"
                                         android:textColor="@color/main_grey"
                                         android:textSize="16sp"
                                         app:layout_constraintStart_toStartOf="parent"
@@ -325,7 +326,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="8dp"
-                                        android:text="총 뛴 시간"
+                                        android:text="누적 시간"
                                         android:textColor="@color/main_grey"
                                         android:textSize="16sp"
                                         app:layout_constraintStart_toStartOf="parent"
@@ -361,7 +362,7 @@
                                         android:layout_weight="1"
                                         android:fontFamily="@font/noto_sans_bold"
                                         android:includeFontPadding="false"
-                                        android:text="내 기록 보기"
+                                        android:text="내 러닝 기록"
                                         android:textColor="@color/main_black"
                                         android:textSize="18sp" />
 
@@ -403,7 +404,7 @@
                                 android:layout_marginStart="16dp"
                                 android:layout_weight="10"
                                 android:fontFamily="@font/noto_sans_bold"
-                                android:text="랭킹 보기"
+                                android:text="크루원 랭킹 "
                                 android:textColor="@color/main_black"
                                 android:textSize="18sp" />
 
@@ -442,7 +443,7 @@
                                 android:layout_marginStart="16dp"
                                 android:layout_weight="10"
                                 android:fontFamily="@font/noto_sans_bold"
-                                android:text="게시판 보기"
+                                android:text="크루 게시판"
                                 android:textColor="@color/main_black"
                                 android:textSize="18sp" />
 
@@ -481,7 +482,7 @@
                                 android:layout_marginStart="16dp"
                                 android:layout_weight="10"
                                 android:fontFamily="@font/noto_sans_bold"
-                                android:text="러닝 기록 보기"
+                                android:text="크루원 러닝 기록"
                                 android:textColor="@color/main_black"
                                 android:textSize="18sp" />
 

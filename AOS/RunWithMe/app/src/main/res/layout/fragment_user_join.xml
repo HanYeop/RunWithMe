@@ -24,13 +24,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <TextView
             android:id="@+id/edit_join_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginHorizontal="24dp"
+            android:textColor="@color/main_grey"
             android:text="@{userVM.email}"
+            tools:text="dkfmaekdns@naver.com"
+            android:textSize="16sp"
             android:enabled="false"
             app:layout_constraintStart_toStartOf="@id/tv_join_email"
             app:layout_constraintTop_toBottomOf="@id/tv_join_email" />

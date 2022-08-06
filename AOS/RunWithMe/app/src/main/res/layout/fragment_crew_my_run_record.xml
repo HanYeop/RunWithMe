@@ -31,7 +31,7 @@
             <TextView
                 android:id="@+id/text"
                 style="@style/toolbar_text"
-                android:text="크루 내 나의 기록" />
+                android:text="크루 내 러닝 기록" />
 
 
         </com.google.android.material.appbar.MaterialToolbar>

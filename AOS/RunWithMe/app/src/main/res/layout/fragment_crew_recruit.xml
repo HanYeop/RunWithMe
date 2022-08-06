@@ -29,7 +29,7 @@
             <TextView
                 android:id="@+id/text"
                 style="@style/toolbar_text"
-                android:text="모집 중인 크루리스트" />
+                android:text="모집 중인 챌린지크루" />
 
             <ImageButton
                 android:id="@+id/img_btn_search"

@@ -32,7 +32,7 @@
             <TextView
                 android:id="@+id/text"
                 style="@style/toolbar_text"
-                android:text="크루원 모집하기" />
+                android:text="챌린지 크루 생성" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 
@@ -91,6 +91,18 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/edit_create_crew_name" />
+
+                <ImageView
+                    android:id="@+id/image_crew_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_photo_camera_24"
+                    app:tint="@color/black_low_emphasis"
+                    tools:layout_editor_absoluteX="73dp"
+                    tools:layout_editor_absoluteY="82dp"
+                    app:layout_constraintEnd_toEndOf="@id/img_create_crew"
+                    app:layout_constraintBottom_toBottomOf="@id/img_create_crew"
+                    android:layout_marginBottom="24dp"/>
 
 
                 <EditText
