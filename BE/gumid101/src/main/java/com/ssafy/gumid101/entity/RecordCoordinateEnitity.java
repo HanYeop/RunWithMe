@@ -42,5 +42,5 @@ public class RecordCoordinateEnitity {
 	@Column
 	private double latitude;
 	@Column
-	private double longtitude;
+	private double longitude;
 }

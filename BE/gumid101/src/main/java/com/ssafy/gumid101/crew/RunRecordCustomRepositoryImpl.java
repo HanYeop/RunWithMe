@@ -34,7 +34,7 @@ public class RunRecordCustomRepositoryImpl implements RunRecordCustomRepository 
 
 		
 		int[] results = jdbcTemplate.batchUpdate(
-				"insert into t_record_coordinate(run_record_seq, latitude,longtitude) " + "values(?,?,?)",
+				"insert into t_record_coordinate(run_record_seq, latitude,longitude) " + "values(?,?,?)",
 				new BatchPreparedStatementSetter() {
 					@Override
 					public void setValues(PreparedStatement ps, int i) throws SQLException {
@@ -65,7 +65,7 @@ public class RunRecordCustomRepositoryImpl implements RunRecordCustomRepository 
 		.orderBy(rc.coordinateSeq.asc()).select(Projections.fields(RecordCoordinateDto.class, 
 				rc.coordinateSeq.as("coordinateSeq"),
 				rc.latitude.as("latitude"),
-				rc.longtitude.as("longtitude")
+				rc.longitude.as("longitude")
 				)).fetch();
 		
 		
