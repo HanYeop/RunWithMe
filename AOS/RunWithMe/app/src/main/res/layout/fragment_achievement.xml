@@ -18,8 +18,6 @@
                 android:id="@+id/tv_achievement"
                 style="@style/header_text"
                 android:text="러닝 업적"
-                android:textColor="@color/black_high_emphasis"
-                android:textSize="20sp"
                 android:layout_marginTop="24dp"
                 android:layout_marginStart="24dp" />
 
@@ -258,8 +256,6 @@
                 android:id="@+id/tv_crew_history"
                 style="@style/header_text"
                 android:text="종료된 챌린지 크루"
-                android:textColor="@color/black_high_emphasis"
-                android:textSize="20sp"
                 android:layout_marginTop="48dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginBottom="24dp"/>

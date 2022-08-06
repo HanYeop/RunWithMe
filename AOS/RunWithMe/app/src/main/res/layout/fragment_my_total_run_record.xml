@@ -26,8 +26,6 @@
                     android:id="@+id/tv_achievement"
                     style="@style/header_text"
                     android:text="총 기록"
-                    android:textColor="@color/black_high_emphasis"
-                    android:textSize="18sp"
                     android:layout_marginTop="32dp"
                     android:layout_marginStart="24dp" />
 
@@ -227,27 +225,25 @@
                     android:backgroundTint="@color/white"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="4dp"
-                    android:layout_margin="16dp">
+                    android:layout_margin="20dp">
 
                     <TextView
                         android:id="@+id/tv_practice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
-                        android:textSize="18sp"
-                        android:fontFamily="@font/noto_sans_bold"
+                        android:textSize="16sp"
                         android:textColor="@color/main_black"
                         android:paddingStart="20dp"
-                        android:paddingTop="10dp"
                         android:paddingEnd="10dp"
-                        android:paddingBottom="10dp"
+                        android:paddingVertical="10dp"
                         android:text="연습 기록"/>
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
+                    android:layout_margin="20dp"
                     android:backgroundTint="@color/white"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="4dp">
@@ -289,7 +285,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/noto_sans_bold"
                                     android:textColor="@color/white"
-                                    android:textSize="20dp"
+                                    android:textSize="18dp"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toStartOf="@id/image_next_month"
                                     app:layout_constraintStart_toEndOf="@id/image_previous_month"
