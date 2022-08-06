@@ -77,7 +77,7 @@ public class CrewActivityRunDslRepositoryImpl implements CrewActivityRunDslRepos
 			builder.and(qRunRecordEntity.runRecordSeq.lt(condition.getMaxRunRecordSeq()));
 		}
 
-		JPAQuery<RunRecordEntity> jpaQuery = factory.selectFrom(qRunRecordEntity).innerJoin(qUser).innerJoin(qCrew)
+		JPAQuery<RunRecordEntity> jpaQuery = factory.selectFrom(qRunRecordEntity).innerJoin(qUser).innerJoin(qCrew).fetchJoin()
 				.innerJoin(qImage).where(builder)
 				.orderBy(qRunRecordEntity.runRecordSeq.desc(), qRunRecordEntity.runRecordRegTime.desc());
 

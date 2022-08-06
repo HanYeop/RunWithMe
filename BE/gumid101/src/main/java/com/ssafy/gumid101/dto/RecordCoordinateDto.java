@@ -7,5 +7,5 @@ public class RecordCoordinateDto {
 
 	private Long coordinateSeq;
 	private double latitude;
-	private double longtitude;
+	private double longitude;
 }
