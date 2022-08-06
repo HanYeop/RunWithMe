@@ -23,9 +23,9 @@ class Oauth2Repository @Inject constructor(
         emit(Result.Error(e))
     }
 
-    fun naverLogin(code: String): Flow<Result<OauthResponse>> = flow {
+    fun naverLogin(code: String, email: String): Flow<Result<OauthResponse>> = flow {
         emit(Result.Loading)
-        oauth2RemoteDataSource.naverLogin(code).collect {
+        oauth2RemoteDataSource.naverLogin(code, email).collect {
             emit(Result.Success(it))
         }
     }.catch { e ->

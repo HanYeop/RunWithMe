@@ -88,9 +88,9 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun naverLogin(code: String){
+    fun naverLogin(code: String, email: String){
         viewModelScope.launch(Dispatchers.IO){
-            oauth2Repository.naverLogin(code).collectLatest {
+            oauth2Repository.naverLogin(code, email).collectLatest {
                 if(it is Result.Success) {
                     // 등록 되지 않은 사용자 회원 가입
                     if (!it.data.isRegistered) {

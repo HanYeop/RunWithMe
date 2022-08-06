@@ -205,7 +205,7 @@ class UserLoginFragment : BaseFragment<FragmentUserLoginBinding>(R.layout.fragme
                         Log.d(TAG, "onSuccess: $email")
 
                         Log.d(TAG, "onSuccess: ${NaverIdLoginSDK.getAccessToken()!!}")
-                        userViewModel.naverLogin(NaverIdLoginSDK.getAccessToken()!!)
+                        userViewModel.naverLogin(NaverIdLoginSDK.getAccessToken()!!, email)
                     }
                     override fun onError(errorCode: Int, message: String) {}
                     override fun onFailure(httpStatus: Int, message: String) {}

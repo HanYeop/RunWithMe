@@ -12,7 +12,7 @@ interface Oauth2Api {
     suspend fun googleLogin(@Query("code") code: String): OauthResponse
 
     @GET("login/oauth2/code/naver")
-    suspend fun naverLogin(@Query("code") code: String): OauthResponse
+    suspend fun naverLogin(@Query("code") code: String, @Query("email") email: String): OauthResponse
 
     @GET("login/oauth2/code/kakao")
     suspend fun kakaoLogin(@Query("code") code: String): OauthResponse

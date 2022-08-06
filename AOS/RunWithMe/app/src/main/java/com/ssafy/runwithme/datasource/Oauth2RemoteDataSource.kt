@@ -13,8 +13,8 @@ class Oauth2RemoteDataSource @Inject constructor(
         emit(oauth2Api.googleLogin(code))
     }
 
-    fun naverLogin(code: String): Flow<OauthResponse> = flow {
-        emit(oauth2Api.naverLogin(code))
+    fun naverLogin(code: String, email: String): Flow<OauthResponse> = flow {
+        emit(oauth2Api.naverLogin(code, email))
     }
 
     fun kakaoLogin(code: String): Flow<OauthResponse> = flow {
