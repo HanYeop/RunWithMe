@@ -9,23 +9,75 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/dialog_round"
         android:gravity="center"
         android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/image_recommend"
+            android:layout_width="300dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:src="@drawable/img" />
+        <ImageView
+            android:id="@+id/image_recommend_photo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_baseline_photo_camera_24"
+            app:tint="@color/black_low_emphasis"
+            app:layout_constraintTop_toTopOf="@id/image_recommend"
+            app:layout_constraintBottom_toBottomOf="@id/image_recommend"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(필수)러닝 코스 사진을 등록해주세요."
+            android:textColor="@color/main_grey"
+            app:layout_constraintTop_toBottomOf="@id/image_recommend_photo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <EditText
+            android:id="@+id/et_recommend_content"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:hint="추천 사유를 작성 해주세요."
+            android:maxLines="4"
+            android:maxLength="80"
+            android:layout_margin="16dp"
+            android:padding="8dp"
+            android:background="@drawable/edit_text_round"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_recommend" />
 
         <TextView
             android:id="@+id/tv_hard_point_header"
             style="@style/header_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:text="러닝 난이도"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintTop_toBottomOf="@id/et_recommend_content" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="경사로, 고도 등 난이도는 어땠나요?"
+            android:textColor="@color/main_grey"
+            app:layout_constraintEnd_toEndOf="@+id/tv_hard_point_header"
+            app:layout_constraintStart_toStartOf="@+id/tv_hard_point_header"
+            app:layout_constraintTop_toBottomOf="@+id/tv_hard_point_header" />
         <com.willy.ratingbar.ScaleRatingBar
             android:id="@+id/rating_hard"
             android:layout_width="wrap_content"
@@ -44,7 +96,6 @@
             app:srb_starPadding="2dp"
             app:srb_starWidth="24dp"
             app:srb_stepSize="1">
-
         </com.willy.ratingbar.ScaleRatingBar>
 
         <TextView
@@ -58,7 +109,15 @@
             app:layout_constraintEnd_toEndOf="@+id/rating_hard"
             app:layout_constraintStart_toStartOf="@+id/rating_hard"
             app:layout_constraintTop_toBottomOf="@+id/rating_hard" />
-
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="쓰레기, 유동인구 등 환경은 어땠나요?"
+            app:layout_constraintEnd_toEndOf="@+id/tv_environment_point_header"
+            app:layout_constraintStart_toStartOf="@+id/tv_environment_point_header"
+            app:layout_constraintTop_toBottomOf="@+id/tv_environment_point_header" />
         <com.willy.ratingbar.ScaleRatingBar
             android:id="@+id/rating_environment"
             android:layout_width="wrap_content"
@@ -77,7 +136,6 @@
             app:srb_starPadding="2dp"
             app:srb_starWidth="24dp"
             app:srb_stepSize="1">
-
         </com.willy.ratingbar.ScaleRatingBar>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -96,9 +154,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_recommend"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rating_environment" />
-
+            app:layout_constraintStart_toStartOf="parent" />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_recommend"
             style="@style/header_text"
@@ -115,30 +171,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btn_cancel"
-            app:layout_constraintTop_toBottomOf="@+id/rating_environment" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="경사로, 고도 등 난이도는 어땠나요?"
-            android:textColor="@color/main_grey"
-            app:layout_constraintEnd_toEndOf="@+id/tv_hard_point_header"
-            app:layout_constraintStart_toStartOf="@+id/tv_hard_point_header"
-            app:layout_constraintTop_toBottomOf="@+id/tv_hard_point_header" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="쓰레기, 유동인구 등 환경은 어땠나요?"
-            app:layout_constraintEnd_toEndOf="@+id/tv_environment_point_header"
-            app:layout_constraintStart_toStartOf="@+id/tv_environment_point_header"
-            app:layout_constraintTop_toBottomOf="@+id/tv_environment_point_header" />
-
+            app:layout_constraintStart_toEndOf="@+id/btn_cancel" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
