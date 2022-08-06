@@ -29,6 +29,8 @@ import com.ssafy.runwithme.view.running.RunningActivity
 import com.ssafy.runwithme.view.running.RunningViewModel
 import com.ssafy.runwithme.view.running.result.achievement.AchievementDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -246,7 +248,18 @@ class RunningResultActivity : BaseActivity<ActivityRunningResultBinding>(R.layou
     private val createRecommendListener = object: CreateRecommendListener {
         override fun onBtnOkClicked(environmentPoint: Int, hardPoint: Int) {
             recommendViewModel.createRecommend(environmentPoint, hardPoint, runRecordSeq)
-            loadingDialog.show()
+            loading()
+        }
+    }
+
+    private fun loading(){
+        loadingDialog.show()
+        // 로딩이 진행되지 않았을 경우
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(2000)
+            if(loadingDialog.isShowing){
+                loadingDialog.dismiss()
+            }
         }
     }
 

@@ -23,6 +23,10 @@ import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.view.loading.LoadingDialog
 import com.ssafy.runwithme.view.my_page.MyPageViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -85,8 +89,19 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
                         ),
                         imgFile
                     )
-                    loadingDialog.show()
+                    loading()
                 }
+            }
+        }
+    }
+
+    private fun loading(){
+        loadingDialog.show()
+        // 로딩이 진행되지 않았을 경우
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(2000)
+            if(loadingDialog.isShowing){
+                loadingDialog.dismiss()
             }
         }
     }
