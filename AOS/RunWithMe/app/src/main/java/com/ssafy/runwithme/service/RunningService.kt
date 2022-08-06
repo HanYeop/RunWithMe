@@ -107,6 +107,7 @@ class RunningService : LifecycleService() {
         pathPoints.postValue(mutableListOf())
         timeRunInSeconds.postValue(0L)
         timeRunInMillis.postValue(0L)
+        sumDistance.postValue(0f)
     }
 
     override fun onCreate() {
