@@ -108,7 +108,7 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
         endCalendar.time = end
 
         binding.apply {
-            imgResult.imageFormatter(runRecordDto!!.runImageSeq)
+//            imgResult.imageFormatter(runRecordDto!!.runImageSeq)
             tvSpeed.text = "${round(runRecordDto!!.runRecordRunningAvgSpeed * 10.0) / 10.0} km/h"
             tvCalorie.text = "${runRecordDto!!.runRecordRunningCalorie} kcal"
             tvTime.text = "${(runRecordDto!!.runRecordRunningTime / 60)} : $second"
