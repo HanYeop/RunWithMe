@@ -1,6 +1,7 @@
 package com.ssafy.gumid101.user;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -16,12 +17,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.gumid101.achievement.AchievementService;
 import com.ssafy.gumid101.customexception.DuplicateException;
-import com.ssafy.gumid101.dto.ImageFileDto;
+import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.jwt.JwtProperties;
 import com.ssafy.gumid101.jwt.JwtUtilsService;
 import com.ssafy.gumid101.redis.RedisService;
+import com.ssafy.gumid101.res.AchieveCompleteDto;
+import com.ssafy.gumid101.res.OtherUserFileDto;
 import com.ssafy.gumid101.res.ResponseFrame;
 import com.ssafy.gumid101.res.UserFileDto;
 import com.ssafy.gumid101.util.Nickname;
@@ -42,6 +46,7 @@ public class UserRestController {
 
 	private final JwtUtilsService jwtUtilService;
 	private final UserService userService;
+	private final AchievementService acServ;
 	private final RedisService redisServ;
 	
 	private UserDto loadUserFromToken() {
@@ -137,17 +142,32 @@ public class UserRestController {
 	}
 	
 	@ApiOperation(value = "다른 유저 회원 정보 조회 (일단 만들어놓고 추후 협의로 어떤정보 줄지 결정)")
-	@GetMapping("/profile/{userNickName}")
-	public ResponseEntity<?> getUserProfile(@PathVariable String userNickName) throws Exception {
+	@GetMapping("/profile/{userSeq}")
+	public ResponseEntity<?> getUserProfile(@PathVariable Long userSeq) throws Exception {
 
-		UserFileDto resUserDto = userService.getUserProfileByNickname(userNickName);
+		UserDto userDto = loadUserFromToken();
+
+		UserFileDto resUserDto = userService.getUserFileDtoById(userSeq);
+		if (userDto.getUserSeq() != userSeq) {
+			resUserDto.getUser().setFcmToken(null);
+			resUserDto.getUser().setEmail(null);
+			resUserDto.getUser().setRole(null);
+		}
+		CrewTotalRecordDto ctrDto = userService.getMyTotalRecord(userSeq);
+		List<AchieveCompleteDto> acDto = acServ.getUserAchievement(userSeq);
 		
-		ResponseFrame<UserFileDto> resFrame = new ResponseFrame<UserFileDto>();
-		resFrame.setCount(resUserDto == null ? 0 : 1);
-		resFrame.setSuccess(resUserDto == null ? false : true);
-		resFrame.setMsg("회원의 정보를 반환합니다.");
-		resFrame.setData(resUserDto);
-		return new ResponseEntity<>(resFrame, resUserDto != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+		ResponseFrame<OtherUserFileDto> resFrame = new ResponseFrame<>();
+		OtherUserFileDto oufDto = OtherUserFileDto.builder()
+				.user(resUserDto.getUser())
+				.imgFile(resUserDto.getImgFileDto())
+				.totalRecord(ctrDto)
+				.achieveList(acDto)
+				.build();
+		resFrame.setCount(1);
+		resFrame.setSuccess(true);
+		resFrame.setMsg("요청한 회원의 정보를 반환합니다.");
+		resFrame.setData(oufDto);
+		return new ResponseEntity<>(resFrame, HttpStatus.OK);
 	}
 	
 	@ApiOperation("fcm 토큰 설정")

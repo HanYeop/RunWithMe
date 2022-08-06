@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class MyAchieveCompleteDto {
+public class AchieveCompleteDto {
 	private final AchievementDto achievementDto;
 	private final LocalDateTime regTime;
 }

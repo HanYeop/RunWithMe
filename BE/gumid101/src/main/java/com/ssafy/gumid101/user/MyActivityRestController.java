@@ -66,7 +66,7 @@ public class MyActivityRestController {
 
 		UserDto userDto = loadUserFromToken();
 
-		UserFileDto resUserDto = userService.getUserProfileById(userDto.getUserSeq());
+		UserFileDto resUserDto = userService.getUserFileDtoById(userDto.getUserSeq());
 
 		
 		if(resUserDto.getImgFileDto() == null) {
