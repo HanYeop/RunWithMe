@@ -4,6 +4,4 @@ import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 
 interface MyCurrentCrewListener {
     fun onItemClick(myCurrentCrewResponse : MyCurrentCrewResponse)
-
-    fun onBtnStartClick(myCurrentCrewResponse : MyCurrentCrewResponse)
 }

@@ -54,13 +54,6 @@ class MyCurrentCrewFragment
             val action = MyCurrentCrewFragmentDirections.actionMyCurrentCrewFragmentToCrewDetailFragment(myCurrentCrewResponse.crewDto, myCurrentCrewResponse.imageFileDto)
             findNavController().navigate(action)
         }
-
-        override fun onBtnStartClick(myCurrentCrewResponse: MyCurrentCrewResponse) {
-            runningViewModel.getMyProfile()
-            runningStart(sharedPreferences, myCurrentCrewResponse.crewDto.crewSeq, myCurrentCrewResponse.crewDto.crewName
-                ,myCurrentCrewResponse.crewDto.crewGoalType, myCurrentCrewResponse.crewDto.crewGoalAmount)
-            startActivity(Intent(requireContext(),RunningActivity::class.java))
-        }
     }
 
     private fun initViewModelCallBack(){

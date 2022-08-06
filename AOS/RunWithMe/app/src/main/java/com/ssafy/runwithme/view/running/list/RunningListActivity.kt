@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.*
@@ -27,9 +28,11 @@ import com.ssafy.runwithme.utils.FASTEST_LOCATION_UPDATE_INTERVAL
 import com.ssafy.runwithme.utils.LOCATION_UPDATE_INTERVAL
 import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.utils.TrackingUtility
+import com.ssafy.runwithme.view.running.RunningViewModel
 import com.ssafy.runwithme.view.running.list.sheet.RunningBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.*
@@ -44,6 +47,8 @@ class RunningListActivity : BaseActivity<ActivityRunningListBinding>(R.layout.ac
     private var map: GoogleMap? = null
     private var myLocation = Location("MyLocation")
     private lateinit var currentPosition: LatLng
+
+    private val runningViewModel by viewModels<RunningViewModel>()
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences
@@ -76,6 +81,18 @@ class RunningListActivity : BaseActivity<ActivityRunningListBinding>(R.layout.ac
 
     override fun init() {
         initClickListener()
+
+        initViewModelCallBack()
+
+        runningViewModel.getMyProfile()
+    }
+
+    private fun initViewModelCallBack(){
+        lifecycleScope.launch {
+            runningViewModel.nickname.collectLatest {
+                binding.tvNickName.text = "$it!"
+            }
+        }
     }
 
     // 위치 정보 요청하기

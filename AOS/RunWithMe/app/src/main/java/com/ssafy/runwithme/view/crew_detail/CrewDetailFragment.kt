@@ -65,6 +65,8 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
         initViewModelCallback()
 
         initBarChart()
+
+        runningViewModel.getMyProfile()
     }
 
     private fun initBarChart() {
@@ -282,17 +284,12 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
         }
 
         runningViewModel.runAbleEvent.observe(this){
-            runningViewModel.getMyProfile()
-        }
-
-        runningViewModel.startRunEvent.observe(this){
             runningStart(sharedPref, crewDto.crewSeq, crewDto.crewName
                 ,crewDto.crewGoalType, crewDto.crewGoalAmount)
             findNavController().popBackStack()
             findNavController().popBackStack()
             startActivity(Intent(requireContext(), RunningActivity::class.java))
         }
-
     }
 
     inner class MyAxisFormatter(val dateList: ArrayList<String>) : ValueFormatter() {

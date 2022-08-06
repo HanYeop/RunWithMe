@@ -80,10 +80,6 @@ class RunningBottomSheet(context: Context, private val sharedPreferences: Shared
         }
 
         runningViewModel.runAbleEvent.observe(this){
-            runningViewModel.getMyProfile()
-        }
-
-        runningViewModel.startRunEvent.observe(this){
             runningStart(sharedPreferences, myCurrentInfo.crewDto.crewSeq, myCurrentInfo.crewDto.crewName
                 ,myCurrentInfo.crewDto.crewGoalType, myCurrentInfo.crewDto.crewGoalAmount)
             startActivity(Intent(requireContext(), RunningActivity::class.java))

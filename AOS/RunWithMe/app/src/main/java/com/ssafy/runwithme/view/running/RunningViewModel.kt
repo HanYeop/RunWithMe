@@ -57,12 +57,12 @@ class RunningViewModel @Inject constructor(
     private val _runAbleEvent = SingleLiveEvent<String>()
     val runAbleEvent get() = _runAbleEvent
 
-    private val _startRunEvent = SingleLiveEvent<String>()
-    val startRunEvent get() = _startRunEvent
-
     private val _localRunList: MutableStateFlow<List<RunRecordEntity>>
             = MutableStateFlow(listOf())
     val localRunList get() = _localRunList.asStateFlow()
+
+    private val _nickName = MutableStateFlow("")
+    val nickname get() = _nickName.asStateFlow()
 
     fun createRunRecord(crewId: Int, imgFile: MultipartBody.Part, runRecordDto: RunRecordDto){
         val json = Gson().toJson(runRecordDto)
@@ -120,7 +120,7 @@ class RunningViewModel @Inject constructor(
                 if(it is Result.Success){
                     sharedPreferences.edit().putInt(USER_WEIGHT,it.data.data.userDto.weight).apply()
                     sharedPreferences.edit().putString(USER_NAME, it.data.data.userDto.nickName).apply()
-                    _startRunEvent.postValue("러닝 시작")
+                    _nickName.value = it.data.data.userDto.nickName
                 } else if(it is Result.Error){
 
                 }
