@@ -1,40 +1,41 @@
 package com.ssafy.runwithme.view.create_recommend
 
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.ImageDecoder
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
-import android.os.Bundle
 import android.provider.MediaStore
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.databinding.DataBindingUtil
+import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.ssafy.runwithme.R
-import com.ssafy.runwithme.databinding.DialogCreateRecommendBinding
+import com.ssafy.runwithme.base.BaseFragment
+import com.ssafy.runwithme.databinding.FragmentCreateRecommendBinding
+import com.ssafy.runwithme.view.crew_detail.CrewDetailFragmentArgs
+import com.ssafy.runwithme.view.recommend.RecommendViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
-class CreateRecommendDialog(context: Context, private val listener: CreateRecommendListener): Dialog(context) {
+@AndroidEntryPoint
+class CreateRecommendFragment : BaseFragment<FragmentCreateRecommendBinding>(R.layout.fragment_create_recommend) {
 
-    private lateinit var binding: DialogCreateRecommendBinding
+    private val recommendViewModel by activityViewModels<RecommendViewModel>()
+    private val args by navArgs<CreateRecommendFragmentArgs>()
 
-    @SuppressLint("ResourceType")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private var imgFile : MultipartBody.Part? = null
+    private var runRecordSeq = 0
 
-        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_create_recommend, null, false)
-        setContentView(binding.root)
-
-        // 배경 투명하게 바꿔줌
-        window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        // 전체화면
-        window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+    override fun init() {
+        runRecordSeq = args.runRecordSeq
 
         initClickListener()
     }
@@ -47,12 +48,19 @@ class CreateRecommendDialog(context: Context, private val listener: CreateRecomm
             }
 
             btnCancel.setOnClickListener {
-                dismiss()
+                findNavController().popBackStack()
             }
 
             btnRecommend.setOnClickListener {
-                listener.onBtnOkClicked(binding.ratingEnvironment.rating.toInt(), binding.ratingHard.rating.toInt())
-                dismiss()
+                if(imgFile == null){ // 이미지를 선택 안 할시
+                    showToast("러닝 코스 사진을 업로드 해주세요.")
+                }
+                else if(binding.etRecommendContent.text.isEmpty()){
+                    showToast("추천 사유를 입력 해주세요.")
+                }
+                else {
+                    recommendViewModel.createRecommend(binding.ratingEnvironment.rating.toInt(), binding.ratingHard.rating.toInt(), runRecordSeq)
+                }
             }
         }
     }
@@ -63,10 +71,10 @@ class CreateRecommendDialog(context: Context, private val listener: CreateRecomm
         pickPhotoResult.launch(photoIntent)
     }
 
-    private val pickPhotoResult : ActivityResultLauncher<Intent> = ownerActivity.register registerForActivityResult(
+    private val pickPhotoResult : ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()){
         if(it.resultCode == Activity.RESULT_OK){
-            binding.imageRecommendPhoto.setImageURI(it.data?.data)
+            binding.imageRecommend.setImageURI(it.data?.data)
 
             var bitmap : Bitmap?
             val uri = it.data?.data
@@ -81,5 +89,26 @@ class CreateRecommendDialog(context: Context, private val listener: CreateRecomm
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun createMultiPart(bitmap: Bitmap) {
+        var imageFile: File? = null
+        try {
+            imageFile = createFileFromBitmap(bitmap)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imageFile!!)
+        imgFile = MultipartBody.Part.createFormData("imgFile", imageFile!!.name, requestFile)
+    }
+
+    @Throws(IOException::class)
+    private fun createFileFromBitmap(bitmap: Bitmap): File? {
+        val newFile = File(requireActivity().filesDir, "profile_${System.currentTimeMillis()}")
+        val fileOutputStream = FileOutputStream(newFile)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 40, fileOutputStream)
+        fileOutputStream.close()
+        return newFile
     }
 }
