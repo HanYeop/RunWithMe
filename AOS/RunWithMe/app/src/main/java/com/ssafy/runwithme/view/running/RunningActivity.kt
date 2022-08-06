@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -26,7 +25,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 import kotlin.math.round
 
@@ -78,6 +76,11 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
                 // 알림 클릭 등으로 다시 생성되었을 때 경로 표시
                 addAllPolylines()
                 moveCameraToUser()
+                sumDistance = RunningService.sumDistance.value!!
+                // 프로그래스바 진행도 변경
+                if(sumDistance > 0 && type == GOAL_TYPE_DISTANCE){
+                    binding.arcProgress.progress = if ((sumDistance / (goal / 100)).toInt() >= 100) 100 else (sumDistance / (goal / 100)).toInt()
+                }
             }
             tvCrewName.text = sharedPref.getString(RUN_RECORD_CREW_NAME,"크루")
         }
@@ -94,7 +97,15 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         }
 
         // 거리 텍스트 변경
-        sumDistance = updateDistance()
+        RunningService.sumDistance.observe(this){
+            sumDistance = it
+            changeDistanceText()
+
+            // 프로그래스바 진행도 변경
+            if(sumDistance > 0 && type == GOAL_TYPE_DISTANCE){
+                binding.arcProgress.progress = if ((sumDistance / (goal / 100)).toInt() >= 100) 100 else (sumDistance / (goal / 100)).toInt()
+            }
+        }
 
         changeDistanceText()
 
@@ -218,54 +229,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
                 .add(lastLatLng)
 
             map?.addPolyline(polylineOptions)
-
-            // 이동거리 계산
-            val result = FloatArray(1)
-            Location.distanceBetween(
-                preLastLatLng.latitude,
-                preLastLatLng.longitude,
-                lastLatLng.latitude,
-                lastLatLng.longitude,
-                result
-            )
-            sumDistance += result[0]
-
-            // 프로그래스바 진행도 변경
-            if(sumDistance > 0 && type == GOAL_TYPE_DISTANCE){
-                binding.arcProgress.progress = if ((sumDistance / (goal / 100)).toInt() >= 100) 100 else (sumDistance / (goal / 100)).toInt()
-            }
-
-            Log.d(TAG, "addLatestPolyline: ${(sumDistance / (goal / 100) ).toInt()} $sumDistance $goal")
         }
-    }
-
-    // 총 이동거리
-    private fun updateDistance() : Float{
-        var distanceInMeters = 0f
-        for (polyline in pathPoints) {
-            distanceInMeters += calculatePolylineLength(polyline)
-        }
-        return distanceInMeters
-    }
-
-    // 총 이동거리 계산
-    private fun calculatePolylineLength(polyline: Polyline): Float {
-        var distance = 0f
-        // 두 경로 사이마다 거리를 계산하여 합함
-        for (i in 0 until polyline.size - 1) {
-            val pos1 = polyline[i]
-            val pos2 = polyline[i + 1]
-            val result = FloatArray(1)
-            Location.distanceBetween(
-                pos1.latitude,
-                pos1.longitude,
-                pos2.latitude,
-                pos2.longitude,
-                result
-            )
-            distance += result[0]
-        }
-        return distance
     }
 
     private fun firstStart(){
@@ -399,14 +363,6 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         // 백그라운드 상태에서 돌아왔을 때 경로 표시
         addAllPolylines()
         moveCameraToUser()
-
-        // 거리 텍스트 동기화
-        sumDistance = updateDistance()
-        if(type == GOAL_TYPE_TIME) {
-            binding.tvSubRecord.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
-        }else{
-            binding.tvMainRecord.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
-        }
 
         // 칼로리 소모량 체크
         caloriesBurned = round((sumDistance / 1000f) * weight).toInt()

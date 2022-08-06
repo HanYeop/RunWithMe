@@ -21,6 +21,7 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.PolylineOptions
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.utils.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,6 +64,9 @@ class RunningService : LifecycleService() {
     private var totalTime = 0L // 정지 시 저장되는 시간
     private var timeStarted = 0L // 측정 시작된 시간
     private var lastSecondTimestamp = 0L // 1초 단위 체크를 위함
+    
+    // 러닝을 시작하거나 다시 시작한 시간
+    private var startTime = 0L
 
 
     companion object{
@@ -70,6 +74,7 @@ class RunningService : LifecycleService() {
         val pathPoints = MutableLiveData<Polylines>() // LatLng = 위도,경도
         val timeRunInMillis = MutableLiveData<Long>() // 뷰에 표시될 시간
         var isFirstRun = false // 처음 실행 여부 (false = 실행되지않음)
+        val sumDistance = MutableLiveData<Float>(0f)
     }
 
     private fun initTextToSpeech() {
@@ -202,6 +207,52 @@ class RunningService : LifecycleService() {
             pathPoints.value?.apply {
                 last().add(pos)
                 pathPoints.postValue(this)
+                distancePolyline()
+            }
+        }
+    }
+
+//    private var test = 0f
+
+    // 거리 표시 (마지막 전, 마지막 경로 차이 비교)
+    private fun distancePolyline(){
+        if(pathPoints.value!!.isNotEmpty() && pathPoints.value!!.last().size > 1){
+            val preLastLatLng = pathPoints.value!!.last()[pathPoints.value!!.last().size - 2] // 마지막 전 경로
+            val lastLatLng = pathPoints.value!!.last().last() // 마지막 경로
+
+            // 이동거리 계산
+            val result = FloatArray(1)
+            Location.distanceBetween(
+                preLastLatLng.latitude,
+                preLastLatLng.longitude,
+                lastLatLng.latitude,
+                lastLatLng.longitude,
+                result
+            )
+
+            // 비동기
+            sumDistance.postValue(sumDistance.value!!.plus(result[0]))
+
+//            test += result[0]
+//            // 테스트
+//            if(test > 100){
+//                ttsSpeak("100m 이동")
+//                test /= 100
+//            }
+
+            Log.d(TAG, "distancePolyline: ${result[0]}")
+
+            // 5초 이상 이동했는데 이동거리가 3m 이하인 경우 정지
+            if(result[0] < 3 && (System.currentTimeMillis() - startTime) > 5000L) {
+                ttsSpeak("이동이 없어 러닝이 일시 중지되었습니다.")
+                pauseService()
+            }
+
+            // 5초 이상 이동했는데 이동거리가 200m 이상인 경우 정지
+            if(result[0] > 200 && (System.currentTimeMillis() - startTime) > 5000L) {
+                Log.d(TAG, "distancePolyline: ???????????")
+                ttsSpeak("비정상적인 이동이 감지되어 러닝이 일시 중지되었습니다.")
+                pauseService()
             }
         }
     }
@@ -247,7 +298,6 @@ class RunningService : LifecycleService() {
                 // 시작, 재개 되었을 때
                 ACTION_START_OR_RESUME_SERVICE ->{
                     if(!isFirstRun){
-                        Log.d(TAG, "시작함 ")
                         startForegroundService()
                         isFirstRun = true
                         CoroutineScope(Dispatchers.Main).launch {
@@ -255,20 +305,18 @@ class RunningService : LifecycleService() {
                             ttsSpeak("러닝을 시작합니다.")
                         }
                     }else{
-                        Log.d(TAG, "실행중 ")
                         startTimer()
                         ttsSpeak("러닝을 다시 시작합니다.")
                     }
+                    startTime = System.currentTimeMillis()
                 }
                 // 중지 되었을 때
                 ACTION_PAUSE_SERVICE ->{
-                    Log.d(TAG, "중지 ")
                     ttsSpeak("러닝이 일시 중지되었습니다.")
                     pauseService()
                 }
                 // 종료 되었을 때
                 ACTION_STOP_SERVICE ->{
-                    Log.d(TAG, "종료 ")
                     ttsSpeak("러닝이 종료되었습니다.")
                     killService()
                 }
@@ -280,10 +328,6 @@ class RunningService : LifecycleService() {
             }
         }
         return super.onStartCommand(intent, flags, startId)
-    }
-
-    private fun timerTTS(){
-        ttsSpeak("테스트 중입니다. 안녕하세요")
     }
 
     // 서비스 정지
