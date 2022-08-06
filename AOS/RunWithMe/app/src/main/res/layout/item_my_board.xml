@@ -13,9 +13,8 @@
         android:id="@+id/card_my_board"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/header_margin"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="@dimen/header_margin"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="20dp"
         app:cardCornerRadius="6dp"
         app:cardElevation="1dp">
 
