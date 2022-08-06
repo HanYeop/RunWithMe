@@ -64,7 +64,8 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
                 findNavController().popBackStack()
             }
             btnRecommend.setOnClickListener {
-//                CreateRecommendDialog(requireContext(), createRecommendListener).show()
+                val action = RunRecordDetailFragmentDirections.actionRunRecordDetailFragmentToCreateRecommendFragment2(runRecordDto!!.runRecordSeq)
+                findNavController().navigate(action)
             }
         }
     }

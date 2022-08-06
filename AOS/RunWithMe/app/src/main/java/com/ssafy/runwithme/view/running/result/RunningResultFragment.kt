@@ -189,7 +189,8 @@ class RunningResultFragment : BaseFragment<FragmentRunningResultBinding>(R.layou
                 requireActivity().finish()
             }
             btnRecommend.setOnClickListener {
-//                CreateRecommendDialog(requireContext(), createRecommendListener).show()
+                val action = RunningResultFragmentDirections.actionRunningResultFragmentToCreateRecommendFragment(runRecordSeq)
+                findNavController().navigate(action)
             }
             btnRoute.setOnClickListener {
                 findNavController().navigate(R.id.action_runningResultFragment_to_runningRouteFragment)

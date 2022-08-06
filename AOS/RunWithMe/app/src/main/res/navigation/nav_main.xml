@@ -232,6 +232,9 @@
         <argument
             android:name="runrecorddto"
             app:argType="com.ssafy.runwithme.model.dto.RunRecordDto" />
+        <action
+            android:id="@+id/action_runRecordDetailFragment_to_createRecommendFragment2"
+            app:destination="@id/createRecommendFragment2" />
     </fragment>
     <fragment
         android:id="@+id/othersFragment"
@@ -253,4 +256,12 @@
         android:name="com.ssafy.runwithme.view.my_page.tab.total_record.local_run.PracticeListFragment"
         android:label="PracticeListFragment"
         tools:layout="@layout/fragment_practice_list"/>
+    <fragment
+        android:id="@+id/createRecommendFragment2"
+        android:name="com.ssafy.runwithme.view.create_recommend.CreateRecommendFragment"
+        android:label="CreateRecommendFragment" >
+        <argument
+            android:name="runRecordSeq"
+            app:argType="integer" />
+    </fragment>
 </navigation>

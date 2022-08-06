@@ -4,18 +4,20 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
+import android.opengl.Visibility
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
+import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentCreateRecommendBinding
-import com.ssafy.runwithme.view.crew_detail.CrewDetailFragmentArgs
+import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.view.recommend.RecommendViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -29,13 +31,14 @@ import java.io.IOException
 class CreateRecommendFragment : BaseFragment<FragmentCreateRecommendBinding>(R.layout.fragment_create_recommend) {
 
     private val recommendViewModel by activityViewModels<RecommendViewModel>()
-//    private val args by navArgs<CreateRecommendFragmentArgs>()
+    private val args by navArgs<CreateRecommendFragmentArgs>()
 
     private var imgFile : MultipartBody.Part? = null
     private var runRecordSeq = 0
 
     override fun init() {
-//        runRecordSeq = args.runRecordSeq
+        runRecordSeq = args.runRecordSeq
+        Log.d(TAG, "init: $runRecordSeq")
 
         initClickListener()
     }
@@ -45,6 +48,9 @@ class CreateRecommendFragment : BaseFragment<FragmentCreateRecommendBinding>(R.l
             // 프로필 이미지 변경 아이콘 클릭
             imageRecommendPhoto.setOnClickListener {
                 pickPhotoGallery()
+
+                binding.imageRecommendPhoto.visibility = View.GONE
+                binding.tvImageText.visibility = View.GONE
             }
 
             btnCancel.setOnClickListener {

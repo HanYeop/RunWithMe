@@ -13,10 +13,21 @@
         <action
             android:id="@+id/action_runningResultFragment_to_runningRouteFragment"
             app:destination="@id/runningRouteFragment" />
+        <action
+            android:id="@+id/action_runningResultFragment_to_createRecommendFragment"
+            app:destination="@id/createRecommendFragment" />
     </fragment>
     <fragment
         android:id="@+id/runningRouteFragment"
         android:name="com.ssafy.runwithme.view.route_detail.RunningRouteFragment"
         android:label="fragment_running_route"
         tools:layout="@layout/fragment_running_route" />
+    <fragment
+        android:id="@+id/createRecommendFragment"
+        android:name="com.ssafy.runwithme.view.create_recommend.CreateRecommendFragment"
+        android:label="CreateRecommendFragment" >
+        <argument
+            android:name="runRecordSeq"
+            app:argType="integer" />
+    </fragment>
 </navigation>

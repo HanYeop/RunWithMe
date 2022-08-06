@@ -36,6 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
         <TextView
+            android:id="@+id/tv_image_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="(필수)러닝 코스 사진을 등록해주세요."
