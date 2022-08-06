@@ -70,17 +70,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserFileDto getUserProfileById(Long id) throws Exception {
+	public UserFileDto getUserFileDtoById(Long userSeq) throws Exception {
 
-		UserEntity user = userRepo.findById(id).orElse(null);
+		UserEntity userEntity = userRepo.findById(userSeq)
+				.orElseThrow(() -> new NotFoundUserException("해당 유저를 찾을 수 없습니다."));
 		
-		ImageFileDto imgDto =  ImageFileDto.of( user.getImageFile());
+		ImageFileDto imgDto =  ImageFileDto.of(userEntity.getImageFile());
 		
 		
-		UserDto userDto = null;
-		if (user != null) {
-			userDto = UserDto.of(user);
-		}
+		UserDto userDto = UserDto.of(userEntity);
 
 		return new UserFileDto(userDto,imgDto);
 	}
