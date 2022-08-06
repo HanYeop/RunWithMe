@@ -109,9 +109,12 @@ public class UserEntity {
 	
 	@OneToMany(mappedBy = "userReporterEntity")
 	private List<ReportEntity> reportEntitys;
-	
+
 	@OneToMany(mappedBy = "userEntity")
 	private List<QuestionEntity> questionEntitys;
+	
+	@OneToMany(mappedBy = "userEntity")
+	private List<ScrapEntity> scrapEntitys;
 	
 	
 
