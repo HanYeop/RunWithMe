@@ -13,6 +13,7 @@ import com.ssafy.gumid101.customexception.DuplicateException;
 import com.ssafy.gumid101.customexception.IllegalParameterException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
 import com.ssafy.gumid101.customexception.PasswrodNotMatchException;
+import com.ssafy.gumid101.customexception.RequestAlreadyProcessingException;
 import com.ssafy.gumid101.customexception.ThirdPartyException;
 import com.ssafy.gumid101.res.ResponseFrame;
 
@@ -27,6 +28,12 @@ public class TotalRestControllerAdvice {
 
 	@ExceptionHandler(CrewPermissonDeniedException.class)
 	public ResponseEntity<?> crewPermisionDnieHandler(CrewPermissonDeniedException nue) {
+
+		return new ResponseEntity<>(ResponseFrame.of(false, nue.getMessage()), HttpStatus.OK);
+	}
+	
+	@ExceptionHandler(RequestAlreadyProcessingException.class)
+	public ResponseEntity<?> duplicationRequestDenyHandler(RequestAlreadyProcessingException nue) {
 
 		return new ResponseEntity<>(ResponseFrame.of(false, nue.getMessage()), HttpStatus.OK);
 	}
