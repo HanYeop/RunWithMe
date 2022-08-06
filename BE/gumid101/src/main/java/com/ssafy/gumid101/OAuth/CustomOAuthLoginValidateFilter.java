@@ -94,6 +94,8 @@ public class CustomOAuthLoginValidateFilter extends GenericFilterBean {
 			break;
 		case "naver":
 			userMap = naverTokenValidate.validate(idToken);
+			String email =request.getParameter("email");
+			userMap.put("email", email);
 			break;
 		case "kakao":
 			userMap = kakaoTokenValidate.validate(idToken);
