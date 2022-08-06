@@ -90,7 +90,7 @@ public class CrewRestContoller {
 
 	
 
-	@PostMapping(value="/records/{recordseq}/cooldinate")
+	@PostMapping(value="/records/{recordseq}/coordinate")
 	@ApiOperation("런레코드에 좌표값을 등록한다.")
 	public ResponseEntity<?>  recordAddCooldinate(@PathVariable("recordseq") Long recordSeq,@RequestBody List<CoordinateDto> coordinates) throws Exception{
 		
@@ -105,7 +105,7 @@ public class CrewRestContoller {
 		return new ResponseEntity<>(res,HttpStatus.OK);
 	}
 	@ApiOperation("런레코드의 좌표값을 가져온다.")
-	@GetMapping(value = "/records/{recordseq}/cooldinate")
+	@GetMapping(value = "/records/{recordseq}/coordinate")
 	public ResponseEntity<?>  recordAddCooldinate(@PathVariable("recordseq") Long recordSeq) throws Exception{
 		
 		List<RecordCoordinateDto> coordinateDtoList  = crewService.getCoordinateByRunRecordSeq(recordSeq);
