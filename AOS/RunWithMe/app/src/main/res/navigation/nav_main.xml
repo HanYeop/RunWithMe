@@ -309,6 +309,9 @@
         <argument
             android:name="runrecordDto"
             app:argType="com.ssafy.runwithme.model.dto.RunRecordDto" />
+        <argument
+            android:name="trackBoardDto"
+            app:argType="com.ssafy.runwithme.model.dto.TrackBoardDto" />
     </fragment>
     <fragment
         android:id="@+id/myRecommendScrapFragment"
