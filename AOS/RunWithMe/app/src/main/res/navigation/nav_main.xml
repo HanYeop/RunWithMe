@@ -44,8 +44,8 @@
         android:label="RecommendFragment"
         tools:layout="@layout/fragment_recommend">
         <action
-            android:id="@+id/action_RecommendFragment_to_runRecordDetailFragment"
-            app:destination="@id/runRecordDetailFragment" />
+            android:id="@+id/action_RecommendFragment_to_recommendDetailFragment"
+            app:destination="@id/recommendDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/MyPageFragment"
@@ -297,5 +297,14 @@
         <argument
             android:name="timetext"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/recommendDetailFragment"
+        android:name="com.ssafy.runwithme.view.recommend.RecommendDetailFragment"
+        android:label="RecommendDetailFragment"
+        tools:layout="@layout/fragment_recommend_detail">
+        <argument
+            android:name="runrecordDto"
+            app:argType="com.ssafy.runwithme.model.dto.RunRecordDto" />
     </fragment>
 </navigation>

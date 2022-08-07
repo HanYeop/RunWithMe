@@ -20,7 +20,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.ssafy.runwithme.R
-import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.base.BaseFragmentKeep
 import com.ssafy.runwithme.databinding.FragmentRecommendBinding
 import com.ssafy.runwithme.model.dto.RunRecordDto
@@ -28,7 +27,6 @@ import com.ssafy.runwithme.model.response.RecommendResponse
 import com.ssafy.runwithme.utils.FASTEST_LOCATION_UPDATE_INTERVAL
 import com.ssafy.runwithme.utils.LOCATION_UPDATE_INTERVAL
 import com.ssafy.runwithme.utils.TrackingUtility
-import com.ssafy.runwithme.view.my_page.MyPageFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -92,7 +90,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
             }
         }
         binding.cardInfo.setOnClickListener {
-            val action = RecommendFragmentDirections.actionRecommendFragmentToRunRecordDetailFragment(currentRunRecord)
+            val action = RecommendFragmentDirections.actionRecommendFragmentToRecommendDetailFragment(currentRunRecord)
             findNavController().navigate(action)
         }
     }
