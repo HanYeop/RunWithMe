@@ -45,6 +45,17 @@ class TrackingUtility {
                     "${if (milliseconds < 10) "0" else ""}$milliseconds"
         }
 
+        // 타이머 표시 형식 (분,초)
+        fun getFormattedStopWatchTimeSummery(ms: Long): String {
+            var milliseconds = ms
+            val minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds)
+            milliseconds -= TimeUnit.MINUTES.toMillis(minutes)
+            val seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds)
+
+            return "${if (minutes < 10) "0" else ""}$minutes:" +
+                    "${if (seconds < 10) "0" else ""}$seconds"
+        }
+
         // 거리 표시 형식
         fun getFormattedDistance(dis: Float): String {
             val df = DecimalFormat("###0.00")

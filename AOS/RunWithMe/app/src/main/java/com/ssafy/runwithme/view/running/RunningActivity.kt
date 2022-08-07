@@ -77,10 +77,10 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
                 sumDistance = RunningService.sumDistance.value!!
                 // 프로그래스바 진행도 변경
                 if(sumDistance > 0 && type == GOAL_TYPE_DISTANCE){
-                    binding.arcProgress.progress = if ((sumDistance / (goal / 100)).toInt() >= 100) 100 else (sumDistance / (goal / 100)).toInt()
+                    binding.progressBarGoal.progress = if ((sumDistance / (goal / 100)).toInt() >= 100) 100 else (sumDistance / (goal / 100)).toInt()
                 }
             }
-            tvCrewName.text = sharedPref.getString(RUN_RECORD_CREW_NAME,"크루")
+//            tvCrewName.text = sharedPref.getString(RUN_RECORD_CREW_NAME,"크루")
         }
     }
 
@@ -101,44 +101,32 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
 
             // 프로그래스바 진행도 변경
             if(sumDistance > 0 && type == GOAL_TYPE_DISTANCE){
-                binding.arcProgress.progress = if ((sumDistance / (goal / 100)).toInt() >= 100) 100 else (sumDistance / (goal / 100)).toInt()
+                binding.progressBarGoal.progress = if ((sumDistance / (goal / 100)).toInt() >= 100) 100 else (sumDistance / (goal / 100)).toInt()
             }
         }
 
         changeDistanceText()
 
         // 칼로리 텍스트 변경
-        binding.tvCalorie.text = "$caloriesBurned kcal"
+        binding.tvCalorie.text = "$caloriesBurned"
         initLiveData()
     }
 
     private fun changeDistanceText(){
-        if(type == GOAL_TYPE_TIME) {
-            binding.apply {
-                tvSubRecord.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
-                tvSubRecordHeader.text = "이동 거리"
-            }
-        }else{
-            binding.apply {
-                tvMainRecord.text = "${TrackingUtility.getFormattedDistance(sumDistance)}Km"
-                tvMainRecordHeader.text = "이동 거리"
-            }
+        binding.apply {
+            tvDistance.text = "${TrackingUtility.getFormattedDistance(sumDistance)}"
         }
     }
 
     private fun changeTimeText(time: String){
-        if(type == GOAL_TYPE_TIME) {
-            binding.apply {
-                tvMainRecord.text = time
-                tvMainRecordHeader.text = "현재 뛴 시간"
-                tvGoal.text = "${sharedPref.getInt(RUN_GOAL_AMOUNT,10) / 60}분"
+        binding.apply {
+            tvTime.text = time
+            if(type == GOAL_TYPE_TIME) {
+                tvGoalAmount.text = "${sharedPref.getInt(RUN_GOAL_AMOUNT,10) / 60}분"
                 goal = (sharedPref.getInt(RUN_GOAL_AMOUNT,10) * 1000).toLong()
-            }
-        }else{
-            binding.apply {
-                tvSubRecord.text = time
-                tvSubRecordHeader.text = "현재 뛴 시간"
-                tvGoal.text = "${sharedPref.getInt(RUN_GOAL_AMOUNT,1000) / 1000}km"
+
+            }else{
+                tvGoalAmount.text = "${sharedPref.getInt(RUN_GOAL_AMOUNT,1000) / 1000}km"
                 goal = sharedPref.getInt(RUN_GOAL_AMOUNT,1000).toLong()
             }
         }
@@ -164,6 +152,10 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
                     MAP_ZOOM
                 )
             )
+
+            if(binding.mapView.visibility == View.INVISIBLE){
+                binding.mapView.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -197,7 +189,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             // 칼로리 소모량 체크
             caloriesBurned = round((sumDistance / 1000f) * weight).toInt()
             // 칼로리 텍스트 변경
-            binding.tvCalorie.text = "$caloriesBurned kcal"
+            binding.tvCalorie.text = "$caloriesBurned"
 
             changeDistanceText()
         }
@@ -205,12 +197,12 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         // 시간(타이머) 경과 관찰
         RunningService.timeRunInMillis.observe(this) {
             currentTimeInMillis = it
-            val formattedTime = TrackingUtility.getFormattedStopWatchTime(it, false)
+            val formattedTime = TrackingUtility.getFormattedStopWatchTimeSummery(it)
 
             changeTimeText(formattedTime)
 
             // 프로그래스바 진행도 변경
-            if(it > 0 && type == GOAL_TYPE_TIME) binding.arcProgress.progress = if ((it / (goal / 100)).toInt() >= 100) 100 else (it / (goal / 100)).toInt()
+            if(it > 0 && type == GOAL_TYPE_TIME) binding.progressBarGoal.progress = if ((it / (goal / 100)).toInt() >= 100) 100 else (it / (goal / 100)).toInt()
         }
     }
 
@@ -236,9 +228,9 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             runningLoadingDialog.show()
             CoroutineScope(Dispatchers.Main).launch {
                 changeDistanceText()
-                changeTimeText("00:00:00")
-                delay(3000L)
+                changeTimeText("00:00")
                 sendCommandToService(ACTION_SHOW_RUNNING_ACTIVITY)
+                delay(3000L)
                 sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
                 delay(1000L)
                 runningLoadingDialog.dismiss()
@@ -277,18 +269,6 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             imgStop.setOnClickListener {
                 stopRun()
             }
-            tvTabGoal.setOnClickListener {
-                layoutMap.visibility = View.INVISIBLE
-                layoutGoal.visibility = View.VISIBLE
-                tvTabGoal.setTextColor(resources.getColor(R.color.main_purple))
-                tvTabMap.setTextColor(resources.getColor(R.color.black))
-            }
-            tvTabMap.setOnClickListener {
-                layoutMap.visibility = View.VISIBLE
-                layoutGoal.visibility = View.INVISIBLE
-                tvTabGoal.setTextColor(resources.getColor(R.color.black))
-                tvTabMap.setTextColor(resources.getColor(R.color.main_purple))
-            }
         }
     }
 
@@ -317,8 +297,6 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
     private fun endRunAndSaveToDB() {
         val dialog = LoadingDialog(this@RunningActivity)
 
-        binding.layoutMap.visibility = View.VISIBLE
-        binding.layoutGoal.visibility = View.INVISIBLE
         CoroutineScope(Dispatchers.Main).launch {
             runRecordEndTime = System.currentTimeMillis()
             runRecordRunningAvgSpeed = (round((sumDistance / 1000f) / (currentTimeInMillis / 1000f / 60 / 60) * 10) / 10f)
@@ -344,7 +322,6 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             startActivity(Intent(this@RunningActivity, RunningResultActivity::class.java))
             finish()
         }
-//        finish()
     }
 
     // 서비스에게 명령을 전달함

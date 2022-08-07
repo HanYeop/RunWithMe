@@ -67,7 +67,7 @@ class RunningListActivity : BaseActivity<ActivityRunningListBinding>(R.layout.ac
                 updateLocation()
 
                 lifecycleScope.launch {
-                    delay(700)
+                    delay(1100)
                     if (binding.progressBarRunningList.visibility == View.VISIBLE) {
                         binding.progressBarRunningList.visibility = View.GONE
                     }

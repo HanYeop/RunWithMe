@@ -12,294 +12,239 @@
         android:layout_height="match_parent"
         tools:context=".view.running.RunningActivity">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_running"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:padding="16dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="14dp"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="2dp"
+            app:layout_constraintBottom_toBottomOf="@+id/mapView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toStartOf="parent">
 
-            <TextView
-                android:id="@+id/tv_tab_goal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/noto_sans_bold"
-                android:includeFontPadding="false"
-                android:gravity="center"
-                android:text="목표"
-                android:textColor="@color/main_purple"
-                android:textSize="24sp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_card_running"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:paddingStart="8dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="16dp">
 
-            <TextView
-                android:id="@+id/tv_tab_map"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/noto_sans_bold"
-                android:includeFontPadding="false"
-                android:textColor="@color/black"
-                android:gravity="center"
-                android:text="지도"
-                android:textSize="24sp" />
-        </LinearLayout>
+                <ProgressBar
+                    android:id="@+id/progress_bar_goal"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressTint="@color/main_purple"
+                    android:scaleY="3"
+                    app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_goal_amount"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_goal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/img_pause"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-            <TextView
-                android:id="@+id/tv_crew_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/noto_sans_bold"
-                android:text="크루 이름 입니다."
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_running"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/header_margin"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="@dimen/header_margin"
-                android:backgroundTint="@color/white"
-                app:cardCornerRadius="6dp"
-                app:cardElevation="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_crew_name">
+                <TextView
+                    android:id="@+id/tv_goal_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans_bold"
+                    android:textColor="@color/main_black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/progress_bar_goal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/progress_bar_goal"
+                    tools:text="30분" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_card_running"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:padding="8dp">
+                    android:id="@+id/constraintLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/bg_lightgrey"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/constraintLayout2"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent">
 
-
-                    <TextView
-                        android:id="@+id/tv_main_record_header"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="현재 뛴 시간"
-                        android:textColor="@color/main_grey"
-                        android:textSize="18sp"
-                        app:layout_constraintEnd_toEndOf="@+id/tv_main_record"
-                        app:layout_constraintStart_toStartOf="@+id/tv_main_record"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_main_record" />
-
-                    <TextView
-                        android:id="@+id/tv_main_record"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/noto_sans_bold"
-                        android:text="00 : 00"
-                        android:textColor="@color/black"
-                        android:textSize="50sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
+                    <ImageView
+                        android:id="@+id/img_distance"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/animation_view"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_marginTop="30dp"
-                        app:layout_constraintEnd_toEndOf="@+id/arc_progress"
-                        app:layout_constraintStart_toStartOf="@+id/arc_progress"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_main_record_header"
-                        app:lottie_autoPlay="true"
-                        app:lottie_fileName="running.json"
-                        app:lottie_loop="true" />
-
-                    <com.github.lzyzsd.circleprogress.ArcProgress
-                        android:id="@+id/arc_progress"
-                        android:layout_width="230dp"
-                        android:layout_height="230dp"
-                        android:layout_marginTop="16dp"
-                        app:arc_angle="270"
-                        app:arc_finished_color="@color/main_purple"
-                        app:arc_max="100"
-                        app:arc_stroke_width="20dp"
-                        app:arc_text_color="@color/main_purple"
-                        app:arc_text_size="30sp"
-                        app:arc_unfinished_color="@color/light_grey"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_main_record_header"
-                        tools:arc_progress="30" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/running_96" />
 
                     <TextView
-                        android:id="@+id/tv_goal_header"
+                        android:id="@+id/tv_distance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="4dp"
                         android:fontFamily="@font/noto_sans_bold"
-                        android:includeFontPadding="false"
-                        android:text="목표"
-                        android:textColor="@color/black"
-                        android:textSize="24sp"
-                        app:layout_constraintEnd_toStartOf="@+id/tv_goal"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/animation_view" />
+                        android:textColor="@color/main_black"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_distance_header"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_distance_header"
+                        app:layout_constraintStart_toStartOf="@+id/tv_distance_header"
+                        app:layout_constraintTop_toBottomOf="@+id/img_distance"
+                        tools:text="10.22" />
 
                     <TextView
-                        android:id="@+id/tv_goal"
+                        android:id="@+id/tv_distance_header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:fontFamily="@font/noto_sans_bold"
-                        android:includeFontPadding="false"
-                        android:text="1분"
-                        android:textColor="@color/black"
-                        android:textSize="24sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_goal_header"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/tv_goal_header"
-                        app:layout_constraintTop_toTopOf="@+id/tv_goal_header" />
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="Km"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_info"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/header_margin"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="@dimen/header_margin"
-                android:backgroundTint="@color/white"
-                app:cardCornerRadius="6dp"
-                app:cardElevation="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_running">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_card_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:padding="8dp">
+                    android:id="@+id/constraintLayout2"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/bg_lightgrey"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/constraintLayout3"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/constraintLayout">
 
-                    <TextView
-                        android:id="@+id/tv_sub_record_header"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="이동 거리"
-                        android:textColor="@color/main_grey"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/tv_sub_record"
-                        app:layout_constraintStart_toStartOf="@+id/tv_sub_record"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_sub_record" />
-
-                    <TextView
-                        android:id="@+id/tv_calorie_header"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="칼로리"
-                        android:textColor="@color/main_grey"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/tv_calorie"
-                        app:layout_constraintStart_toStartOf="@+id/tv_calorie"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_calorie" />
-
-                    <TextView
-                        android:id="@+id/tv_sub_record"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:fontFamily="@font/noto_sans_bold"
-                        android:textColor="@color/black"
-                        android:text="0.0km"
-                        android:textSize="30sp"
+                    <ImageView
+                        android:id="@+id/img_time"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/timer_96" />
+
+                    <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:textColor="@color/main_black"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_time_header"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_time_header"
+                        app:layout_constraintStart_toStartOf="@+id/tv_time_header"
+                        app:layout_constraintTop_toBottomOf="@+id/img_time"
+                        tools:text="00:00" />
+
+                    <TextView
+                        android:id="@+id/tv_time_header"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="시간"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout3"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/bg_lightgrey"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/constraintLayout2">
+
+                    <ImageView
+                        android:id="@+id/img_calorie"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/fire" />
 
                     <TextView
                         android:id="@+id/tv_calorie"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:text="14 kcal"
+                        android:layout_marginBottom="4dp"
                         android:fontFamily="@font/noto_sans_bold"
-                        android:textColor="@color/black"
-                        android:textSize="30sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textColor="@color/main_black"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_calorie_header"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_calorie_header"
+                        app:layout_constraintStart_toStartOf="@+id/tv_calorie_header"
+                        app:layout_constraintTop_toBottomOf="@+id/img_calorie"
+                        tools:text="123" />
+
+                    <TextView
+                        android:id="@+id/tv_calorie_header"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="칼로리"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_map"
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:visibility="invisible"
-            tools:visibility="gone"
+            tools:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/mapView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <ImageButton
+            android:id="@+id/img_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="#00000000"
+            app:layout_constraintBottom_toTopOf="@+id/card_running"
+            app:layout_constraintEnd_toStartOf="@+id/img_stop"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/play_60" />
 
         <ImageButton
             android:id="@+id/img_stop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="40dp"
-            android:background="@drawable/btn_circle_white_color"
-            android:backgroundTint="#00000000"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="16dp"
+            android:background="#00000000"
+            app:layout_constraintBottom_toTopOf="@+id/card_running"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/img_start"
@@ -309,31 +254,13 @@
             android:id="@+id/img_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
-            android:background="@drawable/btn_circle_white_color"
-            android:backgroundTint="#00000000"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="16dp"
+            android:background="#00000000"
+            app:layout_constraintBottom_toTopOf="@+id/card_running"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/pause_60"
-            tools:visibility="visible" />
-
-        <ImageButton
-            android:id="@+id/img_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_circle_white_color"
-            android:backgroundTint="#00000000"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="40dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/img_stop"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/play_60" />
+            app:srcCompat="@drawable/pause_60" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
