@@ -10,7 +10,6 @@ import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentRunRecordDetailBinding
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.utils.USER
-import com.ssafy.runwithme.view.create_recommend.CreateRecommendListener
 import com.ssafy.runwithme.view.loading.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -78,13 +77,6 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
         }
         runRecordDetailViewModel.errorMsgEvent.observe(this){
             showToast(it)
-        }
-    }
-
-    private val createRecommendListener = object: CreateRecommendListener {
-        override fun onBtnOkClicked(environmentPoint: Int, hardPoint: Int) {
-            runRecordDetailViewModel.createRecommend(environmentPoint, hardPoint, runRecordDto!!.runRecordSeq)
-            loading()
         }
     }
 
