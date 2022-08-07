@@ -5,6 +5,7 @@ import com.ssafy.runwithme.datasource.UserRemoteDataSource
 import com.ssafy.runwithme.model.dto.FcmTokenDto
 import com.ssafy.runwithme.model.dto.UserDto
 import com.ssafy.runwithme.model.response.JoinResponse
+import com.ssafy.runwithme.model.response.OtherUserFileDto
 import com.ssafy.runwithme.utils.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -60,4 +61,20 @@ class UserRepository @Inject constructor(
     }.catch { e ->
         emit(Result.Error(e))
     }
+
+    fun getUserProfile(userSeq: Int): Flow<Result<BaseResponse<OtherUserFileDto>>> = flow {
+        emit(Result.Loading)
+        userRemoteDataSource.getUserProfile(userSeq).collect {
+            if(it.success){
+                emit(Result.Success(it))
+            }else if(!it.success){
+                emit(Result.Fail(it))
+            }else{
+                emit(Result.Empty)
+            }
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
+
 }

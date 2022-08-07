@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.runwithme.databinding.ItemCrewRankingBinding
 import com.ssafy.runwithme.model.response.RankingResponse
+import com.ssafy.runwithme.view.crew_detail.ranking.CrewUserRankingListener
 import com.ssafy.runwithme.view.crew_detail.ranking.CrewUserRankingViewModel
 
 
-class CrewUserRankingAdapter(private val crewUserRankingViewModel: CrewUserRankingViewModel) : ListAdapter<RankingResponse, CrewUserRankingAdapter.ViewHolder>(diffUtil){
+class CrewUserRankingAdapter(private val crewUserRankingViewModel: CrewUserRankingViewModel, private val crewUserRankingListener : CrewUserRankingListener) : ListAdapter<RankingResponse, CrewUserRankingAdapter.ViewHolder>(diffUtil){
 
     inner class ViewHolder(private val binding: ItemCrewRankingBinding): RecyclerView.ViewHolder(binding.root){
 
@@ -17,6 +18,9 @@ class CrewUserRankingAdapter(private val crewUserRankingViewModel: CrewUserRanki
             binding.crewUserRankingVM = crewUserRankingViewModel
             binding.crewRank = crewRank
             binding.executePendingBindings()
+            binding.root.setOnClickListener {
+                crewUserRankingListener.onItemClick(getItem(adapterPosition).userSeq)
+            }
         }
     }
 

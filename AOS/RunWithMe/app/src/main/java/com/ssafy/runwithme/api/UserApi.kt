@@ -4,11 +4,9 @@ import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.dto.FcmTokenDto
 import com.ssafy.runwithme.model.dto.UserDto
 import com.ssafy.runwithme.model.response.JoinResponse
+import com.ssafy.runwithme.model.response.OtherUserFileDto
 import com.ssafy.runwithme.utils.JWT
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface UserApi {
 
@@ -25,4 +23,7 @@ interface UserApi {
 
     @DELETE("user/fcm-token")
     suspend fun deleteFcmToken(): BaseResponse<String>
+
+    @GET("user/profile/{userSeq}")
+    suspend fun getUserProfile(@Path("userSeq") userSeq: Int) : BaseResponse<OtherUserFileDto>
 }

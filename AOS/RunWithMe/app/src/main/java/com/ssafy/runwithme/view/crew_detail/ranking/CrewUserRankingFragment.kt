@@ -22,7 +22,7 @@ class CrewUserRankingFragment : BaseFragment<FragmentCrewUserRankingBinding>(R.l
     private lateinit var adapter : CrewUserRankingAdapter
 
     override fun init() {
-        adapter = CrewUserRankingAdapter(crewUserRankingViewModel)
+        adapter = CrewUserRankingAdapter(crewUserRankingViewModel, crewUserRankingListener)
         binding.apply {
             crewUserRankingVM = crewUserRankingViewModel
 
@@ -48,9 +48,6 @@ class CrewUserRankingFragment : BaseFragment<FragmentCrewUserRankingBinding>(R.l
         //initSpinner()
     }
 
-    private fun initSpinner(){
-
-    }
 
     private fun initClickListener() {
         binding.apply {
@@ -59,4 +56,12 @@ class CrewUserRankingFragment : BaseFragment<FragmentCrewUserRankingBinding>(R.l
             }
         }
     }
+
+    private val crewUserRankingListener: CrewUserRankingListener = object: CrewUserRankingListener {
+        override fun onItemClick(userSeq: Int) {
+            val action = CrewUserRankingFragmentDirections.actionCrewUserRankingFragmentToUserDetailFragment(userSeq)
+            findNavController().navigate(action)
+        }
+    }
+
 }

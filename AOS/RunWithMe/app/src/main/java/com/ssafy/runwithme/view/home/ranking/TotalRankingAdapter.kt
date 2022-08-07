@@ -9,7 +9,7 @@ import com.ssafy.runwithme.databinding.ItemTotalUserRankingBinding
 import com.ssafy.runwithme.model.response.RankingResponse
 import com.ssafy.runwithme.view.home.HomeViewModel
 
-class TotalRankingAdapter(private val homeViewModel : HomeViewModel) : ListAdapter<RankingResponse, TotalRankingAdapter.ViewHolder>(diffUtil){
+class TotalRankingAdapter(private val homeViewModel : HomeViewModel, private val totalUserRankingListener: TotalUserRankingListener) : ListAdapter<RankingResponse, TotalRankingAdapter.ViewHolder>(diffUtil){
 
     inner class ViewHolder(private val binding: ItemTotalUserRankingBinding): RecyclerView.ViewHolder(binding.root){
 
@@ -17,6 +17,9 @@ class TotalRankingAdapter(private val homeViewModel : HomeViewModel) : ListAdapt
             binding.homeVM = homeViewModel
             binding.totalRank = totalRank
             binding.executePendingBindings()
+            binding.root.setOnClickListener {
+                totalUserRankingListener.onItemClick(getItem(adapterPosition).userSeq)
+            }
         }
     }
 

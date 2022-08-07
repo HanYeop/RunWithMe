@@ -17,7 +17,7 @@ class TotalUserRankingFragment : BaseFragment<FragmentTotalUserRankingBinding>(R
     override fun init() {
         binding.apply {
             homeVM = homeViewModel
-            totalRankingAdapter = TotalRankingAdapter(homeViewModel)
+            totalRankingAdapter = TotalRankingAdapter(homeViewModel, totalUserRankingListener)
             recyclerTotalUserRanking.adapter = totalRankingAdapter
 
             spinnerTotalUserRanking.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -45,6 +45,13 @@ class TotalUserRankingFragment : BaseFragment<FragmentTotalUserRankingBinding>(R
             toolbar.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
+        }
+    }
+
+    private val totalUserRankingListener: TotalUserRankingListener = object : TotalUserRankingListener {
+        override fun onItemClick(userSeq: Int) {
+            val action = TotalUserRankingFragmentDirections.actionTotalUserRankingFragmentToUserDetailFragment(userSeq)
+            findNavController().navigate(action)
         }
     }
 }

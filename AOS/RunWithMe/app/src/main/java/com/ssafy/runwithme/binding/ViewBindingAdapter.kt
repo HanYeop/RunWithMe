@@ -294,10 +294,23 @@ object ViewBindingAdapter {
         this.text = "$calorie"
     }
 
+    @BindingAdapter("totalCalorieConverter")
+    @JvmStatic
+    fun TextView.setTotalCalorieConverter (calorie: Double){
+        var calorieInt = calorie.toInt()
+        this.text = "$calorieInt kcal"
+    }
+
     @BindingAdapter("speedConverter")
     @JvmStatic
     fun TextView.setSpeedConverter (speed: Double){
         this.text = "${round(speed * 10.0) / 10.0 }"
+    }
+
+    @BindingAdapter("totalSpeedConverter")
+    @JvmStatic
+    fun TextView.setTotalSpeedConverter (speed: Double){
+        this.text = "${round(speed * 10.0) / 10.0 } km/h"
     }
 
     @BindingAdapter("myUserSeq", "board")
@@ -440,19 +453,29 @@ object ViewBindingAdapter {
     @BindingAdapter("totalDistanceConverter")
     @JvmStatic
     fun TextView.setTotalDistanceConverter (distance: Int){
-        this.text = "${round(1.0 * distance / 1000.0 * 100.0) / 100.0} km"
+        this.text = "${round(1.0 * distance / 1000.0 * 10.0) / 10.0} km"
     }
 
     @BindingAdapter("totalTimeConverter")
     @JvmStatic
     fun TextView.setTotalTimeConverter (time: Int){
-        var minute = (time / 60).toString()
+//        var minute = (time / 60).toString()
+//
+//        var hourInt = (time / 3600)
+//        var text = "$minute 분"
+//        if(hourInt != 0){
+//            text = "$hourInt 시 " + text
+//        }
 
-        var hourInt = (time / 3600)
-        var text = "$minute 분"
-        if(hourInt != 0){
-            text = "$hourInt 시 " + text
+        var minuteInt = time / 60
+        var minute = minuteInt.toString()
+        if(minuteInt < 10){
+            minute = "0" + minute
         }
+
+        var hour = (time / 3600).toString()
+
+        text = "$hour : $minute"
         this.text = text
     }
 
