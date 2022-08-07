@@ -467,7 +467,7 @@ object ViewBindingAdapter {
 //            text = "$hourInt 시 " + text
 //        }
 
-        var minuteInt = time / 60
+        var minuteInt = (time % 3600)/ 60
         var minute = minuteInt.toString()
         if(minuteInt < 10){
             minute = "0" + minute

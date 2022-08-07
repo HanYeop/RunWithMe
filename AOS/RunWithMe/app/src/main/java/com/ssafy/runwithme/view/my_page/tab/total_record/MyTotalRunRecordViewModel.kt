@@ -71,7 +71,7 @@ class MyTotalRunRecordViewModel @Inject constructor(
             myActivityRepository.getMyTotalRecord().collectLatest {
                 if(it is Result.Success){
                     var hour = it.data.data.totalTime / 3600
-                    var min = it.data.data.totalTime / 60
+                    var min = (it.data.data.totalTime % 3600) / 60
 
                     _timeMin.value = min.toString()
                     if(min < 10){
