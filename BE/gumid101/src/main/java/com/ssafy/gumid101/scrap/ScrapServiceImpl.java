@@ -11,15 +11,13 @@ import org.springframework.stereotype.Service;
 import com.ssafy.gumid101.customexception.DuplicateException;
 import com.ssafy.gumid101.customexception.IllegalParameterException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
-import com.ssafy.gumid101.dto.ImageFileDto;
-import com.ssafy.gumid101.dto.RunRecordDto;
-import com.ssafy.gumid101.dto.TrackBoardDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.ScrapEntity;
 import com.ssafy.gumid101.entity.TrackBoardEntity;
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.recommend.RecommendRepository;
 import com.ssafy.gumid101.res.ScrapInfoDto;
+import com.ssafy.gumid101.res.TrackBoardFileDto;
 import com.ssafy.gumid101.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -59,10 +57,7 @@ public class ScrapServiceImpl implements ScrapService {
 		return ScrapInfoDto.builder() //
 				.scrapSeq(scrapEntity.getScrapSeq()) //
 				.title(title == null ? "" : title) //
-				.runnerDto(runnerDto) //
-				.trackBoardDto(TrackBoardDto.of(trackBoardEntity)) //
-				.recordDto(RunRecordDto.of(trackBoardEntity.getRunRecordEntity())) //
-				.imageFileDto(ImageFileDto.of(trackBoardEntity.getRunRecordEntity().getImageFile())) //
+				.trackBoardFileDto(TrackBoardFileDto.of(trackBoardEntity)) //
 				.build(); //
 	}
 
@@ -86,18 +81,10 @@ public class ScrapServiceImpl implements ScrapService {
 
 		List<ScrapInfoDto> scrapList = scrapRepo.findByUserEntityAndScrapTitleContaining(userEntity, title).stream()
 				.map((entity) -> {
-					UserDto runnerDto = UserDto.of(entity.getTrackBoardEntity().getRunRecordEntity().getUserEntity());
-					runnerDto.setEmail(null);
-					runnerDto.setRole(null);
-					runnerDto.setFcmToken(null);
 					return ScrapInfoDto.builder() //
 							.scrapSeq(entity.getScrapSeq()) //
 							.title(entity.getScrapTitle()) //
-							.runnerDto(runnerDto) //
-							.trackBoardDto(TrackBoardDto.of(entity.getTrackBoardEntity())) //
-							.recordDto(RunRecordDto.of(entity.getTrackBoardEntity().getRunRecordEntity())) //
-							.imageFileDto(
-									ImageFileDto.of(entity.getTrackBoardEntity().getRunRecordEntity().getImageFile())) //
+							.trackBoardFileDto(TrackBoardFileDto.of(entity.getTrackBoardEntity())) //
 							.build();
 				}).collect(Collectors.toList());
 		return scrapList;

@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ImageDirectory {
 
-	PROFILE("profile"),CREW_LOGO("crewlogo"),RUN_RECORD("runrecord"),CREW_BOARD("crewboard");
+	PROFILE("profile"),CREW_LOGO("crewlogo"),RUN_RECORD("runrecord"),CREW_BOARD("crewboard"),RECOMMEND("recommend");
 	ImageDirectory(String path) {
 		this.path= path;
 		
