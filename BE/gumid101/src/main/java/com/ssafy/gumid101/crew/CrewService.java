@@ -21,7 +21,7 @@ public interface CrewService {
 	RunRecordResultDto insertUserRunRecordAsCrew(Long userSeq, Long crewId, RunRecordDto runRecord, MultipartFile imgFile) throws Exception;
 
 
-	int setRecordCooldinate(Long recordSeq, List<CoordinateDto> cooldinates)throws Exception;
+	int setRecordCoordinate(Long recordSeq, List<CoordinateDto> coordinates)throws Exception;
 
 
 	List<RecordCoordinateDto> getCoordinateByRunRecordSeq(Long recordSeq) throws Exception;

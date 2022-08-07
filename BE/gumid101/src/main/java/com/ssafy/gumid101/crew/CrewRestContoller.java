@@ -92,9 +92,9 @@ public class CrewRestContoller {
 
 	@PostMapping(value="/records/{recordseq}/coordinate")
 	@ApiOperation("런레코드에 좌표값을 등록한다.")
-	public ResponseEntity<?>  recordAddCooldinate(@PathVariable("recordseq") Long recordSeq,@RequestBody List<CoordinateDto> coordinates) throws Exception{
+	public ResponseEntity<?>  recordAddCoordinate(@PathVariable("recordseq") Long recordSeq,@RequestBody List<CoordinateDto> coordinates) throws Exception{
 		
-		int result = crewService.setRecordCooldinate(recordSeq,coordinates);
+		int result = crewService.setRecordCoordinate(recordSeq,coordinates);
 		
 		boolean success =  result == 1 ? true: false;
 		
@@ -106,7 +106,7 @@ public class CrewRestContoller {
 	}
 	@ApiOperation("런레코드의 좌표값을 가져온다.")
 	@GetMapping(value = "/records/{recordseq}/coordinate")
-	public ResponseEntity<?>  recordAddCooldinate(@PathVariable("recordseq") Long recordSeq) throws Exception{
+	public ResponseEntity<?>  recordAddCoordinate(@PathVariable("recordseq") Long recordSeq) throws Exception{
 		
 		List<RecordCoordinateDto> coordinateDtoList  = crewService.getCoordinateByRunRecordSeq(recordSeq);
 
