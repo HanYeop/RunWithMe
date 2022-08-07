@@ -1,32 +1,44 @@
 package com.ssafy.runwithme.view.recommend
 
+import android.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentRecommendDetailBinding
 import com.ssafy.runwithme.model.dto.RunRecordDto
+import com.ssafy.runwithme.model.dto.TrackBoardDto
 import com.ssafy.runwithme.utils.imageFormatter
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class RecommendDetailFragment : BaseFragment<FragmentRecommendDetailBinding>(R.layout.fragment_recommend_detail) {
 
     private val args by navArgs<RecommendDetailFragmentArgs>()
     private var runRecordDto : RunRecordDto? = null
+    private var trackBoardDto : TrackBoardDto? = null
+    private var title = ""
+
+    private val recommendDetailViewModel by viewModels<RecommendDetailViewModel>()
 
     private var isScrapped = false
     private var distanceText = ""
     private var timeText = ""
+    private var currentScrapSeq = 0
 
     override fun init() {
-
         runRecordDto = args.runrecordDto
+        trackBoardDto = args.trackBoardDto
 
         initView()
 
         initClickListener()
+
+        initViewModelCallBack()
     }
 
     private fun initClickListener() {
@@ -36,16 +48,42 @@ class RecommendDetailFragment : BaseFragment<FragmentRecommendDetailBinding>(R.l
             }
 
             imageBookmark.setOnClickListener { // 스크랩 클릭시
+                var dialog = AlertDialog.Builder(requireContext())
+                    .setNegativeButton("취소") { _, _ -> }
                 if(!isScrapped){ // 스크랩 안 되어 있을 때
-                    imageBookmark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.main_purple))
-                    isScrapped = true
                     // 스크랩 추가 로직 구현
+                    dialog.setTitle("해당 코스를 스크랩에 추가하시겠습니까?")
+                        .setPositiveButton("추가") { _, _ ->
+                            recommendDetailViewModel.addMyScrap(trackBoardDto!!.trackBoardSeq, title)
+                        }.show()
                 } else { // 이미 스크랩되어 있을 때
-                    imageBookmark.colorFilter = null
-                    isScrapped = false
                     // 스크랩 삭제 로직 구현
+                    dialog.setTitle("해당 코스를 스크랩에서 삭제하시겠습니까?")
+                        .setPositiveButton("삭제") { _, _ ->
+                            recommendDetailViewModel.deleteMyScrap(currentScrapSeq)
+                        }.show()
                 }
             }
+        }
+    }
+
+    private fun initViewModelCallBack(){
+       recommendDetailViewModel.successMsgEvent.observe(viewLifecycleOwner){
+           isScrapped = !isScrapped
+           if(isScrapped){
+               binding.imageBookmark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.main_purple))
+           } else {
+               binding.imageBookmark.colorFilter = null
+           }
+           showToast(it)
+       }
+
+        recommendDetailViewModel.errorMsgEvent.observe(viewLifecycleOwner){
+            showToast(it)
+        }
+
+        recommendDetailViewModel.currentScrapSeq.observe(viewLifecycleOwner){
+            currentScrapSeq = it
         }
     }
 

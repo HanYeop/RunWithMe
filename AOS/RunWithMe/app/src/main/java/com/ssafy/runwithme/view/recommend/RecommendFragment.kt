@@ -23,6 +23,7 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragmentKeep
 import com.ssafy.runwithme.databinding.FragmentRecommendBinding
 import com.ssafy.runwithme.model.dto.RunRecordDto
+import com.ssafy.runwithme.model.dto.TrackBoardDto
 import com.ssafy.runwithme.model.response.RecommendResponse
 import com.ssafy.runwithme.utils.FASTEST_LOCATION_UPDATE_INTERVAL
 import com.ssafy.runwithme.utils.LOCATION_UPDATE_INTERVAL
@@ -50,6 +51,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private lateinit var currentRunRecord : RunRecordDto
+    private lateinit var currentTrackBoard : TrackBoardDto
 
     // 처음 여부 (true = 아직 처음)
     private var first: Boolean = true
@@ -70,6 +72,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
             p0.showInfoWindow()
 
             currentRunRecord = (p0.tag as RecommendResponse).runRecordDto
+            currentTrackBoard = (p0.tag as RecommendResponse).trackBoardDto
         }
         return true
     }
@@ -90,7 +93,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
             }
         }
         binding.cardInfo.setOnClickListener {
-            val action = RecommendFragmentDirections.actionRecommendFragmentToRecommendDetailFragment(currentRunRecord)
+            val action = RecommendFragmentDirections.actionRecommendFragmentToRecommendDetailFragment(currentRunRecord, currentTrackBoard)
             findNavController().navigate(action)
         }
     }
