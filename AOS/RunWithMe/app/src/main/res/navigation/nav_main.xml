@@ -266,7 +266,8 @@
     <fragment
         android:id="@+id/createRecommendFragment2"
         android:name="com.ssafy.runwithme.view.create_recommend.CreateRecommendFragment"
-        android:label="CreateRecommendFragment" >
+        android:label="CreateRecommendFragment"
+        tools:layout="@layout/fragment_create_recommend">
         <argument
             android:name="runrecordseq"
             app:argType="integer" />
@@ -274,7 +275,8 @@
     <fragment
         android:id="@+id/userDetailFragment"
         android:name="com.ssafy.runwithme.view.user_detail.UserDetailFragment"
-        android:label="UserDetailFragment" >
+        android:label="UserDetailFragment"
+        tools:layout="@layout/fragment_user_detail">
         <argument
             android:name="userseq"
             app:argType="integer" />

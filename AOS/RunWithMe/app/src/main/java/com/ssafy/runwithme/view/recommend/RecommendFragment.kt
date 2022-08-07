@@ -22,10 +22,12 @@ import com.google.android.gms.maps.model.*
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentRecommendBinding
+import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.response.RecommendResponse
 import com.ssafy.runwithme.utils.FASTEST_LOCATION_UPDATE_INTERVAL
 import com.ssafy.runwithme.utils.LOCATION_UPDATE_INTERVAL
 import com.ssafy.runwithme.utils.TrackingUtility
+import com.ssafy.runwithme.view.my_page.MyPageFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -48,6 +50,8 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
+    private lateinit var currentRunRecord : RunRecordDto
+
     // 처음 여부 (true = 아직 처음)
     private var first: Boolean = true
 
@@ -65,6 +69,8 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
             tvTitle.text = p0.title
             recommend = p0.tag as RecommendResponse
             p0.showInfoWindow()
+
+            currentRunRecord = (p0.tag as RecommendResponse).runRecordDto
         }
         return true
     }
@@ -83,6 +89,10 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
             toolbar.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
+        }
+        binding.cardInfo.setOnClickListener {
+            val action = RecommendFragmentDirections.actionRecommendFragmentToRunRecordDetailFragment(currentRunRecord)
+            findNavController().navigate(action)
         }
     }
 
