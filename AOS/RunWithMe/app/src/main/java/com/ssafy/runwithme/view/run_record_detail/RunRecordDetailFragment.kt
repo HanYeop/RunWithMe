@@ -75,7 +75,7 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
         val secondInt = runRecordDto!!.runRecordRunningTime % 60
         var second = secondInt.toString()
         if(secondInt < 10){
-            second = "0" + second
+            second = "0$second"
         }
 
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -87,7 +87,7 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
         startCalendar.time = start
         endCalendar.time = end
 
-        distanceText = "${round(1.0 * runRecordDto!!.runRecordRunningDistance / 1000.0 * 100.0) / 100.0} km"
+        distanceText = "${round(1.0 * runRecordDto!!.runRecordRunningDistance / 1000.0 * 100.0) / 100.0}km"
         timeText = "${(runRecordDto!!.runRecordRunningTime / 60)} : $second"
 
         binding.apply {
