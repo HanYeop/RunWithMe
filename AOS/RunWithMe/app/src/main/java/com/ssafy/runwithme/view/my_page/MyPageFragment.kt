@@ -36,6 +36,9 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             imageEditProfile.setOnClickListener {
                 findNavController().navigate(R.id.action_MyPageFragment_to_editProfileFragment)
             }
+            imageBookmark.setOnClickListener {
+                findNavController().navigate(R.id.action_MyPageFragment_to_myRecommendScrapFragment)
+            }
         }
     }
 

@@ -70,6 +70,9 @@
         <action
             android:id="@+id/action_MyPageFragment_to_practiceListFragment"
             app:destination="@id/practiceListFragment" />
+        <action
+            android:id="@+id/action_MyPageFragment_to_myRecommendScrapFragment"
+            app:destination="@id/myRecommendScrapFragment" />
     </fragment>
     <fragment
         android:id="@+id/myCurrentCrewFragment"
@@ -307,4 +310,9 @@
             android:name="runrecordDto"
             app:argType="com.ssafy.runwithme.model.dto.RunRecordDto" />
     </fragment>
+    <fragment
+        android:id="@+id/myRecommendScrapFragment"
+        android:name="com.ssafy.runwithme.view.my_page.recommend_scrap.MyRecommendScrapFragment"
+        android:label="MyRecommendScrapFragment"
+        tools:layout="@layout/fragment_my_recommend_scrap"/>
 </navigation>

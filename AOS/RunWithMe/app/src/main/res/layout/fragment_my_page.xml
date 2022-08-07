@@ -46,18 +46,27 @@
                                 android:id="@+id/image_logo"
                                 android:layout_width="80dp"
                                 android:layout_height="50dp"
-                                android:src="@drawable/rwm_logo"
                                 android:layout_gravity="center|left"
-                                android:layout_marginEnd="8dp" />
+                                android:layout_marginEnd="8dp"
+                                android:src="@drawable/rwm_logo" />
 
                             <ImageView
                                 android:id="@+id/image_settings"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/ic_baseline_settings_24"
                                 android:layout_gravity="center|end"
                                 android:layout_marginEnd="16dp"
+                                android:src="@drawable/ic_baseline_settings_24"
                                 app:tint="@color/black" />
+
+                            <ImageView
+                                android:id="@+id/image_bookmark"
+                                android:layout_width="30dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center|end"
+                                android:layout_marginEnd="8dp"
+                                android:src="@drawable/bookmark"
+                                app:tint="@color/main_black" />
 
                         </com.google.android.material.appbar.MaterialToolbar>
 

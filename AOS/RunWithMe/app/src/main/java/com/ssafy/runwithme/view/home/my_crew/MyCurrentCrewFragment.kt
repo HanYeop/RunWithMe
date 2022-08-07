@@ -1,6 +1,5 @@
 package com.ssafy.runwithme.view.home.my_crew
 
-import android.content.Intent
 import android.content.SharedPreferences
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -9,9 +8,7 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentMyCurrentCrewBinding
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
-import com.ssafy.runwithme.utils.runningStart
 import com.ssafy.runwithme.view.home.HomeViewModel
-import com.ssafy.runwithme.view.running.RunningActivity
 import com.ssafy.runwithme.view.running.RunningViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
