@@ -21,6 +21,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
+import com.ssafy.runwithme.base.BaseFragmentKeep
 import com.ssafy.runwithme.databinding.FragmentRecommendBinding
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.response.RecommendResponse
@@ -35,7 +36,7 @@ import java.io.IOException
 import java.util.*
 
 @AndroidEntryPoint
-class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragment_recommend),
+class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fragment_recommend),
     OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private val recommendViewModel by viewModels<RecommendViewModel>()
