@@ -160,4 +160,11 @@ object RemoteDataModule {
     fun provideCustomerCenterApi(retrofit: Retrofit): CustomerCenterApi {
         return retrofit.create(CustomerCenterApi::class.java)
     }
+
+    // ScrapApi DI
+    @Provides
+    @Singleton
+    fun provideScrapApi(retrofit: Retrofit): ScrapApi {
+        return retrofit.create(ScrapApi::class.java)
+    }
 }
