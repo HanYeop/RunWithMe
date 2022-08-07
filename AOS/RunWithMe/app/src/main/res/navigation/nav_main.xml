@@ -84,7 +84,11 @@
         android:id="@+id/totalUserRankingFragment"
         android:name="com.ssafy.runwithme.view.home.ranking.TotalUserRankingFragment"
         android:label="TotalUserRankingFragment"
-        tools:layout="@layout/fragment_total_user_ranking"/>
+        tools:layout="@layout/fragment_total_user_ranking">
+        <action
+            android:id="@+id/action_totalUserRankingFragment_to_userDetailFragment"
+            app:destination="@id/userDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/crewDetailFragment"
         android:name="com.ssafy.runwithme.view.crew_detail.CrewDetailFragment"
@@ -144,6 +148,9 @@
         <argument
             android:name="crewdto"
             app:argType="com.ssafy.runwithme.model.dto.CrewDto" />
+        <action
+            android:id="@+id/action_crewUserRankingFragment_to_userDetailFragment"
+            app:destination="@id/userDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/crewBoardFragment"
@@ -262,6 +269,14 @@
         android:label="CreateRecommendFragment" >
         <argument
             android:name="runrecordseq"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/userDetailFragment"
+        android:name="com.ssafy.runwithme.view.user_detail.UserDetailFragment"
+        android:label="UserDetailFragment" >
+        <argument
+            android:name="userseq"
             app:argType="integer" />
     </fragment>
 </navigation>
