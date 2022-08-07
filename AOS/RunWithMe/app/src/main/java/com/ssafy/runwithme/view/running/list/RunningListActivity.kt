@@ -38,6 +38,7 @@ import java.io.IOException
 import java.util.*
 import javax.inject.Inject
 
+@SuppressLint("MissingPermission")
 @AndroidEntryPoint
 class RunningListActivity : BaseActivity<ActivityRunningListBinding>(R.layout.activity_running_list){
 
@@ -65,6 +66,8 @@ class RunningListActivity : BaseActivity<ActivityRunningListBinding>(R.layout.ac
 //                it.mapType = 1
 //                it.setMapStyle(MapStyleOptions())
                 updateLocation()
+
+                it.isMyLocationEnabled = true
 
                 lifecycleScope.launch {
                     delay(1100)
@@ -127,10 +130,6 @@ class RunningListActivity : BaseActivity<ActivityRunningListBinding>(R.layout.ac
 
                         moveCamera(currentPosition)
 
-                        val snippet = getCurrentAddress(currentPosition)
-
-                        drawMarker(currentPosition,"현재 위치", snippet)
-
                         first = false
                     }
                 }
@@ -138,62 +137,10 @@ class RunningListActivity : BaseActivity<ActivityRunningListBinding>(R.layout.ac
         }
     }
 
-    // 위도, 경도를 주소로 변환
-    fun getCurrentAddress(latLng: LatLng): String {
-        //지오코더: GPS를 주소로 변환
-        val geocoder = Geocoder(this, Locale.getDefault())
-        val addresses: List<Address>?
-        try {
-            addresses = geocoder.getFromLocation(
-                latLng.latitude,
-                latLng.longitude,
-                1
-            )
-        } catch (ioException: IOException) {
-            //네트워크 문제
-//            Toast.makeText(requireContext(), "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show()
-            return "지오코더 사용불가"
-        } catch (illegalArgumentException: IllegalArgumentException) {
-//            Toast.makeText(requireContext(), "잘못된 GPS 좌표", Toast.LENGTH_LONG).show()
-            return "잘못된 GPS 좌표"
-        }
-
-        return if (addresses == null || addresses.isEmpty()) {
-//            Toast.makeText(requireContext(), "주소 발견 불가", Toast.LENGTH_LONG).show()
-            "주소 발견 불가"
-        } else {
-            val address = addresses[0]
-            address.getAddressLine(0).toString()
-        }
-    }
-
-    // 마커 그리기
-    private fun drawMarker(latLng: LatLng, markerTitle: String?, markerSnippet: String?): Marker? {
-        val markerOptions = MarkerOptions().apply {
-            position(latLng)
-            title(markerTitle)
-            snippet(markerSnippet)
-            draggable(true)
-            icon(
-                BitmapDescriptorFactory.fromBitmap(
-                    Bitmap.createScaledBitmap(
-                        (ResourcesCompat.getDrawable(
-                            resources,
-                            R.drawable.ic_marker,
-                            this@RunningListActivity.theme
-                        ) as BitmapDrawable).bitmap,
-                        75, 100, false
-                    )
-                )
-            )
-        }
-        return map?.addMarker(markerOptions)
-    }
-
     // 지도 카메라 움직이기
     private fun moveCamera(latLng: LatLng) {
         map?.moveCamera(
-            CameraUpdateFactory.newLatLngZoom(latLng, 16f)
+            CameraUpdateFactory.newLatLngZoom(latLng, 16.5f)
         )
     }
 
