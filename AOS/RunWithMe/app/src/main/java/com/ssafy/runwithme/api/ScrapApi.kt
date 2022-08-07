@@ -13,9 +13,7 @@ interface ScrapApi {
     ): BaseResponse<ScrapInfoDto>
 
     @GET("scrap/")
-    suspend fun getMyScrap(
-        @Query("title") title : String
-    ): BaseResponse<List<ScrapInfoDto>>
+    suspend fun getMyScrap(): BaseResponse<List<ScrapInfoDto>>
 
     @DELETE("scrap/{scrapSeq}")
     suspend fun deleteMyScrap(

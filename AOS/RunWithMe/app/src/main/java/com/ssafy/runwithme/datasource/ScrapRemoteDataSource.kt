@@ -14,8 +14,8 @@ class ScrapRemoteDataSource @Inject constructor(
         emit(scrapApi.addMyScrap(trackBoardSeq, title))
     }
 
-    fun getMyScrap(title : String): Flow<BaseResponse<List<ScrapInfoDto>>> = flow {
-        emit(scrapApi.getMyScrap(title))
+    fun getMyScrap(): Flow<BaseResponse<List<ScrapInfoDto>>> = flow {
+        emit(scrapApi.getMyScrap())
     }
 
     fun deleteMyScrap(scrapSeq : Int) : Flow<BaseResponse<Boolean>> = flow {

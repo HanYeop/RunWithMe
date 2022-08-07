@@ -33,9 +33,9 @@ class ScrapRepository @Inject constructor(
         emit(Result.Error(e))
     }
 
-    fun getMyScrap(title : String): Flow<Result<BaseResponse<List<ScrapInfoDto>>>> = flow {
+    fun getMyScrap(): Flow<Result<BaseResponse<List<ScrapInfoDto>>>> = flow {
         emit(Result.Loading)
-        scrapRemoteDataSource.getMyScrap(title).collect {
+        scrapRemoteDataSource.getMyScrap().collect {
             if(it.success){
                 emit(Result.Success(it))
             } else if (!it.success){
