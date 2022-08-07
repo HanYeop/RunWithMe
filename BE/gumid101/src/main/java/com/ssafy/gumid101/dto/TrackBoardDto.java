@@ -22,14 +22,17 @@ import lombok.Setter;
 public class TrackBoardDto implements Serializable {
 
 	private Long trackBoardSeq;
-	
+
 	private Long runRecordSeq;
 
+	@ApiParam(value = "추천 내용")
+	private String content;
+
 	@ApiParam(value = "난이도 별점 (1 ~ 5)")
-	private Integer trackBoardHardPoint;
+	private Integer hardPoint;
 	
 	@ApiParam(value = "주변 환경 별점 (1 ~ 5)")
-	private Integer trackBoardEnvironmentPoint;
+	private Integer environmentPoint;
 	
 	public static TrackBoardDto of(TrackBoardEntity trackBoard) {
 		
@@ -37,11 +40,12 @@ public class TrackBoardDto implements Serializable {
 			return null;
 		
 		
-		return new TrackBoardDtoBuilder()
-				.trackBoardSeq(trackBoard.getTrackBoardSeq())
-				.trackBoardHardPoint(trackBoard.getTrackBoardHardPoint())
-				.trackBoardEnvironmentPoint(trackBoard.getTrackBoardEnviromentPoint())
-				.runRecordSeq(trackBoard.getRunRecordEntity().getRunRecordSeq())
-				.build();
+		return new TrackBoardDtoBuilder() //
+				.trackBoardSeq(trackBoard.getTrackBoardSeq()) //
+				.content(trackBoard.getTrackBoardContent()) //
+				.hardPoint(trackBoard.getTrackBoardHardPoint()) //
+				.environmentPoint(trackBoard.getTrackBoardEnviromentPoint()) //
+				.runRecordSeq(trackBoard.getRunRecordEntity().getRunRecordSeq()) //
+				.build(); //
 	}
 }
