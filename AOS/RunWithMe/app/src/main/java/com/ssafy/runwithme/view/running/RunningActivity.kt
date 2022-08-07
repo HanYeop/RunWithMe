@@ -343,7 +343,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         // 칼로리 소모량 체크
         caloriesBurned = round((sumDistance / 1000f) * weight).toInt()
         // 칼로리 텍스트 변경
-        binding.tvCalorie.text = "$caloriesBurned kcal"
+        binding.tvCalorie.text = "$caloriesBurned"
         super.onResume()
     }
 

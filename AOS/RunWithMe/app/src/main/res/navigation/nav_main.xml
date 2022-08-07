@@ -242,6 +242,9 @@
         <action
             android:id="@+id/action_runRecordDetailFragment_to_createRecommendFragment2"
             app:destination="@id/createRecommendFragment2" />
+        <action
+            android:id="@+id/action_runRecordDetailFragment_to_runningRouteFragment2"
+            app:destination="@id/runningRouteFragment" />
     </fragment>
     <fragment
         android:id="@+id/othersFragment"
@@ -280,5 +283,19 @@
         <argument
             android:name="userseq"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/runningRouteFragment"
+        android:name="com.ssafy.runwithme.view.route_detail.RunningRouteFragment"
+        android:label="RunningRouteFragment"
+        tools:layout="@layout/fragment_running_route">
+        <argument android:name="recordseq"
+            app:argType="integer" />
+        <argument
+            android:name="distancetext"
+            app:argType="string" />
+        <argument
+            android:name="timetext"
+            app:argType="string" />
     </fragment>
 </navigation>
