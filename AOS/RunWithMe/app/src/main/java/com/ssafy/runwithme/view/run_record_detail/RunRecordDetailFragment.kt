@@ -29,7 +29,7 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
     private val args by navArgs<RunRecordDetailFragmentArgs>()
     private var runRecordDto : RunRecordDto? = null
     private var userSeq : Int = 0
-    private val runRecordDetailViewModel by viewModels<RunRecordDetailViewModel>()
+
     private lateinit var loadingDialog : LoadingDialog
 
     override fun init() {
@@ -43,8 +43,6 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
         initViewVisible()
 
         initClickListener()
-
-        initViewModelCallBack()
 
         initResult()
     }
@@ -66,17 +64,6 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
                 val action = RunRecordDetailFragmentDirections.actionRunRecordDetailFragmentToCreateRecommendFragment2(runRecordDto!!.runRecordSeq)
                 findNavController().navigate(action)
             }
-        }
-    }
-
-    private fun initViewModelCallBack(){
-        runRecordDetailViewModel.successMsgEvent.observe(this){
-            loadingDialog.dismiss()
-            showToast(it)
-            findNavController().popBackStack()
-        }
-        runRecordDetailViewModel.errorMsgEvent.observe(this){
-            showToast(it)
         }
     }
 
