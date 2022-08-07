@@ -4,10 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
-import android.opengl.Visibility
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,7 +15,6 @@ import androidx.navigation.fragment.navArgs
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentCreateRecommendBinding
-import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.view.recommend.RecommendViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -38,15 +35,27 @@ class CreateRecommendFragment : BaseFragment<FragmentCreateRecommendBinding>(R.l
 
     override fun init() {
         runRecordSeq = args.runrecordseq
-        Log.d(TAG, "init: $runRecordSeq")
 
         initClickListener()
+
+        initViewModelCallBack()
+    }
+
+    private fun initViewModelCallBack(){
+        recommendViewModel.successMsgEvent.observe(viewLifecycleOwner){
+            showToast(it)
+            findNavController().popBackStack()
+        }
+
+        recommendViewModel.errorMsgEvent.observe(viewLifecycleOwner){
+            showToast(it)
+        }
     }
 
     private fun initClickListener(){
         binding.apply {
             // 프로필 이미지 변경 아이콘 클릭
-            imageRecommendPhoto.setOnClickListener {
+            imageRecommend.setOnClickListener {
                 pickPhotoGallery()
 
                 binding.imageRecommendPhoto.visibility = View.GONE
@@ -61,7 +70,7 @@ class CreateRecommendFragment : BaseFragment<FragmentCreateRecommendBinding>(R.l
                 if(imgFile == null){ // 이미지를 선택 안 할시
                     showToast("러닝 코스 사진을 업로드 해주세요.")
                 }
-                else if(binding.etRecommendContent.text.isEmpty()){
+                else if(binding.etRecommendContent.text.isEmpty()){ // 내용이 비었을 시
                     showToast("추천 사유를 입력 해주세요.")
                 }
                 else {
@@ -94,6 +103,10 @@ class CreateRecommendFragment : BaseFragment<FragmentCreateRecommendBinding>(R.l
             } catch (e : Exception){
                 e.printStackTrace()
             }
+        }
+        else if(it.resultCode == Activity.RESULT_CANCELED){ // 아무 사진도 선택하지 않은 경우
+            binding.imageRecommendPhoto.visibility = View.VISIBLE
+            binding.tvImageText.visibility = View.VISIBLE
         }
     }
 
