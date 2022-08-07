@@ -37,7 +37,7 @@ class CreateRecommendFragment : BaseFragment<FragmentCreateRecommendBinding>(R.l
     private var runRecordSeq = 0
 
     override fun init() {
-        runRecordSeq = args.runRecordSeq
+        runRecordSeq = args.runrecordseq
         Log.d(TAG, "init: $runRecordSeq")
 
         initClickListener()

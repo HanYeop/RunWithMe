@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.http.GET
+import retrofit2.http.Path
 import javax.inject.Inject
 
 class CrewRemoteDataSource @Inject constructor(
@@ -30,5 +32,9 @@ class CrewRemoteDataSource @Inject constructor(
 
     fun createCoordinates(recordSeq: Int, coordinates: List<CoordinateDto>): Flow<BaseResponse<String>> = flow {
         emit(crewApi.createCoordinates(recordSeq, coordinates))
+    }
+
+    fun getCoordinates(recordSeq: Int): Flow<BaseResponse<List<CoordinateDto>>> = flow {
+        emit(crewApi.getCoordinates(recordSeq))
     }
 }

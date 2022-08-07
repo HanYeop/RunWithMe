@@ -63,11 +63,9 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         POLYLINE_COLOR = resources.getColor(R.color.main_purple)
 
         weight = sharedPref.getInt(USER_WEIGHT, 70)
-        Log.d(TAG, "onCreate: $weight")
 
         type = sharedPref.getString(RUN_GOAL_TYPE, GOAL_TYPE_TIME)!!
-        Log.d(TAG, "onCreate: $type")
-        
+
         binding.apply {
             mapView.onCreate(savedInstanceState)
             // 맵 불러오기

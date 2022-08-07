@@ -261,7 +261,7 @@
         android:name="com.ssafy.runwithme.view.create_recommend.CreateRecommendFragment"
         android:label="CreateRecommendFragment" >
         <argument
-            android:name="runRecordSeq"
+            android:name="runrecordseq"
             app:argType="integer" />
     </fragment>
 </navigation>

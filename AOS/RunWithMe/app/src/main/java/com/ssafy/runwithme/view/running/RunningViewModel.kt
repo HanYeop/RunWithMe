@@ -60,6 +60,9 @@ class RunningViewModel @Inject constructor(
     private val _coordinateSuccess = SingleLiveEvent<String>()
     val coordinateSuccess get() = _coordinateSuccess
 
+    private val _getCoordinates : MutableStateFlow<List<CoordinateDto>> = MutableStateFlow(listOf())
+    val getCoordinates get() = _getCoordinates
+
     private val _localRunList: MutableStateFlow<List<RunRecordEntity>>
             = MutableStateFlow(listOf())
     val localRunList get() = _localRunList.asStateFlow()
@@ -92,7 +95,19 @@ class RunningViewModel @Inject constructor(
             crewRepository.createCoordinates(recordSeq, coordinates).collectLatest {
                 Log.d("test5", "createCoordinates: $it")
                 if(it is Result.Success){
+                }
+            }
+        }
+    }
 
+    fun getCoordinates(recordSeq: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            crewRepository.getCoordinates(recordSeq).collectLatest {
+                Log.d("test5", "getCoordinates: $it")
+                if(it is Result.Success){
+                    _getCoordinates.value = it.data.data
+                }else if(it is Result.Fail){
+                    _errorMsgEvent.postValue(it.data.msg)
                 }
             }
         }

@@ -29,4 +29,9 @@ interface CrewApi {
         @Path("recordseq") recordSeq: Int,
         @Body coordinates: List<CoordinateDto>
     ): BaseResponse<String>
+
+    @GET("crew/records/{recordseq}/coordinate")
+    suspend fun getCoordinates(
+        @Path("recordseq") recordSeq: Int
+    ): BaseResponse<List<CoordinateDto>>
 }

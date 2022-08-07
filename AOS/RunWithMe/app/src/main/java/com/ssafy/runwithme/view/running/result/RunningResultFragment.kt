@@ -14,7 +14,6 @@ import com.ssafy.runwithme.model.dto.CoordinateDto
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.entity.RunRecordEntity
 import com.ssafy.runwithme.utils.*
-import com.ssafy.runwithme.view.create_recommend.CreateRecommendListener
 import com.ssafy.runwithme.view.loading.LoadingDialog
 import com.ssafy.runwithme.view.recommend.RecommendViewModel
 import com.ssafy.runwithme.view.running.RunningActivity
@@ -49,7 +48,16 @@ class RunningResultFragment : BaseFragment<FragmentRunningResultBinding>(R.layou
 
     private var first = true
 
+    private var distanceText = ""
+    private var timeText = ""
+
     override fun init() {
+        distanceText = "${TrackingUtility.getFormattedDistance(RunningActivity.runRecordRunningDistance)}Km"
+        timeText = TrackingUtility.getFormattedStopWatchTime(
+            RunningActivity.runRecordRunningTime,
+            false
+        )
+
         initClickListener()
 
         initResult()
@@ -102,13 +110,8 @@ class RunningResultFragment : BaseFragment<FragmentRunningResultBinding>(R.layou
             imageView.setImageBitmap(RunningActivity.image)
             tvSpeed.text = "${RunningActivity.runRecordRunningAvgSpeed} km/h"
             tvCalorie.text = "${RunningActivity.runRecordRunningCalorie} kcal"
-            tvTime.text = "${
-                TrackingUtility.getFormattedStopWatchTime(
-                    RunningActivity.runRecordRunningTime,
-                    false
-                )
-            }"
-            tvDistance.text = "${TrackingUtility.getFormattedDistance(RunningActivity.runRecordRunningDistance)}Km"
+            tvTime.text = timeText
+            tvDistance.text = distanceText
             tvRunningResultName.text = timeNameFormatter(System.currentTimeMillis())
             tvCrewName.text = sharedPreferences.getString(RUN_RECORD_CREW_NAME,"크루")
             tvTimeStartEnd.text = startEndFormatter(sharedPreferences.getLong(RUN_RECORD_START_TIME, 0L), RunningActivity.runRecordEndTime)
@@ -137,8 +140,10 @@ class RunningResultFragment : BaseFragment<FragmentRunningResultBinding>(R.layou
     }
 
     private fun callLocal(){
+        // 연습 러닝은 추천, 상세 경로 기능을 사용X
         binding.apply {
             btnRecommend.visibility = View.GONE
+            btnRoute.visibility = View.GONE
         }
         runningViewModel.insertRun(
             RunRecordEntity(
@@ -193,15 +198,9 @@ class RunningResultFragment : BaseFragment<FragmentRunningResultBinding>(R.layou
                 findNavController().navigate(action)
             }
             btnRoute.setOnClickListener {
-                findNavController().navigate(R.id.action_runningResultFragment_to_runningRouteFragment)
+                val action = RunningResultFragmentDirections.actionRunningResultFragmentToRunningRouteFragment(runRecordSeq,distanceText,timeText)
+                findNavController().navigate(action)
             }
-        }
-    }
-
-    private val createRecommendListener = object: CreateRecommendListener {
-        override fun onBtnOkClicked(environmentPoint: Int, hardPoint: Int) {
-            recommendViewModel.createRecommend(environmentPoint, hardPoint, runRecordSeq)
-            loading()
         }
     }
 

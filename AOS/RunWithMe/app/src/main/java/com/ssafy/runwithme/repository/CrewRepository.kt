@@ -62,4 +62,19 @@ class CrewRepository @Inject constructor(
     }.catch { e ->
         emit(Result.Error(e))
     }
+
+    fun getCoordinates(recordSeq: Int): Flow<Result<BaseResponse<List<CoordinateDto>>>> = flow {
+        emit(Result.Loading)
+        crewRemoteDataSource.getCoordinates(recordSeq).collect {
+            if(it.success){
+                emit(Result.Success(it))
+            }else if(!it.success){
+                emit(Result.Fail(it))
+            }else{
+                emit(Result.Empty)
+            }
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
 }
