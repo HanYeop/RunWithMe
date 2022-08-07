@@ -74,7 +74,11 @@ class CreateRecommendFragment : BaseFragment<FragmentCreateRecommendBinding>(R.l
                     showToast("추천 사유를 입력 해주세요.")
                 }
                 else {
-                    recommendViewModel.createRecommend(binding.ratingEnvironment.rating.toInt(), binding.ratingHard.rating.toInt(), runRecordSeq)
+                    recommendViewModel.createRecommend(
+                        binding.ratingEnvironment.rating.toInt(), binding.ratingHard.rating.toInt(), runRecordSeq,
+                        binding.etRecommendContent.text.toString(),
+                        imgFile!!
+                    )
                 }
             }
         }

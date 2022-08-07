@@ -3,16 +3,18 @@ package com.ssafy.runwithme.view.recommend
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ssafy.runwithme.base.BaseResponse
-import com.ssafy.runwithme.model.response.RankingResponse
 import com.ssafy.runwithme.model.response.RecommendResponse
 import com.ssafy.runwithme.repository.RecommendRepository
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import retrofit2.http.Multipart
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,9 +32,9 @@ class RecommendViewModel @Inject constructor(
             = MutableStateFlow(listOf())
     val recommendList get() = _recommendList.asStateFlow()
 
-    fun createRecommend(environmentPoint: Int, hardPoint: Int, RunRecordSeq: Int) {
+    fun createRecommend(environmentPoint: Int, hardPoint: Int, RunRecordSeq: Int, content: String, img: MultipartBody.Part) {
         viewModelScope.launch(Dispatchers.IO) {
-            recommendRepository.createRecommend(environmentPoint, hardPoint, RunRecordSeq)
+            recommendRepository.createRecommend(environmentPoint, hardPoint, RunRecordSeq, content, img)
                 .collectLatest {
                     Log.d("test5", "createRecommend: $it")
                     if (it is Result.Success) {
