@@ -76,8 +76,7 @@ class CreateRecommendFragment : BaseFragment<FragmentCreateRecommendBinding>(R.l
                 else {
                     recommendViewModel.createRecommend(
                         binding.ratingEnvironment.rating.toInt(), binding.ratingHard.rating.toInt(), runRecordSeq,
-                        binding.etRecommendContent.text.toString(),
-                        imgFile!!
+                        binding.etRecommendContent.text.toString(), imgFile!!
                     )
                 }
             }
