@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,9 +14,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.gumid101.customexception.IllegalParameterException;
+import com.ssafy.gumid101.dto.CrewDto;
 import com.ssafy.gumid101.dto.LatLngParamsDto;
 import com.ssafy.gumid101.dto.TrackBoardDto;
 import com.ssafy.gumid101.dto.UserDto;
@@ -33,6 +38,7 @@ import lombok.RequiredArgsConstructor;
 @Api(tags = "장소 추천 게시판")
 public class RecommendRestController {
 	private final RecommendService recommendService;
+	private final ObjectMapper objectMapper;
 	private final RedisService redisServ;
 
 	/**
@@ -51,88 +57,38 @@ public class RecommendRestController {
 	 * lng : 경도 (좌우)
 	 * @param latlngParams
 	 * @return
+	 * @throws Exception 
 	 */
 	@ApiOperation(value = "장소 추천 게시판에서 위/경도 범위 내의 기록을 검색함.")
 	@GetMapping("/boards")
-	public ResponseEntity<?> getRecommend(@ModelAttribute LatLngParamsDto latlngParams){
-
-		
-		HttpStatus httpStatus = HttpStatus.OK;
-		
-		ResponseFrame<List<TrackBoardFileDto>> responseFrame = new ResponseFrame<>();
-		List<TrackBoardFileDto> trackBoardFileDtoList = null;
-		try {
-			trackBoardFileDtoList = recommendService.getTrackBoard(latlngParams);
-		}catch (Exception e) {
-			httpStatus = HttpStatus.OK;
-			responseFrame.setData(new ArrayList<>());
-			responseFrame.setCount(0);
-			responseFrame.setSuccess(false);
-			responseFrame.setMsg(e.getMessage());
-			return new ResponseEntity<>(responseFrame, httpStatus);
-		}
-		
-		if (trackBoardFileDtoList != null) {
-			responseFrame.setCount(trackBoardFileDtoList.size());
-			responseFrame.setSuccess(true);
-			responseFrame.setMsg("추천 게시판 글 조회에 성공했습니다.");
-		}
-		responseFrame.setData(trackBoardFileDtoList);
-		return new ResponseEntity<>(responseFrame, httpStatus);
+	public ResponseEntity<?> getRecommend(@ModelAttribute LatLngParamsDto latlngParams) throws Exception{
+		List<TrackBoardFileDto> trackBoardFileDtoList = recommendService.getTrackBoard(latlngParams);
+		return new ResponseEntity<>(new ResponseFrame<>(true, trackBoardFileDtoList, trackBoardFileDtoList.size(), "추천 게시판 글 조회에 성공했습니다."), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "장소 추천 게시판에 자신의 기록을 등록함 (난이도, 주변환경 별점은 없거나 0 ~ 5의 정수)")
-	@PostMapping("/board")
-	public ResponseEntity<?> writeRecommend(@RequestParam Long run_record_seq, @RequestParam(required = true) Integer hard_point, @RequestParam(required = true) Integer environment_point) throws Exception{
+	@PostMapping(value = "/board")
+	public ResponseEntity<?> writeRecommend(
+			@RequestPart(value="trackBoardDto",required = true) String trackBoardDtoInputString,
+			@RequestPart(required = true) MultipartFile imgFile) throws Exception{
+		TrackBoardDto trackBoardDtoInput = objectMapper.readValue(trackBoardDtoInputString, TrackBoardDto.class);
+		if (trackBoardDtoInput.getRunRecordSeq() == null) {
+			throw new IllegalParameterException("기록 번호가 없습니다.");
+		}
 		UserDto userDto = loadUserFromToken();
-		redisServ.getIsUseable(run_record_seq + "recommend", 10);
+		redisServ.getIsUseable(trackBoardDtoInput.getRunRecordSeq() + "recommend", 10);
 		
-		HttpStatus httpStatus = HttpStatus.OK;
+		TrackBoardFileDto trackBoardFileDto = recommendService.writeTrackBoard(userDto.getUserSeq(), trackBoardDtoInput, imgFile);
 		
-		ResponseFrame<TrackBoardDto> responseFrame = new ResponseFrame<>();
-		TrackBoardDto trackBoardDto = null;
-		try {
-			trackBoardDto = recommendService.writeTrackBoard(userDto.getUserSeq(), run_record_seq, hard_point, environment_point);
-		}catch (Exception e) {
-			httpStatus = HttpStatus.OK;
-			responseFrame.setCount(0);
-			responseFrame.setSuccess(false);
-			responseFrame.setMsg(e.getMessage());
-			return new ResponseEntity<>(responseFrame, httpStatus);
-		}
-		
-		if (trackBoardDto != null) {
-			responseFrame.setCount(1);
-			responseFrame.setSuccess(true);
-			responseFrame.setMsg("추천 게시판 글 등록에 성공했습니다.");
-		}
-		responseFrame.setData(trackBoardDto);
-		return new ResponseEntity<>(responseFrame, httpStatus);
+		return new ResponseEntity<>(new ResponseFrame<>(true, trackBoardFileDto, 1, "경로 추천에 성공했습니다."), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("recommend/boards/{trackBoardSeq}")
-	public ResponseEntity<?> deleteRecommend(@PathVariable Long trackBoardSeq){
+	public ResponseEntity<?> deleteRecommend(@PathVariable Long trackBoardSeq) throws Exception{
 		UserDto userDto = loadUserFromToken();
 		
-		HttpStatus httpStatus = HttpStatus.OK;
+		Boolean deleted = recommendService.deleteTrackBoard(userDto.getUserSeq(), trackBoardSeq);
 		
-		ResponseFrame<Boolean> responseFrame = new ResponseFrame<>();
-		Boolean deleted = false;
-		try {
-			deleted = recommendService.deleteTrackBoard(userDto.getUserSeq(), trackBoardSeq);
-		}catch (Exception e) {
-			httpStatus = HttpStatus.OK;
-			responseFrame.setCount(0);
-			responseFrame.setSuccess(false);
-			responseFrame.setMsg(e.getMessage());
-		}
-		
-		if (deleted) {
-			responseFrame.setCount(1);
-			responseFrame.setSuccess(true);
-			responseFrame.setMsg("추천 게시판 글 삭제에 성공했습니다.");
-		}
-		responseFrame.setData(deleted);
-		return new ResponseEntity<>(responseFrame, httpStatus);
+		return new ResponseEntity<>(new ResponseFrame<>(true, deleted, 1, "추천 게시판 글 삭제에 성공했습니다."), HttpStatus.OK);
 	}
 }

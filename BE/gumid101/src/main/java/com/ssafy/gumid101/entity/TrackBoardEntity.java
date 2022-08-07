@@ -43,9 +43,16 @@ public class TrackBoardEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long trackBoardSeq;
 	
+	@Column(name="track_board_content")
+	private String trackBoardContent;
+
 	@JoinColumn(name="run_record_seq")
 	@ManyToOne
 	private RunRecordEntity runRecordEntity;
+	
+	@JoinColumn(name="run_record_img_seq")
+	@ManyToOne
+	private ImageFileEntity trackBoardImageEntity;
 	
 	@Column(nullable = true, name="track_board_hard_point")
 	private Integer trackBoardHardPoint;
