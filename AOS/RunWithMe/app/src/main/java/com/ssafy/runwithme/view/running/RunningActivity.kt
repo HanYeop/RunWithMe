@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.view.running
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
@@ -28,6 +29,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.round
 
+@SuppressLint("MissingPermission")
 @AndroidEntryPoint
 class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_running) {
 
@@ -74,6 +76,9 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
                 // 알림 클릭 등으로 다시 생성되었을 때 경로 표시
                 addAllPolylines()
                 moveCameraToUser()
+
+                it.isMyLocationEnabled = true
+
                 sumDistance = RunningService.sumDistance.value!!
                 // 프로그래스바 진행도 변경
                 if(sumDistance > 0 && type == GOAL_TYPE_DISTANCE){
@@ -289,6 +294,9 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
     // 달리기 종료
     private fun stopRun() {
         sendCommandToService(ACTION_STOP_SERVICE)
+        if(map != null){
+            map!!.isMyLocationEnabled = false
+        }
         zoomToWholeTrack()
         endRunAndSaveToDB()
     }
@@ -340,6 +348,10 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         addAllPolylines()
         moveCameraToUser()
 
+        if(map != null){
+            map!!.isMyLocationEnabled = true
+        }
+
         // 칼로리 소모량 체크
         caloriesBurned = round((sumDistance / 1000f) * weight).toInt()
         // 칼로리 텍스트 변경
@@ -354,6 +366,11 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
 
     override fun onPause() {
         super.onPause()
+
+        if(map != null){
+            map!!.isMyLocationEnabled = false
+        }
+
         binding.mapView.onPause()
     }
 
