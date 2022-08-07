@@ -34,6 +34,8 @@ class RecommendDetailFragment : BaseFragment<FragmentRecommendDetailBinding>(R.l
         runRecordDto = args.runrecordDto
         trackBoardDto = args.trackBoardDto
 
+        recommendDetailViewModel.getMyScrap(trackBoardDto!!.trackBoardSeq) // 이미 나에게 스크랩된 경로인지 확인
+
         initView()
 
         initClickListener()
@@ -48,16 +50,14 @@ class RecommendDetailFragment : BaseFragment<FragmentRecommendDetailBinding>(R.l
             }
 
             imageBookmark.setOnClickListener { // 스크랩 클릭시
-                var dialog = AlertDialog.Builder(requireContext())
-                    .setNegativeButton("취소") { _, _ -> }
+                var dialog = AlertDialog.Builder(requireContext()).setNegativeButton("취소") { _, _ -> }
+
                 if(!isScrapped){ // 스크랩 안 되어 있을 때
-                    // 스크랩 추가 로직 구현
                     dialog.setTitle("해당 코스를 스크랩에 추가하시겠습니까?")
                         .setPositiveButton("추가") { _, _ ->
                             recommendDetailViewModel.addMyScrap(trackBoardDto!!.trackBoardSeq, title)
                         }.show()
                 } else { // 이미 스크랩되어 있을 때
-                    // 스크랩 삭제 로직 구현
                     dialog.setTitle("해당 코스를 스크랩에서 삭제하시겠습니까?")
                         .setPositiveButton("삭제") { _, _ ->
                             recommendDetailViewModel.deleteMyScrap(currentScrapSeq)
@@ -84,6 +84,13 @@ class RecommendDetailFragment : BaseFragment<FragmentRecommendDetailBinding>(R.l
 
         recommendDetailViewModel.currentScrapSeq.observe(viewLifecycleOwner){
             currentScrapSeq = it
+        }
+
+        recommendDetailViewModel.isScrapped.observe(viewLifecycleOwner){
+            if(it == 1){
+                isScrapped = true
+                binding.imageBookmark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.main_purple))
+            }
         }
     }
 

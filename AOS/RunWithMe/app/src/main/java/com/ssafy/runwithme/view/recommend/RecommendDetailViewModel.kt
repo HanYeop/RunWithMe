@@ -33,6 +33,9 @@ class RecommendDetailViewModel @Inject constructor(
     private val _currentScrapSeq = SingleLiveEvent<Int>()
     val currentScrapSeq get() = _currentScrapSeq
 
+    private val _isScrapped = SingleLiveEvent<Int>()
+    val isScrapped get() = _isScrapped
+
     fun addMyScrap(trackBoardSeq : Int, title : String) {
         viewModelScope.launch(Dispatchers.IO) {
             scrapRepository.addMyScrap(trackBoardSeq, title).collectLatest {
@@ -47,13 +50,18 @@ class RecommendDetailViewModel @Inject constructor(
         }
     }
 
-    fun getMyScrap(title : String) {
+    fun getMyScrap(trackBoardSeq: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            scrapRepository.getMyScrap(title).collectLatest {
+            scrapRepository.getMyScrap().collectLatest {
                 Log.d("test5", "getMyScrap: $it")
                 if (it is Result.Success) {
                     _scrapList.value = it.data.data
-                    _successMsgEvent.postValue(it.data.msg)
+                    for(item in _scrapList.value){
+                        if(item.trackBoardFileDto.trackBoardDto.trackBoardSeq == trackBoardSeq){ // 이미 내가 스크랩한 경우
+                            _isScrapped.postValue(1)
+                            break
+                        }
+                    }
                 } else if (it is Result.Fail) {
                     _errorMsgEvent.postValue(it.data.msg)
                 }
