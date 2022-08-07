@@ -73,7 +73,6 @@ public class CrewServiceImpl implements CrewService {
 	private final AchievementRepository achiveRepo;
 	private final AchievementCompleteRepository accRepo;
 
-
 	@Transactional
 	@Override
 	public CrewUserDto joinCrew(Long userSeq, Long crewSeq, Optional<PasswordDto> passwordDto) throws Exception {
@@ -131,14 +130,18 @@ public class CrewServiceImpl implements CrewService {
 	@Override
 	public RunRecordResultDto insertUserRunRecordAsCrew(Long userSeq, Long crewId, RunRecordDto runRecordDto,
 			MultipartFile imgFile) throws Exception {
+
 		if (imgFile == null) {
 			throw new IllegalParameterException("저장할 경로 사진이 필요합니다.");
 		}
+
 		if (runRecordDto.getRunRecordRunningTime() == null || runRecordDto.getRunRecordRunningTime() == 0) {
 			throw new IllegalParameterException("달린 시간이 0인 기록은 저장할 수 없습니다.");
 		}
+
 		UserEntity userEntity = userRepo.findById(userSeq)
 				.orElseThrow(() -> new NotFoundUserException("러닝 완료 중, 유저를 특정할 수 없습니다."));
+
 		CrewEntity crewEntity = crewManagerRepo.findById(crewId)
 				.orElseThrow(() -> new CrewNotFoundException("러닝 완료 중 , 크루를 특정할 수 없습니다."));
 
@@ -170,6 +173,7 @@ public class CrewServiceImpl implements CrewService {
 				.runRecordCalorie(runRecordDto.getRunRecordRunningCalorie())
 				.runRecordLat(runRecordDto.getRunRecordRunningLat()).runRecordLng(runRecordDto.getRunRecordRunningLng())
 				.runRecordRegTime(LocalDateTime.now()).build();
+
 		// 입력에 혹시모를 null 들어오는지 체크해야함.
 		if (crewEntity.getCrewGoalType().equals("distance")) {
 			if (crewEntity.getCrewGoalAmount() <= runRecord.getRunRecordRunningDistance()) {
@@ -218,18 +222,20 @@ public class CrewServiceImpl implements CrewService {
 			userCrewTotalEntity.setCrewEntity(crewEntity);
 			userCrewTotalEntity.setUserEntity(userEntity);
 			userCrewTotalRunRepo.save(userCrewTotalEntity);
-		} else {
-			userCrewTotalEntity.setTotalLongestDistance(Math.max(userCrewTotalEntity.getTotalLongestDistance(),
-					runRecordDto.getRunRecordRunningDistance()));
-			userCrewTotalEntity.setTotalLongestTime(
-					Math.max(userCrewTotalEntity.getTotalLongestTime(), runRecordDto.getRunRecordRunningTime()));
-			userCrewTotalEntity
-					.setTotalTime(userCrewTotalEntity.getTotalTime() + runRecordDto.getRunRecordRunningTime());
-			userCrewTotalEntity.setTotalDistance(
-					userCrewTotalEntity.getTotalDistance() + runRecordDto.getRunRecordRunningDistance());
-			userCrewTotalEntity
-					.setTotalCalorie(userCrewTotalEntity.getTotalCalorie() + runRecord.getRunRecordCalorie());
 		}
+		//최대 거리 
+		userCrewTotalEntity.setTotalLongestDistance(
+				Math.max(userCrewTotalEntity.getTotalLongestDistance(), runRecordDto.getRunRecordRunningDistance()));
+		//최대 뛴 시간
+		userCrewTotalEntity.setTotalLongestTime(
+				Math.max(userCrewTotalEntity.getTotalLongestTime(), runRecordDto.getRunRecordRunningTime()));
+		//총 뛴 시간
+		userCrewTotalEntity.setTotalTime(userCrewTotalEntity.getTotalTime() + runRecordDto.getRunRecordRunningTime());
+		//총 뛴 거리
+		userCrewTotalEntity
+				.setTotalDistance(userCrewTotalEntity.getTotalDistance() + runRecordDto.getRunRecordRunningDistance());
+		//총 칼로리 소모
+		userCrewTotalEntity.setTotalCalorie(userCrewTotalEntity.getTotalCalorie() + runRecord.getRunRecordCalorie());
 
 		CrewTotalRecordDto userCrewDto = CrewTotalRecordDto.of(userCrewTotalEntity);
 		userCrewDto.setTotalAvgSpeed(3.6 * userCrewTotalEntity.getTotalDistance().doubleValue()
@@ -303,14 +309,12 @@ public class CrewServiceImpl implements CrewService {
 		}
 
 	}
-	
-	
+
 	@Transactional
 	@Override
-	public List<RecordCoordinateDto>  getCoordinateByRunRecordSeq(Long recordSeq) throws Exception {
+	public List<RecordCoordinateDto> getCoordinateByRunRecordSeq(Long recordSeq) throws Exception {
 
 		return runRecordRepo.getCoordinateByRunRecordSeq(recordSeq);
 	}
-	
 
 }
