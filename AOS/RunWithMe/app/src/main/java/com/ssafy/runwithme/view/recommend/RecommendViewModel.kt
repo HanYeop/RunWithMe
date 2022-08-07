@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.Multipart
 import javax.inject.Inject
 
@@ -32,9 +33,9 @@ class RecommendViewModel @Inject constructor(
             = MutableStateFlow(listOf())
     val recommendList get() = _recommendList.asStateFlow()
 
-    fun createRecommend(environmentPoint: Int, hardPoint: Int, RunRecordSeq: Int, content: String, img: MultipartBody.Part) {
+    fun createRecommend(trackBoardDto: RequestBody, img: MultipartBody.Part) {
         viewModelScope.launch(Dispatchers.IO) {
-            recommendRepository.createRecommend(environmentPoint, hardPoint, RunRecordSeq, content, img)
+            recommendRepository.createRecommend(trackBoardDto, img)
                 .collectLatest {
                     Log.d("test5", "createRecommend: $it")
                     if (it is Result.Success) {

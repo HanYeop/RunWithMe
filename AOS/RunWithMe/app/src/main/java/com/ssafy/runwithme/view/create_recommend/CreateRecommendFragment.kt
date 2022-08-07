@@ -6,15 +6,19 @@ import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.gson.Gson
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentCreateRecommendBinding
+import com.ssafy.runwithme.model.dto.TrackBoardDto
+import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.view.recommend.RecommendViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -74,10 +78,12 @@ class CreateRecommendFragment : BaseFragment<FragmentCreateRecommendBinding>(R.l
                     showToast("추천 사유를 입력 해주세요.")
                 }
                 else {
-                    recommendViewModel.createRecommend(
-                        binding.ratingEnvironment.rating.toInt(), binding.ratingHard.rating.toInt(), runRecordSeq,
-                        binding.etRecommendContent.text.toString(), imgFile!!
-                    )
+                    val trackBoard = TrackBoardDto(0, runRecordSeq, binding.etRecommendContent.text.toString(), binding.ratingEnvironment.rating.toInt(), binding.ratingHard.rating.toInt())
+                    val json = Gson().toJson(trackBoard)
+                    val trackBoardDto = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), json)
+
+                    Log.d(TAG, "initClickListener: $json")
+                    recommendViewModel.createRecommend(trackBoardDto, imgFile!!)
                 }
             }
         }

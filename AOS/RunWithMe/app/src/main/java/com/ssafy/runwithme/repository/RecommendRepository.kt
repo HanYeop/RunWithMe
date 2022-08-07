@@ -10,14 +10,15 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class RecommendRepository @Inject constructor(
     private val recommendRemoteDataSource: RecommendRemoteDataSource
 ){
-    fun createRecommend(environmentPoint: Int, hardPoint: Int, RunRecordSeq: Int, content: String, img: MultipartBody.Part): Flow<Result<BaseResponse<TrackBoardDto>>> = flow {
+    fun createRecommend(trackBoardDto: RequestBody, img: MultipartBody.Part): Flow<Result<BaseResponse<TrackBoardDto>>> = flow {
         emit(Result.Loading)
-        recommendRemoteDataSource.createRecommend(environmentPoint, hardPoint, RunRecordSeq, content, img).collect {
+        recommendRemoteDataSource.createRecommend(trackBoardDto, img).collect {
             if(it.success){
                 emit(Result.Success(it))
             }else if(!it.success){
