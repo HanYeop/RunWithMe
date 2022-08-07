@@ -286,7 +286,7 @@ public class CrewServiceImpl implements CrewService {
 
 	@Transactional
 	@Override
-	public int setRecordCooldinate(Long recordSeq, List<CoordinateDto> coordinates) throws Exception {
+	public int setRecordCoordinate(Long recordSeq, List<CoordinateDto> coordinates) throws Exception {
 
 		int[] results = runRecordRepo.coordinatesInsertBatch(recordSeq, coordinates);
 
