@@ -8,6 +8,7 @@ const val USER = "user_seq"
 const val USER_WEIGHT = "user_weight"
 const val USER_NAME = "run_user_name"
 
+const val PERMISSION_OK = "permission_ok"
 
 const val TAG = "test5"
 
