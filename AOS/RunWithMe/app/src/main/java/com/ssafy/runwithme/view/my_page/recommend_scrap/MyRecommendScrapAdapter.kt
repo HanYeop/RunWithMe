@@ -21,7 +21,7 @@ class MyRecommendScrapAdapter(private val listener : MyRecommendScrapListener) :
         }
 
         fun bind(scrapInfoDto: ScrapInfoDto) {
-            binding. = runRecord
+            binding.scrapInfo = scrapInfoDto
             binding.executePendingBindings()
         }
     }

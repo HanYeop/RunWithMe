@@ -1,8 +1,6 @@
 package com.ssafy.runwithme.view.my_page.recommend_scrap
 
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
@@ -17,6 +15,7 @@ class MyRecommendScrapFragment : BaseFragment<FragmentMyRecommendScrapBinding>(R
         recommendDetailViewModel.getMyScrap(0)
 
         binding.apply {
+            recommendDetailVM = recommendDetailViewModel
             recyclerMyScrap.adapter = MyRecommendScrapAdapter(listener)
         }
 

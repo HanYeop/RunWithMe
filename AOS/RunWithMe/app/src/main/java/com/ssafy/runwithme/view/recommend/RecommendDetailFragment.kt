@@ -1,6 +1,7 @@
 package com.ssafy.runwithme.view.recommend
 
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -22,7 +23,7 @@ class RecommendDetailFragment : BaseFragment<FragmentRecommendDetailBinding>(R.l
     private var runRecordDto : RunRecordDto? = null
     private var trackBoardDto : TrackBoardDto? = null
 
-    private val recommendDetailViewModel by viewModels<RecommendDetailViewModel>()
+    private val recommendDetailViewModel by activityViewModels<RecommendDetailViewModel>()
 
     private var isScrapped = false
     private var distanceText = ""

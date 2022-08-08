@@ -3,6 +3,7 @@ package com.ssafy.runwithme.view.recommend
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.dto.ScrapInfoDto
 import com.ssafy.runwithme.repository.ScrapRepository
 import com.ssafy.runwithme.utils.Result
@@ -26,8 +27,8 @@ class RecommendDetailViewModel @Inject constructor(
     private val _errorMsgEvent = SingleLiveEvent<String>()
     val errorMsgEvent get() = _errorMsgEvent
 
-    private val _scrapList : MutableStateFlow<List<ScrapInfoDto>>
-            = MutableStateFlow(listOf())
+    private val _scrapList : MutableStateFlow<Result<BaseResponse<List<ScrapInfoDto>>>>
+            = MutableStateFlow(Result.Uninitialized)
     val scrapList get() = _scrapList.asStateFlow()
 
     private val _currentScrapSeq = SingleLiveEvent<Int>()
@@ -55,10 +56,10 @@ class RecommendDetailViewModel @Inject constructor(
             scrapRepository.getMyScrap().collectLatest {
                 Log.d("test5", "getMyScrap: $it")
                 if (it is Result.Success) {
-                    _scrapList.value = it.data.data
+                    _scrapList.value = it
 
                     if(trackBoardSeq != 0){
-                        for(item in _scrapList.value){
+                        for(item in it.data.data){
                             if(item.trackBoardFileDto.trackBoardDto.trackBoardSeq == trackBoardSeq){ // 이미 내가 스크랩한 경우
                                 _isScrapped.postValue(1)
                                 break
@@ -75,7 +76,7 @@ class RecommendDetailViewModel @Inject constructor(
     fun deleteMyScrap(scrapSeq : Int) {
         viewModelScope.launch(Dispatchers.IO) {
             scrapRepository.deleteMyScrap(scrapSeq).collectLatest {
-                Log.d("test5", "getMyScrap: $it")
+                Log.d("test5", "deleteMyScrap: $it")
                 if (it is Result.Success) {
                     _successMsgEvent.postValue(it.data.msg)
                 } else if (it is Result.Fail) {

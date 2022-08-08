@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="recommendDetailVM"
+            type="com.ssafy.runwithme.view.recommend.RecommendDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,6 +41,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
             tools:listitem="@layout/item_my_scrap"
+            submitList="@{recommendDetailVM.scrapList}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintEnd_toEndOf="parent"
