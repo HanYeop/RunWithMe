@@ -89,12 +89,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_one" />
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/btn_scrap"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="20dp"
                 android:background="@drawable/btn_circle_main_color"
                 android:padding="8dp"
+                android:alpha="0.5"
                 app:layout_constraintBottom_toBottomOf="@+id/animation_start_btn"
                 app:layout_constraintStart_toEndOf="@+id/animation_start_btn"
                 app:layout_constraintTop_toTopOf="@+id/animation_start_btn"

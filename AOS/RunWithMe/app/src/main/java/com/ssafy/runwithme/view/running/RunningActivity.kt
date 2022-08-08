@@ -73,10 +73,12 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             // 맵 불러오기
             mapView.getMapAsync {
                 map = it
+
                 // 알림 클릭 등으로 다시 생성되었을 때 경로 표시
                 addAllPolylines()
                 moveCameraToUser()
 
+                it.mapType = 1
                 it.isMyLocationEnabled = true
 
                 sumDistance = RunningService.sumDistance.value!!

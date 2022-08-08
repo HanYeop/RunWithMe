@@ -28,6 +28,7 @@ import com.ssafy.runwithme.model.dto.TrackBoardDto
 import com.ssafy.runwithme.model.response.RecommendResponse
 import com.ssafy.runwithme.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -55,8 +56,12 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
+    private var recommendList = listOf<RecommendResponse>()
+
     private lateinit var currentRunRecord : RunRecordDto
     private lateinit var currentTrackBoard : TrackBoardDto
+
+    private var job: Job = Job()
 
     // 처음 여부 (true = 아직 처음)
     private var first: Boolean = true
@@ -73,6 +78,11 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
     }
 
     override fun onMarkerClick(p0: Marker): Boolean {
+
+        if(job.isActive){
+            job.cancel()
+        }
+
         binding.apply {
             cardInfo.visibility = View.VISIBLE
             tvTitle.text = p0.title
@@ -111,7 +121,8 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
     private fun initViewModelCallBack(){
         lifecycleScope.launch { 
             recommendViewModel.recommendList.collectLatest {
-                recommendDraw(it)
+                recommendList = it
+                recommendDraw(recommendList)
                 binding.tvTitleNum.text = it.size.toString()
             }
         }
@@ -127,7 +138,6 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
         if(list.isNotEmpty()) {
             if(map != null){
                 map.clear()
-
             }
             for (i in list) {
                 polyLineList.add(LatLng(i.latitude, i.longitude))
@@ -139,7 +149,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
 
     // 경로 전부 표시
     private fun addAllPolylines() {
-        lifecycleScope.launch {
+        job = lifecycleScope.launch {
             for(i in 1 until polyLineList.size){
                 val polylineOptions = PolylineOptions()
                     .color(POLYLINE_COLOR)
@@ -148,7 +158,9 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
                     .add(polyLineList[i - 1])
                 map.addPolyline(polylineOptions)
                 delay(POLYLINE_DRAW_TIME)
-
+            }
+            if(map != null){
+                recommendDraw(recommendList)
             }
         }
     }

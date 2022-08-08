@@ -231,4 +231,12 @@ class RunningViewModel @Inject constructor(
             }
         }
     }
+
+    fun emptyScrapList(){
+        _scrapList.value = emptyList()
+    }
+
+    fun emptyCoordinates(){
+        _getCoordinates.value = emptyList()
+    }
 }
