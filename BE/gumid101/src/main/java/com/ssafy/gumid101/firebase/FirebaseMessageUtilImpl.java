@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class FirebaseMessageImpl implements FirebaseMessage {
+public class FirebaseMessageUtilImpl implements FirebaseMessageUtil {
 	private final ObjectMapper objectMapper;
 
 	/**
