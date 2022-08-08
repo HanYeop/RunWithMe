@@ -59,7 +59,7 @@ class RecommendDetailViewModel @Inject constructor(
                     _scrapList.value = it
 
                     if(trackBoardSeq != 0){
-                        for(i : Int in 0..it.data.data.size){
+                        for(i : Int in 0 until it.data.data.size){
                             var item = it.data.data
                             if(item[i].trackBoardFileDto.trackBoardDto.trackBoardSeq == trackBoardSeq){ // 이미 내가 스크랩한 경우
                                 _currentScrapSeq.postValue(item[i].scrapSeq)

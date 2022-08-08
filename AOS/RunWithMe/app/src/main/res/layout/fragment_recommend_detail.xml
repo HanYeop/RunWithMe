@@ -8,6 +8,9 @@
         <variable
             name="imgSeq"
             type="Integer" />
+        <variable
+            name="content"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -177,11 +180,13 @@
                     android:id="@+id/tv_recommend_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="러닝 경사도 괜찮고 주변 환경도 쾌적해서 매우 추천 드리는 경로입니다 !"
+                    tools:text="추천 경로에 대한 상세내용이 적히는 곳"
+                    android:text="@{content}"
+                    android:textSize="16sp"
                     android:textColor="@color/main_black"
                     android:fontFamily="@font/noto_sans_bold"
                     android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="16dp" />
+                    android:layout_marginVertical="16dp" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_route"

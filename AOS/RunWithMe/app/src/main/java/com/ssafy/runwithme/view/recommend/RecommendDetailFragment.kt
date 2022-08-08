@@ -1,9 +1,7 @@
 package com.ssafy.runwithme.view.recommend
 
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ssafy.runwithme.R
@@ -11,9 +9,7 @@ import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentRecommendDetailBinding
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.dto.TrackBoardDto
-import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.utils.imageFormatter
-import com.ssafy.runwithme.view.run_record_detail.RunRecordDetailFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,11 +28,11 @@ class RecommendDetailFragment : BaseFragment<FragmentRecommendDetailBinding>(R.l
     private var timeText = ""
     private var currentScrapSeq = 0
 
-
     override fun init() {
         runRecordDto = args.runRecordDto
         trackBoardDto = args.trackBoardDto
         binding.imgSeq = args.imgSeq
+        binding.content = trackBoardDto!!.content
 
         recommendDetailViewModel.getMyScrap(trackBoardDto!!.trackBoardSeq) // 이미 나에게 스크랩된 경로인지 확인
 
@@ -60,6 +56,7 @@ class RecommendDetailFragment : BaseFragment<FragmentRecommendDetailBinding>(R.l
                     ScrapDialog(requireContext(), listener, false).show()
                 }
             }
+
             btnRoute.setOnClickListener {
                 val action = RecommendDetailFragmentDirections.actionRecommendDetailFragmentToRunningRouteFragment(
                     runRecordDto!!.runRecordSeq,distanceText,timeText)
