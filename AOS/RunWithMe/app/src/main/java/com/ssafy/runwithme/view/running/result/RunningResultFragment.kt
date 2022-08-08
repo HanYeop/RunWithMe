@@ -186,6 +186,11 @@ class RunningResultFragment : BaseFragment<FragmentRunningResultBinding>(R.layou
         )
 
         runningViewModel.createRunRecord(sharedPreferences.getInt(RUN_RECORD_CREW_ID,0) ,imgFile,runDto)
+
+        binding.imageView.setOnClickListener {
+            val action = RunningResultFragmentDirections.actionRunningResultFragmentToCreateRecommendFragment(runRecordSeq)
+            findNavController().navigate(action)
+        }
     }
 
     private fun initClickListener(){

@@ -88,6 +88,19 @@
                 app:layout_constraintStart_toStartOf="@+id/tv_one"
                 app:layout_constraintTop_toBottomOf="@+id/tv_one" />
 
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/btn_circle_main_color"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/animation_start_btn"
+                app:layout_constraintStart_toEndOf="@+id/animation_start_btn"
+                app:layout_constraintTop_toTopOf="@+id/animation_start_btn"
+                app:srcCompat="@drawable/bookmark_24"
+                app:tint="@color/white" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

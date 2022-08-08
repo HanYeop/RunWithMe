@@ -61,12 +61,15 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
                 val action = RunRecordDetailFragmentDirections.actionRunRecordDetailFragmentToCreateRecommendFragment2(runRecordDto!!.runRecordSeq)
                 findNavController().navigate(action)
             }
+            imageView.setOnClickListener{
+                val action = RunRecordDetailFragmentDirections.actionRunRecordDetailFragmentToRunningRouteFragment2(
+                    runRecordDto!!.runRecordSeq,distanceText,timeText)
+                findNavController().navigate(action)
+            }
             btnRoute.setOnClickListener {
-                btnRoute.setOnClickListener {
-                    val action = RunRecordDetailFragmentDirections.actionRunRecordDetailFragmentToRunningRouteFragment2(
-                        runRecordDto!!.runRecordSeq,distanceText,timeText)
-                    findNavController().navigate(action)
-                }
+                val action = RunRecordDetailFragmentDirections.actionRunRecordDetailFragmentToRunningRouteFragment2(
+                    runRecordDto!!.runRecordSeq,distanceText,timeText)
+                findNavController().navigate(action)
             }
         }
     }

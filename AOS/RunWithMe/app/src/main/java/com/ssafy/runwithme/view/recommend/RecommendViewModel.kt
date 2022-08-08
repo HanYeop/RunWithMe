@@ -3,7 +3,9 @@ package com.ssafy.runwithme.view.recommend
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.runwithme.model.dto.CoordinateDto
 import com.ssafy.runwithme.model.response.RecommendResponse
+import com.ssafy.runwithme.repository.CrewRepository
 import com.ssafy.runwithme.repository.RecommendRepository
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.SingleLiveEvent
@@ -20,7 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RecommendViewModel @Inject constructor(
-    private val recommendRepository: RecommendRepository
+    private val recommendRepository: RecommendRepository,
+    private val crewRepository: CrewRepository
 ): ViewModel() {
 
     private val _successMsgEvent = SingleLiveEvent<String>()
@@ -32,6 +35,9 @@ class RecommendViewModel @Inject constructor(
     private val _recommendList : MutableStateFlow<List<RecommendResponse>>
             = MutableStateFlow(listOf())
     val recommendList get() = _recommendList.asStateFlow()
+
+    private val _getCoordinates : MutableStateFlow<List<CoordinateDto>> = MutableStateFlow(listOf())
+    val getCoordinates get() = _getCoordinates
 
     fun createRecommend(trackBoardDto: RequestBody, img: MultipartBody.Part) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -53,6 +59,19 @@ class RecommendViewModel @Inject constructor(
                 if (it is Result.Success) {
                     _recommendList.value = it.data.data
                 } else if (it is Result.Fail) {
+                    _errorMsgEvent.postValue(it.data.msg)
+                }
+            }
+        }
+    }
+
+    fun getCoordinates(recordSeq: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            crewRepository.getCoordinates(recordSeq).collectLatest {
+                Log.d("test5", "getCoordinates: $it")
+                if(it is Result.Success){
+                    _getCoordinates.value = it.data.data
+                }else if(it is Result.Fail){
                     _errorMsgEvent.postValue(it.data.msg)
                 }
             }

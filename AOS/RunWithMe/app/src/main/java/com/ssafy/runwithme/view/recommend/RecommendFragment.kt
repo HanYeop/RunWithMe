@@ -2,6 +2,7 @@ package com.ssafy.runwithme.view.recommend
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.location.Address
 import android.location.Geocoder
@@ -22,18 +23,22 @@ import com.google.android.gms.maps.model.*
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragmentKeep
 import com.ssafy.runwithme.databinding.FragmentRecommendBinding
+import com.ssafy.runwithme.model.dto.CoordinateDto
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.dto.TrackBoardDto
 import com.ssafy.runwithme.model.response.RecommendResponse
 import com.ssafy.runwithme.utils.FASTEST_LOCATION_UPDATE_INTERVAL
 import com.ssafy.runwithme.utils.LOCATION_UPDATE_INTERVAL
+import com.ssafy.runwithme.utils.POLYLINE_WIDTH
 import com.ssafy.runwithme.utils.TrackingUtility
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.*
 
+@SuppressLint("MissingPermission")
 @AndroidEntryPoint
 class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fragment_recommend),
     OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -45,6 +50,10 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
     private lateinit var currentPosition: LatLng
 
     private var myLocation = Location("MyLocation")
+
+    private var POLYLINE_COLOR = Color.RED
+
+    private var polyLineList = mutableListOf<LatLng>()
 
     private lateinit var visibleRegion: VisibleRegion
 
@@ -77,6 +86,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
             currentRunRecord = (p0.tag as RecommendResponse).runRecordDto
             currentTrackBoard = (p0.tag as RecommendResponse).trackBoardDto
         }
+        recommendViewModel.getCoordinates((p0.tag as RecommendResponse).runRecordDto.runRecordSeq)
         return true
     }
 
@@ -99,17 +109,67 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
             val action = RecommendFragmentDirections.actionRecommendFragmentToRecommendDetailFragment(currentRunRecord, currentTrackBoard)
             findNavController().navigate(action)
         }
+
     }
 
     private fun initViewModelCallBack(){
         lifecycleScope.launch { 
             recommendViewModel.recommendList.collectLatest {
                 recommendDraw(it)
-                Log.d("test5", "initViewModelCallBack: $it ${it.size}")
                 binding.tvTitleNum.text = it.size.toString()
-                Log.d("test5", "initViewModelCallBack: ${it.size}")
             }
         }
+        lifecycleScope.launch {
+            recommendViewModel.getCoordinates.collectLatest {
+                map.clear()
+                polyLineList = mutableListOf<LatLng>()
+                initPolyLine(it)
+            }
+        }
+    }
+
+    private fun initPolyLine(list: List<CoordinateDto>){
+        if(list.isNotEmpty()) {
+            for (i in list) {
+                polyLineList.add(LatLng(i.latitude, i.longitude))
+            }
+            addAllPolylines()
+            zoomToWholeTrack()
+        }
+    }
+
+    // 경로 전부 표시
+    private fun addAllPolylines() {
+        lifecycleScope.launch {
+            for(i in 1 until polyLineList.size){
+                val polylineOptions = PolylineOptions()
+                    .color(POLYLINE_COLOR)
+                    .width(POLYLINE_WIDTH)
+                    .add(polyLineList[i])
+                    .add(polyLineList[i - 1])
+                map.addPolyline(polylineOptions)
+                delay(100)
+            }
+        }
+    }
+
+    // 전체 경로가 다 보이게 줌
+    private fun zoomToWholeTrack() {
+        val bounds = LatLngBounds.Builder()
+        for (polyline in polyLineList) {
+            bounds.include(polyline)
+        }
+
+        val width = binding.mapViewUser.width
+        val height = binding.mapViewUser.height
+        map.moveCamera(
+            CameraUpdateFactory.newLatLngBounds(
+                bounds.build(),
+                width,
+                height,
+                (height * 0.05f).toInt()
+            )
+        )
     }
 
     // 추천 장소 마커 찍기
