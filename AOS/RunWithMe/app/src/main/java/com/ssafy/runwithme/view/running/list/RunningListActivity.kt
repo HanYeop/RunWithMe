@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.location.Address
-import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
@@ -17,12 +15,14 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseActivity
 import com.ssafy.runwithme.databinding.ActivityRunningListBinding
 import com.ssafy.runwithme.model.dto.ScrapInfoDto
-import com.ssafy.runwithme.model.response.RecommendResponse
 import com.ssafy.runwithme.utils.FASTEST_LOCATION_UPDATE_INTERVAL
 import com.ssafy.runwithme.utils.LOCATION_UPDATE_INTERVAL
 import com.ssafy.runwithme.utils.TAG
@@ -33,8 +33,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.io.IOException
-import java.util.*
 import javax.inject.Inject
 
 @SuppressLint("MissingPermission")
@@ -111,14 +109,14 @@ class RunningListActivity : BaseActivity<ActivityRunningListBinding>(R.layout.ac
         for(i in list){
             val latLng = LatLng(i.trackBoardFileDto.runRecordDto.runRecordRunningLat, i.trackBoardFileDto.runRecordDto.runRecordRunningLng)
             val title = "${i.title}"
-            var markerSnippet = "테스트"
+            var markerSnippet = "이 경로로 러닝 시작하기"
 
-            drawMarker(latLng, title, markerSnippet)
+            drawMarker(latLng, title, markerSnippet, i.trackBoardFileDto.runRecordDto.runRecordSeq)
         }
     }
 
     // 마커 그리기
-    private fun drawMarker(latLng: LatLng, markerTitle: String?, markerSnippet: String?): Marker? {
+    private fun drawMarker(latLng: LatLng, markerTitle: String?, markerSnippet: String?, data: Int): Marker? {
         val markerOptions = MarkerOptions().apply {
             position(latLng)
             title(markerTitle)
@@ -139,7 +137,7 @@ class RunningListActivity : BaseActivity<ActivityRunningListBinding>(R.layout.ac
         }
 
         val marker = map?.addMarker(markerOptions)
-//        marker?.tag = data
+        marker?.tag = data
         return marker
     }
 

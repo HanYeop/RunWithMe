@@ -44,6 +44,7 @@ const val FASTEST_LOCATION_UPDATE_INTERVAL = 10000L
  */
 const val POLYLINE_WIDTH = 12f
 const val MAP_ZOOM = 17f
+const val POLYLINE_DRAW_TIME = 30L
 
 /**
  * 타이머 갱신 주기

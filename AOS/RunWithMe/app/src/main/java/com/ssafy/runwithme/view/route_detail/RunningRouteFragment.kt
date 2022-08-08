@@ -18,6 +18,7 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentRunningRouteBinding
 import com.ssafy.runwithme.model.dto.CoordinateDto
+import com.ssafy.runwithme.utils.POLYLINE_DRAW_TIME
 import com.ssafy.runwithme.utils.POLYLINE_WIDTH
 import com.ssafy.runwithme.view.running.RunningActivity
 import com.ssafy.runwithme.view.running.RunningViewModel
@@ -100,7 +101,7 @@ class RunningRouteFragment : BaseFragment<FragmentRunningRouteBinding>(R.layout.
                     .add(polyLineList[i])
                     .add(polyLineList[i - 1])
                 map.addPolyline(polylineOptions)
-                delay(30)
+                delay(POLYLINE_DRAW_TIME)
             }
         }
     }

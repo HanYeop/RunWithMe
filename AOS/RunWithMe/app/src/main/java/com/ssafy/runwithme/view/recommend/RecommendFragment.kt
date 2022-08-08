@@ -8,7 +8,6 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
@@ -27,10 +26,7 @@ import com.ssafy.runwithme.model.dto.CoordinateDto
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.dto.TrackBoardDto
 import com.ssafy.runwithme.model.response.RecommendResponse
-import com.ssafy.runwithme.utils.FASTEST_LOCATION_UPDATE_INTERVAL
-import com.ssafy.runwithme.utils.LOCATION_UPDATE_INTERVAL
-import com.ssafy.runwithme.utils.POLYLINE_WIDTH
-import com.ssafy.runwithme.utils.TrackingUtility
+import com.ssafy.runwithme.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -131,6 +127,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
         if(list.isNotEmpty()) {
             if(map != null){
                 map.clear()
+
             }
             for (i in list) {
                 polyLineList.add(LatLng(i.latitude, i.longitude))
@@ -150,7 +147,8 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
                     .add(polyLineList[i])
                     .add(polyLineList[i - 1])
                 map.addPolyline(polylineOptions)
-                delay(100)
+                delay(POLYLINE_DRAW_TIME)
+
             }
         }
     }
@@ -164,7 +162,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
 
         val width = binding.mapViewUser.width
         val height = binding.mapViewUser.height
-        map.moveCamera(
+        map.animateCamera(
             CameraUpdateFactory.newLatLngBounds(
                 bounds.build(),
                 width,
