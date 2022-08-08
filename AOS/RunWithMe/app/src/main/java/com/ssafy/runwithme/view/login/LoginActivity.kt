@@ -7,6 +7,8 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseActivity
 import com.ssafy.runwithme.databinding.ActivityMainBinding
 import com.ssafy.runwithme.utils.JWT
+import com.ssafy.runwithme.utils.PERMISSION_OK
+import com.ssafy.runwithme.view.permission.PermissionActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -17,6 +19,11 @@ class LoginActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_login)
     lateinit var sharedPref: SharedPreferences
 
     override fun init() {
+        if(!sharedPref.getBoolean(PERMISSION_OK, false)){
+            startActivity(Intent(this, PermissionActivity::class.java))
+            finish()
+        }
+
         autoLogin()
     }
 
