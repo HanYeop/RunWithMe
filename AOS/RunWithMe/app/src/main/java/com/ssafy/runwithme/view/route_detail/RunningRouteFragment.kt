@@ -100,7 +100,7 @@ class RunningRouteFragment : BaseFragment<FragmentRunningRouteBinding>(R.layout.
                     .add(polyLineList[i])
                     .add(polyLineList[i - 1])
                 map.addPolyline(polylineOptions)
-                delay(100)
+                delay(30)
             }
         }
     }

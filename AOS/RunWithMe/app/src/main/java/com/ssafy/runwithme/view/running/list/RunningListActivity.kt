@@ -17,13 +17,12 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseActivity
 import com.ssafy.runwithme.databinding.ActivityRunningListBinding
+import com.ssafy.runwithme.model.dto.ScrapInfoDto
+import com.ssafy.runwithme.model.response.RecommendResponse
 import com.ssafy.runwithme.utils.FASTEST_LOCATION_UPDATE_INTERVAL
 import com.ssafy.runwithme.utils.LOCATION_UPDATE_INTERVAL
 import com.ssafy.runwithme.utils.TAG
@@ -63,9 +62,11 @@ class RunningListActivity : BaseActivity<ActivityRunningListBinding>(R.layout.ac
             // 맵 불러오기
             mapViewRunningList.getMapAsync {
                 map = it
-//                it.mapType = 1
-//                it.setMapStyle(MapStyleOptions())
+                it.mapType = 1
                 updateLocation()
+
+                // 스크랩 불러오기
+                runningViewModel.getMyScrap()
 
                 it.isMyLocationEnabled = true
 
@@ -96,6 +97,50 @@ class RunningListActivity : BaseActivity<ActivityRunningListBinding>(R.layout.ac
                 binding.tvNickName.text = "$it!"
             }
         }
+        lifecycleScope.launch {
+            runningViewModel.scrapList.collectLatest {
+                if(it.isNotEmpty()){
+                    scrapDraw(it)
+                }
+            }
+        }
+    }
+
+    // 내가 스크랩한 장소 마커 찍기
+    private fun scrapDraw(list: List<ScrapInfoDto>){
+        for(i in list){
+            val latLng = LatLng(i.trackBoardFileDto.runRecordDto.runRecordRunningLat, i.trackBoardFileDto.runRecordDto.runRecordRunningLng)
+            val title = "${i.title}"
+            var markerSnippet = "테스트"
+
+            drawMarker(latLng, title, markerSnippet)
+        }
+    }
+
+    // 마커 그리기
+    private fun drawMarker(latLng: LatLng, markerTitle: String?, markerSnippet: String?): Marker? {
+        val markerOptions = MarkerOptions().apply {
+            position(latLng)
+            title(markerTitle)
+            snippet(markerSnippet)
+            draggable(true)
+            icon(
+                BitmapDescriptorFactory.fromBitmap(
+                    Bitmap.createScaledBitmap(
+                        (ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.user_location,
+                            this@RunningListActivity.theme
+                        ) as BitmapDrawable).bitmap,
+                        150, 150, false
+                    )
+                )
+            )
+        }
+
+        val marker = map?.addMarker(markerOptions)
+//        marker?.tag = data
+        return marker
     }
 
     // 위치 정보 요청하기

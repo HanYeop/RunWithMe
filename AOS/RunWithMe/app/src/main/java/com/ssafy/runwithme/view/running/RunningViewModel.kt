@@ -8,12 +8,10 @@ import com.google.gson.Gson
 import com.ssafy.runwithme.model.dto.AchievementDto
 import com.ssafy.runwithme.model.dto.CoordinateDto
 import com.ssafy.runwithme.model.dto.RunRecordDto
+import com.ssafy.runwithme.model.dto.ScrapInfoDto
 import com.ssafy.runwithme.model.entity.RunRecordEntity
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
-import com.ssafy.runwithme.repository.CrewManagerRepository
-import com.ssafy.runwithme.repository.CrewRepository
-import com.ssafy.runwithme.repository.MyActivityRepository
-import com.ssafy.runwithme.repository.RunRepository
+import com.ssafy.runwithme.repository.*
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.utils.SingleLiveEvent
 import com.ssafy.runwithme.utils.USER_NAME
@@ -37,7 +35,8 @@ class RunningViewModel @Inject constructor(
     private val crewManagerRepository: CrewManagerRepository,
     private val sharedPreferences: SharedPreferences,
     private val myActivityRepository: MyActivityRepository,
-    private val runRepository: RunRepository
+    private val runRepository: RunRepository,
+    private val scrapRepository: ScrapRepository
 ): ViewModel(){
 
     private val _runRecordSeq = MutableStateFlow(0)
@@ -69,6 +68,10 @@ class RunningViewModel @Inject constructor(
 
     private val _nickName = MutableStateFlow("")
     val nickname get() = _nickName.asStateFlow()
+
+    private val _scrapList : MutableStateFlow<List<ScrapInfoDto>>
+            = MutableStateFlow(listOf())
+    val scrapList get() = _scrapList.asStateFlow()
 
     fun createRunRecord(crewId: Int, imgFile: MultipartBody.Part, runRecordDto: RunRecordDto){
         val json = Gson().toJson(runRecordDto)
@@ -211,6 +214,19 @@ class RunningViewModel @Inject constructor(
             runRepository.getAllRunsSortedByDate().collectLatest {
                 if(it is Result.Success){
                     _localRunList.value = it.data
+                }
+            }
+        }
+    }
+
+    fun getMyScrap() {
+        viewModelScope.launch(Dispatchers.IO) {
+            scrapRepository.getMyScrap().collectLatest {
+                Log.d("test5", "getMyScrap: $it")
+                if (it is Result.Success) {
+                    _scrapList.value = it.data.data
+                } else if (it is Result.Fail) {
+                    _errorMsgEvent.postValue(it.data.msg)
                 }
             }
         }

@@ -42,7 +42,7 @@ const val FASTEST_LOCATION_UPDATE_INTERVAL = 10000L
 /**
  * 경로 표시 옵션
  */
-const val POLYLINE_WIDTH = 10f
+const val POLYLINE_WIDTH = 12f
 const val MAP_ZOOM = 17f
 
 /**
