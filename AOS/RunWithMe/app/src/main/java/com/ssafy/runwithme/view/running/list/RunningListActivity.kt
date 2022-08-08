@@ -92,9 +92,13 @@ GoogleMap.OnMarkerClickListener{
             job.cancel()
         }
         runningViewModel.emptyCoordinates()
-        p0.showInfoWindow()
-        Log.d(TAG, "onMarkerClick: ${p0.tag as Int}")
-        runningViewModel.getCoordinates(p0.tag as Int)
+        val scrapInfo = p0.tag as ScrapInfoDto
+        binding.scrap = scrapInfo
+
+        binding.cardInfo.visibility = View.VISIBLE
+        binding.animationStartBtn.visibility = View.GONE
+
+        runningViewModel.getCoordinates(scrapInfo.trackBoardFileDto.runRecordDto.runRecordSeq)
         return true
     }
 
@@ -186,12 +190,12 @@ GoogleMap.OnMarkerClickListener{
             val title = "${i.title}"
             var markerSnippet = "이 경로로 러닝 시작하기"
 
-            drawMarker(latLng, title, markerSnippet, i.trackBoardFileDto.runRecordDto.runRecordSeq)
+            drawMarker(latLng, title, markerSnippet, i)
         }
     }
 
     // 마커 그리기
-    private fun drawMarker(latLng: LatLng, markerTitle: String?, markerSnippet: String?, data: Int): Marker? {
+    private fun drawMarker(latLng: LatLng, markerTitle: String?, markerSnippet: String?, data: ScrapInfoDto): Marker? {
         val markerOptions = MarkerOptions().apply {
             position(latLng)
             title(markerTitle)
@@ -287,6 +291,11 @@ GoogleMap.OnMarkerClickListener{
                     }
                     scrapOn = false
                 }
+            }
+
+            imgCancel.setOnClickListener {
+                binding.cardInfo.visibility = View.GONE
+                binding.animationStartBtn.visibility = View.VISIBLE
             }
         }
     }

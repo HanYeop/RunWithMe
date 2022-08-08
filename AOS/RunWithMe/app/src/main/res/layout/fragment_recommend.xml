@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="recommend"
-            type="com.ssafy.runwithme.model.response.RecommendResponse" />
+            name="trackBoard"
+            type="com.ssafy.runwithme.model.dto.TrackBoardFileDto" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -91,7 +91,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:runRecordImage="@{recommend.imageFileDto.imgSeq}"
+                    app:runRecordImage="@{trackBoard.trackBoardImageFileDto.imgSeq}"
                     tools:srcCompat="@color/main_black" />
 
                 <TextView
@@ -112,7 +112,7 @@
                     android:layout_width="127dp"
                     android:layout_height="42dp"
                     android:padding="8dp"
-                    app:hardPoint="@{recommend.trackBoardDto.hardPoint}"
+                    app:hardPoint="@{trackBoard.trackBoardDto.hardPoint}"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_hard_point"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_hard_point"
@@ -150,7 +150,7 @@
                     app:srb_clickable="false"
                     app:srb_isIndicator="true"
                     app:srb_numStars="5"
-                    app:hardPoint="@{recommend.trackBoardDto.environmentPoint}"
+                    app:hardPoint="@{trackBoard.trackBoardDto.environmentPoint}"
                     app:srb_scrollable="true"
                     app:srb_starHeight="18dp"
                     app:srb_starPadding="2dp"
@@ -165,6 +165,7 @@
                     android:textColor="@color/main_black"
                     android:textSize="14sp"
                     tools:text="제목"
+                    android:text="@{trackBoard.runRecordDto.userName + `님의 추천경로`}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/img_run_record"
                     app:layout_constraintTop_toTopOf="parent" />

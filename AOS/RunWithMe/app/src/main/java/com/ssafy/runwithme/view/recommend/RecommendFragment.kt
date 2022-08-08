@@ -22,11 +22,7 @@ import com.google.android.gms.maps.model.*
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragmentKeep
 import com.ssafy.runwithme.databinding.FragmentRecommendBinding
-import com.ssafy.runwithme.model.dto.CoordinateDto
-import com.ssafy.runwithme.model.dto.ImageFileDto
-import com.ssafy.runwithme.model.dto.RunRecordDto
-import com.ssafy.runwithme.model.dto.TrackBoardDto
-import com.ssafy.runwithme.model.response.RecommendResponse
+import com.ssafy.runwithme.model.dto.*
 import com.ssafy.runwithme.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -57,7 +53,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
-    private var recommendList = listOf<RecommendResponse>()
+    private var trackBoardList = listOf<TrackBoardFileDto>()
 
     private lateinit var currentRunRecord : RunRecordDto
     private lateinit var currentTrackBoard : TrackBoardDto
@@ -88,14 +84,15 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
         binding.apply {
             cardInfo.visibility = View.VISIBLE
             tvTitle.text = p0.title
-            recommend = p0.tag as RecommendResponse
+            val curTrackBoardFile = p0.tag as TrackBoardFileDto
+            trackBoard = curTrackBoardFile
             p0.showInfoWindow()
 
-            currentRunRecord = (p0.tag as RecommendResponse).runRecordDto
-            currentTrackBoard = (p0.tag as RecommendResponse).trackBoardDto
-            currentImageFileDto = (p0.tag as RecommendResponse).imageFileDto
+            currentRunRecord = curTrackBoardFile.runRecordDto
+            currentTrackBoard = curTrackBoardFile.trackBoardDto
+            currentImageFileDto = curTrackBoardFile.trackBoardImageFileDto
         }
-        recommendViewModel.getCoordinates((p0.tag as RecommendResponse).runRecordDto.runRecordSeq)
+        recommendViewModel.getCoordinates((p0.tag as TrackBoardFileDto).runRecordDto.runRecordSeq)
         return true
     }
 
@@ -115,7 +112,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
             }
         }
         binding.cardInfo.setOnClickListener {
-            val action = RecommendFragmentDirections.actionRecommendFragmentToRecommendDetailFragment(currentRunRecord, currentTrackBoard, currentImageFileDto)
+            val action = RecommendFragmentDirections.actionRecommendFragmentToRecommendDetailFragment(currentRunRecord, currentTrackBoard, currentImageFileDto.imgSeq)
             findNavController().navigate(action)
         }
 
@@ -123,9 +120,9 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
 
     private fun initViewModelCallBack(){
         lifecycleScope.launch { 
-            recommendViewModel.recommendList.collectLatest {
-                recommendList = it
-                recommendDraw(recommendList)
+            recommendViewModel.trackBoardList.collectLatest {
+                trackBoardList = it
+                recommendDraw(trackBoardList)
                 binding.tvTitleNum.text = it.size.toString()
             }
         }
@@ -163,7 +160,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
                 delay(POLYLINE_DRAW_TIME)
             }
             if(map != null){
-                recommendDraw(recommendList)
+                recommendDraw(trackBoardList)
             }
         }
     }
@@ -188,7 +185,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
     }
 
     // 추천 장소 마커 찍기
-    private fun recommendDraw(list: List<RecommendResponse>){
+    private fun recommendDraw(list: List<TrackBoardFileDto>){
         for(i in list){
             val latLng = LatLng(i.runRecordDto.runRecordRunningLat, i.runRecordDto.runRecordRunningLng)
             val title = "${i.runRecordDto.userName} 님의 추천 경로"
@@ -260,7 +257,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
     }
 
     // 마커 그리기
-    private fun drawMarker(latLng: LatLng, markerTitle: String?, markerSnippet: String?, data: RecommendResponse): Marker? {
+    private fun drawMarker(latLng: LatLng, markerTitle: String?, markerSnippet: String?, data: TrackBoardFileDto): Marker? {
         val markerOptions = MarkerOptions().apply {
             position(latLng)
             title(markerTitle)

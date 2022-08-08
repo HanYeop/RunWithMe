@@ -32,7 +32,7 @@ class RecommendDetailFragment : BaseFragment<FragmentRecommendDetailBinding>(R.l
     override fun init() {
         runRecordDto = args.runrecordDto
         trackBoardDto = args.trackBoardDto
-        binding.imageFileDto = args.imageFileDto
+        binding.imgSeq = args.imgSeq
 
         recommendDetailViewModel.getMyScrap(trackBoardDto!!.trackBoardSeq) // 이미 나에게 스크랩된 경로인지 확인
 

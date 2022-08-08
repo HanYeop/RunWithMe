@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.runwithme.model.dto.CoordinateDto
+import com.ssafy.runwithme.model.dto.TrackBoardFileDto
 import com.ssafy.runwithme.model.response.RecommendResponse
 import com.ssafy.runwithme.repository.CrewRepository
 import com.ssafy.runwithme.repository.RecommendRepository
@@ -32,9 +33,9 @@ class RecommendViewModel @Inject constructor(
     private val _errorMsgEvent = SingleLiveEvent<String>()
     val errorMsgEvent get() = _errorMsgEvent
 
-    private val _recommendList : MutableStateFlow<List<RecommendResponse>>
+    private val _trackBoardList : MutableStateFlow<List<TrackBoardFileDto>>
             = MutableStateFlow(listOf())
-    val recommendList get() = _recommendList.asStateFlow()
+    val trackBoardList get() = _trackBoardList.asStateFlow()
 
     private val _getCoordinates : MutableStateFlow<List<CoordinateDto>> = MutableStateFlow(listOf())
     val getCoordinates get() = _getCoordinates
@@ -57,7 +58,7 @@ class RecommendViewModel @Inject constructor(
             recommendRepository.getRecommends(leftLng, lowerLat, rightLng, upperLat).collectLatest {
                 if (it is Result.Success) {
                     Log.d("test5", "getRecommends: $it")
-                    _recommendList.value = it.data.data
+                    _trackBoardList.value = it.data.data
                 } else if (it is Result.Fail) {
                     _errorMsgEvent.postValue(it.data.msg)
                 }

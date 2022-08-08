@@ -2,6 +2,7 @@ package com.ssafy.runwithme.api
 
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.dto.TrackBoardDto
+import com.ssafy.runwithme.model.dto.TrackBoardFileDto
 import com.ssafy.runwithme.model.response.RecommendResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -22,5 +23,5 @@ interface RecommendApi {
         @Query("lowerLat") lowerLat: Double,
         @Query("rightLng") rightLng: Double,
         @Query("upperLat") upperLat: Double
-    ): BaseResponse<List<RecommendResponse>>
+    ): BaseResponse<List<TrackBoardFileDto>>
 }
