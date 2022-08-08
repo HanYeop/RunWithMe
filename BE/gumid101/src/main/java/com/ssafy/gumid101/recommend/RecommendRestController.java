@@ -69,7 +69,7 @@ public class RecommendRestController {
 	@ApiOperation(value = "장소 추천 게시판에 자신의 기록을 등록함 (난이도, 주변환경 별점은 없거나 0 ~ 5의 정수)")
 	@PostMapping(value = "/board")
 	public ResponseEntity<?> writeRecommend(
-			@RequestPart(value="trackBoardDto",required = true) String trackBoardDtoInputString,
+			@RequestPart(name = "trackBoardDto", required = true) String trackBoardDtoInputString,
 			@RequestPart(required = true) MultipartFile imgFile) throws Exception{
 		TrackBoardDto trackBoardDtoInput = objectMapper.readValue(trackBoardDtoInputString, TrackBoardDto.class);
 		if (trackBoardDtoInput.getRunRecordSeq() == null) {
