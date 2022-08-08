@@ -30,7 +30,7 @@ spring:
   datasource:
     password: ssafy
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
+    username: ssafy
     url: jdbc:mysql://localhost:3306/commonssafy?characterEncoding=UTF-8&rewriteBatchedStatements=true
   mvc:
     pathmatch:
