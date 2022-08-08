@@ -59,6 +59,9 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
     override fun onMapReady(p0: GoogleMap) {
         map = p0
 
+        p0.mapType = 1
+        p0.isMyLocationEnabled = true
+
         updateLocation()
 
         map.setOnMarkerClickListener(this)
@@ -177,7 +180,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
     // 지도 카메라 움직이기
     private fun moveCamera(latLng: LatLng) {
         map.moveCamera(
-            CameraUpdateFactory.newLatLngZoom(latLng, 14.5f)
+            CameraUpdateFactory.newLatLngZoom(latLng, 15.5f)
         )
     }
 
