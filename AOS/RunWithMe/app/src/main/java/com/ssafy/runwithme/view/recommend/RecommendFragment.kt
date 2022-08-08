@@ -121,7 +121,6 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
         }
         lifecycleScope.launch {
             recommendViewModel.getCoordinates.collectLatest {
-                map.clear()
                 polyLineList = mutableListOf<LatLng>()
                 initPolyLine(it)
             }
@@ -130,6 +129,9 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
 
     private fun initPolyLine(list: List<CoordinateDto>){
         if(list.isNotEmpty()) {
+            if(map != null){
+                map.clear()
+            }
             for (i in list) {
                 polyLineList.add(LatLng(i.latitude, i.longitude))
             }
