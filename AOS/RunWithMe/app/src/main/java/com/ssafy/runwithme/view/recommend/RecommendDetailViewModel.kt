@@ -76,7 +76,6 @@ class RecommendDetailViewModel @Inject constructor(
     fun deleteMyScrap(scrapSeq : Int) {
         viewModelScope.launch(Dispatchers.IO) {
             scrapRepository.deleteMyScrap(scrapSeq).collectLatest {
-                Log.d("test5", "deleteMyScrap: $it")
                 if (it is Result.Success) {
                     _successMsgEvent.postValue(it.data.msg)
                 } else if (it is Result.Fail) {

@@ -307,7 +307,7 @@
         android:label="RecommendDetailFragment"
         tools:layout="@layout/fragment_recommend_detail">
         <argument
-            android:name="runrecordDto"
+            android:name="runRecordDto"
             app:argType="com.ssafy.runwithme.model.dto.RunRecordDto" />
         <argument
             android:name="trackBoardDto"
@@ -323,5 +323,9 @@
         android:id="@+id/myRecommendScrapFragment"
         android:name="com.ssafy.runwithme.view.my_page.recommend_scrap.MyRecommendScrapFragment"
         android:label="MyRecommendScrapFragment"
-        tools:layout="@layout/fragment_my_recommend_scrap"/>
+        tools:layout="@layout/fragment_my_recommend_scrap">
+        <action
+            android:id="@+id/action_myRecommendScrapFragment_to_recommendDetailFragment"
+            app:destination="@id/recommendDetailFragment" />
+    </fragment>
 </navigation>

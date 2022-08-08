@@ -32,7 +32,7 @@ class RecommendDetailFragment : BaseFragment<FragmentRecommendDetailBinding>(R.l
 
 
     override fun init() {
-        runRecordDto = args.runrecordDto
+        runRecordDto = args.runRecordDto
         trackBoardDto = args.trackBoardDto
         binding.imgSeq = args.imgSeq
 

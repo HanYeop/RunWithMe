@@ -14,8 +14,9 @@ class MyRecommendScrapAdapter(private val listener : MyRecommendScrapListener) :
 
         init {
             binding.apply {
-                this.root.setOnClickListener {
-                    // listener.onItemClick(getItem(adapterPosition)!!)
+                layoutScrapInfo.setOnClickListener {
+                    var item : ScrapInfoDto = getItem(adapterPosition)
+                    listener.onItemClick(item.trackBoardFileDto.runRecordDto, item.trackBoardFileDto.trackBoardDto, item.trackBoardFileDto.trackBoardImageFileDto.imgSeq)
                 }
             }
         }
