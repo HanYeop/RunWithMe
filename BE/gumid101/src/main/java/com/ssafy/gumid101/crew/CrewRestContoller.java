@@ -50,9 +50,9 @@ public class CrewRestContoller {
 	}
 
 	@ApiOperation("런 레코드 등록")
-	@PostMapping(value= "/{crewId}/records",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+	@PostMapping(value= "/{crewSeq}/records",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<?> recordMyRun(
-			@PathVariable("crewId") Long crewId ,
+			@PathVariable("crewSeq") Long crewSeq ,
 			@RequestPart(value="runRecord",required = true) RunRecordDto runRecord,
 			@RequestPart MultipartFile imgFile) throws Exception{
 		
@@ -63,7 +63,7 @@ public class CrewRestContoller {
 		
 		RunRecordDto runRecordDto =runRecord;
 		
-		RunRecordResultDto runRecordResult = crewService.insertUserRunRecordAsCrew(userSeq,crewId,runRecordDto,imgFile);
+		RunRecordResultDto runRecordResult = crewService.insertUserRunRecordAsCrew(userSeq, crewSeq, runRecordDto, imgFile);
 		
 		ResponseFrame<RunRecordResultDto> res= ResponseFrame.of(runRecordResult, 0, "러닝 기록 완료 결과에 대해 반환합니다.");
 		
@@ -92,9 +92,9 @@ public class CrewRestContoller {
 
 	@PostMapping(value="/records/{recordseq}/coordinate")
 	@ApiOperation("런레코드에 좌표값을 등록한다.")
-	public ResponseEntity<?>  recordAddCooldinate(@PathVariable("recordseq") Long recordSeq,@RequestBody List<CoordinateDto> coordinates) throws Exception{
+	public ResponseEntity<?>  recordAddCoordinate(@PathVariable("recordseq") Long recordSeq,@RequestBody List<CoordinateDto> coordinates) throws Exception{
 		
-		int result = crewService.setRecordCooldinate(recordSeq,coordinates);
+		int result = crewService.setRecordCoordinate(recordSeq,coordinates);
 		
 		boolean success =  result == 1 ? true: false;
 		
@@ -106,7 +106,7 @@ public class CrewRestContoller {
 	}
 	@ApiOperation("런레코드의 좌표값을 가져온다.")
 	@GetMapping(value = "/records/{recordseq}/coordinate")
-	public ResponseEntity<?>  recordAddCooldinate(@PathVariable("recordseq") Long recordSeq) throws Exception{
+	public ResponseEntity<?>  recordAddCoordinate(@PathVariable("recordseq") Long recordSeq) throws Exception{
 		
 		List<RecordCoordinateDto> coordinateDtoList  = crewService.getCoordinateByRunRecordSeq(recordSeq);
 

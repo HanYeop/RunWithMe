@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.dto.CrewBoardDto;
 import com.ssafy.gumid101.dto.CrewTotalRecordDto;
@@ -142,90 +144,35 @@ public class CrewActivityRestController {
 
 	}
 
-	@PostMapping(value = "/{crewSeq}/board",consumes = {MediaType.APPLICATION_JSON_VALUE})
+	@PostMapping(value = "/{crewSeq}/board",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
 	@ApiOperation("크루 게시판 글 작성")
 	public ResponseEntity<?> writeCrewBoards(
 			@PathVariable(name = "crewSeq") Long crewSeq,
-			@RequestBody CrewBoardDto crewBoardDto/*,
-			@RequestPart(name = "imgFile", required = false) MultipartFile imageFile*/) throws Exception {
+			@RequestPart(value="crewBoardDto",required = true) CrewBoardDto crewBoardDto,
+			@RequestPart(name = "imgFile", required = false) MultipartFile imageFile) throws Exception {
 		
-		Authentication autentication = SecurityContextHolder.getContext().getAuthentication();
-		UserDto writerUser = (UserDto) autentication.getPrincipal();
+		UserDto writerUser = loadUserFromToken();
 		redisServ.getIsUseable(writerUser.getUserSeq().toString() + "writeCrewBoards", 5);
-		
-		ResponseFrame<CrewBoardFileDto> responseFrame = new ResponseFrame<>();
-		HttpStatus httpStatus = HttpStatus.OK;
 
-		CrewBoardFileDto crewBoardFileDto = null;
-		try {
-			crewBoardFileDto = crewActivityBoardService.writeBoard(writerUser, null, crewBoardDto, crewSeq);
-		} catch (Exception e) {
-			httpStatus = HttpStatus.OK;
-			responseFrame.setCount(0);
-			responseFrame.setSuccess(false);
-			responseFrame.setMsg(e.getMessage());
-		}
-
-		if (crewBoardFileDto != null) {
-			responseFrame.setCount(1);
-			responseFrame.setSuccess(true);
-			responseFrame.setMsg("글 작성에 성공했습니다.");
-		}
-		responseFrame.setData(crewBoardFileDto);
-		return new ResponseEntity<>(responseFrame, httpStatus);
+		CrewBoardFileDto crewBoardFileDto = crewActivityBoardService.writeBoard(writerUser, imageFile, crewBoardDto, crewSeq);
+		return new ResponseEntity<>(new ResponseFrame<>(true, crewBoardFileDto, 1, "글 작성에 성공했습니다."), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "크루 게시판 글 조회. (size : 전체조회 -1, 미입력시 10 / offset : 미입력시 0/maxCrewBoardSeq : 최고 id or null")
 	@GetMapping("/{crewSeq}/boards")
 	public ResponseEntity<?> getCrewBoards(@PathVariable Long crewSeq, @RequestParam(required = false) Integer size,
-			@RequestParam(required = false) Long maxCrewBoardSeq) {
+			@RequestParam(required = false) Long maxCrewBoardSeq) throws Exception {
 
-		ResponseFrame<List<CrewBoardFileDto>> responseFrame = new ResponseFrame<>();
-		HttpStatus httpStatus = HttpStatus.OK;
-
-		List<CrewBoardFileDto> crewBoardFileDtoList = null;
-		try {
-			crewBoardFileDtoList = crewActivityBoardService.getCrewBoards(crewSeq, size, maxCrewBoardSeq);
-		} catch (Exception e) {
-			httpStatus = HttpStatus.OK;
-			responseFrame.setCount(0);
-			responseFrame.setSuccess(false);
-			responseFrame.setMsg(e.getMessage());
-		}
-
-		if (crewBoardFileDtoList != null) {
-			responseFrame.setCount(crewBoardFileDtoList.size());
-			responseFrame.setSuccess(true);
-			responseFrame.setMsg("글 조회 성공");
-		}
-		responseFrame.setData(crewBoardFileDtoList);
-		return new ResponseEntity<>(responseFrame, httpStatus);
+		List<CrewBoardFileDto> crewBoardFileDtoList = crewActivityBoardService.getCrewBoards(crewSeq, size, maxCrewBoardSeq);
+		return new ResponseEntity<>(new ResponseFrame<>(true, crewBoardFileDtoList, crewBoardFileDtoList.size(), "글 조회 성공"), HttpStatus.OK);
 	}
 
 	@ApiOperation("크루 내 게시글 삭제")
 	@DeleteMapping("/crew/boards/{boardSeq}")
-	public ResponseEntity<?> deleteCrewBoards(@PathVariable Long boardSeq) {
+	public ResponseEntity<?> deleteCrewBoards(@PathVariable Long boardSeq) throws Exception {
 		
-		Boolean deleteSuccess = null;
-		HttpStatus httpStatus = HttpStatus.OK;
-		ResponseFrame<Boolean> responseFrame = new ResponseFrame<>();
-		
-		try {
-			deleteSuccess = crewActivityBoardService.deleteCrewBoard(boardSeq);
-		} catch (Exception e) {
-			httpStatus = HttpStatus.OK;
-			responseFrame.setCount(0);
-			responseFrame.setSuccess(false);
-			responseFrame.setMsg(e.getMessage());
-		}
-
-		if (deleteSuccess != null) {
-			responseFrame.setCount(1);
-			responseFrame.setSuccess(true);
-			responseFrame.setMsg("글 삭제 성공");
-		}
-		responseFrame.setData(deleteSuccess);
-		return new ResponseEntity<>(responseFrame, httpStatus);
+		Boolean deleteSuccess  = crewActivityBoardService.deleteCrewBoard(boardSeq);
+		return new ResponseEntity<>(new ResponseFrame<>(true, deleteSuccess, 1, "글 삭제 성공"), HttpStatus.OK);
 	}
 	
 	
