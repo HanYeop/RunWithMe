@@ -22,6 +22,8 @@ import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.CrewBoardEntity;
 import com.ssafy.gumid101.entity.ImageFileEntity;
 import com.ssafy.gumid101.entity.UserEntity;
+import com.ssafy.gumid101.firebase.FcmMessage;
+import com.ssafy.gumid101.firebase.FirebaseMessageUtil;
 import com.ssafy.gumid101.imgfile.ImageDirectory;
 import com.ssafy.gumid101.imgfile.ImageFileRepository;
 import com.ssafy.gumid101.res.CrewBoardRes;
@@ -40,6 +42,7 @@ public class UserServiceImpl implements UserService {
 	private final S3FileService s3FileService;
 	private final ImageFileRepository imageRepo;
 
+	private final FirebaseMessageUtil fcmUtil;
 	@Transactional
 	@Override
 	public UserDto setMyProfile(UserDto userDto) throws Exception {
@@ -178,7 +181,8 @@ public class UserServiceImpl implements UserService {
 		UserEntity user = userRepo.findById(userSeq).orElseThrow(()->new NotFoundUserException("FCM 토큰 설정중, 유저를 특정할 수 없습니다."));
 		user.setFcmToken(fcmToken);
 		
-		
+		String meessageBody= String.format("%s 님 알림 설정이 정상적으로 완료되었습니다.", user.getNickName());
+		fcmUtil.sendMessageTo(fcmToken, "RunWime [알림 설정]", meessageBody);
 		return true;
 	}
 
