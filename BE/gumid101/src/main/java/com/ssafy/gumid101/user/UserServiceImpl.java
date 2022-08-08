@@ -64,14 +64,14 @@ public class UserServiceImpl implements UserService {
 
 		return UserDto.of(userEntity);
 	}
-
+	@Transactional
 	@Override
 	public int checkDupNickname(String nickname) throws Exception {
 
 		return userRepo.countByNickName(nickname);
 
 	}
-
+	@Transactional
 	@Override
 	public UserFileDto getUserFileDtoById(Long userSeq) throws Exception {
 
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
 
 		return new UserFileDto(userDto,imgDto);
 	}
-	
+	@Transactional
 	@Override
 	public UserFileDto getUserProfileByNickname(String nickname) throws Exception {
 
@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService {
 
 		return myBoardList;
 	}
-
+	@Transactional
 	@Override
 	public CrewTotalRecordDto getMyTotalRecord(Long userSeq) throws Exception {
 		UserEntity userEntity = userRepo.findById(userSeq)
@@ -175,17 +175,19 @@ public class UserServiceImpl implements UserService {
 		return crewTotalRecordDto;
 	}
 
+	@Transactional
 	@Override
 	public boolean setUserFcmToken(Long userSeq, String fcmToken) throws Exception {
 		
 		UserEntity user = userRepo.findById(userSeq).orElseThrow(()->new NotFoundUserException("FCM 토큰 설정중, 유저를 특정할 수 없습니다."));
+		
 		user.setFcmToken(fcmToken);
 		
 		String meessageBody= String.format("%s 님 알림 설정이 정상적으로 완료되었습니다.", user.getNickName());
 		fcmUtil.sendMessageTo(fcmToken, "RunWime [알림 설정]", meessageBody);
 		return true;
 	}
-
+	@Transactional
 	@Override
 	public boolean deleteUserFcmToken(Long userSeq) throws Exception {
 		UserEntity user = userRepo.findById(userSeq).orElseThrow(()->new NotFoundUserException("FCM 토큰 설정중, 유저를 특정할 수 없습니다."));
@@ -193,7 +195,7 @@ public class UserServiceImpl implements UserService {
 		
 		return true;
 	}
-
+	@Transactional
 	@Override
 	public boolean deleteMyAccount(Long userSeq) throws Exception {
 		

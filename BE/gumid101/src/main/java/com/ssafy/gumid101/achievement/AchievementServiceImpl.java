@@ -28,13 +28,14 @@ public class AchievementServiceImpl implements AchievementService {
 	private final AchievementCompleteRepository completeRepo; 
 	private final AchievementRepository achieveRepo; 
 	
+	@Transactional
 	@Override
 	public List<AchievementDto> getAchieveList() throws Exception{	
 		return achieveRepo.findAll().stream().map((entity) -> {
 			return AchievementDto.of(entity);
 		}).collect(Collectors.toList());
 	}
-
+	@Transactional
 	@Override
 	public List<AchieveCompleteDto> getUserAchievement(Long userSeq) throws Exception{
 		UserEntity user = userRepo.findById(userSeq).orElseThrow(() -> {
