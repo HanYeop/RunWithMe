@@ -56,10 +56,13 @@ class RecommendDetailViewModel @Inject constructor(
                 Log.d("test5", "getMyScrap: $it")
                 if (it is Result.Success) {
                     _scrapList.value = it.data.data
-                    for(item in _scrapList.value){
-                        if(item.trackBoardFileDto.trackBoardDto.trackBoardSeq == trackBoardSeq){ // 이미 내가 스크랩한 경우
-                            _isScrapped.postValue(1)
-                            break
+
+                    if(trackBoardSeq != 0){
+                        for(item in _scrapList.value){
+                            if(item.trackBoardFileDto.trackBoardDto.trackBoardSeq == trackBoardSeq){ // 이미 내가 스크랩한 경우
+                                _isScrapped.postValue(1)
+                                break
+                            }
                         }
                     }
                 } else if (it is Result.Fail) {

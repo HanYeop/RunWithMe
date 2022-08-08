@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="recommend"
-            type="com.ssafy.runwithme.model.response.RecommendResponse" />
+            name="scrapInfo"
+            type="com.ssafy.runwithme.model.dto.ScrapInfoDto" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,7 +35,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:runRecordImage="@{recommend.runRecordDto.runImageSeq}"
+                app:runRecordImage="@{scrapInfo.trackBoardFileDto.trackBoardImageFileDto.imgSeq}"
                 tools:srcCompat="@color/main_black" />
 
             <TextView
@@ -56,7 +56,7 @@
                 android:layout_width="127dp"
                 android:layout_height="42dp"
                 android:padding="8dp"
-                app:hardPoint="@{recommend.trackBoardDto.hardPoint}"
+                app:hardPoint="@{trackBoard.trackBoardDto.hardPoint}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_hard_point"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tv_hard_point"
@@ -94,7 +94,7 @@
                 app:srb_clickable="false"
                 app:srb_isIndicator="true"
                 app:srb_numStars="5"
-                app:hardPoint="@{recommend.trackBoardDto.environmentPoint}"
+                app:hardPoint="@{trackBoard.trackBoardDto.environmentPoint}"
                 app:srb_scrollable="true"
                 app:srb_starHeight="18dp"
                 app:srb_starPadding="2dp"

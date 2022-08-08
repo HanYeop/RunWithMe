@@ -2,12 +2,7 @@ package com.ssafy.runwithme.repository
 
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.datasource.ScrapRemoteDataSource
-import com.ssafy.runwithme.datasource.TotalRankingRemoteDataSource
-import com.ssafy.runwithme.datasource.UserRemoteDataSource
 import com.ssafy.runwithme.model.dto.ScrapInfoDto
-import com.ssafy.runwithme.model.dto.UserDto
-import com.ssafy.runwithme.model.response.JoinResponse
-import com.ssafy.runwithme.model.response.RankingResponse
 import com.ssafy.runwithme.utils.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
