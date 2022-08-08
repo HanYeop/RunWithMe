@@ -285,7 +285,7 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
 
         runningViewModel.runAbleEvent.observe(this){
             runningStart(sharedPref, crewDto.crewSeq, crewDto.crewName
-                ,crewDto.crewGoalType, crewDto.crewGoalAmount)
+                ,crewDto.crewGoalType, crewDto.crewGoalAmount, 0)
             findNavController().popBackStack()
             findNavController().popBackStack()
             startActivity(Intent(requireContext(), RunningActivity::class.java))

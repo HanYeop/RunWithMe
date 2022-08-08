@@ -63,12 +63,13 @@ fun timeNameFormatter(time: Long?): String {
 }
 
 // 러닝 시작 할 때 위 정보를 저장하고 있어야함. 백그라운드에서 동작하여 초기화 가능성 있으므로. sharedPreferences
-fun runningStart(sharedPreferences: SharedPreferences, crewId: Int, crewName: String, goalType: String, goalAmount: Int){
+fun runningStart(sharedPreferences: SharedPreferences, crewId: Int, crewName: String, goalType: String, goalAmount: Int, recordSeq: Int){
     sharedPreferences.edit().putLong(RUN_RECORD_START_TIME, System.currentTimeMillis()).apply()
     sharedPreferences.edit().putInt(RUN_RECORD_CREW_ID, crewId).apply()
     sharedPreferences.edit().putString(RUN_RECORD_CREW_NAME, crewName).apply()
     sharedPreferences.edit().putString(RUN_GOAL_TYPE, goalType).apply()
     sharedPreferences.edit().putInt(RUN_GOAL_AMOUNT, goalAmount).apply()
+    sharedPreferences.edit().putInt(RUN_SCRAP_RECORD_SEQ, recordSeq).apply()
 }
 
 // 러닝 결과 시간 표기 포매터

@@ -9,23 +9,25 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseActivity
 import com.ssafy.runwithme.databinding.ActivityRunningBinding
+import com.ssafy.runwithme.model.dto.CoordinateDto
 import com.ssafy.runwithme.service.Polyline
 import com.ssafy.runwithme.service.RunningService
 import com.ssafy.runwithme.utils.*
 import com.ssafy.runwithme.view.loading.LoadingDialog
 import com.ssafy.runwithme.view.running.result.RunningResultActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 import kotlin.math.round
 
@@ -57,6 +59,12 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
     private var weight = 70
     private var caloriesBurned: Int = 0
 
+    private var polyLineList = mutableListOf<LatLng>()
+
+    private var job: Job = Job()
+
+    private val runningViewModel by viewModels<RunningViewModel>()
+
     private lateinit var runningLoadingDialog: RunningLoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,6 +86,11 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
                 addAllPolylines()
                 moveCameraToUser()
 
+                // 스크랩한 경로 표시
+                if(sharedPref.getInt(RUN_SCRAP_RECORD_SEQ, 0) != 0){
+                    runningViewModel.getCoordinates(sharedPref.getInt(RUN_SCRAP_RECORD_SEQ, 0))
+                }
+
                 it.mapType = 1
                 it.isMyLocationEnabled = true
 
@@ -95,6 +108,8 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         initClickListener()
 
         firstStart()
+
+        initViewModelCallBack()
 
         // 위치 추적 여부 관찰하여 updateTracking 호출
         RunningService.isTracking.observe(this){
@@ -184,6 +199,42 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
                 (height * 0.05f).toInt()
             )
         )
+    }
+
+    private fun initViewModelCallBack(){
+        lifecycleScope.launch {
+            runningViewModel.getCoordinates.collectLatest {
+                polyLineList = mutableListOf<LatLng>()
+                initPolyLine(it)
+            }
+        }
+    }
+
+    private fun initPolyLine(list: List<CoordinateDto>){
+        Log.d(TAG, "initPolyLine: $list")
+        if(list.isNotEmpty()) {
+            if(map != null){
+                map?.clear()
+            }
+            for (i in list) {
+                polyLineList.add(LatLng(i.latitude, i.longitude))
+            }
+            addAllScrapLines()
+        }
+    }
+
+    // 스크랩한 경로 전부 표시
+    private fun addAllScrapLines() {
+        job = lifecycleScope.launch {
+            for(i in 1 until polyLineList.size){
+                val polylineOptions = PolylineOptions()
+                    .color(Color.RED)
+                    .width(POLYLINE_WIDTH)
+                    .add(polyLineList[i])
+                    .add(polyLineList[i - 1])
+                map?.addPolyline(polylineOptions)
+            }
+        }
     }
 
     private fun initLiveData(){
@@ -297,7 +348,9 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
     private fun stopRun() {
         sendCommandToService(ACTION_STOP_SERVICE)
         if(map != null){
-            map!!.isMyLocationEnabled = false
+            map?.isMyLocationEnabled = false
+            map?.clear()
+            addAllPolylines()
         }
         zoomToWholeTrack()
         endRunAndSaveToDB()

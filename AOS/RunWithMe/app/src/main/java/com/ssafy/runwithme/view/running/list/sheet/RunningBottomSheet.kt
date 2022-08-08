@@ -31,7 +31,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class RunningBottomSheet(context: Context, private val sharedPreferences: SharedPreferences): BottomSheetDialogFragment() {
+class RunningBottomSheet(context: Context, private val sharedPreferences: SharedPreferences,
+                         private val recordSeq: Int): BottomSheetDialogFragment() {
 
     private var _binding: DialogRunningBottomSheetBinding? = null
     val binding get() = _binding!!
@@ -81,7 +82,7 @@ class RunningBottomSheet(context: Context, private val sharedPreferences: Shared
 
         runningViewModel.runAbleEvent.observe(this){
             runningStart(sharedPreferences, myCurrentInfo.crewDto.crewSeq, myCurrentInfo.crewDto.crewName
-                ,myCurrentInfo.crewDto.crewGoalType, myCurrentInfo.crewDto.crewGoalAmount)
+                ,myCurrentInfo.crewDto.crewGoalType, myCurrentInfo.crewDto.crewGoalAmount, recordSeq)
             startActivity(Intent(requireContext(), RunningActivity::class.java))
             dismiss()
         }
@@ -113,7 +114,7 @@ class RunningBottomSheet(context: Context, private val sharedPreferences: Shared
     // 연습
     private val practiceListener = object : PracticeCustomListener{
         override fun onItemClick(type: String, amount: Int) {
-            runningStart(sharedPreferences, 0, "연습 러닝", type, amount)
+            runningStart(sharedPreferences, 0, "연습 러닝", type, amount, recordSeq)
             startActivity(Intent(context, RunningActivity::class.java))
             dismiss()
         }

@@ -22,7 +22,6 @@ import com.ssafy.runwithme.base.BaseActivity
 import com.ssafy.runwithme.databinding.ActivityRunningListBinding
 import com.ssafy.runwithme.model.dto.CoordinateDto
 import com.ssafy.runwithme.model.dto.ScrapInfoDto
-import com.ssafy.runwithme.model.response.RecommendResponse
 import com.ssafy.runwithme.utils.*
 import com.ssafy.runwithme.view.running.RunningViewModel
 import com.ssafy.runwithme.view.running.list.sheet.RunningBottomSheet
@@ -54,6 +53,8 @@ GoogleMap.OnMarkerClickListener{
     private var scrapList = listOf<ScrapInfoDto>()
 
     private var job: Job = Job()
+
+    private lateinit var scrapInfo: ScrapInfoDto
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences
@@ -92,11 +93,12 @@ GoogleMap.OnMarkerClickListener{
             job.cancel()
         }
         runningViewModel.emptyCoordinates()
-        val scrapInfo = p0.tag as ScrapInfoDto
+        scrapInfo = p0.tag as ScrapInfoDto
         binding.scrap = scrapInfo
 
         binding.cardInfo.visibility = View.VISIBLE
         binding.animationStartBtn.visibility = View.GONE
+        binding.btnScrap.visibility = View.GONE
 
         runningViewModel.getCoordinates(scrapInfo.trackBoardFileDto.runRecordDto.runRecordSeq)
         return true
@@ -271,7 +273,7 @@ GoogleMap.OnMarkerClickListener{
     private fun initClickListener(){
         binding.apply {
             animationStartBtn.setOnClickListener {
-                val dialog = RunningBottomSheet(this@RunningListActivity, sharedPreferences)
+                val dialog = RunningBottomSheet(this@RunningListActivity, sharedPreferences, 0)
                 dialog.show(supportFragmentManager,dialog.tag)
             }
             // 스크랩 불러오기
@@ -292,10 +294,15 @@ GoogleMap.OnMarkerClickListener{
                     scrapOn = false
                 }
             }
+            cardInfo.setOnClickListener {
+                val dialog = RunningBottomSheet(this@RunningListActivity, sharedPreferences, scrapInfo.trackBoardFileDto.runRecordDto.runRecordSeq)
+                dialog.show(supportFragmentManager,dialog.tag)
+            }
 
             imgCancel.setOnClickListener {
                 binding.cardInfo.visibility = View.GONE
                 binding.animationStartBtn.visibility = View.VISIBLE
+                binding.btnScrap.visibility = View.VISIBLE
             }
         }
     }
