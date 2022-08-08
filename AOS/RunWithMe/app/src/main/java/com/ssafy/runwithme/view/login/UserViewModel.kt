@@ -129,6 +129,7 @@ class UserViewModel @Inject constructor(
 
     fun fcmToken(fcmTokenDto: FcmTokenDto) {
         viewModelScope.launch(Dispatchers.IO) {
+            Log.d(TAG, "fcmToken: $fcmTokenDto")
             userRepository.fcmToken(fcmTokenDto).collectLatest {
                 if (it is Result.Success) {
                     _fcmEvent.postValue(it.data.msg)

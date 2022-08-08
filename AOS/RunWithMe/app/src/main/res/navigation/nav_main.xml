@@ -315,6 +315,9 @@
         <argument
             android:name="imgSeq"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_recommendDetailFragment_to_runningRouteFragment"
+            app:destination="@id/runningRouteFragment" />
     </fragment>
     <fragment
         android:id="@+id/myRecommendScrapFragment"

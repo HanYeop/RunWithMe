@@ -10,6 +10,7 @@ import com.ssafy.runwithme.databinding.FragmentRecommendDetailBinding
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.dto.TrackBoardDto
 import com.ssafy.runwithme.utils.imageFormatter
+import com.ssafy.runwithme.view.run_record_detail.RunRecordDetailFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
@@ -55,6 +56,11 @@ class RecommendDetailFragment : BaseFragment<FragmentRecommendDetailBinding>(R.l
                 } else { // 이미 스크랩되어 있을 때
                     ScrapDialog(requireContext(), listener, false).show()
                 }
+            }
+            btnRoute.setOnClickListener {
+                val action = RecommendDetailFragmentDirections.actionRecommendDetailFragmentToRunningRouteFragment(
+                    runRecordDto!!.runRecordSeq,distanceText,timeText)
+                findNavController().navigate(action)
             }
         }
     }
