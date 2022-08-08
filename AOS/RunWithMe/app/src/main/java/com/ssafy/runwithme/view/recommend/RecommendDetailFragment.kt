@@ -1,6 +1,5 @@
 package com.ssafy.runwithme.view.recommend
 
-import android.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -21,7 +20,6 @@ class RecommendDetailFragment : BaseFragment<FragmentRecommendDetailBinding>(R.l
     private val args by navArgs<RecommendDetailFragmentArgs>()
     private var runRecordDto : RunRecordDto? = null
     private var trackBoardDto : TrackBoardDto? = null
-    private var title = ""
 
     private val recommendDetailViewModel by viewModels<RecommendDetailViewModel>()
 
@@ -29,6 +27,7 @@ class RecommendDetailFragment : BaseFragment<FragmentRecommendDetailBinding>(R.l
     private var distanceText = ""
     private var timeText = ""
     private var currentScrapSeq = 0
+
 
     override fun init() {
         runRecordDto = args.runrecordDto
@@ -50,20 +49,21 @@ class RecommendDetailFragment : BaseFragment<FragmentRecommendDetailBinding>(R.l
             }
 
             imageBookmark.setOnClickListener { // 스크랩 클릭시
-                var dialog = AlertDialog.Builder(requireContext()).setNegativeButton("취소") { _, _ -> }
-
                 if(!isScrapped){ // 스크랩 안 되어 있을 때
-                    dialog.setTitle("해당 코스를 스크랩에 추가하시겠습니까?")
-                        .setPositiveButton("추가") { _, _ ->
-                            recommendDetailViewModel.addMyScrap(trackBoardDto!!.trackBoardSeq, title)
-                        }.show()
+                    ScrapDialog(requireContext(), listener, true).show()
                 } else { // 이미 스크랩되어 있을 때
-                    dialog.setTitle("해당 코스를 스크랩에서 삭제하시겠습니까?")
-                        .setPositiveButton("삭제") { _, _ ->
-                            recommendDetailViewModel.deleteMyScrap(currentScrapSeq)
-                        }.show()
+                    ScrapDialog(requireContext(), listener, false).show()
                 }
             }
+        }
+    }
+
+    private val listener : ScrapDialogListener = object : ScrapDialogListener {
+        override fun onItemAdd(title: String) {
+            recommendDetailViewModel.addMyScrap(trackBoardDto!!.trackBoardSeq, title)
+        }
+        override fun onItemDelete() {
+            recommendDetailViewModel.deleteMyScrap(currentScrapSeq)
         }
     }
 
