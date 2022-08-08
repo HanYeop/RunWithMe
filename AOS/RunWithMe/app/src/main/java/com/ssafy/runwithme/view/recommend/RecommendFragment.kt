@@ -23,6 +23,7 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragmentKeep
 import com.ssafy.runwithme.databinding.FragmentRecommendBinding
 import com.ssafy.runwithme.model.dto.CoordinateDto
+import com.ssafy.runwithme.model.dto.ImageFileDto
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.dto.TrackBoardDto
 import com.ssafy.runwithme.model.response.RecommendResponse
@@ -60,6 +61,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
 
     private lateinit var currentRunRecord : RunRecordDto
     private lateinit var currentTrackBoard : TrackBoardDto
+    private lateinit var currentImageFileDto : ImageFileDto
 
     private var job: Job = Job()
 
@@ -91,6 +93,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
 
             currentRunRecord = (p0.tag as RecommendResponse).runRecordDto
             currentTrackBoard = (p0.tag as RecommendResponse).trackBoardDto
+            currentImageFileDto = (p0.tag as RecommendResponse).imageFileDto
         }
         recommendViewModel.getCoordinates((p0.tag as RecommendResponse).runRecordDto.runRecordSeq)
         return true
@@ -112,7 +115,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
             }
         }
         binding.cardInfo.setOnClickListener {
-            val action = RecommendFragmentDirections.actionRecommendFragmentToRecommendDetailFragment(currentRunRecord, currentTrackBoard)
+            val action = RecommendFragmentDirections.actionRecommendFragmentToRecommendDetailFragment(currentRunRecord, currentTrackBoard, currentImageFileDto)
             findNavController().navigate(action)
         }
 

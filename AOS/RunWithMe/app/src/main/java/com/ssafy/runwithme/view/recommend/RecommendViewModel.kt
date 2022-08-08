@@ -43,7 +43,6 @@ class RecommendViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             recommendRepository.createRecommend(trackBoardDto, img)
                 .collectLatest {
-                    Log.d("test5", "createRecommend: $it")
                     if (it is Result.Success) {
                         _successMsgEvent.postValue(it.data.msg)
                     } else if (it is Result.Fail) {
@@ -57,6 +56,7 @@ class RecommendViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             recommendRepository.getRecommends(leftLng, lowerLat, rightLng, upperLat).collectLatest {
                 if (it is Result.Success) {
+                    Log.d("test5", "getRecommends: $it")
                     _recommendList.value = it.data.data
                 } else if (it is Result.Fail) {
                     _errorMsgEvent.postValue(it.data.msg)

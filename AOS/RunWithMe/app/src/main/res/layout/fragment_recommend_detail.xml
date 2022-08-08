@@ -5,7 +5,9 @@
     >
 
     <data>
-
+        <variable
+            name="imageFileDto"
+            type="com.ssafy.runwithme.model.dto.ImageFileDto" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -140,6 +142,7 @@
                     android:background="@drawable/image_round"
                     android:clipToOutline="true"
                     android:scaleType="fitXY"
+                    runRecordImage="@{imageFileDto.imgSeq}"
                     tools:src="@color/black"/>
 
                 <LinearLayout

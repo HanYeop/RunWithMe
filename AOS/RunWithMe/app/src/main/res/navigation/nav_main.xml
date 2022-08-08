@@ -312,6 +312,9 @@
         <argument
             android:name="trackBoardDto"
             app:argType="com.ssafy.runwithme.model.dto.TrackBoardDto" />
+        <argument
+            android:name="imageFileDto"
+            app:argType="com.ssafy.runwithme.model.dto.ImageFileDto" />
     </fragment>
     <fragment
         android:id="@+id/myRecommendScrapFragment"
