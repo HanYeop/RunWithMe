@@ -26,14 +26,14 @@ class ScrapDialog(context: Context, private val listener : ScrapDialogListener, 
             false
         )
         setContentView(binding.root)
+
+        initClickListener()
     }
 
     override fun onStart() {
         super.onStart()
 
         initView()
-
-        initClickListener()
     }
 
     private fun initView(){

@@ -59,8 +59,10 @@ class RecommendDetailViewModel @Inject constructor(
                     _scrapList.value = it
 
                     if(trackBoardSeq != 0){
-                        for(item in it.data.data){
-                            if(item.trackBoardFileDto.trackBoardDto.trackBoardSeq == trackBoardSeq){ // 이미 내가 스크랩한 경우
+                        for(i : Int in 0..it.data.data.size){
+                            var item = it.data.data
+                            if(item[i].trackBoardFileDto.trackBoardDto.trackBoardSeq == trackBoardSeq){ // 이미 내가 스크랩한 경우
+                                _currentScrapSeq.postValue(item[i].scrapSeq)
                                 _isScrapped.postValue(1)
                                 break
                             }
@@ -76,6 +78,7 @@ class RecommendDetailViewModel @Inject constructor(
     fun deleteMyScrap(scrapSeq : Int) {
         viewModelScope.launch(Dispatchers.IO) {
             scrapRepository.deleteMyScrap(scrapSeq).collectLatest {
+                Log.d("test5", "deleteMyScrap: $it")
                 if (it is Result.Success) {
                     _successMsgEvent.postValue(it.data.msg)
                 } else if (it is Result.Fail) {

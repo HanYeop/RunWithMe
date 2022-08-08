@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.view.recommend
 
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -10,6 +11,7 @@ import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentRecommendDetailBinding
 import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.dto.TrackBoardDto
+import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.utils.imageFormatter
 import com.ssafy.runwithme.view.run_record_detail.RunRecordDetailFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
