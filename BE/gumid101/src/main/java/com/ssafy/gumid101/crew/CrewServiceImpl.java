@@ -155,9 +155,9 @@ public class CrewServiceImpl implements CrewService {
 		}
 		List<RunRecordEntity> myToday = null;
 		try {
-			myToday = runRecordRepo.findByUserEntityAndCrewEntityAndRunRecordStartTimeBetween(userEntity, crewEntity,
-					runRecordDto.getRunRecordStartTime().withHour(0).withMinute(0).withSecond(0),
-					runRecordDto.getRunRecordStartTime().withHour(23).withMinute(59).withSecond(59));
+			myToday = runRecordRepo.findByUserEntityAndCrewEntityAndRunRecordStartTimeBetween(userEntity, crewEntity, //
+					runRecordDto.getRunRecordStartTime().withHour(0).withMinute(0).withSecond(0), //
+					runRecordDto.getRunRecordStartTime().withHour(23).withMinute(59).withSecond(59)); //
 		} catch (Exception e) {
 			throw new CrewPermissonDeniedException("기록 조회에 실패했습니다.");
 		}
@@ -175,15 +175,22 @@ public class CrewServiceImpl implements CrewService {
 				.runRecordRegTime(LocalDateTime.now()).build();
 
 		// 입력에 혹시모를 null 들어오는지 체크해야함.
+		Integer plusPoint = 0;
 		if (crewEntity.getCrewGoalType().equals("distance")) {
 			if (crewEntity.getCrewGoalAmount() <= runRecord.getRunRecordRunningDistance()) {
 				runRecord.setRunRecordCompleteYN("Y");
+				// 1km(1000m) 당 50p
+				plusPoint = crewEntity.getCrewGoalAmount() / 20;
+				userEntity.setPoint(userEntity.getPoint() + plusPoint);
 			} else {
 				runRecord.setRunRecordCompleteYN("N");
 			}
 		} else {
 			if (crewEntity.getCrewGoalAmount() <= runRecord.getRunRecordRunningTime()) {
 				runRecord.setRunRecordCompleteYN("Y");
+				// 10분(600s) 당 50p
+				plusPoint = crewEntity.getCrewGoalAmount() / 12;
+				userEntity.setPoint(userEntity.getPoint() + plusPoint);
 			} else {
 				runRecord.setRunRecordCompleteYN("N");
 			}

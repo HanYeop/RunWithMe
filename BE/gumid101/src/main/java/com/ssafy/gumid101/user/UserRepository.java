@@ -6,6 +6,7 @@ import javax.persistence.LockModeType;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.ssafy.gumid101.entity.UserEntity;
@@ -21,5 +22,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>, UserCus
 
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	Optional<UserEntity> findWithLockingByUserSeq(Long userSeq);
+
+	@Query(value="UPDATE UserEntity u SET u.point =u.point + :point where u.userSeq = :userSeq ")
+	int updatePointAsBulk(Long userSeq, int point);
 
 }

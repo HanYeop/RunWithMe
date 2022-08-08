@@ -50,9 +50,9 @@ public class CrewRestContoller {
 	}
 
 	@ApiOperation("런 레코드 등록")
-	@PostMapping(value= "/{crewId}/records",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+	@PostMapping(value= "/{crewSeq}/records",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<?> recordMyRun(
-			@PathVariable("crewId") Long crewId ,
+			@PathVariable("crewSeq") Long crewSeq ,
 			@RequestPart(value="runRecord",required = true) RunRecordDto runRecord,
 			@RequestPart MultipartFile imgFile) throws Exception{
 		
@@ -63,7 +63,7 @@ public class CrewRestContoller {
 		
 		RunRecordDto runRecordDto =runRecord;
 		
-		RunRecordResultDto runRecordResult = crewService.insertUserRunRecordAsCrew(userSeq,crewId,runRecordDto,imgFile);
+		RunRecordResultDto runRecordResult = crewService.insertUserRunRecordAsCrew(userSeq, crewSeq, runRecordDto, imgFile);
 		
 		ResponseFrame<RunRecordResultDto> res= ResponseFrame.of(runRecordResult, 0, "러닝 기록 완료 결과에 대해 반환합니다.");
 		

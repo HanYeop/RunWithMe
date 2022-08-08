@@ -26,7 +26,7 @@ import com.ssafy.gumid101.entity.AchievementEntity;
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.firebase.FcmMessage;
 import com.ssafy.gumid101.firebase.FcmMessage.Message;
-import com.ssafy.gumid101.firebase.FirebaseMessage;
+import com.ssafy.gumid101.firebase.FirebaseMessageUtil;
 import com.ssafy.gumid101.jwt.JwtUtilsService;
 import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.res.ResponseFrame;
@@ -56,7 +56,7 @@ public class TestController {
 	private JwtUtilsService jwtUtilSevice;
 
 	@Autowired
-	private FirebaseMessage firebaseMessage;
+	private FirebaseMessageUtil firebaseMessage;
 	
 
 
