@@ -45,9 +45,11 @@ class ScrapDialog(context: Context, private val listener : ScrapDialogListener, 
         if(isAdd){
             binding.tvDialogHeader.text = "러닝 코스 스크랩 추가"
             binding.etScrapTitle.visibility = View.VISIBLE
+            binding.tvScrapDelete.visibility = View.GONE
             binding.btnOk.text = "추가"
         } else {
             binding.tvDialogHeader.text = "스크랩 삭제"
+            binding.tvScrapDelete.visibility = View.VISIBLE
             binding.etScrapTitle.visibility = View.GONE
             binding.btnOk.text = "삭제"
         }

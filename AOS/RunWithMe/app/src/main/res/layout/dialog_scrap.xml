@@ -40,6 +40,20 @@
             app:layout_constraintTop_toBottomOf="@id/tv_dialog_header"
             app:layout_constraintBottom_toTopOf="@id/btn_cancel"/>
 
+        <TextView
+            android:id="@+id/tv_scrap_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:padding="8dp"
+            android:text="해당 스크랩을 삭제하시겠습니까?"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_dialog_header"
+            app:layout_constraintBottom_toTopOf="@id/btn_cancel"/>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_cancel"
             style="@style/header_text"
