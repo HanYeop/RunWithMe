@@ -1,7 +1,9 @@
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { reportPageActions } from "../../store/slice/reportPaging";
+import Table from "react-bootstrap/Table";
 import apiClient from "../../api/api";
-
+import ReportListItem from "./ReportListItem";
 //	ReportStatus status;
 /*
 
@@ -13,34 +15,99 @@ import apiClient from "../../api/api";
 	private int pageNaviSize;
 
 */
-const ReportList = () => {
+const ReportList = (props) => {
   const auth = useSelector((state) => {
     return state.auth;
   });
-  const reportPageState = useSelector((state) => {
-    return state.reportPage;
-  });
+
+  const pageMeta = props.pageMeta;
+  const reportsList = props.reports;
+
+  const dispatch = useDispatch();
   useEffect(() => {
     console.log("신고글 조회 api 실행");
-    console.log(reportPageState);
-    console.log(auth.accessToken);
+    console.log(pageMeta);
+
     apiClient
       .get("/customer-center/manager/reports", {
-        params: reportPageState,
+        params: { ...pageMeta },
         headers: {
           "JWT-AUTHENTICATION": auth.accessToken,
-          withCredential: true,
         },
       })
       .then(({ data }) => {
         console.log(data);
         let success = data.success;
-        let msg = data.msg;
-        let reports = data.data.reports;
-        console.log(reports);
+        if (success == true) {
+          let reports = data.data.reports;
+          console.log(reports);
+          dispatch(reportPageActions.setReports(reports));
+          props.setPageInfoHandler(data.data.pageinfo);
+        } else {
+          alert(data.msg);
+        }
       });
-  }, [reportPageState]);
-  return <div>report list</div>;
+  }, [pageMeta, props.forceReRender]);
+
+  const reportStateChangeHandler = (e) => {
+    const reportSeq = e.target.getAttribute("reportSeq");
+    const reportState = e.target.getAttribute("reportState");
+    console.log(reportSeq + reportState);
+    let transitionState = reportState;
+    if (reportState == "WAITING") {
+      transitionState = "PROCESSING";
+    } else if (reportState == "PROCESSING") {
+      transitionState = "COMPLETE";
+    } else if (reportState == "COMPLETE") {
+      transitionState = "WAITING";
+    }
+
+    apiClient
+      .put(
+        `/customer-center/manager/reports/${reportSeq}`,
+        {
+          reportStatus: transitionState,
+        },
+        {
+          headers: {
+            "JWT-AUTHENTICATION": auth.accessToken,
+          },
+        },
+      )
+      .then((response) => {
+        console.log(response);
+        props.setForceReRender(props.forceReRender + 1);
+      });
+  };
+
+  return (
+    <>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Seq</th>
+            <th>신고당한 사람</th>
+            <th>신고당한 게시글 Seq</th>
+            <th>신고 사유</th>
+            <th>신고자</th>
+            <th>신고 시간</th>
+            <th>처리 상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          {reportsList.length > 0 &&
+            reportsList.map((item) => {
+              return (
+                <ReportListItem
+                  report={item}
+                  reportStateChangeHandler={reportStateChangeHandler}
+                />
+              );
+            })}
+        </tbody>
+      </Table>
+    </>
+  );
 };
 
 export default ReportList;
