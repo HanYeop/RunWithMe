@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
 	private final ImageFileRepository imageRepo;
 
 	private final FirebaseMessageUtil fcmUtil;
+
 	@Transactional
 	@Override
 	public UserDto setMyProfile(UserDto userDto) throws Exception {
@@ -64,6 +65,7 @@ public class UserServiceImpl implements UserService {
 
 		return UserDto.of(userEntity);
 	}
+
 	@Transactional
 	@Override
 	public int checkDupNickname(String nickname) throws Exception {
@@ -71,20 +73,21 @@ public class UserServiceImpl implements UserService {
 		return userRepo.countByNickName(nickname);
 
 	}
+
 	@Transactional
 	@Override
 	public UserFileDto getUserFileDtoById(Long userSeq) throws Exception {
 
 		UserEntity userEntity = userRepo.findById(userSeq)
 				.orElseThrow(() -> new NotFoundUserException("해당 유저를 찾을 수 없습니다."));
-		
-		ImageFileDto imgDto =  ImageFileDto.of(userEntity.getImageFile());
-		
-		
+
+		ImageFileDto imgDto = ImageFileDto.of(userEntity.getImageFile());
+
 		UserDto userDto = UserDto.of(userEntity);
 
-		return new UserFileDto(userDto,imgDto);
+		return new UserFileDto(userDto, imgDto);
 	}
+
 	@Transactional
 	@Override
 	public UserFileDto getUserProfileByNickname(String nickname) throws Exception {
@@ -92,14 +95,10 @@ public class UserServiceImpl implements UserService {
 		UserEntity user = userRepo.findByNickNameAndUserState(nickname, "N")
 				.orElseThrow(() -> new NotFoundUserException("닉네임이 일치하는 사용자가 없습니다."));
 		ImageFileDto imgDto = ImageFileDto.of(user.getImageFile());
-		return new UserFileDto(UserDto.builder()
-				.nickName(nickname)
-				.email(user.getEmail())
-				.height(user.getHeight())
-				.weight(user.getWeight())
-				.point(user.getPoint())
-				.build()
-				, imgDto);
+		UserDto userDto = UserDto.of(user);
+		// 타인이 사용가능하므로 주요정보는 가림
+		userDto.hideInfo();
+		return new UserFileDto(userDto, imgDto);
 	}
 
 	@Transactional
@@ -112,7 +111,10 @@ public class UserServiceImpl implements UserService {
 		userEntity.setHeight(userDto.getHeight());
 		userEntity.setWeight(userDto.getWeight());
 		userEntity.setNickName(userDto.getNickName());
-		
+		userEntity.setGender(userDto.getGender());
+		userEntity.setBirthYear(userDto.getBirthYear());
+		userEntity.setRegion(userDto.getRegion());
+		userEntity.setJob(userDto.getJob());
 
 		ImageFileDto imageFileDto = null;
 		ImageFileEntity imageEntity = null;
@@ -131,9 +133,7 @@ public class UserServiceImpl implements UserService {
 
 			imageRepo.save(imageEntity);
 			userEntity.setImageFile(imageEntity);
-		} 
-
-		
+		}
 
 		return new UserFileDto(UserDto.of(userEntity), ImageFileDto.of(imageEntity));
 	}
@@ -148,14 +148,14 @@ public class UserServiceImpl implements UserService {
 		List<CrewBoardEntity> myBoards = userRepo.findUserBoardsWithOffestAndSize(user, size, maxBoardSeq);
 
 		List<CrewBoardRes> myBoardList = myBoards.stream().map(
-				
+
 				(item) -> CrewBoardRes.of(item)
-				
-				)
-				.collect(Collectors.toList());
+
+		).collect(Collectors.toList());
 
 		return myBoardList;
 	}
+
 	@Transactional
 	@Override
 	public CrewTotalRecordDto getMyTotalRecord(Long userSeq) throws Exception {
@@ -163,10 +163,17 @@ public class UserServiceImpl implements UserService {
 				.orElseThrow(() -> new NotFoundUserException("해당 유저를 찾을 수 없습니다."));
 
 		CrewTotalRecordDto crewTotalRecordDto = userRepo.getMyTotalRecord(userEntity);
-		
-		if (crewTotalRecordDto == null ||crewTotalRecordDto.getTotalTime() == null || crewTotalRecordDto.getTotalTime() == 0) {
-			return CrewTotalRecordDto.builder().totalAvgSpeed(0.0).totalCalorie(0.0).totalDistance(0)
-					.totalLongestDistance(0).totalLongestTime(0).totalTime(0).build();
+
+		if (crewTotalRecordDto == null || crewTotalRecordDto.getTotalTime() == null
+				|| crewTotalRecordDto.getTotalTime() == 0) {
+			return CrewTotalRecordDto.builder() //
+					.totalAvgSpeed(0.0) //
+					.totalCalorie(0.0) //
+					.totalDistance(0) //
+					.totalLongestDistance(0) //
+					.totalLongestTime(0) //
+					.totalTime(0) //
+					.build();
 		} else {
 			// 1m/s == 3.6km/h
 			crewTotalRecordDto
@@ -178,29 +185,33 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	@Override
 	public boolean setUserFcmToken(Long userSeq, String fcmToken) throws Exception {
-		
-		UserEntity user = userRepo.findById(userSeq).orElseThrow(()->new NotFoundUserException("FCM 토큰 설정중, 유저를 특정할 수 없습니다."));
-		
+
+		UserEntity user = userRepo.findById(userSeq)
+				.orElseThrow(() -> new NotFoundUserException("FCM 토큰 설정중, 유저를 특정할 수 없습니다."));
+
 		user.setFcmToken(fcmToken);
-		
-		String meessageBody= String.format("%s 님 알림 설정이 정상적으로 완료되었습니다.", user.getNickName());
+
+		String meessageBody = String.format("%s 님 알림 설정이 정상적으로 완료되었습니다.", user.getNickName());
 		fcmUtil.sendMessageTo(fcmToken, "RunWime [알림 설정]", meessageBody);
 		return true;
 	}
+
 	@Transactional
 	@Override
 	public boolean deleteUserFcmToken(Long userSeq) throws Exception {
-		UserEntity user = userRepo.findById(userSeq).orElseThrow(()->new NotFoundUserException("FCM 토큰 설정중, 유저를 특정할 수 없습니다."));
+		UserEntity user = userRepo.findById(userSeq)
+				.orElseThrow(() -> new NotFoundUserException("FCM 토큰 설정중, 유저를 특정할 수 없습니다."));
 		user.setFcmToken(null);
-		
+
 		return true;
 	}
+
 	@Transactional
 	@Override
 	public boolean deleteMyAccount(Long userSeq) throws Exception {
-		
+
 		userRepo.deleteById(userSeq);
-		
+
 		return true;
 	}
 }

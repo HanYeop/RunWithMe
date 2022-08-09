@@ -149,9 +149,7 @@ public class UserRestController {
 
 		UserFileDto resUserDto = userService.getUserFileDtoById(userSeq);
 		if (userDto.getUserSeq() != userSeq) {
-			resUserDto.getUser().setFcmToken(null);
-			resUserDto.getUser().setEmail(null);
-			resUserDto.getUser().setRole(null);
+			resUserDto.getUser().hideInfo();
 		}
 		CrewTotalRecordDto ctrDto = userService.getMyTotalRecord(userSeq);
 		List<AchieveCompleteDto> acDto = acServ.getUserAchievement(userSeq);
