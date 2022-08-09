@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -35,7 +36,7 @@ import com.ssafy.gumid101.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
-@EnableWebSecurity(debug = false)
+@EnableWebSecurity(debug = true)
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -73,8 +74,8 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager)
 			throws Exception {
-
-		http.cors().disable();// cors 문제 무시
+		http.cors();
+		//http.cors().disable();// cors 필터 사용안함
 		http.httpBasic().disable(); // 헤더에 username,password 로그인 사용 불가
 		http.csrf().disable(); // csrf 보안 사용 안함
 		http.anonymous().disable(); // 익명 사용자 허용 x
@@ -91,10 +92,11 @@ public class SecurityConfig {
 				kakaoTokenValidate, successHandler), JwtAuthFilter.class);
 
 		http.authorizeHttpRequests((authz) -> {
-
 			authz.antMatchers("/user/profile").hasRole(Role.TEMP.toString());
 			authz.antMatchers("/**").hasRole(Role.USER.toString());
+			
 		});
+		
 		http.exceptionHandling().accessDeniedHandler(new AccessDeniedHandler() {
 
 			@Override

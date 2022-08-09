@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -89,7 +90,7 @@ public class CustomerCenterRestController {
 	// 신고글 조회
 	@ApiOperation("신고글 조회 (관리자)")
 	@GetMapping("/manager/reports")
-	public ResponseEntity<?> getReports(@RequestBody ReportSelectReqDto params, BindingResult bindingResult)
+	public ResponseEntity<?> getReports(@ModelAttribute ReportSelectReqDto params, BindingResult bindingResult)
 			throws Exception {
 
 		if (bindingResult.hasErrors()) {
@@ -108,7 +109,7 @@ public class CustomerCenterRestController {
 	// 질문 글 조회
 	@ApiOperation("질문 글 조회 (관리자)")
 	@GetMapping("/manager/questions")
-	public ResponseEntity<?> getQuestions(QuestionSelectParameter params, BindingResult bindingResult)
+	public ResponseEntity<?> getQuestions(@ModelAttribute QuestionSelectParameter params, BindingResult bindingResult)
 			throws Exception {
 
 		if (bindingResult.hasErrors()) {

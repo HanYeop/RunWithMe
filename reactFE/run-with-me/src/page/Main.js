@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import GoogleOauth from "../components/Login/GoogleOauth";
 import { useSelector } from "react-redux";
 import HomeMain from "./HomePage";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Redirect } from "react-router-dom";
 
 const Main = () => {
   const auth = useSelector((state) => state.auth);
@@ -13,7 +13,7 @@ const Main = () => {
       <Routes>
         <Route path="/login" element={<GoogleOauth />} />
 
-        <Route path="/" element={<HomeMain />} />
+        <Route path="/*" element={<HomeMain />} />
       </Routes>
     </>
   );

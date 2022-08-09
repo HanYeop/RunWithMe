@@ -1,0 +1,38 @@
+.report-main {
+  background-color: rgb(114, 114, 114);
+  height: 80vh;
+  width: 90%;
+  margin: 60px auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 3fr;
+}
+.card-frame {
+  background-color: antiquewhite;
+  margin: 10px 40px;
+}
+.card-frame > * {
+  float: left;
+}
+.card-left-image {
+  font-size: 100px;
+}
+.card-right-desc {
+  display: flex;
+  float: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0px;
+}
+.card-title {
+  font-size: 25px;
+}
+.card-value {
+  font-size: 30px;
+}
+.list-frame {
+  grid-row: 2/3;
+  grid-column: 1/4;
+  background-color: aqua;
+}

@@ -12,6 +12,7 @@ import {
 import "react-pro-sidebar/dist/css/styles.css";
 import styles from "./SideBar.module.css";
 import Molu from "../../assets/molu.jpg";
+import { Link } from "react-router-dom";
 
 const SideBar = (props) => {
   const [toggled, setToggled] = useState(false);
@@ -35,11 +36,15 @@ const SideBar = (props) => {
       <SidebarContent>
         <Menu iconShape="square">
           <MenuItem>
-            <h2>신고글</h2>
+            <Link to="/">
+              <h2>HOME</h2>
+            </Link>
           </MenuItem>
-          <MenuItem>Dashboard</MenuItem>
-          <MenuItem>Dashboard</MenuItem>
-          <MenuItem>Dashboard</MenuItem>
+          <MenuItem>
+            <Link to="/report">
+              <h2>신고글</h2>
+            </Link>
+          </MenuItem>
           <SubMenu title="Components">
             <MenuItem>Component 1</MenuItem>
             <MenuItem>Component 2</MenuItem>

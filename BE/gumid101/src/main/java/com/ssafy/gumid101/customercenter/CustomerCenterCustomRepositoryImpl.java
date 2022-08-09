@@ -131,8 +131,8 @@ public class CustomerCenterCustomRepositoryImpl implements CustomerCenterCustomR
 		}
 
 
-		Long result = jpaQueryFactory.from(report).select(Projections.fields(Long.class, report.count()))
-				.where(report.reportStatus.eq(params.getStatus())).fetchOne();
+		Long result = (long)jpaQueryFactory.selectFrom(report)
+				.where(report.reportStatus.eq(params.getStatus())).fetch().size();
 
 		return result;
 	}
