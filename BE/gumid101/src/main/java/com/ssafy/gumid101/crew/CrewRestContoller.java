@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gumid101.dto.CoordinateDto;
+import com.ssafy.gumid101.dto.CrewDto;
 import com.ssafy.gumid101.dto.RecordCoordinateDto;
 import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
@@ -50,18 +51,17 @@ public class CrewRestContoller {
 	}
 
 	@ApiOperation("런 레코드 등록")
-	@PostMapping(value= "/{crewSeq}/records",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+	@PostMapping(value= "/{crewSeq}/records")
 	public ResponseEntity<?> recordMyRun(
 			@PathVariable("crewSeq") Long crewSeq ,
-			@RequestPart(value="runRecord",required = true) RunRecordDto runRecord,
+			@RequestPart(value="runRecord",required = true) String runRecordString,
 			@RequestPart MultipartFile imgFile) throws Exception{
 		
 		UserDto userDto =  loadUserFromToken();
 		redisServ.getIsUseable(userDto.getUserSeq().toString() + "recordMyRun", 10);
+		RunRecordDto runRecordDto = objectMapper.readValue(runRecordString, RunRecordDto.class);
 		
 		Long userSeq = userDto.getUserSeq();
-		
-		RunRecordDto runRecordDto =runRecord;
 		
 		RunRecordResultDto runRecordResult = crewService.insertUserRunRecordAsCrew(userSeq, crewSeq, runRecordDto, imgFile);
 		

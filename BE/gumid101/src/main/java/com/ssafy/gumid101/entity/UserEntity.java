@@ -115,6 +115,12 @@ public class UserEntity {
 	
 	@OneToMany(mappedBy = "userEntity")
 	private List<ScrapEntity> scrapEntitys;
+
+	@OneToMany(mappedBy = "userEntity", orphanRemoval = true)
+	private List<CompetitionUserEntity> competitionUserEntitys;
+	
+	@OneToMany(mappedBy = "userEntity", orphanRemoval = true)
+	private List<CompetitionTotalRecordEntity> competitionTotalRecordEntitys;
 	
 	
 
