@@ -165,6 +165,20 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         }
     }
 
+    // 처음에 지도 위치 이동
+    private fun defaultMoveCameraToUser(latLng: LatLng) {
+        map?.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                latLng,
+                MAP_ZOOM
+            )
+        )
+
+        if(binding.mapView.visibility == View.INVISIBLE){
+            binding.mapView.visibility = View.VISIBLE
+        }
+    }
+
     // 지도 위치 이동
     private fun moveCameraToUser() {
         if (pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()) {
@@ -284,6 +298,9 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         if(!RunningService.isFirstRun){
             runningLoadingDialog = RunningLoadingDialog(this)
             runningLoadingDialog.show()
+            RunningService.defaultLatLng.observe(this){
+                defaultMoveCameraToUser(it)
+            }
             CoroutineScope(Dispatchers.Main).launch {
                 changeDistanceText()
                 changeTimeText("00:00")
@@ -333,7 +350,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
     // 뒤로가기 버튼 눌렀을 때
     override fun onBackPressed() {
         var builder = AlertDialog.Builder(this)
-        builder.setTitle("달리기를 종료할까요?")
+        builder.setTitle("달리기를 종료할까요? 10초 이하의 기록은 저장되지 않습니다.")
             .setPositiveButton("네"){ _,_ ->
                 // TODO : 달리기 종료시킴
                 stopRun()
@@ -352,8 +369,14 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             map?.clear()
             addAllPolylines()
         }
-        zoomToWholeTrack()
-        endRunAndSaveToDB()
+
+        if(currentTimeInMillis < 10000) {
+            showToast("10초 이하의 기록은 저장되지 않습니다.")
+            finish()
+        } else {
+            zoomToWholeTrack()
+            endRunAndSaveToDB()
+        }
     }
 
     // 달리기 기록 저장

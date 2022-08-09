@@ -69,13 +69,13 @@ class RunningService : LifecycleService() {
     // 러닝을 시작하거나 다시 시작한 시간
     private var startTime = 0L
 
-
     companion object{
         val isTracking = MutableLiveData<Boolean>() // 위치 추적 상태 여부
         val pathPoints = MutableLiveData<Polylines>() // LatLng = 위도,경도
         val timeRunInMillis = MutableLiveData<Long>() // 뷰에 표시될 시간
         var isFirstRun = false // 처음 실행 여부 (false = 실행되지않음)
         val sumDistance = MutableLiveData<Float>(0f)
+        val defaultLatLng = MutableLiveData<LatLng>()
     }
 
     private fun initTextToSpeech() {
@@ -126,12 +126,18 @@ class RunningService : LifecycleService() {
 
     // 서비스가 종료 되었을 때
     private fun killService(){
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
         serviceKilled = true
         isFirstRun = false
         pauseService()
+        startTime = 0L
+        pauseLastLatLng = LatLng(0.0,0.0)
+        stopLastLatLng = LatLng(0.0,0.0)
+
         postInitialValues()
         stopForeground(true)
         stopSelf()
+
     }
 
     // 알림창 버튼 생성, 액션 추가
@@ -216,6 +222,11 @@ class RunningService : LifecycleService() {
 
 //    private var test = 0f
 
+    // 멈추기 직전 위치
+    private var pauseLastLatLng = LatLng(0.0,0.0)
+    // 멈추고 난 후 마지막 위치
+    private var stopLastLatLng = LatLng(0.0,0.0)
+
     // 거리 표시 (마지막 전, 마지막 경로 차이 비교)
     private fun distancePolyline(){
         if(pathPoints.value!!.isNotEmpty() && pathPoints.value!!.last().size > 1){
@@ -244,11 +255,12 @@ class RunningService : LifecycleService() {
 
             Log.d(TAG, "distancePolyline: ${result[0]}")
 
-            // 5초 이상 이동했는데 이동거리가 2.5m 이하인 경우 정지
+            // 5초 이상 이동했는데 이동거리가 2.5m 이하인 경우 정지하고, 마지막 위치를 기록함
             if(result[0] < 2.5f && (System.currentTimeMillis() - startTime) > 5000L) {
                 val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                 vibrator.vibrate(1000) // 1초간 진동
                 ttsSpeak("이동이 없어 러닝이 일시 중지되었습니다.")
+                pauseLastLatLng = lastLatLng
                 pauseService()
             }
 
@@ -262,6 +274,34 @@ class RunningService : LifecycleService() {
         }
     }
 
+    private fun resumeRunning(){
+        val result = FloatArray(1)
+        Location.distanceBetween(
+            pauseLastLatLng.latitude,
+            pauseLastLatLng.longitude,
+            stopLastLatLng.latitude,
+            stopLastLatLng.longitude,
+            result
+        )
+
+        // 정지 상태에서, 마지막 위치에서 5m 이상 이동한 경우
+        if(result[0] > 5f && (System.currentTimeMillis() - startTime) > 3000L){
+//            Log.d(TAG, "resumeRunning: ${System.currentTimeMillis()} ${startTime}")
+//            Log.d(TAG, "resumeRunning: ${isTracking.value}")
+//            Log.d(TAG, "resumeRunning: ${result}")
+//            Log.d(TAG, "resumeRunning: ${pauseLastLatLng} ${stopLastLatLng}")
+
+            // 중지 상태라면 다시 시작 시킴
+            if(!isTracking.value!!){
+                val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                vibrator.vibrate(1000) // 1초간 진동
+                ttsSpeak("이동이 감지되어 러닝을 다시 시작합니다.")
+                startTimer()
+                startTime = System.currentTimeMillis()
+            }
+        }
+    }
+
     // 위치정보 수신하여 addPathPoint 로 추가
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult?) {
@@ -270,7 +310,19 @@ class RunningService : LifecycleService() {
                 result?.locations?.let { locations ->
                     for(location in locations) {
                         addPathPoint(location)
-                        Log.d(TAG, "${location.latitude} , ${location.longitude}")
+                        Log.d(TAG, "저장됨 : ${location.latitude} , ${location.longitude}")
+                    }
+                }
+            }else{
+                result?.locations?.let { locations ->
+                    for(location in locations) {
+                        // 처음 시작 때 위치 초기화
+                        if(!isFirstRun) {
+                            defaultLatLng.postValue(LatLng(location.latitude, location.longitude))
+                            pauseLastLatLng = LatLng(location.latitude, location.longitude)
+                        }
+                        stopLastLatLng = LatLng(location.latitude, location.longitude)
+                        resumeRunning()
                     }
                 }
             }
@@ -291,7 +343,7 @@ class RunningService : LifecycleService() {
                 fusedLocationProviderClient.requestLocationUpdates(request, locationCallback, Looper.getMainLooper())
             }
         } else {
-            fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+//            fusedLocationProviderClient.removeLocationUpdates(locationCallback)
         }
     }
 

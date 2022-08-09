@@ -98,8 +98,10 @@ class RunningResultFragment : BaseFragment<FragmentRunningResultBinding>(R.layou
 
         lifecycleScope.launch {
             runningViewModel.achievementsList.collectLatest {
-                for(i in it){
-                    AchievementDialog(requireContext(), i).show()
+                if(first) {
+                    for (i in it) {
+                        AchievementDialog(requireContext(), i).show()
+                    }
                 }
             }
         }
