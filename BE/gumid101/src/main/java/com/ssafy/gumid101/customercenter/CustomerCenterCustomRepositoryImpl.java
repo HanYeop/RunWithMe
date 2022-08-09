@@ -104,9 +104,9 @@ public class CustomerCenterCustomRepositoryImpl implements CustomerCenterCustomR
 	public List<ReportResDto> selectReportsByParam(ReportSelectReqDto params) {
 
 		QReportEntity report = new QReportEntity("r");
-
-		if(params.getStatus() == null) {
-			params.setStatus(ReportStatus.WAITING);
+		BooleanBuilder br = new BooleanBuilder();
+		if(params.getStatus() != null ) {
+			br.and(report.reportStatus.eq(params.getStatus()));
 		}
 		
 		List<ReportResDto>  reportList = jpaQueryFactory.from(report).select(Projections.fields(ReportResDto.class, report.reportSeq.as("reportSeq"),
@@ -117,7 +117,7 @@ public class CustomerCenterCustomRepositoryImpl implements CustomerCenterCustomR
 				report.userTargetEntity.nickName.as("targetNincName"), report.reportRegTime.as("regTime")))
 		.leftJoin(report.userTargetEntity)
 		.leftJoin(report.userReporterEntity)
-		.where( report.reportStatus.eq(params.getStatus()))
+		.where(br )
 		.orderBy(report.reportSeq.desc()).offset(params.getPageItemSize() * (params.getCurrentPage() -1)).limit(params.getPageItemSize())
 		.fetch();
 
@@ -128,13 +128,14 @@ public class CustomerCenterCustomRepositoryImpl implements CustomerCenterCustomR
 	@Override
 	public Long selectCountReportsByParam(ReportSelectReqDto params) {
 		QReportEntity report = new QReportEntity("r");
-		if(params.getStatus() == null) {
-			params.setStatus(ReportStatus.WAITING);
+		BooleanBuilder br = new BooleanBuilder();
+		if(params.getStatus() != null) {
+			br.and(report.reportStatus.eq(params.getStatus()));
 		}
 
 
 		Long result = (long)jpaQueryFactory.selectFrom(report)
-				.where(report.reportStatus.eq(params.getStatus())).fetch().size();
+				.where(br).fetch().size();
 
 		return result;
 	}

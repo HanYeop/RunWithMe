@@ -18,21 +18,15 @@ public interface CustomerCenterService {
 
 	ReportDto postReport(Long boardSeq, String reportContent, Long userSeq) throws Exception;
 
-	int deleteCrewBoard(Long boardSeq) throws Exception;
-
-	int deleteReport(Long seq)throws Exception;
-
 	int deleteQuestion(Long seq)throws Exception;
 
 	int answerQuestion(Long seq, QuestionReqDto questionReqDto, MultipartFile[] files)throws Exception;
+	int updateQustionStatus(Long questionSeq, QuestionStatus valueOf);
 
 	public Map<String, Object> selectQuestion(QuestionSelectParameter params);
+	
 
-	Map<String, Object> selectReportsByParam(ReportSelectReqDto params);
-
-	int updateReportsStatus(Long reportId, ReportStatus status);
-
-	int updateQustionStatus(Long questionSeq, QuestionStatus valueOf);
+	
 
 
 }
