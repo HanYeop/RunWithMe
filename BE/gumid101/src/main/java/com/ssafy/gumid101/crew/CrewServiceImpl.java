@@ -231,18 +231,18 @@ public class CrewServiceImpl implements CrewService {
 			userCrewTotalEntity.setUserEntity(userEntity);
 			userCrewTotalRunRepo.save(userCrewTotalEntity);
 		}
-		//최대 거리 
+		// 최대 거리
 		userCrewTotalEntity.setTotalLongestDistance(
 				Math.max(userCrewTotalEntity.getTotalLongestDistance(), runRecordDto.getRunRecordRunningDistance()));
-		//최대 뛴 시간
+		// 최대 뛴 시간
 		userCrewTotalEntity.setTotalLongestTime(
 				Math.max(userCrewTotalEntity.getTotalLongestTime(), runRecordDto.getRunRecordRunningTime()));
-		//총 뛴 시간
+		// 총 뛴 시간
 		userCrewTotalEntity.setTotalTime(userCrewTotalEntity.getTotalTime() + runRecordDto.getRunRecordRunningTime());
-		//총 뛴 거리
+		// 총 뛴 거리
 		userCrewTotalEntity
 				.setTotalDistance(userCrewTotalEntity.getTotalDistance() + runRecordDto.getRunRecordRunningDistance());
-		//총 칼로리 소모
+		// 총 칼로리 소모
 		userCrewTotalEntity.setTotalCalorie(userCrewTotalEntity.getTotalCalorie() + runRecord.getRunRecordCalorie());
 
 		CrewTotalRecordDto userCrewDto = CrewTotalRecordDto.of(userCrewTotalEntity);
@@ -251,14 +251,15 @@ public class CrewServiceImpl implements CrewService {
 
 		// 3.업적 로직 계산
 		List<AchievementDto> newCompleteDtoList = getNewCompleteAchiveMent(userEntity, runRecord);
-		
+
 		// 4. 시즌제 대회 관련 처리
 		competitionCheck(userEntity, runRecord);
 
 		return new RunRecordResultDto(RunRecordDto.of(runRecord), newCompleteDtoList);
 	}
 
-	private List<AchievementDto> getNewCompleteAchiveMent(UserEntity userEntity, RunRecordEntity runRecordEntity) throws Exception {
+	private List<AchievementDto> getNewCompleteAchiveMent(UserEntity userEntity, RunRecordEntity runRecordEntity)
+			throws Exception {
 
 		Long runCount = runRecordRepo.countByUserEntity(userEntity);
 		CrewTotalRecordDto crewTotalRecordDto = userRepo.getMyTotalRecord(userEntity);
@@ -292,26 +293,34 @@ public class CrewServiceImpl implements CrewService {
 		accRepo.saveAll(achieveList.stream().map((entity) -> AchievementCompleteEntity.builder()
 				.achieveCompleteRegTime(LocalDateTime.now()).achieveEntity(entity).userEntity(userEntity).build())
 				.collect(Collectors.toList()));
-		return achieveList.stream().map((entity) -> AchievementDto.of(entity)).collect(Collectors.toList());
+		return achieveList.stream().map((entity) -> {
+			AchievementDto dto = AchievementDto.of(entity);
+			dto.setAchieveRegTime(LocalDateTime.now());
+			return dto;
+		}).collect(Collectors.toList());
 	}
-	
+
 	private void competitionCheck(UserEntity userEntity, RunRecordEntity runRecordEntity) {
-		CompetitionEntity competitionEntity = competitionRepo.findByCompetitionDateStartBeforeAndCompetitionDateEndAfter(LocalDateTime.now(), LocalDateTime.now())
+		CompetitionEntity competitionEntity = competitionRepo
+				.findByCompetitionDateStartBeforeAndCompetitionDateEndAfter(LocalDateTime.now(), LocalDateTime.now())
 				.orElse(null);
 		// 현재 진행중인 대회 없으면 끝
 		if (competitionEntity == null) {
 			return;
 		}
 		// 해당 유저가 참여한 대회가 아니면 끝
-		CompetitionUserEntity competitionUserEntity = competitionUserRepo.findByUserEntityAndCompetitionEntity(userEntity, competitionEntity)
-				.orElse(null);
+		CompetitionUserEntity competitionUserEntity = competitionUserRepo
+				.findByUserEntityAndCompetitionEntity(userEntity, competitionEntity).orElse(null);
 		if (competitionUserEntity == null) {
 			return;
 		}
 		// 참여한 대회이면 기록 쌓기
-		CompetitionTotalRecordEntity competitionTotalRecordEntity = competitionTotalRecordRepo.findByUserEntityAndCompetitionEntity(userEntity, competitionEntity).get();
-		competitionTotalRecordEntity.setCompetition_distance(competitionTotalRecordEntity.getCompetition_distance() + runRecordEntity.getRunRecordRunningDistance());
-		competitionTotalRecordEntity.setCompetition_time(competitionTotalRecordEntity.getCompetition_time() + runRecordEntity.getRunRecordRunningTime());
+		CompetitionTotalRecordEntity competitionTotalRecordEntity = competitionTotalRecordRepo
+				.findByUserEntityAndCompetitionEntity(userEntity, competitionEntity).get();
+		competitionTotalRecordEntity.setCompetition_distance(
+				competitionTotalRecordEntity.getCompetition_distance() + runRecordEntity.getRunRecordRunningDistance());
+		competitionTotalRecordEntity.setCompetition_time(
+				competitionTotalRecordEntity.getCompetition_time() + runRecordEntity.getRunRecordRunningTime());
 		competitionTotalRecordRepo.save(competitionTotalRecordEntity);
 	}
 
