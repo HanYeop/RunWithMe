@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ssafy.gumid101.achievement.AchievementRepository;
 import com.ssafy.gumid101.crew.manager.CrewManagerService;
+import com.ssafy.gumid101.customexception.FCMTokenUnValidException;
 import com.ssafy.gumid101.dto.AchievementDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.AchievementEntity;
@@ -35,6 +36,7 @@ import com.ssafy.gumid101.user.Role;
 import com.ssafy.gumid101.user.UserRepository;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -177,5 +179,13 @@ public class TestController {
 		return "알림테스트";
 	}
 	
+	@ApiParam(name = "특정 유저에게 주어진 메세지를 전송한다.")
+	@ResponseBody
+	@GetMapping("/test/fcm")
+	public String notifitoUser(@RequestParam Long userSeq) throws IOException, FCMTokenUnValidException {
+		String token =  userRepo.findById(userSeq).get().getFcmToken();
+		firebaseMessage.sendMessageTo(token, "테스트", "테스트 메세지 발송");
+		return "gg";
+	}
 	
 }
