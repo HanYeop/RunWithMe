@@ -76,9 +76,9 @@ public class CrewSchedule {
 		log.info("루의 포인트 정산 알림을 시도합니다.");
 
 		try {
-
-
-			JobExecution jobExecution = jobLauncher.run(notificationJob, null);
+			Map<String, JobParameter> jobParametersMap = new HashMap<>();
+			JobParameters parameters = new JobParameters(jobParametersMap);
+			JobExecution jobExecution = jobLauncher.run(notificationJob, parameters);
 
 			while (jobExecution.isRunning()) {
 				log.info("스프링 배치 실행 중");
