@@ -47,6 +47,7 @@ class RunningResultFragment : BaseFragment<FragmentRunningResultBinding>(R.layou
     private lateinit var loadingDialog : LoadingDialog
 
     private var first = true
+    private var achieveFirst = true
 
     private var distanceText = ""
     private var timeText = ""
@@ -98,10 +99,11 @@ class RunningResultFragment : BaseFragment<FragmentRunningResultBinding>(R.layou
 
         lifecycleScope.launch {
             runningViewModel.achievementsList.collectLatest {
-                if(first) {
+                if(achieveFirst && it.isNotEmpty()) {
                     for (i in it) {
                         AchievementDialog(requireContext(), i).show()
                     }
+                    achieveFirst = false
                 }
             }
         }
