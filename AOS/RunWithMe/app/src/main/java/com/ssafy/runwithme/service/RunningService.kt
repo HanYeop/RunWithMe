@@ -73,6 +73,8 @@ class RunningService : LifecycleService() {
     // 러닝을 시작하거나 다시 시작한 시간
     private var startTime = 0L
 
+    private var pauseLast = false
+
     companion object{
         val isTracking = MutableLiveData<Boolean>() // 위치 추적 상태 여부
         val pathPoints = MutableLiveData<Polylines>() // LatLng = 위도,경도
@@ -128,6 +130,8 @@ class RunningService : LifecycleService() {
             updateLocation(it)
             updateNotificationTrackingState(it)
         }
+
+        distanceTTS()
     }
 
     // 서비스가 종료 되었을 때
@@ -139,6 +143,7 @@ class RunningService : LifecycleService() {
         startTime = 0L
         pauseLastLatLng = LatLng(0.0,0.0)
         stopLastLatLng = LatLng(0.0,0.0)
+        pauseLast = false
 
         postInitialValues()
         stopForeground(true)
@@ -226,12 +231,22 @@ class RunningService : LifecycleService() {
         }
     }
 
-//    private var test = 0f
+
 
     // 멈추기 직전 위치
     private var pauseLastLatLng = LatLng(0.0,0.0)
     // 멈추고 난 후 마지막 위치
     private var stopLastLatLng = LatLng(0.0,0.0)
+
+    private fun distanceTTS(){
+        sumDistance.observe(this){
+            Log.d(TAG, "distanceTTS: $it")
+            Log.d(TAG, "distanceTTS: ${it / 100 }")
+            if(it / 100 > 1){
+//                ttsSpeak("$it 테스트")
+            }
+        }
+    }
 
     // 거리 표시 (마지막 전, 마지막 경로 차이 비교)
     private fun distancePolyline(){
@@ -252,13 +267,6 @@ class RunningService : LifecycleService() {
             // 비동기
             sumDistance.postValue(sumDistance.value!!.plus(result[0]))
 
-//            test += result[0]
-//            // 테스트
-//            if(test > 100){
-//                ttsSpeak("100m 이동")
-//                test /= 100
-//            }
-
             Log.d(TAG, "distancePolyline: ${result[0]}")
 
             // 5초 이상 이동했는데 이동거리가 2.5m 이하인 경우 정지하고, 마지막 위치를 기록함
@@ -268,6 +276,7 @@ class RunningService : LifecycleService() {
                 Toast.makeText(this, "이동이 없어 러닝이 일시 중지되었습니다.", Toast.LENGTH_SHORT).show()
                 ttsSpeak("이동이 없어 러닝이 일시 중지되었습니다.")
                 pauseLastLatLng = lastLatLng
+                pauseLast = true
                 pauseService()
             }
 
@@ -299,14 +308,15 @@ class RunningService : LifecycleService() {
 //            Log.d(TAG, "resumeRunning: ${result}")
 //            Log.d(TAG, "resumeRunning: ${pauseLastLatLng} ${stopLastLatLng}")
 
-            // 중지 상태라면 다시 시작 시킴
-            if(!isTracking.value!!){
+            // 이동이 없어 중지 상태일 때, 5m 이동하면 다시 시작 시킴
+            if(!isTracking.value!! && pauseLast){
                 val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                 vibrator.vibrate(1000) // 1초간 진동
                 Toast.makeText(this, "이동이 감지되어 러닝을 다시 시작합니다.", Toast.LENGTH_SHORT).show()
                 ttsSpeak("이동이 감지되어 러닝을 다시 시작합니다.")
                 startTimer()
                 startTime = System.currentTimeMillis()
+                pauseLast = false
             }
         }
     }
