@@ -36,9 +36,20 @@ public class UserDto implements Serializable {
 	@ApiParam(value = "사용자 키")
 	private Integer height;
 
-	
 	@ApiParam(value = "사용자 몸무게")
 	private Integer weight;
+	
+	@ApiParam(value = "사용자 성별")
+	private String gender;
+	
+	@ApiParam(value = "사용자 생년")
+	private Integer birthYear;
+	
+	@ApiParam(value = "사용자 거주지")
+	private String region;
+	
+	@ApiParam(value = "사용자 직업")
+	private String job;
 
 	@ApiParam(value = "사용자 포인트")
 	private Integer point;
@@ -54,10 +65,26 @@ public class UserDto implements Serializable {
 		if(user == null)
 			return null;
 		
-		return new UserDtoBuilder().userSeq(user.getUserSeq()).nickName(user.getNickName()).email(user.getEmail())
-				.height(user.getHeight()).weight(user.getWeight()).point(user.getPoint()).fcmToken(user.getFcmToken())
-				.userState(user.getUserState()).role(user.getRole()).build();
+		return new UserDtoBuilder() //
+				.userSeq(user.getUserSeq()) //
+				.nickName(user.getNickName()) //
+				.email(user.getEmail()) //
+				.height(user.getHeight()) //
+				.weight(user.getWeight()) //
+				.gender(user.getGender()) //
+				.birthYear(user.getBirthYear()) //
+				.region(user.getRegion()) //
+				.job(user.getJob()) //
+				.point(user.getPoint()) //
+				.fcmToken(user.getFcmToken()) //
+				.userState(user.getUserState()) //
+				.role(user.getRole()) //
+				.build(); //
 	}
 	
+	public void hideInfo() {
+		this.fcmToken = null;
+		this.role = null;
+	}
 
 }

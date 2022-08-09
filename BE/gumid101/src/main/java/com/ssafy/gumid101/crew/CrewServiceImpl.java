@@ -1,18 +1,11 @@
 package com.ssafy.gumid101.crew;
 
-import java.math.BigInteger;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityManager;
-
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.io.WKTReader;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +15,9 @@ import com.ssafy.gumid101.achievement.AchieveType;
 import com.ssafy.gumid101.achievement.AchievementCompleteRepository;
 import com.ssafy.gumid101.achievement.AchievementRepository;
 import com.ssafy.gumid101.aws.S3FileService;
+import com.ssafy.gumid101.competition.CompetitionRepository;
+import com.ssafy.gumid101.competition.CompetitionTotalRecordRepository;
+import com.ssafy.gumid101.competition.CompetitionUserRepository;
 import com.ssafy.gumid101.crew.manager.CrewManagerRepository;
 import com.ssafy.gumid101.crew.manager.CrewManagerService;
 import com.ssafy.gumid101.customexception.CrewNotFoundException;
@@ -39,10 +35,12 @@ import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.AchievementCompleteEntity;
 import com.ssafy.gumid101.entity.AchievementEntity;
+import com.ssafy.gumid101.entity.CompetitionEntity;
+import com.ssafy.gumid101.entity.CompetitionTotalRecordEntity;
+import com.ssafy.gumid101.entity.CompetitionUserEntity;
 import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.CrewTotalRecordEntity;
 import com.ssafy.gumid101.entity.ImageFileEntity;
-import com.ssafy.gumid101.entity.RecordCoordinateEnitity;
 import com.ssafy.gumid101.entity.RunRecordEntity;
 import com.ssafy.gumid101.entity.UserCrewJoinEntity;
 import com.ssafy.gumid101.entity.UserEntity;
@@ -72,6 +70,9 @@ public class CrewServiceImpl implements CrewService {
 	private final ImageFileRepository imageRepo;
 	private final AchievementRepository achiveRepo;
 	private final AchievementCompleteRepository accRepo;
+	private final CompetitionTotalRecordRepository competitionTotalRecordRepo;
+	private final CompetitionUserRepository competitionUserRepo;
+	private final CompetitionRepository competitionRepo;
 
 	@Transactional
 	@Override
@@ -248,16 +249,19 @@ public class CrewServiceImpl implements CrewService {
 		userCrewDto.setTotalAvgSpeed(3.6 * userCrewTotalEntity.getTotalDistance().doubleValue()
 				/ (userCrewTotalEntity.getTotalTime() == 0 ? Long.MAX_VALUE : userCrewTotalEntity.getTotalTime()));
 
-		List<AchievementDto> newCompleteDtoList = getNewCompleteAchiveMent(userEntity, userCrewTotalEntity, runRecord);
 		// 3.업적 로직 계산
+		List<AchievementDto> newCompleteDtoList = getNewCompleteAchiveMent(userEntity, runRecord);
+		
+		// 4. 시즌제 대회 관련 처리
+		competitionCheck(userEntity, runRecord);
 
 		return new RunRecordResultDto(RunRecordDto.of(runRecord), newCompleteDtoList);
 	}
 
-	private List<AchievementDto> getNewCompleteAchiveMent(UserEntity userEntity,
-			CrewTotalRecordEntity userCrewTotalEntity, RunRecordEntity runRecordEntity) {
+	private List<AchievementDto> getNewCompleteAchiveMent(UserEntity userEntity, RunRecordEntity runRecordEntity) throws Exception {
 
 		Long runCount = runRecordRepo.countByUserEntity(userEntity);
+		CrewTotalRecordDto crewTotalRecordDto = userRepo.getMyTotalRecord(userEntity);
 
 		List<AchievementEntity> nonAchieveMents = achiveRepo.findNotAchivement(userEntity);
 		List<AchievementEntity> achieveList = new ArrayList<>();
@@ -272,11 +276,11 @@ public class CrewServiceImpl implements CrewService {
 					achieveList.add(nonAchieve);
 				}
 			} else if (nonAchieve.getAchieveType() == AchieveType.TOTALDISTANCE) {
-				if (nonAchieve.getAchiveValue() <= userCrewTotalEntity.getTotalDistance()) {
+				if (nonAchieve.getAchiveValue() <= crewTotalRecordDto.getTotalDistance()) {
 					achieveList.add(nonAchieve);
 				}
 			} else if (nonAchieve.getAchieveType() == AchieveType.TOTALTIME) {
-				if (nonAchieve.getAchiveValue() <= userCrewTotalEntity.getTotalTime()) {
+				if (nonAchieve.getAchiveValue() <= crewTotalRecordDto.getTotalTime()) {
 					achieveList.add(nonAchieve);
 				}
 			} else if (nonAchieve.getAchieveType() == AchieveType.RUNCOUNT) {
@@ -289,6 +293,26 @@ public class CrewServiceImpl implements CrewService {
 				.achieveCompleteRegTime(LocalDateTime.now()).achieveEntity(entity).userEntity(userEntity).build())
 				.collect(Collectors.toList()));
 		return achieveList.stream().map((entity) -> AchievementDto.of(entity)).collect(Collectors.toList());
+	}
+	
+	private void competitionCheck(UserEntity userEntity, RunRecordEntity runRecordEntity) {
+		CompetitionEntity competitionEntity = competitionRepo.findByCompetitionDateStartBeforeAndCompetitionDateEndAfter(LocalDateTime.now(), LocalDateTime.now())
+				.orElse(null);
+		// 현재 진행중인 대회 없으면 끝
+		if (competitionEntity == null) {
+			return;
+		}
+		// 해당 유저가 참여한 대회가 아니면 끝
+		CompetitionUserEntity competitionUserEntity = competitionUserRepo.findByUserEntityAndCompetitionEntity(userEntity, competitionEntity)
+				.orElse(null);
+		if (competitionUserEntity == null) {
+			return;
+		}
+		// 참여한 대회이면 기록 쌓기
+		CompetitionTotalRecordEntity competitionTotalRecordEntity = competitionTotalRecordRepo.findByUserEntityAndCompetitionEntity(userEntity, competitionEntity).get();
+		competitionTotalRecordEntity.setCompetition_distance(competitionTotalRecordEntity.getCompetition_distance() + runRecordEntity.getRunRecordRunningDistance());
+		competitionTotalRecordEntity.setCompetition_time(competitionTotalRecordEntity.getCompetition_time() + runRecordEntity.getRunRecordRunningTime());
+		competitionTotalRecordRepo.save(competitionTotalRecordEntity);
 	}
 
 	@Transactional
