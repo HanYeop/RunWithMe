@@ -2,15 +2,22 @@ package com.ssafy.runwithme.utils
 
 const val BASE_URL = "https://i7d101.p.ssafy.io:443/api/"
 
+// JWT
 const val JWT = "JWT-AUTHENTICATION"
 
+// 유저 정보
 const val USER = "user_seq"
 const val USER_WEIGHT = "user_weight"
 const val USER_NAME = "run_user_name"
 
+// 최초 퍼미션 화면 확인 여부
 const val PERMISSION_OK = "permission_ok"
 
+// TAG
 const val TAG = "test5"
+
+// tts 활성화 여부
+const val TTS_ACTIVE = "tts_active"
 
 /**
  * 서비스 상태(action) 상수

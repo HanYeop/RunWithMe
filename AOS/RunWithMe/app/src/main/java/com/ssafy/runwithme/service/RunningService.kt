@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.location.Location
 import android.os.Build
 import android.os.Looper
@@ -54,6 +55,9 @@ class RunningService : LifecycleService() {
     @Inject
     lateinit var baseNotificationBuilder: NotificationCompat.Builder
 
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
     // NotificationCompat.Builder 수정하기 위함
     lateinit var currentNotificationBuilder : NotificationCompat.Builder
 
@@ -98,7 +102,9 @@ class RunningService : LifecycleService() {
     }
 
     private fun ttsSpeak(strTTS: String){
-        tts?.speak(strTTS, TextToSpeech.QUEUE_FLUSH, null, null)
+        if(sharedPreferences.getBoolean(TTS_ACTIVE, true)) {
+            tts?.speak(strTTS, TextToSpeech.QUEUE_FLUSH, null, null)
+        }
     }
 
     // 초기화

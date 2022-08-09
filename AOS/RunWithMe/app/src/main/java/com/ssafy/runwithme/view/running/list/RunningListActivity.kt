@@ -99,6 +99,7 @@ GoogleMap.OnMarkerClickListener{
         binding.cardInfo.visibility = View.VISIBLE
         binding.animationStartBtn.visibility = View.GONE
         binding.btnScrap.visibility = View.GONE
+        binding.btnTts.visibility = View.GONE
 
         runningViewModel.getCoordinates(scrapInfo.trackBoardFileDto.runRecordDto.runRecordSeq)
         return true
@@ -110,6 +111,12 @@ GoogleMap.OnMarkerClickListener{
         initViewModelCallBack()
 
         runningViewModel.getMyProfile()
+
+        if(sharedPreferences.getBoolean(TTS_ACTIVE, true)){
+            binding.btnTts.alpha = 1.0f
+        }else{
+            binding.btnTts.alpha = 0.5f
+        }
     }
 
     private fun initViewModelCallBack(){
@@ -303,6 +310,17 @@ GoogleMap.OnMarkerClickListener{
                 binding.cardInfo.visibility = View.GONE
                 binding.animationStartBtn.visibility = View.VISIBLE
                 binding.btnScrap.visibility = View.VISIBLE
+                binding.btnTts.visibility = View.VISIBLE
+            }
+
+            btnTts.setOnClickListener {
+                if(sharedPreferences.getBoolean(TTS_ACTIVE, true)){
+                    sharedPreferences.edit().putBoolean(TTS_ACTIVE,false).apply()
+                    btnTts.alpha = 0.5f
+                }else{
+                    sharedPreferences.edit().putBoolean(TTS_ACTIVE,true).apply()
+                    btnTts.alpha = 1.0f
+                }
             }
         }
     }
