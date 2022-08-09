@@ -24,6 +24,7 @@ import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.user.Role;
 
 import lombok.AllArgsConstructor;
@@ -32,22 +33,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @AllArgsConstructor
 @Builder
 @Setter
 @Getter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@SQLDelete(sql = "update t_user set user_delete_yn = 'Y', "
-		+ "user_weight = 0, "
-		+ "img_seq = null, "
-		+ "user_height = 0, "
-		+ "user_fcm_token = null, "
-		+ "user_email = null, "
-		+ "user_nickname = null, "
-		+ "user_point =0 "
-		+ "where user_seq = ?")
+@SQLDelete(sql = "update t_user set user_delete_yn = 'Y'," + //
+		"user_weight = 0, " + "img_seq = null, " + //
+		"user_height = 0, " + //
+		"user_fcm_token = null, " + //
+		"user_email = null, " + //
+		"user_nickname = null, " + //
+		"user_gender = null, " + //
+		"user_birth_year = null, " + //
+		"user_region = null, " + //
+		"user_job = null, " + //
+		"user_point =0 " + //
+		"where user_seq = ?")
 @Where(clause = "user_delete_yn = 'N'")
 @Table(name = "t_user", uniqueConstraints = {
 		@UniqueConstraint(name = "nickname_unique_contraint", columnNames = { "user_nickname" }) })
@@ -71,6 +74,18 @@ public class UserEntity {
 	@Column(nullable = true, name = "user_weight")
 	private Integer weight;
 
+	@Column(nullable = true, name = "user_gender")
+	private String gender;
+
+	@Column(nullable = true, name = "user_birth_year")
+	private Integer birthYear;
+
+	@Column(nullable = true, name = "user_region")
+	private String region;
+
+	@Column(nullable = true, name = "user_job")
+	private String job;
+
 	@Column(nullable = false, name = "user_point", columnDefinition = "Int default 0")
 	private Integer point;
 
@@ -81,7 +96,7 @@ public class UserEntity {
 	private String userState;
 
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false, name = "user_roll",columnDefinition = "varchar(10) default 'USER'")
+	@Column(nullable = false, name = "user_roll", columnDefinition = "varchar(10) default 'USER'")
 	private Role role;
 
 	@CreatedDate
@@ -91,38 +106,36 @@ public class UserEntity {
 	@JoinColumn(name = "img_seq")
 	@OneToOne(fetch = FetchType.LAZY)
 	private ImageFileEntity imageFile;
-	
+
 	@OneToMany(mappedBy = "userEntity")
 	private List<AchievementCompleteEntity> achievementCompleteEntitys;
-	
+
 	@OneToMany(mappedBy = "userEntity")
 	private List<CrewTotalRecordEntity> crewTotalRecordEntitys;
-	
+
 	@OneToMany(mappedBy = "userEntity")
 	private List<RunRecordEntity> runRecordEntitys;
-	
+
 	@OneToMany(mappedBy = "userEntity")
 	private List<UserCrewJoinEntity> userCrewJoinEntitys;
-	
+
 	@OneToMany(mappedBy = "userEntity")
 	private List<CrewBoardEntity> crewBoardEntitys;
-	
+
 	@OneToMany(mappedBy = "userReporterEntity")
 	private List<ReportEntity> reportEntitys;
 
 	@OneToMany(mappedBy = "userEntity")
 	private List<QuestionEntity> questionEntitys;
-	
+
 	@OneToMany(mappedBy = "userEntity")
 	private List<ScrapEntity> scrapEntitys;
 
 	@OneToMany(mappedBy = "userEntity", orphanRemoval = true)
 	private List<CompetitionUserEntity> competitionUserEntitys;
-	
+
 	@OneToMany(mappedBy = "userEntity", orphanRemoval = true)
 	private List<CompetitionTotalRecordEntity> competitionTotalRecordEntitys;
-	
-	
 
 	@PrePersist
 	public void setting() {
@@ -132,5 +145,27 @@ public class UserEntity {
 
 	public String getRoleKey() {
 		return this.role.getKey();
+	}
+
+	public static UserEntity of(UserDto user) {
+
+		if (user == null)
+			return null;
+
+		return new UserEntityBuilder() //
+				.userSeq(user.getUserSeq()) //
+				.nickName(user.getNickName()) //
+				.email(user.getEmail()) //
+				.height(user.getHeight()) //
+				.weight(user.getWeight()) //
+				.gender(user.getGender()) //
+				.birthYear(user.getBirthYear()) //
+				.region(user.getRegion()) //
+				.job(user.getJob()) //
+				.point(user.getPoint()) //
+				.fcmToken(user.getFcmToken()) //
+				.userState(user.getUserState()) //
+				.role(user.getRole()) //
+				.build(); //
 	}
 }
