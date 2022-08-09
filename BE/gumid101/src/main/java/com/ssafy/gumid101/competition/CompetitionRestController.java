@@ -62,15 +62,15 @@ public class CompetitionRestController {
 	@ApiOperation(value = "대회 조회 API - 진행 중")
 	@GetMapping(value = "/inprogress")
 	public ResponseEntity<?> getCompetitionProgress() throws Exception{
-		List<CompetitionFileDto> competitionFileDtolist = compServ.getCompetitionProgress();
-		return new ResponseEntity<>(new ResponseFrame<>(true, competitionFileDtolist, competitionFileDtolist.size(), "대회 조회에 성공했습니다."), HttpStatus.OK);
+		CompetitionFileDto competitionFileDto = compServ.getCompetitionProgress();
+		return new ResponseEntity<>(new ResponseFrame<>(true, competitionFileDto, 1, "대회 조회에 성공했습니다."), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "대회 조회 API - 진행 중, 해당 유저 참여")
 	@GetMapping(value = "/inprogress/{userSeq}")
 	public ResponseEntity<?> getCompetitionProgress(@PathVariable Long userSeq) throws Exception{
-		List<CompetitionFileDto> competitionFileDtolist = compServ.getCompetitionProgress(userSeq);
-		return new ResponseEntity<>(new ResponseFrame<>(true, competitionFileDtolist, competitionFileDtolist.size(), "대회 조회에 성공했습니다."), HttpStatus.OK);
+		CompetitionFileDto competitionFileDto = compServ.getCompetitionProgress(userSeq);
+		return new ResponseEntity<>(new ResponseFrame<>(true, competitionFileDto, 1, "대회 조회에 성공했습니다."), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "대회 조회 API - 종료")

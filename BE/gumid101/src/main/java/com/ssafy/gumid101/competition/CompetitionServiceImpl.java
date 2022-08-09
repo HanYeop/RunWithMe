@@ -83,28 +83,25 @@ public class CompetitionServiceImpl implements CompetitionService {
 	}
 
 	@Override
-	public List<CompetitionFileDto> getCompetitionProgress() throws Exception {
-		List<CompetitionFileDto> competitionFileDtolist = competitionRepo
-				.findByCompetitionDateStartBeforeAndCompetitionDateEndAfter(LocalDateTime.now(), LocalDateTime.now())
-				.stream().map((entity) -> {
-					return CompetitionFileDto.of(entity);
-				}).collect(Collectors.toList());
-		return competitionFileDtolist;
+	public CompetitionFileDto getCompetitionProgress() throws Exception {
+		CompetitionEntity competitionEntity = competitionRepo.findByCompetitionDateStartBeforeAndCompetitionDateEndAfter(LocalDateTime.now(), LocalDateTime.now())
+				.orElseThrow(() -> new NotFoundUserException("진행중인 대회가 없습니다."));
+		return CompetitionFileDto.of(competitionEntity);
 	}
 
 	@Override
-	public List<CompetitionFileDto> getCompetitionProgress(Long userSeq) throws Exception {
+	public CompetitionFileDto getCompetitionProgress(Long userSeq) throws Exception {
 		Set<Long> competitionSeqSet = competitionUserRepo.findByUserEntity_userSeq(userSeq).stream().map((entity) -> {
 			return entity.getCompetitionEntity().getCompetitionSeq();
 		}).collect(Collectors.toSet());
-		List<CompetitionFileDto> competitionFileDtolist = new ArrayList<>();
-		for (CompetitionEntity competitionEntity : competitionRepo
-				.findByCompetitionDateStartBeforeAndCompetitionDateEndAfter(LocalDateTime.now(), LocalDateTime.now())) {
-			if (competitionSeqSet.contains(competitionEntity.getCompetitionSeq())) {
-				competitionFileDtolist.add(CompetitionFileDto.of(competitionEntity));
-			}
+		CompetitionEntity competitionEntity = competitionRepo.findByCompetitionDateStartBeforeAndCompetitionDateEndAfter(LocalDateTime.now(), LocalDateTime.now())
+				.orElseThrow(() -> new NotFoundUserException("진행중인 대회가 없습니다."));
+		if (competitionSeqSet.contains(competitionEntity.getCompetitionSeq())) {
+			return CompetitionFileDto.of(competitionEntity);
 		}
-		return competitionFileDtolist;
+		else {
+			throw new NotFoundUserException("진행중인 대회에 참가하고 있지 않습니다.");
+		}
 	}
 
 	@Override

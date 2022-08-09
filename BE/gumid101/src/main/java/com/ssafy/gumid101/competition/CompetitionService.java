@@ -13,9 +13,9 @@ public interface CompetitionService {
 
 	List<CompetitionFileDto> getCompetitionBeforeStart() throws Exception;
 
-	List<CompetitionFileDto> getCompetitionProgress() throws Exception;
+	CompetitionFileDto getCompetitionProgress() throws Exception;
 
-	List<CompetitionFileDto> getCompetitionProgress(Long userSeq) throws Exception;
+	CompetitionFileDto getCompetitionProgress(Long userSeq) throws Exception;
 
 	List<CompetitionFileDto> getCompetitionAfterEnd() throws Exception;
 
