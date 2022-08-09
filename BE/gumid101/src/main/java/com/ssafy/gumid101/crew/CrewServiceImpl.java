@@ -250,7 +250,7 @@ public class CrewServiceImpl implements CrewService {
 				/ (userCrewTotalEntity.getTotalTime() == 0 ? Long.MAX_VALUE : userCrewTotalEntity.getTotalTime()));
 
 		// 3.업적 로직 계산
-		List<AchievementDto> newCompleteDtoList = getNewCompleteAchiveMent(userEntity, userCrewTotalEntity, runRecord);
+		List<AchievementDto> newCompleteDtoList = getNewCompleteAchiveMent(userEntity, runRecord);
 		
 		// 4. 시즌제 대회 관련 처리
 		competitionCheck(userEntity, runRecord);
@@ -258,10 +258,10 @@ public class CrewServiceImpl implements CrewService {
 		return new RunRecordResultDto(RunRecordDto.of(runRecord), newCompleteDtoList);
 	}
 
-	private List<AchievementDto> getNewCompleteAchiveMent(UserEntity userEntity,
-			CrewTotalRecordEntity userCrewTotalEntity, RunRecordEntity runRecordEntity) {
+	private List<AchievementDto> getNewCompleteAchiveMent(UserEntity userEntity, RunRecordEntity runRecordEntity) throws Exception {
 
 		Long runCount = runRecordRepo.countByUserEntity(userEntity);
+		CrewTotalRecordDto crewTotalRecordDto = userRepo.getMyTotalRecord(userEntity);
 
 		List<AchievementEntity> nonAchieveMents = achiveRepo.findNotAchivement(userEntity);
 		List<AchievementEntity> achieveList = new ArrayList<>();
@@ -276,11 +276,11 @@ public class CrewServiceImpl implements CrewService {
 					achieveList.add(nonAchieve);
 				}
 			} else if (nonAchieve.getAchieveType() == AchieveType.TOTALDISTANCE) {
-				if (nonAchieve.getAchiveValue() <= userCrewTotalEntity.getTotalDistance()) {
+				if (nonAchieve.getAchiveValue() <= crewTotalRecordDto.getTotalDistance()) {
 					achieveList.add(nonAchieve);
 				}
 			} else if (nonAchieve.getAchieveType() == AchieveType.TOTALTIME) {
-				if (nonAchieve.getAchiveValue() <= userCrewTotalEntity.getTotalTime()) {
+				if (nonAchieve.getAchiveValue() <= crewTotalRecordDto.getTotalTime()) {
 					achieveList.add(nonAchieve);
 				}
 			} else if (nonAchieve.getAchieveType() == AchieveType.RUNCOUNT) {
