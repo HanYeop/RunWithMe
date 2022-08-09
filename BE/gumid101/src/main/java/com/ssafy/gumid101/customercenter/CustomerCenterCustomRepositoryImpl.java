@@ -115,8 +115,10 @@ public class CustomerCenterCustomRepositoryImpl implements CustomerCenterCustomR
 				report.userReporterEntity.nickName.as("reporterNickName"),
 				report.userTargetEntity.userSeq.as("targetUserSeq"),
 				report.userTargetEntity.nickName.as("targetNincName"), report.reportRegTime.as("regTime")))
+		.leftJoin(report.userTargetEntity)
+		.leftJoin(report.userReporterEntity)
 		.where( report.reportStatus.eq(params.getStatus()))
-		.orderBy(report.reportSeq.desc()).offset(params.getPageItemSize() * (params.getCurrentPage() -1)).limit(params.getPageNaviSize())
+		.orderBy(report.reportSeq.desc()).offset(params.getPageItemSize() * (params.getCurrentPage() -1)).limit(params.getPageItemSize())
 		.fetch();
 
 		return reportList;

@@ -32,8 +32,12 @@ const ReportList = () => {
           withCredential: true,
         },
       })
-      .then((reponse) => {
-        console.log(reponse);
+      .then(({ data }) => {
+        console.log(data);
+        let success = data.success;
+        let msg = data.msg;
+        let reports = data.data.reports;
+        console.log(reports);
       });
   }, [reportPageState]);
   return <div>report list</div>;
