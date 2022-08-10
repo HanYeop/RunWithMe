@@ -1,6 +1,5 @@
 package com.ssafy.runwithme.repository
 
-import android.util.Log
 import com.ssafy.runwithme.datasource.Oauth2RemoteDataSource
 import com.ssafy.runwithme.model.response.OauthResponse
 import com.ssafy.runwithme.utils.Result
@@ -9,7 +8,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class Oauth2Repository @Inject constructor(
     private val oauth2RemoteDataSource: Oauth2RemoteDataSource
 ){
@@ -19,7 +20,6 @@ class Oauth2Repository @Inject constructor(
             emit(Result.Success(it))
         }
     }.catch { e ->
-        Log.d("test5", "googleLogin: $e")
         emit(Result.Error(e))
     }
 
@@ -29,7 +29,6 @@ class Oauth2Repository @Inject constructor(
             emit(Result.Success(it))
         }
     }.catch { e ->
-        Log.d("test5", "naverLogin: $e")
         emit(Result.Error(e))
     }
 
@@ -39,7 +38,6 @@ class Oauth2Repository @Inject constructor(
             emit(Result.Success(it))
         }
     }.catch { e ->
-        Log.d("test5", "kakaoLogin: $e")
         emit(Result.Error(e))
     }
 }

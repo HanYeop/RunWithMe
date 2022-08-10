@@ -6,7 +6,9 @@ import com.ssafy.runwithme.api.CrewManagerApi
 import com.ssafy.runwithme.model.response.RecruitCrewResponse
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Singleton
 
+@Singleton
 class GetRecruitCrewPagingSource(
 private val crewManagerApi: CrewManagerApi,
 private val size: Int

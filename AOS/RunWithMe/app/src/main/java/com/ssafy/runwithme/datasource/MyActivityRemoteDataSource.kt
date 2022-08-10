@@ -1,6 +1,5 @@
 package com.ssafy.runwithme.datasource
 
-import android.util.Log
 import com.ssafy.runwithme.api.MyActivityApi
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.dto.RunRecordDto
@@ -10,9 +9,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.http.Path
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class MyActivityRemoteDataSource @Inject constructor(
     private val myActivityApi: MyActivityApi
 ){
@@ -27,11 +27,8 @@ class MyActivityRemoteDataSource @Inject constructor(
     fun editMyProfile(profileEditDto: RequestBody, imgFile : MultipartBody.Part?
     ): Flow<BaseResponse<MyProfileResponse>> = flow {
         if(imgFile == null){
-            Log.d("test5", "editMyProfile: 11111111")
             emit(myActivityApi.editMyProfile(profileEditDto))
         } else{
-            Log.d("test5", "editMyProfile: 222222")
-
             emit(myActivityApi.editMyProfile(profileEditDto, imgFile))
         }
     }

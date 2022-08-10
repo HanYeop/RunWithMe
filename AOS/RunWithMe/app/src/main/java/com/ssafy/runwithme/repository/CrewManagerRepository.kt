@@ -1,20 +1,16 @@
 package com.ssafy.runwithme.repository
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.ssafy.runwithme.api.CrewManagerApi
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.datasource.CrewManagerRemoteDataSource
-import com.ssafy.runwithme.datasource.paging.GetCrewBoardsPagingSource
 import com.ssafy.runwithme.datasource.paging.GetRecruitCrewPagingSource
 import com.ssafy.runwithme.datasource.paging.GetSearchResultCrewPagingSource
-import com.ssafy.runwithme.model.dto.CrewDto
 import com.ssafy.runwithme.model.dto.EndCrewFileDto
 import com.ssafy.runwithme.model.response.CreateCrewResponse
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 import com.ssafy.runwithme.utils.Result
-import com.ssafy.runwithme.utils.TAG
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -22,7 +18,9 @@ import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CrewManagerRepository @Inject constructor(
     private val crewManagerRemoteDataSource: CrewManagerRemoteDataSource,
     private val crewManagerApi: CrewManagerApi

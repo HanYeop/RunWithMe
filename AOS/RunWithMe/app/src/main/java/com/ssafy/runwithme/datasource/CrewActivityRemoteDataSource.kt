@@ -11,7 +11,9 @@ import com.ssafy.runwithme.model.response.RankingResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CrewActivityRemoteDataSource @Inject constructor(
     private val crewActivityApi: CrewActivityApi
 ){

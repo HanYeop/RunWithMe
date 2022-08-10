@@ -6,7 +6,9 @@ import com.ssafy.runwithme.model.dto.ScrapInfoDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class ScrapRemoteDataSource @Inject constructor(
     private val scrapApi: ScrapApi
 ){

@@ -13,7 +13,9 @@ import okhttp3.RequestBody
 import retrofit2.http.GET
 import retrofit2.http.Path
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CrewRemoteDataSource @Inject constructor(
     private val crewApi: CrewApi
 ){

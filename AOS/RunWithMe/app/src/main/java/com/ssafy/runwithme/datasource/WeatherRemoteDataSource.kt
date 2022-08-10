@@ -5,7 +5,9 @@ import com.ssafy.runwithme.model.dto.Weather
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class WeatherRemoteDataSource @Inject constructor(
     private val weatherApi: WeatherApi
 ) {

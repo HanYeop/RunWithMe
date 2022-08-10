@@ -8,7 +8,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class WeatherRepository @Inject constructor(
     private val weatherRemoteDataSource: WeatherRemoteDataSource
 ) {

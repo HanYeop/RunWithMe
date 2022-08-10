@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.http.Body
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class UserRemoteDataSource @Inject constructor(
     private val userApi: UserApi
 ){

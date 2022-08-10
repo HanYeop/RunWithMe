@@ -14,7 +14,9 @@ import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CrewRepository @Inject constructor(
     private val crewRemoteDataSource: CrewRemoteDataSource) {
 

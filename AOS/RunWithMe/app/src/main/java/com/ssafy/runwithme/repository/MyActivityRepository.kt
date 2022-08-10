@@ -1,6 +1,5 @@
 package com.ssafy.runwithme.repository
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.ssafy.runwithme.api.MyActivityApi
@@ -11,7 +10,6 @@ import com.ssafy.runwithme.model.dto.RunRecordDto
 import com.ssafy.runwithme.model.response.MyProfileResponse
 import com.ssafy.runwithme.model.response.MyTotalRecordResponse
 import com.ssafy.runwithme.utils.Result
-import com.ssafy.runwithme.utils.TAG
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -19,7 +17,9 @@ import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class MyActivityRepository @Inject constructor(
     private val myActivityRemoteDataSource: MyActivityRemoteDataSource,
     private val myActivityApi: MyActivityApi
@@ -59,7 +59,6 @@ class MyActivityRepository @Inject constructor(
     ): Flow<Result<BaseResponse<MyProfileResponse>>> = flow {
         emit(Result.Loading)
         myActivityRemoteDataSource.editMyProfile(profileEditDto, imgFile).collect {
-            Log.d(TAG, "받아온 결과 : $it")
             if(it.success){
                 emit(Result.Success(it))
             }else if(!it.success){

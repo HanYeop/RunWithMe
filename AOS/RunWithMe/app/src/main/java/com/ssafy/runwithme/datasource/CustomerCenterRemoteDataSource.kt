@@ -6,7 +6,9 @@ import com.ssafy.runwithme.model.dto.ReportDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CustomerCenterRemoteDataSource @Inject constructor(
     private val customerCenterApi: CustomerCenterApi
 ){

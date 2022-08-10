@@ -1,7 +1,5 @@
 package com.ssafy.runwithme.repository
 
-import android.service.notification.NotificationListenerService
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.ssafy.runwithme.api.CrewActivityApi
@@ -16,13 +14,14 @@ import com.ssafy.runwithme.model.response.CrewMyTotalRecordDataResponse
 import com.ssafy.runwithme.model.response.MyGraphDataResponse
 import com.ssafy.runwithme.model.response.RankingResponse
 import com.ssafy.runwithme.utils.Result
-import com.ssafy.runwithme.utils.TAG
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CrewActivityRepository @Inject constructor(
     private val crewActivityApi: CrewActivityApi,
     private val crewActivityRemoteDataSource: CrewActivityRemoteDataSource

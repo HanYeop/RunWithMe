@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CustomerCenterRepository @Inject constructor(
     private val customerCenterRemoteDataSource: CustomerCenterRemoteDataSource
 ) {

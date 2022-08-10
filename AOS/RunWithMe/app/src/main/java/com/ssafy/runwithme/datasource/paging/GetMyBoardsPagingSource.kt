@@ -1,13 +1,14 @@
 package com.ssafy.runwithme.datasource.paging
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.ssafy.runwithme.api.MyActivityApi
 import com.ssafy.runwithme.model.dto.CrewBoardDto
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Singleton
 
+@Singleton
 class GetMyBoardsPagingSource (
     private val myActivityApi: MyActivityApi,
     private val size: Int
@@ -26,7 +27,6 @@ class GetMyBoardsPagingSource (
                 size = size,
                 boardMaxSeq = position
             )
-            Log.d("test5", "load: $response")
 
             val nextKey =
                 // 사이즈 보다 불러온 것이 작으면 더 불러올 필요가 없다.
