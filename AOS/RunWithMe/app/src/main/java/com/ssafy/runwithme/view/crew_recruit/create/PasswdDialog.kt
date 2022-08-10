@@ -26,7 +26,7 @@ class PasswdDialog(context: Context, private val listener : PasswdDialogListener
         )
         setContentView(binding.root)
 
-        context.dialogResize(this, 0.9f, 0.5f)
+//        context.dialogResize(this, 0.9f, 0.5f)
 
         // 배경 투명하게 바꿔줌
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
