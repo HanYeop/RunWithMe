@@ -30,7 +30,7 @@ const SideBar = (props) => {
       <SidebarHeader>
         <div className={styles["side-bar-header"]}>
           <h2>Run With Me</h2>
-          <img src={Molu}></img>
+          <img src={Molu} alt="로고"></img>
         </div>
       </SidebarHeader>
       <SidebarContent>

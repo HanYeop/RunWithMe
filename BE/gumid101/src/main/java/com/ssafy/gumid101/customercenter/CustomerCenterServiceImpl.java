@@ -75,7 +75,8 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 		}
 
 		ReportEntity reportEntity = ReportEntity.builder().reportContent(reportContent).reportCrewBoardSeq(boardSeq)
-				.reportStatus(ReportStatus.WAITING).userReporterEntity(userEntity).build();
+				.reportStatus(ReportStatus.WAITING).userReporterEntity(userEntity)
+				.userTargetEntity(crewBoardEntity.getUserEntity()).build();
 
 		reportRepository.save(reportEntity);
 

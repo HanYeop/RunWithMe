@@ -8,7 +8,7 @@ const PageNavBarComponent = (props) => {
     endPageIndex,
     lastPageIndex,
     nextPageIndex,
-    pageNavSize,
+    //pageNavSize,
     prevPageIndex,
     startPageIndex,
   } = props.pageinfo;
@@ -24,14 +24,14 @@ const PageNavBarComponent = (props) => {
         <Pagination.First index={1} />
         <Pagination.Prev index={prevPageIndex} />
         {pageList.map((item) => {
-          if (item == currentPageIndex) {
+          if (item === currentPageIndex) {
             return (
-              <Pagination.Item index={item} active>
+              <Pagination.Item index={item} key={item} active>
                 {item}
               </Pagination.Item>
             );
           }
-          return <Pagination.Item index={item}>{item}</Pagination.Item>;
+          return <Pagination.Item index={item} key={item}>{item}</Pagination.Item>;
         })}
         <Pagination.Next index={nextPageIndex} />
         <Pagination.Last index={lastPageIndex} />

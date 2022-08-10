@@ -1,11 +1,11 @@
-import styles from "./WellComeComponent.module.css";
+//import styles from "./WellComeComponent.module.css";
 import { useSelector, useDispatch } from "react-redux/es/exports";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { authActions } from "../../store/slice/auth";
 import Button from "react-bootstrap/Button";
 const WellComeComponent = (props) => {
   const email = useSelector((state) => state.auth.userEmail);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const logoutHandler = async (e) => {

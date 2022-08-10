@@ -1,5 +1,6 @@
 import Badge from "react-bootstrap/Badge";
 import styles from "./Report.module.css";
+import {useNavigate} from "react-router-dom";
 const ReportListItem = (props) => {
   let {
     crewBoardSeq,
@@ -9,13 +10,20 @@ const ReportListItem = (props) => {
     reportState,
     reporterNickName,
     reporterUserSeq,
-    targetNincName,
+    targetNickName,
     targetUserSeq,
   } = props.report;
+  const navigate = useNavigate();
   //<Badge bg="success">Success</Badge> <Badge bg="danger">Danger</Badge>{' '}
   //<Badge bg="warning" text="dark"></Badge>
+
+
+  const reportListClickHandler = ()=>{
+    navigate(`/report/${reportSeq}`);
+  }
+
   const waitToBanner = (reportSeq, reportState, reportStateChangeHandler) => {
-    if (reportState == "WAITING") {
+    if (reportState === "WAITING") {
       return (
         <Badge
           bg="warning"
@@ -27,7 +35,7 @@ const ReportListItem = (props) => {
           {reportState}
         </Badge>
       );
-    } else if (reportState == "PROCESSING") {
+    } else if (reportState === "PROCESSING") {
       return (
         <Badge
           bg="danger"
@@ -39,7 +47,7 @@ const ReportListItem = (props) => {
           {reportState}
         </Badge>
       );
-    } else if (reportState == "COMPLETE") {
+    } else if (reportState === "COMPLETE") {
       return (
         <Badge
           bg="secondary"
@@ -54,11 +62,10 @@ const ReportListItem = (props) => {
       );
     }
   };
-
   return (
-    <tr>
-      <td>{reportSeq}</td>
-      <td>{targetNincName ? targetNincName : "Undefined"}</td>
+    <tr >
+      <td onClick={reportListClickHandler}>{reportSeq}</td>
+      <td>{targetNickName ? targetNickName : "Undefined"}</td>
       <td>{crewBoardSeq}</td>
       <td>{reportContent}</td>
       <td>{reporterNickName}</td>
@@ -68,5 +75,7 @@ const ReportListItem = (props) => {
       </td>
     </tr>
   );
+
+
 };
 export default ReportListItem;

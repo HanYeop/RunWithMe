@@ -16,4 +16,6 @@ public interface ReportRepository extends JpaRepository<ReportEntity, Long>,Cust
 	
 	@Query("SELECT new map(r.reportStatus,COUNT(r)) FROM ReportEntity r GROUP BY (r.reportStatus)")
 	List<Map<String,Object>> getReportStateCountThoughtGroupBy();
+	
+	
 }

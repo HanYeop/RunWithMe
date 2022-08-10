@@ -1,12 +1,15 @@
 .home {
   display: grid;
   grid-template-columns: auto 1fr;
-  height: 100vh;
 }
 
 .side {
   margin-right: 1px;
   box-shadow: 1px 1px 5px rgb(57, 57, 52);
+  margin-bottom: 0;
+  background-color: red;
+  
+  height: 100vh;
 }
 
 .main-upside {
@@ -19,4 +22,12 @@
   padding: 5px 40px;
   border-radius: 4px;
   box-shadow: 0px 1px 3px rgb(68, 139, 160);
+}
+
+.main{
+  max-height: 100vh;
+}
+
+.main-article{
+  max-width: 100%;
 }

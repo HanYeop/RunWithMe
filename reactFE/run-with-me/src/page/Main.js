@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import GoogleOauth from "../components/Login/GoogleOauth";
 import { useSelector } from "react-redux";
 import HomeMain from "./HomePage";
-import { Route, Routes, Redirect } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 const Main = () => {
   const auth = useSelector((state) => state.auth);

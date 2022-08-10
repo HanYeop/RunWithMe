@@ -110,6 +110,7 @@ public class SecurityConfig {
 
 			}
 		});
+	
 		// 어뗀티 케이션 디나이 핸들러는 따로 처리하고 있음
 
 		return http.build();

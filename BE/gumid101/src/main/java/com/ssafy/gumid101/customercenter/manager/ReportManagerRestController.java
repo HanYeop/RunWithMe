@@ -71,13 +71,20 @@ public class ReportManagerRestController {
 		return new ResponseEntity<>(res,HttpStatus.OK);
 	}
 	
-	@ApiOperation("신고글 상세보기")
-	@GetMapping("/reports/{reportqeq}")
-	public ResponseEntity<?> getDetailReports(@PathVariable("reportseq") Long reportSeq){
+	
+	@ApiOperation("신고글  상세히 보기")
+	@GetMapping("/reports/{reportseq}")
+	public ResponseEntity<?> getReportDetail(@PathVariable("reportseq") Long reportSeq){
 		
-		ResponseFrame<Integer> res = null;
+		Map<String, Object>  result = reportManagerService.selectReportById(reportSeq);
+
+
+		
+		ResponseFrame<Map<String, Object> > res = ResponseFrame.of(result,1,"신고 상세정보 반환");
+		
 		return new ResponseEntity<>(res,HttpStatus.OK);
 	}
+
 		
 		
 	// 신고글 스테이트 바꾸기

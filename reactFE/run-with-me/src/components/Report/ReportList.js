@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { reportPageActions } from "../../store/slice/reportPaging";
 import Table from "react-bootstrap/Table";
@@ -38,7 +38,7 @@ const ReportList = (props) => {
       .then(({ data }) => {
         console.log(data);
         let success = data.success;
-        if (success == true) {
+        if (success === true) {
           let reports = data.data.reports;
           console.log(reports);
           dispatch(reportPageActions.setReports(reports));
@@ -54,11 +54,11 @@ const ReportList = (props) => {
     const reportState = e.target.getAttribute("reportState");
     console.log(reportSeq + reportState);
     let transitionState = reportState;
-    if (reportState == "WAITING") {
+    if (reportState === "WAITING") {
       transitionState = "PROCESSING";
-    } else if (reportState == "PROCESSING") {
+    } else if (reportState === "PROCESSING") {
       transitionState = "COMPLETE";
-    } else if (reportState == "COMPLETE") {
+    } else if (reportState === "COMPLETE") {
       transitionState = "WAITING";
     }
 
@@ -75,7 +75,7 @@ const ReportList = (props) => {
         },
       )
       .then((response) => {
-        console.log(response);
+        console.log("리스트 프레임 폴스 렌더");
         props.setForceReRender(props.forceReRender + 1);
       });
   };
@@ -98,7 +98,7 @@ const ReportList = (props) => {
           {reportsList.length > 0 &&
             reportsList.map((item) => {
               return (
-                <ReportListItem
+                <ReportListItem key={item.reportSeq}
                   report={item}
                   reportStateChangeHandler={reportStateChangeHandler}
                 />

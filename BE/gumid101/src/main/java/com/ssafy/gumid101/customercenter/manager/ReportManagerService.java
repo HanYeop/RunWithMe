@@ -15,4 +15,6 @@ public interface ReportManagerService {
 	Map<String, Object> selectReportsByParam(ReportSelectReqDto params);
 
 	int updateReportsStatus(Long reportId, ReportStatus status);
+
+	Map<String, Object> selectReportById(Long reportSeq);
 }
