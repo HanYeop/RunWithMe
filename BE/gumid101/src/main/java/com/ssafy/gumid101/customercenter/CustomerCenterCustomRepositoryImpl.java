@@ -104,9 +104,9 @@ public class CustomerCenterCustomRepositoryImpl implements CustomerCenterCustomR
 	public List<ReportResDto> selectReportsByParam(ReportSelectReqDto params) {
 
 		QReportEntity report = new QReportEntity("r");
-
-		if(params.getStatus() == null) {
-			params.setStatus(ReportStatus.WAITING);
+		BooleanBuilder br = new BooleanBuilder();
+		if(params.getStatus() != null ) {
+			br.and(report.reportStatus.eq(params.getStatus()));
 		}
 		
 		List<ReportResDto>  reportList = jpaQueryFactory.from(report).select(Projections.fields(ReportResDto.class, report.reportSeq.as("reportSeq"),
@@ -115,8 +115,10 @@ public class CustomerCenterCustomRepositoryImpl implements CustomerCenterCustomR
 				report.userReporterEntity.nickName.as("reporterNickName"),
 				report.userTargetEntity.userSeq.as("targetUserSeq"),
 				report.userTargetEntity.nickName.as("targetNincName"), report.reportRegTime.as("regTime")))
-		.where( report.reportStatus.eq(params.getStatus()))
-		.orderBy(report.reportSeq.desc()).offset(params.getPageItemSize() * (params.getCurrentPage() -1)).limit(params.getPageNaviSize())
+		.leftJoin(report.userTargetEntity)
+		.leftJoin(report.userReporterEntity)
+		.where(br )
+		.orderBy(report.reportSeq.desc()).offset(params.getPageItemSize() * (params.getCurrentPage() -1)).limit(params.getPageItemSize())
 		.fetch();
 
 		return reportList;
@@ -126,13 +128,14 @@ public class CustomerCenterCustomRepositoryImpl implements CustomerCenterCustomR
 	@Override
 	public Long selectCountReportsByParam(ReportSelectReqDto params) {
 		QReportEntity report = new QReportEntity("r");
-		if(params.getStatus() == null) {
-			params.setStatus(ReportStatus.WAITING);
+		BooleanBuilder br = new BooleanBuilder();
+		if(params.getStatus() != null) {
+			br.and(report.reportStatus.eq(params.getStatus()));
 		}
 
 
-		Long result = jpaQueryFactory.from(report).select(Projections.fields(Long.class, report.count()))
-				.where(report.reportStatus.eq(params.getStatus())).fetchOne();
+		Long result = (long)jpaQueryFactory.selectFrom(report)
+				.where(br).fetch().size();
 
 		return result;
 	}

@@ -23,7 +23,7 @@ const authSlice = createSlice({
     },
     clearAuth(state) {
       //로그 아웃 시 상태를 버림
-      state.ACCES_TOKEN = null;
+      state.accessToken = null;
       state.userSeq = null;
       state.userEmail = null;
     },
