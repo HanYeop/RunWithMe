@@ -1,14 +1,11 @@
 package com.ssafy.runwithme.view.home.tab.crew
 
-import android.util.Log
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentTabCrewBinding
 import com.ssafy.runwithme.model.response.RecruitCrewResponse
-import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.view.crew_recruit.CrewRecruitListener
 import com.ssafy.runwithme.view.crew_recruit.CrewRecruitViewModel
 import com.ssafy.runwithme.view.home.HomeFragmentDirections
@@ -20,15 +17,11 @@ class TabCrewFragment : BaseFragment<FragmentTabCrewBinding>(R.layout.fragment_t
     private val crewRecruitViewModel by viewModels<CrewRecruitViewModel>()
 
     override fun init() {
-        Log.d(TAG, "init: 이닛에 들어옴")
+        crewRecruitViewModel.getRecruitCrewPreView(6)
 
         binding.apply {
             crewRecruitVM = crewRecruitViewModel
             recyclerCrewRecruitPreview.adapter = CrewRecruitPreviewAdapter(listener)
-            hi.setOnClickListener {
-                Log.d(TAG, "init: 클릭됨")
-                crewRecruitViewModel.getRecruitCrewPreView(6)
-            }
         }
 
         initClickListener()

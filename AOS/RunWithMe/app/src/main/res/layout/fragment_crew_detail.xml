@@ -77,18 +77,16 @@
 
                     <ImageView
                         android:id="@+id/image_crew"
-                        android:layout_width="@dimen/crew_detail_image_size"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/crew_detail_image_size"
                         android:layout_gravity="center"
                         android:scaleType="fitXY"
                         app:crewDetailImage="@{imageFileDto.imgSeq}"
                         android:background="@drawable/image_round"
-                        android:clipToOutline="true"
-                        android:layout_marginTop="24dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:src="@drawable/img" />
+                        tools:src="@drawable/crew_image" />
 
                     <TextView
                         android:id="@+id/tv_crew__name"

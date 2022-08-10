@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="16dp"
-        android:layout_marginEnd="12dp">
+        android:layout_marginEnd="16dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_crew_recruit"
@@ -31,7 +31,7 @@
                 android:layout_height="100dp"
                 android:scaleType="fitXY"
                 crewImage="@{crew.imageFileDto.imgSeq}"
-                tools:src="@drawable/crew_running" />
+                tools:src="@drawable/crew_image" />
 
         </androidx.cardview.widget.CardView>
 

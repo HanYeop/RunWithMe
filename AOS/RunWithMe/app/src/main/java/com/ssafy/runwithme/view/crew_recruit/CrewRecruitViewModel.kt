@@ -8,16 +8,14 @@ import androidx.paging.cachedIn
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.response.RecruitCrewResponse
 import com.ssafy.runwithme.repository.CrewManagerRepository
+import com.ssafy.runwithme.utils.Result
+import com.ssafy.runwithme.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
-import com.ssafy.runwithme.utils.Result
-import com.ssafy.runwithme.utils.SingleLiveEvent
-import com.ssafy.runwithme.utils.TAG
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,7 +35,6 @@ class CrewRecruitViewModel @Inject constructor(
     }
 
     fun getRecruitCrewPreView(size: Int) {
-        Log.d("getRecruitCrewPreView", "getRecruitCrewPreView: $this")
         viewModelScope.launch(Dispatchers.IO){
             crewManagerRepository.getRecruitCrewPreView(size).collectLatest {
                 Log.d("getRecruitCrewPreView", "getRecruitCrewPreView: $it")
