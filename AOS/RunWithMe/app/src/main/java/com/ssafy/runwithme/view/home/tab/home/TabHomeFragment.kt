@@ -19,12 +19,6 @@ class TabHomeFragment : BaseFragment<FragmentTabHomeBinding>(R.layout.fragment_t
 
     private fun initClickListener(){
         binding.apply {
-            cardShowJoinCrew.setOnClickListener {
-                findNavController().navigate(R.id.action_HomeFragment_to_CrewRecruitFragment)
-            }
-            layoutMyCrew.setOnClickListener {
-                findNavController().navigate(R.id.action_HomeFragment_to_myCurrentCrewFragment)
-            }
             cardShowTotalRank.setOnClickListener {
                 findNavController().navigate(R.id.action_HomeFragment_to_totalUserRankingFragment)
             }
