@@ -12,7 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="200dp"
         android:paddingVertical="8dp"
         >
 
@@ -21,7 +21,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/card_crew"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="180dp"
             android:layout_marginHorizontal="16dp"
             android:backgroundTint="@color/white"
             app:cardCornerRadius="6dp"
@@ -36,12 +36,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:padding="8dp">
+                android:padding="4dp">
 
                 <ImageView
                     android:id="@+id/img_run_record"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/image_round"
@@ -56,21 +56,22 @@
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/noto_sans_bold"
                     android:includeFontPadding="false"
                     android:text="@{myRunRecord.userName}"
                     android:textColor="@color/main_black"
-                    android:textSize="20sp"
+                    android:textSize="24sp"
                     app:layout_constraintStart_toEndOf="@id/img_run_record"
                     app:layout_constraintTop_toTopOf="@id/img_run_record"
-                    tools:text="감스트" />
+                    tools:text="감크루" />
 
                 <TextView
                     android:id="@+id/tv_duration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:text="@{myRunRecord.runRecordStartTime}"
                     app:layout_constraintStart_toStartOf="@id/tv_name"
                     app:layout_constraintTop_toBottomOf="@id/tv_name"
@@ -84,14 +85,14 @@
                     app:distanceConverter="@{myRunRecord.runRecordRunningDistance}"
                     app:layout_constraintEnd_toEndOf="@+id/textView3"
                     app:layout_constraintStart_toStartOf="@+id/textView3"
-                    app:layout_constraintTop_toBottomOf="@id/img_run_record"
+                    app:layout_constraintBottom_toTopOf="@id/textView3"
                     tools:text="13.3" />
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginBottom="12dp"
                     android:text="Km"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tv_time_header"
