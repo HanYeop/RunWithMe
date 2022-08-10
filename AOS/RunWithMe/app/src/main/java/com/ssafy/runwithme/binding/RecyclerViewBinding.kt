@@ -9,9 +9,11 @@ import com.ssafy.runwithme.model.dto.EndCrewFileDto
 import com.ssafy.runwithme.model.dto.ScrapInfoDto
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 import com.ssafy.runwithme.model.response.RankingResponse
+import com.ssafy.runwithme.model.response.RecruitCrewResponse
 import com.ssafy.runwithme.utils.Result
 import com.ssafy.runwithme.view.home.my_crew.MyCurrentCrewAdapter
 import com.ssafy.runwithme.view.home.ranking.TotalRankingAdapter
+import com.ssafy.runwithme.view.home.tab.crew.CrewRecruitPreviewAdapter
 import com.ssafy.runwithme.view.my_page.recommend_scrap.MyRecommendScrapAdapter
 import com.ssafy.runwithme.view.my_page.tab.achievement.EndCrewAdapter
 import com.ssafy.runwithme.view.running.list.RunningListAdapter
@@ -39,6 +41,9 @@ object RecyclerViewBinding {
                     }
                     is MyRecommendScrapAdapter -> {
                         (view.adapter as ListAdapter<Any, *>).submitList(result.data.data as List<ScrapInfoDto>)
+                    }
+                    is CrewRecruitPreviewAdapter -> {
+                        (view.adapter as ListAdapter<Any, *>).submitList(result.data.data as List<RecruitCrewResponse>)
                     }
                     // 같은 형태로 추가하면 됨
                 }
