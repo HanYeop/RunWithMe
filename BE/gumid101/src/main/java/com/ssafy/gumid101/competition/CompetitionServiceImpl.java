@@ -24,6 +24,7 @@ import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.imgfile.ImageDirectory;
 import com.ssafy.gumid101.imgfile.ImageFileRepository;
 import com.ssafy.gumid101.res.CompetitionFileDto;
+import com.ssafy.gumid101.res.RankingDto;
 import com.ssafy.gumid101.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -73,8 +74,8 @@ public class CompetitionServiceImpl implements CompetitionService {
 
 	@Override
 	public List<CompetitionFileDto> getCompetitionBeforeStart() throws Exception {
-		List<CompetitionFileDto> competitionFileDtolist = competitionRepo.findByCompetitionDateStartAfter(LocalDateTime.now())
-				.stream().map((entity) -> {
+		List<CompetitionFileDto> competitionFileDtolist = competitionRepo
+				.findByCompetitionDateStartAfter(LocalDateTime.now()).stream().map((entity) -> {
 					return CompetitionFileDto.of(entity);
 				}).collect(Collectors.toList());
 		return competitionFileDtolist;
@@ -82,30 +83,32 @@ public class CompetitionServiceImpl implements CompetitionService {
 
 	@Override
 	public CompetitionFileDto getCompetitionProgress() throws Exception {
-		CompetitionEntity competitionEntity = competitionRepo.findByCompetitionDateStartBeforeAndCompetitionDateEndAfter(LocalDateTime.now(), LocalDateTime.now())
+		CompetitionEntity competitionEntity = competitionRepo
+				.findByCompetitionDateStartBeforeAndCompetitionDateEndAfter(LocalDateTime.now(), LocalDateTime.now())
 				.orElseThrow(() -> new NotFoundUserException("진행중인 대회가 없습니다."));
 		return CompetitionFileDto.of(competitionEntity);
 	}
 
 	@Override
 	public CompetitionFileDto getCompetitionProgress(Long userSeq) throws Exception {
-		Set<Long> competitionSeqSet = competitionUserRecordRepo.findByUserEntity_userSeq(userSeq).stream().map((entity) -> {
-			return entity.getCompetitionEntity().getCompetitionSeq();
-		}).collect(Collectors.toSet());
-		CompetitionEntity competitionEntity = competitionRepo.findByCompetitionDateStartBeforeAndCompetitionDateEndAfter(LocalDateTime.now(), LocalDateTime.now())
+		Set<Long> competitionSeqSet = competitionUserRecordRepo.findByUserEntity_userSeq(userSeq).stream()
+				.map((entity) -> {
+					return entity.getCompetitionEntity().getCompetitionSeq();
+				}).collect(Collectors.toSet());
+		CompetitionEntity competitionEntity = competitionRepo
+				.findByCompetitionDateStartBeforeAndCompetitionDateEndAfter(LocalDateTime.now(), LocalDateTime.now())
 				.orElseThrow(() -> new NotFoundUserException("진행중인 대회가 없습니다."));
 		if (competitionSeqSet.contains(competitionEntity.getCompetitionSeq())) {
 			return CompetitionFileDto.of(competitionEntity);
-		}
-		else {
+		} else {
 			throw new NotFoundUserException("진행중인 대회에 참가하고 있지 않습니다.");
 		}
 	}
 
 	@Override
 	public List<CompetitionFileDto> getCompetitionAfterEnd() throws Exception {
-		List<CompetitionFileDto> competitionFileDtolist = competitionRepo.findByCompetitionDateEndBefore(LocalDateTime.now())
-				.stream().map((entity) -> {
+		List<CompetitionFileDto> competitionFileDtolist = competitionRepo
+				.findByCompetitionDateEndBefore(LocalDateTime.now()).stream().map((entity) -> {
 					return CompetitionFileDto.of(entity);
 				}).collect(Collectors.toList());
 		return competitionFileDtolist;
@@ -113,9 +116,10 @@ public class CompetitionServiceImpl implements CompetitionService {
 
 	@Override
 	public List<CompetitionFileDto> getCompetitionAfterEnd(Long userSeq) throws Exception {
-		Set<Long> competitionSeqSet = competitionUserRecordRepo.findByUserEntity_userSeq(userSeq).stream().map((entity) -> {
-			return entity.getCompetitionEntity().getCompetitionSeq();
-		}).collect(Collectors.toSet());
+		Set<Long> competitionSeqSet = competitionUserRecordRepo.findByUserEntity_userSeq(userSeq).stream()
+				.map((entity) -> {
+					return entity.getCompetitionEntity().getCompetitionSeq();
+				}).collect(Collectors.toSet());
 		List<CompetitionFileDto> competitionFileDtolist = new ArrayList<>();
 		for (CompetitionEntity competitionEntity : competitionRepo
 				.findByCompetitionDateEndBefore(LocalDateTime.now())) {
@@ -140,11 +144,10 @@ public class CompetitionServiceImpl implements CompetitionService {
 		}
 		return true;
 	}
-	
-	
+
 	@Transactional
 	@Override
-	public Boolean joinCompetition(Long competitionSeq, Long userSeq) throws Exception{
+	public Boolean joinCompetition(Long competitionSeq, Long userSeq) throws Exception {
 		UserEntity userEntity = userRepo.findById(userSeq)
 				.orElseThrow(() -> new NotFoundUserException("해당 유저를 찾을 수 없습니다."));
 		CompetitionEntity competitionEntity = competitionRepo.findById(competitionSeq)
@@ -155,14 +158,32 @@ public class CompetitionServiceImpl implements CompetitionService {
 		if (competitionUserRecordRepo.findByUserEntityAndCompetitionEntity(userEntity, competitionEntity).isPresent()) {
 			throw new DuplicateException("이미 참가한 대회입니다.");
 		}
-		CompetitionUserRecordEntity competitionTotalRecordEntity = CompetitionUserRecordEntity.builder() //
+		CompetitionUserRecordEntity competitionUserRecordEntity = CompetitionUserRecordEntity.builder() //
 				.userEntity(userEntity) //
 				.competitionEntity(competitionEntity) //
 				.competitionDistance(0) //
 				.competitionTime(0) //
 				.build();
-		competitionUserRecordRepo.save(competitionTotalRecordEntity);
+		competitionUserRecordRepo.save(competitionUserRecordEntity);
 		return true;
+	}
+
+	@Override
+	public List<RankingDto> getCompetitionTotalRanking(Long competitionSeq, Long size, Long offset) throws Exception {
+		CompetitionEntity competitionEntity = competitionRepo.findById(competitionSeq)
+				.orElseThrow(() -> new NotFoundUserException("해당 대회를 찾을 수 없습니다."));
+		return competitionRepo.getCompetitionRankingList(size, offset);
+	}
+	
+	@Override
+	public RankingDto getCompetitionUserRanking(Long competitionSeq, Long userSeq) throws Exception{
+		UserEntity userEntity = userRepo.findById(userSeq)
+				.orElseThrow(() -> new NotFoundUserException("해당 유저를 찾을 수 없습니다."));
+		CompetitionEntity competitionEntity = competitionRepo.findById(competitionSeq)
+				.orElseThrow(() -> new NotFoundUserException("해당 대회를 찾을 수 없습니다."));
+		CompetitionUserRecordEntity competitionUserRecordEntity = competitionUserRecordRepo.findByUserEntityAndCompetitionEntity(userEntity, competitionEntity)
+				.orElseThrow(() -> new NotFoundUserException("해당 유저는 해당 대회에 참여하지 않았습니다."));
+		return competitionRepo.getCompetitionUserRanking(competitionSeq, userSeq);
 	}
 
 }

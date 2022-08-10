@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ssafy.gumid101.entity.CompetitionEntity;
 
-public interface CompetitionRepository extends JpaRepository<CompetitionEntity, Long>{
+public interface CompetitionRepository extends JpaRepository<CompetitionEntity, Long>, CompetitionRankingRepository{
 	Long countByCompetitionDateStartBetweenOrCompetitionDateEndBetween(LocalDateTime startS, LocalDateTime startE, LocalDateTime endS, LocalDateTime endE);
 	List<CompetitionEntity> findByCompetitionDateStartAfter(LocalDateTime now);
 	Optional<CompetitionEntity> findByCompetitionDateStartBeforeAndCompetitionDateEndAfter(LocalDateTime now1, LocalDateTime now2);

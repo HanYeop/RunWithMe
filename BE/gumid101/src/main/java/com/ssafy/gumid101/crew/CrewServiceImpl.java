@@ -312,13 +312,13 @@ public class CrewServiceImpl implements CrewService {
 			return;
 		}
 		// 참여한 대회이면 기록 쌓기
-		CompetitionUserRecordEntity competitionTotalRecordEntity = competitionUserRecordRepo
+		CompetitionUserRecordEntity competitionUserRecordEntity = competitionUserRecordRepo
 				.findByUserEntityAndCompetitionEntity(userEntity, competitionEntity).get();
-		competitionTotalRecordEntity.setCompetitionDistance(
-				competitionTotalRecordEntity.getCompetitionDistance() + runRecordEntity.getRunRecordRunningDistance());
-		competitionTotalRecordEntity.setCompetitionTime(
-				competitionTotalRecordEntity.getCompetitionTime() + runRecordEntity.getRunRecordRunningTime());
-		competitionUserRecordRepo.save(competitionTotalRecordEntity);
+		competitionUserRecordEntity.setCompetitionDistance(
+				competitionUserRecordEntity.getCompetitionDistance() + runRecordEntity.getRunRecordRunningDistance());
+		competitionUserRecordEntity.setCompetitionTime(
+				competitionUserRecordEntity.getCompetitionTime() + runRecordEntity.getRunRecordRunningTime());
+		competitionUserRecordRepo.save(competitionUserRecordEntity);
 	}
 
 	@Transactional

@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.dto.CompetitionDto;
 import com.ssafy.gumid101.res.CompetitionFileDto;
+import com.ssafy.gumid101.res.RankingDto;
 
 public interface CompetitionService {
 
@@ -24,6 +25,10 @@ public interface CompetitionService {
 	Boolean checkCompetitionJoinable(Long competitionSeq, Long userSeq) throws Exception;
 
 	Boolean joinCompetition(Long competitionSeq, Long userSeq) throws Exception;
+
+	List<RankingDto> getCompetitionTotalRanking(Long competitionSeq, Long size, Long offset) throws Exception;
+
+	RankingDto getCompetitionUserRanking(Long competitionSeq, Long userSeq) throws Exception;
 
 
 
