@@ -39,7 +39,7 @@ import com.ssafy.gumid101.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
