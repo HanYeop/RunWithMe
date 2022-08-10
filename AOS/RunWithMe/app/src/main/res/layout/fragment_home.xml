@@ -47,7 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:backgroundTint="@color/main_purple"
+                    android:backgroundTint="@color/main_orange"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="4dp">
 
@@ -242,7 +242,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:backgroundTint="@color/main_blue_green"
+                    android:backgroundTint="@color/main_sub_orange"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="4dp">
 

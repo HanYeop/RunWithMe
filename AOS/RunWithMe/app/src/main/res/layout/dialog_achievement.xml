@@ -44,7 +44,7 @@
             android:textSize="20sp"
             android:layout_margin="16dp"
             android:text="업적 달성!"
-            android:textColor="@color/mainColor"
+            android:textColor="@color/main_orange"
             app:layout_constraintStart_toEndOf="@+id/img_achievement"
             app:layout_constraintTop_toTopOf="@+id/img_achievement" />
 

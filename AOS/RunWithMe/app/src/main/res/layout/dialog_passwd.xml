@@ -34,7 +34,7 @@
             android:layout_height="50dp"
             android:text="확인"
             android:textSize="32dp"
-            android:textColor="@color/mainColor"
+            android:textColor="@color/main_orange"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

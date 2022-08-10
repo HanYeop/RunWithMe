@@ -78,7 +78,7 @@
                     totalGoal="@{endCrew.processInfo.totalGoals}"
                     android:textSize="16sp"
                     android:fontFamily="@font/noto_sans_bold"
-                    android:textColor="@color/main_blue_green"
+                    android:textColor="@color/main_sub_orange"
                     app:layout_constraintTop_toBottomOf="@id/tv_crew_duration"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tv_goal_achieve"/>
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:max="100"
-                android:progressTint="@color/main_blue_green"
+                android:progressTint="@color/main_sub_orange"
                 android:scaleY="2"
                 android:progress="80"
                 myGoal="@{endCrew.processInfo.myGoals}"

@@ -12,16 +12,14 @@
     <color name="black_medium_emphasis">#99000000</color>
     <color name="black_low_emphasis">#66000000</color>
 
-    <color name="light_grey">#99E9ECEF</color>
-    <color name="mainColor">#873EF1</color>
-
-
-    <color name="red">#E91E63</color>
-    <color name="main_purple">#873EF1</color>
+    <color name="main_red">#FF165D</color>
+    <color name="main_orange">#FF9A00</color>
+    <color name="main_sub_orange">#DDA144</color>
+    <color name="main_beige">#F6F7D7</color>
+    <color name="main_sky">#3EC1D3</color>
     <color name="main_black">#232323</color>
     <color name="main_grey">#666666</color>
-    <color name="main_border_grey">#F2F2F2</color>
-    <color name="main_blue_green">#17A196</color>
+    <color name="main_light_grey">#99E9ECEF</color>
 
     <color name="naver">#16C900</color>
     <color name="kakao">#FDDC3F</color>

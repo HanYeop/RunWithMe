@@ -16,7 +16,7 @@
             android:id="@+id/btn_ok"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/main_purple"
+            android:background="@color/main_orange"
             android:fontFamily="@font/noto_sans_bold"
             android:text="확인"
             android:textColor="@color/white"

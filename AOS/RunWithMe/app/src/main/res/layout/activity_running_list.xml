@@ -71,7 +71,7 @@
                 android:gravity="center"
                 tools:text="도널드!"
                 android:textSize="20sp"
-                android:textColor="@color/main_purple"
+                android:textColor="@color/main_orange"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_one"
                 app:layout_constraintStart_toEndOf="@+id/tv_one"
                 app:layout_constraintTop_toTopOf="@+id/tv_one" />

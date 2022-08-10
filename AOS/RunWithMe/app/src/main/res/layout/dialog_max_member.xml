@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="확인"
             android:textSize="32dp"
-            android:textColor="@color/mainColor"
+            android:textColor="@color/main_orange"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/numberpicker_max_member"

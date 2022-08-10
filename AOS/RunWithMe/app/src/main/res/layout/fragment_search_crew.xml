@@ -95,7 +95,7 @@
                         android:id="@+id/checkbox_crew_duration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:buttonTint="@color/main_purple"
+                        android:buttonTint="@color/main_orange"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tv_search_crew_duration"
                         app:layout_constraintBottom_toBottomOf="@id/tv_search_crew_duration"/>
@@ -179,7 +179,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:buttonTint="@color/main_purple"
+                        android:buttonTint="@color/main_orange"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/btn_search_end_duration"/>
 
@@ -269,7 +269,7 @@
                         android:id="@+id/checkbox_crew_cost"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:buttonTint="@color/main_purple"
+                        android:buttonTint="@color/main_orange"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -383,7 +383,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:buttonTint="@color/main_purple" />
+                            android:buttonTint="@color/main_orange" />
 
                         <RadioGroup
                             android:id="@+id/radio_group_purpose"
@@ -431,7 +431,7 @@
                             android:layout_height="wrap_content"
                             android:alpha="0.5"
                             android:enabled="false"
-                            android:buttonTint="@color/main_purple"
+                            android:buttonTint="@color/main_orange"
                             android:layout_marginStart="8dp"/>
 
                         <androidx.appcompat.widget.AppCompatButton
@@ -495,7 +495,7 @@
                             android:id="@+id/checkbox_search_goal_dyas"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:buttonTint="@color/main_purple"
+                            android:buttonTint="@color/main_orange"
                             android:layout_marginStart="8dp"/>
 
                         <TextView

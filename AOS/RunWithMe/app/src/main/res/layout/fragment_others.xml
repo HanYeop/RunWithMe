@@ -123,7 +123,7 @@
             android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
             android:textSize="17sp"
             android:fontFamily="@font/noto_sans_bold"
-            android:textColor="@color/red"
+            android:textColor="@color/main_red"
             android:paddingStart="20dp"
             android:paddingTop="10dp"
             android:paddingEnd="10dp"

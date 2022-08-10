@@ -31,7 +31,7 @@
             android:layout_height="16dp"
             android:layout_gravity="bottom"
             android:layout_marginBottom="4dp"
-            tools:background="@color/main_blue_green"/>
+            tools:background="@color/main_sub_orange"/>
 
     </FrameLayout>
 
