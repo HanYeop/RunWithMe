@@ -1,2 +1,3 @@
 AOS/RunWithMe/app/src/main/res/values/string_api.xml
 BE/.metadata/*
+AOS/RunWithMe/app/src/main/java/com/ssafy/runwithme/utils/WeatherApi.kt
