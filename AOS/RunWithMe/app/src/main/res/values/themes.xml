@@ -49,6 +49,11 @@
         <item name="fontFamily">@font/noto_sans_bold</item>
     </style>
 
+    <style name="tab_home" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/noto_sans_bold</item>
+    </style>
+
     <style name="NumberPickerStyle">
         <item name="colorControlNormal">@color/main_blue</item>
         <item name="android:textSize">26dp</item>

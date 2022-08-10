@@ -26,18 +26,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun initClickListener(){
         binding.apply {
-            cardShowJoinCrew.setOnClickListener {
-                findNavController().navigate(R.id.action_HomeFragment_to_CrewRecruitFragment)
-            }
-            layoutMyCrew.setOnClickListener {
-                findNavController().navigate(R.id.action_HomeFragment_to_myCurrentCrewFragment)
-            }
-            cardShowTotalRank.setOnClickListener {
-                findNavController().navigate(R.id.action_HomeFragment_to_totalUserRankingFragment)
-            }
-            cardShowRecommend.setOnClickListener {
-                findNavController().navigate(R.id.action_HomeFragment_to_RecommendFragment)
-            }
+//            cardShowJoinCrew.setOnClickListener {
+//                findNavController().navigate(R.id.action_HomeFragment_to_CrewRecruitFragment)
+//            }
+//            layoutMyCrew.setOnClickListener {
+//                findNavController().navigate(R.id.action_HomeFragment_to_myCurrentCrewFragment)
+//            }
+//            cardShowTotalRank.setOnClickListener {
+//                findNavController().navigate(R.id.action_HomeFragment_to_totalUserRankingFragment)
+//            }
+//            cardShowRecommend.setOnClickListener {
+//                findNavController().navigate(R.id.action_HomeFragment_to_RecommendFragment)
+//            }
         }
     }
 
