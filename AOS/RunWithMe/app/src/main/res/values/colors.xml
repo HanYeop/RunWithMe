@@ -18,12 +18,14 @@
     <color name="main_blue_green">#17A196</color>
 
     <color name="main_red">#FF165D</color>
-    <color name="main_orange">#FF9A00</color>
+    <color name="main_orange">#FF7F00</color>
     <color name="main_sub_orange">#DDA144</color>
     <color name="main_beige">#F6F7D7</color>
-    <color name="main_sky">#3EC1D3</color>
+    <color name="main_sky">#A0ACF2</color>
+    <color name="main_blue">#6A7BD9</color>
     <color name="main_black">#232323</color>
     <color name="main_grey">#666666</color>
+    <color name="sub_white">#EBEEF2</color>
     <color name="main_light_grey">#99E9ECEF</color>
 
     <color name="naver">#16C900</color>
