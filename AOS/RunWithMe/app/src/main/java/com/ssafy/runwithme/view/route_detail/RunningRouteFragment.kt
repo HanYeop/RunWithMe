@@ -2,7 +2,6 @@ package com.ssafy.runwithme.view.route_detail
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -20,7 +19,6 @@ import com.ssafy.runwithme.databinding.FragmentRunningRouteBinding
 import com.ssafy.runwithme.model.dto.CoordinateDto
 import com.ssafy.runwithme.utils.POLYLINE_DRAW_TIME
 import com.ssafy.runwithme.utils.POLYLINE_WIDTH
-import com.ssafy.runwithme.view.running.RunningActivity
 import com.ssafy.runwithme.view.running.RunningViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -42,7 +40,7 @@ class RunningRouteFragment : BaseFragment<FragmentRunningRouteBinding>(R.layout.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        POLYLINE_COLOR = resources.getColor(R.color.main_orange)
+        POLYLINE_COLOR = resources.getColor(R.color.main_blue)
     }
 
     override fun init() {

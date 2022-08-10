@@ -14,7 +14,6 @@ import com.github.mikephil.charting.components.*
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
@@ -261,7 +260,7 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
             val barDataSet = BarDataSet(entries, title)
             // 바 색상 설정 (ColorTemplate.LIBERTY_COLORS)
             barDataSet.setColors(
-                R.color.main_orange
+                R.color.main_blue
             )
 //            barDataSet.isHighlightEnabled = false
 

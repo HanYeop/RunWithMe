@@ -1,7 +1,5 @@
 package com.ssafy.runwithme.view.my_page.tab.total_record
 
-import android.annotation.SuppressLint
-import android.graphics.Color
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
@@ -152,7 +150,7 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
                         // 러닝 중에서 1번이라도 목표 달성했을 시 색변경
                         for(item in dayRecord){
                             if(item.runRecordRunningCompleteYN == "Y"){
-                                runView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.main_orange))
+                                runView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
                                 break
                             }
                         }

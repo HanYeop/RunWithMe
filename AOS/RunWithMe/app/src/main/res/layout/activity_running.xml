@@ -44,7 +44,7 @@
                     android:layout_marginBottom="16dp"
                     android:max="100"
                     android:progress="0"
-                    android:progressTint="@color/main_orange"
+                    android:progressTint="@color/main_blue"
                     android:scaleY="3"
                     app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
                     app:layout_constraintEnd_toStartOf="@+id/tv_goal_amount"

@@ -45,7 +45,7 @@
                     android:layout_marginTop="4dp"
                     android:paddingStart="32dp"
                     android:fontFamily="@font/noto_sans_bold"
-                    android:textColor="@color/main_orange"
+                    android:textColor="@color/main_blue"
                     android:textSize="18sp"
                     tools:text="도날드 트럼프" />
 

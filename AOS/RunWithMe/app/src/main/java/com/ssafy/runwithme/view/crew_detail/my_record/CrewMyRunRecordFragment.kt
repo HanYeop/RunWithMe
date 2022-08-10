@@ -159,7 +159,7 @@ class CrewMyRunRecordFragment : BaseFragment<FragmentCrewMyRunRecordBinding>(R.l
                         // 러닝 중에서 1번이라도 목표 달성했을 시 색변경
                         for(item in dayRecord){
                             if(item.runRecordRunningCompleteYN == "Y"){
-                                runView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.main_orange))
+                                runView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
                                 break
                             }
                         }

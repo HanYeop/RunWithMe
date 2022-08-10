@@ -192,7 +192,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/noto_sans_bold"
-            android:textColor="@color/main_orange"
+            android:textColor="@color/main_blue"
             android:textSize="20sp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"

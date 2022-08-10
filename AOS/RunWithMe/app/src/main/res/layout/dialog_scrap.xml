@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:text="스크랩 추가"
             android:textSize="28dp"
-            android:textColor="@color/main_orange"
+            android:textColor="@color/main_blue"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
