@@ -1,5 +1,6 @@
 package com.ssafy.gumid101.competition;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +21,7 @@ import com.ssafy.gumid101.dto.CompetitionDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.res.CompetitionFileDto;
+import com.ssafy.gumid101.res.RankingDto;
 import com.ssafy.gumid101.res.ResponseFrame;
 
 import io.swagger.annotations.Api;
@@ -102,6 +105,29 @@ public class CompetitionRestController {
 		return new ResponseEntity<>(new ResponseFrame<>(true, result, result ? 1 : 0, "대회 참가에 " + (result ? "성공" : "실패") + "했습니다."), HttpStatus.OK);
 	}
 	
+	@ApiOperation("대회 전체 랭킹 가져오기")
+	@GetMapping(value = "/{competitionSeq}/ranking")
+	public ResponseEntity<?> getCompetitionTotalRanking(@PathVariable Long competitionSeq, @RequestParam(required = false, defaultValue = "10") Long size, @RequestParam(required = false, defaultValue = "0") Long offset) throws Exception{
+		
+		List<RankingDto> rankingList = compServ.getCompetitionTotalRanking(competitionSeq, size, offset);
+		
+		if(rankingList == null) {
+			rankingList = new ArrayList<RankingDto>();
+		}
+		
+		ResponseFrame<?> res =  ResponseFrame.of(rankingList, rankingList.size(), "대회 랭킹 리스트를 반환합니다.");
+		
+		return new ResponseEntity<>(res,HttpStatus.OK);
+	}
 	
-	
+	@ApiOperation("대회 유저 랭킹 가져오기")
+	@GetMapping(value = "/{competitionSeq}/ranking/{userSeq}")
+	public ResponseEntity<?> getCompetitionUserRanking(@PathVariable Long competitionSeq, @PathVariable Long userSeq) throws Exception{
+		
+		RankingDto rankingInfo = compServ.getCompetitionUserRanking(competitionSeq, userSeq);
+		
+		ResponseFrame<?> res = ResponseFrame.of(rankingInfo, 1, "대회 랭킹 리스트를 반환합니다.");
+		
+		return new ResponseEntity<>(res,HttpStatus.OK);
+	}	
 }
