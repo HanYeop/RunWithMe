@@ -14,6 +14,7 @@ import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.*
+import com.ssafy.runwithme.utils.Result
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
@@ -139,6 +140,13 @@ GoogleMap.OnMarkerClickListener{
                 initPolyLine(it)
             }
         }
+        lifecycleScope.launch { 
+            runningViewModel.weatherResponse.collectLatest { 
+                if(it is Result.Success){
+                    Log.d(TAG, "initViewModelCallBack: $it")
+                }
+            }
+        }
     }
 
     private fun initPolyLine(list: List<CoordinateDto>){
@@ -260,6 +268,9 @@ GoogleMap.OnMarkerClickListener{
                         }
 
                         moveCamera(currentPosition)
+
+                        runningViewModel.getWeather("JSON",14,1,
+                            20220810,2300,"63","89")
 
                         first = false
                     }

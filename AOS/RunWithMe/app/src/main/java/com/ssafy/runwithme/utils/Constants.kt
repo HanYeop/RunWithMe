@@ -2,6 +2,9 @@ package com.ssafy.runwithme.utils
 
 const val BASE_URL = "https://i7d101.p.ssafy.io:443/api/"
 
+const val WEATHER_BASE_URL = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/"
+
+
 // JWT
 const val JWT = "JWT-AUTHENTICATION"
 

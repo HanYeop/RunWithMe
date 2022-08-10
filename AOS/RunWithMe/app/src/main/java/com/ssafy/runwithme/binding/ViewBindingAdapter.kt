@@ -10,18 +10,16 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import com.ssafy.runwithme.R
-import com.ssafy.runwithme.binding.ViewBindingAdapter.setCostFormat
-import com.ssafy.runwithme.binding.ViewBindingAdapter.synUnit
 import com.ssafy.runwithme.model.dto.CrewBoardDto
+import com.ssafy.runwithme.model.dto.Weather
 import com.ssafy.runwithme.utils.BASE_URL
-import com.ssafy.runwithme.utils.TAG
+import com.ssafy.runwithme.utils.Result
 import java.lang.Math.round
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
+
 
 object ViewBindingAdapter {
 
@@ -535,5 +533,13 @@ object ViewBindingAdapter {
         }
 
         this.progress = progress
+    }
+
+    @BindingAdapter("weather")
+    @JvmStatic
+    fun TextView.setWeather (result: Result<*>){
+        if(result is Result.Success){
+            this.text = "${result.data}"
+        }
     }
 }

@@ -5,10 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
-import com.ssafy.runwithme.model.dto.AchievementDto
-import com.ssafy.runwithme.model.dto.CoordinateDto
-import com.ssafy.runwithme.model.dto.RunRecordDto
-import com.ssafy.runwithme.model.dto.ScrapInfoDto
+import com.ssafy.runwithme.model.dto.*
 import com.ssafy.runwithme.model.entity.RunRecordEntity
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 import com.ssafy.runwithme.repository.*
@@ -36,7 +33,8 @@ class RunningViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val myActivityRepository: MyActivityRepository,
     private val runRepository: RunRepository,
-    private val scrapRepository: ScrapRepository
+    private val scrapRepository: ScrapRepository,
+    private val weatherRepository: WeatherRepository
 ): ViewModel(){
 
     private val _runRecordSeq = MutableStateFlow(0)
@@ -72,6 +70,9 @@ class RunningViewModel @Inject constructor(
     private val _scrapList : MutableStateFlow<List<ScrapInfoDto>>
             = MutableStateFlow(listOf())
     val scrapList get() = _scrapList.asStateFlow()
+
+    private val _weatherResponse : MutableStateFlow<Result<Weather>> = MutableStateFlow(Result.Uninitialized)
+    val weatherResponse get() = _weatherResponse.asStateFlow()
 
     fun createRunRecord(crewId: Int, imgFile: MultipartBody.Part, runRecordDto: RunRecordDto){
         val json = Gson().toJson(runRecordDto)
@@ -238,5 +239,15 @@ class RunningViewModel @Inject constructor(
 
     fun emptyCoordinates(){
         _getCoordinates.value = emptyList()
+    }
+
+    fun getWeather(dataType : String, numOfRows : Int, pageNo : Int,
+                   baseDate : Int, baseTime : Int, nx : String, ny : String){
+        viewModelScope.launch(Dispatchers.IO) {
+            weatherRepository.getWeather(dataType, numOfRows, pageNo, baseDate, baseTime, nx, ny).collectLatest {
+                Log.d("test5", "getWeather: $it")
+                _weatherResponse.value = it
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ssafy.runwithme.api.*
 import com.ssafy.runwithme.utils.BASE_URL
+import com.ssafy.runwithme.utils.WEATHER_BASE_URL
 import com.ssafy.runwithme.utils.XAccessTokenInterceptor
 import dagger.Module
 import dagger.Provides
@@ -15,6 +16,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.HttpsURLConnection
@@ -83,6 +85,7 @@ object RemoteDataModule {
     // Retrofit DI
     @Provides
     @Singleton
+    @Named("mainRetrofit")
     fun provideRetrofitInstance(gson: Gson, client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -91,80 +94,98 @@ object RemoteDataModule {
             .build()
     }
 
+    // WeatherRetrofit DI
+    @Provides
+    @Singleton
+    @Named("weatherRetrofit")
+    fun provideWeatherRetrofitInstance(gson: Gson): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(WEATHER_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherApi(@Named("weatherRetrofit") retrofit : Retrofit) : WeatherApi {
+        return retrofit.create(WeatherApi::class.java)
+    }
+
     // Oauth2Api DI
     @Provides
     @Singleton
-    fun provideOauth2Api(retrofit: Retrofit): Oauth2Api {
+    fun provideOauth2Api(@Named("mainRetrofit") retrofit: Retrofit): Oauth2Api {
         return retrofit.create(Oauth2Api::class.java)
     }
 
     // CrewMangerApi DI
     @Provides
     @Singleton
-    fun provideCrewMangerApi(retrofit: Retrofit): CrewManagerApi {
+    fun provideCrewMangerApi(@Named("mainRetrofit") retrofit: Retrofit): CrewManagerApi {
         return retrofit.create(CrewManagerApi::class.java)
     }
 
     // CrewActivityApi DI
     @Provides
     @Singleton
-    fun provideCrewActivityApi(retrofit: Retrofit): CrewActivityApi {
+    fun provideCrewActivityApi(@Named("mainRetrofit") retrofit: Retrofit): CrewActivityApi {
         return retrofit.create(CrewActivityApi::class.java)
     }
 
     // UserApi DI
     @Provides
     @Singleton
-    fun provideUserApi(retrofit: Retrofit): UserApi {
+    fun provideUserApi(@Named("mainRetrofit") retrofit: Retrofit): UserApi {
         return retrofit.create(UserApi::class.java)
     }
 
     // CrewApi DI
     @Provides
     @Singleton
-    fun provideCrewApi(retrofit: Retrofit): CrewApi {
+    fun provideCrewApi(@Named("mainRetrofit") retrofit: Retrofit): CrewApi {
         return retrofit.create(CrewApi::class.java)
     }
 
     // MyActivityApi DI
     @Provides
     @Singleton
-    fun provideMyActivityApi(retrofit: Retrofit): MyActivityApi {
+    fun provideMyActivityApi(@Named("mainRetrofit") retrofit: Retrofit): MyActivityApi {
         return retrofit.create(MyActivityApi::class.java)
     }
 
     // RecommendApi DI
     @Provides
     @Singleton
-    fun provideRecommendApi(retrofit: Retrofit): RecommendApi {
+    fun provideRecommendApi(
+        @Named("mainRetrofit") retrofit: Retrofit): RecommendApi {
         return retrofit.create(RecommendApi::class.java)
     }
 
     // TotalRanking DI
     @Provides
     @Singleton
-    fun provideTotalRankingApi(retrofit: Retrofit): TotalRankingApi {
+    fun provideTotalRankingApi(@Named("mainRetrofit") retrofit: Retrofit): TotalRankingApi {
         return retrofit.create(TotalRankingApi::class.java)
     }
 
     // AchieveApi DI
     @Provides
     @Singleton
-    fun provideAchieveApi(retrofit: Retrofit): AchieveApi {
+    fun provideAchieveApi(@Named("mainRetrofit") retrofit: Retrofit): AchieveApi {
         return retrofit.create(AchieveApi::class.java)
     }
 
     // CustomerCenterApi DI
     @Provides
     @Singleton
-    fun provideCustomerCenterApi(retrofit: Retrofit): CustomerCenterApi {
+    fun provideCustomerCenterApi(@Named("mainRetrofit") retrofit: Retrofit): CustomerCenterApi {
         return retrofit.create(CustomerCenterApi::class.java)
     }
 
     // ScrapApi DI
     @Provides
     @Singleton
-    fun provideScrapApi(retrofit: Retrofit): ScrapApi {
+    fun provideScrapApi(@Named("mainRetrofit") retrofit: Retrofit): ScrapApi {
         return retrofit.create(ScrapApi::class.java)
     }
 }
