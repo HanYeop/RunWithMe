@@ -144,6 +144,7 @@ class RunningService : LifecycleService() {
         pauseLastLatLng = LatLng(0.0,0.0)
         stopLastLatLng = LatLng(0.0,0.0)
         pauseLast = false
+        count = 1
 
         postInitialValues()
         stopForeground(true)
@@ -238,13 +239,15 @@ class RunningService : LifecycleService() {
     // 멈추고 난 후 마지막 위치
     private var stopLastLatLng = LatLng(0.0,0.0)
 
+    // TEST : 러닝 거리 테스트
+    private var count = 1
     private fun distanceTTS(){
-//        sumDistance.observe(this){
-//
-//            if(it / 1000 > 1){
-//                ttsSpeak("${(it / 1000).toInt()} km")
-//            }
-//        }
+        sumDistance.observe(this){
+            if(it / 1000 > count){
+                ttsSpeak("${(it / 1000).toInt()} km")
+                count++
+            }
+        }
     }
 
     // 거리 표시 (마지막 전, 마지막 경로 차이 비교)
@@ -300,14 +303,13 @@ class RunningService : LifecycleService() {
             result
         )
 
-        // 정지 상태에서, 마지막 위치에서 5m 이상 이동한 경우
-        if(result[0] > 5f && (System.currentTimeMillis() - startTime) > 5000L){
+        // 이동이 없어 중지 상태일 때, 8m 이동하면 다시 시작 시킴
+        if(result[0] > 8f && (System.currentTimeMillis() - startTime) > 5000L){
 //            Log.d(TAG, "resumeRunning: ${System.currentTimeMillis()} ${startTime}")
 //            Log.d(TAG, "resumeRunning: ${isTracking.value}")
 //            Log.d(TAG, "resumeRunning: ${result}")
 //            Log.d(TAG, "resumeRunning: ${pauseLastLatLng} ${stopLastLatLng}")
 
-            // 이동이 없어 중지 상태일 때, 5m 이동하면 다시 시작 시킴
             if(!isTracking.value!! && pauseLast){
                 val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                 vibrator.vibrate(1000) // 1초간 진동
