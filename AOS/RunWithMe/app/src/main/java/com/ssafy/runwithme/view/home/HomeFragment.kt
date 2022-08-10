@@ -17,7 +17,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun init() {
         initTabLayout()
-
     }
 
     // 각 탭에 들어갈 프레그먼트 객체화
@@ -25,7 +24,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         tabHomeFragment = TabHomeFragment()
         tabCrewFragment = TabCrewFragment()
 
-        replaceView(tabHomeFragment)
+        childFragmentManager.beginTransaction().replace(R.id.frame_layout_my_page, tabHomeFragment).commit()
 
         binding.tabLayoutHome.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {

@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CrewRecruitFragment : BaseFragment<FragmentCrewRecruitBinding>(R.layout.fragment_crew_recruit) {
 
-    private val crewRecruitViewModel by activityViewModels<CrewRecruitViewModel>()
+    private val crewRecruitViewModel by viewModels<CrewRecruitViewModel>()
     private lateinit var crewRecruitAdapter : CrewRecruitAdapter
 
     private val CREW_PAGING_SIZE = 10

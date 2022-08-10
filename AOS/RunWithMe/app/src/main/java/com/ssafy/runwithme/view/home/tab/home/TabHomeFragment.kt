@@ -6,7 +6,9 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentTabHomeBinding
 import com.ssafy.runwithme.view.home.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TabHomeFragment : BaseFragment<FragmentTabHomeBinding>(R.layout.fragment_tab_home) {
 
     private val homeViewModel by activityViewModels<HomeViewModel>()

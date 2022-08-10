@@ -37,6 +37,7 @@ class CrewRecruitViewModel @Inject constructor(
     }
 
     fun getRecruitCrewPreView(size: Int) : Flow<Result<BaseResponse<List<RecruitCrewResponse>>>> = flow {
+        Log.d("getRecruitCrewPreView", "getRecruitCrewPreView: $this")
         viewModelScope.launch(Dispatchers.IO){
             crewManagerRepository.getRecruitCrewPreView(size).collectLatest {
                 Log.d("getRecruitCrewPreView", "getRecruitCrewPreView: $it")

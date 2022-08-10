@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.ssafy.runwithme.api.CrewManagerApi
@@ -12,6 +13,7 @@ import com.ssafy.runwithme.model.response.CreateCrewResponse
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 import com.ssafy.runwithme.model.response.RecruitCrewResponse
 import com.ssafy.runwithme.utils.Result
+import com.ssafy.runwithme.utils.TAG
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -57,6 +59,7 @@ class CrewManagerRepository @Inject constructor(
     }
 
     fun getRecruitCrewPreView(size : Int) : Flow<Result<BaseResponse<List<RecruitCrewResponse>>>> = flow {
+        Log.d(TAG, "getRecruitCrewPreView: $this")
         emit(Result.Loading)
         crewManagerRemoteDataSource.getRecruitCrewPreView(size).collect {
             if(it.success){
@@ -69,6 +72,7 @@ class CrewManagerRepository @Inject constructor(
             }
         }
     }.catch { e ->
+        Log.d(TAG, "getRecruitCrewPreView: $e")
         emit(Result.Error(e))
     }
 
