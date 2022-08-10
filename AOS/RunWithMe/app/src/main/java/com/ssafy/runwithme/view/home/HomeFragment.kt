@@ -7,6 +7,7 @@ import com.google.android.material.tabs.TabLayout
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentHomeBinding
+import com.ssafy.runwithme.view.home.tab.crew.TabCrewFragment
 import com.ssafy.runwithme.view.home.tab.home.TabHomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,6 +17,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val homeViewModel by activityViewModels<HomeViewModel>()
 
     private lateinit var tabHomeFragment : TabHomeFragment
+    private lateinit var tabCrewFragment : TabCrewFragment
 
     override fun init() {
         binding.apply {
@@ -27,19 +29,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         initTabLayout()
 
         initViewModelCallBack()
-
     }
 
     // 각 탭에 들어갈 프레그먼트 객체화
     private fun initTabLayout(){
         tabHomeFragment = TabHomeFragment()
+        tabCrewFragment = TabCrewFragment()
+
         replaceView(tabHomeFragment)
 
         binding.tabLayoutHome.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when(tab!!.position) {
                     0 -> replaceView(tabHomeFragment)
-                    // 1 -> replaceView()
+                    1 -> replaceView(tabCrewFragment)
                 }
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {}

@@ -134,8 +134,6 @@
                         tools:src="@drawable/img" />
                 </LinearLayout>
 
-
-
                 <LinearLayout
                     android:id="@+id/layout_my_crew"
                     android:layout_width="match_parent"
