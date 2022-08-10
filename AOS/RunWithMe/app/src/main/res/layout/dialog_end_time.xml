@@ -14,10 +14,13 @@
 
         <NumberPicker
             android:id="@+id/numberpicker_hour"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="160dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="24dp"
             android:theme="@style/NumberPickerStyle"
             android:descendantFocusability="blocksDescendants"
+            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toTopOf="@id/tv_positive"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,8 +41,10 @@
 
         <NumberPicker
             android:id="@+id/numberpicker_minute"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
             android:theme="@style/NumberPickerStyle"
             android:descendantFocusability="blocksDescendants"
             app:layout_constraintBottom_toTopOf="@id/tv_positive"
@@ -51,13 +56,13 @@
             android:id="@+id/tv_positive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:text="확인"
-            android:textSize="32dp"
             android:textColor="@color/main_blue"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="28sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/numberpicker_hour"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
