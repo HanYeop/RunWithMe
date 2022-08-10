@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentCreateCrewBinding
+import com.ssafy.runwithme.utils.resizeBitmapFormUri
 import com.ssafy.runwithme.view.crew_recruit.*
 import com.ssafy.runwithme.view.loading.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -365,16 +366,13 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
             binding.imgCreateCrew.setImageURI(it.data?.data)
             var bitmap : Bitmap? = null
             val uri = it.data?.data
-            try{
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
-                    bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(requireActivity().contentResolver, uri!!))
-                }else{
-                    bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
+            try {
+                if(uri != null){
+                    bitmap = resizeBitmapFormUri(uri,requireContext())
+                    createMultiPart(bitmap!!)
                 }
-            }catch (e : Exception){
+            } catch (e : Exception){
                 e.printStackTrace()
-            }finally {
-                createMultiPart(bitmap!!)
             }
         }
     }
@@ -383,7 +381,7 @@ class CreateCrewFragment : BaseFragment<FragmentCreateCrewBinding>(R.layout.frag
     private fun createFileFromBitmap(bitmap: Bitmap): File {
         val newFile = File(requireActivity().filesDir, "crew_${System.currentTimeMillis()}")
         val fileOutputStream = FileOutputStream(newFile)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 40, fileOutputStream)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 40, fileOutputStream)
         fileOutputStream.close()
         return newFile
     }

@@ -239,13 +239,12 @@ class RunningService : LifecycleService() {
     private var stopLastLatLng = LatLng(0.0,0.0)
 
     private fun distanceTTS(){
-        sumDistance.observe(this){
-            Log.d(TAG, "distanceTTS: $it")
-            Log.d(TAG, "distanceTTS: ${it / 100 }")
-            if(it / 100 > 1){
-//                ttsSpeak("$it 테스트")
-            }
-        }
+//        sumDistance.observe(this){
+//
+//            if(it / 1000 > 1){
+//                ttsSpeak("${(it / 1000).toInt()} km")
+//            }
+//        }
     }
 
     // 거리 표시 (마지막 전, 마지막 경로 차이 비교)

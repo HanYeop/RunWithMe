@@ -20,6 +20,7 @@ import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentEditProfileBinding
 import com.ssafy.runwithme.model.dto.ProfileEditDto
 import com.ssafy.runwithme.utils.TAG
+import com.ssafy.runwithme.utils.resizeBitmapFormUri
 import com.ssafy.runwithme.view.loading.LoadingDialog
 import com.ssafy.runwithme.view.my_page.MyPageViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -120,12 +121,10 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
             var bitmap : Bitmap?
             val uri = it.data?.data
             try {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
-                    bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(requireActivity().contentResolver, uri!!))
-                }else{
-                    bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
+                if(uri != null){
+                    bitmap = resizeBitmapFormUri(uri,requireContext())
+                    createMultiPart(bitmap!!)
                 }
-                createMultiPart(bitmap!!)
             } catch (e : Exception){
                 e.printStackTrace()
             }
@@ -148,7 +147,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
     private fun createFileFromBitmap(bitmap: Bitmap): File? {
         val newFile = File(requireActivity().filesDir, "profile_${System.currentTimeMillis()}")
         val fileOutputStream = FileOutputStream(newFile)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 40, fileOutputStream)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 40, fileOutputStream)
         fileOutputStream.close()
         return newFile
     }

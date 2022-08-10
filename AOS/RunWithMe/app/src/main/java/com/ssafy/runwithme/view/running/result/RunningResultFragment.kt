@@ -65,14 +65,18 @@ class RunningResultFragment : BaseFragment<FragmentRunningResultBinding>(R.layou
 
         loadingDialog = LoadingDialog(requireContext())
 
-        if(first) {
-            // 연습크루는 api 호출 x
-            if (sharedPreferences.getInt(RUN_RECORD_CREW_ID, 0) == 0) {
-                callLocal()
-            } else {
-                callApi()
+        try {
+            if (first) {
+                // 연습크루는 api 호출 x
+                if (sharedPreferences.getInt(RUN_RECORD_CREW_ID, 0) == 0) {
+                    callLocal()
+                } else {
+                    callApi()
+                }
+                first = false
             }
-            first = false
+        } catch (e : Exception){
+            e.printStackTrace()
         }
 
         initViewModelCallBack()

@@ -19,6 +19,7 @@ import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentCreateRecommendBinding
 import com.ssafy.runwithme.model.dto.TrackBoardDto
 import com.ssafy.runwithme.utils.TAG
+import com.ssafy.runwithme.utils.resizeBitmapFormUri
 import com.ssafy.runwithme.view.recommend.RecommendViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -102,13 +103,12 @@ class CreateRecommendFragment : BaseFragment<FragmentCreateRecommendBinding>(R.l
 
             var bitmap : Bitmap?
             val uri = it.data?.data
+
             try {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
-                    bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(requireActivity().contentResolver, uri!!))
-                }else{
-                    bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
+                if(uri != null){
+                    bitmap = resizeBitmapFormUri(uri,requireContext())
+                    createMultiPart(bitmap!!)
                 }
-                createMultiPart(bitmap!!)
             } catch (e : Exception){
                 e.printStackTrace()
             }
@@ -135,7 +135,7 @@ class CreateRecommendFragment : BaseFragment<FragmentCreateRecommendBinding>(R.l
     private fun createFileFromBitmap(bitmap: Bitmap): File? {
         val newFile = File(requireActivity().filesDir, "profile_${System.currentTimeMillis()}")
         val fileOutputStream = FileOutputStream(newFile)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 40, fileOutputStream)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 40, fileOutputStream)
         fileOutputStream.close()
         return newFile
     }
