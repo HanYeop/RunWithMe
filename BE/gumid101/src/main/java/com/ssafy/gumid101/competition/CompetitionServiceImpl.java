@@ -18,8 +18,7 @@ import com.ssafy.gumid101.customexception.ThirdPartyException;
 import com.ssafy.gumid101.dto.CompetitionDto;
 import com.ssafy.gumid101.dto.ImageFileDto;
 import com.ssafy.gumid101.entity.CompetitionEntity;
-import com.ssafy.gumid101.entity.CompetitionTotalRecordEntity;
-import com.ssafy.gumid101.entity.CompetitionUserEntity;
+import com.ssafy.gumid101.entity.CompetitionUserRecordEntity;
 import com.ssafy.gumid101.entity.ImageFileEntity;
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.imgfile.ImageDirectory;
@@ -38,8 +37,7 @@ public class CompetitionServiceImpl implements CompetitionService {
 	private final UserRepository userRepo;
 	private final S3FileService s3Serv;
 	private final CompetitionRepository competitionRepo;
-	private final CompetitionUserRepository competitionUserRepo;
-	private final CompetitionTotalRecordRepository competitionTotalRecordRepo;
+	private final CompetitionUserRecordRepository competitionUserRecordRepo;
 	private final ImageFileRepository imageRepo;
 
 	@Transactional
@@ -91,7 +89,7 @@ public class CompetitionServiceImpl implements CompetitionService {
 
 	@Override
 	public CompetitionFileDto getCompetitionProgress(Long userSeq) throws Exception {
-		Set<Long> competitionSeqSet = competitionUserRepo.findByUserEntity_userSeq(userSeq).stream().map((entity) -> {
+		Set<Long> competitionSeqSet = competitionUserRecordRepo.findByUserEntity_userSeq(userSeq).stream().map((entity) -> {
 			return entity.getCompetitionEntity().getCompetitionSeq();
 		}).collect(Collectors.toSet());
 		CompetitionEntity competitionEntity = competitionRepo.findByCompetitionDateStartBeforeAndCompetitionDateEndAfter(LocalDateTime.now(), LocalDateTime.now())
@@ -115,7 +113,7 @@ public class CompetitionServiceImpl implements CompetitionService {
 
 	@Override
 	public List<CompetitionFileDto> getCompetitionAfterEnd(Long userSeq) throws Exception {
-		Set<Long> competitionSeqSet = competitionUserRepo.findByUserEntity_userSeq(userSeq).stream().map((entity) -> {
+		Set<Long> competitionSeqSet = competitionUserRecordRepo.findByUserEntity_userSeq(userSeq).stream().map((entity) -> {
 			return entity.getCompetitionEntity().getCompetitionSeq();
 		}).collect(Collectors.toSet());
 		List<CompetitionFileDto> competitionFileDtolist = new ArrayList<>();
@@ -137,7 +135,7 @@ public class CompetitionServiceImpl implements CompetitionService {
 		if (competitionEntity.getCompetitionDateEnd().isBefore(LocalDateTime.now())) {
 			throw new IllegalParameterException("이미 종료된 대회입니다.");
 		}
-		if (competitionUserRepo.findByUserEntityAndCompetitionEntity(userEntity, competitionEntity).isPresent()) {
+		if (competitionUserRecordRepo.findByUserEntityAndCompetitionEntity(userEntity, competitionEntity).isPresent()) {
 			return false;
 		}
 		return true;
@@ -154,22 +152,16 @@ public class CompetitionServiceImpl implements CompetitionService {
 		if (competitionEntity.getCompetitionDateEnd().isBefore(LocalDateTime.now())) {
 			throw new IllegalParameterException("이미 종료된 대회입니다.");
 		}
-		if (competitionUserRepo.findByUserEntityAndCompetitionEntity(userEntity, competitionEntity).isPresent()) {
+		if (competitionUserRecordRepo.findByUserEntityAndCompetitionEntity(userEntity, competitionEntity).isPresent()) {
 			throw new DuplicateException("이미 참가한 대회입니다.");
 		}
-		CompetitionUserEntity competitionUserEntity = CompetitionUserEntity.builder() //
+		CompetitionUserRecordEntity competitionTotalRecordEntity = CompetitionUserRecordEntity.builder() //
 				.userEntity(userEntity) //
 				.competitionEntity(competitionEntity) //
-				.checkYn("N") //
+				.competitionDistance(0) //
+				.competitionTime(0) //
 				.build();
-		CompetitionTotalRecordEntity competitionTotalRecordEntity = CompetitionTotalRecordEntity.builder() //
-				.userEntity(userEntity) //
-				.competitionEntity(competitionEntity) //
-				.competition_distance(0) //
-				.competition_time(0) //
-				.build();
-		competitionUserRepo.save(competitionUserEntity);
-		competitionTotalRecordRepo.save(competitionTotalRecordEntity);
+		competitionUserRecordRepo.save(competitionTotalRecordEntity);
 		return true;
 	}
 

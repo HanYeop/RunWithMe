@@ -20,7 +20,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name="t_competition_user")
+@Table(name="t_competition_total_record")
 @Builder
 @Entity
 @Getter
@@ -28,12 +28,12 @@ import lombok.Setter;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
-public class CompetitionUserEntity {
+public class CompetitionUserRecordEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "competition_user_seq")
-	private Long competitionUserSeq;
+	@Column(name = "competition_total_record_seq")
+	private Long competitionTotalRecordSeq;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_seq")
@@ -43,12 +43,16 @@ public class CompetitionUserEntity {
 	@JoinColumn(name = "competition_seq")
 	private CompetitionEntity competitionEntity;
 	
-	@Column(nullable = false, name = "check_yn")
-	private String checkYn;
+	@Column(nullable = false, name = "competition_distance")
+	private Integer competitionDistance;
+
+	@Column(nullable = false, name = "competition_time")
+	private Integer competitionTime;
 	
 	@PrePersist
 	public void setting() {
-		this.checkYn = "N";
+		this.competitionDistance = 0;
+		this.competitionTime = 0;
 	}
 	
 }

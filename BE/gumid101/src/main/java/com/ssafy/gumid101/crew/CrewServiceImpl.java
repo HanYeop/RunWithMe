@@ -16,8 +16,7 @@ import com.ssafy.gumid101.achievement.AchievementCompleteRepository;
 import com.ssafy.gumid101.achievement.AchievementRepository;
 import com.ssafy.gumid101.aws.S3FileService;
 import com.ssafy.gumid101.competition.CompetitionRepository;
-import com.ssafy.gumid101.competition.CompetitionTotalRecordRepository;
-import com.ssafy.gumid101.competition.CompetitionUserRepository;
+import com.ssafy.gumid101.competition.CompetitionUserRecordRepository;
 import com.ssafy.gumid101.crew.manager.CrewManagerRepository;
 import com.ssafy.gumid101.crew.manager.CrewManagerService;
 import com.ssafy.gumid101.customexception.CrewNotFoundException;
@@ -36,8 +35,7 @@ import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.AchievementCompleteEntity;
 import com.ssafy.gumid101.entity.AchievementEntity;
 import com.ssafy.gumid101.entity.CompetitionEntity;
-import com.ssafy.gumid101.entity.CompetitionTotalRecordEntity;
-import com.ssafy.gumid101.entity.CompetitionUserEntity;
+import com.ssafy.gumid101.entity.CompetitionUserRecordEntity;
 import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.CrewTotalRecordEntity;
 import com.ssafy.gumid101.entity.ImageFileEntity;
@@ -70,8 +68,7 @@ public class CrewServiceImpl implements CrewService {
 	private final ImageFileRepository imageRepo;
 	private final AchievementRepository achiveRepo;
 	private final AchievementCompleteRepository accRepo;
-	private final CompetitionTotalRecordRepository competitionTotalRecordRepo;
-	private final CompetitionUserRepository competitionUserRepo;
+	private final CompetitionUserRecordRepository competitionUserRecordRepo;
 	private final CompetitionRepository competitionRepo;
 
 	@Transactional
@@ -309,19 +306,19 @@ public class CrewServiceImpl implements CrewService {
 			return;
 		}
 		// 해당 유저가 참여한 대회가 아니면 끝
-		CompetitionUserEntity competitionUserEntity = competitionUserRepo
+		CompetitionUserRecordEntity competitionUserEntity = competitionUserRecordRepo
 				.findByUserEntityAndCompetitionEntity(userEntity, competitionEntity).orElse(null);
 		if (competitionUserEntity == null) {
 			return;
 		}
 		// 참여한 대회이면 기록 쌓기
-		CompetitionTotalRecordEntity competitionTotalRecordEntity = competitionTotalRecordRepo
+		CompetitionUserRecordEntity competitionTotalRecordEntity = competitionUserRecordRepo
 				.findByUserEntityAndCompetitionEntity(userEntity, competitionEntity).get();
-		competitionTotalRecordEntity.setCompetition_distance(
-				competitionTotalRecordEntity.getCompetition_distance() + runRecordEntity.getRunRecordRunningDistance());
-		competitionTotalRecordEntity.setCompetition_time(
-				competitionTotalRecordEntity.getCompetition_time() + runRecordEntity.getRunRecordRunningTime());
-		competitionTotalRecordRepo.save(competitionTotalRecordEntity);
+		competitionTotalRecordEntity.setCompetitionDistance(
+				competitionTotalRecordEntity.getCompetitionDistance() + runRecordEntity.getRunRecordRunningDistance());
+		competitionTotalRecordEntity.setCompetitionTime(
+				competitionTotalRecordEntity.getCompetitionTime() + runRecordEntity.getRunRecordRunningTime());
+		competitionUserRecordRepo.save(competitionTotalRecordEntity);
 	}
 
 	@Transactional
