@@ -59,6 +59,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:background="@android:color/transparent"
+            app:itemIconTint="@drawable/menu_selector_color"
+            app:itemTextColor="@drawable/menu_selector_color"
             app:menu="@menu/menu_bottom_navi" />
 
         </com.google.android.material.bottomappbar.BottomAppBar>
