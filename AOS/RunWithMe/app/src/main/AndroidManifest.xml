@@ -20,12 +20,6 @@
         android:theme="@style/Theme.RunWithMe"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".view.splash.SplashActivity"
-            android:exported="true"
-            android:screenOrientation="portrait">
-
-        </activity>
-        <activity
             android:name=".view.permission.PermissionActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
