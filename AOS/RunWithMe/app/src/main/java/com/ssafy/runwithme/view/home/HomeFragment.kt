@@ -24,7 +24,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         tabHomeFragment = TabHomeFragment()
         tabCrewFragment = TabCrewFragment()
 
-        childFragmentManager.beginTransaction().replace(R.id.frame_layout_my_page, tabHomeFragment).commit()
+        childFragmentManager.beginTransaction().replace(R.id.frame_layout_home, tabHomeFragment).commit()
 
         binding.tabLayoutHome.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
