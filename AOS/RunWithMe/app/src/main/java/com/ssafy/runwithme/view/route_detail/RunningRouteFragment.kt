@@ -42,7 +42,7 @@ class RunningRouteFragment : BaseFragment<FragmentRunningRouteBinding>(R.layout.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        POLYLINE_COLOR = resources.getColor(R.color.main_purple)
+        POLYLINE_COLOR = resources.getColor(R.color.main_orange)
     }
 
     override fun init() {

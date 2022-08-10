@@ -78,7 +78,7 @@ class RecommendDetailFragment : BaseFragment<FragmentRecommendDetailBinding>(R.l
        recommendDetailViewModel.successMsgEvent.observe(viewLifecycleOwner){
            isScrapped = !isScrapped
            if(isScrapped){
-               binding.imageBookmark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.main_purple))
+               binding.imageBookmark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.main_orange))
            } else {
                binding.imageBookmark.colorFilter = null
            }
@@ -96,7 +96,7 @@ class RecommendDetailFragment : BaseFragment<FragmentRecommendDetailBinding>(R.l
         recommendDetailViewModel.isScrapped.observe(viewLifecycleOwner){
             if(it == 1){
                 isScrapped = true
-                binding.imageBookmark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.main_purple))
+                binding.imageBookmark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.main_orange))
             }
         }
     }

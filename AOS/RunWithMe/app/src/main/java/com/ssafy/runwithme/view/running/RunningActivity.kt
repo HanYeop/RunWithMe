@@ -70,7 +70,7 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        POLYLINE_COLOR = resources.getColor(R.color.main_purple)
+        POLYLINE_COLOR = resources.getColor(R.color.main_orange)
 
         weight = sharedPref.getInt(USER_WEIGHT, 70)
 

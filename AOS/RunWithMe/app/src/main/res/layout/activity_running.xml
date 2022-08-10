@@ -15,11 +15,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_running"
-            android:layout_width="400dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="14dp"
             android:backgroundTint="@color/white"
             app:cardCornerRadius="10dp"
             app:cardElevation="2dp"
@@ -85,7 +82,7 @@
                         android:layout_marginTop="10dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/running_96" />
+                        app:srcCompat="@drawable/distances" />
 
                     <TextView
                         android:id="@+id/tv_distance"
@@ -180,7 +177,7 @@
                         android:layout_marginTop="10dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/fire" />
+                        app:srcCompat="@drawable/calorie" />
 
                     <TextView
                         android:id="@+id/tv_calorie"

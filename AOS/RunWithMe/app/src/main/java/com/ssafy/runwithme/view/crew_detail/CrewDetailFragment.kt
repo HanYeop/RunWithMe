@@ -261,7 +261,7 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
             val barDataSet = BarDataSet(entries, title)
             // 바 색상 설정 (ColorTemplate.LIBERTY_COLORS)
             barDataSet.setColors(
-                R.color.main_purple
+                R.color.main_orange
             )
 //            barDataSet.isHighlightEnabled = false
 
