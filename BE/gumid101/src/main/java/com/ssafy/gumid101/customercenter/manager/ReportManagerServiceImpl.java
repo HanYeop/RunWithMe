@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,24 @@ public class ReportManagerServiceImpl implements ReportManagerService {
 	private final ReportRepository reportRepository;
 
 	private final CrewActivityBoardRepository boardRepo;
+	
+	public Map<String, Long> getReportStateCount() {
+		List<Map<String, Object>>  result  =reportRepository.getReportStateCountThoughtGroupBy();
+		
+		Map<String,Long> resultMap = new HashMap<>();
+		
+		resultMap.put(ReportStatus.COMPLETE.name(), 0L);
+		resultMap.put(ReportStatus.PROCESSING.name(), 0L);
+		resultMap.put(ReportStatus.WAITING.name(), 0L);
+		
+		for(int i = 0 ; i < result.size();i++) {
+			resultMap.put((String)result.get(i).get(0), (Long)result.get(i).get(1));
+		}
+		
+		return resultMap;
+	}
+	
+	
 	@Transactional
 	@Override
 	public Map<String, Object> selectReportsByParam(ReportSelectReqDto params) {

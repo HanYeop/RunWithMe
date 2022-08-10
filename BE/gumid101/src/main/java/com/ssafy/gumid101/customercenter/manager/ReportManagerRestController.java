@@ -2,6 +2,7 @@ package com.ssafy.gumid101.customercenter.manager;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.BinaryOperator;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,20 +58,22 @@ public class ReportManagerRestController {
 	}
 */
 	
-	@ApiOperation("신고글 상세보기")
+	@ApiOperation("신고글  상태 별 총개")
 	@GetMapping("/reports-state-count")
 	public ResponseEntity<?> getReportStateCount(){
 		
+		Map<String, Long> result = reportManagerService.getReportStateCount();
+
+		long totalCount =(long) result.values().stream().
+				reduce(0L, (prev,cur)->cur+prev);
 		
-		ResponseFrame<Integer> res = null;
+		ResponseFrame<Map<String, Long>> res = ResponseFrame.of(result,(int)totalCount,"총 갯수와 각각 상태의 갯수를 반환합니다.");
 		return new ResponseEntity<>(res,HttpStatus.OK);
 	}
 	
 	@ApiOperation("신고글 상세보기")
 	@GetMapping("/reports/{reportqeq}")
 	public ResponseEntity<?> getDetailReports(@PathVariable("reportseq") Long reportSeq){
-		
-		
 		
 		ResponseFrame<Integer> res = null;
 		return new ResponseEntity<>(res,HttpStatus.OK);

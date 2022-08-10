@@ -10,7 +10,7 @@ public interface ReportManagerService {
 	int deleteCrewBoard(Long boardSeq) throws Exception;
 
 	int deleteReport(Long seq)throws Exception;
-
+	 Map<String, Long> getReportStateCount() ;
 
 	Map<String, Object> selectReportsByParam(ReportSelectReqDto params);
 
