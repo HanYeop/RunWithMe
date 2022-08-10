@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.view.crew_recruit
 
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -14,7 +15,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CrewRecruitFragment : BaseFragment<FragmentCrewRecruitBinding>(R.layout.fragment_crew_recruit) {
 
-    private val crewRecruitViewModel by viewModels<CrewRecruitViewModel>()
+    private val crewRecruitViewModel by activityViewModels<CrewRecruitViewModel>()
     private lateinit var crewRecruitAdapter : CrewRecruitAdapter
 
     private val CREW_PAGING_SIZE = 10

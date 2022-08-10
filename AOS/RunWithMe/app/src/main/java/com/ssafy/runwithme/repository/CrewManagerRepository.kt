@@ -10,6 +10,7 @@ import com.ssafy.runwithme.datasource.paging.GetSearchResultCrewPagingSource
 import com.ssafy.runwithme.model.dto.EndCrewFileDto
 import com.ssafy.runwithme.model.response.CreateCrewResponse
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
+import com.ssafy.runwithme.model.response.RecruitCrewResponse
 import com.ssafy.runwithme.utils.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -48,6 +49,22 @@ class CrewManagerRepository @Inject constructor(
             } else if (!it.success){
                 emit(Result.Fail(it))
             } else {
+                emit(Result.Empty)
+            }
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
+
+    fun getRecruitCrewPreView(size : Int) : Flow<Result<BaseResponse<List<RecruitCrewResponse>>>> = flow {
+        emit(Result.Loading)
+        crewManagerRemoteDataSource.getRecruitCrewPreView(size).collect {
+            if(it.success){
+                emit(Result.Success(it))
+            }else if(!it.success){
+                emit(Result.Fail(it))
+            }
+            else{
                 emit(Result.Empty)
             }
         }

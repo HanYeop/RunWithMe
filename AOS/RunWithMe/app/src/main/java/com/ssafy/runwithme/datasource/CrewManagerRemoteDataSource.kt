@@ -5,6 +5,7 @@ import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.dto.EndCrewFileDto
 import com.ssafy.runwithme.model.response.CreateCrewResponse
 import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
+import com.ssafy.runwithme.model.response.RecruitCrewResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
@@ -22,6 +23,10 @@ class CrewManagerRemoteDataSource @Inject constructor(
 
     fun getMyEndCrew() : Flow<BaseResponse<List<EndCrewFileDto>>> = flow {
         emit(crewManagerApi.getMyEndCrew())
+    }
+
+    fun getRecruitCrewPreView(size : Int) : Flow<BaseResponse<List<RecruitCrewResponse>>> = flow {
+        emit(crewManagerApi.getRecruitCrewPreView(size))
     }
 
     fun createCrew(crewDto: RequestBody, imgFile: MultipartBody.Part?): Flow<BaseResponse<CreateCrewResponse>> = flow {
