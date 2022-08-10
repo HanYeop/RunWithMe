@@ -31,6 +31,10 @@ public class CrewSchedule {
 	private  Job endCrewJob;
 	
 	@Autowired
+	@Qualifier("competitionEndJob")
+	private  Job competitionEndJob;
+	
+	@Autowired
 	@Qualifier("notificationJob")
 	private  Job notificationJob;
 	
@@ -66,6 +70,30 @@ public class CrewSchedule {
 		 * log.debug(e.getMessage()); }
 		 */
 		log.info("종료된 크루의 포인트 정산을 끝냅니다.");
+	}
+	
+	// 초 분 시 일 월 요일
+	@Scheduled(cron = "0 0 4 * * *")
+	// 크루 포인트 정산 메소드
+	public void competitionPointDistribute() throws Exception {
+		log.info("종료된 시즌제 대회의 정산을 시도합니다.");
+
+		try {
+			Map<String, JobParameter> jobParametersMap = new HashMap<>();
+
+			jobParametersMap.put("requestDate", new JobParameter(LocalDateTime.now().toString()));
+
+			JobParameters parameters = new JobParameters(jobParametersMap);
+
+			JobExecution jobExecution = jobLauncher.run(competitionEndJob, parameters);
+
+			while (jobExecution.isRunning()) {
+				log.info("스프링 배치 실행 중");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		log.info("종료된 시즌제 대회의 정산을 끝냅니다.");
 	}
 	
 	

@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -55,12 +56,17 @@ public class CompetitionEntity {
 	@JoinColumn(name = "img_seq")
 	@OneToOne(orphanRemoval = true, fetch = FetchType.LAZY)
 	private ImageFileEntity competitionImageFile;
-
-	@OneToMany(mappedBy = "competitionEntity")
-	private List<CompetitionUserEntity> competitionUserEntitys;
+	
+	@Column(nullable = false, name = "check_yn")
+	private String checkYn;
 	
 	@OneToMany(mappedBy = "competitionEntity")
-	private List<CompetitionTotalRecordEntity> competitionTotalRecordEntitys;
+	private List<CompetitionUserRecordEntity> competitionTotalRecordEntitys;
+	
+	@PrePersist
+	public void setting() {
+		this.checkYn = "N";
+	}
 	
 	public static CompetitionEntity of(CompetitionDto competitionDto) {
 		if (competitionDto == null) {

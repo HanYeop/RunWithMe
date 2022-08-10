@@ -132,10 +132,7 @@ public class UserEntity {
 	private List<ScrapEntity> scrapEntitys;
 
 	@OneToMany(mappedBy = "userEntity", orphanRemoval = true)
-	private List<CompetitionUserEntity> competitionUserEntitys;
-
-	@OneToMany(mappedBy = "userEntity", orphanRemoval = true)
-	private List<CompetitionTotalRecordEntity> competitionTotalRecordEntitys;
+	private List<CompetitionUserRecordEntity> competitionTotalRecordEntitys;
 
 	@PrePersist
 	public void setting() {
