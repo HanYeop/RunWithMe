@@ -283,8 +283,8 @@ class RunningService : LifecycleService() {
                 pauseService()
             }
 
-            // 5초 이상 이동했는데 이동거리가 150m 이상인 경우 정지
-            if(result[0] > 150f && (System.currentTimeMillis() - startTime) > 5000L) {
+            // 5초 이상 이동했는데 이동거리가 100m 이상인 경우 정지
+            if(result[0] > 100f && (System.currentTimeMillis() - startTime) > 5000L) {
                 Toast.makeText(this, "비정상적인 이동이 감지되어 러닝이 일시 중지되었습니다.", Toast.LENGTH_SHORT).show()
                 ttsSpeak("비정상적인 이동이 감지되어 러닝이 일시 중지되었습니다.")
                 pauseService()
