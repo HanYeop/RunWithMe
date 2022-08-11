@@ -73,15 +73,15 @@ public class CrewRestContoller {
 
 	
 	@ApiOperation(value = "크루가입")
-	@PostMapping(value="/{crewId}/join")
-	public ResponseEntity<?> joinCrew(@PathVariable(required = true) long crewId, @RequestBody(required = false) Optional<PasswordDto>  password)
+	@PostMapping(value="/{crewSeq}/join")
+	public ResponseEntity<?> joinCrew(@PathVariable(required = true) Long crewSeq, @RequestBody(required = false) Optional<PasswordDto> password)
 			throws Exception {
 
 		UserDto userDto = loadUserFromToken();
 		redisServ.getIsUseable(userDto.getUserSeq().toString() + "joinCrew", 10);
 
 		
-		CrewUserDto result = crewService.joinCrew(userDto.getUserSeq(), crewId, password);
+		CrewUserDto result = crewService.joinCrew(userDto.getUserSeq(), crewSeq, password);
 
 		ResponseFrame<CrewUserDto> res = ResponseFrame.of(result, 1, "사용자의 크루 가입 성공");
 
