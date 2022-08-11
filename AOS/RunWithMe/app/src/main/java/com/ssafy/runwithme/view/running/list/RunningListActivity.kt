@@ -1,6 +1,7 @@
 package com.ssafy.runwithme.view.running.list
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -151,6 +152,7 @@ GoogleMap.OnMarkerClickListener{
                                 binding.tvWeather.text = "${i.obsrValue}°C"
                             }
                             if (i.category == "PTY") {
+                                binding.imgWeather.visibility = View.VISIBLE
                                 binding.fcstValue = i.obsrValue.toInt()
                             }
                         }
@@ -340,8 +342,20 @@ GoogleMap.OnMarkerClickListener{
                 }
             }
             cardInfo.setOnClickListener {
-                val dialog = RunningBottomSheet(this@RunningListActivity, sharedPreferences, scrapInfo.trackBoardFileDto.runRecordDto.runRecordSeq)
-                dialog.show(supportFragmentManager,dialog.tag)
+
+                val builder = AlertDialog.Builder(this@RunningListActivity)
+                builder
+                    .setTitle("스크랩한 경로로 러닝을 시작할까요?")
+                    .setIcon(R.drawable.rwm_logo)
+                    .setPositiveButton("확인") { dialog , which ->
+                        val dialog = RunningBottomSheet(this@RunningListActivity, sharedPreferences, scrapInfo.trackBoardFileDto.runRecordDto.runRecordSeq)
+                        dialog.show(supportFragmentManager,dialog.tag)
+                    }
+                    .setNegativeButton("취소"){ dialog, which ->
+
+                    }
+                    .create()
+                    .show()
             }
 
             imgCancel.setOnClickListener {
@@ -362,6 +376,7 @@ GoogleMap.OnMarkerClickListener{
             }
         }
     }
+
 
     /**
      * 라이프 사이클에 맞게 맵뷰를 처리해줌

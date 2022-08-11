@@ -145,6 +145,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/tv_weather"
                 app:layout_constraintTop_toTopOf="@+id/tv_weather"
                 app:weatherImage="@{fcstValue}"
+                android:visibility="gone"
+                tools:visibility="visible"
                 tools:srcCompat="@drawable/sun" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -175,7 +177,7 @@
             app:cardCornerRadius="6dp"
             app:cardElevation="4dp"
             android:visibility="gone"
-            tools:visibility="gone"
+            tools:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -282,7 +284,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/cancel_24" />
+                    app:srcCompat="@drawable/ic_baseline_cancel_24" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
