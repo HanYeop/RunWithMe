@@ -147,11 +147,11 @@ GoogleMap.OnMarkerClickListener{
                 if(it is Result.Success){
                     if(it.data.response.body != null) {
                         for (i in it.data.response.body.items.item) {
-                            if (i.category == "TMP") {
-                                binding.tvWeather.text = "${i.fcstValue}°C"
+                            if (i.category == "T1H") {
+                                binding.tvWeather.text = "${i.obsrValue}°C"
                             }
-                            if (i.category == "POP") {
-                                binding.fcstValue = i.fcstValue.toInt()
+                            if (i.category == "PTY") {
+                                binding.fcstValue = i.obsrValue.toInt()
                             }
                         }
                     }
@@ -297,7 +297,7 @@ GoogleMap.OnMarkerClickListener{
                         Log.d(TAG, "onLocationResult: $baseTime $baseDate")
                         Log.d(TAG, "onLocationResult: $curPoint")
                         runningViewModel.getWeather("JSON",14,1,
-                            baseDate,"1500",curPoint.x,curPoint.y)
+                            baseDate,baseTime,curPoint.x,curPoint.y)
 
                         first = false
                     }

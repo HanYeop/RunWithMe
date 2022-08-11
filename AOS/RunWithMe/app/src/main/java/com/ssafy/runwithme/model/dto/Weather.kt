@@ -29,7 +29,7 @@ data class Weather(
         val category: String,
         val fcstDate : Int,
         val fcstTime : Int,
-        val fcstValue : String,
+        val obsrValue : Double,
         val nx : Int,
         val ny : Int
     )

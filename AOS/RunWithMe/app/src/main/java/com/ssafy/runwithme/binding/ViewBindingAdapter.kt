@@ -539,15 +539,15 @@ object ViewBindingAdapter {
     @BindingAdapter("weatherImage")
     @JvmStatic
     fun ImageView.setWeatherImage (fcstValue: Int){
-        if(fcstValue >= 60){
+        if(fcstValue == 0){
             Glide.with(this.context)
-                .load(R.drawable.rain)
+                .load(R.drawable.sun)
                 .override(24 * 2,24 * 2)
                 .placeholder(R.drawable.img)
                 .into(this)
         }else{
             Glide.with(this.context)
-                .load(R.drawable.sun)
+                .load(R.drawable.rain)
                 .override(24 * 2,24 * 2)
                 .placeholder(R.drawable.img)
                 .into(this)
