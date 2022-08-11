@@ -105,6 +105,8 @@ class RunningService : LifecycleService() {
 
     private fun ttsSpeak(strTTS: String){
         if(sharedPreferences.getBoolean(TTS_ACTIVE, true)) {
+            val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            vibrator.vibrate(1000) // 1초간 진동
             tts?.speak(strTTS, TextToSpeech.QUEUE_FLUSH, null, null)
         }
     }
@@ -273,8 +275,7 @@ class RunningService : LifecycleService() {
 
             // 5초 이상 이동했는데 이동거리가 2.5m 이하인 경우 정지하고, 마지막 위치를 기록함
             if(result[0] < 2.5f && (System.currentTimeMillis() - startTime) > 5000L) {
-                val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                vibrator.vibrate(1000) // 1초간 진동
+
                 Toast.makeText(this, "이동이 없어 러닝이 일시 중지되었습니다.", Toast.LENGTH_SHORT).show()
                 ttsSpeak("이동이 없어 러닝이 일시 중지되었습니다.")
                 pauseLastLatLng = lastLatLng
@@ -284,8 +285,6 @@ class RunningService : LifecycleService() {
 
             // 5초 이상 이동했는데 이동거리가 150m 이상인 경우 정지
             if(result[0] > 150f && (System.currentTimeMillis() - startTime) > 5000L) {
-                val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                vibrator.vibrate(1000) // 1초간 진동
                 Toast.makeText(this, "비정상적인 이동이 감지되어 러닝이 일시 중지되었습니다.", Toast.LENGTH_SHORT).show()
                 ttsSpeak("비정상적인 이동이 감지되어 러닝이 일시 중지되었습니다.")
                 pauseService()
@@ -311,8 +310,6 @@ class RunningService : LifecycleService() {
 //            Log.d(TAG, "resumeRunning: ${pauseLastLatLng} ${stopLastLatLng}")
 
             if(!isTracking.value!! && pauseLast){
-                val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                vibrator.vibrate(1000) // 1초간 진동
                 Toast.makeText(this, "이동이 감지되어 러닝을 다시 시작합니다.", Toast.LENGTH_SHORT).show()
                 ttsSpeak("이동이 감지되어 러닝을 다시 시작합니다.")
                 startTimer()
