@@ -126,8 +126,11 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 		if (crewDto.getCrewMaxMember() == null || crewDto.getCrewMaxMember() <= 1) {
 			throw new IllegalParameterException("최대 인원 설정이 잘못되었습니다..");
 		}
-		crewDto.setCrewDateEnd(crewDto.getCrewDateEnd().withHour(23).withMinute(59).withSecond(59));
 		crewDto.setCrewDateStart(crewDto.getCrewDateStart().withHour(0).withMinute(0).withSecond(0));
+		if (crewDto.getCrewDateStart().isBefore(LocalDateTime.now())) {
+			throw new IllegalParameterException("시작일은 내일 이후 날짜여야합니다.");
+		}
+		crewDto.setCrewDateEnd(crewDto.getCrewDateEnd().withHour(23).withMinute(59).withSecond(59));
 
 		log.info(String.valueOf(crewDto.getCrewDateEnd().isBefore(crewDto.getCrewDateStart())));
 		if (crewDto.getCrewDateEnd().isBefore(crewDto.getCrewDateStart())) {
@@ -203,7 +206,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 				.orElseThrow(() -> new CrewNotFoundException("크루 삭제중,크루를 특정할 수 없습니다."));
 
 		if (crew.getManagerEntity().getUserSeq().longValue() == userSeq) {
-			if (LocalDateTime.now().isBefore(crew.getCrewDateStart())) {
+			if (LocalDateTime.now().isBefore(LocalDateTime.of(crew.getCrewDateStart().toLocalDate(), crew.getCrewTimeStart()))) {
 
 				int refundcount = userCrewJoinRepo.pointRefunds(crew, crew.getCrewCost());
 				//
@@ -233,7 +236,7 @@ public class CrewManagerServiceImpl implements CrewManagerService {
 
 		int result = 0;
 
-		if (LocalDateTime.now().isBefore(crew.getCrewDateStart())) {
+		if (LocalDateTime.now().isBefore(LocalDateTime.of(crew.getCrewDateStart().toLocalDate(), crew.getCrewTimeStart()))) {
 
 			user.setPoint(user.getPoint() + crew.getCrewCost()); // 탈퇴 포인트 환급
 			result = userCrewJoinRepo.deleteByUserAndCrew(user, crew);// 유저와 크루 참가 관계 삭제
