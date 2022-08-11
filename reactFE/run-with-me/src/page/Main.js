@@ -13,7 +13,7 @@ const Main = () => {
     <>
       <Routes>
         <Route path="/login" element={<GoogleOauth />} />
-        <Route path="/alarm" element={<AlarmPage />} />
+
         <Route path="/*" element={<HomeMain />} />
       </Routes>
     </>
