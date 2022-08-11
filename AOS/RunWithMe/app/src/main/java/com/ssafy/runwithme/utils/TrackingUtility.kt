@@ -61,5 +61,15 @@ class TrackingUtility {
             val df = DecimalFormat("###0.00")
             return df.format((dis / 1000f))
         }
+
+        // tts 시간 표시
+        fun getTTSTime(ms: Long): String {
+            var milliseconds = ms
+            val minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds)
+            milliseconds -= TimeUnit.MINUTES.toMillis(minutes)
+            val seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds)
+
+            return "$minutes 분 $seconds 초"
+        }
     }
 }

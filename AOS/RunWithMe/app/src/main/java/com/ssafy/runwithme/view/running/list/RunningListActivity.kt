@@ -329,6 +329,7 @@ GoogleMap.OnMarkerClickListener{
                     runningViewModel.getMyScrap()
                     btnScrap.alpha = 1.0f
                     scrapOn = true
+                    showToast("내가 스크랩한 경로를 표시합니다.")
                 }else{
                     if(map != null){
                         map?.clear()
@@ -339,6 +340,7 @@ GoogleMap.OnMarkerClickListener{
                         btnScrap.alpha = 0.5f
                     }
                     scrapOn = false
+                    showToast("내가 스크랩한 경로 표시를 해제합니다.")
                 }
             }
             cardInfo.setOnClickListener {
@@ -369,9 +371,11 @@ GoogleMap.OnMarkerClickListener{
                 if(sharedPreferences.getBoolean(TTS_ACTIVE, true)){
                     sharedPreferences.edit().putBoolean(TTS_ACTIVE,false).apply()
                     btnTts.alpha = 0.5f
+                    showToast("음성 안내 기능이 중지되었습니다.")
                 }else{
                     sharedPreferences.edit().putBoolean(TTS_ACTIVE,true).apply()
                     btnTts.alpha = 1.0f
+                    showToast("음성 안내 기능이 설정되었습니다.")
                 }
             }
         }

@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.utils.*
+import com.ssafy.runwithme.utils.TrackingUtility.Companion.getTTSTime
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -246,7 +247,7 @@ class RunningService : LifecycleService() {
     private fun distanceTTS(){
         sumDistance.observe(this){
             if(it / 1000 > count){
-                ttsSpeak("${(it / 1000).toInt()} km")
+                ttsSpeak("${(it / 1000).toInt()} km 를 돌파했습니다. ${getTTSTime(timeRunInMillis.value!!)} 가 경과했습니다.")
                 count++
             }
         }
@@ -273,8 +274,8 @@ class RunningService : LifecycleService() {
 
             Log.d(TAG, "distancePolyline: ${result[0]}")
 
-            // 5초 이상 이동했는데 이동거리가 2.5m 이하인 경우 정지하고, 마지막 위치를 기록함
-            if(result[0] < 2.5f && (System.currentTimeMillis() - startTime) > 5000L) {
+            // 5초 이상 이동했는데 이동거리가 2.5m 이하인 경우 정지하고, 마지막 위치를 기록함 (최소 오차 4초)
+            if(result[0] < 2.5f && (System.currentTimeMillis() - startTime) > 4000L) {
 
                 Toast.makeText(this, "이동이 없어 러닝이 일시 중지되었습니다.", Toast.LENGTH_SHORT).show()
                 ttsSpeak("이동이 없어 러닝이 일시 중지되었습니다.")
@@ -283,8 +284,8 @@ class RunningService : LifecycleService() {
                 pauseService()
             }
 
-            // 5초 이상 이동했는데 이동거리가 100m 이상인 경우 정지
-            if(result[0] > 100f && (System.currentTimeMillis() - startTime) > 5000L) {
+            // 5초 이상 이동했는데 이동거리가 70m 이상인 경우 정지 (최소 오차 4초)
+            if(result[0] > 70f && (System.currentTimeMillis() - startTime) > 4000L) {
                 Toast.makeText(this, "비정상적인 이동이 감지되어 러닝이 일시 중지되었습니다.", Toast.LENGTH_SHORT).show()
                 ttsSpeak("비정상적인 이동이 감지되어 러닝이 일시 중지되었습니다.")
                 pauseService()
@@ -303,7 +304,7 @@ class RunningService : LifecycleService() {
         )
 
         // 이동이 없어 중지 상태일 때, 8m 이동하면 다시 시작 시킴
-        if(result[0] > 8f && (System.currentTimeMillis() - startTime) > 5000L){
+        if(result[0] > 8f && (System.currentTimeMillis() - startTime) > 4000L){
 //            Log.d(TAG, "resumeRunning: ${System.currentTimeMillis()} ${startTime}")
 //            Log.d(TAG, "resumeRunning: ${isTracking.value}")
 //            Log.d(TAG, "resumeRunning: ${result}")
