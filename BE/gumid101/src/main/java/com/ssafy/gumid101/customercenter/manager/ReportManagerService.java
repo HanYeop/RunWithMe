@@ -2,7 +2,10 @@ package com.ssafy.gumid101.customercenter.manager;
 
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import com.ssafy.gumid101.customercenter.ReportStatus;
+import com.ssafy.gumid101.req.AlarmReqDto;
 import com.ssafy.gumid101.req.ReportSelectReqDto;
 
 public interface ReportManagerService {
@@ -17,4 +20,8 @@ public interface ReportManagerService {
 	int updateReportsStatus(Long reportId, ReportStatus status);
 
 	Map<String, Object> selectReportById(Long reportSeq);
+
+	int sendAlarm( AlarmReqDto requestBody);
+
+	int sendAlarmTotal(AlarmReqDto requestBody);
 }

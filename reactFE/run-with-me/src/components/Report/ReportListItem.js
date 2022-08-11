@@ -1,8 +1,8 @@
 import Badge from "react-bootstrap/Badge";
 import styles from "./Report.module.css";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const ReportListItem = (props) => {
-  let {
+  const {
     crewBoardSeq,
     regTime,
     reportContent,
@@ -17,10 +17,9 @@ const ReportListItem = (props) => {
   //<Badge bg="success">Success</Badge> <Badge bg="danger">Danger</Badge>{' '}
   //<Badge bg="warning" text="dark"></Badge>
 
-
-  const reportListClickHandler = ()=>{
+  const reportListClickHandler = () => {
     navigate(`/report/${reportSeq}`);
-  }
+  };
 
   const waitToBanner = (reportSeq, reportState, reportStateChangeHandler) => {
     if (reportState === "WAITING") {
@@ -63,7 +62,7 @@ const ReportListItem = (props) => {
     }
   };
   return (
-    <tr >
+    <tr>
       <td onClick={reportListClickHandler}>{reportSeq}</td>
       <td>{targetNickName ? targetNickName : "Undefined"}</td>
       <td>{crewBoardSeq}</td>
@@ -75,7 +74,5 @@ const ReportListItem = (props) => {
       </td>
     </tr>
   );
-
-
 };
 export default ReportListItem;

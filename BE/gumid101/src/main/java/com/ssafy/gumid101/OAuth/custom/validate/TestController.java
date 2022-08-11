@@ -169,9 +169,8 @@ public class TestController {
 	@GetMapping("/test/notification")
 	public String notificationTest() throws IOException{
 		
-		
 		List<Message> fcmMesageList = userRepo.findAll().stream().map((userEntity)->{
-			return FcmMessage.ofMessage("eKlI-I-pT42lZnVYihEmF0:APA91bHzEZEkcbbwZczoaSV8t6ikhAF4Xu5XzR-dkCYK7-1iqEUzWmJ3GmJdRhJRjS4GQQAvQAjK2qiAG9Lft3b8EgmUGvPjTHylnnClU9bwgkQqKlN0Ykaa4n5bTzo8pIZeek20_r2s", "테스트", "안녕하세요\n ㅎㅎ");
+			return FcmMessage.ofMessage(userEntity.getFcmToken(), "테스트", "안녕하세요\n ㅎㅎ");
 		}).collect(Collectors.toList());
 		
 		firebaseMessage.sendMessageTo(fcmMesageList);

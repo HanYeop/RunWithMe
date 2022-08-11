@@ -98,7 +98,8 @@ const ReportList = (props) => {
           {reportsList.length > 0 &&
             reportsList.map((item) => {
               return (
-                <ReportListItem key={item.reportSeq}
+                <ReportListItem
+                  key={item.reportSeq}
                   report={item}
                   reportStateChangeHandler={reportStateChangeHandler}
                 />

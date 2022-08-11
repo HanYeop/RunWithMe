@@ -1,5 +1,6 @@
 package com.ssafy.gumid101.user;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.LockModeType;
@@ -25,5 +26,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>, UserCus
 
 	@Query(value="UPDATE UserEntity u SET u.point =u.point + :point where u.userSeq = :userSeq ")
 	int updatePointAsBulk(Long userSeq, int point);
+
+	@Query(value="SELECT u FROM UserEntity u WHERE u.fcmToken IS NOT NULL")
+	List<UserEntity> findByALLFcmTokenNotNULL();
 
 }

@@ -62,7 +62,7 @@ public class FirebaseMessageUtilImpl implements FirebaseMessageUtil {
 	@Value("${fire_base.scoped}")
 	private String SCOPE_PATH;
 
-	public void sendMessageTo(List<FcmMessage.Message> fcmMesageList) throws IOException {
+	public void sendMessageTo(List<FcmMessage.Message> fcmMesageList){
 
 		int successCount = 0;
 		int failtCount = 0;
@@ -103,6 +103,7 @@ public class FirebaseMessageUtilImpl implements FirebaseMessageUtil {
 					failtCount++;
 				}
 			} catch (Exception e) {
+				failtCount++;
 				log.info(e.getMessage());
 			}
 		}

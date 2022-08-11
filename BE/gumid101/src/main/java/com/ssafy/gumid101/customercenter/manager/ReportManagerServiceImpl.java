@@ -1,10 +1,12 @@
 package com.ssafy.gumid101.customercenter.manager;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,19 +15,23 @@ import org.springframework.util.StringUtils;
 import com.ssafy.gumid101.crew.activity.CrewActivityBoardRepository;
 import com.ssafy.gumid101.customercenter.ReportRepository;
 import com.ssafy.gumid101.customercenter.ReportStatus;
-import com.ssafy.gumid101.dto.CrewBoardDto;
+import com.ssafy.gumid101.customexception.FCMTokenUnValidException;
 import com.ssafy.gumid101.dto.ImageFileDto;
-import com.ssafy.gumid101.dto.ReportDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.CrewBoardEntity;
 import com.ssafy.gumid101.entity.ReportEntity;
 import com.ssafy.gumid101.entity.UserEntity;
+import com.ssafy.gumid101.firebase.FcmMessage.Message;
+import com.ssafy.gumid101.firebase.FcmMessage;
+import com.ssafy.gumid101.firebase.FirebaseMessageUtil;
+import com.ssafy.gumid101.req.AlarmReqDto;
 import com.ssafy.gumid101.req.ReportSelectReqDto;
 import com.ssafy.gumid101.res.CrewBoardFileDto;
 import com.ssafy.gumid101.res.CrewBoardRes;
 import com.ssafy.gumid101.res.PagingParameter;
 import com.ssafy.gumid101.res.ReportResDto;
 import com.ssafy.gumid101.res.ReportResDto.ReportResDtoBuilder;
+import com.ssafy.gumid101.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +43,8 @@ public class ReportManagerServiceImpl implements ReportManagerService {
 
 	private final ReportRepository reportRepository;
 	private final CrewActivityBoardRepository boardRepo;
+	private final FirebaseMessageUtil fcmUtil;
+	private final UserRepository userRepo;
 
 	public Map<String, Long> getReportStateCount() {
 		List<Map<String, Object>> result = reportRepository.getReportStateCountThoughtGroupBy();
@@ -118,15 +126,19 @@ public class ReportManagerServiceImpl implements ReportManagerService {
 			return 0;
 		}
 		report.get().setReportStatus(status);
+
 		return 1;
 	}
 
-	@Transactional
 	@Override
 	public int deleteCrewBoard(Long boardSeq) throws Exception {
 
 		try {
 			boardRepo.deleteById(boardSeq);
+			// 데이터가 없으면 롤백 처리되기에 리턴값이 없다?
+			// 롤백 처리에러를 던졌는데 ,나는 익셉션으로 받고 롤백 처리 없게 하였다.
+			// 하지만 트랝잭션내에서 에러가 발생했다는 것은 체크됬고
+			// ????
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 			return 0;
@@ -153,64 +165,100 @@ public class ReportManagerServiceImpl implements ReportManagerService {
 	@Transactional
 	@Override
 	public Map<String, Object> selectReportById(Long reportSeq) {
-		
-		ReportEntity report =  reportRepository.findById(reportSeq).orElse(null);
-		
-		
-		if(report != null) {
 
-			Map<String, Object> result =  new HashMap<String, Object>();
-			
+		ReportEntity report = reportRepository.findById(reportSeq).orElse(null);
+
+		if (report != null) {
+
+			Map<String, Object> result = new HashMap<String, Object>();
+
 			UserEntity reporter = report.getUserReporterEntity();
 			UserEntity target = report.getUserTargetEntity();
-			
-			ReportResDtoBuilder builder =  ReportResDto.builder()
-				.crewBoardSeq(report.getReportCrewBoardSeq()).
-				regTime(report.getReportRegTime())
-				.reportContent(report.getReportContent())
-				.reportSeq(report.getReportSeq())
-				.reportState(report.getReportStatus());
-			
-			
-			
+
+			ReportResDtoBuilder builder = ReportResDto.builder().crewBoardSeq(report.getReportCrewBoardSeq())
+					.regTime(report.getReportRegTime()).reportContent(report.getReportContent())
+					.reportSeq(report.getReportSeq()).reportState(report.getReportStatus());
+
 			result.put("reportImgSeq", null);
 			result.put("targetImgSeq", null);
-			
-			result.put("reporter",null);
-			if(reporter != null) {
-				builder
-				.reporterNickName(reporter.getNickName())
-				.reporterUserSeq(reporter.getUserSeq());
-				result.put("reporter",  UserDto.of(reporter));
+
+			result.put("reporter", null);
+			if (reporter != null) {
+				builder.reporterNickName(reporter.getNickName()).reporterUserSeq(reporter.getUserSeq());
+				result.put("reporter", UserDto.of(reporter));
 				result.put("reportImgSeq", reporter.getImageFile().getImgSeq());
 			}
-			
-			result.put("target",null);
-			if(target!=null) {
-				builder.targetNickName(target.getNickName())
-				.targetUserSeq(target.getUserSeq());
+
+			result.put("target", null);
+			if (target != null) {
+				builder.targetNickName(target.getNickName()).targetUserSeq(target.getUserSeq());
 				result.put("target", UserDto.of(target));
 				result.put("targetImgSeq", target.getImageFile().getImgSeq());
 			}
-			
-			ReportResDto reportDto = builder.build();
-			
-			result.put("report", reportDto);
-			
-			CrewBoardEntity crewboard=	 boardRepo.findById(reportDto.getCrewBoardSeq()).orElse(null);
-			
 
-			CrewBoardFileDto dto = CrewBoardFileDto.builder().crewBoardDto(CrewBoardRes.of(crewboard)).imageFileDto(ImageFileDto.of(crewboard.getImgFile())).build();
-			result.put("board", dto);
-			
-			
+			ReportResDto reportDto = builder.build();
+
+			result.put("report", reportDto);
+
+			CrewBoardEntity crewboard = boardRepo.findById(reportDto.getCrewBoardSeq()).orElse(null);
+
+			CrewBoardFileDto boardDto = null;
+			if (crewboard != null) {
+				boardDto = CrewBoardFileDto.builder().crewBoardDto(CrewBoardRes.of(crewboard))
+						.imageFileDto(ImageFileDto.of(crewboard.getImgFile())).build();
+
+			}
+			result.put("board", boardDto);
+
 			return result;
-			
-		}else {
+
+		} else {
 			return null;
 		}
+
+	}
+
+	@Transactional
+	@Override
+	public int sendAlarm(AlarmReqDto requestBody) {
+
+		UserEntity userEntity = userRepo.findById(requestBody.getUserSeq()).orElse(null);
+		if (userEntity == null) {
+			return 0;
+		}
+		if (null == userEntity.getFcmToken()) {
+			return 0;
+		}
+
+		try {
+			fcmUtil.sendMessageTo(userEntity.getFcmToken(), requestBody.getTitle(), requestBody.getBody());
+		} catch (IOException | FCMTokenUnValidException e) {
+			return 0;
+		}
+
+		return 1;
+	}
+
+	@Transactional
+	@Override
+	public int sendAlarmTotal(AlarmReqDto requestBody) {
 		
-		
-		
+		List<UserEntity> users = userRepo.findByALLFcmTokenNotNULL();
+
+		List<FcmMessage.Message> messageList =	users.stream().map(
+(user)->{
+	return FcmMessage.ofMessage(user.getFcmToken(), "[전체 알림]", requestBody.getBody());
+}
+				).collect(Collectors.toList());
+		  
+		  // 
+		//  
+		try {
+			fcmUtil.sendMessageTo(messageList);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 1;
 	}
 }

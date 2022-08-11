@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BinaryOperator;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +27,9 @@ import com.ssafy.gumid101.customercenter.CustomerCenterService;
 import com.ssafy.gumid101.customercenter.ReportStatus;
 import com.ssafy.gumid101.customexception.IllegalParameterException;
 import com.ssafy.gumid101.dto.UserDto;
+import com.ssafy.gumid101.firebase.FirebaseMessageUtil;
 import com.ssafy.gumid101.redis.RedisService;
+import com.ssafy.gumid101.req.AlarmReqDto;
 import com.ssafy.gumid101.req.ReportSelectReqDto;
 import com.ssafy.gumid101.res.ResponseFrame;
 
@@ -37,7 +42,6 @@ import lombok.RequiredArgsConstructor;
 public class ReportManagerRestController {
 
 	private final ReportManagerService reportManagerService;
-
 
 
 	//질문글 상세보기 
@@ -222,5 +226,50 @@ public class ReportManagerRestController {
 
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
+
+	
+	@ApiOperation("알림 보내기 (관리자)")
+	@PostMapping("/alarm")
+	public ResponseEntity<?> alarmSend(@RequestBody @Valid AlarmReqDto requestBody,BindingResult bindingResult ) throws Exception {		
+
+		if(bindingResult.hasErrors()) {
+			
+			ResponseFrame<?> res = ResponseFrame.of(false, bindingResult.getAllErrors().get(0).getDefaultMessage());
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		}
+
+		int result = reportManagerService.sendAlarm(requestBody);
+		
+		String msg = "알람을 정상적으로 전송하였습니다.";
+		
+		if(result == 0) {
+			msg = "유저의 알람 설정이 되어있지 않아 전송할 수 없습니다.";
+		}
+		
+		ResponseFrame<?> res = ResponseFrame.of(result == 1 ? true :false, msg);
+		
+		return new ResponseEntity<>(res, HttpStatus.OK);
+	}
+
+
+	
+	@ApiOperation("전체 알림 보내기 (관리자)")
+	@PostMapping("/alarm-total")
+	public ResponseEntity<?> alarmSendTotal(AlarmReqDto requestBody ) throws Exception {		
+
+		int result = reportManagerService.sendAlarmTotal(requestBody);
+		
+		String msg = "알람을 정상적으로 전송하였습니다.";
+		
+		if(result == 0) {
+			msg = "유저의 알람 설정이 되어있지 않아 전송할 수 없습니다.";
+		}
+		
+		ResponseFrame<?> res = ResponseFrame.of(result == 1 ? true :false, msg);
+		
+		return new ResponseEntity<>(res, HttpStatus.OK);
+	}
+	
+	
 
 }
