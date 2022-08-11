@@ -128,18 +128,19 @@
                 android:id="@+id/tv_weather"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text= "20°C"
                 android:layout_marginEnd="24dp"
-                android:textSize="20sp"
-                android:textColor="@color/main_black"
                 android:fontFamily="@font/noto_sans_bold"
+                android:textColor="@color/main_black"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_two"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_nick_name" />
+                app:layout_constraintTop_toTopOf="@+id/tv_nick_name"
+                tools:text="20°C" />
 
             <ImageView
                 android:id="@+id/img_weather"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_weather"
                 app:layout_constraintEnd_toStartOf="@+id/tv_weather"
