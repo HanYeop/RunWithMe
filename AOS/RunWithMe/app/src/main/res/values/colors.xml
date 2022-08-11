@@ -25,6 +25,7 @@
     <color name="main_grey">#666666</color>
     <color name="sub_white">#EBEEF2</color>
     <color name="main_light_grey">#99E9ECEF</color>
+    <color name="main_medium_grey">#66D0D3D5</color>
 
     <color name="naver">#16C900</color>
     <color name="kakao">#FDDC3F</color>

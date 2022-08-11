@@ -146,7 +146,7 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
 
                     val dayRecord = dayRecord[day.date]
                     if (dayRecord != null) { // 러닝 기록이 있는 날은 색칠
-                        runView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.main_blue_green))
+                        runView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.main_medium_grey))
                         // 러닝 중에서 1번이라도 목표 달성했을 시 색변경
                         for(item in dayRecord){
                             if(item.runRecordRunningCompleteYN == "Y"){

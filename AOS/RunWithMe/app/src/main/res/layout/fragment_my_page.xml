@@ -78,6 +78,7 @@
                         android:id="@+id/layout_profile_top"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginVertical="8dp"
                         android:paddingBottom="12dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
