@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+
+    </data>
+
+    <androidx.wear.widget.BoxInsetLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.running.result.RunningResultActivity">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:text="0.3km"
+                android:layout_marginStart="42dp"
+                android:layout_marginBottom="56dp"
+                android:layout_gravity="center|start"/>
+
+            <TextView
+                android:id="@+id/tv_distance_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이동 거리"
+                android:textColor="@color/main_grey"
+                android:textSize="16sp"
+                android:layout_marginStart="36dp"
+                android:layout_marginBottom="32dp"
+                android:layout_gravity="center|start"/>
+
+
+
+
+            <TextView
+                android:id="@+id/tv_calorie"
+                android:text="14 kcal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:layout_marginStart="32dp"
+                android:layout_gravity="center|start"/>
+
+            <TextView
+                android:id="@+id/tv_calorie_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="칼로리"
+                android:textColor="@color/main_grey"
+                android:textSize="16sp"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="42dp"
+                android:layout_gravity="center|start"/>
+
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="07 : 27"
+                android:textSize="20sp"
+                android:layout_marginEnd="36dp"
+                android:layout_marginBottom="56dp"
+                android:layout_gravity="center|end"/>
+
+            <TextView
+                android:id="@+id/tv_time_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="소요 시간"
+                android:textColor="@color/main_grey"
+                android:textSize="16sp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="32dp"
+                android:layout_gravity="center|end"/>
+
+
+            <TextView
+                android:id="@+id/tv_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="8.3km/h"
+                android:textSize="20sp"
+                android:layout_marginEnd="24dp"
+                android:layout_gravity="center|end"/>
+
+            <TextView
+                android:id="@+id/tv_speed_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="평균 속도"
+                android:textColor="@color/main_grey"
+                android:textSize="16sp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="32dp"
+                android:layout_gravity="center|end"/>
+
+
+
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_gravity="center|bottom"
+                android:background="@drawable/btn_round_main_color"
+                android:layout_weight="1"
+                android:text="확인"
+                android:textColor="@color/white"
+                android:textSize="20sp"/>
+
+
+        </FrameLayout>
+
+
+
+
+
+
+
+    </androidx.wear.widget.BoxInsetLayout>
+</layout>

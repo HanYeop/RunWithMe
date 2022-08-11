@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.wear.widget.BoxInsetLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="4dp"
+                android:background="@drawable/dialog_top"
+                android:layout_gravity="center|top"/>
+
+
+            <androidx.wear.widget.WearableRecyclerView
+                android:id="@+id/recycler_running_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                app:layoutManager="androidx.wear.widget.WearableLinearLayoutManager"
+                tools:listitem="@layout/item_my_current_crew"/>
+
+        </FrameLayout>
+
+
+
+
+    </androidx.wear.widget.BoxInsetLayout>
+</layout>

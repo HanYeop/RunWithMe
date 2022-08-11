@@ -4,27 +4,42 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.util.Log
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.view.marginBottom
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.wearable.DataItem
+import com.google.android.gms.wearable.PutDataMapRequest
+import com.google.android.gms.wearable.Wearable
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.ssafy.runwithme.base.BaseActivity
 import com.ssafy.runwithme.databinding.ActivityMainBinding
 import com.ssafy.runwithme.service.RunningService
 import com.ssafy.runwithme.utils.ACTION_SHOW_TRACKING_ACTIVITY
+import com.ssafy.runwithme.utils.JWT
+import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.view.running.RunningActivity
 import com.ssafy.runwithme.view.running.list.RunningListActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var navController : NavController
 
@@ -40,6 +55,39 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         runningCheck()
 
         initClickListener()
+
+        lifecycleScope.launch {
+            postToken()
+        }
+    }
+
+    private suspend fun postToken(){
+        val dataClient = Wearable.getDataClient(this)
+
+        lifecycleScope.launch {
+            val refresh = "refresh"
+            val refreshReq = PutDataMapRequest.create("/auth").apply {
+                dataMap.putString(JWT, refresh)
+            }.asPutDataRequest().setUrgent()
+            val task = dataClient.putDataItem(refreshReq)
+            task.addOnCompleteListener {
+                Log.d("test5", "postToken: refresh : ${it.isSuccessful}")
+            }
+        }.join()
+
+        delay(1000L)
+
+        lifecycleScope.launch {
+            val token = sharedPreferences.getString(JWT, "")
+            val putDataReq = PutDataMapRequest.create("/auth").apply {
+                dataMap.putString(JWT, token)
+            }.asPutDataRequest().setUrgent()
+            val putDataTask : Task<DataItem> = dataClient.putDataItem(putDataReq)
+            putDataTask.addOnCompleteListener {
+                Log.d(TAG, "postToken: ${it.isSuccessful}")
+            }
+        }.join()
+
     }
 
     private fun initClickListener(){

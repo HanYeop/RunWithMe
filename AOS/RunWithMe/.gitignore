@@ -18,3 +18,5 @@ local.properties
 
 /app/google-services.json
 /app/src/main/res/raw/fullchain.pem
+/runwithme/google-services.json
+/runwithme/src/main/res/raw/fullchain.pem

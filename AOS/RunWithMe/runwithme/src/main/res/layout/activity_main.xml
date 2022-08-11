@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+        <androidx.wear.widget.SwipeDismissFrameLayout
+            android:id="@+id/layout_swipe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/layout_map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                tools:context=".view.running.list.RunningListActivity"
+                tools:visibility="visible">
+
+                <androidx.wear.widget.WearableRecyclerView
+                    android:id="@+id/recycler_running_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical"
+                    android:background="@color/main_blue"
+                    android:visibility="invisible"/>
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/map_view_running_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animation_start_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center|bottom"
+                    android:layout_marginBottom="30dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="start_button.json"
+                    app:lottie_loop="true" />
+
+
+            </FrameLayout>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/progress_bar_running_list"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="running.json"
+                app:lottie_loop="true" />
+
+        </androidx.wear.widget.SwipeDismissFrameLayout>
+</layout>
