@@ -10,4 +10,4 @@ RUN yarn global add serve
 
 COPY ./ ./
 
-CMD [ "serve", "-s", "build" ]
+CMD [ "npm", "run", "start" ]
