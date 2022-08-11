@@ -11,7 +11,7 @@ import org.springframework.util.StringUtils;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.DateTimePath;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.gumid101.crew.CrewGoalType;
@@ -22,7 +22,6 @@ import com.ssafy.gumid101.dto.RecruitmentParamsDto;
 import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.ImageFileEntity;
 import com.ssafy.gumid101.entity.QCrewEntity;
-import com.ssafy.gumid101.entity.QUserCrewJoinEntity;
 import com.ssafy.gumid101.res.CrewFileDto;
 
 import lombok.RequiredArgsConstructor;
@@ -68,10 +67,15 @@ public class CrewManagerCustomRepositoryImpl implements CrewManagerCustomReposit
 		}
 		
 		 //crewEntity.crewDateStart
-		JPAQuery<CrewEntity> test = jpaQueryFactory.selectFrom(crewEntity).innerJoin(crewEntity.managerEntity)
-				.where(builder)
-				.where(crewEntity.crewDateStart.after( LocalDateTime.now().minusDays(1)).and(crewEntity.crewTimeStart.after(LocalTime.now())))  
-				.where(crewEntity.crewSeq.lt(maxCrewSeq)).orderBy(order1, order2).limit(size);
+		JPAQuery<CrewEntity> test = jpaQueryFactory.selectFrom(crewEntity).innerJoin(crewEntity.managerEntity) //
+				.where(builder) //
+				.where(crewEntity.crewDateStart.after(LocalDateTime.now()) //
+						.or(crewEntity.crewDateStart.after(LocalDateTime.now().minusDays(1)) //
+								.and(crewEntity.crewTimeStart.after(LocalTime.now()))) //
+				) //  
+				.where(crewEntity.crewSeq.lt(maxCrewSeq)) //
+				.orderBy(order1, order2) //
+				.limit(size); //
 		List<CrewEntity> crews = test.fetch();
 		
 

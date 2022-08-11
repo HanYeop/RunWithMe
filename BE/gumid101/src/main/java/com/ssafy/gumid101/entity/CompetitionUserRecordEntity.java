@@ -20,7 +20,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name="t_competition_total_record")
+@Table(name="t_competition_user_record")
 @Builder
 @Entity
 @Getter
@@ -32,8 +32,8 @@ public class CompetitionUserRecordEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "competition_total_record_seq")
-	private Long competitionTotalRecordSeq;
+	@Column(name = "competition_user_record_seq")
+	private Long competitionUserRecordSeq;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_seq")

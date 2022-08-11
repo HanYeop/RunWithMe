@@ -119,33 +119,13 @@ public class CrewManagerRestController {
 	@PostMapping("/crew")
 	public ResponseEntity<?> createCrew(@RequestPart("crewDto") String crewDto,
 			@RequestPart(name = "imgFile", required = false) MultipartFile image) throws Exception {
-
 		log.debug(crewDto);
 		UserDto managerDto = loadUserFromToken();
 		redisServ.getIsUseable(managerDto.getUserSeq().toString() + "createCrew", 10);
-		HttpStatus httpStatus = HttpStatus.OK;
-		ResponseFrame<CrewFileDto> responseMap = new ResponseFrame<>();
-
 		CrewDto crewteCrewDto = objectMapper.readValue(crewDto, CrewDto.class);
 		crewteCrewDto.setCrewMemberCount(1);
-		CrewFileDto crewFileDto = null;
-		try {
-			crewFileDto = crewManagerService.createCrew(image, crewteCrewDto, managerDto);
-		} catch (Exception e) {
-			httpStatus = HttpStatus.OK;
-			responseMap.setCount(0);
-			responseMap.setData(new CrewFileDto(null, null));
-			responseMap.setSuccess(false);
-			responseMap.setMsg(e.getMessage());
-		}
-
-		if (crewFileDto != null) {
-			responseMap.setCount(1);
-			responseMap.setSuccess(true);
-			responseMap.setMsg("크루 생성에 성공했습니다.");
-		}
-		responseMap.setData(crewFileDto);
-		return new ResponseEntity<>(responseMap, httpStatus);
+		CrewFileDto crewFileDto = crewManagerService.createCrew(image, crewteCrewDto, managerDto);
+		return new ResponseEntity<>(new ResponseFrame<>(true, crewFileDto, 1, "크루 생성에 성공했습니다."), HttpStatus.OK);
 	}
 
 	/**

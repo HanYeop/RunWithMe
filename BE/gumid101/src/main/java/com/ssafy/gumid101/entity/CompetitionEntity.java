@@ -61,7 +61,7 @@ public class CompetitionEntity {
 	private String checkYn;
 	
 	@OneToMany(mappedBy = "competitionEntity")
-	private List<CompetitionUserRecordEntity> competitionTotalRecordEntitys;
+	private List<CompetitionUserRecordEntity> competitionUserRecordEntitys;
 	
 	@PrePersist
 	public void setting() {

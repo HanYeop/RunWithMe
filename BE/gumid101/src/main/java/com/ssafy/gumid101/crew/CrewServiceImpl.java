@@ -77,7 +77,12 @@ public class CrewServiceImpl implements CrewService {
 
 		CrewEntity crew = crewManagerRepo.findById(crewSeq)
 				.orElseThrow(() -> new CrewNotFoundException("크루 가입 중, 크루를 특정할 수 없습니다."));
-
+		
+		LocalDateTime crewStartDateAndTime = LocalDateTime.of(crew.getCrewDateStart().toLocalDate(), crew.getCrewTimeStart());
+		if (crewStartDateAndTime.isBefore(LocalDateTime.now())) {
+			throw new CrewPermissonDeniedException("이미 시작한 크루는 가입할 수 없습니다.");
+		}
+		
 		if (crewManagerServ.isUserCrewMember(userSeq, crewSeq)) {
 			throw new CrewPermissonDeniedException("이미 해당 크루원입니다.");
 		}
@@ -105,8 +110,6 @@ public class CrewServiceImpl implements CrewService {
 				throw new PasswrodNotMatchException("크루 패스워드 불일치");
 			}
 		}
-
-		// 이미 가입 뭐시기
 
 		UserCrewJoinEntity ucjEntity = UserCrewJoinEntity.builder().build();
 		ucjEntity.setCrewEntity(crew);
@@ -312,13 +315,13 @@ public class CrewServiceImpl implements CrewService {
 			return;
 		}
 		// 참여한 대회이면 기록 쌓기
-		CompetitionUserRecordEntity competitionTotalRecordEntity = competitionUserRecordRepo
+		CompetitionUserRecordEntity competitionUserRecordEntity = competitionUserRecordRepo
 				.findByUserEntityAndCompetitionEntity(userEntity, competitionEntity).get();
-		competitionTotalRecordEntity.setCompetitionDistance(
-				competitionTotalRecordEntity.getCompetitionDistance() + runRecordEntity.getRunRecordRunningDistance());
-		competitionTotalRecordEntity.setCompetitionTime(
-				competitionTotalRecordEntity.getCompetitionTime() + runRecordEntity.getRunRecordRunningTime());
-		competitionUserRecordRepo.save(competitionTotalRecordEntity);
+		competitionUserRecordEntity.setCompetitionDistance(
+				competitionUserRecordEntity.getCompetitionDistance() + runRecordEntity.getRunRecordRunningDistance());
+		competitionUserRecordEntity.setCompetitionTime(
+				competitionUserRecordEntity.getCompetitionTime() + runRecordEntity.getRunRecordRunningTime());
+		competitionUserRecordRepo.save(competitionUserRecordEntity);
 	}
 
 	@Transactional
