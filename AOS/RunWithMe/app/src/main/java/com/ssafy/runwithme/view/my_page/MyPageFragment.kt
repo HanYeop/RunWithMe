@@ -54,7 +54,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         myBoardFragment = MyBoardFragment()
         achievementFragment = AchievementFragment()
 
-        childFragmentManager.beginTransaction().replace(R.id.frame_layout_my_page, myTotalRunRecordFragment).commit()
+        replaceView(myTotalRunRecordFragment)
 
         binding.tabLayoutMyPage.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
