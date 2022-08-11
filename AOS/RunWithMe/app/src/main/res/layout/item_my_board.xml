@@ -33,17 +33,17 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
                     android:text="@{board.crewName}"
                     tools:text="감크루"
-                    android:fontFamily="@font/noto_sans_bold"
-                    android:textColor="@color/black_medium_emphasis"/>
+                    android:textColor="@color/main_sky"/>
 
                 <ImageView
                     android:id="@+id/image_delete_my_board"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_gravity="center"
                     android:gravity="right"
-                    android:layout_marginTop="8dp"
                     android:scaleType="fitXY"
                     app:tint="@color/black_low_emphasis"
                     android:src="@drawable/ic_baseline_delete_24"/>
@@ -53,12 +53,12 @@
             <TextView
                 android:id="@+id/tv_my_board_content"
                 style="@style/header_text"
+                android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:maxLines="6"
                 android:maxLength="120"
                 android:ellipsize="end"
                 tools:text="안녕하세요.\n반갑습니다.\n저는 감스트입니다."
-                android:layout_marginBottom="8dp"
                 android:text="@{board.crewBoardContent}" />
 
         </LinearLayout>
