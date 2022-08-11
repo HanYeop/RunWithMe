@@ -5,8 +5,7 @@ import { useDispatch } from "react-redux"; //상태변경, 로그인 된 상태�
 import jwtDecode from "jwt-decode"; //jwt token claim의 role을 알기 위함
 import { authActions } from "../../store/slice/auth";
 import { useNavigate } from "react-router-dom";
-const clientId =
-  "290884017218-7saprkt48uduqatqota19890ukscj04i.apps.googleusercontent.com";
+const clientId = process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID;
 //나중에 env로 ###
 const GoogleOAuth = () => {
   const dispatch = useDispatch();

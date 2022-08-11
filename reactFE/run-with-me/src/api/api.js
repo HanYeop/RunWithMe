@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "http://i7d101.p.ssafy.io/api",
+  baseURL: process.env.REACT_APP_API_PATH,
 });
 
 export default axiosClient;
