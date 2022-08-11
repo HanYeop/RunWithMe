@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="crewCreateVM"
+            type="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.crew_recruit.create.CreateCrewFragment">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/toolbar_margin"
+            android:layout_marginTop="@dimen/toolbar_margin"
+            android:layout_marginEnd="@dimen/toolbar_margin"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
+
+            <TextView
+                android:id="@+id/text"
+                style="@style/toolbar_text"
+                android:text="챌린지 크루 생성" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:src="@drawable/page5"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginBottom="32dp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:text="챌린지 크루의\n참가 인원, 참가비를 입력해주세요."
+            android:textColor="@color/black_high_emphasis"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_crew_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="72dp"
+            android:layout_marginBottom="72dp"
+            android:paddingBottom="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_header">
+
+
+                    <TextView
+                        android:id="@+id/tv_purpose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="목표 설정"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+
+                    <RadioGroup
+                        android:id="@+id/radio_group_purpose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_purpose"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/radio_btn_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:text="시간"
+                            android:buttonTint="@color/main_blue"
+                            android:textColor="@color/black_high_emphasis" />
+
+                        <RadioButton
+                            android:id="@+id/radio_btn_distance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:layout_marginStart="72dp"
+                            android:buttonTint="@color/main_blue"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:text="거리"
+                            android:textColor="@color/black_high_emphasis" />
+
+                    </RadioGroup>
+
+
+
+
+
+                    <TextView
+                        android:id="@+id/tv_purpose_k"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="목표"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/radio_group_purpose"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_create_goal_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/btn_round_white_grey_border"
+                        android:elevation="2dp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black_high_emphasis"
+                        app:distance="@{crewCreateVM.distance}"
+                        app:isDistance="@{crewCreateVM.goalTypeDistance}"
+                        app:time="@{crewCreateVM.time}"
+                        tools:text="5.0"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_purpose_k"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/tv_goal_type"/>
+
+
+                    <TextView
+                        android:id="@+id/tv_goal_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="km"
+                        android:textColor="@color/black_high_emphasis"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/btn_create_goal_amount"
+                        app:layout_constraintBottom_toBottomOf="@id/btn_create_goal_amount"/>
+
+
+
+
+
+                    <TextView
+                        android:id="@+id/tv_goal_days_head"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="주"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/btn_create_goal_amount"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_create_goal_days"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/btn_round_white_grey_border"
+                        android:elevation="2dp"
+                        android:layout_gravity="center"
+                        android:text="@{crewCreateVM.goalDays}"
+                        android:textColor="@color/black_high_emphasis"
+                        tools:text="3"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_goal_days_head"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/tv_goal_day_text"/>
+
+                    <TextView
+                        android:id="@+id/tv_goal_day_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:gravity="center"
+                        android:text="일"
+                        android:includeFontPadding="true"
+                        android:textColor="@color/black_high_emphasis"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/btn_create_goal_days"
+                        app:layout_constraintBottom_toBottomOf="@id/btn_create_goal_days"/>
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_create"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/btn_round_main_color"
+            android:fontFamily="@font/noto_sans_bold"
+            android:text="생성"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

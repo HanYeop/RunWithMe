@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="crewCreateVM"
+            type="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.crew_recruit.create.CreateCrewFragment">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/toolbar_margin"
+            android:layout_marginTop="@dimen/toolbar_margin"
+            android:layout_marginEnd="@dimen/toolbar_margin"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
+
+            <TextView
+                android:id="@+id/text"
+                style="@style/toolbar_text"
+                android:text="챌린지 크루 생성" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:src="@drawable/page2"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="챌린지 크루의 시작일과\n목표, 시작 시간을 입력해주세요."
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            android:layout_marginTop="48dp"
+            android:layout_marginBottom="32dp"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:textColor="@color/black_high_emphasis"
+            android:textSize="20sp"/>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_crew_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="72dp"
+            android:paddingBottom="32dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_create_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_header">
+
+
+            <TextView
+                android:id="@+id/tv_create_crew_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="시작일"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_create_start_duration"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_round_white_grey_border"
+                android:elevation="2dp"
+                android:text="@{crewCreateVM.dateStart}"
+                app:layout_constraintTop_toBottomOf="@id/tv_create_crew_start"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/img_btn_create_start_calendar"
+                tools:text="2022.07.25" />
+
+            <ImageButton
+                android:id="@+id/img_btn_create_start_calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="#00000000"
+                android:src="@drawable/ic_baseline_calendar_month_24"
+                app:layout_constraintBottom_toBottomOf="@id/btn_create_start_duration"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btn_create_start_duration" />
+
+
+            <TextView
+                android:id="@+id/tv_create_crew_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="종료일"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_create_start_duration" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_create_end_duration"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:alpha="0.8"
+                android:background="@drawable/btn_round_white_grey_border"
+                android:clickable="false"
+                android:elevation="2dp"
+                android:text="@{crewCreateVM.dateEnd}"
+                android:textColor="@color/black_low_emphasis"
+                app:layout_constraintTop_toBottomOf="@id/tv_create_crew_end"
+                app:layout_constraintEnd_toStartOf="@id/img_btn_create_start_calendar"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="2022.09.01" />
+
+
+            <TextView
+                android:id="@+id/tv_create_crew_goal_days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="목표"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_create_end_duration" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_create_crew_goal_weeks"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/btn_round_white_grey_border"
+                android:elevation="2dp"
+                android:text="@{Integer.toString(crewCreateVM.goalWeeks)}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_create_crew_goal_days_text"
+                app:layout_constraintTop_toBottomOf="@id/tv_create_crew_goal_days"
+                tools:text="4" />
+
+            <TextView
+                android:id="@+id/tv_create_crew_goal_days_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="주"
+                app:layout_constraintBottom_toBottomOf="@id/btn_create_crew_goal_weeks"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btn_create_crew_goal_weeks" />
+
+
+            <TextView
+                android:id="@+id/tv_crew_create_running_start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="러닝 시작 시간"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_create_crew_goal_weeks" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_crew_create_running_start_time"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/btn_round_white_grey_border"
+                android:elevation="2dp"
+                android:text="@{crewCreateVM.timeStart}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/text_view2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_crew_create_running_start_time"
+                tools:text="19:00" />
+
+            <TextView
+                android:id="@+id/text_view2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans_bold"
+                android:text="~"
+                android:textColor="@color/black_high_emphasis"
+                android:textSize="18sp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintBottom_toBottomOf="@id/btn_crew_create_running_start_time"
+                app:layout_constraintEnd_toStartOf="@id/btn_crew_create_running_end_time"
+                app:layout_constraintStart_toEndOf="@id/btn_crew_create_running_start_time"
+                app:layout_constraintTop_toTopOf="@id/btn_crew_create_running_start_time" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_crew_create_running_end_time"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/btn_round_white_grey_border"
+                android:elevation="2dp"
+                android:text="@{crewCreateVM.timeEnd}"
+                app:layout_constraintStart_toEndOf="@id/text_view2"
+                app:layout_constraintBottom_toBottomOf="@id/btn_crew_create_running_start_time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btn_crew_create_running_start_time"
+                tools:text="20:00" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_create_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/btn_round_main_color"
+            android:fontFamily="@font/noto_sans_bold"
+            android:text="다음"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

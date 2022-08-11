@@ -79,8 +79,14 @@ class CreateCrewViewModel @Inject constructor(
     private var passwd : String = ""
     var isSettingPasswd: Boolean = false
 
+    private var imgFile: MultipartBody.Part? = null
 
-    fun createCrew(imgFile : MultipartBody.Part?) {
+    fun setImgFile(imgFile: MultipartBody.Part?){
+        this.imgFile = imgFile
+    }
+
+
+    fun createCrew() {
         var goalType = ""
         var goalAmount = 0
         if(goalTypeDistance.value){
@@ -311,5 +317,36 @@ class CreateCrewViewModel @Inject constructor(
             endDateDay = "0" + endDateDay
         }
         _dateEnd.value = "$endDateYear-$endDateMonth-$endDateDay"
+    }
+
+    fun refresh(){
+        crewName.value = ""
+
+        crewDescription.value = "안녕하세요. 런윗미 크루입니다.\n함께 같이 달려보아요"
+
+        _goalWeeks.value = 1
+
+        _dateStart.value = ""
+
+        _dateEnd.value = ""
+
+        _timeStart.value = "20:00"
+
+        _timeEnd.value = "21:00"
+
+        _maxMemeber.value = "7"
+
+        _cost.value = "10000"
+
+        _time.value = "30"
+
+        _distance.value = "3"
+
+        _goalTypeDistance.value = true
+
+        _goalDays.value = "3"
+
+        passwd = ""
+        isSettingPasswd = false
     }
 }

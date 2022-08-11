@@ -34,7 +34,7 @@ class CrewRecruitFragment : BaseFragment<FragmentCrewRecruitBinding>(R.layout.fr
     private fun initClickListener() {
         binding.apply {
             fabCreateCrew.setOnClickListener {
-                findNavController().navigate(R.id.action_CrewRecruitFragment_to_createCrewFragment)
+                findNavController().navigate(R.id.action_CrewRecruitFragment_to_createCrewFragment1)
             }
 
             imgBtnSearch.setOnClickListener {

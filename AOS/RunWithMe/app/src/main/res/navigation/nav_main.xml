@@ -35,11 +35,11 @@
             android:id="@+id/action_CrewRecruitFragment_to_crewDetailFragment"
             app:destination="@id/crewDetailFragment" />
         <action
-            android:id="@+id/action_CrewRecruitFragment_to_createCrewFragment"
-            app:destination="@id/createCrewFragment" />
-        <action
             android:id="@+id/action_CrewRecruitFragment_to_searchCrewFragment"
             app:destination="@id/searchCrewFragment" />
+        <action
+            android:id="@+id/action_CrewRecruitFragment_to_createCrewFragment1"
+            app:destination="@id/createCrewFragment1" />
     </fragment>
     <fragment
         android:id="@+id/RecommendFragment"
@@ -178,11 +178,6 @@
             android:name="crewid"
             app:argType="integer" />
     </fragment>
-    <fragment
-        android:id="@+id/createCrewFragment"
-        android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment"
-        android:label="CreateCrewFragment"
-        tools:layout="@layout/fragment_create_crew"/>
     <fragment
         android:id="@+id/searchCrewFragment"
         android:name="com.ssafy.runwithme.view.crew_recruit.search.SearchCrewFragment"
@@ -330,5 +325,46 @@
         <action
             android:id="@+id/action_myRecommendScrapFragment_to_recommendDetailFragment"
             app:destination="@id/recommendDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCrewFragment1"
+        android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment1"
+        android:label="CreateCrewFragment1" >
+        <action
+            android:id="@+id/action_createCrewFragment1_to_createCrewFragment2"
+            app:destination="@id/createCrewFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCrewFragment2"
+        android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment2"
+        android:label="CreateCrewFragment2" >
+        <action
+            android:id="@+id/action_createCrewFragment2_to_createCrewFragment3"
+            app:destination="@id/createCrewFragment3" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCrewFragment3"
+        android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment3"
+        android:label="CreateCrewFragment3" >
+        <action
+            android:id="@+id/action_createCrewFragment3_to_createCrewFragment4"
+            app:destination="@id/createCrewFragment4" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCrewFragment4"
+        android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment4"
+        android:label="CreateCrewFragment4" >
+        <action
+            android:id="@+id/action_createCrewFragment4_to_createCrewFragment5"
+            app:destination="@id/createCrewFragment5" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCrewFragment5"
+        android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment5"
+        android:label="CreateCrewFragment5" >
+        <action
+            android:id="@+id/action_createCrewFragment5_to_CrewRecruitFragment"
+            app:popUpTo="@id/HomeFragment"
+            app:destination="@id/CrewRecruitFragment" />
     </fragment>
 </navigation>
