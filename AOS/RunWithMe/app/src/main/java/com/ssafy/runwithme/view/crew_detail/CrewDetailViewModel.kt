@@ -1,12 +1,10 @@
 package com.ssafy.runwithme.view.crew_detail
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.runwithme.base.BaseResponse
-import com.ssafy.runwithme.model.dto.*
+import com.ssafy.runwithme.model.dto.PasswordDto
 import com.ssafy.runwithme.model.response.CrewMyTotalRecordDataResponse
 import com.ssafy.runwithme.model.response.MyGraphDataResponse
 import com.ssafy.runwithme.repository.CrewActivityRepository
@@ -22,9 +20,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
 import java.util.*
 import javax.inject.Inject
 
