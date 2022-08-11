@@ -200,10 +200,9 @@
                                 app:layout_constraintTop_toBottomOf="@+id/tv_time_headers"
                                 tools:text="15 : 55" />
                             <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:src="@drawable/times"
-                                app:tint="@color/main_grey"
+                                android:layout_width="45dp"
+                                android:layout_height="45dp"
+                                android:src="@drawable/timer_96"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent" />
 
