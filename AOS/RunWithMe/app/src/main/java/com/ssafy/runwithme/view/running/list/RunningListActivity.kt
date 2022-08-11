@@ -145,12 +145,14 @@ GoogleMap.OnMarkerClickListener{
         lifecycleScope.launch { 
             runningViewModel.weatherResponse.collectLatest { 
                 if(it is Result.Success){
-                    for(i in it.data.response.body.items.item){
-                        if(i.category == "TMP"){
-                            binding.tvWeather.text = "${i.fcstValue}°C"
-                        }
-                        if(i.category == "POP"){
-                            binding.fcstValue = i.fcstValue.toInt()
+                    if(it.data.response.body != null) {
+                        for (i in it.data.response.body.items.item) {
+                            if (i.category == "TMP") {
+                                binding.tvWeather.text = "${i.fcstValue}°C"
+                            }
+                            if (i.category == "POP") {
+                                binding.fcstValue = i.fcstValue.toInt()
+                            }
                         }
                     }
                 }
@@ -292,10 +294,10 @@ GoogleMap.OnMarkerClickListener{
 
                         val curPoint = Common().dfs_xy_conv(location.latitude, location.longitude)
 
-
+                        Log.d(TAG, "onLocationResult: $baseTime $baseDate")
                         Log.d(TAG, "onLocationResult: $curPoint")
                         runningViewModel.getWeather("JSON",14,1,
-                            baseDate,baseTime,curPoint.x,curPoint.y)
+                            baseDate,"1500",curPoint.x,curPoint.y)
 
                         first = false
                     }
