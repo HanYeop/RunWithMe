@@ -31,6 +31,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @SuppressLint("MissingPermission")
@@ -143,7 +145,14 @@ GoogleMap.OnMarkerClickListener{
         lifecycleScope.launch { 
             runningViewModel.weatherResponse.collectLatest { 
                 if(it is Result.Success){
-                    Log.d(TAG, "initViewModelCallBack: $it")
+                    for(i in it.data.response.body.items.item){
+                        if(i.category == "TMP"){
+                            binding.tvWeather.text = "${i.fcstValue}°C"
+                        }
+                        if(i.category == "POP"){
+                            binding.fcstValue = i.fcstValue.toInt()
+                        }
+                    }
                 }
             }
         }
@@ -269,8 +278,24 @@ GoogleMap.OnMarkerClickListener{
 
                         moveCamera(currentPosition)
 
+                        val cal = Calendar.getInstance()
+                        var baseDate = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(cal.time) // 현재 날짜
+                        val timeH = SimpleDateFormat("HH", Locale.getDefault()).format(cal.time) // 현재 시각
+                        val timeM = SimpleDateFormat("HH", Locale.getDefault()).format(cal.time) // 현재 분
+                        // API 가져오기 적당하게 변환
+                        val baseTime = Common().getBaseTime(timeH, timeM)
+                        // 현재 시각이 00시이고 45분 이하여서 baseTime이 2330이면 어제 정보 받아오기
+                        if (timeH == "00" && baseTime == "2330") {
+                            cal.add(Calendar.DATE, -1).toString()
+                            baseDate = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(cal.time)
+                        }
+
+                        val curPoint = Common().dfs_xy_conv(location.latitude, location.longitude)
+
+
+                        Log.d(TAG, "onLocationResult: $curPoint")
                         runningViewModel.getWeather("JSON",14,1,
-                            20220810,2300,"63","89")
+                            baseDate,baseTime,curPoint.x,curPoint.y)
 
                         first = false
                     }

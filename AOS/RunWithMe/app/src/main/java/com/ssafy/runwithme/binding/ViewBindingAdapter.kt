@@ -15,6 +15,7 @@ import com.ssafy.runwithme.model.dto.CrewBoardDto
 import com.ssafy.runwithme.model.dto.Weather
 import com.ssafy.runwithme.utils.BASE_URL
 import com.ssafy.runwithme.utils.Result
+import com.ssafy.runwithme.utils.TAG
 import java.lang.Math.round
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -535,11 +536,21 @@ object ViewBindingAdapter {
         this.progress = progress
     }
 
-    @BindingAdapter("weather")
+    @BindingAdapter("weatherImage")
     @JvmStatic
-    fun TextView.setWeather (result: Result<*>){
-        if(result is Result.Success){
-            this.text = "${result.data}"
+    fun ImageView.setWeatherImage (fcstValue: Int){
+        if(fcstValue >= 60){
+            Glide.with(this.context)
+                .load(R.drawable.rain)
+                .override(24 * 2,24 * 2)
+                .placeholder(R.drawable.img)
+                .into(this)
+        }else{
+            Glide.with(this.context)
+                .load(R.drawable.sun)
+                .override(24 * 2,24 * 2)
+                .placeholder(R.drawable.img)
+                .into(this)
         }
     }
 }

@@ -15,7 +15,7 @@ class WeatherRepository @Inject constructor(
     private val weatherRemoteDataSource: WeatherRemoteDataSource
 ) {
     fun getWeather(dataType : String, numOfRows : Int, pageNo : Int,
-                   baseDate : Int, baseTime : Int, nx : String, ny : String
+                   baseDate : String, baseTime : String, nx : Int, ny : Int
     ): Flow<Result<Weather>> = flow {
         emit(Result.Loading)
         weatherRemoteDataSource.getWeather(dataType, numOfRows, pageNo, baseDate, baseTime, nx, ny).collect {

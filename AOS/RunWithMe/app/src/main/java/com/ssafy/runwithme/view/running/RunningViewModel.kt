@@ -126,7 +126,6 @@ class RunningViewModel @Inject constructor(
                     if(it.data.data) {
                         _runAbleEvent.postValue("러닝 가능")
                     }
-                    // TODO : TEST (빼야함)
                     else{
                         _errorMsgEvent.postValue(it.data.msg)
                     }
@@ -242,7 +241,7 @@ class RunningViewModel @Inject constructor(
     }
 
     fun getWeather(dataType : String, numOfRows : Int, pageNo : Int,
-                   baseDate : Int, baseTime : Int, nx : String, ny : String){
+                   baseDate : String, baseTime : String, nx : Int, ny : Int){
         viewModelScope.launch(Dispatchers.IO) {
             weatherRepository.getWeather(dataType, numOfRows, pageNo, baseDate, baseTime, nx, ny).collectLatest {
                 Log.d("test5", "getWeather: $it")

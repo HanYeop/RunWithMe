@@ -12,7 +12,7 @@ class WeatherRemoteDataSource @Inject constructor(
     private val weatherApi: WeatherApi
 ) {
    fun getWeather(dataType : String, numOfRows : Int, pageNo : Int,
-        baseDate : Int, baseTime : Int, nx : String, ny : String
+        baseDate : String, baseTime : String, nx : Int, ny : Int
     ): Flow<Weather> = flow {
         emit(weatherApi.getWeather(dataType, numOfRows, pageNo, baseDate, baseTime, nx, ny))
    }
