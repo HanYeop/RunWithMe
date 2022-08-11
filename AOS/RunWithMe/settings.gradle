@@ -16,4 +16,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "RunWithMe"
-include ':app'
+include ':app', ':runwithme'

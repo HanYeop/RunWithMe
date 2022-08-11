@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.wear.widget.BoxInsetLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.running.RunningActivity">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/progress_bar_goal"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginEnd="36dp"
+                android:max="100"
+                android:progress="0"
+                android:progressTint="@color/main_blue"
+                android:scaleY="3"
+                android:layout_gravity="center|top"/>
+
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageButton
+                android:id="@+id/img_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_gravity="bottom|center"
+                android:background="#00000000"
+                app:srcCompat="@drawable/play_60" />
+
+            <ImageButton
+                android:id="@+id/img_stop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginBottom="16dp"
+                android:background="#00000000"
+                android:layout_gravity="center|bottom"
+                app:srcCompat="@drawable/stop_60" />
+
+            <ImageButton
+                android:id="@+id/img_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="#00000000"
+                android:layout_gravity="bottom|center"
+                app:srcCompat="@drawable/pause_60" />
+
+        </FrameLayout>
+
+
+    </androidx.wear.widget.BoxInsetLayout>
+</layout>
