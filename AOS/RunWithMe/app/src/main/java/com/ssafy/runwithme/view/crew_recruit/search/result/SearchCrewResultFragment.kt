@@ -130,7 +130,7 @@ class SearchCrewResultFragment : BaseFragment<FragmentSearchCrewResultBinding>(R
 
     private val listener : CrewRecruitListener = object : CrewRecruitListener {
         override fun onItemClick(recruitCrewResponse: RecruitCrewResponse) {
-            val action = SearchCrewResultFragmentDirections.actionSearchCrewResultFragmentToCrewDetailFragment(recruitCrewResponse.crewDto, recruitCrewResponse.imageFileDto)
+            val action = SearchCrewResultFragmentDirections.actionSearchCrewResultFragmentToCrewRecruitDetailFragment(recruitCrewResponse.crewDto, recruitCrewResponse.imageFileDto)
             findNavController().navigate(action)
         }
     }

@@ -57,7 +57,7 @@ class CrewRecruitFragment : BaseFragment<FragmentCrewRecruitBinding>(R.layout.fr
 
     private val listener : CrewRecruitListener = object : CrewRecruitListener {
         override fun onItemClick(recruitCrewResponse: RecruitCrewResponse) {
-            val action = CrewRecruitFragmentDirections.actionCrewRecruitFragmentToCrewDetailFragment(recruitCrewResponse.crewDto, recruitCrewResponse.imageFileDto)
+            val action = CrewRecruitFragmentDirections.actionCrewRecruitFragmentToCrewRecruitDetailFragment(recruitCrewResponse.crewDto, recruitCrewResponse.imageFileDto)
             findNavController().navigate(action)
         }
     }

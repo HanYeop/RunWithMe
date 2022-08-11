@@ -23,8 +23,8 @@
             android:id="@+id/action_HomeFragment_to_RecommendFragment"
             app:destination="@id/RecommendFragment" />
         <action
-            android:id="@+id/action_HomeFragment_to_crewDetailFragment"
-            app:destination="@id/crewDetailFragment" />
+            android:id="@+id/action_HomeFragment_to_crewRecruitDetailFragment"
+            app:destination="@id/crewRecruitDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/CrewRecruitFragment"
@@ -32,14 +32,14 @@
         android:label="CrewRecruitFragment"
         tools:layout="@layout/fragment_crew_recruit">
         <action
-            android:id="@+id/action_CrewRecruitFragment_to_crewDetailFragment"
-            app:destination="@id/crewDetailFragment" />
-        <action
             android:id="@+id/action_CrewRecruitFragment_to_searchCrewFragment"
             app:destination="@id/searchCrewFragment" />
         <action
             android:id="@+id/action_CrewRecruitFragment_to_createCrewFragment1"
             app:destination="@id/createCrewFragment1" />
+        <action
+            android:id="@+id/action_CrewRecruitFragment_to_crewRecruitDetailFragment"
+            app:destination="@id/crewRecruitDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/RecommendFragment"
@@ -192,9 +192,6 @@
         android:name="com.ssafy.runwithme.view.crew_recruit.search.result.SearchCrewResultFragment"
         android:label="SearchCrewResultFragment"
         tools:layout="@layout/fragment_search_crew_result">
-        <action
-            android:id="@+id/action_searchCrewResultFragment_to_crewDetailFragment"
-            app:destination="@id/crewDetailFragment" />
         <argument
             android:name="crewname"
             app:argType="string" />
@@ -231,6 +228,9 @@
         <argument
             android:name="goaltype"
             app:argType="string" />
+        <action
+            android:id="@+id/action_searchCrewResultFragment_to_crewRecruitDetailFragment"
+            app:destination="@id/crewRecruitDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/runRecordDetailFragment"
@@ -366,5 +366,17 @@
             android:id="@+id/action_createCrewFragment5_to_CrewRecruitFragment"
             app:popUpTo="@id/HomeFragment"
             app:destination="@id/CrewRecruitFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/crewRecruitDetailFragment"
+        android:name="com.ssafy.runwithme.view.crew_recruit.detail.CrewRecruitDetailFragment"
+        android:label="CrewRecruitDetailFragment"
+        tools:layout="@layout/fragment_crew_recruit_detail">
+        <argument
+            android:name="crewDto"
+            app:argType="com.ssafy.runwithme.model.dto.CrewDto" />
+        <argument
+            android:name="imagefiledto"
+            app:argType="com.ssafy.runwithme.model.dto.ImageFileDto" />
     </fragment>
 </navigation>

@@ -48,7 +48,7 @@ class TabCrewFragment : BaseFragment<FragmentTabCrewBinding>(R.layout.fragment_t
 
     private val listener : CrewRecruitListener = object : CrewRecruitListener {
         override fun onItemClick(recruitCrewResponse: RecruitCrewResponse) {
-            val action = HomeFragmentDirections.actionHomeFragmentToCrewDetailFragment(recruitCrewResponse.crewDto, recruitCrewResponse.imageFileDto)
+            val action = HomeFragmentDirections.actionHomeFragmentToCrewRecruitDetailFragment(recruitCrewResponse.crewDto, recruitCrewResponse.imageFileDto)
             findNavController().navigate(action)
         }
     }
