@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentRunningResultBinding
@@ -94,6 +95,16 @@ class RunningResultFragment : BaseFragment<FragmentRunningResultBinding>(R.layou
         lifecycleScope.launch {
             runningViewModel.runRecordSeq.collectLatest {
                 runRecordSeq = it
+            }
+        }
+
+        lifecycleScope.launch {
+            runningViewModel.goalComplete.collectLatest {
+                if (it == "Y") {
+                    Glide.with(requireActivity()).load(R.drawable.success_stamp).into(binding.imgComplete)
+                }else{
+                    Glide.with(requireActivity()).load(R.drawable.fail_stamp).into(binding.imgComplete)
+                }
             }
         }
 

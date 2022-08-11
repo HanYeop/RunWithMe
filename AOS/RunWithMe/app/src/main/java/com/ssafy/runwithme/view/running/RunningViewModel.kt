@@ -67,6 +67,9 @@ class RunningViewModel @Inject constructor(
     private val _nickName = MutableStateFlow("")
     val nickname get() = _nickName.asStateFlow()
 
+    private val _goalComplete = MutableStateFlow("Y")
+    val goalComplete get() = _goalComplete.asStateFlow()
+
     private val _scrapList : MutableStateFlow<List<ScrapInfoDto>>
             = MutableStateFlow(listOf())
     val scrapList get() = _scrapList.asStateFlow()
@@ -84,6 +87,7 @@ class RunningViewModel @Inject constructor(
 
                 if(it is Result.Success){
                     _runRecordSeq.value = it.data.data.runRecordDto.runRecordSeq
+                    _goalComplete.value = it.data.data.runRecordDto.runRecordRunningCompleteYN
                     _coordinateSuccess.postValue("경로 전송 요청")
                     // 업적 달성 여부
                     if(it.data.data.achievements.isNotEmpty()){
