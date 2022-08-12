@@ -27,14 +27,14 @@
             android:paddingBottom="16dp">
             <TextView
                 android:id="@+id/tv_ranking_num"
-                android:layout_width="50dp"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@{String.valueOf(crewRank.rankingIndex)}"
                 android:layout_marginStart="8dp"
                 android:fontFamily="@font/noto_sans_bold"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 tools:text="1"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/noto_sans_bold"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@id/image_user_profile"
                 app:layout_constraintTop_toTopOf="@id/image_user_profile"
                 app:layout_constraintBottom_toBottomOf="@id/image_user_profile"
@@ -78,6 +78,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
                 app:layout_constraintEnd_toStartOf="@id/tv_user_total_type"
                 tools:text="144.8"
+                android:textSize="13sp"
                 unit="@{crewUserRankingVM.goalType}"
                 rankingValue="@{crewRank.rankingValue}" />
 
@@ -88,6 +89,7 @@
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/noto_sans_bold"
                 android:textColor="@color/main_grey"
+                android:textSize="13sp"
                 app:layout_constraintTop_toTopOf="@id/tv_user_name"
                 app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
                 app:layout_constraintEnd_toEndOf="parent"

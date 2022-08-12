@@ -104,7 +104,7 @@
 
             <TextView
                 android:id="@+id/tv_crew_ranking_num"
-                android:layout_width="50dp"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:text="@{String.valueOf(crewUserRankingVM.myRanking.rankingIndex)}"
                 tools:text="1"
@@ -113,7 +113,7 @@
                 android:fontFamily="@font/noto_sans_bold"
                 android:includeFontPadding="false"
                 android:textColor="@color/black_high_emphasis"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
@@ -138,7 +138,7 @@
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/noto_sans_bold"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@id/image_crew_ranking_profile"
                 app:layout_constraintTop_toTopOf="@id/image_crew_ranking_profile"
                 app:layout_constraintBottom_toBottomOf="@id/image_crew_ranking_profile"
@@ -152,6 +152,7 @@
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/noto_sans_bold"
                 android:textColor="@color/main_grey"
+                android:textSize="13sp"
                 app:layout_constraintTop_toTopOf="@id/tv_crew_ranking_name"
                 app:layout_constraintBottom_toBottomOf="@id/tv_crew_ranking_name"
                 app:layout_constraintEnd_toStartOf="@id/tv_crew_ranking_total_type"
@@ -166,6 +167,7 @@
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/noto_sans_bold"
                 android:textColor="@color/main_grey"
+                android:textSize="13sp"
                 app:layout_constraintTop_toTopOf="@id/tv_crew_ranking_total_amount"
                 app:layout_constraintBottom_toBottomOf="@id/tv_crew_ranking_total_amount"
                 app:layout_constraintEnd_toEndOf="parent"

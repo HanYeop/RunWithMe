@@ -104,7 +104,7 @@
 
                 <TextView
                     android:id="@+id/tv_my_ranking_num"
-                    android:layout_width="50dp"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:text="@{String.valueOf(homeVM.myRanking.rankingIndex)}"
                     tools:text="1"
@@ -113,7 +113,7 @@
                     android:fontFamily="@font/noto_sans_bold"
                     android:includeFontPadding="false"
                     android:textColor="@color/black_high_emphasis"
-                    android:textSize="24sp"
+                    android:textSize="20sp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
@@ -138,7 +138,7 @@
                     android:layout_marginStart="16dp"
                     android:fontFamily="@font/noto_sans_bold"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@id/image_my_ranking_profile"
                     app:layout_constraintTop_toTopOf="@id/image_my_ranking_profile"
                     app:layout_constraintBottom_toBottomOf="@id/image_my_ranking_profile"
@@ -156,6 +156,7 @@
                     app:layout_constraintBottom_toBottomOf="@id/tv_my_ranking_name"
                     app:layout_constraintEnd_toStartOf="@id/tv_my_ranking_total_type"
                     tools:text = "144.8"
+                    android:textSize="13sp"
                     unit="@{homeVM.unit}"
                     rankingValue="@{homeVM.myRanking.rankingValue}" />
 
@@ -164,6 +165,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
+                    android:textSize="13sp"
                     android:fontFamily="@font/noto_sans_bold"
                     android:textColor="@color/main_grey"
                     app:layout_constraintTop_toTopOf="@id/tv_my_ranking_name"

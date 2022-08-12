@@ -4,13 +4,14 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
+import com.ssafy.runwithme.base.BaseFragmentKeep
 import com.ssafy.runwithme.databinding.FragmentHomeBinding
 import com.ssafy.runwithme.view.home.tab.crew.TabCrewFragment
 import com.ssafy.runwithme.view.home.tab.home.TabHomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+class HomeFragment : BaseFragmentKeep<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private lateinit var tabHomeFragment : TabHomeFragment
     private lateinit var tabCrewFragment : TabCrewFragment
