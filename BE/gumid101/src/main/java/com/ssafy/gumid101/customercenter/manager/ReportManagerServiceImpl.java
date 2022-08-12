@@ -186,14 +186,24 @@ public class ReportManagerServiceImpl implements ReportManagerService {
 			if (reporter != null) {
 				builder.reporterNickName(reporter.getNickName()).reporterUserSeq(reporter.getUserSeq());
 				result.put("reporter", UserDto.of(reporter));
-				result.put("reportImgSeq", reporter.getImageFile().getImgSeq());
+				result.put("reportImgSeq",null);
+				if(reporter.getImageFile() != null) {
+					result.put("reportImgSeq", reporter.getImageFile().getImgSeq());
+				}
+				
 			}
 
 			result.put("target", null);
 			if (target != null) {
 				builder.targetNickName(target.getNickName()).targetUserSeq(target.getUserSeq());
 				result.put("target", UserDto.of(target));
-				result.put("targetImgSeq", target.getImageFile().getImgSeq());
+				
+				result.put("targetImgSeq",null);
+				if( target.getImageFile()!=null) {
+					result.put("targetImgSeq", target.getImageFile().getImgSeq());
+				}
+			
+				
 			}
 
 			ReportResDto reportDto = builder.build();

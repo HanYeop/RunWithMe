@@ -38,6 +38,7 @@ const ReportDetail = () => {
         },
       })
       .then(({ data }) => {
+        console.log(data);
         /* 
         const
          {
@@ -107,8 +108,8 @@ const ReportDetail = () => {
           <div className={styles.role}>신고자</div>
           <div className={styles.user_desc}>
             <UserCard
-              user={reportDetail.reporter}
-              imgSeq={reportDetail.reportImgSeq}
+              user={reportDetail?.reporter}
+              imgSeq={reportDetail?.reportImgSeq}
             />
           </div>
         </div>

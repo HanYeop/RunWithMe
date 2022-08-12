@@ -11,7 +11,7 @@ const BoardComponent = (props) => {
           <div>크루 : {board.crewName}</div>
           {imageFileDto != null && imageFileDto.imgSeq != 0 && (
             <Image
-              src={`http://localhost:8080/api/images/${imageFileDto.imgSeq}`}
+              src={`http://i7d101.p.ssafy.io/api/images/${imageFileDto.imgSeq}`}
             />
           )}
           <div>내용 : {board.crewBoardContent}</div>
