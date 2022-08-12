@@ -25,6 +25,7 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.gumid101.competition.CompetitionResultStatus;
 import com.ssafy.gumid101.dto.CrewTotalRecordDto;
 import com.ssafy.gumid101.dto.RankingParamsDto;
 import com.ssafy.gumid101.dto.RecordParamsDto;
@@ -145,27 +146,30 @@ public class CrewActivityRunDslRepositoryImpl implements CrewActivityRunDslRepos
 	@Override
 	public List<RankingDto> selectAllCrewRanking(RankingParamsDto paramDto) {
 
-		QCrewTotalRecordEntity runToalRecord = new QCrewTotalRecordEntity("runTotalRecord"); // 유저-크루 누적기록
+		QCrewTotalRecordEntity runTotalRecord = new QCrewTotalRecordEntity("runTotalRecord"); // 유저-크루 누적기록
 		Long crewSeq = paramDto.getCrewSeq();
 		String type = paramDto.getType();
 
-		NumberPath<Integer> targetField = runToalRecord.totalDistance;
+		NumberPath<Integer> targetField = runTotalRecord.totalDistance;
 		if ("distance".equals(type)) {
 
 		} else if ("time".equals(type)) {
-			targetField = runToalRecord.totalTime;
+			targetField = runTotalRecord.totalTime;
 		} else if ("success".equals(type)) {
 			return selectAllCrewSuccessRanking(paramDto);
 		} else {
 			log.warn("지원안하는 정렬타입 invoke in : ", CrewActivityRunDslRepositoryImpl.class.getName());
 		}
 
-		List<RankingDto> rankigs = factory.from(runToalRecord)
-				.select(Projections.fields(RankingDto.class, runToalRecord.userEntity.userSeq.as("userSeq"),
-						runToalRecord.userEntity.nickName.as("userName"), targetField.as("rankingValue"),
-						runToalRecord.userEntity.imageFile.imgSeq.as("imgSeq")))
-				.where(runToalRecord.crewEntity.crewSeq.eq(crewSeq))
-				.orderBy(targetField.desc(), runToalRecord.userEntity.userSeq.asc()).fetch();
+		List<RankingDto> rankigs = factory.from(runTotalRecord)
+				.select(Projections.fields(RankingDto.class, //
+						runTotalRecord.userEntity.userSeq.as("userSeq"), //
+						runTotalRecord.userEntity.nickName.as("userName"), //
+						runTotalRecord.userEntity.competitionResult.as("competitionResult"), //
+						targetField.as("rankingValue"), //
+						runTotalRecord.userEntity.imageFile.imgSeq.as("imgSeq")))
+				.where(runTotalRecord.crewEntity.crewSeq.eq(crewSeq))
+				.orderBy(targetField.desc(), runTotalRecord.userEntity.userSeq.asc()).fetch();
 
 		for (int i = 0; i < rankigs.size(); i++) {
 			rankigs.get(i).setRankingIndex(i + 1);
@@ -177,11 +181,11 @@ public class CrewActivityRunDslRepositoryImpl implements CrewActivityRunDslRepos
 	private List<RankingDto> selectAllCrewSuccessRanking(RankingParamsDto paramDto) {
 		
 		Long crewSeq = paramDto.getCrewSeq();
-		String sql  = "with sub1 as  (select tu.user_seq as user_seq ,tu.img_seq as imgSeq,tu.user_nickname as user_nickname from t_crew_user as tcu "+ 
+		String sql  = "with sub1 as  (select tu.user_seq as user_seq ,tu.img_seq as imgSeq,tu.user_nickname as user_nickname, tu.competition_result as competition_result from t_crew_user as tcu "+ 
 				"inner join t_user as tu "+
 				"on tu.user_seq = tcu.user_seq "+
 				"where tcu.crew_seq = ? ) "+
-				"select row_number() over (order by count(trr.run_record_seq) desc,user_seq asc) as rankingIndex,imgSeq, sub1.user_seq,sub1.user_nickname,count(trr.run_record_seq) as rankingValue from sub1  "+
+				"select row_number() over (order by count(trr.run_record_seq) desc,user_seq asc) as rankingIndex,imgSeq, sub1.user_seq,sub1.user_nickname,count(trr.run_record_seq) as rankingValue, sub1.competition_result as competitionResult from sub1  "+
 				"left outer join t_run_record trr "+
 				"on trr.user_seq = sub1.user_seq and trr.crew_seq = ? and trr.run_record_complete_yn = 'Y' "+
 				"group by sub1.user_seq "+
@@ -192,17 +196,11 @@ public class CrewActivityRunDslRepositoryImpl implements CrewActivityRunDslRepos
 				new RowMapper<RankingDto>() {
 					@Override
 					public RankingDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-						
-						
-					
-						
-						
-						
-						
 						RankingDto dto = new RankingDto();
 						dto.setImgSeq(	rs.getLong("imgSeq"));
 						dto.setRankingIndex((int)rs.getLong("rankingIndex"));
 						dto.setRankingValue((int)rs.getLong("rankingValue"));
+						dto.setCompetitionResult(CompetitionResultStatus.valueOf(rs.getString("competitionResult")));
 						dto.setUserName(rs.getString("user_nickname"));
 						dto.setUserSeq(rs.getLong("user_seq"));
 						return dto;

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Pattern;
 
+import com.ssafy.gumid101.competition.CompetitionResultStatus;
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.user.Role;
 
@@ -59,6 +60,8 @@ public class UserDto implements Serializable {
 	private String userState;
 
 	private Role role;
+	
+	private CompetitionResultStatus competitionResult;
 
 	public static UserDto of(UserEntity user) {
 		
@@ -79,6 +82,7 @@ public class UserDto implements Serializable {
 				.fcmToken(user.getFcmToken()) //
 				.userState(user.getUserState()) //
 				.role(user.getRole()) //
+				.competitionResult(user.getCompetitionResult() == null ? CompetitionResultStatus.NONRANKED : user.getCompetitionResult()) //
 				.build(); //
 	}
 	
