@@ -99,7 +99,7 @@
                                 style="@style/header_text"
                                 android:text="@{crewMyRunRecordVM.distance + `km`}"
                                 android:textColor="@color/black_high_emphasis"
-                                android:textSize="22sp"
+                                android:textSize="20sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_distance_headers"
                                 tools:text="16.5km" />
@@ -144,7 +144,7 @@
                                 style="@style/header_text"
                                 android:text="@{crewMyRunRecordVM.speed + `km/h`}"
                                 android:textColor="@color/black_high_emphasis"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_speed_headers"
                                 tools:text="5.3km/h" />
@@ -189,7 +189,7 @@
                                 style="@style/header_text"
                                 android:text="@{crewMyRunRecordVM.calorie + `kcal`}"
                                 android:textColor="@color/black_high_emphasis"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_kcal_headers"
                                 tools:text="1600kcal" />
@@ -234,15 +234,14 @@
                                 style="@style/header_text"
                                 android:text="@{crewMyRunRecordVM.timeHour + ` : ` + crewMyRunRecordVM.timeMin}"
                                 android:textColor="@color/black_high_emphasis"
-                                android:textSize="22sp"
+                                android:textSize="20sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_time_headers"
                                 tools:text="15 : 55" />
                             <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:src="@drawable/times"
-                                app:tint="@color/main_grey"
+                                android:layout_width="45dp"
+                                android:layout_height="45dp"
+                                android:src="@drawable/timer_96"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent" />
 
