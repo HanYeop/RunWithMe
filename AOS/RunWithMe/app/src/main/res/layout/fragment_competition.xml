@@ -105,6 +105,184 @@
                     app:layout_constraintTop_toTopOf="@id/tv_duration"
                     tools:text="2022-07-22 ~ 2022-08-30" />
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_ranking"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="32dp"
+                    android:backgroundTint="@color/white"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_crew_duration">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:id="@+id/image_first"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/crown_one_32"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/image_first_user_profile"
+                            app:layout_constraintStart_toStartOf="@id/image_first_user_profile"
+                            app:layout_constraintEnd_toEndOf="@id/image_first_user_profile"/>
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/image_first_user_profile"
+                            android:layout_width="@dimen/ranking_profile_image_size"
+                            android:layout_height="@dimen/ranking_profile_image_size"
+                            android:layout_gravity="center"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintTop_toBottomOf="@id/image_first"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_first_user_name"
+                            app:layout_constraintEnd_toStartOf="@id/image_second_user_profile"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:src="@drawable/user_image" />
+                        <TextView
+                            android:id="@+id/tv_first_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            tools:text="도널드트럼프"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:textColor="@color/main_sky"
+                            app:layout_constraintEnd_toEndOf="@id/image_first_user_profile"
+                            app:layout_constraintStart_toStartOf="@id/image_first_user_profile"
+                            app:layout_constraintTop_toBottomOf="@id/image_first_user_profile"/>
+                        <TextView
+                            android:id="@+id/tv_first_user_record"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="108.57km"
+                            android:fontFamily="@font/noto_sans_bold"
+                            app:layout_constraintEnd_toEndOf="@id/tv_first_user_name"
+                            app:layout_constraintStart_toStartOf="@id/tv_first_user_name"
+                            app:layout_constraintTop_toBottomOf="@id/tv_first_user_name"/>
+
+                        <ImageView
+                            android:id="@+id/image_second"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/crown_two_32"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/image_second_user_profile"
+                            app:layout_constraintStart_toStartOf="@id/image_second_user_profile"
+                            app:layout_constraintEnd_toEndOf="@id/image_second_user_profile"/>
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/image_second_user_profile"
+                            android:layout_width="@dimen/ranking_profile_image_size"
+                            android:layout_height="@dimen/ranking_profile_image_size"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="16dp"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintTop_toBottomOf="@id/image_second"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_second_user_name"
+                            app:layout_constraintStart_toEndOf="@id/image_first_user_profile"
+                            app:layout_constraintEnd_toStartOf="@id/image_third_user_profile"
+                            tools:src="@drawable/user_image" />
+                        <TextView
+                            android:id="@+id/tv_second_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            tools:text="스윙스"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:textColor="@color/main_sky"
+                            app:layout_constraintEnd_toEndOf="@id/image_second_user_profile"
+                            app:layout_constraintStart_toStartOf="@id/image_second_user_profile"
+                            app:layout_constraintTop_toBottomOf="@id/image_second_user_profile"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="78.57km"
+                            android:fontFamily="@font/noto_sans_bold"
+                            app:layout_constraintEnd_toEndOf="@id/tv_second_user_name"
+                            app:layout_constraintStart_toStartOf="@id/tv_second_user_name"
+                            app:layout_constraintTop_toBottomOf="@id/tv_second_user_name"/>
+
+                        <ImageView
+                            android:id="@+id/image_third"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/crown_three_32"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/image_third_user_profile"
+                            app:layout_constraintStart_toStartOf="@id/image_third_user_profile"
+                            app:layout_constraintEnd_toEndOf="@id/image_third_user_profile"/>
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/image_third_user_profile"
+                            android:layout_width="@dimen/ranking_profile_image_size"
+                            android:layout_height="@dimen/ranking_profile_image_size"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="16dp"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintTop_toBottomOf="@id/image_third"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_third_user_name"
+                            app:layout_constraintStart_toEndOf="@id/image_second_user_profile"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:src="@drawable/user_image" />
+                        <TextView
+                            android:id="@+id/tv_third_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            tools:text="우사인볼트"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:textColor="@color/main_sky"
+                            app:layout_constraintEnd_toEndOf="@id/image_third_user_profile"
+                            app:layout_constraintStart_toStartOf="@id/image_third_user_profile"
+                            app:layout_constraintTop_toBottomOf="@id/image_third_user_profile"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="18.57km"
+                            android:fontFamily="@font/noto_sans_bold"
+                            app:layout_constraintEnd_toEndOf="@id/tv_third_user_name"
+                            app:layout_constraintStart_toStartOf="@id/tv_third_user_name"
+                            app:layout_constraintTop_toBottomOf="@id/tv_third_user_name"/>
+
+                        <View
+                            android:id="@+id/view_ranking"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="16dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_first_user_record"
+                            android:background="@color/main_light_grey"/>
+
+                        <TextView
+                            android:id="@+id/tv_season_ranking"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text="시즌 랭킹"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginStart="8dp"
+                            android:textSize="14sp"
+                            android:textColor="@color/main_black"
+                            android:fontFamily="@font/noto_sans_bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/view_ranking"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                        <ImageView
+                            android:id="@+id/btn_show_season_ranking"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                            app:tint="@color/main_black"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tv_season_ranking"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_season_ranking" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
                 <View
                     android:id="@+id/view"
                     android:layout_width="0dp"
@@ -112,7 +290,7 @@
                     android:layout_marginTop="32dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_crew_duration"
+                    app:layout_constraintTop_toBottomOf="@id/card_ranking"
                     android:background="@color/main_light_grey"/>
 
                 <TextView
@@ -130,7 +308,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginHorizontal="16dp"
-                    android:text="확실한 동기부여를 위해 고안된 러닝 크루입니다.\n일정 기간 동안 정해진 시간에 1주 기준 목표를 설정하고 하루에 1번 크루원들과 각자 러닝하고 기록을 공유합니다.\n\n챌린지를 시작하기 전에 포인트를 걸고 내가 실천한 만큼 돌려받으며 더 많은 러닝 크루에 참여할 수 있습니다.\n크루원들과 같은 목표를 위해 달리고 더 많은 포인트를 얻어 성공적으로 러닝 습관을 만들어보세요 !"
+                    android:text="크루 무관 일정 기간동안 개인 러닝기록을 다른 유저들과 겨루고 보상하기 위해 진행되는 시즌제 챌린지입니다.\n\n시즌이 진행되는 기간 동안 모든 러닝 기록의 누적 거리를 합산하여 랭킹을 산정하고 상위 10% 유저에게 순위에 따라 차등적으로 보상을 지급합니다.\n"
                     android:textColor="@color/main_grey"
                     android:textSize="16sp"
                     android:autoSizeTextType="uniform"
