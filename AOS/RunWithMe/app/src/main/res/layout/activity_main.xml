@@ -48,7 +48,7 @@
             android:layout_gravity="bottom"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            app:fabCradleMargin="5dp"
+            app:fabCradleMargin="4dp"
             app:fabCradleRoundedCornerRadius="10dp">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -67,10 +67,11 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:clickable="true"
             app:maxImageSize="50dp"
+            app:fabCustomSize="60dp"
             app:tint="@color/white"
             android:backgroundTint="@color/main_blue"
             app:backgroundTint="@color/main_blue"

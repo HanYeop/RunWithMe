@@ -101,7 +101,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/noto_sans_bold"
                             android:textColor="@color/black"
-                            android:textSize="40sp"
+                            android:textSize="36sp"
                             android:text="0.13km"/>
                         <TextView
                             android:id="@+id/tv_distance_header"
@@ -123,7 +123,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/noto_sans_bold"
                             android:textColor="@color/black"
-                            android:textSize="40sp"
+                            android:textSize="36sp"
                             android:text="15 : 30"/>
                         <TextView
                             android:id="@+id/tv_time_header"
