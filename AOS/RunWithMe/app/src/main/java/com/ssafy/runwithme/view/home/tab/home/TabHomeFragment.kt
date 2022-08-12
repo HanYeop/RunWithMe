@@ -27,6 +27,9 @@ class TabHomeFragment : BaseFragment<FragmentTabHomeBinding>(R.layout.fragment_t
             cardShowRecommend.setOnClickListener {
                 findNavController().navigate(R.id.action_HomeFragment_to_RecommendFragment)
             }
+            cardShowCompetition.setOnClickListener {
+                findNavController().navigate(R.id.action_HomeFragment_to_competitionFragment)
+            }
         }
     }
 

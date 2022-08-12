@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_HomeFragment_to_crewRecruitDetailFragment"
             app:destination="@id/crewRecruitDetailFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_competitionFragment"
+            app:destination="@id/competitionFragment" />
     </fragment>
     <fragment
         android:id="@+id/CrewRecruitFragment"
@@ -378,5 +381,11 @@
         <argument
             android:name="imagefiledto"
             app:argType="com.ssafy.runwithme.model.dto.ImageFileDto" />
+    </fragment>
+    <fragment
+        android:id="@+id/competitionFragment"
+        android:name="com.ssafy.runwithme.view.competition.CompetitionFragment"
+        android:label="CompetitionFragment"
+        tools:layout="@layout/fragment_competition">
     </fragment>
 </navigation>
