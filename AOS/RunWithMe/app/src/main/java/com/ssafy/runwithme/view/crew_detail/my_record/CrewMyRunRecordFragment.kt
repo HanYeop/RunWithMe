@@ -109,9 +109,6 @@ class CrewMyRunRecordFragment : BaseFragment<FragmentCrewMyRunRecordBinding>(R.l
         }
     }
 
-    // 캘린더에 러닝 기록이 있는 날 색칠하기
-    // private fun changeMonth(){}
-
     // 캘린더 처음부터 그리기
     private fun initCalendar(){
         val daysOfWeek = daysOfWeekFromLocale()
@@ -155,7 +152,7 @@ class CrewMyRunRecordFragment : BaseFragment<FragmentCrewMyRunRecordBinding>(R.l
 
                     val dayRecord = dayRecord[day.date]
                     if (dayRecord != null) { // 러닝 기록이 있는 날은 색칠
-                        runView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.main_blue_green))
+                        runView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.main_medium_grey))
                         // 러닝 중에서 1번이라도 목표 달성했을 시 색변경
                         for(item in dayRecord){
                             if(item.runRecordRunningCompleteYN == "Y"){

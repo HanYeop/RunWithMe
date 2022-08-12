@@ -101,9 +101,6 @@ class MyTotalRunRecordFragment : BaseFragment<FragmentMyTotalRunRecordBinding>(R
         }
     }
 
-    // 캘린더에 러닝 기록이 있는 날 색칠하기
-    // private fun changeMonth(){}
-
     // 캘린더 처음부터 그리기
     private fun initCalendar(){
         val daysOfWeek = daysOfWeekFromLocale()
