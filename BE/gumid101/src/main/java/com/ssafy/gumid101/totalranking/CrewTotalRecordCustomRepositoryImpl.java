@@ -103,7 +103,10 @@ public class CrewTotalRecordCustomRepositoryImpl implements CrewTotalRecordCusto
 			myRanking.setRankingValue(((BigDecimal) resultMap.get("targetField")).intValue());
 			myRanking.setUserName((String) resultMap.get("user_nickname"));
 			myRanking.setUserSeq((Long) resultMap.get("user_seq"));
-			myRanking.setCompetitionResult(CompetitionResultStatus.valueOf((String) resultMap.get("competitionResult")));
+			myRanking.setCompetitionResult(
+					resultMap.get("competitionResult") != null ? 
+							CompetitionResultStatus.valueOf((String) resultMap.get("competitionResult")) : 
+								CompetitionResultStatus.NONRANKED);
 			myRanking.setImgSeq((Long) resultMap.get("img_seq"));
 			if(myRanking.getImgSeq() == null) {
 				myRanking.setImgSeq(0L);
@@ -133,8 +136,9 @@ public class CrewTotalRecordCustomRepositoryImpl implements CrewTotalRecordCusto
 		myRanking.setRankingIndex(((BigInteger) resultMap.get("ranking")).intValue());
 		myRanking.setRankingValue((Integer) resultMap.get("user_point"));
 		myRanking.setUserName((String) resultMap.get("user_nickname"));
-		// 이거 쿼리문 이해 못해서 어느 유저.competition_result 해야하는지 모르겠음
-		//myRanking.setCompetitionResult(CompetitionResultStatus.valueOf((String) resultMap.get("competitionResult")));
+		myRanking.setCompetitionResult(resultMap.get("competition_result") != null ? 
+				CompetitionResultStatus.valueOf((String) resultMap.get("competition_result")) : 
+					CompetitionResultStatus.NONRANKED);
 		myRanking.setUserSeq((Long) resultMap.get("user_seq"));
 		myRanking.setImgSeq((Long) resultMap.get("img_seq"));
 		return myRanking;
