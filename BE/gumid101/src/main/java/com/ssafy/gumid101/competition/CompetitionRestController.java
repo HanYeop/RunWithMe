@@ -97,6 +97,13 @@ public class CompetitionRestController {
 		return new ResponseEntity<>(new ResponseFrame<>(true, joinable, joinable ? 1 : 0, "해당 유저는 해당 대회에 참여" + (joinable ? "" : "불") + "가능합니다."), HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "대회 참여자 수 조회")
+	@GetMapping(value = "/{competitionSeq}/participant")
+	public ResponseEntity<?> countParticipantCompetition(@PathVariable Long competitionSeq) throws Exception{
+		Long count = compServ.countParticipantCompetition(competitionSeq);
+		return new ResponseEntity<>(new ResponseFrame<>(true, count, count.intValue(), "해당 대회의 참가자 수는 " + count + "명 입니다."), HttpStatus.OK);
+	}
+	
 	@ApiOperation(value = "대회 참가")
 	@PostMapping(value = "/{competitionSeq}/join")
 	public ResponseEntity<?> checkCompetitionJoinable(@PathVariable Long competitionSeq) throws Exception{
