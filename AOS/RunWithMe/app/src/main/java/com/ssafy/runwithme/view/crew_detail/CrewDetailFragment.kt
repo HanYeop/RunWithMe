@@ -49,7 +49,6 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
 
         binding.apply {
             crewDetailVM = crewDetailViewModel
-
         }
 
         initClickListener()
