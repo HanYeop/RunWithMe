@@ -4,7 +4,7 @@ import apiClient from "../api/api";
 import { alarmSliceActions } from "../store/slice/alarm";
 import Form from "react-bootstrap/Form";
 import styles from "./AlarmPage.module.css";
-
+import Button from "react-bootstrap/Button";
 const AlarmPage = (props) => {
   const params = useParams();
   const auth = useSelector((state) => state.auth);
@@ -12,12 +12,6 @@ const AlarmPage = (props) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  if (params.userSeq == "null") {
-    console.log(params.userSeq);
-    alert("더이상 유저가 존재하지 않습니다.");
-    navigate(-1);
-  }
 
   const alarmSendHandler = (e) => {
     console.log("알람보내기");
@@ -63,14 +57,18 @@ const AlarmPage = (props) => {
           <Form.Control as="textarea" rows={3} onChange={textChageHandler} />
         </Form.Group>
       </Form>
-      <button onClick={alarmSendHandler}>전송</button>
-      <button
+      <Button variant="outline-primary" onClick={alarmSendHandler}>
+        전송
+      </Button>
+      &nbsp;
+      <Button
+        variant="outline-secondary"
         onClick={() => {
           navigate(-1);
         }}
       >
         돌아가기
-      </button>
+      </Button>
     </div>
   );
 };
