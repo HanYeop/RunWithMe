@@ -13,6 +13,7 @@ import "react-pro-sidebar/dist/css/styles.css";
 import styles from "./SideBar.module.css";
 import Molu from "../../assets/molu.jpg";
 import { Link } from "react-router-dom";
+import runWithMeBG from "../../assets/runwithme.png";
 
 const SideBar = (props) => {
   const [toggled, setToggled] = useState(false);
@@ -23,7 +24,7 @@ const SideBar = (props) => {
 
   return (
     <ProSidebar
-      image={true ? "leftArrow" : false}
+      image={runWithMeBG}
       breakPoint="md"
       onToggle={handleToggleSidebar}
     >
@@ -37,12 +38,12 @@ const SideBar = (props) => {
         <Menu iconShape="square">
           <MenuItem>
             <Link to="/">
-              <h2>HOME</h2>
+              <h2>Alarm</h2>
             </Link>
           </MenuItem>
           <MenuItem>
             <Link to="/report">
-              <h2>신고글</h2>
+              <h2>Report</h2>
             </Link>
           </MenuItem>
           <SubMenu title="Components">
@@ -53,7 +54,7 @@ const SideBar = (props) => {
       </SidebarContent>
 
       <SidebarFooter>
-        <div className={styles.footer}>qwe</div>
+        <div className={styles.footer}>start_so@naver.com</div>
       </SidebarFooter>
     </ProSidebar>
   );

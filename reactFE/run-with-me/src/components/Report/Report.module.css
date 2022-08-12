@@ -51,7 +51,7 @@
   opacity: 60%;
 }
 
-@media screen and (max-width: 1580px) {
+@media screen and (max-width: 1300px) {
   .card-left-image {
     text-align: center;
     font-size: 50px;
@@ -67,5 +67,9 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+  }
+  .report-main {
+    display: flex;
+    flex-direction: column;
   }
 }

@@ -78,12 +78,18 @@ const ReportDetail = () => {
   };
 
   const alarmSendTarget = (e) => {
-    navigate(`/alarm/${reportDetail.report.targetUserSeq}`);
+    if (reportDetail.report.targetUserSeq != null) {
+      navigate(`/alarm/${reportDetail.report.targetUserSeq}`);
+    } else {
+    }
   };
 
   const alarmSendReporter = (e) => {
     // apiClient.post
-    navigate(`/alarm/${reportDetail.report.reportSeq}`);
+    if (reportDetail.report.reporterUserSeq != null) {
+      navigate(`/alarm/${reportDetail.report.reporterUserSeq}`);
+    } else {
+    }
   };
 
   const deleteCrewBoardHandler = (e) => {
@@ -125,7 +131,7 @@ const ReportDetail = () => {
 
         <div className={styles.reported_board}>
           <BoardComponent board={reportDetail.board} />
-          <ReportDescComponent report={reportDetail.report} />
+          <div></div> <ReportDescComponent report={reportDetail.report} />
         </div>
         <div className={styles.contorller_box}>
           <ControlComponet
