@@ -86,7 +86,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
                     android:text="챌린지 기간"
-                    android:textColor="@color/main_grey"
+                    android:textColor="@color/main_black"
+                    android:fontFamily="@font/noto_sans_bold"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/image_crew" />
@@ -315,6 +316,32 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_challenge_crew_description"/>
 
+                <ImageView
+                    android:id="@+id/image_badge_first"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/crown_one_32"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_point_header"
+                    app:layout_constraintEnd_toStartOf="@id/image_badge_second" />
+                <ImageView
+                    android:id="@+id/image_badge_second"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/crown_two_32"
+                    app:layout_constraintStart_toEndOf="@id/image_badge_first"
+                    app:layout_constraintTop_toTopOf="@id/image_badge_first"
+                    app:layout_constraintEnd_toStartOf="@id/image_badge_third" />
+                <ImageView
+                    android:id="@+id/image_badge_third"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/crown_three_32"
+                    app:layout_constraintStart_toEndOf="@id/image_badge_second"
+                    app:layout_constraintTop_toTopOf="@id/image_badge_second"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
                 <TextView
                     android:id="@+id/tv_point_description"
                     android:layout_width="match_parent"
@@ -326,7 +353,7 @@
                     android:textSize="16sp"
                     android:autoSizeTextType="uniform"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_point_header"
+                    app:layout_constraintTop_toBottomOf="@id/image_badge_first"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
                 <TextView

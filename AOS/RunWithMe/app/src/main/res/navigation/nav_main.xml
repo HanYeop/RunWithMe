@@ -387,5 +387,14 @@
         android:name="com.ssafy.runwithme.view.competition.CompetitionFragment"
         android:label="CompetitionFragment"
         tools:layout="@layout/fragment_competition">
+        <action
+            android:id="@+id/action_competitionFragment_to_competitionRankingFragment"
+            app:destination="@id/competitionRankingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/competitionRankingFragment"
+        android:name="com.ssafy.runwithme.view.competition.CompetitionRankingFragment"
+        android:label="CompetitionRankingFragment"
+        tools:layout="@layout/fragment_competition_ranking">
     </fragment>
 </navigation>
