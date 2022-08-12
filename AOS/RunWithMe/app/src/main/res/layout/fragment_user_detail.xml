@@ -106,6 +106,15 @@
                         app:layout_constraintTop_toTopOf="@+id/tv_user_point"
                         tools:text="15000P" />
 
+                    <ImageView
+                        android:id="@+id/img_rank"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        tools:src="@drawable/bronze_cup"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
