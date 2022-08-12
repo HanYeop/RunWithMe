@@ -24,6 +24,7 @@ import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.ssafy.gumid101.competition.CompetitionResultStatus;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.user.Role;
 
@@ -106,6 +107,10 @@ public class UserEntity {
 	@JoinColumn(name = "img_seq")
 	@OneToOne(fetch = FetchType.LAZY)
 	private ImageFileEntity imageFile;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "competition_result")
+	private CompetitionResultStatus competitionResult;
 
 	@OneToMany(mappedBy = "userEntity")
 	private List<AchievementCompleteEntity> achievementCompleteEntitys;

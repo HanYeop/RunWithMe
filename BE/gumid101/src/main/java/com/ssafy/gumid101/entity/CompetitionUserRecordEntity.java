@@ -35,7 +35,8 @@ public class CompetitionUserRecordEntity {
 	@Column(name = "competition_user_record_seq")
 	private Long competitionUserRecordSeq;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+//	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "user_seq")
 	private UserEntity userEntity;
 	

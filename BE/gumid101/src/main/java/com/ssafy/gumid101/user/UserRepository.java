@@ -28,6 +28,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>, UserCus
 	@Modifying
 	@Query(value="UPDATE UserEntity u SET u.point =u.point + :point where u.userSeq = :userSeq ")
 	int updatePointAsBulk(Long userSeq, int point);
+	
+	@Modifying(flushAutomatically = true, clearAutomatically = true)
+	@Query(value="UPDATE UserEntity u SET u.competitionResult = null ")
+	int initCompetitionResultAsBulk();
 
 	@Query(value="SELECT u FROM UserEntity u WHERE u.fcmToken IS NOT NULL")
 	List<UserEntity> findByALLFcmTokenNotNULL();
