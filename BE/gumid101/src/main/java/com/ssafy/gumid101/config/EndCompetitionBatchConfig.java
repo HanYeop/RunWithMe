@@ -102,29 +102,29 @@ public class EndCompetitionBatchConfig {
 				if (idx < recordList.size()) {
 					UserEntity first = recordList.get(idx).getUserEntity();
 					// 1등 보상
-					first.setPoint(first.getPoint() + recordList.get(idx).getCompetitionDistance() / 10);
+					first.setPoint(first.getPoint() + recordList.get(idx).getCompetitionDistance() * 2);
 					first.setCompetitionResult(CompetitionResultStatus.FIRST);
 					idx++;
 				}
 				if (idx < recordList.size()) {
 					UserEntity second = recordList.get(idx).getUserEntity();
 					// 2등 보상
-					second.setPoint(second.getPoint() + recordList.get(idx).getCompetitionDistance() / 20);
+					second.setPoint(second.getPoint() + recordList.get(idx).getCompetitionDistance());
 					second.setCompetitionResult(CompetitionResultStatus.SECOND);
 					idx++;
 				}
 				if (idx < recordList.size()) {
 					UserEntity third = recordList.get(idx).getUserEntity();
 					// 3등 보상
-					third.setPoint(third.getPoint() + recordList.get(idx).getCompetitionDistance() / 30);
+					third.setPoint(third.getPoint() + recordList.get(idx).getCompetitionDistance() / 2);
 					third.setCompetitionResult(CompetitionResultStatus.THIRD);
 					idx++;
 				}
-				while (idx < recordList.size() && idx < recordList.size() * 10 / 100) {
+				while (idx < recordList.size()) {
 					UserEntity tenPercent = recordList.get(idx).getUserEntity();
 					// 순위권 제외 10% 안쪽 보상
-					tenPercent.setPoint(tenPercent.getPoint() + recordList.get(idx).getCompetitionDistance() / 50);
-					tenPercent.setCompetitionResult(CompetitionResultStatus.UP10PERCENT);
+					tenPercent.setPoint(tenPercent.getPoint() + recordList.get(idx).getCompetitionDistance() / 5);
+//					tenPercent.setCompetitionResult(CompetitionResultStatus.UP10PERCENT);
 					idx++;		
 				}
 				competitionEntity.setCheckYn("Y");
