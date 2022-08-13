@@ -149,7 +149,7 @@ class CrewDetailViewModel @Inject constructor(
                 if (it is Result.Success) {
                     _myGraphData.value = it
                 } else if (it is Result.Fail) {
-                    _errorMsgEvent.postValue(it.data.msg)
+//                    _errorMsgEvent.postValue(it.data.msg)
                 } else if (it is Result.Error) {
                     Log.d(TAG, "getMyGraphData: ")
                     _errorMsgEvent.postValue("서버 에러 입니다.")
