@@ -109,5 +109,5 @@ fun rotateImage(bitmap: Bitmap, degree: Int): Bitmap? {
     return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 }
 
-const val MAX_WIDTH = 1440
-const val MAX_HEIGHT = 1050
+const val MAX_WIDTH = 1440 / 2
+const val MAX_HEIGHT = 1050 / 2

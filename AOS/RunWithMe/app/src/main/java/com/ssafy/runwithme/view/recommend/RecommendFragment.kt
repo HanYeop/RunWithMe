@@ -70,8 +70,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
         p0.mapType = 1
         p0.isMyLocationEnabled = true
 
-        map.setMinZoomPreference(15.5f)
-//        map.setMaxZoomPreference(15.5f)
+        map.setMinZoomPreference(14.5f)
 
         updateLocation()
 
@@ -129,6 +128,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
                 if(::map.isInitialized){
                     map.clear()
                 }
+
                 trackBoardList = it
                 recommendDraw(trackBoardList)
                 binding.tvTitleNum.text = it.size.toString()
@@ -255,6 +255,9 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
 
     // 범위 내 검색
     private fun visibleSearch(){
+        if(binding.cardInfo.visibility == View.VISIBLE){
+            binding.cardInfo.visibility = View.GONE
+        }
         visibleRegion = map.projection.visibleRegion
         recommendViewModel.getRecommends(
             visibleRegion.farLeft.longitude,
