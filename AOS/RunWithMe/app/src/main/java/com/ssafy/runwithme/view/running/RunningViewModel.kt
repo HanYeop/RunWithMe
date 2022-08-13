@@ -15,9 +15,7 @@ import com.ssafy.runwithme.utils.USER_NAME
 import com.ssafy.runwithme.utils.USER_WEIGHT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -63,6 +61,22 @@ class RunningViewModel @Inject constructor(
     private val _localRunList: MutableStateFlow<List<RunRecordEntity>>
             = MutableStateFlow(listOf())
     val localRunList get() = _localRunList.asStateFlow()
+
+    private val _localTotalTimeInMillis: MutableStateFlow<Int>
+            = MutableStateFlow(0)
+    val localTotalTimeInMillis get() = _localTotalTimeInMillis.asStateFlow()
+
+    private val _localTotalDistance: MutableStateFlow<Int>
+            = MutableStateFlow(0)
+    val localTotalDistance get() = _localTotalDistance.asStateFlow()
+
+    private val _localTotalAvgSpeed: MutableStateFlow<Double>
+            = MutableStateFlow(0.0)
+    val localTotalAvgSpeed get() = _localTotalAvgSpeed.asStateFlow()
+
+    private val _localTotalCaloriesBurned: MutableStateFlow<Int>
+            = MutableStateFlow(0)
+    val localTotalCaloriesBurned get() = _localTotalCaloriesBurned.asStateFlow()
 
     private val _nickName = MutableStateFlow("")
     val nickname get() = _nickName.asStateFlow()
@@ -218,6 +232,54 @@ class RunningViewModel @Inject constructor(
             runRepository.getAllRunsSortedByDate().collectLatest {
                 if(it is Result.Success){
                     _localRunList.value = it.data
+                }
+            }
+        }
+    }
+
+    fun deleteRun(run: RunRecordEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            runRepository.deleteRun(run)
+        }
+    }
+
+    fun getTotalTimeInMillis() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runRepository.getTotalTimeInMillis().collectLatest {
+                if(it is Result.Success){
+                    _localTotalTimeInMillis.value = it.data
+                }
+            }
+        }
+    }
+
+    fun getTotalDistance() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runRepository.getTotalDistance().collectLatest {
+                if(it is Result.Success){
+                    _localTotalDistance.value = it.data
+                }
+            }
+        }
+    }
+
+
+    fun getTotalAvgSpeed() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runRepository.getTotalAvgSpeed().collectLatest {
+                if(it is Result.Success){
+                    _localTotalAvgSpeed.value = it.data
+                }
+            }
+        }
+    }
+
+
+    fun getTotalCaloriesBurned() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runRepository.getTotalCaloriesBurned().collectLatest {
+                if(it is Result.Success){
+                    _localTotalCaloriesBurned.value = it.data
                 }
             }
         }

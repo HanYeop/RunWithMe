@@ -4,6 +4,7 @@ import com.ssafy.runwithme.datasource.local.RunLocalDataSource
 import com.ssafy.runwithme.model.entity.RunRecordEntity
 import com.ssafy.runwithme.utils.Result
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -23,5 +24,45 @@ class RunRepository @Inject constructor(
                 emit(Result.Success(it))
             }
         }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
+
+    fun deleteRun(run: RunRecordEntity) = runLocalDataSource.deleteRun(run)
+
+    fun getTotalTimeInMillis(): Flow<Result<Int>> = flow {
+        emit(Result.Loading)
+        runLocalDataSource.getTotalTimeInMillis().collect {
+            emit(Result.Success(it))
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
+
+    fun getTotalDistance(): Flow<Result<Int>> = flow {
+        emit(Result.Loading)
+        runLocalDataSource.getTotalDistance().collect {
+            emit(Result.Success(it))
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
+
+    fun getTotalAvgSpeed(): Flow<Result<Double>> = flow {
+        emit(Result.Loading)
+        runLocalDataSource.getTotalAvgSpeed().collect {
+            emit(Result.Success(it))
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
+    }
+
+    fun getTotalCaloriesBurned(): Flow<Result<Int>> = flow {
+        emit(Result.Loading)
+        runLocalDataSource.getTotalCaloriesBurned().collect {
+            emit(Result.Success(it))
+        }
+    }.catch { e ->
+        emit(Result.Error(e))
     }
 }

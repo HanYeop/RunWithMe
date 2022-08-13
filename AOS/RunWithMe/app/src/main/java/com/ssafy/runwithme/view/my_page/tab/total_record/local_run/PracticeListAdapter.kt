@@ -8,10 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.runwithme.databinding.ItemPracticeRecordBinding
 import com.ssafy.runwithme.model.entity.RunRecordEntity
 
-class PracticeListAdapter() : ListAdapter<RunRecordEntity, PracticeListAdapter.ViewHolder>(diffUtil) {
+class PracticeListAdapter(private val listener: PracticeListListener) : ListAdapter<RunRecordEntity, PracticeListAdapter.ViewHolder>(diffUtil) {
 
     inner class ViewHolder(private val binding: ItemPracticeRecordBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.imgDelete.setOnClickListener {
+                listener.onDeleteClick(getItem(adapterPosition))
+            }
+        }
 
         fun bind(runRecord: RunRecordEntity) {
             binding.myRunRecord = runRecord

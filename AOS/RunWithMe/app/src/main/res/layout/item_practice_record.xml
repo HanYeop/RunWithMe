@@ -156,6 +156,14 @@
                     app:layout_constraintStart_toEndOf="@+id/tv_calorie_header"
                     app:layout_constraintTop_toTopOf="@+id/tv_calorie_header" />
 
+                <ImageView
+                    android:id="@+id/img_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_cancel_24" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 

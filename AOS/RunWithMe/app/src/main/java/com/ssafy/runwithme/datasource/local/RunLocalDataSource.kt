@@ -10,4 +10,9 @@ import javax.inject.Singleton
 class RunLocalDataSource @Inject constructor(private val runDao: RunDao){
     fun insertRun(run: RunRecordEntity) = runDao.insertRun(run)
     fun getAllRunsSortedByDate(): Flow<List<RunRecordEntity>> = runDao.getAllRunsSortedByDate()
+    fun deleteRun(run: RunRecordEntity) = runDao.deleteRun(run)
+    fun getTotalTimeInMillis(): Flow<Int> = runDao.getTotalTimeInMillis()
+    fun getTotalDistance(): Flow<Int> = runDao.getTotalDistance()
+    fun getTotalAvgSpeed(): Flow<Double> = runDao.getTotalAvgSpeed()
+    fun getTotalCaloriesBurned(): Flow<Int> = runDao.getTotalCaloriesBurned()
 }
