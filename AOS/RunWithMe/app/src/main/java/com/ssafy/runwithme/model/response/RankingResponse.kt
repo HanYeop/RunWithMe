@@ -7,5 +7,6 @@ data class RankingResponse(
     @SerializedName("userSeq") val userSeq: Int,
     @SerializedName("rankingIndex") val rankingIndex: Int,
     @SerializedName("rankingValue") var rankingValue: Int,
-    @SerializedName("imgSeq") val imgSeq: Int
+    @SerializedName("imgSeq") val imgSeq: Int,
+    @SerializedName("competitionResult") val competitionResult: String?
 )

@@ -318,26 +318,26 @@
 
                 <ImageView
                     android:id="@+id/image_badge_first"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="16dp"
-                    android:src="@drawable/crown_one_32"
+                    android:src="@drawable/gold_cup"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_point_header"
                     app:layout_constraintEnd_toStartOf="@id/image_badge_second" />
                 <ImageView
                     android:id="@+id/image_badge_second"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/crown_two_32"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/silver_cup"
                     app:layout_constraintStart_toEndOf="@id/image_badge_first"
                     app:layout_constraintTop_toTopOf="@id/image_badge_first"
                     app:layout_constraintEnd_toStartOf="@id/image_badge_third" />
                 <ImageView
                     android:id="@+id/image_badge_third"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/crown_three_32"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/bronze_cup"
                     app:layout_constraintStart_toEndOf="@id/image_badge_second"
                     app:layout_constraintTop_toTopOf="@id/image_badge_second"
                     app:layout_constraintEnd_toEndOf="parent"/>

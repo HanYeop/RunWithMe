@@ -145,6 +145,17 @@
                 tools:text="나"
                 android:text="@{crewUserRankingVM.myRanking.userName}"/>
 
+            <ImageView
+                android:id="@+id/img_competition_ranking"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                tools:src="@drawable/gold_cup"
+                app:competitionResult="@{crewUserRankingVM.myRanking.competitionResult}"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@id/tv_crew_ranking_name"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
             <TextView
                 android:id="@+id/tv_crew_ranking_total_amount"
                 android:layout_width="wrap_content"

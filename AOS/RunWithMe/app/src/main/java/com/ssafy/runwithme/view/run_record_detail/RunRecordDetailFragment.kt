@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentRunRecordDetailBinding
@@ -103,6 +104,12 @@ class RunRecordDetailFragment : BaseFragment<FragmentRunRecordDetailBinding>(R.l
             tvCrewName.text = runRecordDto!!.crewName
             tvTimeStartEnd.text = "${startCalendar.get(Calendar.HOUR_OF_DAY)}:${startCalendar.get(Calendar.MINUTE)}-${endCalendar.get(Calendar.HOUR_OF_DAY)}:${endCalendar.get(Calendar.MINUTE)}"
             tvUserName.text = runRecordDto!!.userName
+
+            if (runRecordDto!!.runRecordRunningCompleteYN == "Y") {
+                Glide.with(requireActivity()).load(R.drawable.success_stamp).into(binding.imgComplete)
+            }else{
+                Glide.with(requireActivity()).load(R.drawable.fail_stamp).into(binding.imgComplete)
+            }
         }
     }
 }

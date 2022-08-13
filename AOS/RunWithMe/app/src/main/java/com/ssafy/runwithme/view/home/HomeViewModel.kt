@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(
     val totalRanking get() = _totalRanking.asStateFlow()
 
     private val _myRanking: MutableStateFlow<RankingResponse>
-        = MutableStateFlow(RankingResponse("", 0, 0, -1, 0))
+        = MutableStateFlow(RankingResponse("", 0, 0, -1, 0, null))
     val myRanking get() = _myRanking.asStateFlow()
 
     private val _unit = MutableStateFlow("km")

@@ -25,6 +25,8 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:paddingBottom="16dp">
+
+
             <TextView
                 android:id="@+id/tv_ranking_num"
                 android:layout_width="40dp"
@@ -39,6 +41,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image_user_profile"
@@ -64,8 +69,19 @@
                 app:layout_constraintStart_toEndOf="@id/image_user_profile"
                 app:layout_constraintTop_toTopOf="@id/image_user_profile"
                 app:layout_constraintBottom_toBottomOf="@id/image_user_profile"
-                tools:text="김크루"
+                tools:text="감스트감스트감스"
                 android:text="@{totalRank.userName}"/>
+
+            <ImageView
+                android:id="@+id/img_competition_ranking"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                tools:src="@drawable/gold_cup"
+                app:competitionResult="@{totalRank.competitionResult}"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@id/tv_user_name"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
                 android:id="@+id/tv_user_total_amount"

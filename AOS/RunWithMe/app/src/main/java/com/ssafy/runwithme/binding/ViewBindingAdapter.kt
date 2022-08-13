@@ -553,4 +553,22 @@ object ViewBindingAdapter {
                 .into(this)
         }
     }
+
+    @BindingAdapter("competitionResult")
+    @JvmStatic
+    fun ImageView.setCompetitonREsult (result: String?){
+        if(result == "FIRST"){
+            Glide.with(this.context)
+                .load(R.drawable.gold_cup)
+                .into(this)
+        }else if(result == "SECOND"){
+            Glide.with(this.context)
+                .load(R.drawable.silver_cup)
+                .into(this)
+        }else if(result == "THIRD"){
+            Glide.with(this.context)
+                .load(R.drawable.bronze_cup)
+                .into(this)
+        }
+    }
 }
