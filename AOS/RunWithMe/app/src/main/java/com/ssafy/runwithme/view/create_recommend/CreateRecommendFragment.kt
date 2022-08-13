@@ -79,7 +79,7 @@ class CreateRecommendFragment : BaseFragment<FragmentCreateRecommendBinding>(R.l
                     showToast("추천 사유를 입력 해주세요.")
                 }
                 else {
-                    val trackBoard = TrackBoardDto(0, runRecordSeq, binding.etRecommendContent.text.toString(), binding.ratingEnvironment.rating.toInt(), binding.ratingHard.rating.toInt())
+                    val trackBoard = TrackBoardDto(0, runRecordSeq, binding.etRecommendContent.text.toString(), binding.ratingHard.rating.toInt(), binding.ratingEnvironment.rating.toInt())
                     val json = Gson().toJson(trackBoard)
                     val trackBoardDto = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), json)
 
