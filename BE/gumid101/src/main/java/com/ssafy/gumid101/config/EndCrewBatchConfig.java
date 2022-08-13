@@ -159,7 +159,6 @@ public class EndCrewBatchConfig {
 						int point = (int) (totalPoint * userSucceedDays.get(userCrewList.get(i).getUserEntity().getUserSeq())
 										/ totalSucceedDay);
 
-						user.setPoint(point);
 						userRepo.updatePointAsBulk(user.getUserSeq(),point);
 						
 						if (Strings.hasLength(user.getFcmToken())) {
