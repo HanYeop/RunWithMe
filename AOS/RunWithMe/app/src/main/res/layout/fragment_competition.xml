@@ -86,7 +86,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
                     android:text="챌린지 기간"
-                    android:textColor="@color/main_grey"
+                    android:textColor="@color/main_black"
+                    android:fontFamily="@font/noto_sans_bold"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/image_crew" />
@@ -283,16 +284,6 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="32dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/card_ranking"
-                    android:background="@color/main_light_grey"/>
-
                 <TextView
                     android:id="@+id/tv_challenge_crew_header"
                     style="@style/header_text"
@@ -300,7 +291,7 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginStart="20dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view"/>
+                    app:layout_constraintTop_toBottomOf="@id/card_ranking"/>
 
                 <TextView
                     android:id="@+id/tv_challenge_crew_description"
@@ -308,7 +299,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginHorizontal="16dp"
-                    android:text="크루 무관 일정 기간동안 개인 러닝기록을 다른 유저들과 겨루고 보상하기 위해 진행되는 시즌제 챌린지입니다.\n\n시즌이 진행되는 기간 동안 모든 러닝 기록의 누적 거리를 합산하여 랭킹을 산정하고 상위 10% 유저에게 순위에 따라 차등적으로 보상을 지급합니다.\n"
+                    android:text="크루 무관 일정 기간동안 개인 러닝기록을 다른 유저들과 겨루고 보상하기 위해 진행되는 시즌제 챌린지입니다.\n\n시즌이 진행되는 기간 동안 모든 러닝 기록의 누적 거리를 합산하여 랭킹을 산정하고 모든 유저에게 순위에 따라 차등적으로 보상을 지급합니다."
                     android:textColor="@color/main_grey"
                     android:textSize="16sp"
                     android:autoSizeTextType="uniform"
@@ -325,18 +316,44 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_challenge_crew_description"/>
 
+                <ImageView
+                    android:id="@+id/image_badge_first"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/crown_one_32"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_point_header"
+                    app:layout_constraintEnd_toStartOf="@id/image_badge_second" />
+                <ImageView
+                    android:id="@+id/image_badge_second"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/crown_two_32"
+                    app:layout_constraintStart_toEndOf="@id/image_badge_first"
+                    app:layout_constraintTop_toTopOf="@id/image_badge_first"
+                    app:layout_constraintEnd_toStartOf="@id/image_badge_third" />
+                <ImageView
+                    android:id="@+id/image_badge_third"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/crown_three_32"
+                    app:layout_constraintStart_toEndOf="@id/image_badge_second"
+                    app:layout_constraintTop_toTopOf="@id/image_badge_second"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
                 <TextView
                     android:id="@+id/tv_point_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginHorizontal="16dp"
-                    android:text="챌린지 크루 참가비 총액을 크루원의 목표 달성율에 따라 차등적으로 지급합니다.\n1. 목표 달성율이 0%인 경우 포인트 지급이 없습니다.\n2. 목표 달성율은 1주의 목표 일수까지만 채워지며 추가 달성 기록에 대해서는 개별로 추가 포인트를 지급합니다."
+                    android:text="랭킹 1위, 2위, 3위 유저에게는 개인 챌린지 시즌을 통해서만 얻을 수 있는 특별한 업적 뱃지를 지급합니다.\n뱃지는 다음 챌린지 시즌이 진행되고 새로운 랭커가 선정될 때까지 유효합니다.\n\n참가자 전원에게 포인트가 지급되며 등수에 따라 기록된 누적 거리 1km 마다 차등적으로 지급됩니다."
                     android:textColor="@color/main_grey"
                     android:textSize="16sp"
                     android:autoSizeTextType="uniform"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_point_header"
+                    app:layout_constraintTop_toBottomOf="@id/image_badge_first"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
                 <TextView
@@ -345,26 +362,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginHorizontal="16dp"
-                    android:text="예시"
+                    android:paddingBottom="66dp"
+                    android:text="1등 km당 2,000P\n2등 km당 1,000P\n3등 km당 500P\n그 외 km당 200P"
                     android:textColor="@color/main_sky"
                     android:textSize="16sp"
                     android:autoSizeTextType="uniform"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_point_description"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-                <TextView
-                    android:id="@+id/tv_point_example_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:paddingBottom="66dp"
-                    android:text="참가비 15000P / 1주 목표일이 3일인 챌린지 크루를 2주간 진행했을 때\nA는 1주차 0일 / 2주차 0일 달성\nB는 1주차 4일 / 2주차 1일 달성\nC는 1주차 2일 / 2주차 0일 달성한 경우\n\nA는 총 0일, B는 총 4일, C는 총 2일 달성으로\n총 참가비 45,000P를 B와C가 4:2로 나눠서\nB는 30,000P, C는 15,000P를 지급받습니다."
-                    android:textColor="@color/main_grey"
-                    android:textSize="16sp"
-                    android:autoSizeTextType="uniform"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_point_example"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
