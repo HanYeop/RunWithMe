@@ -24,7 +24,7 @@ class CompetitionFragment : BaseFragment<FragmentCompetitionBinding>(R.layout.fr
             competitionVM = competitionViewModel
         }
         val userSeq = sharedPreferences.getString(USER, "0")!!.toInt()
-        competitionViewModel.setUserSeq(userSeq)
+        competitionViewModel.userSeq = userSeq
 
         initClickListener()
 
@@ -36,6 +36,7 @@ class CompetitionFragment : BaseFragment<FragmentCompetitionBinding>(R.layout.fr
 
         competitionViewModel.successMsgEvent.observe(viewLifecycleOwner) {
             showToast(it)
+            binding.btnJoinCrew.visibility = View.GONE
         }
 
         competitionViewModel.errorMsgEvent.observe(viewLifecycleOwner) {
@@ -50,7 +51,8 @@ class CompetitionFragment : BaseFragment<FragmentCompetitionBinding>(R.layout.fr
                 findNavController().popBackStack()
             }
             cardRanking.setOnClickListener {
-                findNavController().navigate(R.id.action_competitionFragment_to_competitionRankingFragment)
+                val action = CompetitionFragmentDirections.actionCompetitionFragmentToCompetitionRankingFragment(competitionViewModel.userSeq, competitionViewModel.competitionDto.value.competitionSeq)
+                findNavController().navigate(action)
             }
 
             btnJoinCrew.setOnClickListener {

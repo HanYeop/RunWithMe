@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="competitionRankingVM"
+            type="com.ssafy.runwithme.view.competition.ranking.CompetitionRankingViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,13 +42,14 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:orientation="vertical"
+            submitList="@{competitionRankingVM.totalRankingList}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/view_line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
-            tools:listitem="@layout/item_total_user_ranking" />
+            tools:listitem="@layout/item_competition_ranking" />
 
         <View
             android:id="@+id/view_line"
@@ -74,6 +81,7 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 tools:text="1"
+                android:text="@{String.valueOf(competitionRankingVM.myRanking.rankingIndex)}"
                 android:gravity="center"
                 android:layout_marginStart="8dp"
                 android:fontFamily="@font/noto_sans_bold"
@@ -90,6 +98,7 @@
                 android:layout_height="@dimen/ranking_profile_image_size"
                 android:layout_gravity="center"
                 android:layout_marginStart="16dp"
+                app:rankingProfileImage="@{competitionRankingVM.myRanking.imgSeq}"
                 android:background="@android:color/transparent"
                 app:layout_constraintBottom_toBottomOf="@id/tv_my_ranking_num"
                 app:layout_constraintStart_toEndOf="@id/tv_my_ranking_num"
@@ -104,10 +113,22 @@
                 android:fontFamily="@font/noto_sans_bold"
                 android:textColor="@color/black"
                 android:textSize="16sp"
+                android:text="@{competitionRankingVM.myRanking.userName}"
                 app:layout_constraintStart_toEndOf="@id/image_my_ranking_profile"
                 app:layout_constraintTop_toTopOf="@id/image_my_ranking_profile"
                 app:layout_constraintBottom_toBottomOf="@id/image_my_ranking_profile"
                 tools:text="나" />
+
+            <ImageView
+                android:id="@+id/img_competition_ranking"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                tools:src="@drawable/gold_cup"
+                app:competitionResult="@{competitionRankingVM.myRanking.competitionResult}"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@id/tv_my_ranking_name"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
                 android:id="@+id/tv_my_ranking_total_amount"
@@ -120,6 +141,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/tv_my_ranking_name"
                 app:layout_constraintEnd_toStartOf="@id/tv_my_ranking_total_type"
                 tools:text = "144.8"
+                distanceConverter="@{competitionRankingVM.myRanking.rankingValue}"
                 android:textSize="13sp" />
 
             <TextView
@@ -133,7 +155,7 @@
                 app:layout_constraintTop_toTopOf="@id/tv_my_ranking_name"
                 app:layout_constraintBottom_toBottomOf="@id/tv_my_ranking_name"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="km"/>
+                android:text="km"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

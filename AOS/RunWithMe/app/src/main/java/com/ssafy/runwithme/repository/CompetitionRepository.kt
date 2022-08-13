@@ -67,6 +67,8 @@ class CompetitionRepository @Inject constructor(
                 emit(Result.Success(it))
             }else if(!it.success){
                 emit(Result.Fail(it))
+            }else{
+                emit(Result.Empty)
             }
         }
     } .catch { e ->
