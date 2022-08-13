@@ -274,8 +274,8 @@ class RunningService : LifecycleService() {
 
             Log.d(TAG, "distancePolyline: ${result[0]}")
 
-            // 5초 이상 이동했는데 이동거리가 2.5m 이하인 경우 정지하고, 마지막 위치를 기록함 (최소 오차 4초)
-            if(result[0] < 2.5f && (System.currentTimeMillis() - startTime) > 4000L) {
+            // 5초 이상 이동했는데 이동거리가 3m 이하인 경우 정지하고, 마지막 위치를 기록함 (최소 오차 4초)
+            if(result[0] < 3f && (System.currentTimeMillis() - startTime) > 4000L) {
 
                 Toast.makeText(this, "이동이 없어 러닝이 일시 중지되었습니다.", Toast.LENGTH_SHORT).show()
                 ttsSpeak("이동이 없어 러닝이 일시 중지되었습니다.")
@@ -284,8 +284,8 @@ class RunningService : LifecycleService() {
                 pauseService()
             }
 
-            // 5초 이상 이동했는데 이동거리가 70m 이상인 경우 정지 (최소 오차 4초)
-            if(result[0] > 70f && (System.currentTimeMillis() - startTime) > 4000L) {
+            // 5초 이상 이동했는데 이동거리가 50m 이상인 경우 정지 (최소 오차 4초)
+            if(result[0] > 50f && (System.currentTimeMillis() - startTime) > 4000L) {
                 Toast.makeText(this, "비정상적인 이동이 감지되어 러닝이 일시 중지되었습니다.", Toast.LENGTH_SHORT).show()
                 ttsSpeak("비정상적인 이동이 감지되어 러닝이 일시 중지되었습니다.")
                 pauseService()
