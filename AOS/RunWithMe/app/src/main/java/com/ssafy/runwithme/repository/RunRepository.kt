@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.repository
 
+import android.util.Log
 import com.ssafy.runwithme.datasource.local.RunLocalDataSource
 import com.ssafy.runwithme.model.entity.RunRecordEntity
 import com.ssafy.runwithme.utils.Result
@@ -51,9 +52,11 @@ class RunRepository @Inject constructor(
     fun getTotalAvgSpeed(): Flow<Result<Double>> = flow {
         emit(Result.Loading)
         runLocalDataSource.getTotalAvgSpeed().collect {
+            Log.d("test5", "getTotalAvgSpeed: $it")
             emit(Result.Success(it))
         }
     }.catch { e ->
+        Log.d("test5", "getTotalAvgSpeed: $e")
         emit(Result.Error(e))
     }
 

@@ -232,6 +232,8 @@ class RunningViewModel @Inject constructor(
             runRepository.getAllRunsSortedByDate().collectLatest {
                 if(it is Result.Success){
                     _localRunList.value = it.data
+                }else if(it is Result.Empty){
+                    _localRunList.value = listOf()
                 }
             }
         }
@@ -248,6 +250,8 @@ class RunningViewModel @Inject constructor(
             runRepository.getTotalTimeInMillis().collectLatest {
                 if(it is Result.Success){
                     _localTotalTimeInMillis.value = it.data
+                }else if(it is Result.Error){
+                    _localTotalTimeInMillis.value = 0
                 }
             }
         }
@@ -258,6 +262,8 @@ class RunningViewModel @Inject constructor(
             runRepository.getTotalDistance().collectLatest {
                 if(it is Result.Success){
                     _localTotalDistance.value = it.data
+                }else if(it is Result.Error){
+                    _localTotalDistance.value = 0
                 }
             }
         }
@@ -269,6 +275,8 @@ class RunningViewModel @Inject constructor(
             runRepository.getTotalAvgSpeed().collectLatest {
                 if(it is Result.Success){
                     _localTotalAvgSpeed.value = it.data
+                }else if(it is Result.Error){
+                    _localTotalAvgSpeed.value = 0.0
                 }
             }
         }
@@ -280,6 +288,8 @@ class RunningViewModel @Inject constructor(
             runRepository.getTotalCaloriesBurned().collectLatest {
                 if(it is Result.Success){
                     _localTotalCaloriesBurned.value = it.data
+                }else if(it is Result.Error){
+                    _localTotalCaloriesBurned.value = 0
                 }
             }
         }
