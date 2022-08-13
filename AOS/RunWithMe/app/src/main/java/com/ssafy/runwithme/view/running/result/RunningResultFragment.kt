@@ -102,7 +102,7 @@ class RunningResultFragment : BaseFragment<FragmentRunningResultBinding>(R.layou
             runningViewModel.goalComplete.collectLatest {
                 if (it == "Y") {
                     Glide.with(requireActivity()).load(R.drawable.success_stamp).into(binding.imgComplete)
-                }else{
+                }else if(it == "N"){
                     Glide.with(requireActivity()).load(R.drawable.fail_stamp).into(binding.imgComplete)
                 }
             }

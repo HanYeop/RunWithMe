@@ -81,7 +81,7 @@ class RunningViewModel @Inject constructor(
     private val _nickName = MutableStateFlow("")
     val nickname get() = _nickName.asStateFlow()
 
-    private val _goalComplete = MutableStateFlow("Y")
+    private val _goalComplete = MutableStateFlow("")
     val goalComplete get() = _goalComplete.asStateFlow()
 
     private val _scrapList : MutableStateFlow<List<ScrapInfoDto>>

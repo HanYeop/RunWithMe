@@ -1,4 +1,4 @@
-package com.ssafy.runwithme.view.competition
+package com.ssafy.runwithme.view.competition.ranking
 
 import androidx.navigation.fragment.findNavController
 import com.ssafy.runwithme.R

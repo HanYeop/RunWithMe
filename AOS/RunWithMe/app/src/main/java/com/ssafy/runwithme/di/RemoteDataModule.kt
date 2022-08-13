@@ -188,4 +188,11 @@ object RemoteDataModule {
     fun provideScrapApi(@Named("mainRetrofit") retrofit: Retrofit): ScrapApi {
         return retrofit.create(ScrapApi::class.java)
     }
+
+    // CompetitionApi DI
+    @Provides
+    @Singleton
+    fun provideCompetitionApi(@Named("mainRetrofit") retrofit: Retrofit): CompetitionApi {
+        return retrofit.create(CompetitionApi::class.java)
+    }
 }

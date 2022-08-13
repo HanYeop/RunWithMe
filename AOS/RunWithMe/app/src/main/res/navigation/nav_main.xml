@@ -393,7 +393,7 @@
     </fragment>
     <fragment
         android:id="@+id/competitionRankingFragment"
-        android:name="com.ssafy.runwithme.view.competition.CompetitionRankingFragment"
+        android:name="com.ssafy.runwithme.view.competition.ranking.CompetitionRankingFragment"
         android:label="CompetitionRankingFragment"
         tools:layout="@layout/fragment_competition_ranking">
     </fragment>

@@ -41,13 +41,15 @@ object ViewBindingAdapter {
     @BindingAdapter("startDay", "endDay")
     @JvmStatic
     fun TextView.setDay(dayStart : String, dayEnd : String){
-        val startToken = StringTokenizer(dayStart, " ")
-        val startDay = startToken.nextToken()
+        if(dayStart != "" && dayEnd != "") {
+            val startToken = StringTokenizer(dayStart, " ")
+            val startDay = startToken.nextToken()
 
-        val endToken = StringTokenizer(dayEnd, " ")
-        val endDay = endToken.nextToken()
+            val endToken = StringTokenizer(dayEnd, " ")
+            val endDay = endToken.nextToken()
 
-        this.text = "$startDay ~ $endDay"
+            this.text = "$startDay ~ $endDay"
+        }
     }
 
     @BindingAdapter("goalType", "goalAmount")
@@ -556,7 +558,7 @@ object ViewBindingAdapter {
 
     @BindingAdapter("competitionResult")
     @JvmStatic
-    fun ImageView.setCompetitonREsult (result: String?){
+    fun ImageView.setCompetitonResult (result: String?){
         if(result == "FIRST"){
             Glide.with(this.context)
                 .load(R.drawable.gold_cup)
@@ -570,5 +572,28 @@ object ViewBindingAdapter {
                 .load(R.drawable.bronze_cup)
                 .into(this)
         }
+    }
+
+    @BindingAdapter("competitionImage")
+    @JvmStatic
+    fun ImageView.setCompetitionImage(imageSeq: Int){
+        if(imageSeq == 0){
+
+        }else{
+            Glide.with(this.context)
+                .load("${BASE_URL}images/${imageSeq}")
+                .into(this)
+        }
+    }
+
+    @BindingAdapter("competitionJoinPossible")
+    @JvmStatic
+    fun AppCompatButton.setJoinPossible(participant : Boolean){
+        if(participant){
+            this.visibility = View.GONE
+        }else{
+            this.visibility = View.VISIBLE
+        }
+
     }
 }
