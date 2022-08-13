@@ -559,6 +559,7 @@ object ViewBindingAdapter {
     @BindingAdapter("competitionResult")
     @JvmStatic
     fun ImageView.setCompetitonResult (result: String?){
+        this.visibility = View.VISIBLE
         if(result == "FIRST"){
             Glide.with(this.context)
                 .load(R.drawable.gold_cup)
@@ -571,6 +572,8 @@ object ViewBindingAdapter {
             Glide.with(this.context)
                 .load(R.drawable.bronze_cup)
                 .into(this)
+        }else{
+            this.visibility = View.GONE
         }
     }
 

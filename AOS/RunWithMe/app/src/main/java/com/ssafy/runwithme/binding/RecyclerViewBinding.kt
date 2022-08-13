@@ -1,6 +1,7 @@
 package com.ssafy.runwithme.binding
 
 import CrewUserRankingAdapter
+import android.util.Log
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,7 @@ import com.ssafy.runwithme.model.response.MyCurrentCrewResponse
 import com.ssafy.runwithme.model.response.RankingResponse
 import com.ssafy.runwithme.model.response.RecruitCrewResponse
 import com.ssafy.runwithme.utils.Result
+import com.ssafy.runwithme.view.competition.ranking.CompetitionRankingAdapter
 import com.ssafy.runwithme.view.home.my_crew.MyCurrentCrewAdapter
 import com.ssafy.runwithme.view.home.ranking.TotalRankingAdapter
 import com.ssafy.runwithme.view.home.tab.crew.CrewRecruitPreviewAdapter
@@ -24,6 +26,7 @@ object RecyclerViewBinding {
     @JvmStatic
     @BindingAdapter("submitList")
     fun bindSubmitList(view: RecyclerView, result: Result<*>) {
+        Log.d("test5", "bindSubmitList: ${result}")
         if (result is Result.Success) {
             if(result.data is BaseResponse<*>) {
                 when (view.adapter) {
@@ -44,6 +47,9 @@ object RecyclerViewBinding {
                     }
                     is CrewRecruitPreviewAdapter -> {
                         (view.adapter as ListAdapter<Any, *>).submitList(result.data.data as List<RecruitCrewResponse>)
+                    }
+                    is CompetitionRankingAdapter -> {
+                        (view.adapter as ListAdapter<Any, *>).submitList(result.data.data as List<RankingResponse>)
                     }
                     // 같은 형태로 추가하면 됨
                 }

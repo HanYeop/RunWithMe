@@ -396,5 +396,14 @@
         android:name="com.ssafy.runwithme.view.competition.ranking.CompetitionRankingFragment"
         android:label="CompetitionRankingFragment"
         tools:layout="@layout/fragment_competition_ranking">
+        <argument
+            android:name="userseq"
+            app:argType="integer" />
+        <argument
+            android:name="competitionseq"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_competitionRankingFragment_to_userDetailFragment"
+            app:destination="@id/userDetailFragment" />
     </fragment>
 </navigation>

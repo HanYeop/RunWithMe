@@ -404,6 +404,7 @@
             android:textSize="16sp"
             android:layout_gravity="bottom"
             android:background="@color/main_blue"
+            competitionJoinPossible="@{competitionVM.participants}"
             app:layout_constraintTop_toBottomOf="@id/scroll_view"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

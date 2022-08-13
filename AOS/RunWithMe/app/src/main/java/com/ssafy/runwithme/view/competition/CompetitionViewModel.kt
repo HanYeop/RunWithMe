@@ -40,7 +40,7 @@ class CompetitionViewModel @Inject constructor(
     private val _rankingThird: MutableStateFlow<RankingResponse> = MutableStateFlow(RankingResponse("", 0, 0, 0, 0, ""))
     val rankingThird get() = _rankingThird.asStateFlow()
 
-    private val _participants: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    private val _participants: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val participants get() = _participants.asStateFlow()
 
     private val _successMsgEvent = SingleLiveEvent<String>()
@@ -49,11 +49,7 @@ class CompetitionViewModel @Inject constructor(
     private val _errorMsgEvent = SingleLiveEvent<String>()
     val errorMsgEvent get() = _errorMsgEvent
 
-    private var userSeq: Int = 0
-
-    fun setUserSeq(userSeq: Int){
-        this.userSeq = userSeq
-    }
+    var userSeq: Int = 0
 
     fun getInprogressCompetition() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -92,7 +88,7 @@ class CompetitionViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             competitionRepository.getIsUserParticipants(competitionSeq, userSeq).collectLatest {
                 if(it is Result.Success){
-                    _participants.value = it.data.data
+                    _participants.value = !it.data.data
                 }else if(it is Result.Error){
                     _errorMsgEvent.postValue("잠시 후 시도해주세요.")
                 }
