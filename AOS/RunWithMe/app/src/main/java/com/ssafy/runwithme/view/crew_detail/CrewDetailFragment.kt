@@ -79,6 +79,8 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
             //핀치 줌
             chartMyRecord.setPinchZoom(true)
 
+            chartMyRecord.setNoDataText("기록이 없습니다.")
+
             val description = Description()
             // 오른쪽 하단 모서리 설명 레이블 텍스트 표시 (default = false)
             description.isEnabled = false
