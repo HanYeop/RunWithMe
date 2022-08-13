@@ -41,7 +41,7 @@ class CreateCrewViewModel @Inject constructor(
 
     val crewName : MutableStateFlow<String> = MutableStateFlow("")
 
-    val crewDescription : MutableStateFlow<String> = MutableStateFlow("안녕하세요. 런윗미 크루입니다.\n함께 같이 달려보아요")
+    val crewDescription : MutableStateFlow<String> = MutableStateFlow("")
 
     private val _goalWeeks : MutableStateFlow<Int> = MutableStateFlow(1)
     val goalWeeks get() = _goalWeeks.asStateFlow()
@@ -322,7 +322,7 @@ class CreateCrewViewModel @Inject constructor(
     fun refresh(){
         crewName.value = ""
 
-        crewDescription.value = "안녕하세요. 런윗미 크루입니다.\n함께 같이 달려보아요"
+        crewDescription.value = ""
 
         _goalWeeks.value = 1
 
