@@ -212,6 +212,23 @@
             app:layout_constraintStart_toEndOf="@+id/tv_title_num"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_re_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="범위 내 재검색"
+            android:drawableStart="@drawable/ic_baseline_cached_24"
+            android:drawablePadding="4dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:background="@drawable/btn_round_white_grey_border"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/map_view_user" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

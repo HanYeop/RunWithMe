@@ -70,6 +70,9 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
         p0.mapType = 1
         p0.isMyLocationEnabled = true
 
+        map.setMinZoomPreference(15.5f)
+//        map.setMaxZoomPreference(15.5f)
+
         updateLocation()
 
         map.setOnMarkerClickListener(this)
@@ -110,17 +113,22 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
             toolbar.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
+            cardInfo.setOnClickListener {
+                val action = RecommendFragmentDirections.actionRecommendFragmentToRecommendDetailFragment(currentRunRecord, currentTrackBoard, currentImageFileDto.imgSeq)
+                findNavController().navigate(action)
+            }
+            btnReSearch.setOnClickListener {
+                visibleSearch()
+            }
         }
-        binding.cardInfo.setOnClickListener {
-            val action = RecommendFragmentDirections.actionRecommendFragmentToRecommendDetailFragment(currentRunRecord, currentTrackBoard, currentImageFileDto.imgSeq)
-            findNavController().navigate(action)
-        }
-
     }
 
     private fun initViewModelCallBack(){
         lifecycleScope.launch { 
             recommendViewModel.trackBoardList.collectLatest {
+                if(::map.isInitialized){
+                    map.clear()
+                }
                 trackBoardList = it
                 recommendDraw(trackBoardList)
                 binding.tvTitleNum.text = it.size.toString()
@@ -136,7 +144,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
 
     private fun initPolyLine(list: List<CoordinateDto>){
         if(list.isNotEmpty()) {
-            if(map != null){
+            if(::map.isInitialized){
                 map.clear()
             }
             for (i in list) {
@@ -159,7 +167,7 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
                 map.addPolyline(polylineOptions)
                 delay(POLYLINE_DRAW_TIME)
             }
-            if(map != null){
+            if(::map.isInitialized){
                 recommendDraw(trackBoardList)
             }
         }
@@ -235,18 +243,24 @@ class RecommendFragment : BaseFragmentKeep<FragmentRecommendBinding>(R.layout.fr
                         if(binding.mapViewUser.visibility == View.INVISIBLE){
                             binding.mapViewUser.visibility = View.VISIBLE
                         }
-
-                        visibleRegion = map.projection.visibleRegion
-
-                        recommendViewModel.getRecommends(
-                            visibleRegion.farLeft.longitude,
-                            visibleRegion.nearLeft.latitude,
-                            visibleRegion.nearRight.longitude,
-                            visibleRegion.farRight.latitude)
+                        if(binding.btnReSearch.visibility == View.GONE){
+                            binding.btnReSearch.visibility = View.VISIBLE
+                        }
+                        visibleSearch()
                     }
                 }
             }
         }
+    }
+
+    // 범위 내 검색
+    private fun visibleSearch(){
+        visibleRegion = map.projection.visibleRegion
+        recommendViewModel.getRecommends(
+            visibleRegion.farLeft.longitude,
+            visibleRegion.nearLeft.latitude,
+            visibleRegion.nearRight.longitude,
+            visibleRegion.farRight.latitude)
     }
 
     // 지도 카메라 움직이기

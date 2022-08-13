@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.ssafy.runwithme.api.MyActivityApi
@@ -68,6 +69,7 @@ class MyActivityRepository @Inject constructor(
             }
         }
     }.catch { e ->
+        Log.d("test5", "editMyProfile: $e")
         emit(Result.Error(e))
     }
 
