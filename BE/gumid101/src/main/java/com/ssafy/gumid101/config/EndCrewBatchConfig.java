@@ -183,7 +183,7 @@ public class EndCrewBatchConfig {
 
 	@Bean
 	@StepScope // 스텝이 보는 영역
-	JpaItemWriter<CrewEntity> calculatedPintWriter() {
+	public JpaItemWriter<CrewEntity> calculatedPintWriter() {
 		log.debug("포인트 정산 JOB-Writer 과정을 시작합니다.");
 
 		return new JpaItemWriterBuilder<CrewEntity>().entityManagerFactory(entityManagerFactory).build();

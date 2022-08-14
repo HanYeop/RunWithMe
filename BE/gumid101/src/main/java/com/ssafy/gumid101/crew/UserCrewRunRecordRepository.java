@@ -1,5 +1,7 @@
 package com.ssafy.gumid101.crew;
 
+import java.util.Optional;
+
 import javax.persistence.LockModeType;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,5 +17,5 @@ public interface UserCrewRunRecordRepository extends JpaRepository<CrewTotalReco
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	@Query("select ctr from CrewTotalRecordEntity ctr where ctr.userEntity = :userEntity AND ctr.crewEntity = :crewEntity")
 	CrewTotalRecordEntity findWithLockByUserEntityAndCrewEntity(UserEntity userEntity, CrewEntity crewEntity);
-
+	Optional<CrewTotalRecordEntity> findByUserEntityAndCrewEntity(UserEntity userEntity, CrewEntity crewEntity);
 }

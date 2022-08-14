@@ -136,7 +136,7 @@ public class EndCompetitionBatchConfig {
 
 	@Bean
 	@StepScope // 스텝이 보는 영역
-	JpaItemWriter<CompetitionEntity> competitionWriter() {
+	public JpaItemWriter<CompetitionEntity> competitionWriter() {
 		log.debug("시즌제 대회 정산 JOB-Writer 과정을 시작합니다.");
 
 		return new JpaItemWriterBuilder<CompetitionEntity>().entityManagerFactory(entityManagerFactory).build();
