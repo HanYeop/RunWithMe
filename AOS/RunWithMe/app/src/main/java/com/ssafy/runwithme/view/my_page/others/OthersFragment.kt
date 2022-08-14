@@ -68,7 +68,7 @@ class OthersFragment : BaseFragment<FragmentOthersBinding>(R.layout.fragment_oth
         NidOAuthLogin().callDeleteTokenApi(requireContext(), object : OAuthLoginCallback {
             override fun onSuccess() {
                 //서버에서 토큰 삭제에 성공한 상태입니다.
-                Toast.makeText(requireContext(), "네이버 아이디 토큰삭제 성공!", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "네이버 아이디 토큰삭제 성공!", Toast.LENGTH_SHORT).show()
             }
             override fun onFailure(httpStatus: Int, message: String) {
                 // 서버에서 토큰 삭제에 실패했어도 클라이언트에 있는 토큰은 삭제되어 로그아웃된 상태입니다.
