@@ -110,6 +110,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
     private fun pickPhotoGallery() {
         val photoIntent = Intent(Intent.ACTION_PICK)
         photoIntent.type = "image/*"
+        photoIntent.putExtra("crop","true")
         pickPhotoResult.launch(photoIntent)
     }
 

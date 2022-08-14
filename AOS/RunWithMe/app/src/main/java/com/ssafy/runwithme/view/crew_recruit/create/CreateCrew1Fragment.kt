@@ -71,6 +71,7 @@ class CreateCrewFragment1 : BaseFragment<FragmentCreateCrew1Binding>(R.layout.fr
     private fun pickPhotoGallery() {
         val photoIntent = Intent(Intent.ACTION_PICK)
         photoIntent.type = "image/*"
+        photoIntent.putExtra("crop","true")
         pickPhotoResult.launch(photoIntent)
     }
 

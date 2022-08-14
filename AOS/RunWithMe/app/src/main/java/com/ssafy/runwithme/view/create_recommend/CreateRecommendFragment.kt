@@ -93,6 +93,7 @@ class CreateRecommendFragment : BaseFragment<FragmentCreateRecommendBinding>(R.l
     private fun pickPhotoGallery() {
         val photoIntent = Intent(Intent.ACTION_PICK)
         photoIntent.type = "image/*"
+        photoIntent.putExtra("crop","true")
         pickPhotoResult.launch(photoIntent)
     }
 
