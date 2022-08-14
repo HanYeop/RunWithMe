@@ -9,7 +9,7 @@
   margin-bottom: 0;
   background-color: red;
 
-  height: 100vh;
+  height: max(100vh, 100%);
 }
 
 .main-upside {
@@ -25,7 +25,6 @@
 }
 
 .main {
-  max-height: 100vh;
 }
 
 .main-article {
