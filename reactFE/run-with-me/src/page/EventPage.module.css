@@ -1,0 +1,9 @@
+.control {
+  width: 86%;
+  text-align: right;
+}
+.horizontal_area {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
