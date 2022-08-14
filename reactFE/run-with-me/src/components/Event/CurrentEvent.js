@@ -44,7 +44,7 @@ const CurrentEvent = (props) => {
                 <td>종료일</td>
                 <td>
                   <div className={styles.current_event_date}>
-                    {competiton.competitionDateStart}
+                    {competiton.competitionDateEnd}
                   </div>
                 </td>
               </tr>
