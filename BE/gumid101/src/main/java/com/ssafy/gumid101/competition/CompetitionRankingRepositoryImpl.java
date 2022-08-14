@@ -101,7 +101,9 @@ public class CompetitionRankingRepositoryImpl implements CompetitionRankingRepos
 			myRanking.setRankingIndex(((BigInteger) resultMap.get("ranking")).intValue());
 			myRanking.setRankingValue((Integer) resultMap.get("targetField"));
 			myRanking.setUserName((String) resultMap.get("user_nickname"));
-			myRanking.setCompetitionResult(CompetitionResultStatus.valueOf((String) resultMap.get("competitionResult")));
+			myRanking.setCompetitionResult(resultMap.get("competitionResult") != null ? 
+					CompetitionResultStatus.valueOf((String) resultMap.get("competitionResult")) : 
+						CompetitionResultStatus.NONRANKED);
 			myRanking.setUserSeq((Long) resultMap.get("user_seq"));
 			myRanking.setImgSeq((Long) resultMap.get("img_seq"));
 			if(myRanking.getImgSeq() == null) {

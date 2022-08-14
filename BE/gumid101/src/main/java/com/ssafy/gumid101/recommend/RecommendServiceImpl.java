@@ -78,7 +78,7 @@ public class RecommendServiceImpl implements RecommendService{
 			throw new DuplicateException("이미 등록한 기록입니다.");
 		}
 		
-		if (trackBoardDtoInput.getHardPoint() != null && (trackBoardDtoInput.getHardPoint() < 1 || 5 <= trackBoardDtoInput.getHardPoint())) {
+		if (trackBoardDtoInput.getHardPoint() != null && (trackBoardDtoInput.getHardPoint() < 1 || 5 < trackBoardDtoInput.getHardPoint())) {
 			throw new IllegalParameterException("난이도 별점은 기록하지 않거나, 1점 ~ 5점이여야합니다.");
 		}
 		if (trackBoardDtoInput.getEnvironmentPoint() != null && (trackBoardDtoInput.getEnvironmentPoint() < 1 || 5 < trackBoardDtoInput.getEnvironmentPoint())) {
