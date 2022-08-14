@@ -47,7 +47,7 @@ public class SecurityConfig {
 	private final UserRepository userRepo;
 	private final JwtUtilsService jwtUtilService;
 	private final ObjectMapper mapper;
-	private final CustomOAuth2UserService oAuth2UserService;
+	//private final CustomOAuth2UserService oAuth2UserService;
 	private final OAuth2SuccessHandler successHandler;
 
 	private final GoogleTokenValidate googleTokenValidate;
