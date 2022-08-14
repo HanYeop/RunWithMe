@@ -17,13 +17,6 @@ class TabCrewFragment : BaseFragment<FragmentTabCrewBinding>(R.layout.fragment_t
     private val crewRecruitViewModel by viewModels<CrewRecruitViewModel>()
 
     override fun init() {
-        crewRecruitViewModel.getRecruitCrewPreView(6)
-
-        binding.apply {
-            crewRecruitVM = crewRecruitViewModel
-            recyclerCrewRecruitPreview.adapter = CrewRecruitPreviewAdapter(listener)
-        }
-
         initClickListener()
 
         initViewModelCallback()
@@ -50,6 +43,17 @@ class TabCrewFragment : BaseFragment<FragmentTabCrewBinding>(R.layout.fragment_t
         override fun onItemClick(recruitCrewResponse: RecruitCrewResponse) {
             val action = HomeFragmentDirections.actionHomeFragmentToCrewRecruitDetailFragment(recruitCrewResponse.crewDto, recruitCrewResponse.imageFileDto)
             findNavController().navigate(action)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        crewRecruitViewModel.getRecruitCrewPreView(6)
+
+        binding.apply {
+            crewRecruitVM = crewRecruitViewModel
+            recyclerCrewRecruitPreview.adapter = CrewRecruitPreviewAdapter(listener)
         }
     }
 
