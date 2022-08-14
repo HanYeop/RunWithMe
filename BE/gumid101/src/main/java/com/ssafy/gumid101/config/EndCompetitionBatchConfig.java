@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import org.springframework.batch.core.Job;
@@ -25,11 +26,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.ssafy.gumid101.competition.CompetitionRepository;
+import com.ssafy.gumid101.competition.CompetitionResultStatus;
 import com.ssafy.gumid101.competition.CompetitionUserRecordRepository;
 import com.ssafy.gumid101.entity.CompetitionEntity;
 import com.ssafy.gumid101.entity.CompetitionUserRecordEntity;
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.firebase.FirebaseMessageStoreUtil;
+import com.ssafy.gumid101.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +49,7 @@ public class EndCompetitionBatchConfig {
 	private final EntityManagerFactory entityManagerFactory;
 	private final int CHUNK_SIZE = 10;
 	private final CompetitionRepository competitionRepo;
+	private final UserRepository userRepo;
 	private final CompetitionUserRecordRepository competitionUserRecordRepo;
 	private final FirebaseMessageStoreUtil fcmStore;
 
@@ -92,28 +96,38 @@ public class EndCompetitionBatchConfig {
 			@Override
 			public CompetitionEntity process(CompetitionEntity competitionEntity) throws Exception {
 				log.debug(competitionEntity.getCompetitionSeq() + "번 대회 " + competitionEntity.getCompetitionName() + "의 정산 JOB-Process 과정을 시작합니다.");
+				userRepo.initCompetitionResultAsBulk();
 				List<CompetitionUserRecordEntity> recordList = competitionUserRecordRepo.findByCompetitionEntityOrderByCompetitionDistanceDesc(competitionEntity);
 				int idx = 0;
-				if (recordList.size() < idx) {
+				if (idx < recordList.size()) {
 					UserEntity first = recordList.get(idx).getUserEntity();
 					// 1등 보상
+					first.setPoint(first.getPoint() + recordList.get(idx).getCompetitionDistance() * 2);
+					first.setCompetitionResult(CompetitionResultStatus.FIRST);
 					idx++;
 				}
-				if (recordList.size() < idx) {
+				if (idx < recordList.size()) {
 					UserEntity second = recordList.get(idx).getUserEntity();
 					// 2등 보상
+					second.setPoint(second.getPoint() + recordList.get(idx).getCompetitionDistance());
+					second.setCompetitionResult(CompetitionResultStatus.SECOND);
 					idx++;
 				}
-				if (recordList.size() < idx) {
+				if (idx < recordList.size()) {
 					UserEntity third = recordList.get(idx).getUserEntity();
 					// 3등 보상
+					third.setPoint(third.getPoint() + recordList.get(idx).getCompetitionDistance() / 2);
+					third.setCompetitionResult(CompetitionResultStatus.THIRD);
 					idx++;
 				}
-				while (recordList.size() < idx && recordList.size() * 10 / 100 < idx) {
+				while (idx < recordList.size()) {
 					UserEntity tenPercent = recordList.get(idx).getUserEntity();
 					// 순위권 제외 10% 안쪽 보상
+					tenPercent.setPoint(tenPercent.getPoint() + recordList.get(idx).getCompetitionDistance() / 5);
+//					tenPercent.setCompetitionResult(CompetitionResultStatus.UP10PERCENT);
 					idx++;		
 				}
+				competitionEntity.setCheckYn("Y");
 				return competitionEntity;
 			}
 
@@ -122,7 +136,7 @@ public class EndCompetitionBatchConfig {
 
 	@Bean
 	@StepScope // 스텝이 보는 영역
-	JpaItemWriter<CompetitionEntity> competitionWriter() {
+	public JpaItemWriter<CompetitionEntity> competitionWriter() {
 		log.debug("시즌제 대회 정산 JOB-Writer 과정을 시작합니다.");
 
 		return new JpaItemWriterBuilder<CompetitionEntity>().entityManagerFactory(entityManagerFactory).build();

@@ -24,11 +24,14 @@ public interface CompetitionService {
 
 	Boolean checkCompetitionJoinable(Long competitionSeq, Long userSeq) throws Exception;
 
+	Long countParticipantCompetition(Long competitionSeq) throws Exception;
+
 	Boolean joinCompetition(Long competitionSeq, Long userSeq) throws Exception;
 
 	List<RankingDto> getCompetitionTotalRanking(Long competitionSeq, Long size, Long offset) throws Exception;
 
 	RankingDto getCompetitionUserRanking(Long competitionSeq, Long userSeq) throws Exception;
+
 
 
 

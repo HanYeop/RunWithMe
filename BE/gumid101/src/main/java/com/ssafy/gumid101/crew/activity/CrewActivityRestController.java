@@ -82,9 +82,9 @@ public class CrewActivityRestController {
 	}
 
 	@ApiOperation("크루내 랭킹(미구현)")
-	@GetMapping("/{crewSeq}/ranking")
-	public ResponseEntity<?> getCrewRankings(@ModelAttribute RankingParamsDto rankingParamsDto) throws Exception {
-
+	@GetMapping("/{crewSeq_p}/ranking")
+	public ResponseEntity<?> getCrewRankings(@PathVariable(name = "crewSeq_p") Long crewSeq, @ModelAttribute RankingParamsDto rankingParamsDto) throws Exception {
+		rankingParamsDto.setCrewSeq(crewSeq);
 		List<RankingDto> rankingList = crewActivityService.getCrewRankingByParam(rankingParamsDto);
 
 		if (rankingList == null) {

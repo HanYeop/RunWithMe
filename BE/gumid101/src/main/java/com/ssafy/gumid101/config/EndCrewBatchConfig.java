@@ -156,11 +156,9 @@ public class EndCrewBatchConfig {
 						// 주어진 조건 내에서 계산결과는 Integer범위에서 안 벗어남. (심지어 괄호 내부계산은 long형이다.)
 						user = userCrewList.get(i).getUserEntity();
 
-						int point = (int) (userCrewList.get(i).getUserEntity().getPoint()
-								+ totalPoint * userSucceedDays.get(userCrewList.get(i).getUserEntity().getUserSeq())
+						int point = (int) (totalPoint * userSucceedDays.get(userCrewList.get(i).getUserEntity().getUserSeq())
 										/ totalSucceedDay);
 
-						user.setPoint(point);
 						userRepo.updatePointAsBulk(user.getUserSeq(),point);
 						
 						if (Strings.hasLength(user.getFcmToken())) {
@@ -184,7 +182,7 @@ public class EndCrewBatchConfig {
 
 	@Bean
 	@StepScope // 스텝이 보는 영역
-	JpaItemWriter<CrewEntity> calculatedPintWriter() {
+	public JpaItemWriter<CrewEntity> calculatedPintWriter() {
 		log.debug("포인트 정산 JOB-Writer 과정을 시작합니다.");
 
 		return new JpaItemWriterBuilder<CrewEntity>().entityManagerFactory(entityManagerFactory).build();

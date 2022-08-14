@@ -80,6 +80,7 @@ public class ReportManagerRestController {
 	@GetMapping("/reports/{reportseq}")
 	public ResponseEntity<?> getReportDetail(@PathVariable("reportseq") Long reportSeq){
 		
+		
 		Map<String, Object>  result = reportManagerService.selectReportById(reportSeq);
 
 

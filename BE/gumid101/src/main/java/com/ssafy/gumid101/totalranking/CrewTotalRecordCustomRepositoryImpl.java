@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.gumid101.competition.CompetitionResultStatus;
 import com.ssafy.gumid101.entity.QCrewTotalRecordEntity;
 import com.ssafy.gumid101.entity.QImageFileEntity;
 import com.ssafy.gumid101.entity.QUserEntity;
@@ -54,9 +55,13 @@ public class CrewTotalRecordCustomRepositoryImpl implements CrewTotalRecordCusto
 
 		List<RankingDto> rankings = jpaQueryFactory.from(crewTotal)
 
-				.select(Projections.fields(RankingDto.class, userEntity.nickName.as("userName"),
-						userEntity.userSeq.as("userSeq"), typeField.as("rankingValue"),
-						imgEntity.imgSeq.coalesce(0L).as("imgSeq")))
+				.select(Projections.fields(RankingDto.class, //
+						userEntity.nickName.as("userName"), //
+						userEntity.userSeq.as("userSeq"), //
+						userEntity.competitionResult.as("competitionResult"), //
+						typeField.as("rankingValue"), //
+						imgEntity.imgSeq.coalesce(0L) //
+						.as("imgSeq"))) //
 				.leftJoin(crewTotal.userEntity, userEntity).leftJoin(userEntity.imageFile, imgEntity)
 				.groupBy(userEntity.userSeq).orderBy(typeField.desc(), userEntity.userSeq.asc()).offset(offset)
 				.limit(offset + size).fetch();
@@ -82,7 +87,7 @@ public class CrewTotalRecordCustomRepositoryImpl implements CrewTotalRecordCusto
 			return null;
 		}
 
-		String sql = "select ranking,targetField,subr2.user_seq as user_seq,user_nickname,t_user.img_seq as img_seq FROM  "
+		String sql = "select ranking,targetField,subr2.user_seq as user_seq,user_nickname,t_user.img_seq as img_seq, t_user.competition_result as competitionResult FROM  "
 				+ "(SELECT ranking, user_seq,targetField " + "FROM ( "
 				+ String.format("	SELECT ROW_NUMBER() OVER (order by sum(%s) DESC,user_seq ASC) as ranking,user_seq,sum(%s) as targetField FROM",targetField,targetField )
 				+ "	t_crew_total_record as tct GROUP BY user_seq "
@@ -98,6 +103,10 @@ public class CrewTotalRecordCustomRepositoryImpl implements CrewTotalRecordCusto
 			myRanking.setRankingValue(((BigDecimal) resultMap.get("targetField")).intValue());
 			myRanking.setUserName((String) resultMap.get("user_nickname"));
 			myRanking.setUserSeq((Long) resultMap.get("user_seq"));
+			myRanking.setCompetitionResult(
+					resultMap.get("competitionResult") != null ? 
+							CompetitionResultStatus.valueOf((String) resultMap.get("competitionResult")) : 
+								CompetitionResultStatus.NONRANKED);
 			myRanking.setImgSeq((Long) resultMap.get("img_seq"));
 			if(myRanking.getImgSeq() == null) {
 				myRanking.setImgSeq(0L);
@@ -107,6 +116,7 @@ public class CrewTotalRecordCustomRepositoryImpl implements CrewTotalRecordCusto
 			myRanking = new RankingDto();
 			myRanking.setRankingIndex(0);
 			myRanking.setRankingValue(0);
+			myRanking.setCompetitionResult(CompetitionResultStatus.NONRANKED);
 			myRanking.setUserName("");
 			myRanking.setUserSeq(userSeq);
 			myRanking.setImgSeq(0L);
@@ -126,6 +136,9 @@ public class CrewTotalRecordCustomRepositoryImpl implements CrewTotalRecordCusto
 		myRanking.setRankingIndex(((BigInteger) resultMap.get("ranking")).intValue());
 		myRanking.setRankingValue((Integer) resultMap.get("user_point"));
 		myRanking.setUserName((String) resultMap.get("user_nickname"));
+		myRanking.setCompetitionResult(resultMap.get("competition_result") != null ? 
+				CompetitionResultStatus.valueOf((String) resultMap.get("competition_result")) : 
+					CompetitionResultStatus.NONRANKED);
 		myRanking.setUserSeq((Long) resultMap.get("user_seq"));
 		myRanking.setImgSeq((Long) resultMap.get("img_seq"));
 		return myRanking;
