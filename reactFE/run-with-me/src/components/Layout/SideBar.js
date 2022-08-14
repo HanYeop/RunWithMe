@@ -14,7 +14,7 @@ import styles from "./SideBar.module.css";
 import Molu from "../../assets/molu.jpg";
 import { Link } from "react-router-dom";
 import runWithMeBG from "../../assets/runwithme.png";
-
+import Image from "react-bootstrap/Image";
 const SideBar = (props) => {
   const [toggled, setToggled] = useState(false);
 
@@ -30,8 +30,9 @@ const SideBar = (props) => {
     >
       <SidebarHeader>
         <div className={styles["side-bar-header"]}>
-          <h2>Run With Me</h2>
-          <img src={Molu} alt="로고"></img>
+          <div className={styles.image_box}>
+            <Image src={Molu} width={250} />
+          </div>
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -46,10 +47,11 @@ const SideBar = (props) => {
               <h2>Report</h2>
             </Link>
           </MenuItem>
-          <SubMenu title="Components">
-            <MenuItem>Component 1</MenuItem>
-            <MenuItem>Component 2</MenuItem>
-          </SubMenu>
+          <MenuItem>
+            <Link to="/event">
+              <h2>Event</h2>
+            </Link>
+          </MenuItem>
         </Menu>
       </SidebarContent>
 

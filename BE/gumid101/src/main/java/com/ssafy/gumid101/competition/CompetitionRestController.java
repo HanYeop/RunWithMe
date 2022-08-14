@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,11 +48,13 @@ public class CompetitionRestController {
 	}
 
 	@ApiOperation(value = "대회 만들기")
-	@PostMapping(value = "/")
+	@PostMapping(value = "",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<?> makeCompetition(@RequestPart(name = "competitionDto") String competitionDtoString,
 			@RequestPart(name = "competitionImageFile", required = false) MultipartFile competitionImageFile) throws Exception{
+		
 		CompetitionDto competitionDto = objectMapper.readValue(competitionDtoString, CompetitionDto.class);
 		redisServ.getIsUseable(competitionDto.getCompetitionName() + "makeCompetition", 3);
+		
 		return new ResponseEntity<>(new ResponseFrame<>(true, compServ.makeCompetition(competitionDto, competitionImageFile), 1, "대회 개최에 성공했습니다."), HttpStatus.OK);
 	}
 	
