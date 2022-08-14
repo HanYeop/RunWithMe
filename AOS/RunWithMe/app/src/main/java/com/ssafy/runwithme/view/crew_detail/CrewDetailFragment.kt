@@ -162,22 +162,76 @@ class CrewDetailFragment : BaseFragment<FragmentCrewDetailBinding>(R.layout.frag
             }
 
             btnJoinCrew.setOnClickListener {
-                crewDetailViewModel.joinCrew(crewDto!!.crewSeq, null)
+                if(crewDto!!.crewPassword != null && crewDto!!.crewPassword != ""){
+                    initConfirmJoinPasswdDialog()
+                }else {
+                    initConfirmJoinDialog()
+                }
             }
 
             btnResignCrew.setOnClickListener {
                 if(crewDetailViewModel.isCrewManager.value){
-                    crewDetailViewModel.deleteCrew(crewDto!!.crewSeq)
+                    initConfirmDeleteDialog()
                 }else{
-                    crewDetailViewModel.resignCrew(crewDto!!.crewSeq)
+                    initConfirmResignDialog()
                 }
-                findNavController().popBackStack()
-                findNavController().popBackStack()
             }
 
             btnRunning.setOnClickListener {
                 runningViewModel.runAbleToday(crewDto!!.crewSeq)
             }
+        }
+    }
+
+    private fun initConfirmJoinDialog(){
+        val text = "참가비 ${crewDto.crewCost}P가 지출됩니다.\n가입하시겠습니까?"
+        val confirmJoinDialog = ConfirmJoinDialog(requireContext(), text, confirmJoinListener)
+        confirmJoinDialog.show()
+    }
+
+    private fun initConfirmJoinPasswdDialog(){
+        val text = "참가비 ${crewDto.crewCost}P가 지출됩니다.\n가입하시겠습니까?"
+        val confirmJoinPasswdDialog = ConfirmJoinPasswdDialog(requireContext(), text, confirmJoinPasswdListener)
+        confirmJoinPasswdDialog.show()
+    }
+
+    private fun initConfirmResignDialog(){
+        val text = "탈퇴하시면 ${crewDto.crewCost}P를 돌려받을 수 있습니다.\n탈퇴하시겠습니까?"
+        val confirmResignDialog = ConfirmResignDialog(requireContext(), text, confirmResignListener)
+        confirmResignDialog.show()
+    }
+
+    private fun initConfirmDeleteDialog(){
+        val text = "해체하시면 ${crewDto.crewCost}P를 돌려받을 수 있지만\n챌린지 크루가 사라집니다.\n해체하시겠습니까?"
+        val confirmDeleteDialog = ConfirmResignDialog(requireContext(), text, confirmDeleteListener)
+        confirmDeleteDialog.show()
+    }
+
+    private val confirmJoinListener : ConfirmJoinListener = object :  ConfirmJoinListener {
+        override fun onItemClick() {
+            crewDetailViewModel.joinCrew(crewDto!!.crewSeq, null)
+        }
+    }
+
+    private val confirmJoinPasswdListener : ConfirmJoinPasswdListener = object : ConfirmJoinPasswdListener {
+        override fun onItemClick(passwd: String) {
+            crewDetailViewModel.joinCrew(crewDto!!.crewSeq, passwd)
+        }
+    }
+
+    private val confirmDeleteListener : ConfirmResignListener = object : ConfirmResignListener {
+        override fun onItemClick() {
+            crewDetailViewModel.deleteCrew(crewDto!!.crewSeq)
+            findNavController().popBackStack()
+            findNavController().popBackStack()
+        }
+    }
+
+    private val confirmResignListener : ConfirmResignListener = object : ConfirmResignListener {
+        override fun onItemClick() {
+            crewDetailViewModel.resignCrew(crewDto!!.crewSeq)
+            findNavController().popBackStack()
+            findNavController().popBackStack()
         }
     }
 

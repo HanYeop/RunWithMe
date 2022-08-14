@@ -61,8 +61,8 @@ class CrewDetailViewModel @Inject constructor(
         val today = Calendar.getInstance()
         val sf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
-        var startDate = sf.parse(start)
-        var endDate = sf.parse(end)
+        var startDate = sf.parse(start + " " + timeStart)
+        var endDate = sf.parse(end + " " + timeEnd)
 
 
         val sfTime = SimpleDateFormat("HH:mm:ss", Locale.KOREA)
