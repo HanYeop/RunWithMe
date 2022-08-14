@@ -64,7 +64,7 @@ const EventPage = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [navigate]);
 
   const eventAddButtonClickHandler = () => {
     navigate("/event/create");
@@ -95,7 +95,6 @@ const EventPage = () => {
                 <EventList eventList={endEvent}></EventList>
               </div>
             </div>
-            <EventCreate />
           </div>
         }
       ></Route>

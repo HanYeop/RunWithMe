@@ -7,14 +7,14 @@ import { useState } from "react";
 import apiClient from "../../api/api";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const EventCreate = () => {
-  console.log("이벤트 생성 페이지");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [imgFile, setImgFile] = useState(null);
-
+  const navigate = useNavigate();
   const auth = useSelector((state) => {
     return state.auth;
   });
@@ -79,6 +79,13 @@ const EventCreate = () => {
     })
       .then(({ data }) => {
         console.log(data);
+
+        if (data.success) {
+          alert(data.msg);
+          navigate(-1);
+        } else {
+          alert(data.data);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -104,7 +111,6 @@ const EventCreate = () => {
             type="text"
             value={title}
             onChange={(e) => {
-              console.log(e.target.value);
               setTitle(e.target.value);
             }}
           />
@@ -117,7 +123,6 @@ const EventCreate = () => {
             aria-label="With textarea"
             value={content}
             onChange={(e) => {
-              console.log(e.target.value);
               setContent(e.target.value);
             }}
           />
