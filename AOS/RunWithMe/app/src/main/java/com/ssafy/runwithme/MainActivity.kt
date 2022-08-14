@@ -173,41 +173,26 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             background = null
         }
 
-        // TODO : 애니메이션 TEST
         navController.addOnDestinationChangedListener { _, destination, _ ->
             // 바텀 네비게이션이 표시되는 Fragment
             if(destination.id == R.id.HomeFragment || destination.id == R.id.MyPageFragment){
                 if(binding.expandableBottomBar.visibility == View.GONE) {
-                    val animation = AlphaAnimation(0f, 1f)
-                    animation.duration = 500
-
                     binding.apply {
                         expandableBottomBar.visibility = View.VISIBLE
-                        expandableBottomBar.animation = animation
                         bottomAppBar.visibility = View.VISIBLE
-                        bottomAppBar.animation = animation
                         floatingActionButton.visibility = View.VISIBLE
-                        floatingActionButton.animation = animation
                         view.visibility = View.VISIBLE
-                        view.animation = animation
                     }
                 }
             }
             // 바텀 네비게이션이 표시되지 않는 Fragment
             else{
                 if(binding.expandableBottomBar.visibility == View.VISIBLE) {
-                    val animation = AlphaAnimation(1f, 0f)
-                    animation.duration = 500
-
                     binding.apply {
                         expandableBottomBar.visibility = View.GONE
-                        expandableBottomBar.animation = animation
                         bottomAppBar.visibility = View.GONE
-                        bottomAppBar.animation = animation
                         floatingActionButton.visibility = View.GONE
-                        floatingActionButton.animation = animation
                         view.visibility = View.GONE
-                        view.animation = animation
                     }
                 }
             }
