@@ -28,7 +28,7 @@ class UserDetailViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    private val _userProfile : MutableStateFlow<UserDto> = MutableStateFlow(UserDto(0, 0, "", "", 0))
+    private val _userProfile : MutableStateFlow<UserDto> = MutableStateFlow(UserDto(0, 0, "", "", 0, null))
     val userProfile get() = _userProfile.asStateFlow()
 
     private val _userImage : MutableStateFlow<Int> = MutableStateFlow(0)

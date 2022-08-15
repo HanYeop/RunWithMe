@@ -197,7 +197,6 @@ class SearchCrewFragment : BaseFragment<FragmentSearchCrewBinding>(R.layout.frag
             )
 
         minDate.time = todayCalendarType
-        minDate.add(Calendar.DAY_OF_MONTH, 1)
 
         datePickerDialog.datePicker.minDate = minDate.time.time
 

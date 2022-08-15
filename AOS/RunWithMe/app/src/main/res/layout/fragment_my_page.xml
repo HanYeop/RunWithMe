@@ -134,6 +134,18 @@
                             tools:text="80kg" />
 
                         <ImageView
+                            android:id="@+id/img_competition_ranking"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            tools:src="@drawable/gold_cup"
+                            app:competitionResult="@{myPageVM.competitionResult}"
+                            android:layout_marginStart="8dp"
+                            app:layout_constraintStart_toEndOf="@id/tv_user_weight"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tv_user_weight"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_user_weight"/>
+
+                        <ImageView
                             android:id="@+id/tv_user_point"
                             android:layout_width="25dp"
                             android:layout_height="25dp"

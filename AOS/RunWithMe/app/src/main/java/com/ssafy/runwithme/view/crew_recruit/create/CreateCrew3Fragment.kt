@@ -2,7 +2,6 @@ package com.ssafy.runwithme.view.crew_recruit.create
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.view.View
 import android.widget.RadioGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
@@ -10,13 +9,21 @@ import androidx.navigation.fragment.findNavController
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentCreateCrew3Binding
+import com.ssafy.runwithme.databinding.FragmentCreateCrew5Binding
+import com.ssafy.runwithme.view.crew_recruit.*
+import com.ssafy.runwithme.view.loading.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
 @AndroidEntryPoint
 class CreateCrewFragment3 : BaseFragment<FragmentCreateCrew3Binding>(R.layout.fragment_create_crew3) {
 
     private val createCrewViewModel by activityViewModels<CreateCrewViewModel>()
+
 
     override fun init() {
 
@@ -43,51 +50,75 @@ class CreateCrewFragment3 : BaseFragment<FragmentCreateCrew3Binding>(R.layout.fr
                 findNavController().navigate(R.id.action_createCrewFragment3_to_createCrewFragment4)
             }
 
-            btnCreateCrewPasswd.setOnClickListener {
-                initPasswdDialog()
+            btnCreateGoalAmount.setOnClickListener {
+                val check = radioGroupPurpose.checkedRadioButtonId
+                if(check == R.id.radio_btn_time){
+                    initPurposeTimeDialog()
+                }else{
+                    initPurposeDistanceDialog()
+                }
+            }
+
+            btnCreateGoalDays.setOnClickListener {
+                initGoalDaysDialog()
             }
 
         }
     }
 
 
+
     private fun initRadioGroupCheck() {
         binding.apply {
-            radioGroupPasswd.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener{
-                @SuppressLint("ResourceAsColor")
+            radioGroupPurpose.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener{
                 override fun onCheckedChanged(radioGroup: RadioGroup?, checkId: Int) {
                     when(checkId){
-                        R.id.radio_btn_passwd_off ->{
-                            binding.apply {
-                                btnCreateCrewPasswd.visibility = View.GONE
-                                tvPasswd.visibility = View.GONE
-                                createCrewViewModel.setPasswd("")
-                                createCrewViewModel.isSettingPasswd = false
-                            }
+                        R.id.radio_btn_time -> {
+                            tvGoalType.text = "분"
+                            createCrewViewModel.setGoalTypeDistance(false)
                         }
-
-                        R.id.radio_btn_passwd_on -> {
-                            binding.apply {
-                                btnCreateCrewPasswd.visibility = View.VISIBLE
-                                tvPasswd.visibility = View.VISIBLE
-                                createCrewViewModel.isSettingPasswd = true
-                            }
+                        R.id.radio_btn_distance -> {
+                            tvGoalType.text = "km"
+                            createCrewViewModel.setGoalTypeDistance(true)
                         }
                     }
                 }
             })
-
         }
     }
 
-    private fun initPasswdDialog() {
-        val passwdDialog = PasswdDialog(requireContext(), passwdDialogListener)
-        passwdDialog.show()
+    private fun initGoalDaysDialog() {
+        val goalDaysDialog = GoalDaysDialog(requireContext(), goalDaysDialogListener, 1)
+        goalDaysDialog.show()
     }
 
-    private val passwdDialogListener: PasswdDialogListener = object : PasswdDialogListener {
-        override fun onItemClick(passwd: String) {
-            createCrewViewModel.setPasswd(passwd)
+    private fun initPurposeDistanceDialog() {
+        val purposeDistanceDialog = PurposeDistanceDialog(requireContext(), purposeDistanceDialogListener, 1)
+        purposeDistanceDialog.show()
+    }
+
+    private fun initPurposeTimeDialog() {
+        val purposeTimeDialog = PurposeTimeDialog(requireContext(), purposeTimeDialogListener)
+        purposeTimeDialog.show()
+    }
+
+    private val goalDaysDialogListener : GoalDaysDialogListener = object : GoalDaysDialogListener {
+        override fun onItemClick(days: Int) {
+            createCrewViewModel.setGoalDays(days)
+        }
+    }
+
+    private val purposeTimeDialogListener : PurposeTimeDialogListener = object :
+        PurposeTimeDialogListener {
+        override fun onItemClick(time: String) {
+            createCrewViewModel.setTime(time)
+        }
+    }
+
+    private val purposeDistanceDialogListener : PurposeDistanceDialogListener = object :
+        PurposeDistanceDialogListener {
+        override fun onItemClick(distance: Int) {
+            createCrewViewModel.setDistance(distance)
         }
     }
 

@@ -346,29 +346,12 @@
             app:destination="@id/createCrewFragment3" />
     </fragment>
     <fragment
-        android:id="@+id/createCrewFragment3"
-        android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment3"
-        android:label="CreateCrewFragment3" >
-        <action
-            android:id="@+id/action_createCrewFragment3_to_createCrewFragment4"
-            app:destination="@id/createCrewFragment4" />
-    </fragment>
-    <fragment
         android:id="@+id/createCrewFragment4"
         android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment4"
         android:label="CreateCrewFragment4" >
         <action
             android:id="@+id/action_createCrewFragment4_to_createCrewFragment5"
             app:destination="@id/createCrewFragment5" />
-    </fragment>
-    <fragment
-        android:id="@+id/createCrewFragment5"
-        android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment5"
-        android:label="CreateCrewFragment5" >
-        <action
-            android:id="@+id/action_createCrewFragment5_to_CrewRecruitFragment"
-            app:popUpTo="@id/HomeFragment"
-            app:destination="@id/CrewRecruitFragment" />
     </fragment>
     <fragment
         android:id="@+id/crewRecruitDetailFragment"
@@ -405,5 +388,21 @@
         <action
             android:id="@+id/action_competitionRankingFragment_to_userDetailFragment"
             app:destination="@id/userDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCrewFragment3"
+        android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment3"
+        android:label="CreateCrewFragment3" >
+        <action
+            android:id="@+id/action_createCrewFragment3_to_createCrewFragment4"
+            app:destination="@id/createCrewFragment4" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCrewFragment5"
+        android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment5"
+        android:label="CreateCrewFragment5" >
+        <action
+            android:id="@+id/action_createCrewFragment5_to_CrewRecruitFragment"
+            app:destination="@id/CrewRecruitFragment" />
     </fragment>
 </navigation>

@@ -8,5 +8,5 @@ data class UserDto(
     @SerializedName("nickName") val nickName: String,
     @SerializedName("email") val email: String,
     @SerializedName("point") val point: Int,
-
+    @SerializedName("competitionResult") val competitionResult: String?
 )

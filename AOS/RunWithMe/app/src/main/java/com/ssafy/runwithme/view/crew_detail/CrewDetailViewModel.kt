@@ -61,9 +61,11 @@ class CrewDetailViewModel @Inject constructor(
         val today = Calendar.getInstance()
         val sf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
-        var startDate = sf.parse(start + " " + timeStart)
-        var endDate = sf.parse(end + " " + timeEnd)
+        val startTokenizer = StringTokenizer(start, " ")
+        val endTokenizer = StringTokenizer(end, " ")
 
+        var startDate = sf.parse(startTokenizer.nextToken() + " " + timeStart)
+        var endDate = sf.parse(endTokenizer.nextToken() + " " + timeEnd)
 
         val sfTime = SimpleDateFormat("HH:mm:ss", Locale.KOREA)
 
@@ -85,7 +87,6 @@ class CrewDetailViewModel @Inject constructor(
             if (today.time.time - endDate.time > 0) {
                 _crewState.value = "end"
             } else {
-
                 if (nowTime.time >= startTime.time && nowTime.time<= endTime.time) {
                     _crewState.value = "start"
                 } else {
@@ -103,6 +104,8 @@ class CrewDetailViewModel @Inject constructor(
             _crewState.value = "await"
         }
 
+        Log.d(TAG, "setState: ${crewState.value}")
+
 
     }
 
@@ -111,6 +114,7 @@ class CrewDetailViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             crewManagerRepository.checkCrewMember(crewSeq).collectLatest {
                 if (it is Result.Success) {
+                    Log.d(TAG, "checkCrewMember: ${it.data.data}")
                     _isCrewMember.value = it.data.data
                 }
             }

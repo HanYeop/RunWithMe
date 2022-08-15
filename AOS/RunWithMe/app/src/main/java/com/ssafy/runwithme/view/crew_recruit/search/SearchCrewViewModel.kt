@@ -259,7 +259,6 @@ class SearchCrewViewModel : ViewModel(){
 
     fun initDate() {
         val now = LocalDate.now()
-        now.plusDays(1)
         val startDateYearInt = now.year
         val startDateMonthInt = now.monthValue
         var startDateMonth = startDateMonthInt.toString()

@@ -46,6 +46,9 @@ class MyPageViewModel @Inject constructor(
     private val _point = MutableStateFlow("")
     val point get() = _point.asStateFlow()
 
+    private val _competitionResult : MutableStateFlow<String?> = MutableStateFlow(null)
+    val competitionResult get() = _competitionResult.asStateFlow()
+
     private val _errorMsgEvent = SingleLiveEvent<String>()
     val errorMsgEvent get() = _errorMsgEvent
 
@@ -66,6 +69,7 @@ class MyPageViewModel @Inject constructor(
                     _height.value = it.data.data.userDto.height.toString()
                     _weight.value = it.data.data.userDto.weight.toString()
                     _point.value = it.data.data.userDto.point.toString()
+                    _competitionResult.value = it.data.data.userDto.competitionResult
                 } else if(it is Result.Error){
                     _errorMsgEvent.postValue("프로필 정보를 불러오는 중 오류가 발생했습니다.")
                 }
