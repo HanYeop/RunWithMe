@@ -139,11 +139,10 @@
                             android:layout_height="50dp"
                             tools:src="@drawable/gold_cup"
                             app:competitionResult="@{myPageVM.competitionResult}"
-                            android:layout_marginStart="8dp"
-                            app:layout_constraintStart_toEndOf="@id/tv_user_weight"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/tv_user_weight"
-                            app:layout_constraintBottom_toBottomOf="@id/tv_user_weight"/>
+                            android:layout_marginEnd="32dp"
+                            app:layout_constraintEnd_toStartOf="@id/image_edit_profile"
+                            app:layout_constraintTop_toTopOf="@id/tv_user_point_value"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_user_point_value"/>
 
                         <ImageView
                             android:id="@+id/tv_user_point"
