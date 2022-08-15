@@ -1,6 +1,7 @@
 package com.ssafy.runwithme.view.my_page.tab.my_board
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -20,9 +21,12 @@ class MyBoardAdapter(private val deleteDialogListener: DeleteDialogListener) : P
             }
         }
 
-        fun bind(board: CrewBoardDto) {
-            binding.board = board
-            binding.executePendingBindings()
+        fun bind(myBoard: CrewBoardDto) {
+            binding.apply {
+                imageBoard.visibility = View.GONE
+                board = myBoard
+                executePendingBindings()
+            }
         }
     }
 

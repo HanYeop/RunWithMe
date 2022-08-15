@@ -98,7 +98,6 @@ object ViewBindingAdapter {
                 .placeholder(R.drawable.img)
                 .into(this)
         }
-
     }
 
     @BindingAdapter("crewBoardProfileImage")

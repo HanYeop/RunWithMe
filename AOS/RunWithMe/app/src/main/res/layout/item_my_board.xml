@@ -50,6 +50,15 @@
 
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/image_board"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginVertical="12dp"
+                android:scaleType="fitXY"
+                tools:src="@drawable/crew_image"
+                android:adjustViewBounds="true" />
+
             <TextView
                 android:id="@+id/tv_my_board_content"
                 style="@style/header_text"
