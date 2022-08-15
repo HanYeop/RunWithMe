@@ -1,6 +1,7 @@
 package com.ssafy.gumid101.crew.activity;
 
 import java.time.LocalDateTime;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,8 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.gumid101.crew.RunRecordRepository;
-import com.ssafy.gumid101.crew.TotalRunRecordRepository;
 import com.ssafy.gumid101.crew.UserCrewJoinRepository;
+import com.ssafy.gumid101.crew.UserCrewRunRecordRepository;
 import com.ssafy.gumid101.crew.manager.CrewManagerRepository;
 import com.ssafy.gumid101.customexception.CrewPermissonDeniedException;
 import com.ssafy.gumid101.customexception.NotFoundUserException;
@@ -46,7 +47,7 @@ public class CrewActivityServiceImpl implements CrewActivityService{
 	private final CrewActivityBoardRepository boardRepo;
 	private final UserCrewJoinRepository ucRepo;
 	private final RunRecordRepository runRepo;
-	private final TotalRunRecordRepository totalRepo;
+	private final UserCrewRunRecordRepository totalRepo;
 	private final UserRepository userRepo;
 	private final CrewManagerRepository crewManageRepo;
 

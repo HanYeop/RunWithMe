@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.gumid101.customexception.FCMTokenUnValidException;
 import com.ssafy.gumid101.entity.UserEntity;
-import com.ssafy.gumid101.firebase.FirebaseMessage;
+import com.ssafy.gumid101.firebase.FirebaseMessageUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 class FireBaseMessageBridge {
 	
-	private final FirebaseMessage firebaseMessage;
+	private final FirebaseMessageUtil firebaseMessage;
 	private final UserRepository userRepo;
 	/**
 	 * 특정 유저 SEQ를 통하여 해당 유저에게 제목,메세지를 전달한다. 

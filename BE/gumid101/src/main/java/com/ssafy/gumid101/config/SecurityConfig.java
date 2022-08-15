@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -20,6 +21,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gumid101.OAuth.CustomOAuth2UserService;
@@ -43,7 +47,7 @@ public class SecurityConfig {
 	private final UserRepository userRepo;
 	private final JwtUtilsService jwtUtilService;
 	private final ObjectMapper mapper;
-	private final CustomOAuth2UserService oAuth2UserService;
+	//private final CustomOAuth2UserService oAuth2UserService;
 	private final OAuth2SuccessHandler successHandler;
 
 	private final GoogleTokenValidate googleTokenValidate;
@@ -73,8 +77,8 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager)
 			throws Exception {
-
-		http.cors().disable();// cors 문제 무시
+		http.cors().configurationSource(corsConfigurationSource());
+		//http.cors().disable();// cors 필터 사용안함
 		http.httpBasic().disable(); // 헤더에 username,password 로그인 사용 불가
 		http.csrf().disable(); // csrf 보안 사용 안함
 		http.anonymous().disable(); // 익명 사용자 허용 x
@@ -91,10 +95,11 @@ public class SecurityConfig {
 				kakaoTokenValidate, successHandler), JwtAuthFilter.class);
 
 		http.authorizeHttpRequests((authz) -> {
-
 			authz.antMatchers("/user/profile").hasRole(Role.TEMP.toString());
 			authz.antMatchers("/**").hasRole(Role.USER.toString());
+			
 		});
+		
 		http.exceptionHandling().accessDeniedHandler(new AccessDeniedHandler() {
 
 			@Override
@@ -105,9 +110,22 @@ public class SecurityConfig {
 
 			}
 		});
+	
 		// 어뗀티 케이션 디나이 핸들러는 따로 처리하고 있음
 
 		return http.build();
 	}
+    @Bean 
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
 
+        configuration.addAllowedOriginPattern("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 }

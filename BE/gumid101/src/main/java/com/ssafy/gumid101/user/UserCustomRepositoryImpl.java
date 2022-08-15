@@ -84,10 +84,12 @@ public class UserCustomRepositoryImpl implements UserCustomRepository{
 		QUserEntity user = QUserEntity.userEntity;
 		NumberExpression<?> column =  user.point;
 		List<RankingDto> rankingList = jpqQueryFactory.from(user)
-		.select(Projections.fields(RankingDto.class, 
-				user.userSeq.as("userSeq"),
-				user.nickName.as("userName"),
-				column.as("rankingValue"),user.imageFile.imgSeq.coalesce(0L).as("imgSeq")))
+		.select(Projections.fields(RankingDto.class, // 
+				user.userSeq.as("userSeq"), //
+				user.nickName.as("userName"), //
+				user.competitionResult.as("competitionResult"), //
+				column.as("rankingValue"), //
+				user.imageFile.imgSeq.coalesce(0L).as("imgSeq")))
 		.orderBy(column.desc()).offset(offset).limit(offset+size)
 		.fetch();
 		

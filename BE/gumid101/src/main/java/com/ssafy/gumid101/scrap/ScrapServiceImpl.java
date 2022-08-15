@@ -51,9 +51,7 @@ public class ScrapServiceImpl implements ScrapService {
 				.build(); //
 		scrapRepo.save(scrapEntity);
 		UserDto runnerDto = UserDto.of(trackBoardEntity.getRunRecordEntity().getUserEntity());
-		runnerDto.setEmail(null);
-		runnerDto.setRole(null);
-		runnerDto.setFcmToken(null);
+		runnerDto.hideInfo();
 		return ScrapInfoDto.builder() //
 				.scrapSeq(scrapEntity.getScrapSeq()) //
 				.title(title == null ? "" : title) //

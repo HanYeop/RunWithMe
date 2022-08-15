@@ -1,6 +1,7 @@
 package com.ssafy.gumid101.crew.manager;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -10,7 +11,7 @@ import org.springframework.util.StringUtils;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.DateTimePath;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.gumid101.crew.CrewGoalType;
@@ -21,7 +22,6 @@ import com.ssafy.gumid101.dto.RecruitmentParamsDto;
 import com.ssafy.gumid101.entity.CrewEntity;
 import com.ssafy.gumid101.entity.ImageFileEntity;
 import com.ssafy.gumid101.entity.QCrewEntity;
-import com.ssafy.gumid101.entity.QUserCrewJoinEntity;
 import com.ssafy.gumid101.res.CrewFileDto;
 
 import lombok.RequiredArgsConstructor;
@@ -65,16 +65,26 @@ public class CrewManagerCustomRepositoryImpl implements CrewManagerCustomReposit
 			// 시작일 얼마 안남은 순
 			order1 = crewEntity.crewDateStart.asc();
 		}
-
-		JPAQuery<CrewEntity> test = jpaQueryFactory.selectFrom(crewEntity).innerJoin(crewEntity.managerEntity)
-				.where(builder).where(crewEntity.crewDateStart.after(LocalDateTime.now()))
-				.where(crewEntity.crewSeq.lt(maxCrewSeq)).orderBy(order1, order2).limit(size);
+		
+		 //crewEntity.crewDateStart
+		JPAQuery<CrewEntity> test = jpaQueryFactory.selectFrom(crewEntity).innerJoin(crewEntity.managerEntity) //
+				.where(builder) //
+				.where(crewEntity.crewDateStart.after(LocalDateTime.now()) //
+						.or(crewEntity.crewDateStart.after(LocalDateTime.now().minusDays(1)) //
+								.and(crewEntity.crewTimeStart.after(LocalTime.now()))) //
+				) //  
+				.where(crewEntity.crewSeq.lt(maxCrewSeq)) //
+				.orderBy(order1, order2) //
+				.limit(size); //
 		List<CrewEntity> crews = test.fetch();
+		
+
 
 		// 검색때는 마감 얼마 안 남은거 , 뿌릴때는 등록된 순서
 		// orderby 바뀔지 안바뀔지 모르겟다. 현재는 크루 시작일이 얼마 남지 않은 순으로 반환한다.
 
-		return crews.stream().map(
+
+		return crews.stream() .map(
 
 				(crew) -> {
 					CrewDto crewDto = CrewDto.of(crew, crew.getManagerEntity().getNickName(),

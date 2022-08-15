@@ -42,11 +42,11 @@ public class JwtAuthFilter extends OncePerRequestFilter  {
 		} catch (Exception e) {
 			logger.info("토큰 에러:" + e.getMessage());
 
-			hRes.setStatus(401);
+			//hRes.setStatus(401);
 			
-			hRes.getWriter().write(mapper.writeValueAsString(ResponseFrame.of(false,e.getMessage())));
+			//hRes.getWriter().write(mapper.writeValueAsString(ResponseFrame.of(false,e.getMessage())));
 
-			hRes.flushBuffer();
+			//hRes.flushBuffer();
 		}
 		// UnsupportedJwtException - if the claimsJws argument does not represent an
 		// Claims
@@ -111,7 +111,7 @@ public class JwtAuthFilter extends OncePerRequestFilter  {
 
 		} else {
 			log.debug("토큰 부적합");
-			return;
+			
 		}
 
 		filterChain.doFilter(request, response);

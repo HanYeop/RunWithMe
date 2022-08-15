@@ -25,9 +25,7 @@ public class TrackBoardFileDto {
 			return null;
 		}
 		UserDto userDto = UserDto.of(trackBoardEntity.getRunRecordEntity().getUserEntity());
-		userDto.setEmail(null);
-		userDto.setFcmToken(null);
-		userDto.setRole(null);
+		userDto.hideInfo();
 		return TrackBoardFileDto.builder() //
 				.trackBoardDto(TrackBoardDto.of(trackBoardEntity)) //
 				.trackBoardImageFileDto(ImageFileDto.of(trackBoardEntity.getTrackBoardImageEntity())) //

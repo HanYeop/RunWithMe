@@ -1,0 +1,75 @@
+.report-main {
+  width: 90%;
+  margin: 40px auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 16vh 50vh 10vh;
+  box-shadow: 0px 0px 5px rgb(41, 41, 41);
+}
+
+.card-frame {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 10px;
+  box-shadow: 0px 0px 1px rgb(41, 41, 41);
+}
+
+.card-left-image {
+  text-align: center;
+  line-height: 80px;
+  font-size: 80px;
+}
+.card-right-desc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.card-title {
+  font-size: 25px;
+}
+.card-value {
+  font-size: 30px;
+}
+.list-frame {
+  grid-row: 2/3;
+  grid-column: 1/4;
+  margin: 0px 10px;
+  background-color: white;
+}
+.list-page-navigation {
+  grid-column: 1/4;
+  justify-self: center;
+}
+
+.none-visible-button {
+  border: none;
+}
+
+.none-visible-button:active {
+  opacity: 60%;
+}
+
+@media screen and (max-width: 1300px) {
+  .card-left-image {
+    text-align: center;
+    font-size: 50px;
+  }
+  .card-right-desc {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .card-frame {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+  .report-main {
+    display: flex;
+    flex-direction: column;
+  }
+}

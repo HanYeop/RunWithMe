@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class FirebaseMessageImpl implements FirebaseMessage {
+public class FirebaseMessageUtilImpl implements FirebaseMessageUtil {
 	private final ObjectMapper objectMapper;
 
 	/**
@@ -62,7 +62,7 @@ public class FirebaseMessageImpl implements FirebaseMessage {
 	@Value("${fire_base.scoped}")
 	private String SCOPE_PATH;
 
-	public void sendMessageTo(List<FcmMessage.Message> fcmMesageList) throws IOException {
+	public void sendMessageTo(List<FcmMessage.Message> fcmMesageList){
 
 		int successCount = 0;
 		int failtCount = 0;
@@ -103,6 +103,7 @@ public class FirebaseMessageImpl implements FirebaseMessage {
 					failtCount++;
 				}
 			} catch (Exception e) {
+				failtCount++;
 				log.info(e.getMessage());
 			}
 		}

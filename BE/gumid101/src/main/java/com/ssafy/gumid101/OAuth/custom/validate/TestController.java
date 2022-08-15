@@ -20,13 +20,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ssafy.gumid101.achievement.AchievementRepository;
 import com.ssafy.gumid101.crew.manager.CrewManagerService;
+import com.ssafy.gumid101.customexception.FCMTokenUnValidException;
 import com.ssafy.gumid101.dto.AchievementDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.entity.AchievementEntity;
 import com.ssafy.gumid101.entity.UserEntity;
 import com.ssafy.gumid101.firebase.FcmMessage;
 import com.ssafy.gumid101.firebase.FcmMessage.Message;
-import com.ssafy.gumid101.firebase.FirebaseMessage;
+import com.ssafy.gumid101.firebase.FirebaseMessageUtil;
 import com.ssafy.gumid101.jwt.JwtUtilsService;
 import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.res.ResponseFrame;
@@ -35,6 +36,7 @@ import com.ssafy.gumid101.user.Role;
 import com.ssafy.gumid101.user.UserRepository;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -47,6 +49,10 @@ class AK {
 @Controller
 public class TestController {
 
+	
+	@Autowired
+	private CrewSchedule crewSchedule;
+	
 	@Autowired
 
 	private UserRepository userRepo;
@@ -56,7 +62,7 @@ public class TestController {
 	private JwtUtilsService jwtUtilSevice;
 
 	@Autowired
-	private FirebaseMessage firebaseMessage;
+	private FirebaseMessageUtil firebaseMessage;
 	
 
 
@@ -167,9 +173,8 @@ public class TestController {
 	@GetMapping("/test/notification")
 	public String notificationTest() throws IOException{
 		
-		
 		List<Message> fcmMesageList = userRepo.findAll().stream().map((userEntity)->{
-			return FcmMessage.ofMessage("eKlI-I-pT42lZnVYihEmF0:APA91bHzEZEkcbbwZczoaSV8t6ikhAF4Xu5XzR-dkCYK7-1iqEUzWmJ3GmJdRhJRjS4GQQAvQAjK2qiAG9Lft3b8EgmUGvPjTHylnnClU9bwgkQqKlN0Ykaa4n5bTzo8pIZeek20_r2s", "테스트", "안녕하세요\n ㅎㅎ");
+			return FcmMessage.ofMessage(userEntity.getFcmToken(), "테스트", "안녕하세요\n ㅎㅎ");
 		}).collect(Collectors.toList());
 		
 		firebaseMessage.sendMessageTo(fcmMesageList);
@@ -177,5 +182,34 @@ public class TestController {
 		return "알림테스트";
 	}
 	
+	@ApiParam(name = "특정 유저에게 주어진 메세지를 전송한다.")
+	@ResponseBody
+	@GetMapping("/test/fcm")
+	public String notifitoUser(@RequestParam Long userSeq) throws IOException, FCMTokenUnValidException {
+		String token =  userRepo.findById(userSeq).get().getFcmToken();
+		firebaseMessage.sendMessageTo(token, "테스트", "테스트 메세지 발송");
+		return "gg";
+	}
 	
+	@ApiOperation("크루 포인트 분배 08 - 12")
+	@GetMapping("/test/distriute")
+	private String crewPointDestribute() throws Exception {
+		crewSchedule.crewPointDistribute();
+		return "asdf";
+	}
+	
+	
+	@ApiOperation("컴페티션 포인트 분배 08 - 12")
+	@GetMapping("/test/competitionPointDistribute")
+	private String competitionPointDistribute() throws Exception {
+		crewSchedule.competitionPointDistribute();
+		return "asdf";
+	}
+	
+	@ApiOperation("알람 전송  08 - 12")
+	@GetMapping("/test/crewPointAlarm")
+	private String crewPointAlarm() throws Exception {
+		crewSchedule.notification();
+		return "asdf";
+	}
 }

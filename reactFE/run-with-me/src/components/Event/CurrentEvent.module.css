@@ -1,0 +1,31 @@
+.current_event_frame {
+  text-align: center;
+
+  min-width: 400px;
+  margin: 10px;
+  padding: 10px;
+}
+.head_title {
+  font-weight: 700;
+  font-size: 30px;
+  font-style: italic;
+}
+.current_event {
+  display: flex;
+  flex-wrap: wrap;
+  width: 80%;
+  margin-left: 10%;
+  padding: 10px;
+  box-shadow: 0px 0px 3px rgb(61, 61, 61);
+  gap: 10px;
+  justify-content: center;
+}
+
+.table_desc {
+  border: 1px;
+}
+
+.table_desc td {
+  padding: 30px;
+  box-shadow: 0px 0px 1px black;
+}

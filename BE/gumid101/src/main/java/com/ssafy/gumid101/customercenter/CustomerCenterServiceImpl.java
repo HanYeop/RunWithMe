@@ -9,6 +9,7 @@ import javax.validation.constraints.Min;
 
 import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.gumid101.crew.activity.CrewActivityBoardRepository;
@@ -43,7 +44,9 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 	private final QuestionRepository questionRepository;
 	private final UserRepository userRepo;
 	private final CrewActivityBoardRepository boardRepo;
-
+	
+	
+	@Transactional
 	@Override
 	public QuestionDto postQuestion(QuestionDto questionDto, Long userSeq) throws Exception {
 		UserEntity userEntity = userRepo.findById(userSeq)
@@ -55,7 +58,7 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 
 		return QuestionDto.of(question);
 	}
-
+	@Transactional
 	@Override
 	public ReportDto postReport(Long boardSeq, String reportContent, Long userSeq) throws Exception {
 		UserEntity userEntity = userRepo.findById(userSeq)
@@ -72,40 +75,15 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 		}
 
 		ReportEntity reportEntity = ReportEntity.builder().reportContent(reportContent).reportCrewBoardSeq(boardSeq)
-				.reportStatus(ReportStatus.WAITING).userReporterEntity(userEntity).build();
+				.reportStatus(ReportStatus.WAITING).userReporterEntity(userEntity)
+				.userTargetEntity(crewBoardEntity.getUserEntity()).build();
 
 		reportRepository.save(reportEntity);
 
 		return ReportDto.of(reportEntity);
 	}
-
-	@Override
-	public int deleteCrewBoard(Long boardSeq) throws Exception {
-
-		try {
-			boardRepo.deleteById(boardSeq);
-		} catch (Exception e) {
-			log.debug(e.getMessage());
-			return 0;
-		}
-
-		return 1;
-	}
-
-	@Override
-	public int deleteReport(Long seq) throws Exception {
-
-		try {
-			reportRepository.deleteById(seq);
-		} catch (Exception e) {
-
-			log.debug("신고글 삭제 에러 : {}", e.getMessage());
-			return 0;
-		}
-
-		return 1;
-	}
-
+	
+	@Transactional
 	@Override
 	public int deleteQuestion(Long questionSeq) throws Exception {
 		try {
@@ -118,7 +96,7 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 
 		return 1;
 	}
-
+	@Transactional
 	@Override
 	public int answerQuestion(Long seq, QuestionReqDto questionReqDto, MultipartFile[] files) throws Exception {
 		// question
@@ -127,7 +105,7 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 
 		return 0;
 	}
-
+	@Transactional
 	@Override
 	public Map<String, Object> selectQuestion(QuestionSelectParameter params) {
 
@@ -169,67 +147,7 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 		return map;
 
 	}
-
-	@Override
-	public Map<String, Object> selectReportsByParam(ReportSelectReqDto params) {
-
-		List<ReportResDto> reportList = reportRepository.selectReportsByParam(params);
-		long count = reportRepository.selectCountReportsByParam(params);
-
-		int pageItemSize = params.getPageItemSize();
-		int currentPage = params.getCurrentPage();
-		int pageNaviSize = params.getPageNaviSize();
-
-		int lastPageIndex = (int) (((count - 1) / pageItemSize) + 1);
-
-		if (lastPageIndex <= 0) {
-			lastPageIndex = 1;
-		}
-		int startPageIndex = ((currentPage - 1) / pageNaviSize) * pageNaviSize + 1;
-		int endPageIndex = startPageIndex + pageNaviSize - 1;
-		int nextPageIndex = endPageIndex + 1;
-		int prevPageIndex = startPageIndex - 1;
-
-		if (endPageIndex > lastPageIndex) {
-			endPageIndex = lastPageIndex;
-		}
-		if (startPageIndex < 1) {
-			startPageIndex = 1;
-		}
-
-		nextPageIndex = endPageIndex >= lastPageIndex ? endPageIndex : nextPageIndex;
-		prevPageIndex = prevPageIndex <= 1 ? 1 : prevPageIndex;
-
-		PagingParameter pagingParameter = new PagingParameter();
-
-		pagingParameter.setCurrentPageIndex(currentPage);
-		pagingParameter.setLastPageIndex(lastPageIndex);
-
-		pagingParameter.setEndPageIndex(endPageIndex);
-		pagingParameter.setNextPageIndex(nextPageIndex);
-		pagingParameter.setCurrentPageIndex(currentPage);
-		pagingParameter.setPageNavSize(pageNaviSize);
-		pagingParameter.setPrevPageIndex(prevPageIndex);
-		pagingParameter.setStartPageIndex(startPageIndex);
-		
-		Map<String, Object> map = new HashMap<>();
-		map.put("reports", reportList);
-		map.put("pageinfo", pagingParameter);
-		return map;
-		
-	}
-
-	@Override
-	public int updateReportsStatus(Long reportId, ReportStatus status) {
-		
-		Optional<ReportEntity> report = reportRepository.findById(reportId);
-		if(!report.isPresent()) {
-			return 0;
-		}
-		report.get().setReportStatus(status);
-		return 1;
-	}
-
+	@Transactional
 	@Override
 	public int updateQustionStatus(Long questionSeq, QuestionStatus status) {
 		Optional<QuestionEntity> question = questionRepository.findById(questionSeq);
