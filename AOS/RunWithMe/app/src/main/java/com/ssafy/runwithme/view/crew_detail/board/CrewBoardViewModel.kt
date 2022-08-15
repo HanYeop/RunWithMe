@@ -23,6 +23,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -56,15 +58,16 @@ class CrewBoardViewModel @Inject constructor(
         return crewActivityRepository.getCrewBoards(crewSeq, size).cachedIn(viewModelScope)
     }
 
-    fun createCrewBoard(crewSeq: Int, crewBoardDto: CreateCrewBoardDto) {
+    fun createCrewBoard(crewSeq: Int, crewBoardDto: RequestBody, img: MultipartBody.Part?) {
         viewModelScope.launch(Dispatchers.IO) {
-            crewActivityRepository.createCrewBoard(crewSeq, crewBoardDto).collectLatest {
+            crewActivityRepository.createCrewBoard(crewSeq, crewBoardDto, img).collectLatest {
+                Log.d(TAG, "createCrewBoard: $it")
                 if(it is Result.Success){
                     _successMsgEvent.postValue("글을 등록했습니다.")
                 }else if(it is Result.Error){
                     _errorMsgEvent.postValue("오류가 발생했습니다.")
                 }else if(it is Result.Fail){
-                    _failMsgEvent.postValue(it.data.msg)
+                    _failMsgEvent.postValue("처리에 실패하였습니다.")
                 }
             }
         }
@@ -78,7 +81,7 @@ class CrewBoardViewModel @Inject constructor(
                 }else if(it is Result.Error){
                     _errorMsgEvent.postValue("오류가 발생했습니다.")
                 }else if(it is Result.Fail){
-                    _failMsgEvent.postValue(it.data.msg)
+                    _failMsgEvent.postValue("처리에 실패하였습니다.")
                 }
             }
         }
@@ -92,7 +95,7 @@ class CrewBoardViewModel @Inject constructor(
                 }else if(it is Result.Error){
                     _errorMsgEvent.postValue("신고 중 오류가 발생했습니다.")
                 }else if(it is Result.Fail){
-                    _failMsgEvent.postValue(it.data.msg)
+                    _failMsgEvent.postValue("처리에 실패하였습니다.")
                 }
             }
         }

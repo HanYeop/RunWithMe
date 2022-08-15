@@ -8,6 +8,8 @@ import com.ssafy.runwithme.model.response.CrewBoardResponse
 import com.ssafy.runwithme.model.response.CrewMyTotalRecordDataResponse
 import com.ssafy.runwithme.model.response.MyGraphDataResponse
 import com.ssafy.runwithme.model.response.RankingResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -28,8 +30,20 @@ interface CrewActivityApi {
         @Query("size") size: Int
     ) : BaseResponse<List<RunRecordDto>>
 
+    @Multipart
     @POST("crew-activity/{crewSeq}/board")
-    suspend fun createCrewBoard(@Path("crewSeq") crewSeq: Int, @Body crewBoardDto: CreateCrewBoardDto) : BaseResponse<CrewBoardResponse>
+    suspend fun createCrewBoard(
+        @Path("crewSeq") crewSeq: Int,
+        @Part("crewBoardDto") crewBoardDto: RequestBody,
+        @Part imgFile: MultipartBody.Part?
+    ): BaseResponse<CrewBoardResponse>
+
+    @Multipart
+    @POST("crew-activity/{crewSeq}/board")
+    suspend fun createCrewBoard(
+        @Path("crewSeq") crewSeq: Int,
+        @Part("crewBoardDto") crewBoardDto: RequestBody,
+    ): BaseResponse<CrewBoardResponse>
 
     @DELETE("crew-activity/crew/boards/{boardSeq}")
     suspend fun deleteCrewBoard(@Path("boardSeq") boardSeq: Int) : BaseResponse<Boolean>

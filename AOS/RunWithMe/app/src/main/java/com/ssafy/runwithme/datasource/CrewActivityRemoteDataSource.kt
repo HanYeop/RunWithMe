@@ -10,6 +10,8 @@ import com.ssafy.runwithme.model.response.MyGraphDataResponse
 import com.ssafy.runwithme.model.response.RankingResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,8 +24,12 @@ class CrewActivityRemoteDataSource @Inject constructor(
         emit(crewActivityApi.getCrewRanking(crewSeq, type))
     }
 
-    fun createCrewBoard(crewSeq: Int, crewBoardDto: CreateCrewBoardDto): Flow<BaseResponse<CrewBoardResponse>> = flow {
-        emit(crewActivityApi.createCrewBoard(crewSeq, crewBoardDto))
+    fun createCrewBoard(crewSeq: Int, crewBoardDto: RequestBody, img: MultipartBody.Part?): Flow<BaseResponse<CrewBoardResponse>> = flow {
+        if(img == null){
+            emit(crewActivityApi.createCrewBoard(crewSeq, crewBoardDto, img))
+        } else {
+            emit(crewActivityApi.createCrewBoard(crewSeq, crewBoardDto))
+        }
     }
 
     fun deleteCrewBoard(boardSeq: Int): Flow<BaseResponse<Boolean>> = flow {

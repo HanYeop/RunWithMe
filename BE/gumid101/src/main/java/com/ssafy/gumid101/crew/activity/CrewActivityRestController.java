@@ -148,7 +148,7 @@ public class CrewActivityRestController {
 	@ApiOperation("크루 게시판 글 작성")
 	public ResponseEntity<?> writeCrewBoards(
 			@PathVariable(name = "crewSeq") Long crewSeq,
-			@RequestPart(value="crewBoardDto",required = true) CrewBoardDto crewBoardDto,
+			@RequestPart(name= "crewBoardDto", required = true) CrewBoardDto crewBoardDto,
 			@RequestPart(name = "imgFile", required = false) MultipartFile imageFile) throws Exception {
 		
 		UserDto writerUser = loadUserFromToken();

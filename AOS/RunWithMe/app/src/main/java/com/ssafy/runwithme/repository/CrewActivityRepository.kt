@@ -18,6 +18,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -48,9 +50,9 @@ class CrewActivityRepository @Inject constructor(
         ).flow
 
 
-    fun createCrewBoard(crewSeq: Int, crewBoardDto: CreateCrewBoardDto): Flow<Result<BaseResponse<CrewBoardResponse>>> = flow {
+    fun createCrewBoard(crewSeq: Int, crewBoardDto: RequestBody, img: MultipartBody.Part?): Flow<Result<BaseResponse<CrewBoardResponse>>> = flow {
         emit(Result.Loading)
-        crewActivityRemoteDataSource.createCrewBoard(crewSeq, crewBoardDto).collect {
+        crewActivityRemoteDataSource.createCrewBoard(crewSeq, crewBoardDto, img).collect {
             if(it.success){
                 emit(Result.Success(it))
             }else if(!it.success){
