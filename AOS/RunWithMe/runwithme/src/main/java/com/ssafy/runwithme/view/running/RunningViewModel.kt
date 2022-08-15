@@ -33,8 +33,9 @@ import javax.inject.Inject
 class RunningViewModel @Inject constructor(
     private val crewRepository: CrewRepository,
     private val crewManagerRepository: CrewManagerRepository,
-    private val myActivityRepository: MyActivityRepository
-): ViewModel(){
+    private val myActivityRepository: MyActivityRepository,
+    private val sharedPreferences: SharedPreferences
+    ): ViewModel(){
 
     private val _runRecordSeq = MutableStateFlow(0)
     val runRecordSeq get() = _runRecordSeq.asStateFlow()
@@ -110,6 +111,21 @@ class RunningViewModel @Inject constructor(
             }
         }
     }
+
+    fun getMyProfile(){
+        viewModelScope.launch(Dispatchers.IO) {
+            myActivityRepository.getMyProfile().collectLatest {
+                if(it is Result.Success){
+                    sharedPreferences.edit().putInt(USER_WEIGHT,it.data.data.userDto.weight).apply()
+                    sharedPreferences.edit().putString(USER_NAME, it.data.data.userDto.nickName).apply()
+                    _nickName.value = it.data.data.userDto.nickName
+                } else if(it is Result.Error){
+
+                }
+            }
+        }
+    }
+
 
     fun getMyCurrentCrew(){
         viewModelScope.launch(Dispatchers.IO) {

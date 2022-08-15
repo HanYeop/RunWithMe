@@ -251,6 +251,10 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
             addLatestPolyline()
             moveCameraToUser()
 
+            // 칼로리 소모량 체크
+            caloriesBurned = round((sumDistance / 1000f) * weight).toInt()
+
+
             changeDistanceText()
         }
 
@@ -417,6 +421,9 @@ class RunningActivity : BaseActivity<ActivityRunningBinding>(R.layout.activity_r
         if(map != null){
             map!!.isMyLocationEnabled = true
         }
+
+        // 칼로리 소모량 체크
+        caloriesBurned = round((sumDistance / 1000f) * weight).toInt()
 
         super.onResume()
     }
