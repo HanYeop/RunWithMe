@@ -400,6 +400,7 @@
                                 android:text="시간"
                                 android:alpha="0.5"
                                 android:enabled="false"
+                                android:buttonTint="@color/main_blue"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/noto_sans_bold"/>
 
@@ -409,6 +410,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="거리"
                                 android:alpha="0.5"
+                                android:buttonTint="@color/main_blue"
                                 android:enabled="false"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/noto_sans_bold"/>
