@@ -49,19 +49,9 @@ class CrewBoardFragment : BaseFragment<FragmentCrewBoardBinding>(R.layout.fragme
             }
 
             fabCreateBoard.setOnClickListener {
-                initCreateBoardDialog()
+                val action = CrewBoardFragmentDirections.actionCrewBoardFragmentToCreateCrewBoardFragment(crewSeq)
+                findNavController().navigate(action)
             }
-        }
-    }
-
-    private fun initCreateBoardDialog(){
-        val dialog = CreateCrewBoardDialog(requireContext(), createCrewBoardListener)
-        dialog.show()
-    }
-
-    private val createCrewBoardListener : CreateCrewBoardListener = object : CreateCrewBoardListener {
-        override fun onItemClick(content: String) {
-            crewBoardViewModel.createCrewBoard(crewSeq, CreateCrewBoardDto(0, content))
         }
     }
 
