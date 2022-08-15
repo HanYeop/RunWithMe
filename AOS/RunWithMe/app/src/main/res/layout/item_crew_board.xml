@@ -104,7 +104,7 @@
                         android:layout_height="200dp"
                         android:scaleType="fitXY"
                         tools:src="@drawable/crew_image"
-                        android:src="@{board.imageFileDto.imgSeq}"
+                        crewDetailImage="@{board.imageFileDto.imgSeq}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>

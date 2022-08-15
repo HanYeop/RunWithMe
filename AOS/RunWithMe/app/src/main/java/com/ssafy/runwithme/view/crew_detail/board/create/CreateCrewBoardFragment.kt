@@ -3,6 +3,7 @@ package com.ssafy.runwithme.view.crew_detail.board.create
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts

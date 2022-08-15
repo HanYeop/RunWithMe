@@ -1,5 +1,6 @@
 package com.ssafy.runwithme.datasource
 
+import android.util.Log
 import com.ssafy.runwithme.api.CrewActivityApi
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.dto.CreateCrewBoardDto
@@ -26,9 +27,9 @@ class CrewActivityRemoteDataSource @Inject constructor(
 
     fun createCrewBoard(crewSeq: Int, crewBoardDto: RequestBody, img: MultipartBody.Part?): Flow<BaseResponse<CrewBoardResponse>> = flow {
         if(img == null){
-            emit(crewActivityApi.createCrewBoard(crewSeq, crewBoardDto, img))
-        } else {
             emit(crewActivityApi.createCrewBoard(crewSeq, crewBoardDto))
+        } else {
+            emit(crewActivityApi.createCrewBoard(crewSeq, crewBoardDto, img))
         }
     }
 
