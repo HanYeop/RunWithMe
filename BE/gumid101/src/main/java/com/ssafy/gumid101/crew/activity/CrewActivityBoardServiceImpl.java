@@ -58,7 +58,10 @@ public class CrewActivityBoardServiceImpl implements CrewActivityBoardService {
 
 		ImageFileEntity imageEntity = null;
 		ImageFileDto savedFileDto = null;
-		if (image != null && !image.isEmpty()) {
+		log.debug("크루 보드 이미지 파일 : {}",image);
+		
+		if (image != null ) {
+			log.debug("이미지를 저장합니다");
 			try {
 				savedFileDto = s3FileService.upload(image, ImageDirectory.CREW_BOARD.getPath());
 				// 이미지쪽 세이브
@@ -104,6 +107,7 @@ public class CrewActivityBoardServiceImpl implements CrewActivityBoardService {
 							.crewBoardSeq(entity.getCrewBoardSeq()).crewBoardRegTime(entity.getCrewBoardRegTime())
 							.crewName(entity.getCrewEntity().getCrewName())
 							.userNickName(entity.getUserEntity().getNickName())
+							
 							.userSeq(entity.getUserEntity().getUserSeq()).build();
 					CrewBoardFileDto cbf = CrewBoardFileDto.builder().crewBoardDto(crewBoardRes)
 							.imageFileDto(ImageFileDto.of(entity.getImgFile())).build();
