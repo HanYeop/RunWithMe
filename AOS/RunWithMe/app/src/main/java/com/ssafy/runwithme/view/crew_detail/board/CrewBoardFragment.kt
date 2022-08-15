@@ -9,7 +9,6 @@ import androidx.navigation.fragment.navArgs
 import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentCrewBoardBinding
-import com.ssafy.runwithme.model.dto.CreateCrewBoardDto
 import com.ssafy.runwithme.model.response.CrewBoardResponse
 import com.ssafy.runwithme.utils.TAG
 import dagger.hilt.android.AndroidEntryPoint
@@ -81,11 +80,10 @@ class CrewBoardFragment : BaseFragment<FragmentCrewBoardBinding>(R.layout.fragme
     private fun initViewModelCallback(){
         job = lifecycleScope.launch {
             crewBoardViewModel.getCrewBoards(args.crewid,10).collectLatest { pagingData ->
-                Log.d(TAG, "initViewModelCallback: first")
+                Log.d(TAG, "getCrewBoards: $pagingData")
                 crewBoardAdapter.submitData(pagingData)
             }
         }
-
 
         crewBoardViewModel.errorMsgEvent.observe(viewLifecycleOwner){
             showToast(it)

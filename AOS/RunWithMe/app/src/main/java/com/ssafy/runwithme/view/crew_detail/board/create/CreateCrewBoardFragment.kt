@@ -3,7 +3,6 @@ package com.ssafy.runwithme.view.crew_detail.board.create
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,7 +14,6 @@ import com.ssafy.runwithme.R
 import com.ssafy.runwithme.base.BaseFragment
 import com.ssafy.runwithme.databinding.FragmentCreateCrewBoardBinding
 import com.ssafy.runwithme.model.dto.CreateCrewBoardDto
-import com.ssafy.runwithme.utils.TAG
 import com.ssafy.runwithme.utils.resizeBitmapFormUri
 import com.ssafy.runwithme.view.crew_detail.board.CrewBoardViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -80,7 +78,7 @@ class CreateCrewBoardFragment : BaseFragment<FragmentCreateCrewBoardBinding>(R.l
                     val crewBoard = CreateCrewBoardDto(0, etBoardContent.text.toString())
                     val json = Gson().toJson(crewBoard)
                     val crewBoardDto = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), json)
-                    
+
                     crewBoardViewModel.createCrewBoard(crewSeq, crewBoardDto, imgFile)
                 }
             }

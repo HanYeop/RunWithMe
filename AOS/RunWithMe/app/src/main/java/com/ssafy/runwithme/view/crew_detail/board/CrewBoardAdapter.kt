@@ -1,6 +1,7 @@
 package com.ssafy.runwithme.view.crew_detail.board
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -25,10 +26,15 @@ class CrewBoardAdapter(private val crewBoardListener: CrewBoardListener, private
             }
         }
 
-        fun bind(board: CrewBoardResponse) {
-            binding.board = board
-            binding.userDto = MyUserDto(userSeq)
-            binding.executePendingBindings()
+        fun bind(boardRes: CrewBoardResponse) {
+            binding.apply {
+                board = boardRes
+                if(boardRes.imageFileDto.imgSeq == 0){
+                    imageBoard.visibility = View.GONE
+                }
+                userDto = MyUserDto(userSeq)
+                executePendingBindings()
+            }
         }
     }
 
