@@ -43,7 +43,7 @@
             android:paddingTop="10dp"
             android:paddingEnd="10dp"
             android:paddingBottom="10dp"
-            android:text="알림켜기" />
+            android:text="알림 끄기" />
 
         <TextView
             android:id="@+id/tv_question"
