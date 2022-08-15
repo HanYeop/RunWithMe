@@ -124,7 +124,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/noto_sans_bold"
                                 android:textColor="@color/black"
-                                android:textSize="20sp" />
+                                android:textSize="18sp" />
 
                             <TextView
                                 android:id="@+id/tv_calorie_header"
@@ -132,7 +132,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="칼로리"
                                 android:textColor="@color/main_grey"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -150,7 +150,7 @@
                                 android:fontFamily="@font/noto_sans_bold"
                                 android:textColor="@color/black"
                                 android:text="07 : 27"
-                                android:textSize="20sp" />
+                                android:textSize="18sp" />
 
                             <TextView
                                 android:id="@+id/tv_time_header"
@@ -158,7 +158,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="소요 시간"
                                 android:textColor="@color/main_grey"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -175,8 +175,8 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/noto_sans_bold"
                                 android:textColor="@color/black"
-                                android:text="8.3km/h"
-                                android:textSize="20sp" />
+                                android:text="81.3km/h"
+                                android:textSize="18sp" />
 
                             <TextView
                                 android:id="@+id/tv_speed_header"
@@ -184,7 +184,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="평균 속도"
                                 android:textColor="@color/main_grey"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                         </LinearLayout>
 
