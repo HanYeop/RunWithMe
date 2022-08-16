@@ -46,6 +46,13 @@ logging:
           EC2MetadataUtils: error
       ssafy:
         gumid101: debug
+  file:
+    max-history: 7
+    max-size: 100MB
+    name: logs/server_log.log
+  logback:
+    rollingpolicy:
+      file-name-pattern: ${LOG_FILE}.%d{yyyy-MM-dd}-%i.log
 
 server:
   servlet:
