@@ -6,9 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.ssafy.runwithme.model.dto.CreateCrewBoardDto
-import com.ssafy.runwithme.model.dto.CrewBoardDto
-import com.ssafy.runwithme.model.dto.ImageFileDto
 import com.ssafy.runwithme.model.response.CrewBoardResponse
 import com.ssafy.runwithme.repository.CrewActivityRepository
 import com.ssafy.runwithme.repository.CustomerCenterRepository
@@ -19,8 +16,6 @@ import com.ssafy.runwithme.utils.USER
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -33,11 +28,6 @@ class CrewBoardViewModel @Inject constructor(
     private val customerCenterRepository: CustomerCenterRepository,
     private val sharedPreferences: SharedPreferences
     ) : ViewModel(){
-
-
-    private val _crewBoardsList: MutableStateFlow<List<CrewBoardResponse>>
-            = MutableStateFlow(listOf(CrewBoardResponse(CrewBoardDto(0, "게시글이 없습니다.", "2022-01-01", "관리자", 0, ""), ImageFileDto(0, "", "", ""))))
-    val crewBoardsList get() = _crewBoardsList.asStateFlow()
 
     private val _errorMsgEvent = SingleLiveEvent<String>()
     val errorMsgEvent get() = _errorMsgEvent
