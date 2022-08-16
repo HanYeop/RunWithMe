@@ -26,6 +26,9 @@ public class CrewBoardRes {
 	@ApiParam(value = "글쓴 유저 SEQ")
 	private Long userSeq;
 	
+	@ApiParam(value="글쓴 유저 이미지")
+	private Long userImgSeq;
+	
 	@ApiParam(value = "글쓴 크루")
 	private String crewName;
 	
@@ -36,7 +39,9 @@ public class CrewBoardRes {
 		.crewBoardContent(entity.getCrewBoardContent())
 		.crewName(entity.getCrewEntity().getCrewName())
 		.userSeq(entity.getUserEntity().getUserSeq())
-		.userNickName(entity.getUserEntity().getNickName()).build();
+		.userNickName(entity.getUserEntity().getNickName()).userImgSeq(
+				entity.getImgFile() == null ? 0L : entity.getImgFile().getImgSeq()).
+		build();
 
 		
 	}
