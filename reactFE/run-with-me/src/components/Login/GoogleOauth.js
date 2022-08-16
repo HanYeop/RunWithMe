@@ -37,6 +37,7 @@ const GoogleOAuth = () => {
 
         if (role !== "ROLE_MANAGER") {
           console.log(`관리자 권한이 아닙니다. 사용할 수 없습니다. ${role}`);
+          alert(`관리자 권한이 아닙니다. 사용할 수 없습니다. ${role}`);
           return;
         }
         /*
