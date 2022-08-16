@@ -103,12 +103,8 @@ public class CrewActivityBoardServiceImpl implements CrewActivityBoardService {
 		return boardRepo
 				.findByCrewEntityAndCrewBoardSeqLessThan(crewRepo.findById(crewSeq).get(), maxCrewBoardSeq, pageable) //
 				.stream().map((entity) -> {
-					CrewBoardRes crewBoardRes = CrewBoardRes.builder().crewBoardContent(entity.getCrewBoardContent())
-							.crewBoardSeq(entity.getCrewBoardSeq()).crewBoardRegTime(entity.getCrewBoardRegTime())
-							.crewName(entity.getCrewEntity().getCrewName())
-							.userNickName(entity.getUserEntity().getNickName())
-							
-							.userSeq(entity.getUserEntity().getUserSeq()).build();
+					CrewBoardRes crewBoardRes = CrewBoardRes.of(entity);
+					
 					CrewBoardFileDto cbf = CrewBoardFileDto.builder().crewBoardDto(crewBoardRes)
 							.imageFileDto(ImageFileDto.of(entity.getImgFile())).build();
 

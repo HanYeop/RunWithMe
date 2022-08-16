@@ -26,6 +26,7 @@ import com.ssafy.gumid101.firebase.FcmMessage;
 import com.ssafy.gumid101.firebase.FirebaseMessageUtil;
 import com.ssafy.gumid101.imgfile.ImageDirectory;
 import com.ssafy.gumid101.imgfile.ImageFileRepository;
+import com.ssafy.gumid101.res.CrewBoardFileDto;
 import com.ssafy.gumid101.res.CrewBoardRes;
 import com.ssafy.gumid101.res.UserFileDto;
 import com.ssafy.gumid101.util.Nickname;
@@ -140,16 +141,22 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional // 쿼리 dsl을 같은 트랜잭션에 포함시켜 영속성을 살려야함
 	@Override
-	public List<CrewBoardRes> getMyBoards(Long userSeq, Long size, Long maxBoardSeq) throws Exception {
+	public List<CrewBoardFileDto> getMyBoards(Long userSeq, Long size, Long maxBoardSeq) throws Exception {
 
 		UserEntity user = userRepo.findById(userSeq)
 				.orElseThrow(() -> new UsernameNotFoundException("자신의 글 조회중, 유저를 특정할 수 없습니다."));
 
 		List<CrewBoardEntity> myBoards = userRepo.findUserBoardsWithOffestAndSize(user, size, maxBoardSeq);
 
-		List<CrewBoardRes> myBoardList = myBoards.stream().map(
+		List<CrewBoardFileDto> myBoardList = myBoards.stream().map(
 
-				(item) -> CrewBoardRes.of(item)
+				(entity) -> {					
+					CrewBoardRes crewBoardRes = CrewBoardRes.of(entity);
+				
+				CrewBoardFileDto cbf = CrewBoardFileDto.builder().crewBoardDto(crewBoardRes)
+						.imageFileDto(ImageFileDto.of(entity.getImgFile())).build();
+
+				return cbf;}
 
 		).collect(Collectors.toList());
 

@@ -25,6 +25,7 @@ import com.ssafy.gumid101.dto.RunRecordDto;
 import com.ssafy.gumid101.dto.UserDto;
 import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.req.ProfileEditDto;
+import com.ssafy.gumid101.res.CrewBoardFileDto;
 import com.ssafy.gumid101.res.CrewBoardRes;
 import com.ssafy.gumid101.res.ResponseFrame;
 import com.ssafy.gumid101.res.UserFileDto;
@@ -192,7 +193,7 @@ public class MyActivityRestController {
 		
 		UserDto userDto = loadUserFromToken();
 		
-		List<CrewBoardRes> myBoardList =  userService.getMyBoards(userDto.getUserSeq(),size,boardMaxSeq);
+		List<CrewBoardFileDto> myBoardList =  userService.getMyBoards(userDto.getUserSeq(),size,boardMaxSeq);
 		
 		ResponseFrame<?> res = ResponseFrame.of(myBoardList,myBoardList.size(),"자신이 쓴 글을 반환합니다.");
 		
