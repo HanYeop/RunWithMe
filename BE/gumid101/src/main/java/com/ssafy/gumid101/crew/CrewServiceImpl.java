@@ -328,6 +328,7 @@ public class CrewServiceImpl implements CrewService {
 	@Transactional
 	@Override
 	public int setRecordCoordinate(Long recordSeq, List<CoordinateDto> coordinates) throws Exception {
+		int beforeSize = coordinates.size();
 		/* 여기서부터 좌표최적화 시작 
 		 * 문제발생 시 이 아래로 주석치면 됨
 		 * */
@@ -396,7 +397,8 @@ public class CrewServiceImpl implements CrewService {
 		/* 여기서 좌표최적화 종료 
 		 * 문제발생 시 이 위로 주석치면 됨.
 		 * */
-
+		int afterSize = coordinates.size();
+		log.info("최적화 전 좌표 개수 : " + beforeSize + ", 최적화 후 좌표 개수 : " + afterSize);
 		int[] results = runRecordRepo.coordinatesInsertBatch(recordSeq, coordinates);
 
 		int success = 0;
