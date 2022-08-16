@@ -8,10 +8,8 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.util.Log
 import android.view.View
-import android.view.animation.AlphaAnimation
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.view.marginBottom
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment

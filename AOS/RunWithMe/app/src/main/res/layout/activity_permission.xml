@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:background="@color/main_blue"
             android:fontFamily="@font/noto_sans_bold"
-            android:text="확인"
+            android:text="동의"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -70,7 +70,7 @@
             android:background="#F3F6FB"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_terms" />
 
         <TextView
             android:id="@+id/tv_permission_header"
@@ -180,6 +180,17 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="@+id/tv_permission_header2"
             app:layout_constraintTop_toBottomOf="@+id/tv_permission_header2" />
+
+        <TextView
+            android:id="@+id/tv_terms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="개인정보 처리방침"
+            style="@style/Hyperlink"
+            app:layout_constraintEnd_toEndOf="@+id/textView11"
+            app:layout_constraintStart_toStartOf="@+id/textView11"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
