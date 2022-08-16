@@ -13,7 +13,7 @@ public interface CrewActivityBoardRepository extends JpaRepository<CrewBoardEnti
 	List<CrewBoardEntity> findByCrewEntity(CrewEntity crewEntity, Pageable pageable);
 	// List<CrewBoardEntity> findByCrewEntity(CrewEntity crewEntity);
 
-	@Query("SELECT c FROM CrewBoardEntity c WHERE c.crewEntity = :crewEntity AND c.crewBoardSeq < :maxCrewBoardSeq")
+	@Query("SELECT c FROM CrewBoardEntity c LEFT JOIN FETCH c.userEntity LEFT JOIN FETCH c.crewEntity WHERE c.crewEntity = :crewEntity AND c.crewBoardSeq < :maxCrewBoardSeq")
 	List<CrewBoardEntity> findByCrewEntityAndCrewBoardSeqLessThan(
 			CrewEntity crewEntity, Long maxCrewBoardSeq, Pageable pageable);
 
