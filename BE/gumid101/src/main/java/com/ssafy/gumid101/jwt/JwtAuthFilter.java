@@ -66,7 +66,7 @@ public class JwtAuthFilter extends OncePerRequestFilter  {
 
 		if ("ROLE_USER".equals(member.getRole().getKey())) {
 			athorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-		} else if ("ROLE_ADMIN".equals(member.getRole().getKey())) {
+		} else if ("ROLE_MANAGER".equals(member.getRole().getKey())) {
 			athorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 			athorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		}
