@@ -52,7 +52,7 @@
             <ImageView
                 android:id="@+id/image_board"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="250dp"
                 android:layout_marginVertical="12dp"
                 android:scaleType="fitXY"
                 tools:src="@drawable/crew_image"
@@ -61,12 +61,13 @@
 
             <TextView
                 android:id="@+id/tv_my_board_content"
-                style="@style/header_text"
                 android:layout_marginTop="4dp"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:maxLines="6"
                 android:maxLength="120"
                 android:ellipsize="end"
+                android:textColor="@color/black_high_emphasis"
                 tools:text="안녕하세요.\n반갑습니다.\n저는 감스트입니다."
                 android:text="@{board.crewBoardDto.crewBoardContent}" />
 

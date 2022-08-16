@@ -101,7 +101,7 @@
                     <ImageView
                         android:id="@+id/image_board"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="250dp"
                         android:scaleType="fitXY"
                         tools:src="@drawable/crew_image"
                         android:adjustViewBounds="true"
@@ -113,7 +113,7 @@
                         android:id="@+id/tv_board_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="8dp"
                         tools:text="안녕하세요\n안녕하세요"
                         android:text="@{board.crewBoardDto.crewBoardContent}"
                         android:maxLines="10"
