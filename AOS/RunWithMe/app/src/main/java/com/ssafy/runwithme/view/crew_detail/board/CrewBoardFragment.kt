@@ -80,7 +80,6 @@ class CrewBoardFragment : BaseFragment<FragmentCrewBoardBinding>(R.layout.fragme
     private fun initViewModelCallback(){
         job = lifecycleScope.launch {
             crewBoardViewModel.getCrewBoards(args.crewid,10).collectLatest { pagingData ->
-                Log.d(TAG, "getCrewBoards: $pagingData")
                 crewBoardAdapter.submitData(pagingData)
             }
         }

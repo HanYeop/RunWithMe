@@ -7,23 +7,25 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.runwithme.databinding.ItemMyBoardBinding
-import com.ssafy.runwithme.model.dto.CrewBoardDto
+import com.ssafy.runwithme.model.response.CrewBoardResponse
 
-class MyBoardAdapter(private val deleteDialogListener: DeleteDialogListener) : PagingDataAdapter<CrewBoardDto, MyBoardAdapter.ViewHolder>(diffUtil) {
+class MyBoardAdapter(private val deleteDialogListener: DeleteDialogListener) : PagingDataAdapter<CrewBoardResponse, MyBoardAdapter.ViewHolder>(diffUtil) {
 
     inner class ViewHolder(private val binding: ItemMyBoardBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.apply {
                 imageDeleteMyBoard.setOnClickListener {
-                    deleteDialogListener.onItemClick(getItem(adapterPosition)!!.crewBoardSeq)
+                    deleteDialogListener.onItemClick(getItem(adapterPosition)!!.crewBoardDto.crewBoardSeq)
                 }
             }
         }
 
-        fun bind(myBoard: CrewBoardDto) {
+        fun bind(myBoard: CrewBoardResponse) {
             binding.apply {
-                imageBoard.visibility = View.GONE
+                if(myBoard.imageFileDto.imgSeq == 0){
+                    imageBoard.visibility = View.GONE
+                }
                 board = myBoard
                 executePendingBindings()
             }
@@ -44,12 +46,12 @@ class MyBoardAdapter(private val deleteDialogListener: DeleteDialogListener) : P
     }
 
     companion object {
-        private val diffUtil = object : DiffUtil.ItemCallback<CrewBoardDto>() {
-            override fun areItemsTheSame(oldItem: CrewBoardDto, newItem: CrewBoardDto) =
-                oldItem.crewBoardSeq == newItem.crewBoardSeq
+        private val diffUtil = object : DiffUtil.ItemCallback<CrewBoardResponse>() {
+            override fun areItemsTheSame(oldItem: CrewBoardResponse, newItem: CrewBoardResponse) =
+                oldItem == newItem
 
-            override fun areContentsTheSame(oldItem: CrewBoardDto, newItem: CrewBoardDto) =
-                oldItem.crewBoardContent == newItem.crewBoardContent
+            override fun areContentsTheSame(oldItem: CrewBoardResponse, newItem: CrewBoardResponse) =
+                oldItem.crewBoardDto.crewBoardSeq == newItem.crewBoardDto.crewBoardSeq
         }
     }
 }

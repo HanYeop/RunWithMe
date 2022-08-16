@@ -3,6 +3,7 @@ package com.ssafy.runwithme.api
 import com.ssafy.runwithme.base.BaseResponse
 import com.ssafy.runwithme.model.dto.CrewBoardDto
 import com.ssafy.runwithme.model.dto.RunRecordDto
+import com.ssafy.runwithme.model.response.CrewBoardResponse
 import com.ssafy.runwithme.model.response.MyProfileResponse
 import com.ssafy.runwithme.model.response.MyTotalRecordResponse
 import okhttp3.MultipartBody
@@ -21,7 +22,7 @@ interface MyActivityApi {
     suspend fun getMyBoards(
         @Query("size") size: Int,
         @Query("boardMaxSeq") boardMaxSeq: Int
-    ) : BaseResponse<List<CrewBoardDto>>
+    ) : BaseResponse<List<CrewBoardResponse>>
 
     @GET("my-activity/total-activity")
     suspend fun getMyTotalRecord() : BaseResponse<MyTotalRecordResponse>

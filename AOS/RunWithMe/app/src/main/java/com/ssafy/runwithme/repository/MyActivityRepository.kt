@@ -69,7 +69,6 @@ class MyActivityRepository @Inject constructor(
             }
         }
     }.catch { e ->
-        Log.d("test5", "editMyProfile: $e")
         emit(Result.Error(e))
     }
 

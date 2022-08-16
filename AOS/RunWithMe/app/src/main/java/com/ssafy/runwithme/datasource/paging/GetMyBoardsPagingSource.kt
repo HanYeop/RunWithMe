@@ -3,7 +3,7 @@ package com.ssafy.runwithme.datasource.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.ssafy.runwithme.api.MyActivityApi
-import com.ssafy.runwithme.model.dto.CrewBoardDto
+import com.ssafy.runwithme.model.response.CrewBoardResponse
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Singleton
@@ -12,10 +12,10 @@ import javax.inject.Singleton
 class GetMyBoardsPagingSource (
     private val myActivityApi: MyActivityApi,
     private val size: Int
-): PagingSource<Int, CrewBoardDto>() {
+): PagingSource<Int, CrewBoardResponse>() {
 
     // 데이터 로드
-    override suspend fun load(params: LoadParams<Int>): PagingSource.LoadResult<Int, CrewBoardDto> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CrewBoardResponse> {
         // LoadParams : 로드할 키와 항목 수 , LoadResult : 로드 작업의 결과
         return try {
 
@@ -35,7 +35,7 @@ class GetMyBoardsPagingSource (
                 }
                 // 더 불러 올 때 마지막 인덱스 값을 주어 그 이후의 값들을 불러온다.
                 else{
-                    response.data.last().crewBoardSeq
+                    response.data.last().crewBoardDto.crewBoardSeq
                 }
 
             /* 로드에 성공 시 LoadResult.Page 반환
@@ -58,7 +58,7 @@ class GetMyBoardsPagingSource (
     }
 
     // 데이터가 새로고침되거나 첫 로드 후 무효화되었을 때 키를 반환하여 load()로 전달
-    override fun getRefreshKey(state: PagingState<Int, CrewBoardDto>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, CrewBoardResponse>): Int? {
         TODO("Not yet implemented")
     }
 }

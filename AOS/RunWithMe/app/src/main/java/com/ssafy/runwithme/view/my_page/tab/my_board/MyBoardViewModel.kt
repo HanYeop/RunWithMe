@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.ssafy.runwithme.model.dto.CrewBoardDto
+import com.ssafy.runwithme.model.response.CrewBoardResponse
 import com.ssafy.runwithme.repository.CrewActivityRepository
 import com.ssafy.runwithme.repository.MyActivityRepository
 import com.ssafy.runwithme.utils.Result
@@ -32,7 +33,7 @@ class MyBoardViewModel @Inject constructor(
     val failMsgEvent get() = _failMsgEvent
 
 
-    fun getMyBoards(size: Int) : Flow<PagingData<CrewBoardDto>> {
+    fun getMyBoards(size: Int) : Flow<PagingData<CrewBoardResponse>> {
         return myActivityRepository.getMyBoards(size)
     }
 

@@ -8,5 +8,6 @@ data class CrewBoardDto(
     @SerializedName("crewBoardRegTime") val crewBoardRegTime: String,
     @SerializedName("userNickName") val userNickName: String,
     @SerializedName("userSeq") val userSeq: Int,
+    @SerializedName("userImgSeq") val userImgSeq: Int,
     @SerializedName("crewName") val crewName: String
 )

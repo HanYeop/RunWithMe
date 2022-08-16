@@ -42,7 +42,7 @@
                     android:layout_height="@dimen/crew_board_profile_image_size"
                     android:layout_gravity="center"
                     android:layout_marginStart="16dp"
-                    app:crewBoardProfileImage="@{board.imageFileDto.imgSeq}"
+                    app:crewBoardProfileImage="@{board.crewBoardDto.userImgSeq}"
                     android:background="@android:color/transparent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
