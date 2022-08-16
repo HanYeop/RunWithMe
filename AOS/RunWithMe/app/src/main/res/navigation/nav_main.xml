@@ -403,6 +403,8 @@
         android:label="CreateCrewFragment5" >
         <action
             android:id="@+id/action_createCrewFragment5_to_CrewRecruitFragment"
-            app:destination="@id/CrewRecruitFragment" />
+            app:destination="@id/CrewRecruitFragment"
+            app:popUpTo="@id/CrewRecruitFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 </navigation>
