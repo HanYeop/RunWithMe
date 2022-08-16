@@ -64,11 +64,11 @@ public class JwtAuthFilter extends OncePerRequestFilter  {
 
 		ArrayList<SimpleGrantedAuthority> athorities = new ArrayList<>();
 
-		if ("ROLE_USER".equals(member.getRole().getKey())) {
-			athorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-		} else if ("ROLE_MANAGER".equals(member.getRole().getKey())) {
-			athorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-			athorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		if (Role.USER.getKey().equals(member.getRole().getKey())) {
+			athorities.add(new SimpleGrantedAuthority(Role.USER.getKey()));
+		} else if (Role.MANAGER.getKey().equals(member.getRole().getKey())) {
+			athorities.add(new SimpleGrantedAuthority(Role.USER.getKey()));
+			athorities.add(new SimpleGrantedAuthority(Role.MANAGER.getKey()));
 		}
 
 		return new UsernamePasswordAuthenticationToken(member, "", athorities);
