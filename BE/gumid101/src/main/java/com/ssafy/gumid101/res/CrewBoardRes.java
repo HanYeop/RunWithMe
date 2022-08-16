@@ -40,7 +40,7 @@ public class CrewBoardRes {
 		.crewName(entity.getCrewEntity().getCrewName())
 		.userSeq(entity.getUserEntity().getUserSeq())
 		.userNickName(entity.getUserEntity().getNickName()).userImgSeq(
-				entity.getImgFile() == null ? 0L : entity.getImgFile().getImgSeq()).
+				entity.getUserEntity().getImageFile()== null ? 0L : entity.getUserEntity().getImageFile().getImgSeq()).
 		build();
 
 		
