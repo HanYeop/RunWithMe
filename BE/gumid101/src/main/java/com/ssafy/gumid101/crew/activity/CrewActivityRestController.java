@@ -151,6 +151,7 @@ public class CrewActivityRestController {
 			@RequestPart(value="crewBoardDto",required = true) CrewBoardDto crewBoardDto,
 			@RequestPart(name = "imgFile", required = false) MultipartFile imageFile) throws Exception {
 		
+		
 		UserDto writerUser = loadUserFromToken();
 		redisServ.getIsUseable(writerUser.getUserSeq().toString() + "writeCrewBoards", 5);
 

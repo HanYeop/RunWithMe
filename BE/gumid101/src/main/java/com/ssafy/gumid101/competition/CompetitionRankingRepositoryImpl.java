@@ -84,7 +84,7 @@ public class CompetitionRankingRepositoryImpl implements CompetitionRankingRepos
 				+ "FROM ("
 				+ "SELECT ranking, user_seq, targetField "
 					+ "FROM ("
-						+ "SELECT ROW_NUMBER() OVER (order by competition_distance) as ranking, user_seq, competition_distance as targetField "
+						+ "SELECT ROW_NUMBER() OVER (order by competition_distance desc) as ranking, user_seq, competition_distance as targetField "
 						+ "FROM	t_competition_user_record as tctc "
 						+ "where tctc.competition_seq = ?"
 					+ ") "
