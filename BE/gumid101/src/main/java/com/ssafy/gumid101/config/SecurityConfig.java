@@ -96,6 +96,7 @@ public class SecurityConfig {
 
 		http.authorizeHttpRequests((authz) -> {
 			authz.antMatchers("/user/profile").hasRole(Role.TEMP.toString());
+			authz.antMatchers("/crew-manager/*").hasRole(Role.MANAGER.toString());
 			authz.antMatchers("/**").hasRole(Role.USER.toString());
 			
 		});
