@@ -35,8 +35,9 @@ const GoogleOAuth = () => {
           console.log("없는 아이디 입니다.");
         }
 
-        if (role !== "ROLE_USER") {
+        if (role !== "ROLE_MANAGER") {
           console.log(`관리자 권한이 아닙니다. 사용할 수 없습니다. ${role}`);
+          alert(`관리자 권한이 아닙니다. 사용할 수 없습니다. ${role}`);
           return;
         }
         /*
