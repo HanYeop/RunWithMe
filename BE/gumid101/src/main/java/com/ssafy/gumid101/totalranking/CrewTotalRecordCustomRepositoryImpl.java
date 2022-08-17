@@ -128,7 +128,7 @@ public class CrewTotalRecordCustomRepositoryImpl implements CrewTotalRecordCusto
 	private RankingDto getMyRankingPost(Long userSeq) {
 		RankingDto myRanking = new RankingDto();
 		String sql = "WITH sub1 AS( "
-				+ "SELECT ROW_NUMBER() OVER (order by t.user_point desc,user_seq) as ranking,t.* FROM t_user as t "
+				+ "SELECT ROW_NUMBER() OVER (order by t.user_point desc,user_seq asc) as ranking,t.* FROM t_user as t "
 				+ ")  " + "SELECT ranking,user_point,user_nickname,user_seq,img_seq FROM sub1 WHERE sub1.user_seq = ? ";
 
 		Map<String, Object> resultMap = jdbcTemplate.queryForMap(sql, userSeq);
