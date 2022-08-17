@@ -36,6 +36,8 @@ const reportPageSlice = createSlice({
       state = initialReportPageState;
     },
     setReports(state, action) {
+      console.log("=====");
+      console.log(action.payload);
       state.reports = action.payload;
     },
     setStatusCount(state, action) {
