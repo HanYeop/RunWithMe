@@ -68,13 +68,13 @@ class CrewRecruitDetailFragment : BaseFragment<FragmentCrewRecruitDetailBinding>
     }
 
     private fun initConfirmJoinDialog(){
-        val text = "참가비 ${crewDto.crewCost}P가 듭니다.\n가입하시겠습니까?"
+        val text = "참가비 ${crewDto.crewCost}P가 지불됩니다.\n가입하시겠습니까?"
         val confirmJoinDialog = ConfirmJoinDialog(requireContext(), text, confirmJoinListener)
         confirmJoinDialog.show()
     }
 
     private fun initConfirmJoinPasswdDialog(){
-        val text = "참가비 ${crewDto.crewCost}P가 지출됩니다.\n가입하시겠습니까?"
+        val text = "참가비 ${crewDto.crewCost}P가 지불됩니다.\n가입하시겠습니까?"
         val confirmJoinPasswdDialog = ConfirmJoinPasswdDialog(requireContext(), text, confirmJoinPasswdListener)
         confirmJoinPasswdDialog.show()
     }
