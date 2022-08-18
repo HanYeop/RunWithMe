@@ -109,12 +109,15 @@ public class CustomerCenterCustomRepositoryImpl implements CustomerCenterCustomR
 			br.and(report.reportStatus.eq(params.getStatus()));
 		}
 		
-		List<ReportResDto>  reportList = jpaQueryFactory.from(report).select(Projections.fields(ReportResDto.class, report.reportSeq.as("reportSeq"),
+		List<ReportResDto>  reportList = jpaQueryFactory.from(report).select(
+				Projections.fields(
+						ReportResDto.class, report.reportSeq.as("reportSeq"),
 				report.reportContent.as("reportContent"), report.reportStatus.as("reportState"),
 				report.reportCrewBoardSeq.as("crewBoardSeq"), report.userReporterEntity.userSeq.as("reporterUserSeq"),
 				report.userReporterEntity.nickName.as("reporterNickName"),
 				report.userTargetEntity.userSeq.as("targetUserSeq"),
-				report.userTargetEntity.nickName.as("targetNincName"), report.reportRegTime.as("regTime")))
+				report.userTargetEntity.nickName.as("targetNickName"),
+				report.reportRegTime.as("regTime")))
 		.leftJoin(report.userTargetEntity)
 		.leftJoin(report.userReporterEntity)
 		.where(br )

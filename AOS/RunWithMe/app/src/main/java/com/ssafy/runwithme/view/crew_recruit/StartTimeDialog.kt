@@ -28,7 +28,7 @@ class StartTimeDialog(context: Context, private val listener : StartTimeDialogLi
         )
         setContentView(binding.root)
 
-        startTimeValues = arrayOf("00", "10", "20", "30", "40", "50")
+        startTimeValues = arrayOf("00", "30")
 
         binding.apply {
             numberpickerHour.minValue = 0
@@ -38,7 +38,7 @@ class StartTimeDialog(context: Context, private val listener : StartTimeDialogLi
             numberpickerHour.wrapSelectorWheel = false
 
             numberpickerMinute.minValue = 0
-            numberpickerMinute.maxValue = 5
+            numberpickerMinute.maxValue = 1
             numberpickerMinute.displayedValues = startTimeValues
 
             numberpickerMinute.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
