@@ -90,7 +90,7 @@ public class UserCustomRepositoryImpl implements UserCustomRepository{
 				user.competitionResult.as("competitionResult"), //
 				column.as("rankingValue"), //
 				user.imageFile.imgSeq.coalesce(0L).as("imgSeq")))
-		.orderBy(column.desc()).offset(offset).limit(offset+size)
+		.orderBy(column.desc(),user.point.asc()).offset(offset).limit(offset+size)
 		.fetch();
 		
 		for(int i = offset.intValue() ; i < rankingList.size()+offset.intValue(); i++) {
