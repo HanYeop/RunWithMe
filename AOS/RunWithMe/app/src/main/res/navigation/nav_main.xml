@@ -188,7 +188,8 @@
         tools:layout="@layout/fragment_search_crew">
         <action
             android:id="@+id/action_searchCrewFragment_to_searchCrewResultFragment"
-            app:destination="@id/searchCrewResultFragment" />
+            app:destination="@id/searchCrewResultFragment"
+            app:popUpTo="@id/CrewRecruitFragment"/>
     </fragment>
     <fragment
         android:id="@+id/searchCrewResultFragment"
