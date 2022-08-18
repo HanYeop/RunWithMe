@@ -16,6 +16,7 @@ const BoardComponent = (props) => {
           </div>
           {imageFileDto != null && imageFileDto.imgSeq != 0 && (
             <Image
+              width={200}
               src={`http://i7d101.p.ssafy.io/api/images/${imageFileDto.imgSeq}`}
             />
           )}

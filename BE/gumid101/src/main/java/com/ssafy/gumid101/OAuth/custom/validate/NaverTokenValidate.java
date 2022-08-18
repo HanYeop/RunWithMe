@@ -68,8 +68,7 @@ public class NaverTokenValidate implements CustomTokenValidator {
 	    // header를 생성해서 access token을 넣어줍니다.
 	    HttpHeaders profileRequestHeader = new HttpHeaders();
 	    profileRequestHeader.add("Authorization", "Bearer " +idTokenString);
-	    profileRequestHeader.add("X-Naver-Client-Id", "CLIENT_ID");
-	    profileRequestHeader.add("X-Naver-Client-Secret", "USER_INFO_URL");
+	    profileRequestHeader.add("X-Naver-Client-Id", CLIENT_ID);
         
 	    HttpEntity<HttpHeaders> profileHttpEntity = new HttpEntity<>(profileRequestHeader);
 	    
@@ -80,6 +79,7 @@ public class NaverTokenValidate implements CustomTokenValidator {
 	            profileHttpEntity,
 	            LinkedHashMap.class
 	    );
+		@SuppressWarnings("unchecked")
 		Map<String, HashMap> map = profileResponse.getBody();
 		String naver_id = (String) map.get("response").get("id");
 	
