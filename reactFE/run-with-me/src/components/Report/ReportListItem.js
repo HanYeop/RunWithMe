@@ -49,7 +49,7 @@ const ReportListItem = (props) => {
     } else if (reportState === "COMPLETE") {
       return (
         <Badge
-          bg="secondary"
+          bg="success"
           reportSeq={reportSeq}
           reportState={reportState}
           className={styles["none-visible-button"]}

@@ -46,6 +46,7 @@ public class CompetitionRankingRepositoryImpl implements CompetitionRankingRepos
 				.select(Projections.fields(RankingDto.class, //
 						userEntity.nickName.as("userName"), //
 						userEntity.userSeq.as("userSeq"), //
+						userEntity.competitionResult.as("competitionResult"), //
 						qUserRecord.competitionDistance.as("rankingValue"), //
 						imgEntity.imgSeq.coalesce(0L).as("imgSeq") //
 						)) //
@@ -79,11 +80,11 @@ public class CompetitionRankingRepositoryImpl implements CompetitionRankingRepos
 	@Override
 	public RankingDto getCompetitionUserRanking(Long competitionSeq, Long userSeq) {
 		RankingDto myRanking = null;
-		String sql = "select ranking, targetField, subr2.user_seq as user_seq, user_nickname, t_user.img_seq as img_seq "
+		String sql = "select ranking, targetField, subr2.user_seq as user_seq, user_nickname, t_user.img_seq as img_seq, t_user.competition_result as competitionResult "
 				+ "FROM ("
 				+ "SELECT ranking, user_seq, targetField "
 					+ "FROM ("
-						+ "SELECT ROW_NUMBER() OVER (order by competition_distance) as ranking, user_seq, competition_distance as targetField "
+						+ "SELECT ROW_NUMBER() OVER (order by competition_distance desc) as ranking, user_seq, competition_distance as targetField "
 						+ "FROM	t_competition_user_record as tctc "
 						+ "where tctc.competition_seq = ?"
 					+ ") "
@@ -100,6 +101,9 @@ public class CompetitionRankingRepositoryImpl implements CompetitionRankingRepos
 			myRanking.setRankingIndex(((BigInteger) resultMap.get("ranking")).intValue());
 			myRanking.setRankingValue((Integer) resultMap.get("targetField"));
 			myRanking.setUserName((String) resultMap.get("user_nickname"));
+			myRanking.setCompetitionResult(resultMap.get("competitionResult") != null ? 
+					CompetitionResultStatus.valueOf((String) resultMap.get("competitionResult")) : 
+						CompetitionResultStatus.NONRANKED);
 			myRanking.setUserSeq((Long) resultMap.get("user_seq"));
 			myRanking.setImgSeq((Long) resultMap.get("img_seq"));
 			if(myRanking.getImgSeq() == null) {

@@ -82,9 +82,9 @@ public class CrewActivityRestController {
 	}
 
 	@ApiOperation("크루내 랭킹(미구현)")
-	@GetMapping("/{crewSeq}/ranking")
-	public ResponseEntity<?> getCrewRankings(@ModelAttribute RankingParamsDto rankingParamsDto) throws Exception {
-
+	@GetMapping("/{crewSeq_p}/ranking")
+	public ResponseEntity<?> getCrewRankings(@PathVariable(name = "crewSeq_p") Long crewSeq, @ModelAttribute RankingParamsDto rankingParamsDto) throws Exception {
+		rankingParamsDto.setCrewSeq(crewSeq);
 		List<RankingDto> rankingList = crewActivityService.getCrewRankingByParam(rankingParamsDto);
 
 		if (rankingList == null) {
@@ -148,8 +148,9 @@ public class CrewActivityRestController {
 	@ApiOperation("크루 게시판 글 작성")
 	public ResponseEntity<?> writeCrewBoards(
 			@PathVariable(name = "crewSeq") Long crewSeq,
-			@RequestPart(value="crewBoardDto",required = true) CrewBoardDto crewBoardDto,
+			@RequestPart(name= "crewBoardDto", required = true) CrewBoardDto crewBoardDto,
 			@RequestPart(name = "imgFile", required = false) MultipartFile imageFile) throws Exception {
+		
 		
 		UserDto writerUser = loadUserFromToken();
 		redisServ.getIsUseable(writerUser.getUserSeq().toString() + "writeCrewBoards", 5);

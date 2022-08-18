@@ -49,6 +49,10 @@ class AK {
 @Controller
 public class TestController {
 
+	
+	@Autowired
+	private CrewSchedule crewSchedule;
+	
 	@Autowired
 
 	private UserRepository userRepo;
@@ -187,4 +191,25 @@ public class TestController {
 		return "gg";
 	}
 	
+	@ApiOperation("크루 포인트 분배 08 - 12")
+	@GetMapping("/test/distriute")
+	private String crewPointDestribute() throws Exception {
+		crewSchedule.crewPointDistribute();
+		return "asdf";
+	}
+	
+	
+	@ApiOperation("컴페티션 포인트 분배 08 - 12")
+	@GetMapping("/test/competitionPointDistribute")
+	private String competitionPointDistribute() throws Exception {
+		crewSchedule.competitionPointDistribute();
+		return "asdf";
+	}
+	
+	@ApiOperation("알람 전송  08 - 12")
+	@GetMapping("/test/crewPointAlarm")
+	private String crewPointAlarm() throws Exception {
+		crewSchedule.notification();
+		return "asdf";
+	}
 }

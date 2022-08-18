@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="myCurrentCrewResponse"
+            type="com.ssafy.runwithme.model.response.MyCurrentCrewResponse" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_card_crew_recruit"
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        android:paddingHorizontal="16dp"
+        >
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_crew"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginHorizontal="4dp"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_card_crew"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/image_crew_recruit"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/image_round"
+                    android:clipToOutline="true"
+                    android:scaleType="fitXY"
+                    app:crewHorizonImage="@{myCurrentCrewResponse.imageFileDto.imgSeq}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:src="@color/main_black" />
+
+                <TextView
+                    android:id="@+id/tv_crew_name_recruit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:text="@{myCurrentCrewResponse.crewDto.crewName}"
+                    android:textColor="@color/main_black"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/noto_sans_bold"
+                    app:layout_constraintStart_toEndOf="@id/image_crew_recruit"
+                    app:layout_constraintTop_toBottomOf="@id/tv_crew_start_duration"
+                    tools:text="김크루" />
+
+                <TextView
+                    android:id="@+id/tv_crew_start_duration"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/main_grey"
+                    android:textSize="10sp"
+                    app:endDay="@{myCurrentCrewResponse.crewDto.crewDateEnd}"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintStart_toEndOf="@id/image_crew_recruit"
+                    app:layout_constraintTop_toTopOf="@id/image_crew_recruit"
+                    app:startDay="@{myCurrentCrewResponse.crewDto.crewDateStart}"
+                    tools:text="2022/07/21 ~ 2022/08/21" />
+
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="시작 시간"
+                    android:textColor="@color/main_grey"
+                    android:layout_marginBottom="4dp"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_goal_amount"
+                    app:layout_constraintStart_toStartOf="@id/tv_crew_name_recruit"
+                    />
+
+
+                <TextView
+                    android:id="@+id/tv_crew_start_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/main_black"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="16dp"
+                    app:endTime="@{myCurrentCrewResponse.crewDto.crewTimeEnd}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_time"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_time"
+                    app:startTime="@{myCurrentCrewResponse.crewDto.crewTimeStart}"
+                    tools:text="21:00 ~ 22:00" />
+
+                <TextView
+                    android:id="@+id/tv_goal_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="목표"
+                    android:textColor="@color/main_grey"
+                    android:layout_marginBottom="12dp"
+                    app:layout_constraintStart_toStartOf="@id/tv_time"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+                <TextView
+                    android:id="@+id/tv_crew_goal_amount"
+                    goalAmount="@{myCurrentCrewResponse.crewDto.crewGoalAmount}"
+                    goalType="@{myCurrentCrewResponse.crewDto.crewGoalType}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/main_black"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_goal_amount"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_goal_amount"
+                    tools:text="30분" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

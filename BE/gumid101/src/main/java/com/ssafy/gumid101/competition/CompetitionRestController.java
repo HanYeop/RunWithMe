@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,11 +48,13 @@ public class CompetitionRestController {
 	}
 
 	@ApiOperation(value = "대회 만들기")
-	@PostMapping(value = "/")
+	@PostMapping(value = "",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<?> makeCompetition(@RequestPart(name = "competitionDto") String competitionDtoString,
 			@RequestPart(name = "competitionImageFile", required = false) MultipartFile competitionImageFile) throws Exception{
+		
 		CompetitionDto competitionDto = objectMapper.readValue(competitionDtoString, CompetitionDto.class);
 		redisServ.getIsUseable(competitionDto.getCompetitionName() + "makeCompetition", 3);
+		
 		return new ResponseEntity<>(new ResponseFrame<>(true, compServ.makeCompetition(competitionDto, competitionImageFile), 1, "대회 개최에 성공했습니다."), HttpStatus.OK);
 	}
 	
@@ -95,6 +98,13 @@ public class CompetitionRestController {
 	public ResponseEntity<?> checkCompetitionJoinable(@PathVariable Long competitionSeq, @PathVariable Long userSeq) throws Exception{
 		Boolean joinable = compServ.checkCompetitionJoinable(competitionSeq, userSeq);
 		return new ResponseEntity<>(new ResponseFrame<>(true, joinable, joinable ? 1 : 0, "해당 유저는 해당 대회에 참여" + (joinable ? "" : "불") + "가능합니다."), HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "대회 참여자 수 조회")
+	@GetMapping(value = "/{competitionSeq}/participant")
+	public ResponseEntity<?> countParticipantCompetition(@PathVariable Long competitionSeq) throws Exception{
+		Long count = compServ.countParticipantCompetition(competitionSeq);
+		return new ResponseEntity<>(new ResponseFrame<>(true, count, count.intValue(), "해당 대회의 참가자 수는 " + count + "명 입니다."), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "대회 참가")

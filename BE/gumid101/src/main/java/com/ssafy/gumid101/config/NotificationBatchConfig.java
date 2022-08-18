@@ -57,9 +57,10 @@ public class NotificationBatchConfig {
 		log.debug("포인트 정산 JOB을 시작합니다.");
 		return stepBuilderFactory.get("notificationStep").<FCMEntity, FCMEntity>chunk(CHUNK_SIZE)
 				.reader(notificationReader())
+
 				.processor(notificationProcessor())
 				.writer(notificationWriter())
-				
+				.allowStartIfComplete(true)
 				.build();
 	}
 	

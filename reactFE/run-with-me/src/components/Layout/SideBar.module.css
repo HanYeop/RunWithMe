@@ -9,6 +9,18 @@
   background-color: aliceblue;
 }
 
+h2 {
+  color: white;
+}
+
+.image_box {
+  background-color: white;
+  margin: 0px 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .footer {
   text-align: right;
   padding: 10px;

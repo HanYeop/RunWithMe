@@ -16,8 +16,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -47,7 +49,7 @@ public class SecurityConfig {
 	private final UserRepository userRepo;
 	private final JwtUtilsService jwtUtilService;
 	private final ObjectMapper mapper;
-	private final CustomOAuth2UserService oAuth2UserService;
+	//private final CustomOAuth2UserService oAuth2UserService;
 	private final OAuth2SuccessHandler successHandler;
 
 	private final GoogleTokenValidate googleTokenValidate;
@@ -96,10 +98,10 @@ public class SecurityConfig {
 
 		http.authorizeHttpRequests((authz) -> {
 			authz.antMatchers("/user/profile").hasRole(Role.TEMP.toString());
+			authz.antMatchers("/customer-center/manager/**").hasRole(Role.MANAGER.toString());
 			authz.antMatchers("/**").hasRole(Role.USER.toString());
 			
 		});
-		
 		http.exceptionHandling().accessDeniedHandler(new AccessDeniedHandler() {
 
 			@Override
@@ -109,7 +111,17 @@ public class SecurityConfig {
 				response.getWriter().println(String.format("%s -- %s", "실패", accessDeniedException.getMessage()));
 
 			}
-		});
+		}).authenticationEntryPoint(new AuthenticationEntryPoint() {
+			
+			@Override
+			public void commence(HttpServletRequest request, HttpServletResponse response,
+					AuthenticationException authException) throws IOException, ServletException {
+
+System.out.println(authException);
+				
+			}
+		})
+		;
 	
 		// 어뗀티 케이션 디나이 핸들러는 따로 처리하고 있음
 

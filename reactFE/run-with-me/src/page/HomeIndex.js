@@ -33,29 +33,6 @@ const HomeIndex = () => {
       });
   };
 
-  const mailClickHandler = () => {
-    console.log(mailText);
-    console.log(alarmText);
-    apiClient
-      .post(
-        "/customer-center/manager/mail-total",
-        {
-          body: setMailText,
-        },
-        {
-          headers: {
-            "JWT-AUTHENTICATION": auth.accessToken,
-          },
-        },
-      )
-      .then(({ data }) => {
-        alert(data.msg);
-        setMailText("");
-      })
-      .catch((response) => {
-        console.log(response);
-      });
-  };
   return (
     <>
       <div className={styles.home_index_frame}>
@@ -71,23 +48,6 @@ const HomeIndex = () => {
             />
             <div className={styles.button_box}>
               <Button type="submit" onClick={alarmClickHandler}>
-                Submit
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div className={styles.main_function_card}>
-          <Form.Label>전체 메일 보내기</Form.Label>
-          <div>
-            <Form.Control
-              type="text"
-              value={mailText}
-              onChange={(e) => {
-                setMailText(e.target.value);
-              }}
-            />
-            <div className={styles.button_box}>
-              <Button type="submit" onClick={mailClickHandler}>
                 Submit
               </Button>
             </div>

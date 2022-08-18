@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bottom_navi_size">50dp</dimen>
+    <dimen name="toolbar_margin">8dp</dimen>
+    <dimen name="header_margin">16dp</dimen>
+
+    <dimen name="toolbar_title">18sp</dimen>
+    <dimen name="header">18sp</dimen>
+    <dimen name="more">14sp</dimen>
+    <dimen name="join_title">24sp</dimen>
+    <dimen name="other_title">20sp</dimen>
+    <dimen name="profile_modify">16sp</dimen>
+
+    <dimen name="crew_horizon_image_size">100dp</dimen>
+    <dimen name="crew_board_profile_image_size">40dp</dimen>
+    <dimen name="ranking_profile_image_size">50dp</dimen>
+    <dimen name="my_page_profile_image_size">90dp</dimen>
+    <dimen name="crew_detail_image_size">250dp</dimen>
+    <dimen name="crew_image_size">80dp</dimen>
+    <dimen name="run_record_image_size">130dp</dimen>
+    <dimen name="create_recommend_image_size">160dp</dimen>
+</resources>

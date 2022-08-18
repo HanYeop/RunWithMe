@@ -13,5 +13,6 @@ public interface CompetitionUserRecordRepository extends JpaRepository<Competiti
 	Optional<CompetitionUserRecordEntity> findByUserEntityAndCompetitionEntity(UserEntity userEntity, CompetitionEntity competitionEntity);
 	List<CompetitionUserRecordEntity> findByUserEntity_userSeq(Long userSeq);
 	List<CompetitionUserRecordEntity> findByCompetitionEntityOrderByCompetitionDistanceDesc(CompetitionEntity competitionEntity);
+	Long countByCompetitionEntity(CompetitionEntity competitionEntity);
 
 }

@@ -12,7 +12,7 @@ const UserCard = (props) => {
               roundedCircle
               width={80}
               height={80}
-              src={`http://localhost:8080/api/images/${props.imgSeq}`}
+              src={`http://i7d101.p.ssafy.io/api/images/${props.imgSeq}`}
             />
           ) : (
             <Image roundedCircle width={80} height={80} src={default_Img} />

@@ -2,15 +2,11 @@ package com.ssafy.gumid101.customercenter.manager;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.BinaryOperator;
 
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,12 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.gumid101.customercenter.CustomerCenterService;
 import com.ssafy.gumid101.customercenter.ReportStatus;
 import com.ssafy.gumid101.customexception.IllegalParameterException;
-import com.ssafy.gumid101.dto.UserDto;
-import com.ssafy.gumid101.firebase.FirebaseMessageUtil;
-import com.ssafy.gumid101.redis.RedisService;
 import com.ssafy.gumid101.req.AlarmReqDto;
 import com.ssafy.gumid101.req.ReportSelectReqDto;
 import com.ssafy.gumid101.res.ResponseFrame;
@@ -79,6 +71,7 @@ public class ReportManagerRestController {
 	@ApiOperation("신고글  상세히 보기")
 	@GetMapping("/reports/{reportseq}")
 	public ResponseEntity<?> getReportDetail(@PathVariable("reportseq") Long reportSeq){
+		
 		
 		Map<String, Object>  result = reportManagerService.selectReportById(reportSeq);
 

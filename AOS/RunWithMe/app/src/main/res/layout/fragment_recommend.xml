@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="trackBoard"
+            type="com.ssafy.runwithme.model.dto.TrackBoardFileDto" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.recommend.RecommendFragment">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/toolbar_margin"
+            android:layout_marginTop="@dimen/toolbar_margin"
+            android:layout_marginEnd="@dimen/toolbar_margin"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/text"
+                style="@style/toolbar_text"
+                android:text="추천 코스" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/map_view_user"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_header_one" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar_recommend"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/header_margin"
+            android:layout_marginEnd="@dimen/header_margin"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="4dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_card_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/img_run_record"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:background="@drawable/image_round"
+                    android:clipToOutline="true"
+                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:runRecordImage="@{trackBoard.trackBoardImageFileDto.imgSeq}"
+                    tools:srcCompat="@color/main_black" />
+
+                <TextView
+                    android:id="@+id/tv_hard_point"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/noto_sans_bold"
+                    android:text="러닝 난이도"
+                    android:textColor="@color/main_black"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_envir_point"
+                    app:layout_constraintStart_toEndOf="@+id/img_run_record" />
+
+                <com.willy.ratingbar.ScaleRatingBar
+                    android:id="@+id/rating_hard"
+                    android:layout_width="127dp"
+                    android:layout_height="42dp"
+                    android:padding="8dp"
+                    app:hardPoint="@{trackBoard.trackBoardDto.hardPoint}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_hard_point"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tv_hard_point"
+                    app:layout_constraintTop_toTopOf="@+id/tv_hard_point"
+                    app:srb_clickable="false"
+                    app:srb_isIndicator="true"
+                    app:srb_numStars="5"
+                    app:srb_scrollable="true"
+                    app:srb_starHeight="18dp"
+                    app:srb_starPadding="2dp"
+                    app:srb_starWidth="18dp"
+                    app:srb_stepSize="1" />
+
+                <TextView
+                    android:id="@+id/tv_envir_point"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="28dp"
+                    android:fontFamily="@font/noto_sans_bold"
+                    android:text="러닝 환경"
+                    android:textColor="@color/main_black"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tv_hard_point" />
+
+                <com.willy.ratingbar.ScaleRatingBar
+                    android:id="@+id/rating_environment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_envir_point"
+                    app:layout_constraintEnd_toEndOf="@+id/rating_hard"
+                    app:layout_constraintStart_toStartOf="@+id/rating_hard"
+                    app:layout_constraintTop_toTopOf="@+id/tv_envir_point"
+                    app:srb_clickable="false"
+                    app:srb_isIndicator="true"
+                    app:srb_numStars="5"
+                    app:hardPoint="@{trackBoard.trackBoardDto.environmentPoint}"
+                    app:srb_scrollable="true"
+                    app:srb_starHeight="18dp"
+                    app:srb_starPadding="2dp"
+                    app:srb_starWidth="18dp"
+                    app:srb_stepSize="1" />
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans_bold"
+                    android:textColor="@color/main_black"
+                    android:textSize="14sp"
+                    tools:text="제목"
+                    android:text="@{trackBoard.runRecordDto.userName + `님의 추천경로`}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/img_run_record"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tv_title_header_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans_bold"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:text="총"
+            app:layout_constraintStart_toStartOf="@+id/toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <TextView
+            android:id="@+id/tv_title_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans_bold"
+            android:textColor="@color/main_blue"
+            android:textSize="18sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            tools:text="10"
+            app:layout_constraintStart_toEndOf="@+id/tv_title_header_one"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <TextView
+            android:id="@+id/tv_title_header_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans_bold"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp"
+            android:text=" 개의 추천코스"
+            app:layout_constraintStart_toEndOf="@+id/tv_title_num"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_re_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="범위 내 재검색"
+            android:drawableStart="@drawable/ic_baseline_cached_24"
+            android:drawablePadding="4dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:background="@drawable/btn_round_white_grey_border"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/map_view_user" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

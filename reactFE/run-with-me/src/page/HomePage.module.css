@@ -8,26 +8,25 @@
   box-shadow: 1px 1px 5px rgb(57, 57, 52);
   margin-bottom: 0;
   background-color: red;
-  
-  height: 100vh;
+
+  height: max(100vh, 100%);
 }
 
 .main-upside {
   display: flex;
   flex-direction: row;
-  background-color: rgb(211, 246, 252);
+  background-color: rgb(255, 255, 255);
   justify-content: space-between;
   align-items: center;
   line-height: 0px;
   padding: 5px 40px;
   border-radius: 4px;
-  box-shadow: 0px 1px 3px rgb(68, 139, 160);
+  box-shadow: 0px 1px 3px rgb(30, 43, 47);
 }
 
-.main{
-  max-height: 100vh;
+.main {
 }
 
-.main-article{
+.main-article {
   max-width: 100%;
 }

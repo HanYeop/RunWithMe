@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="competitionRankingVM"
+            type="com.ssafy.runwithme.view.competition.ranking.CompetitionRankingViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.home.competition.CompetitionRankingFragment">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/toolbar_margin"
+            android:layout_marginTop="@dimen/toolbar_margin"
+            android:layout_marginEnd="@dimen/toolbar_margin"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/text"
+                style="@style/toolbar_text"
+                android:text="개인 챌린지 랭킹" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_total_user_ranking"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical"
+            submitList="@{competitionRankingVM.totalRankingList}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/view_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            tools:listitem="@layout/item_competition_ranking" />
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black_high_emphasis"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toBottomOf="@id/recycler_total_user_ranking"
+            app:layout_constraintBottom_toTopOf="@id/layout_cardview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_cardview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/tv_my_ranking_num"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                tools:text="1"
+                android:text="@{String.valueOf(competitionRankingVM.myRanking.rankingIndex)}"
+                android:gravity="center"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/noto_sans_bold"
+                android:includeFontPadding="false"
+                android:textColor="@color/black_high_emphasis"
+                android:textSize="20sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_my_ranking_profile"
+                android:layout_width="@dimen/ranking_profile_image_size"
+                android:layout_height="@dimen/ranking_profile_image_size"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                app:rankingProfileImage="@{competitionRankingVM.myRanking.imgSeq}"
+                android:background="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="@id/tv_my_ranking_num"
+                app:layout_constraintStart_toEndOf="@id/tv_my_ranking_num"
+                app:layout_constraintTop_toTopOf="@id/tv_my_ranking_num"
+                tools:src="@drawable/img" />
+
+            <TextView
+                android:id="@+id/tv_my_ranking_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/noto_sans_bold"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:text="@{competitionRankingVM.myRanking.userName}"
+                app:layout_constraintStart_toEndOf="@id/image_my_ranking_profile"
+                app:layout_constraintTop_toTopOf="@id/image_my_ranking_profile"
+                app:layout_constraintBottom_toBottomOf="@id/image_my_ranking_profile"
+                tools:text="나" />
+
+            <ImageView
+                android:id="@+id/img_competition_ranking"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                tools:src="@drawable/gold_cup"
+                app:competitionResult="@{competitionRankingVM.myRanking.competitionResult}"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@id/tv_my_ranking_name"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/tv_my_ranking_total_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/noto_sans_bold"
+                android:textColor="@color/main_grey"
+                app:layout_constraintTop_toTopOf="@id/tv_my_ranking_name"
+                app:layout_constraintBottom_toBottomOf="@id/tv_my_ranking_name"
+                app:layout_constraintEnd_toStartOf="@id/tv_my_ranking_total_type"
+                tools:text = "144.8"
+                distanceConverter="@{competitionRankingVM.myRanking.rankingValue}"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_my_ranking_total_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_bold"
+                android:textColor="@color/main_grey"
+                app:layout_constraintTop_toTopOf="@id/tv_my_ranking_name"
+                app:layout_constraintBottom_toBottomOf="@id/tv_my_ranking_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="km"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -7,6 +7,7 @@ import javax.persistence.LockModeType;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -24,8 +25,13 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>, UserCus
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	Optional<UserEntity> findWithLockingByUserSeq(Long userSeq);
 
+	@Modifying
 	@Query(value="UPDATE UserEntity u SET u.point =u.point + :point where u.userSeq = :userSeq ")
 	int updatePointAsBulk(Long userSeq, int point);
+	
+	@Modifying(flushAutomatically = true, clearAutomatically = true)
+	@Query(value="UPDATE UserEntity u SET u.competitionResult = null ")
+	int initCompetitionResultAsBulk();
 
 	@Query(value="SELECT u FROM UserEntity u WHERE u.fcmToken IS NOT NULL")
 	List<UserEntity> findByALLFcmTokenNotNULL();

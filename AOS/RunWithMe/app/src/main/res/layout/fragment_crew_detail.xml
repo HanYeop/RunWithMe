@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="crewDto"
+            type="com.ssafy.runwithme.model.dto.CrewDto"/>
+        <variable
+            name="imageFileDto"
+            type="com.ssafy.runwithme.model.dto.ImageFileDto" />
+        <variable
+            name="crewDetailVM"
+            type="com.ssafy.runwithme.view.crew_detail.CrewDetailViewModel"/>
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                    android:background="@color/white">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_collapseMode="pin">
+                    </LinearLayout>
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.appbar.MaterialToolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/toolbar_margin"
+                        android:layout_marginTop="@dimen/toolbar_margin"
+                        android:layout_marginEnd="@dimen/toolbar_margin"
+                        android:background="@color/white"
+                        app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
+
+                        <TextView
+                            android:id="@+id/text"
+                            style="@style/toolbar_text"
+                            android:text="챌린지 크루 정보" />
+                    </com.google.android.material.appbar.MaterialToolbar>
+
+                </LinearLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:scrollbars="none"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/image_crew"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/crew_detail_image_size"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        app:crewDetailImage="@{imageFileDto.imgSeq}"
+                        android:background="@drawable/image_round"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/crew_image" />
+
+                    <TextView
+                        android:id="@+id/tv_crew__name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:text="@{crewDto.crewName}"
+                        tools:text="맥도날드 크루"
+                        android:textColor="@color/main_grey"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@id/image_crew"
+                        app:layout_constraintTop_toBottomOf="@id/image_crew"
+                        app:layout_constraintEnd_toEndOf="@id/image_crew" />
+
+                    <TextView
+                        android:id="@+id/tv_crew_manager_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:gravity="center"
+                        android:text="@{crewDto.crewManagerNickName}"
+                        tools:text="도널드 트럼프"
+                        android:textColor="@color/main_grey"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_crew__name" />
+
+                    <TextView
+                        android:id="@+id/tv_crew_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:includeFontPadding="false"
+                        android:maxLines="3"
+                        android:text="@{crewDto.crewDescription}"
+                        android:textColor="@color/main_black"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_crew_manager_name"
+                        tools:text="친환경 러닝을 목표로 하는 테슬라 크루입니다~! \n환경에 관심 있는 러너 누구나 환영~^^" />
+
+                    <TextView
+                        android:id="@+id/tv_goal_type"
+                        android:layout_width="50dp"
+                        android:layout_height="25dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/text_round"
+                        android:gravity="center"
+                        android:textColor="@color/main_grey"
+                        android:textSize="14sp"
+                        app:goalTypeConverter="@{crewDto.crewGoalType}"
+                        app:layout_constraintStart_toStartOf="@id/tv_crew_description"
+                        app:layout_constraintTop_toBottomOf="@id/tv_crew_description"
+                        tools:text="거리" />
+
+                    <TextView
+                        android:id="@+id/tv_goal_days"
+                        android:layout_width="50dp"
+                        android:layout_height="25dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/text_round"
+                        android:gravity="center"
+                        android:textColor="@color/main_grey"
+                        android:textSize="14sp"
+                        app:goalDays="@{crewDto.crewGoalDays}"
+                        app:layout_constraintStart_toEndOf="@id/tv_goal_type"
+                        app:layout_constraintTop_toBottomOf="@id/tv_crew_description"
+                        tools:text="주 4회" />
+
+                    <TextView
+                        android:id="@+id/tv_duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="32dp"
+                        android:text="챌린지 기간"
+                        android:textColor="@color/main_grey"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_goal_type" />
+
+                    <TextView
+                        android:id="@+id/tv_crew_duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/noto_sans_regular"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/main_black"
+                        android:textSize="16sp"
+                        app:endDay="@{crewDto.crewDateEnd}"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_duration"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_duration"
+                        app:startDay="@{crewDto.crewDateStart}"
+                        tools:text="2022-07-22 ~ 2022-08-30" />
+
+                    <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="러닝 시작 시간"
+                        android:textColor="@color/main_grey"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="@id/tv_duration"
+                        app:layout_constraintTop_toBottomOf="@id/tv_duration" />
+
+                    <TextView
+                        android:id="@+id/tv_crew_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/noto_sans_regular"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/main_black"
+                        android:textSize="16sp"
+                        app:endTime="@{crewDto.crewTimeEnd}"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_time"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_time"
+                        app:startTime="@{crewDto.crewTimeStart}"
+                        tools:text="20:00 ~ 21:00" />
+
+                    <TextView
+                        android:id="@+id/tv_goal_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="러닝 목표"
+                        android:textColor="@color/main_grey"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="@id/tv_time"
+                        app:layout_constraintTop_toBottomOf="@id/tv_time" />
+
+                    <TextView
+                        android:id="@+id/tv_crew_goal_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/noto_sans_regular"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/main_black"
+                        android:textSize="16sp"
+                        app:goalAmount="@{crewDto.crewGoalAmount}"
+                        app:goalType="@{crewDto.crewGoalType}"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_goal_amount"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_goal_amount"
+                        tools:text="3km" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardview_my_record"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="32dp"
+                        android:backgroundTint="@color/white"
+                        app:cardCornerRadius="6dp"
+                        app:cardElevation="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_goal_amount">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="16dp"
+                            android:orientation="vertical">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <com.github.mikephil.charting.charts.BarChart
+                                    android:id="@+id/chart_my_record"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="250dp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"/>
+
+                                <TextView
+                                    android:id="@+id/tv_total_distance_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:text="누적 거리"
+                                    android:textColor="@color/main_grey"
+                                    android:textSize="16sp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/chart_my_record" />
+
+                                <TextView
+                                    android:id="@+id/tv_total_distance"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8dp"
+                                    android:textColor="@color/main_grey"
+                                    android:textSize="16sp"
+                                    totalDistanceConverter="@{crewDetailVM.myTotalRecordData.totalDistance}"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="@id/tv_total_distance_text"
+                                    tools:text="5.7km" />
+
+                                <TextView
+                                    android:id="@+id/tv_total_time_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:text="누적 시간"
+                                    android:textColor="@color/main_grey"
+                                    android:textSize="16sp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/tv_total_distance_text" />
+
+                                <TextView
+                                    android:id="@+id/tv_total_time"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8dp"
+                                    android:textColor="@color/main_grey"
+                                    android:textSize="16sp"
+                                    totalTimeConverter="@{crewDetailVM.myTotalRecordData.totalTime}"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="@id/tv_total_time_text"
+                                    tools:text="58분" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <LinearLayout
+                                android:id="@+id/layout_show_my_record"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:gravity="center"
+                                android:layout_marginTop="20dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/noto_sans_bold"
+                                    android:includeFontPadding="false"
+                                    android:text="내 러닝 기록"
+                                    android:textColor="@color/main_black"
+                                    android:textSize="18sp" />
+                                <ImageView
+                                    android:id="@+id/btn_show_my_record"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                                    app:tint="@color/main_black" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="32dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cardview_my_record"
+                        android:background="@color/main_light_grey"/>
+
+                    <LinearLayout
+                        android:id="@+id/layout_board"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/view">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="10"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:text="크루 게시판"
+                            android:textColor="@color/main_black"
+                            android:textSize="18sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                            app:tint="@color/main_black" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view_1"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/layout_board"
+                        app:layout_constraintBottom_toTopOf="@id/layout_ranking"
+                        android:background="@color/main_light_grey"/>
+
+                    <LinearLayout
+                        android:id="@+id/layout_ranking"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/view_1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="10"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:text="크루원 랭킹"
+                            android:textColor="@color/main_black"
+                            android:textSize="18sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                            app:tint="@color/main_black" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view_2"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/layout_ranking"
+                        app:layout_constraintBottom_toTopOf="@id/layout_record"
+                        android:background="@color/main_light_grey"/>
+
+                    <LinearLayout
+                        android:id="@+id/layout_record"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/view_2">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="10"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:text="크루원 러닝 기록"
+                            android:textColor="@color/main_black"
+                            android:textSize="18sp" />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                            app:tint="@color/main_black" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view_3"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="60dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/layout_record"
+                        android:background="@color/main_light_grey"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_join_crew"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가입"
+                android:textColor="@color/white"
+                android:fontFamily="@font/noto_sans_bold"
+                android:textSize="16sp"
+                android:layout_gravity="bottom"
+                android:background="@color/main_blue"
+                isCrewMember="@{crewDetailVM.isCrewMember}"
+                crewState="@{crewDetailVM.crewState}"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/scroll_view"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_resign_crew"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="탈퇴"
+                android:textColor="@color/white"
+                android:fontFamily="@font/noto_sans_bold"
+                android:textSize="16sp"
+                android:background="@color/main_grey"
+                android:visibility="gone"
+                android:layout_gravity="bottom"
+                isCrewMember="@{crewDetailVM.isCrewMember}"
+                crewState="@{crewDetailVM.crewState}"
+                isCrewManager="@{crewDetailVM.isCrewManager}"
+                app:layout_constraintTop_toBottomOf="@id/scroll_view"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_running"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="러닝"
+                android:textColor="@color/white"
+                android:fontFamily="@font/noto_sans_bold"
+                android:includeFontPadding="false"
+                style="@style/header_text"
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:layout_gravity="bottom"
+                android:background="@color/main_blue"
+                isCrewMember="@{crewDetailVM.isCrewMember}"
+                crewState="@{crewDetailVM.crewState}"
+                app:layout_constraintTop_toBottomOf="@id/scroll_view"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"  />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

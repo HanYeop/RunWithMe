@@ -144,6 +144,14 @@ public class CompetitionServiceImpl implements CompetitionService {
 		}
 		return true;
 	}
+	
+	@Override
+	public Long countParticipantCompetition(Long competitionSeq) throws Exception {
+		CompetitionEntity competitionEntity = competitionRepo.findById(competitionSeq)
+				.orElseThrow(() -> new NotFoundUserException("해당 대회를 찾을 수 없습니다."));
+		
+		return competitionUserRecordRepo.countByCompetitionEntity(competitionEntity);
+	}
 
 	@Transactional
 	@Override
