@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/toolbar_margin"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/image_logo"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:src="@drawable/rwm_logo"
+                android:layout_gravity="center|left"
+                android:layout_marginEnd="8dp" />
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout_home"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            app:tabTextAppearance="@style/tab_home"
+            app:tabBackground="@color/white"
+            app:tabIndicatorColor="@color/main_blue"
+            app:tabTextColor="@color/main_grey"
+            app:tabSelectedTextColor="@color/main_blue">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_my_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="홈" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_challenge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="챌린지" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:fillViewport="true">
+
+            <FrameLayout
+                android:id="@+id/frame_layout_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+</layout>

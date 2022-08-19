@@ -1,0 +1,17 @@
+.home_index_frame {
+  height: 80vh;
+  margin: 50px 50px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.main_function_card {
+  box-shadow: 0px 0px 1px rgb(33, 37, 46);
+  padding: 20px;
+}
+
+.button_box {
+  margin-top: 10px;
+  text-align: right;
+}

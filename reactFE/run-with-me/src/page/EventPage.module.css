@@ -1,0 +1,17 @@
+.control {
+  width: 86%;
+  text-align: right;
+}
+.horizontal_area {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 20px;
+  margin: 0 40px;
+}
+
+@media (max-width: 1200px) {
+  .horizontal_area {
+    flex-direction: column;
+  }
+}

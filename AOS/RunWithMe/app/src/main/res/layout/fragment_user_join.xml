@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="userVM"
+            type="com.ssafy.runwithme.view.login.UserViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.login.join.UserJoinFragment">
+
+        <TextView
+            android:id="@+id/tv_join_email"
+            style="@style/header_text"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="64dp"
+            android:text="이메일"
+            android:textSize="@dimen/join_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/edit_join_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="24dp"
+            android:textColor="@color/main_grey"
+            android:text="@{userVM.email}"
+            tools:text="dkfmaekdns@naver.com"
+            android:textSize="16sp"
+            android:enabled="false"
+            app:layout_constraintStart_toStartOf="@id/tv_join_email"
+            app:layout_constraintTop_toBottomOf="@id/tv_join_email" />
+
+        <TextView
+            android:id="@+id/tv_join_nickname"
+            style="@style/header_text"
+            android:layout_marginTop="24dp"
+            android:text="닉네임"
+            android:textSize="@dimen/join_title"
+            app:layout_constraintStart_toStartOf="@+id/tv_join_email"
+            app:layout_constraintTop_toBottomOf="@id/edit_join_email" />
+
+        <EditText
+            android:id="@+id/edit_join_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="24dp"
+            android:inputType="textPersonName"
+            android:hint="ex) 런위드미"
+            app:layout_constraintStart_toStartOf="@id/tv_join_email"
+            app:layout_constraintTop_toBottomOf="@id/tv_join_nickname" />
+
+        <TextView
+            android:id="@+id/tv_join_height"
+            style="@style/header_text"
+            android:layout_marginTop="24dp"
+            android:text="키"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_join_email"
+            app:layout_constraintTop_toBottomOf="@id/edit_join_nickname" />
+
+        <Spinner
+            android:id="@+id/spinner_height"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_join_height"
+            app:layout_constraintTop_toBottomOf="@id/tv_join_height" />
+
+        <TextView
+            android:id="@+id/tv_join_height_unit"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="cm"
+            android:fontFamily="@font/noto_sans_regular"
+            android:textColor="@color/black_high_emphasis"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/spinner_height"
+            app:layout_constraintBottom_toBottomOf="@id/spinner_height" />
+
+        <TextView
+            android:id="@+id/tv_join_weight"
+            style="@style/header_text"
+            android:layout_marginTop="24dp"
+            android:text="몸무게"
+            android:textSize="@dimen/join_title"
+            app:layout_constraintStart_toStartOf="@+id/tv_join_email"
+            app:layout_constraintTop_toBottomOf="@id/spinner_height" />
+
+        <Spinner
+            android:id="@+id/spinner_weight"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/tv_join_weight"
+            app:layout_constraintTop_toBottomOf="@id/tv_join_weight" />
+        <TextView
+            android:id="@+id/tv_join_weight_unit"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="kg"
+            android:fontFamily="@font/noto_sans_regular"
+            android:textColor="@color/black_high_emphasis"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/spinner_weight"
+            app:layout_constraintBottom_toBottomOf="@id/spinner_weight" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_join"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="16dp"
+            android:text="회원 가입"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:includeFontPadding="false"
+            android:background="@drawable/btn_round_main_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="competitionVM"
+            type="com.ssafy.runwithme.view.competition.CompetitionViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_collapseMode="pin">
+                </LinearLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/toolbar_margin"
+                    android:layout_marginTop="@dimen/toolbar_margin"
+                    android:layout_marginEnd="@dimen/toolbar_margin"
+                    android:background="@color/white"
+                    app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
+
+                    <TextView
+                        android:id="@+id/text"
+                        style="@style/toolbar_text"
+                        android:text="런윗미 챌린지" />
+                </com.google.android.material.appbar.MaterialToolbar>
+
+            </LinearLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/image_crew"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/crew_detail_image_size"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:background="@drawable/image_round"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/event_banner"
+                    app:competitionImage="@{competitionVM.competitionImageSeq}"/>
+
+                <TextView
+                    android:id="@+id/tv_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:text="챌린지 기간"
+                    android:textColor="@color/main_black"
+                    android:fontFamily="@font/noto_sans_bold"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/image_crew" />
+
+                <TextView
+                    android:id="@+id/tv_crew_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/noto_sans_regular"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/main_black"
+                    android:textSize="16sp"
+                    app:endDay="@{competitionVM.competitionDto.competitionDateEnd}"
+                    app:startDay="@{competitionVM.competitionDto.competitionDateStart}"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_duration"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_duration"
+                    tools:text="2022-07-22 ~ 2022-08-30" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_ranking"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="32dp"
+                    android:backgroundTint="@color/white"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_crew_duration">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:id="@+id/image_first"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/crown_one_32"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/image_first_user_profile"
+                            app:layout_constraintStart_toStartOf="@id/image_first_user_profile"
+                            app:layout_constraintEnd_toEndOf="@id/image_first_user_profile"/>
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/image_first_user_profile"
+                            android:layout_width="@dimen/ranking_profile_image_size"
+                            android:layout_height="@dimen/ranking_profile_image_size"
+                            android:layout_gravity="center"
+                            android:background="@android:color/transparent"
+                            app:rankingProfileImage="@{competitionVM.rankingFirst.imgSeq}"
+                            app:layout_constraintTop_toBottomOf="@id/image_first"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_first_user_name"
+                            app:layout_constraintEnd_toStartOf="@id/image_second_user_profile"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:src="@drawable/user_image" />
+
+                        <TextView
+                            android:id="@+id/tv_first_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            tools:text="도널드트럼프"
+                            android:text="@{competitionVM.rankingFirst.userName}"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:textColor="@color/main_sky"
+                            app:layout_constraintEnd_toEndOf="@id/image_first_user_profile"
+                            app:layout_constraintStart_toStartOf="@id/image_first_user_profile"
+                            app:layout_constraintTop_toBottomOf="@id/image_first_user_profile"/>
+
+                        <TextView
+                            android:id="@+id/tv_first_user_record"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="108.57km"
+                            app:totalDistanceConverter="@{competitionVM.rankingFirst.rankingValue}"
+                            android:fontFamily="@font/noto_sans_bold"
+                            app:layout_constraintEnd_toEndOf="@id/tv_first_user_name"
+                            app:layout_constraintStart_toStartOf="@id/tv_first_user_name"
+                            app:layout_constraintTop_toBottomOf="@id/tv_first_user_name"/>
+
+
+                        <ImageView
+                            android:id="@+id/image_second"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/crown_two_32"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/image_second_user_profile"
+                            app:layout_constraintStart_toStartOf="@id/image_second_user_profile"
+                            app:layout_constraintEnd_toEndOf="@id/image_second_user_profile"/>
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/image_second_user_profile"
+                            android:layout_width="@dimen/ranking_profile_image_size"
+                            android:layout_height="@dimen/ranking_profile_image_size"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="16dp"
+                            app:rankingProfileImage="@{competitionVM.rankingSecond.imgSeq}"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintTop_toBottomOf="@id/image_second"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_second_user_name"
+                            app:layout_constraintStart_toEndOf="@id/image_first_user_profile"
+                            app:layout_constraintEnd_toStartOf="@id/image_third_user_profile"
+                            tools:src="@drawable/user_image" />
+
+                        <TextView
+                            android:id="@+id/tv_second_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            tools:text="스윙스"
+                            android:text="@{competitionVM.rankingSecond.userName}"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:textColor="@color/main_sky"
+                            app:layout_constraintEnd_toEndOf="@id/image_second_user_profile"
+                            app:layout_constraintStart_toStartOf="@id/image_second_user_profile"
+                            app:layout_constraintTop_toBottomOf="@id/image_second_user_profile"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="78.57km"
+                            app:totalDistanceConverter="@{competitionVM.rankingSecond.rankingValue}"
+                            android:fontFamily="@font/noto_sans_bold"
+                            app:layout_constraintEnd_toEndOf="@id/tv_second_user_name"
+                            app:layout_constraintStart_toStartOf="@id/tv_second_user_name"
+                            app:layout_constraintTop_toBottomOf="@id/tv_second_user_name"/>
+
+                        <ImageView
+                            android:id="@+id/image_third"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/crown_three_32"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/image_third_user_profile"
+                            app:layout_constraintStart_toStartOf="@id/image_third_user_profile"
+                            app:layout_constraintEnd_toEndOf="@id/image_third_user_profile"/>
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/image_third_user_profile"
+                            android:layout_width="@dimen/ranking_profile_image_size"
+                            android:layout_height="@dimen/ranking_profile_image_size"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="16dp"
+                            app:rankingProfileImage="@{competitionVM.rankingThird.imgSeq}"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintTop_toBottomOf="@id/image_third"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_third_user_name"
+                            app:layout_constraintStart_toEndOf="@id/image_second_user_profile"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:src="@drawable/user_image" />
+                        <TextView
+                            android:id="@+id/tv_third_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            tools:text="우사인볼트"
+                            android:text="@{competitionVM.rankingThird.userName}"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:textColor="@color/main_sky"
+                            app:layout_constraintEnd_toEndOf="@id/image_third_user_profile"
+                            app:layout_constraintStart_toStartOf="@id/image_third_user_profile"
+                            app:layout_constraintTop_toBottomOf="@id/image_third_user_profile"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="18.57km"
+                            app:totalDistanceConverter="@{competitionVM.rankingThird.rankingValue}"
+                            android:fontFamily="@font/noto_sans_bold"
+                            app:layout_constraintEnd_toEndOf="@id/tv_third_user_name"
+                            app:layout_constraintStart_toStartOf="@id/tv_third_user_name"
+                            app:layout_constraintTop_toBottomOf="@id/tv_third_user_name"/>
+
+                        <View
+                            android:id="@+id/view_ranking"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="16dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_first_user_record"
+                            android:background="@color/main_light_grey"/>
+
+                        <TextView
+                            android:id="@+id/tv_season_ranking"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text="시즌 랭킹"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginStart="8dp"
+                            android:textSize="14sp"
+                            android:textColor="@color/main_black"
+                            android:fontFamily="@font/noto_sans_bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/view_ranking"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                        <ImageView
+                            android:id="@+id/btn_show_season_ranking"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                            app:tint="@color/main_black"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tv_season_ranking"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_season_ranking" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tv_challenge_crew_header"
+                    style="@style/header_text"
+                    android:text="운영 방식"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/card_ranking"/>
+
+                <TextView
+                    android:id="@+id/tv_challenge_crew_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:text="크루 무관 일정 기간동안 개인 러닝기록을 다른 유저들과 겨루고 보상하기 위해 진행되는 시즌제 챌린지입니다.\n\n시즌이 진행되는 기간 동안 모든 러닝 기록의 누적 거리를 합산하여 랭킹을 산정하고 모든 유저에게 순위에 따라 차등적으로 보상을 지급합니다."
+                    android:textColor="@color/main_grey"
+                    android:textSize="16sp"
+                    android:autoSizeTextType="uniform"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_challenge_crew_header"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_point_header"
+                    style="@style/header_text"
+                    android:text="보상 정책"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_challenge_crew_description"/>
+
+                <ImageView
+                    android:id="@+id/image_badge_first"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/gold_cup"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_point_header"
+                    app:layout_constraintEnd_toStartOf="@id/image_badge_second" />
+                <ImageView
+                    android:id="@+id/image_badge_second"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/silver_cup"
+                    app:layout_constraintStart_toEndOf="@id/image_badge_first"
+                    app:layout_constraintTop_toTopOf="@id/image_badge_first"
+                    app:layout_constraintEnd_toStartOf="@id/image_badge_third" />
+                <ImageView
+                    android:id="@+id/image_badge_third"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/bronze_cup"
+                    app:layout_constraintStart_toEndOf="@id/image_badge_second"
+                    app:layout_constraintTop_toTopOf="@id/image_badge_second"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_point_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:text="랭킹 1위, 2위, 3위 유저에게는 개인 챌린지 시즌을 통해서만 얻을 수 있는 특별한 업적 뱃지를 지급합니다.\n뱃지는 다음 챌린지 시즌이 진행되고 새로운 랭커가 선정될 때까지 유효합니다.\n\n참가자 전원에게 포인트가 지급되며 등수에 따라 기록된 누적 거리 1km 마다 차등적으로 지급됩니다."
+                    android:textColor="@color/main_grey"
+                    android:textSize="16sp"
+                    android:autoSizeTextType="uniform"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/image_badge_first"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_point_example"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:paddingBottom="66dp"
+                    android:text="1등 km당 2,000P\n2등 km당 1,000P\n3등 km당 500P\n그 외 km당 200P"
+                    android:textColor="@color/main_sky"
+                    android:textSize="16sp"
+                    android:autoSizeTextType="uniform"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_point_description"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_join_crew"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="개인 챌린지 참가"
+            android:textColor="@color/white"
+            android:fontFamily="@font/noto_sans_bold"
+            android:textSize="16sp"
+            android:layout_gravity="bottom"
+            android:background="@color/main_blue"
+            competitionJoinPossible="@{competitionVM.participants}"
+            app:layout_constraintTop_toBottomOf="@id/scroll_view"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

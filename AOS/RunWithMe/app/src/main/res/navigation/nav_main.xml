@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_bottom"
+    app:startDestination="@id/HomeFragment"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <fragment
+        android:id="@+id/HomeFragment"
+        android:name="com.ssafy.runwithme.view.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_HomeFragment_to_myCurrentCrewFragment"
+            app:destination="@id/myCurrentCrewFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_totalUserRankingFragment"
+            app:destination="@id/totalUserRankingFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_CrewRecruitFragment"
+            app:destination="@id/CrewRecruitFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_RecommendFragment"
+            app:destination="@id/RecommendFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_crewRecruitDetailFragment"
+            app:destination="@id/crewRecruitDetailFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_competitionFragment"
+            app:destination="@id/competitionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/CrewRecruitFragment"
+        android:name="com.ssafy.runwithme.view.crew_recruit.CrewRecruitFragment"
+        android:label="CrewRecruitFragment"
+        tools:layout="@layout/fragment_crew_recruit">
+        <action
+            android:id="@+id/action_CrewRecruitFragment_to_searchCrewFragment"
+            app:destination="@id/searchCrewFragment" />
+        <action
+            android:id="@+id/action_CrewRecruitFragment_to_createCrewFragment1"
+            app:destination="@id/createCrewFragment1" />
+        <action
+            android:id="@+id/action_CrewRecruitFragment_to_crewRecruitDetailFragment"
+            app:destination="@id/crewRecruitDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/RecommendFragment"
+        android:name="com.ssafy.runwithme.view.recommend.RecommendFragment"
+        android:label="RecommendFragment"
+        tools:layout="@layout/fragment_recommend">
+        <action
+            android:id="@+id/action_RecommendFragment_to_recommendDetailFragment"
+            app:destination="@id/recommendDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/MyPageFragment"
+        android:name="com.ssafy.runwithme.view.my_page.MyPageFragment"
+        android:label="MyPageFragment"
+        tools:layout="@layout/fragment_my_page">
+        <action
+            android:id="@+id/action_MyPageFragment_to_othersFragment"
+            app:destination="@id/othersFragment" />
+        <action
+            android:id="@+id/action_MyPageFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_MyPageFragment_to_runRecordDetailFragment"
+            app:destination="@id/runRecordDetailFragment" />
+        <action
+            android:id="@+id/action_MyPageFragment_to_myTotalRunRecordFragment"
+            app:destination="@id/myTotalRunRecordFragment" />
+        <action
+            android:id="@+id/action_MyPageFragment_to_crewDetailFragment"
+            app:destination="@id/crewDetailFragment" />
+        <action
+            android:id="@+id/action_MyPageFragment_to_practiceListFragment"
+            app:destination="@id/practiceListFragment" />
+        <action
+            android:id="@+id/action_MyPageFragment_to_myRecommendScrapFragment"
+            app:destination="@id/myRecommendScrapFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myCurrentCrewFragment"
+        android:name="com.ssafy.runwithme.view.home.my_crew.MyCurrentCrewFragment"
+        android:label="MyCurrentCrewFragment"
+        tools:layout="@layout/fragment_my_current_crew">
+        <action
+            android:id="@+id/action_myCurrentCrewFragment_to_crewDetailFragment"
+            app:destination="@id/crewDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/totalUserRankingFragment"
+        android:name="com.ssafy.runwithme.view.home.ranking.TotalUserRankingFragment"
+        android:label="TotalUserRankingFragment"
+        tools:layout="@layout/fragment_total_user_ranking">
+        <action
+            android:id="@+id/action_totalUserRankingFragment_to_userDetailFragment"
+            app:destination="@id/userDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/crewDetailFragment"
+        android:name="com.ssafy.runwithme.view.crew_detail.CrewDetailFragment"
+        android:label="CrewDetailFragment"
+        tools:layout="@layout/fragment_crew_detail">
+        <action
+            android:id="@+id/action_crewDetailFragment_to_crewMyRunRecordFragment"
+            app:destination="@id/crewMyRunRecordFragment" />
+        <action
+            android:id="@+id/action_crewDetailFragment_to_crewUserRunRecordFragment"
+            app:destination="@id/crewUserRunRecordFragment" />
+        <action
+            android:id="@+id/action_crewDetailFragment_to_crewUserRankingFragment"
+            app:destination="@id/crewUserRankingFragment" />
+        <action
+            android:id="@+id/action_crewDetailFragment_to_crewBoardFragment"
+            app:destination="@id/crewBoardFragment" />
+        <argument
+            android:name="crewdto"
+            app:argType="com.ssafy.runwithme.model.dto.CrewDto" />
+        <argument
+            android:name="imagefiledto"
+            app:argType="com.ssafy.runwithme.model.dto.ImageFileDto" />
+    </fragment>
+    <fragment
+        android:id="@+id/crewMyRunRecordFragment"
+        android:name="com.ssafy.runwithme.view.crew_detail.my_record.CrewMyRunRecordFragment"
+        android:label="CrewMyRunRecordFragment"
+        tools:layout="@layout/fragment_crew_my_run_record">
+        <argument
+            android:name="crewid"
+            app:argType="integer" />
+        <argument
+            android:name="mytotalrecorddata"
+            app:argType="com.ssafy.runwithme.model.response.CrewMyTotalRecordDataResponse" />
+        <action
+            android:id="@+id/action_crewMyRunRecordFragment_to_runRecordDetailFragment"
+            app:destination="@id/runRecordDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/crewUserRunRecordFragment"
+        android:name="com.ssafy.runwithme.view.crew_detail.user_record.CrewUserRunRecordFragment"
+        android:label="CrewUserRunRecordFragment"
+        tools:layout="@layout/fragment_crew_user_run_record">
+        <argument
+            android:name="crewid"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_crewUserRunRecordFragment_to_runRecordDetailFragment"
+            app:destination="@id/runRecordDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/crewUserRankingFragment"
+        android:name="com.ssafy.runwithme.view.crew_detail.ranking.CrewUserRankingFragment"
+        android:label="CrewUserRankingFragment"
+        tools:layout="@layout/fragment_crew_user_ranking">
+        <argument
+            android:name="crewdto"
+            app:argType="com.ssafy.runwithme.model.dto.CrewDto" />
+        <action
+            android:id="@+id/action_crewUserRankingFragment_to_userDetailFragment"
+            app:destination="@id/userDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/crewBoardFragment"
+        android:name="com.ssafy.runwithme.view.crew_detail.board.CrewBoardFragment"
+        android:label="CrewBoardFragment"
+        tools:layout="@layout/fragment_crew_board">
+        <action
+            android:id="@+id/action_crewBoardFragment_to_createCrewBoardFragment"
+            app:destination="@id/createCrewBoardFragment" />
+        <argument android:name="crewid"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCrewBoardFragment"
+        android:name="com.ssafy.runwithme.view.crew_detail.board.create.CreateCrewBoardFragment"
+        android:label="CreateCrewBoardFragment"
+        tools:layout="@layout/fragment_create_crew_board">
+        <argument
+            android:name="crewid"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchCrewFragment"
+        android:name="com.ssafy.runwithme.view.crew_recruit.search.SearchCrewFragment"
+        android:label="SearchCrewFragment"
+        tools:layout="@layout/fragment_search_crew">
+        <action
+            android:id="@+id/action_searchCrewFragment_to_searchCrewResultFragment"
+            app:destination="@id/searchCrewResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchCrewResultFragment"
+        android:name="com.ssafy.runwithme.view.crew_recruit.search.result.SearchCrewResultFragment"
+        android:label="SearchCrewResultFragment"
+        tools:layout="@layout/fragment_search_crew_result">
+        <argument
+            android:name="crewname"
+            app:argType="string" />
+        <argument
+            android:name="startdate"
+            app:argType="string" />
+        <argument
+            android:name="enddate"
+            app:argType="string" />
+        <argument
+            android:name="starttime"
+            app:argType="string" />
+        <argument
+            android:name="endtime"
+            app:argType="string" />
+        <argument
+            android:name="mincost"
+            app:argType="integer" />
+        <argument
+            android:name="maxcost"
+            app:argType="integer" />
+        <argument
+            android:name="minpurposeamount"
+            app:argType="integer" />
+        <argument
+            android:name="maxpurposeamount"
+            app:argType="integer" />
+        <argument
+            android:name="mingoaldays"
+            app:argType="integer" />
+        <argument
+            android:name="maxgoaldays"
+            app:argType="integer" />
+        <argument
+            android:name="goaltype"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_searchCrewResultFragment_to_crewRecruitDetailFragment"
+            app:destination="@id/crewRecruitDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/runRecordDetailFragment"
+        android:name="com.ssafy.runwithme.view.run_record_detail.RunRecordDetailFragment"
+        android:label="RunRecordDetailFragment"
+        tools:layout="@layout/fragment_run_record_detail">
+        <argument
+            android:name="runrecorddto"
+            app:argType="com.ssafy.runwithme.model.dto.RunRecordDto" />
+        <action
+            android:id="@+id/action_runRecordDetailFragment_to_createRecommendFragment2"
+            app:destination="@id/createRecommendFragment2" />
+        <action
+            android:id="@+id/action_runRecordDetailFragment_to_runningRouteFragment2"
+            app:destination="@id/runningRouteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/othersFragment"
+        android:name="com.ssafy.runwithme.view.my_page.others.OthersFragment"
+        android:label="OthersFragment"
+        tools:layout="@layout/fragment_others"/>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.ssafy.runwithme.view.my_page.edit_profile.EditProfileFragment"
+        android:label="EditProfileFragment"
+        tools:layout="@layout/fragment_edit_profile"/>
+    <fragment
+        android:id="@+id/myTotalRunRecordFragment"
+        android:name="com.ssafy.runwithme.view.my_page.tab.total_record.MyTotalRunRecordFragment"
+        android:label="MyTotalRunRecordFragment"
+        tools:layout="@layout/fragment_my_total_run_record"/>
+    <fragment
+        android:id="@+id/practiceListFragment"
+        android:name="com.ssafy.runwithme.view.my_page.tab.total_record.local_run.PracticeListFragment"
+        android:label="PracticeListFragment"
+        tools:layout="@layout/fragment_practice_list"/>
+    <fragment
+        android:id="@+id/createRecommendFragment2"
+        android:name="com.ssafy.runwithme.view.create_recommend.CreateRecommendFragment"
+        android:label="CreateRecommendFragment"
+        tools:layout="@layout/fragment_create_recommend">
+        <argument
+            android:name="runrecordseq"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/userDetailFragment"
+        android:name="com.ssafy.runwithme.view.user_detail.UserDetailFragment"
+        android:label="UserDetailFragment"
+        tools:layout="@layout/fragment_user_detail">
+        <argument
+            android:name="userseq"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/runningRouteFragment"
+        android:name="com.ssafy.runwithme.view.route_detail.RunningRouteFragment"
+        android:label="RunningRouteFragment"
+        tools:layout="@layout/fragment_running_route">
+        <argument android:name="recordseq"
+            app:argType="integer" />
+        <argument
+            android:name="distancetext"
+            app:argType="string" />
+        <argument
+            android:name="timetext"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/recommendDetailFragment"
+        android:name="com.ssafy.runwithme.view.recommend.RecommendDetailFragment"
+        android:label="RecommendDetailFragment"
+        tools:layout="@layout/fragment_recommend_detail">
+        <argument
+            android:name="runRecordDto"
+            app:argType="com.ssafy.runwithme.model.dto.RunRecordDto" />
+        <argument
+            android:name="trackBoardDto"
+            app:argType="com.ssafy.runwithme.model.dto.TrackBoardDto" />
+        <argument
+            android:name="imgSeq"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_recommendDetailFragment_to_runningRouteFragment"
+            app:destination="@id/runningRouteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myRecommendScrapFragment"
+        android:name="com.ssafy.runwithme.view.my_page.recommend_scrap.MyRecommendScrapFragment"
+        android:label="MyRecommendScrapFragment"
+        tools:layout="@layout/fragment_my_recommend_scrap">
+        <action
+            android:id="@+id/action_myRecommendScrapFragment_to_recommendDetailFragment"
+            app:destination="@id/recommendDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCrewFragment1"
+        android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment1"
+        android:label="CreateCrewFragment1" >
+        <action
+            android:id="@+id/action_createCrewFragment1_to_createCrewFragment2"
+            app:destination="@id/createCrewFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCrewFragment2"
+        android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment2"
+        android:label="CreateCrewFragment2" >
+        <action
+            android:id="@+id/action_createCrewFragment2_to_createCrewFragment3"
+            app:destination="@id/createCrewFragment3" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCrewFragment4"
+        android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment4"
+        android:label="CreateCrewFragment4" >
+        <action
+            android:id="@+id/action_createCrewFragment4_to_createCrewFragment5"
+            app:destination="@id/createCrewFragment5" />
+    </fragment>
+    <fragment
+        android:id="@+id/crewRecruitDetailFragment"
+        android:name="com.ssafy.runwithme.view.crew_recruit.detail.CrewRecruitDetailFragment"
+        android:label="CrewRecruitDetailFragment"
+        tools:layout="@layout/fragment_crew_recruit_detail">
+        <argument
+            android:name="crewDto"
+            app:argType="com.ssafy.runwithme.model.dto.CrewDto" />
+        <argument
+            android:name="imagefiledto"
+            app:argType="com.ssafy.runwithme.model.dto.ImageFileDto" />
+    </fragment>
+    <fragment
+        android:id="@+id/competitionFragment"
+        android:name="com.ssafy.runwithme.view.competition.CompetitionFragment"
+        android:label="CompetitionFragment"
+        tools:layout="@layout/fragment_competition">
+        <action
+            android:id="@+id/action_competitionFragment_to_competitionRankingFragment"
+            app:destination="@id/competitionRankingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/competitionRankingFragment"
+        android:name="com.ssafy.runwithme.view.competition.ranking.CompetitionRankingFragment"
+        android:label="CompetitionRankingFragment"
+        tools:layout="@layout/fragment_competition_ranking">
+        <argument
+            android:name="userseq"
+            app:argType="integer" />
+        <argument
+            android:name="competitionseq"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_competitionRankingFragment_to_userDetailFragment"
+            app:destination="@id/userDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCrewFragment3"
+        android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment3"
+        android:label="CreateCrewFragment3" >
+        <action
+            android:id="@+id/action_createCrewFragment3_to_createCrewFragment4"
+            app:destination="@id/createCrewFragment4" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCrewFragment5"
+        android:name="com.ssafy.runwithme.view.crew_recruit.create.CreateCrewFragment5"
+        android:label="CreateCrewFragment5" >
+        <action
+            android:id="@+id/action_createCrewFragment5_to_CrewRecruitFragment"
+            app:destination="@id/CrewRecruitFragment"
+            app:popUpTo="@id/CrewRecruitFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+</navigation>

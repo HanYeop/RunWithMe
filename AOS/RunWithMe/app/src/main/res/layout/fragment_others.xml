@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.my_page.others.OthersFragment"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/toolbar_margin"
+            android:layout_marginStart="@dimen/toolbar_margin"
+            android:layout_marginEnd="@dimen/toolbar_margin"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
+
+            <TextView
+                android:id="@+id/text"
+                style="@style/toolbar_text"
+                android:text="더 보기"/>
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_alert"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="17sp"
+            android:textColor="@color/main_black"
+            android:fontFamily="@font/noto_sans_bold"
+            android:layout_marginTop="12dp"
+            app:track="@drawable/switch_track_selector"
+            android:thumb="@drawable/switch_thumb"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:text="알림 끄기" />
+
+        <TextView
+            android:id="@+id/tv_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+            android:textSize="17sp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:textColor="@color/main_black"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:text="고객센터 문의"/>
+
+        <TextView
+            android:id="@+id/tv_terms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+            android:textSize="17sp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:textColor="@color/main_black"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:text="개인정보 처리방침"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_version"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:textSize="17sp"
+                android:fontFamily="@font/noto_sans_bold"
+                android:textColor="@color/main_black"
+                android:paddingStart="20dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"
+                android:text="서비스 버전"/>
+            <TextView
+                android:id="@+id/tv_version_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:fontFamily="@font/noto_sans_bold"
+                android:textColor="@color/main_black"
+                android:text="1.1"
+                android:layout_weight="1"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!--
+        <TextView
+            android:id="@+id/tv_resign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+            android:textSize="17sp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:textColor="@color/main_black"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:text="회원 탈퇴"/>
+            -->
+
+        <TextView
+            android:id="@+id/tv_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+            android:textSize="17sp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:textColor="@color/main_red"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:text="로그아웃"/>
+    </LinearLayout>
+</layout>

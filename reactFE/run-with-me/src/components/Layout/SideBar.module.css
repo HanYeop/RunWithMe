@@ -1,0 +1,43 @@
+.side-bar-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0 30px;
+  padding: 30px;
+}
+.image-background {
+  background-color: aliceblue;
+}
+
+h2 {
+  color: white;
+}
+
+.image_box {
+  background-color: white;
+  margin: 0px 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.footer {
+  text-align: right;
+  padding: 10px;
+}
+
+.imgButton {
+  background-color: none;
+  border: none;
+}
+
+.imgButton :hover {
+  background-color: azure;
+  border: none;
+}
+
+.imgSmall {
+  background-color: rgb(60, 55, 55);
+  width: 30px;
+  height: 30px;
+}

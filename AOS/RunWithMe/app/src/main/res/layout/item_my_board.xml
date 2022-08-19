@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="board"
+            type="com.ssafy.runwithme.model.response.CrewBoardResponse" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_my_board"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="20dp"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:layout_marginHorizontal="12dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:text="@{board.crewBoardDto.crewName}"
+                    tools:text="감크루"
+                    android:textColor="@color/main_sky"/>
+
+                <ImageView
+                    android:id="@+id/image_delete_my_board"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:gravity="right"
+                    android:scaleType="fitXY"
+                    app:tint="@color/black_low_emphasis"
+                    android:src="@drawable/ic_baseline_delete_24"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/image_board"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginVertical="12dp"
+                android:scaleType="fitXY"
+                tools:src="@drawable/crew_image"
+                crewDetailImage="@{board.imageFileDto.imgSeq}"
+                android:adjustViewBounds="true" />
+
+            <TextView
+                android:id="@+id/tv_my_board_content"
+                android:layout_marginTop="4dp"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:maxLines="6"
+                android:maxLength="120"
+                android:ellipsize="end"
+                android:textColor="@color/black_high_emphasis"
+                tools:text="안녕하세요.\n반갑습니다.\n저는 감스트입니다."
+                android:text="@{board.crewBoardDto.crewBoardContent}" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</layout>

@@ -1,0 +1,29 @@
+.bg {
+  background-image: url(../../assets/runwithmefull.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  box-shadow: 11px 11px 1px black;
+}
+
+.center {
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 400px;
+  height: 200px;
+  position: absolute;
+  left: calc(50% - 200px);
+  top: calc(70% - 100px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+.login_title {
+  margin-bottom: 40px;
+  font-size: 40px;
+  font-weight: 400;
+  font-style: italic;
+  color: white;
+}

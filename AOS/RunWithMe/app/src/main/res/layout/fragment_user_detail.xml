@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="userDetailVM"
+            type="com.ssafy.runwithme.view.user_detail.UserDetailViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/toolbar_margin"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/toolbar_margin"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
+
+            <TextView
+                android:id="@+id/text"
+                style="@style/toolbar_text"
+                android:text="유저 정보" />
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_profile_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:paddingBottom="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/image_user_profile"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:myPageProfileImage="@{userDetailVM.userImage}"
+                        tools:src="@drawable/user_image" />
+
+                    <TextView
+                        android:id="@+id/tv_user_name"
+                        style="@style/header_text"
+                        android:layout_marginTop="8dp"
+                        android:text="@{userDetailVM.userProfile.nickName}"
+                        tools:text="도널드 트럼프"
+                        android:textSize="16sp"
+                        android:layout_marginStart="28dp"
+                        app:layout_constraintStart_toEndOf="@id/image_user_profile"
+                        app:layout_constraintTop_toTopOf="@id/image_user_profile" />
+
+
+
+                    <ImageView
+                        android:id="@+id/tv_user_point"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/point"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/image_user_profile"
+                        app:layout_constraintStart_toStartOf="@id/tv_user_name"
+                        app:layout_constraintTop_toBottomOf="@id/tv_user_name" />
+
+                    <TextView
+                        android:id="@+id/tv_user_point_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@{userDetailVM.userProfile.point + `P`}"
+                        android:textSize="16sp"
+                        android:textColor="@color/main_black"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_user_point"
+                        app:layout_constraintStart_toEndOf="@+id/tv_user_point"
+                        app:layout_constraintTop_toTopOf="@+id/tv_user_point"
+                        tools:text="15000P" />
+
+                    <ImageView
+                        android:id="@+id/img_rank"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        tools:src="@drawable/bronze_cup"
+                        app:competitionResult="@{userDetailVM.userProfile.competitionResult}"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/layout_total_record"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:paddingBottom="32dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_profile_top">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_distance"
+                            android:layout_width="0dp"
+                            android:layout_height="150dp"
+                            android:layout_marginHorizontal="4dp"
+                            android:layout_marginTop="4dp"
+                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="6dp"
+                            app:cardElevation="4dp"
+                            app:layout_constraintEnd_toStartOf="@+id/card_speed"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="8dp">
+
+                                <TextView
+                                    android:id="@+id/tv_distance_headers"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="총 거리"
+                                    android:textColor="@color/main_grey"
+                                    android:textSize="14sp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/tv_distances"
+                                    style="@style/header_text"
+                                    android:textColor="@color/black_high_emphasis"
+                                    android:textSize="20sp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/tv_distance_headers"
+                                    app:totalDistanceConverter="@{userDetailVM.userData.totalDistance}"
+                                    tools:text="16.5km" />
+
+                                <ImageView
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:src="@drawable/distances"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_speed"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_marginHorizontal="4dp"
+                            android:layout_marginTop="4dp"
+                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="6dp"
+                            app:cardElevation="4dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/card_distance"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="8dp">
+
+                                <TextView
+                                    android:id="@+id/tv_speed_headers"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="평균 속도"
+                                    android:textColor="@color/main_grey"
+                                    android:textSize="14sp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/tv_speeds"
+                                    style="@style/header_text"
+                                    android:textColor="@color/black_high_emphasis"
+                                    android:textSize="16sp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/tv_speed_headers"
+                                    app:totalSpeedConverter="@{userDetailVM.userData.totalAvgSpeed}"
+                                    tools:text="5.3km/h" />
+
+                                <ImageView
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:src="@drawable/speeds"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_kcal"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_marginVertical="4dp"
+                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="6dp"
+                            app:cardElevation="4dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/card_distance"
+                            app:layout_constraintStart_toStartOf="@id/card_distance"
+                            app:layout_constraintTop_toBottomOf="@id/card_distance">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="8dp">
+
+                                <TextView
+                                    android:id="@+id/tv_kcal_headers"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="총 칼로리"
+                                    android:textColor="@color/main_grey"
+                                    android:textSize="14sp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/tv_kcal"
+                                    style="@style/header_text"
+                                    android:textColor="@color/black_high_emphasis"
+                                    android:textSize="16sp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/tv_kcal_headers"
+                                    app:totalCalorieConverter="@{userDetailVM.userData.totalCalorie}"
+                                    tools:text="1600kcal" />
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/calorie"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_time"
+                            android:layout_width="0dp"
+                            android:layout_height="150dp"
+                            android:layout_marginVertical="4dp"
+                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="6dp"
+                            app:cardElevation="4dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/card_speed"
+                            app:layout_constraintStart_toStartOf="@id/card_speed"
+                            app:layout_constraintTop_toBottomOf="@id/card_speed">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="8dp">
+
+                                <TextView
+                                    android:id="@+id/tv_time_headers"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="총 시간"
+                                    android:textColor="@color/main_grey"
+                                    android:textSize="14sp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/tv_times"
+                                    style="@style/header_text"
+                                    android:textColor="@color/black_high_emphasis"
+                                    android:textSize="20sp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/tv_time_headers"
+                                    app:totalTimeConverter="@{userDetailVM.userData.totalTime}"
+                                    tools:text="15 : 55" />
+
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/timer_96"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="18dp"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/image_achieve_num_one"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_weight="1"
+                            android:alpha="0.2"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/runcount1" />
+
+                        <ImageView
+                            android:id="@+id/image_achieve_num_ten"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_weight="1"
+                            android:alpha="0.2"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/runcount10" />
+
+                        <ImageView
+                            android:id="@+id/image_achieve_num_hundred"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_weight="1"
+                            android:alpha="0.2"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/runcount100" />
+
+                        <ImageView
+                            android:id="@+id/image_achieve_num_thousand"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_weight="1"
+                            android:alpha="0.2"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/runcount1000" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="18dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="첫 러닝"
+                            android:textColor="@color/black_high_emphasis" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="10 러닝"
+                            android:textColor="@color/black_high_emphasis" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="100 러닝"
+                            android:textColor="@color/black_high_emphasis" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="1000 러닝"
+                            android:textColor="@color/black_high_emphasis" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="18dp"
+                        android:layout_marginTop="18dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/image_achieve_time_ten"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_weight="1"
+                            android:alpha="0.2"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/totaltime36000" />
+
+                        <ImageView
+                            android:id="@+id/image_achieve_time_hundred"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_weight="1"
+                            android:alpha="0.2"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/totaltime360000" />
+
+                        <ImageView
+                            android:id="@+id/image_achieve_time_thousand"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_weight="1"
+                            android:alpha="0.2"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/totaltime3600000" />
+
+                        <ImageView
+                            android:id="@+id/image_achieve_time_ten_thousand"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_weight="1"
+                            android:alpha="0.2"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/totaltime36000000" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="18dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="10 h"
+                            android:textColor="@color/black_high_emphasis" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="100 h"
+                            android:textColor="@color/black_high_emphasis" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="1000 h"
+                            android:textColor="@color/black_high_emphasis" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="10000 h"
+                            android:textColor="@color/black_high_emphasis" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="18dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/image_achieve_distance_ten"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_weight="1"
+                            android:alpha="0.2"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/totaldistance10000" />
+
+                        <ImageView
+                            android:id="@+id/image_achieve_distance_hundred"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_weight="1"
+                            android:alpha="0.2"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/totaldistance100000" />
+
+                        <ImageView
+                            android:id="@+id/image_achieve_distance_thousand"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_weight="1"
+                            android:alpha="0.2"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/totaldistance1000000" />
+
+                        <ImageView
+                            android:id="@+id/image_achieve_distance_ten_thousand"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_weight="1"
+                            android:alpha="0.2"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/totaldistance10000000" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="18dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="10 km"
+                            android:textColor="@color/black_high_emphasis" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="100 km"
+                            android:textColor="@color/black_high_emphasis" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="1000 km"
+                            android:textColor="@color/black_high_emphasis" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="10000 km"
+                            android:textColor="@color/black_high_emphasis" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
