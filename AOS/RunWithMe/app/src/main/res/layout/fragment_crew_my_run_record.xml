@@ -232,12 +232,12 @@
                             <TextView
                                 android:id="@+id/tv_times"
                                 style="@style/header_text"
-                                android:text="@{crewMyRunRecordVM.timeHour + ` : ` + crewMyRunRecordVM.timeMin}"
+                                android:text="@{crewMyRunRecordVM.timeHour + `시간 ` + crewMyRunRecordVM.timeMin + `분`}"
                                 android:textColor="@color/black_high_emphasis"
                                 android:textSize="20sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_time_headers"
-                                tools:text="15 : 55" />
+                                tools:text="15시간 55분" />
                             <ImageView
                                 android:layout_width="45dp"
                                 android:layout_height="45dp"
