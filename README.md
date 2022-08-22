@@ -26,13 +26,12 @@
 <br/>
 <br/>
 
-
 ## 📃 Description
 
 > <h3><font color="red">서비스 주요 기능</font></h3>
-<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/2e3f4be1a8a53205974bf9f4a0601435/KakaoTalk_20220822_223555080.png">
+<img  width="600" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/2e3f4be1a8a53205974bf9f4a0601435/KakaoTalk_20220822_223555080.png">
 <br/>
-<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/6a10a021dede73c61939e05dff704083/KakaoTalk_20220822_223555322.png">
+<img  width="600" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/6a10a021dede73c61939e05dff704083/KakaoTalk_20220822_223555322.png">
 <br/>
 
 > <h3><font color="green">서비스 전체 기능</font></h3>
@@ -56,7 +55,6 @@
 <br/>
 <br/>
 
-
 ## 📝 Design
 
 > <h3><font color="green">전체 기술 스택</font></h3>
@@ -75,14 +73,15 @@
 > <h3><font color="green">요구사항 명세서</font></h3>
 <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/2ab0cb5916f2b18299fa3c76cdbe5101/요구사항_명세서.gif">
 <br/>
+<br/>
 
 > <h3><font color="green">API 명세서</font></h3>
 <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/c4a43f9ce5dc56ae89ea68e36e73254a/API명세서.gif">
 <br/>
 <br/>
 
-
 ## 📱 Android
+
 > <h3><font color="green">사용한 라이브러리</font></h3>
 
 | Name             | Description                                  |
@@ -110,7 +109,7 @@
 | Weather Api      | 공공데이터포털 기상청 날씨 라이브러리        |
 | CalendarView     | 캘린더 라이브러리                            |
 
-</br>
+<br/>
 
 > <h3><font color="green">디렉토리 구조</font></h3>
 
@@ -178,12 +177,12 @@
 ├──📁user_detail
 ```
 
-</br>
+<br/>
 
 > <h3><font color="green">아키텍처 구조</font></h3>
 ![서비스소개](/uploads/de936c34fc44be195605b505531c1e5f/서비스소개.png)
-</br>
-</br>
+<br/>
+<br/>
 
 
 ## 💽 Back-End
@@ -207,12 +206,6 @@
 | spring-boot-starter-data-redis              | 휘발성 인메모리 저장소, 중복처리에 사용                                 |
 | spring boot batch                           | 포인트 정산, 알림 발송과 같은 scheduled로 지정된 시간의 일괄처리에 사용 |
 
-<br/>
-
-> <h3><font color="green">패키지 다이어그램</font></h3>
-![image](/uploads/e6cce9d354b34807ea2866c8ccbac751/image.png)
-도메인 별로 패키지를 구분하려고 하였다. 하지만 req,res,dto의 경우
-도메인 별로 구분하지 않고 하나의 패키지에 모아서 처리하였다.
 <br/>
 
 > <h3><font color="green">디렉토리 구조</font></h3>
@@ -277,6 +270,12 @@
 
 <br/>
 
+> <h3><font color="green">패키지 다이어그램</font></h3>
+![image](/uploads/e6cce9d354b34807ea2866c8ccbac751/image.png)
+도메인 별로 패키지를 구분하려고 하였다. 하지만 req,res,dto의 경우
+도메인 별로 구분하지 않고 하나의 패키지에 모아서 처리하였다.
+<br/>
+
 > <h3><font color="green">인증 처리과정</font></h3>
 ![image](/uploads/4b817ce3095b7b220592af4871ab3e3f/image.png)
 클라이언트에서 OAuth Provider로 부터 받은 id_token, authorized_code 혹은 AccessToken를
@@ -289,9 +288,9 @@
 ## 👨‍👦‍👦 Team Member
 
 > <h3><font color="red">Android Part</font></h3>
-<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/cb7489ea32f4e543ce256db4d58330ce/팀원소개_AOS.png">
+<img  width="600" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/cb7489ea32f4e543ce256db4d58330ce/팀원소개_AOS.png">
 <br/>
 
 > <h3><font color="red">Back-End Part</font></h3>
-<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/179ed0041f44799be3dab23e8b98f9e1/팀원소개_BE.png">
+<img  width="600" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/179ed0041f44799be3dab23e8b98f9e1/팀원소개_BE.png">
 <br/>
