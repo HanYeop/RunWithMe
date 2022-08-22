@@ -19,7 +19,7 @@
 <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/e5210fe416ad0ac5d9a6adc2c3261ced/스크랩러닝.gif">
 <br/>
 
-<h5>🚨 비정상적인 움직임 감지 화면(자동차))</h5>
+<h5>🚨 비정상적인 움직임 감지 화면(자동차)</h5>
 <hr>
 <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/eea93de3ccb63d986aafb6e38587271b/KakaoTalk_20220822_213003025.gif">
 <br/>
@@ -27,13 +27,12 @@
 ## 📃 Description
 
 > <h3><font color="red">서비스 주요 기능</font></h3>
-> <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/2e3f4be1a8a53205974bf9f4a0601435/KakaoTalk_20220822_223555080.png">
-> <br/>
-> <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/6a10a021dede73c61939e05dff704083/KakaoTalk_20220822_223555322.png">
-> <br/>
+<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/2e3f4be1a8a53205974bf9f4a0601435/KakaoTalk_20220822_223555080.png">
+<br/>
+<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/6a10a021dede73c61939e05dff704083/KakaoTalk_20220822_223555322.png">
+<br/>
 
 > <h3><font color="green">서비스 전체 기능</font></h3>
-
 <ul>
 	<li>챌린지 러닝 기능 - 챌린지마다 러닝 기간, 시간, 목표 등을 정해서 정해진 시간에만 러닝 가능</li>
 	<li>러닝 기능 - 러닝을 뛰는 실시간 경로를 지도에 표기, 기록 표기</li>
@@ -53,13 +52,30 @@
 </ul>
 <br/>
 
-## 💡 전체 기술 스택
 
+## 📝 Design
+
+> <h3><font color="green">전체 기술 스택</font></h3>
 ![image](/uploads/bcf4a06bc1d4b318496da3c1802d4da4/KakaoTalk_20220822_214239909.png)
 
-## 🧱 전체 시스템 구조
-
+> <h3><font color="green">전체 시스템 구조</font></h3>
 ![image](/uploads/36f26548ab1252bddef5a2ace88fb643/KakaoTalk_20220822_214259358.png)
+
+> <h3><font color="green">ERD 다이어그램</font></h3>
+![1](/uploads/7dd2a1d37c38697d65706d74dab5bc3c/1.png)
+[링크](https://www.erdcloud.com/d/uoAsmnv3gyCugnxno) 바로가기
+
+> <h3><font color="green">요구사항 명세서</font></h3>
+<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/2ab0cb5916f2b18299fa3c76cdbe5101/요구사항_명세서.gif">
+<br/>
+[링크](https://uttermost-platypus-849.notion.site/6ff3fb7e97d544b488780ab2e809faa5?v=79273a3defe84792a21c717fe1526cb3) 바로가기
+
+> <h3><font color="green">API 명세서</font></h3>
+<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/c4a43f9ce5dc56ae89ea68e36e73254a/API명세서.gif">
+<br/>
+[링크](https://uttermost-platypus-849.notion.site/6db11579b25644f0be69e94fa2bb96b4?v=9bfe6d9574c04c14bb7279dc70b353a5) 바로가기
+
+
 
 <h2> 📱 Android </h2>
 
@@ -192,12 +208,6 @@
 도메인 별로 패키지를 구분하려고 하였다. 하지만 req,res,dto의 경우
 도메인 별로 구분하지 않고 하나의 패키지에 모아서 처리하였다.
 
-### ⚡ ERD 다이어그램
-
-![1](/uploads/7dd2a1d37c38697d65706d74dab5bc3c/1.png)
-
-[링크](https://www.erdcloud.com/d/uoAsmnv3gyCugnxno) 바로가기
-
 ### 🗂 디렉토리 구조 - BE
 
 ```markdown
@@ -266,12 +276,13 @@
 검증이 정상일 경우 서버에서는 자신의 로직을 통해 서버의 자원에 접근할 수 있는 JWT 토큰을 발급한다.
 <br/>
 
+
 ## 👨‍👦‍👦 Team Member
 
 > <h3><font color="red">Android Part</font></h3>
-> <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/cb7489ea32f4e543ce256db4d58330ce/팀원소개_AOS.png">
-> <br/>
+<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/cb7489ea32f4e543ce256db4d58330ce/팀원소개_AOS.png">
+<br/>
 
 > <h3><font color="red">Back-End Part</font></h3>
-> <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/179ed0041f44799be3dab23e8b98f9e1/팀원소개_BE.png">
-> <br/>
+<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/179ed0041f44799be3dab23e8b98f9e1/팀원소개_BE.png">
+<br/>
