@@ -27,15 +27,14 @@
 
 ## 📃 Description
 
-<h3><font color="red">서비스 주요 기능</font></h3>
+> <h3><font color="red">서비스 주요 기능</font></h3>
 <h5>서비스의 주요 기능은 다음과 같습니다.</h5>
-<img  width="500" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/2e3f4be1a8a53205974bf9f4a0601435/KakaoTalk_20220822_223555080.png">
+<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/2e3f4be1a8a53205974bf9f4a0601435/KakaoTalk_20220822_223555080.png">
 <br/>
-<img  width="500" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/6a10a021dede73c61939e05dff704083/KakaoTalk_20220822_223555322.png">
-<br/>
+<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/6a10a021dede73c61939e05dff704083/KakaoTalk_20220822_223555322.png">
 <br/>
 
-<h3><font color="green">서비스 전체 기능</font></h3>
+> <h3><font color="green">서비스 전체 기능</font></h3>
 <h5>서비스의 전체 기능은 다음과 같습니다.</h5>
 <ul>
 	<li>챌린지 러닝 기능 - 챌린지마다 러닝 기간, 시간, 목표 등을 정해서 정해진 시간에만 러닝 가능</li>
@@ -67,7 +66,7 @@
 
 <h2> 📱 Android </h2>
 
-### 🎨 사용한 라이브러리
+### 사용한 라이브러리
 
 | Name             | Description                                  |
 | ---------------- | -------------------------------------------- |
