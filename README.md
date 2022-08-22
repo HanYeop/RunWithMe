@@ -60,7 +60,7 @@
 
 </br></br>
 
-## 백엔드
+## 📠 백엔드
 
 ### 백엔드 사용 라이브러리
 
@@ -82,13 +82,13 @@
 | spring-boot-starter-data-redis              | 휘발성 인메모리 저장소, 중복처리에 사용                                 |
 | spring boot batch                           | 포인트 정산, 알림 발송과 같은 scheduled로 지정된 시간의 일괄처리에 사용 |
 
-### 패키지 다이어그램
+### 📦 패키지 다이어그램
 
 ![image](/uploads/e6cce9d354b34807ea2866c8ccbac751/image.png)
 도메인 별로 패키지를 구분하려고 하였다. 하지만 req,res,dto의 경우
 도메인 별로 구분하지 않고 하나의 패키지에 모아서 처리하였다.
 
-### 디렉토리 구조 - Backend
+### 🗂 디렉토리 구조 - Backend
 
 ```markdown
 📁backend
