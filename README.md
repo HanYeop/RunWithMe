@@ -192,11 +192,11 @@
 도메인 별로 패키지를 구분하려고 하였다. 하지만 req,res,dto의 경우
 도메인 별로 구분하지 않고 하나의 패키지에 모아서 처리하였다.
 
-### ERD 다이어그램
+### ⚡ ERD 다이어그램
 
 ![1](/uploads/7dd2a1d37c38697d65706d74dab5bc3c/1.png)
 
-[링크](https://www.erdcloud.com/d/uoAsmnv3gyCugnxno)
+[링크](https://www.erdcloud.com/d/uoAsmnv3gyCugnxno) 바로가기
 
 ### 🗂 디렉토리 구조 - BE
 
