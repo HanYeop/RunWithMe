@@ -9,23 +9,26 @@
 <br/>
 평소 러닝을 즐기는 팀원들이 모여 직접 러닝 앱을 오랫동안 사용하면서 느낀 불편점을 개선하기 위해 적극적으로 기획하였으며 모두가 프로젝트의 주인의식을 가지고 직접 사용할 수 있는 러닝 앱을 제작하였습니다. 기존 서비스를 분석하며 최대한 사용자 편의성을 생각하고 코로나 시대에 증가하는 비대면 러닝 크루 기능에 대한 사용자들의 요구와 달리 기존 러닝앱들은 개인 러닝에만 초점이 맞춰져 있는 점을 고려하여 러닝 크루 기능에 초점을 맞춘 새로운 러닝 앱 서비스를 제공하고자 하였습니다.
 
-<h5>러닝 진행 화면(15min)</h5>
+<h5>👟 러닝 진행 화면(15min)</h5>
+<hr>
 <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/099d90795ac3c4eeb5cf3ac438f9d1b9/달리기_1분_압축.gif">
 <br/>
 
-<h5>스크랩 러닝 화면(15min)</h5>
+<h5>🗺 스크랩 러닝 화면(15min)</h5>
+<hr>
 <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/e5210fe416ad0ac5d9a6adc2c3261ced/스크랩러닝.gif">
 <br/>
 
-<h5>비정상적인 움직임 감지 화면(빠름))</h5>
+<h5>🚨비정상적인 움직임 감지 화면(빠름))</h5>
+<hr>
 <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/eea93de3ccb63d986aafb6e38587271b/KakaoTalk_20220822_213003025.gif">
 <br/>
 
-## 전체 기술 스택
+## 💡 전체 기술 스택
 
 ![image](/uploads/bcf4a06bc1d4b318496da3c1802d4da4/KakaoTalk_20220822_214239909.png)
 
-## 전체 시스템 구조
+## 🧱 전체 시스템 구조
 
 ![image](/uploads/36f26548ab1252bddef5a2ace88fb643/KakaoTalk_20220822_214259358.png)
 
@@ -148,7 +151,7 @@
 └──📃dockerfile.yml
 ```
 
-### 인증 처리과정
+### 🔑 인증 처리과정 🔐
 
 ![image](/uploads/4b817ce3095b7b220592af4871ab3e3f/image.png)
 클라이언트에서 OAuth Provider로 부터 받은 id_token,authorized_code 혹은 AccessToken을
