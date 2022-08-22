@@ -10,3 +10,28 @@
 <h3> 📱 Android </h3>
 </br></br>
 
+
+
+#백엔드
+ 
+###백엔드 사용 라이브러리
+|사용라이브러리|사용이유|
+|--------------------------------|-------------------------------------------------|
+|aop|서비스 입력 반환 로깅 처리|
+|firebase-admin|구글 Oauth 토큰 검증, FCM 서비스 이용|
+|jackson-datatype-jsr310|LocalDateTime Json 변환,반환 포맷 지정|
+|coomons-fileupload ,commons-io|파일 업로드|
+|spring-cloud-starter-aws|aws S3서비스 사용|
+|jjwt-api,jjwt-impl,jjwt-jackson|인증 인가에 사용할 jwt토큰 생성 및 검증|
+|spring-boot-starter-data-jpa|Mysql 에 관리,조작하기 위한 JPA API |
+|spring-boot-starter-security|인증,인가 특히 권한관리를 쉽게 해주는 스프링 하위 프레임워크|
+|springfox-swagger-ui,springfox-boot-starter|API 명세|
+|mysql-connector-java|DBMS|
+|lombok|컴파일 타임 코드 자동 생성기|
+|querydsl-apt, querydsl-jpa| JPA 사용 시에 복잡한 쿼리 처리에 사용|
+|spring-boot-starter-validation|사용자의 입력에 대한 유효성 검사에 도움을 주는 라이브러리|
+|spring-boot-starter-data-redis|휘발성 인메모리 저장소, 중복처리에 사용|
+|spring boot  batch|포인트 정산, 알림 발송과 같은 scheduled로 지정된 시간의 일괄처리에 사용|
+
+###패키지 다이어그램
+![image](/uploads/e6cce9d354b34807ea2866c8ccbac751/image.png)
