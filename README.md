@@ -19,7 +19,7 @@
 <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/e5210fe416ad0ac5d9a6adc2c3261ced/스크랩러닝.gif">
 <br/>
 
-<h5>🚨비정상적인 움직임 감지 화면(빠름))</h5>
+<h5>🚨 비정상적인 움직임 감지 화면(자동차))</h5>
 <hr>
 <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/eea93de3ccb63d986aafb6e38587271b/KakaoTalk_20220822_213003025.gif">
 <br/>
@@ -28,14 +28,12 @@
 ## 📃 Description
 
 > <h3><font color="red">서비스 주요 기능</font></h3>
-<h5>서비스의 주요 기능은 다음과 같습니다.</h5>
 <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/2e3f4be1a8a53205974bf9f4a0601435/KakaoTalk_20220822_223555080.png">
 <br/>
 <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/6a10a021dede73c61939e05dff704083/KakaoTalk_20220822_223555322.png">
 <br/>
 
 > <h3><font color="green">서비스 전체 기능</font></h3>
-<h5>서비스의 전체 기능은 다음과 같습니다.</h5>
 <ul>
 	<li>챌린지 러닝 기능 - 챌린지마다 러닝 기간, 시간, 목표 등을 정해서 정해진 시간에만 러닝 가능</li>
 	<li>러닝 기능 - 러닝을 뛰는 실시간 경로를 지도에 표기, 기록 표기</li>
@@ -169,7 +167,7 @@
 
 ## 📠 백엔드
 
-### 백엔드 사용 라이브러리
+### 사용한 라이브러리
 
 | 사용라이브러리                              | 사용이유                                                                |
 | ------------------------------------------- | ----------------------------------------------------------------------- |
@@ -195,7 +193,7 @@
 도메인 별로 패키지를 구분하려고 하였다. 하지만 req,res,dto의 경우
 도메인 별로 구분하지 않고 하나의 패키지에 모아서 처리하였다.
 
-### 🗂 디렉토리 구조 - Backend
+### 🗂 디렉토리 구조 - BE
 
 ```markdown
 📁backend
@@ -258,7 +256,16 @@
 ### 🔑 인증 처리과정 🔐
 
 ![image](/uploads/4b817ce3095b7b220592af4871ab3e3f/image.png)
-클라이언트에서 OAuth Provider로 부터 받은 id_token,authorized_code 혹은 AccessToken을
-서버는 받아, 다시 OAuth Provider로 요청하여 검증을 수행한다.
-검증이 정상일 경우 서버에서는 자신의 로직을 통해 서버의 자원에 접근할 수 있는
-JWT 토큰을 발급한다.
+클라이언트에서 OAuth Provider로 부터 받은 id_token, authorized_code 혹은 AccessToken를
+서버에 전달하고 서버에서 다시 OAuth Provider로 요청하여 검증을 수행한다.<br/>
+검증이 정상일 경우 서버에서는 자신의 로직을 통해 서버의 자원에 접근할 수 있는 JWT 토큰을 발급한다.
+<br/>
+
+## 👨‍👦‍👦 Team Member
+> <h3><font color="red">Android Part</font></h3>
+<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/cb7489ea32f4e543ce256db4d58330ce/팀원소개_AOS.png">
+<br/>
+
+> <h3><font color="red">Back-End Part</font></h3>
+<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/179ed0041f44799be3dab23e8b98f9e1/팀원소개_BE.png">
+<br/>
