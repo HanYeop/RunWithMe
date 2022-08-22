@@ -24,16 +24,16 @@
 <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/eea93de3ccb63d986aafb6e38587271b/KakaoTalk_20220822_213003025.gif">
 <br/>
 
-
 ## 📃 Description
 
 > <h3><font color="red">서비스 주요 기능</font></h3>
-<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/2e3f4be1a8a53205974bf9f4a0601435/KakaoTalk_20220822_223555080.png">
-<br/>
-<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/6a10a021dede73c61939e05dff704083/KakaoTalk_20220822_223555322.png">
-<br/>
+> <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/2e3f4be1a8a53205974bf9f4a0601435/KakaoTalk_20220822_223555080.png">
+> <br/>
+> <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/6a10a021dede73c61939e05dff704083/KakaoTalk_20220822_223555322.png">
+> <br/>
 
 > <h3><font color="green">서비스 전체 기능</font></h3>
+
 <ul>
 	<li>챌린지 러닝 기능 - 챌린지마다 러닝 기간, 시간, 목표 등을 정해서 정해진 시간에만 러닝 가능</li>
 	<li>러닝 기능 - 러닝을 뛰는 실시간 경로를 지도에 표기, 기록 표기</li>
@@ -52,7 +52,6 @@
 	<li>문의 기능 - 문의할 수 있음</li>
 </ul>
 <br/>
-
 
 ## 💡 전체 기술 스택
 
@@ -101,68 +100,68 @@
 ├──📁base
 ├──📁binding
 ├──📁datasource
-│  ├──📁local
-│  ├──📁paging
+│ ├──📁local
+│ ├──📁paging
 ├──📁db
 ├──📁di
 ├──📁model
-│  ├──📁dto
-│  ├──📁entity
-│  ├──📁response
+│ ├──📁dto
+│ ├──📁entity
+│ ├──📁response
 ├──📁repository
 ├──📁service
 ├──📁utils
 └──📁view
-   ├──📁competition
-   │  ├──📁ranking
-   ├──📁create_recommend
-   ├──📁crew_detail
-   │  ├──📁board
-   │  │  ├──📁create
-   │  ├──📁my_record
-   │  ├──📁ranking
-   │  ├──📁user_record
-   ├──📁crew_recruit
-   │  ├──📁create
-   │  ├──📁detail
-   │  ├──📁search
-   │  │  ├──📁result
-   ├──📁home
-   │  ├──📁my_crew
-   │  ├──📁ranking
-   │  ├──📁tab
-   │  │  ├──📁crew
-   │  │  ├──📁home
-   ├──📁loading
-   ├──📁login
-   │  ├──📁join
-   │  ├──📁login
-   ├──📁mypage
-   │  ├──📁edit_profile
-   │  ├──📁others
-   │  ├──📁recommned_scrap
-   │  ├──📁tab
-   │  │  ├──📁achievement
-   │  │  ├──📁my_board
-   │  │  ├──📁total_record
-   │  │  │  ├──📁local_run
-   ├──📁permission
-   ├──📁recommend
-   ├──📁route_detail
-   ├──📁run_record_detail
-   ├──📁running
-   │  ├──📁list
-   │  │  ├──📁sheet
-   │  │  │  ├──📁custom
-   │  ├──📁result
-   │  │  ├──📁achievement
-   ├──📁user_detail
-
+├──📁competition
+│ ├──📁ranking
+├──📁create_recommend
+├──📁crew_detail
+│ ├──📁board
+│ │ ├──📁create
+│ ├──📁my_record
+│ ├──📁ranking
+│ ├──📁user_record
+├──📁crew_recruit
+│ ├──📁create
+│ ├──📁detail
+│ ├──📁search
+│ │ ├──📁result
+├──📁home
+│ ├──📁my_crew
+│ ├──📁ranking
+│ ├──📁tab
+│ │ ├──📁crew
+│ │ ├──📁home
+├──📁loading
+├──📁login
+│ ├──📁join
+│ ├──📁login
+├──📁mypage
+│ ├──📁edit_profile
+│ ├──📁others
+│ ├──📁recommned_scrap
+│ ├──📁tab
+│ │ ├──📁achievement
+│ │ ├──📁my_board
+│ │ ├──📁total_record
+│ │ │ ├──📁local_run
+├──📁permission
+├──📁recommend
+├──📁route_detail
+├──📁run_record_detail
+├──📁running
+│ ├──📁list
+│ │ ├──📁sheet
+│ │ │ ├──📁custom
+│ ├──📁result
+│ │ ├──📁achievement
+├──📁user_detail
 ```
 
 </br></br>
 
 ### ⛓ 아키텍처 구조 - AOS
+
 ![서비스소개](/uploads/de936c34fc44be195605b505531c1e5f/서비스소개.png)
 
 ## 📠 백엔드
@@ -192,6 +191,12 @@
 ![image](/uploads/e6cce9d354b34807ea2866c8ccbac751/image.png)
 도메인 별로 패키지를 구분하려고 하였다. 하지만 req,res,dto의 경우
 도메인 별로 구분하지 않고 하나의 패키지에 모아서 처리하였다.
+
+### ERD 다이어그램
+
+![1](/uploads/7dd2a1d37c38697d65706d74dab5bc3c/1.png)
+
+[링크](https://www.erdcloud.com/d/uoAsmnv3gyCugnxno)
 
 ### 🗂 디렉토리 구조 - BE
 
@@ -262,10 +267,11 @@
 <br/>
 
 ## 👨‍👦‍👦 Team Member
+
 > <h3><font color="red">Android Part</font></h3>
-<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/cb7489ea32f4e543ce256db4d58330ce/팀원소개_AOS.png">
-<br/>
+> <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/cb7489ea32f4e543ce256db4d58330ce/팀원소개_AOS.png">
+> <br/>
 
 > <h3><font color="red">Back-End Part</font></h3>
-<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/179ed0041f44799be3dab23e8b98f9e1/팀원소개_BE.png">
-<br/>
+> <img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/179ed0041f44799be3dab23e8b98f9e1/팀원소개_BE.png">
+> <br/>
