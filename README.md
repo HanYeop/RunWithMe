@@ -294,3 +294,10 @@
 > <h3><font color="red">Back-End Part</font></h3>
 <img  width="600" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/179ed0041f44799be3dab23e8b98f9e1/팀원소개_BE.png">
 <br/>
+<br/>
+
+## 🏷 License
+
+<p>
+This software is licensed under the MIT <a href="https://www.ssafy.com/ksp/jsp/swp/swpMain.jsp" _blank="new">©SSAFY</a>.
+</p>
