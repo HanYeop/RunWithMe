@@ -6,16 +6,13 @@ import com.kakao.sdk.common.KakaoSdk
 import com.navercorp.nid.NaverIdLoginSDK
 import com.ssafy.runwithme.R
 import dagger.hilt.android.HiltAndroidApp
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.InputStream
-import java.net.InetAddress
 import java.security.KeyStore
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
-import javax.net.ssl.*
+import javax.net.ssl.SSLContext
+import javax.net.ssl.SSLSocketFactory
+import javax.net.ssl.TrustManagerFactory
 
 @HiltAndroidApp
 class ApplicationClass: Application() {

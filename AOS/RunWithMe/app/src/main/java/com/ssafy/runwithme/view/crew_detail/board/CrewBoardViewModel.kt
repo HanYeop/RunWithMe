@@ -83,9 +83,9 @@ class CrewBoardViewModel @Inject constructor(
                 if(it is Result.Success){
                     _successMsgEvent.postValue("신고를 완료했습니다.")
                 }else if(it is Result.Error){
-                    _errorMsgEvent.postValue("신고 중 오류가 발생했습니다.")
+//                    _errorMsgEvent.postValue("신고 중 오류가 발생했습니다.")
                 }else if(it is Result.Fail){
-                    _failMsgEvent.postValue("처리에 실패하였습니다.")
+//                    _failMsgEvent.postValue("처리에 실패하였습니다.")
                 }
             }
         }

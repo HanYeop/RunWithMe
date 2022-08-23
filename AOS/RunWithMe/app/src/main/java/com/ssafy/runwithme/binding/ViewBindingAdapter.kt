@@ -475,7 +475,7 @@ object ViewBindingAdapter {
 
         var hour = (time / 3600).toString()
 
-        text = "$hour : $minute"
+        text = "${hour}시간 ${minute}분"
         this.text = text
     }
 

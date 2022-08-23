@@ -319,7 +319,7 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toBottomOf="@+id/tv_time_headers"
                                     app:totalTimeConverter="@{userDetailVM.userData.totalTime}"
-                                    tools:text="15 : 55" />
+                                    tools:text="15시간 55분" />
 
                                 <ImageView
                                     android:layout_width="50dp"

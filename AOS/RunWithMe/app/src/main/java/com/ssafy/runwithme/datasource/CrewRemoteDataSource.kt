@@ -10,8 +10,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.http.GET
-import retrofit2.http.Path
 import javax.inject.Inject
 import javax.inject.Singleton
 
