@@ -12,26 +12,33 @@
 
 <h5>👟 러닝 진행 화면(15min)</h5>
 <hr>
-<img  width="500px" src="./img/1.달리기_1분_압축.gif">
+
+![image](./img/1.달리기_1분_압축.gif)
 <br/>
 
 <h5>🗺 스크랩 러닝 화면(15min)</h5>
 <hr>
-<img  width="500px" src="./img/2.스크랩러닝.gif">
+
+![image](./img/2.스크랩러닝.gif")
 <br/>
 
 <h5>🚨 비정상적인 움직임 감지 화면(자동차)</h5>
 <hr>
-<img  width="500px" src="./img/3.비정상적인 움직임 감지.gif">
+
+![image](./img/3.비정상적인 움직임 감지.gif)
 <br/>
 <br/>
 
 ## 📃 Description
 
 > <h3><font color="red">서비스 주요 기능</font></h3>
-> <img  width="600" src="./img/4.주요서비스1.png">
+
+![image](./img/4.주요서비스1.png")
+
 > <br/>
-> <img  width="600" src="./img/5.주요서비스2.png">
+
+![image](./img/5.주요서비스2.png")
+
 > <br/>
 
 > <h3><font color="green">서비스 전체 기능</font></h3>
@@ -72,12 +79,16 @@
 > <br/>
 
 > <h3><font color="green">요구사항 명세서</font></h3>
-> <img  width="500px" src="./img/9.요구사항명세서.gif">
+
+![image](./img/9.요구사항명세서.gif")
+
 > <br/>
 > <br/>
 
 > <h3><font color="green">API 명세서</font></h3>
-> <img  width="500px" src="./img/10.API명세서.gif">
+
+![image](./img/10.API명세서.gif")
+
 > <br/>
 > <br/>
 
@@ -272,26 +283,31 @@
 
 > <h3><font color="green">패키지 다이어그램</font></h3>
 > ![image](./img/12.패키지다이어그램.png)
+
 > 도메인 별로 패키지를 구분하려고 하였다. 하지만 req,res,dto의 경우
 > 도메인 별로 구분하지 않고 하나의 패키지에 모아서 처리하였다.
 > <br/>
 
 > <h3><font color="green">인증 처리과정</font></h3>
 > ![image](./img/13.인증처리과정.png)
+
 > 클라이언트에서 OAuth Provider로 부터 받은 id_token, authorized_code 혹은 AccessToken를
 > 서버에 전달하고 서버에서 다시 OAuth Provider로 요청하여 검증을 수행한다.<br/>
 > 검증이 정상일 경우 서버에서는 자신의 로직을 통해 서버의 자원에 접근할 수 있는 JWT 토큰을 발급한다.
-> <br/>
-> <br/>
+> <br/> > <br/>
 
 ## 👨‍👦‍👦 Team Member
 
 > <h3><font color="red">Android Part</font></h3>
-> <img  width="600" src="./img/14.팀원역할1.png">
+
+![image](./img/14.팀원역할1.png)
+
 > <br/>
 
 > <h3><font color="red">Back-End Part</font></h3>
-> <img  width="600" src="./img/15.팀원역할2.png">
+
+![image](./img/15.팀원역할2.png)
+
 > <br/>
 > <br/>
 
