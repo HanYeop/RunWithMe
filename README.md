@@ -281,6 +281,7 @@
 <br/>
 
 > <h3><font color="green">패키지 다이어그램</font></h3>
+
 > ![image](./img/12.패키지다이어그램.png)
 
 > 도메인 별로 패키지를 구분하려고 하였다. 하지만 req,res,dto의 경우
@@ -288,6 +289,7 @@
 > <br/>
 
 > <h3><font color="green">인증 처리과정</font></h3>
+
 > ![image](./img/13.인증처리과정.png)
 
 > 클라이언트에서 OAuth Provider로 부터 받은 id_token, authorized_code 혹은 AccessToken를
