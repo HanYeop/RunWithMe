@@ -12,29 +12,30 @@
 
 <h5>👟 러닝 진행 화면(15min)</h5>
 <hr>
-<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/099d90795ac3c4eeb5cf3ac438f9d1b9/달리기_1분_압축.gif">
+<img  width="500px" src="./img/1.달리기_1분_압축.gif">
 <br/>
 
 <h5>🗺 스크랩 러닝 화면(15min)</h5>
 <hr>
-<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/e5210fe416ad0ac5d9a6adc2c3261ced/스크랩러닝.gif">
+<img  width="500px" src="./img/2.스크랩러닝.gif">
 <br/>
 
 <h5>🚨 비정상적인 움직임 감지 화면(자동차)</h5>
 <hr>
-<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/eea93de3ccb63d986aafb6e38587271b/KakaoTalk_20220822_213003025.gif">
+<img  width="500px" src="./img/3.비정상적인 움직임 감지.gif">
 <br/>
 <br/>
 
 ## 📃 Description
 
 > <h3><font color="red">서비스 주요 기능</font></h3>
-<img  width="600" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/2e3f4be1a8a53205974bf9f4a0601435/KakaoTalk_20220822_223555080.png">
-<br/>
-<img  width="600" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/6a10a021dede73c61939e05dff704083/KakaoTalk_20220822_223555322.png">
-<br/>
+> <img  width="600" src="./img/4.주요서비스1.png">
+> <br/>
+> <img  width="600" src="./img/5.주요서비스2.png">
+> <br/>
 
 > <h3><font color="green">서비스 전체 기능</font></h3>
+
 <ul>
 	<li>챌린지 러닝 기능 - 챌린지마다 러닝 기간, 시간, 목표 등을 정해서 정해진 시간에만 러닝 가능</li>
 	<li>러닝 기능 - 러닝을 뛰는 실시간 경로를 지도에 표기, 기록 표기</li>
@@ -58,27 +59,27 @@
 ## 📝 Design
 
 > <h3><font color="green">전체 기술 스택</font></h3>
-![image](/uploads/bcf4a06bc1d4b318496da3c1802d4da4/KakaoTalk_20220822_214239909.png)
-<br/>
+
+> ![image](./img/6.전체기술스택.png) > <br/>
 
 > <h3><font color="green">전체 시스템 구조</font></h3>
-![image](/uploads/36f26548ab1252bddef5a2ace88fb643/KakaoTalk_20220822_214259358.png)
-<br/>
+
+> ![image](./img/7.전체시스템구조.png) > <br/>
 
 > <h3><font color="green">ERD 다이어그램</font></h3>
-![1](/uploads/7dd2a1d37c38697d65706d74dab5bc3c/1.png)
-[링크](https://www.erdcloud.com/d/uoAsmnv3gyCugnxno) 바로가기
-<br/>
+
+> ![1](./img/8.ERD다이어그램.png) > [링크](https://www.erdcloud.com/d/uoAsmnv3gyCugnxno) 바로가기
+> <br/>
 
 > <h3><font color="green">요구사항 명세서</font></h3>
-<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/2ab0cb5916f2b18299fa3c76cdbe5101/요구사항_명세서.gif">
-<br/>
-<br/>
+> <img  width="500px" src="./img/9.요구사항명세서.gif">
+> <br/>
+> <br/>
 
 > <h3><font color="green">API 명세서</font></h3>
-<img  width="500px" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/c4a43f9ce5dc56ae89ea68e36e73254a/API명세서.gif">
-<br/>
-<br/>
+> <img  width="500px" src="./img/10.API명세서.gif">
+> <br/>
+> <br/>
 
 ## 📱 Android
 
@@ -180,12 +181,11 @@
 <br/>
 
 > <h3><font color="green">아키텍처 구조</font></h3>
-![서비스소개](/uploads/de936c34fc44be195605b505531c1e5f/서비스소개.png)
-<br/>
-<br/>
 
+> ![서비스소개](./img/11.아키텍처구조.png) > <br/> > <br/>
 
 ## 💽 Back-End
+
 > <h3><font color="green">사용한 라이브러리</font></h3>
 
 | 사용라이브러리                              | 사용이유                                                                |
@@ -271,30 +271,29 @@
 <br/>
 
 > <h3><font color="green">패키지 다이어그램</font></h3>
-![image](/uploads/e6cce9d354b34807ea2866c8ccbac751/image.png)
-도메인 별로 패키지를 구분하려고 하였다. 하지만 req,res,dto의 경우
-도메인 별로 구분하지 않고 하나의 패키지에 모아서 처리하였다.
-<br/>
+> ![image](./img/12.패키지다이어그램.png)
+> 도메인 별로 패키지를 구분하려고 하였다. 하지만 req,res,dto의 경우
+> 도메인 별로 구분하지 않고 하나의 패키지에 모아서 처리하였다.
+> <br/>
 
 > <h3><font color="green">인증 처리과정</font></h3>
-![image](/uploads/4b817ce3095b7b220592af4871ab3e3f/image.png)
-클라이언트에서 OAuth Provider로 부터 받은 id_token, authorized_code 혹은 AccessToken를
-서버에 전달하고 서버에서 다시 OAuth Provider로 요청하여 검증을 수행한다.<br/>
-검증이 정상일 경우 서버에서는 자신의 로직을 통해 서버의 자원에 접근할 수 있는 JWT 토큰을 발급한다.
-<br/>
-<br/>
-
+> ![image](./img/13.인증처리과정.png)
+> 클라이언트에서 OAuth Provider로 부터 받은 id_token, authorized_code 혹은 AccessToken를
+> 서버에 전달하고 서버에서 다시 OAuth Provider로 요청하여 검증을 수행한다.<br/>
+> 검증이 정상일 경우 서버에서는 자신의 로직을 통해 서버의 자원에 접근할 수 있는 JWT 토큰을 발급한다.
+> <br/>
+> <br/>
 
 ## 👨‍👦‍👦 Team Member
 
 > <h3><font color="red">Android Part</font></h3>
-<img  width="600" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/cb7489ea32f4e543ce256db4d58330ce/팀원소개_AOS.png">
-<br/>
+> <img  width="600" src="./img/14.팀원역할1.png">
+> <br/>
 
 > <h3><font color="red">Back-End Part</font></h3>
-<img  width="600" src="https://lab.ssafy.com/s07-webmobile4-sub2/S07P12D101/uploads/179ed0041f44799be3dab23e8b98f9e1/팀원소개_BE.png">
-<br/>
-<br/>
+> <img  width="600" src="./img/15.팀원역할2.png">
+> <br/>
+> <br/>
 
 ## 🏷 License
 
